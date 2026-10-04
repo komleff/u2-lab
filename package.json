@@ -1,0 +1,1 @@
+{"name":"u2-power-heat-lab","version":"0.1.0","private":true,"type":"module","scripts":{"dev":"vite","build":"vite build","preview":"vite preview","typecheck":"tsc --noEmit","test":"vitest run","test:browser":"playwright test"},"devDependencies":{"vite":"8.3.2","vitest":"5.0.3","typescript":"7.0.2","@playwright/test":"1.63.0","@types/node":"24.10.0"}}
