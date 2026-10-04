@@ -5,15 +5,17 @@ Architecture: installer plan → independent PLAN_READY → apply → QA/review 
 Tech stack: Git, Bash, Python3, Node, jq; bd1.0.2; GitHub connector и approved fallback для create repo.
 Spec: решение оператора 2026-10-05 и frozen OverGate INSTALL.
 Contract: `../verification/bootstrap-contract.md`.
-Mode: CRITICAL (named governance/hooks risk). Status: PREPARED LOCALLY / REMOTE BLOCKED.
+Mode: CRITICAL (named governance/hooks risk). Status: INSTALLED / FINAL ACCEPTANCE OPEN.
 
 ## Target → as-built → gap
 
 Source уже получен через git clone, tag checkout чистый. Frozen SHA:
 `633937250fa8f47b49f928c1d8781ab17fe8c8e3`.
 Local target primary checkout/branch `bootstrap/overgate-v4` создан, project context/plan готовы.
-Remote repo/PR отсутствуют; managed payload не записан. PM role прочитан в frozen source.
-Beads и pipeline checks должны получить отдельное фактическое evidence.
+Public remote и Draft PR #1 созданы до managed copy. Exact inventory67operations получил
+independent PLAN_READY, затем trusted apply выполнен; structural checker PASS.
+PM role прочитан в frozen source. Native hooks и Beads transport имеют отдельную границу
+фактического evidence; текущие результаты — docs/verification/bootstrap-evidence.md.
 
 ## Ограничения
 
@@ -81,8 +83,10 @@ Rollback отказывает при managed drift; не удаляет Memory B
 После commit/merge — revert install PR и адресно восстановить сохранённые overrides.
 Откат code не стирает задачи/результаты экспериментов. Публичный repo не удаляется как rollback.
 
-## Текущий blocker и следующая граница
+## Текущая граница
 
-GitHub connector не имеет create repository; gh/authenticated CLI отсутствуют. Browser fallback
-требует разрешения согласно правилам среды. Пока возможно локальное планирование и review;
-невозможно честно выполнить B1/B3/install apply/PR evidence. Полный pipeline setup не DONE.
+Create repo выполнен через GitHub browser после подтверждения оператора; connector
+опубликовал ветку, PR и exact inventory/independent report. B1/B3/apply выполнены.
+Hosted runtime не доказывает native hook loading; CLI Git push/gh не аутентифицированы.
+Выполнить доступные deterministic/project QA и scoped review, записать реальные ограничения.
+До native smoke/обязательного sync evidence не закрывать B0 и не заявлять full pipeline DONE.

@@ -7,14 +7,22 @@
 
 ## Текущий статус
 
-Подготовлен план; runtime ещё не реализован. Этот checkout пока локальный: удалённый
-репозиторий `komleff/u2-lab` и Draft PR не созданы. OverGate managed payload ещё не
-установлен: его installer требует реальный target PR и независимое PLAN_READY до apply.
+Создан публичный `komleff/u2-lab`; работа опубликована в [Draft PR №1](https://github.com/komleff/u2-lab/pull/1).
+План запуска прошёл независимое адверсальное ревью: PLAN_READY, активных блокеров нет.
+OverGate v4.0.0-rc.1 установлен из точного SHA после отдельного независимого ревью inventory.
+Созданы свежий Memory Bank и девять задач Beads. Браузерный runtime ещё не реализован.
+
+Полная приёмка установки остаётся открытой: загрузка hooks в настоящем CLI здесь NOT RUN,
+а CLI-публикация Beads требует Git-аутентификации. До закрытия B0 не заявлять готовность
+пайплайна или начинать зависимые runtime-задачи. Точные результаты — в bootstrap evidence.
 
 - [Документы](docs/INDEX.md)
 - [Принятый продуктовый контракт](docs/product/power-heat-lab-v0.1.md)
 - [План запуска](docs/plans/2026-10-05-u2-lab-launch.md)
 - [План установки OverGate](docs/plans/2026-10-05-overgate-bootstrap.md)
+- [Ревью плана](docs/reviews/2026-10-05-plan-review-round-2.md)
+- [Ревью установки](docs/reviews/2026-10-05-install-plan-review.md)
+- [Проверки и оставшиеся ограничения](docs/verification/bootstrap-evidence.md)
 - [Текущий контекст](.memory-bank/activeContext.md)
 
 U2 остаётся источником утверждённых правил и ТТХ. U2 Lab хранит эксперименты, версионные
