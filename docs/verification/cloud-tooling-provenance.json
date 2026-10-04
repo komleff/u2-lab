@@ -1,0 +1,46 @@
+{
+  "repository": "komleff/u2",
+  "commit": "cdc490e3517c8455f662f82579c45813cdbb9a76",
+  "source_provenance_sha256": "156e4f3137ce995cbb0893bb5e28a76b1b93cbfd8b2975ea716ee777afa81432",
+  "owner": "project-owned cloud additions; not managed OverGate payload",
+  "files": [
+    {
+      "path": "scripts/bd-apply-intents.sh",
+      "source_git_blob_sha1": "3f1a08351841ca8b083c99376289bbafdf028aa6",
+      "target_git_blob_sha1": "e633d8ce43ef567d61a12ba96814f759f5e7377f",
+      "target_sha256": "3dc1d967ea8f72a13a1a7f3a9e1ec7079a2f68e696e9a2c0a7ad7229e3aa0c4e",
+      "transformations": [
+        "Literal u2-bd- -> ulab-bd- for receipt/lock/temp namespaces only. All guards and bd-env API preserved."
+      ]
+    },
+    {
+      "path": "scripts/lib/bd-apply-engine.mjs",
+      "source_git_blob_sha1": "48a8d4c90bb171e9f5b6fc1c40b0fcf5d1dc3f8a",
+      "target_git_blob_sha1": "cf0590ef11ecfee75695ca7dd11cb312417aa6d1",
+      "target_sha256": "08c17ed0217626cfc78cae2e7cac4ebd3d65a29bd77f8af670b42ab327569d96",
+      "transformations": [
+        "Literal u2-bd- -> ulab-bd- for comment temp directory.",
+        "REAL_RE /^U2-[A-Za-z0-9]+$/ -> /^ulab-[A-Za-z0-9]+(?:\\.[0-9]+)*$/ for project prefix and existing hierarchical child IDs.",
+        "Comments: либо U2-… -> либо ulab-…; в U2 не сконфигурированы -> в U2 Lab не сконфигурированы. No other engine changes."
+      ]
+    },
+    {
+      "path": ".bd-intents/README.md",
+      "source_git_blob_sha1": "f31b9e58ae4e5cfced88d1960d666c53a0bb67b5",
+      "target_git_blob_sha1": "4724d2437abd4decf4c2d4d41fa37ca98d93f821",
+      "target_sha256": "9e33e063426e0a1388940b3e18b576ac91f66f4e99b409e66f37daebb2a63c88",
+      "transformations": [
+        "Receipt namespace u2-bd- -> ulab-bd-.",
+        "Examples/real-ID documentation U2-xxxx -> ulab-xxxx / ulab-xxxx.1; U2-1234 -> ulab-example.",
+        "Project routing, pending checkpoint notes, trusted first export, offline engine limits and inherited path/receipt trust boundary appended; lifecycle/operations/markers preserved."
+      ]
+    }
+  ],
+  "checkpoint_sha256": "8abd77244e2cb6f580f923f37016d9fb77ad84745eddbcf219673c6f41e3d92a",
+  "managed_policy": "Keep all manifest policy=managed files and installed bd-env/reader/sync/hooks/roles byte-identical. Preserve-policy project rules/verify may change.",
+  "limits": [
+    "Actual operator/import/export/native activation NOT RUN in hosted Work.",
+    "No new queue/receipt symlink hardening beyond frozen upstream boundaries; .git trust and merged tooling are operator preconditions.",
+    "Wrapper dry-run reads live bd; offline no-bd tests target engine with notes/new tmp handles."
+  ]
+}
