@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "ulab",
+  "project_id": "ce502047-6897-4468-84fe-4d5b4f81bd6d"
+}

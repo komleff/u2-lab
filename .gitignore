@@ -1,0 +1,22 @@
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+.env*
+*.log
+.overgate-backups/
+.codex/*
+!.codex/hooks.json
+.beads/dolt/
+.beads/dolt-server.*
+.beads/*.db*
+.beads/*.lock
+.beads/issues.jsonl
+.beads/backup/
+.beads/.runtime*
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key

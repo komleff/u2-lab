@@ -1,2 +1,22 @@
-# u2-lab
-Browser laboratory for U2 ship power and thermal balance, scenarios and A/B experiments.
+# U2 Lab
+
+Легковесная браузерная лаборатория энергетики и тепла кораблей U2.
+
+Первый модуль — Power & Heat: конфигурации S и M Civilian, воспроизводимые сценарии,
+графики, журнал событий и сравнение A/B. Запуск сначала в локальной сети.
+
+## Текущий статус
+
+Подготовлен план; runtime ещё не реализован. Этот checkout пока локальный: удалённый
+репозиторий `komleff/u2-lab` и Draft PR не созданы. OverGate managed payload ещё не
+установлен: его installer требует реальный target PR и независимое PLAN_READY до apply.
+
+- [Документы](docs/INDEX.md)
+- [Принятый продуктовый контракт](docs/product/power-heat-lab-v0.1.md)
+- [План запуска](docs/plans/2026-10-05-u2-lab-launch.md)
+- [План установки OverGate](docs/plans/2026-10-05-overgate-bootstrap.md)
+- [Текущий контекст](.memory-bank/activeContext.md)
+
+U2 остаётся источником утверждённых правил и ТТХ. U2 Lab хранит эксперименты, версионные
+наборы параметров и воспроизводимые результаты. Обнаружение, сенсоры и радары — следующий
+этап после согласования энергетики, тепла и параметров модулей.
