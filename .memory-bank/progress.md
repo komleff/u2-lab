@@ -13,11 +13,16 @@ PLAN_READY, active BLOCKER0, protocol ACK clarification included. Reports/finger
 Созданы public remote, рабочая ветка и Draft PR #1. Inventory67operations опубликован,
 независимый install PLAN_READY получен и привязан к exact bytes/source/contract.
 Trusted apply выполнен; installed structure PASS; backups ignored, install state tracked.
-Developer выполняет project verification step6. Native hooks, полная bootstrap acceptance,
-product runtime/QA/review/finalize остаются NOT RUN/open, не выдавать их за PASS.
+Developer завершил project verification step6; real checks/negative fixtures PASS.
+Independent QA выполнено: available checks PASS, overall FAIL (actual B6 Git auth).
+Scoped Code Review выполнено: verification code/spec PASS, CHANGES_REQUESTED с одним
+acceptance blocker B6. Native hooks/restore/finalize/product runtime NOT RUN, не выдавать за PASS.
 
 Independent verifier launches: PRODUCT1/5; affected fixes/review в той же session не новый launch.
-Bootstrap CRITICAL1/6: independent inventory Plan Review PLAN_READY, zero blockers.
+Bootstrap CRITICAL2/6 unique sessions: Reviewer использован для inventory Plan Review и
+scoped Code Review; independent QA — второй launch. Inventory PLAN_READY, zero blockers;
+code Review имеет actual B6 blocker, а не новый source defect. Canonical metadata binding
+после landing подтверждается теми же sessions без повторного broad audit.
 Source fixtures: installer26/bd-sync23 PASS; bounded full driver TIMEOUT124 after14groups,
 remaining14groups PASS с официальным GNU awk5.2.1. Все30groups имеют evidence;
 не утверждать завершение single-driver suite. Native hooks/product tests NOT RUN.

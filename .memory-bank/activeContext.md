@@ -32,8 +32,15 @@ Frozen source unchanged. Исходный mawk panic воспроизведён 
 Все30 fixture groups имеют PASS evidence; single-driver completion не заявляется.
 Native Claude/Codex hooks NOT RUN: hosted runtime не загружает project CLI hooks.
 Beads sync export через официальный helper FAIL из-за Git CLI auth; не считать PASS.
-Developer заполняет project-owned verification (bootstrap step6), без product runtime.
-После текущего bootstrap QA/scoped review записать actual B0 blockers; merge оператором,
-не self-accept native-hook risk. T1–T6 остаются зависимыми от B0.
+Developer завершил project-owned verification (bootstrap step6), без product runtime;
+real checks/negative fixtures PASS. Independent QA: available checks PASS, full acceptance
+FAIL на B6 actual export/auth. Scoped Code Review: code quality/spec PASS, CHANGES_REQUESTED,
+один acceptance blocker B6; native/restore/finalize NOT RUN. Reports — через docs/INDEX.md.
+При продолжении НЕ повторять planning/install/полный audit: уже выполнены и опубликованы.
+Следующий адрес работы — authenticated CLI Beads export, restore/re-export в отдельном primary
+clone, actual native-hook smoke по INSTALL; затем affected QA/Code Review и trusted finalize.
+До этих обязательных gates не закрывать B0/не объявлять готовность; merge оператором.
+T1–T6 остаются зависимыми от B0. Unique verifier sessions: CRITICAL2/6 (Reviewer reused
+для plan/code phases + separate QA); PRODUCT1/5. Metadata landing не меняет runtime/WHAT.
 Product acceptance fingerprint:6d1d4bc86e8f465e58d6412010d5226e26b44fbfc6f771f66cefd0b4dfbeb673.
 Scoped6 paths в round2 report; это не install approval/QA/full-PR readiness.

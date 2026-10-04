@@ -75,7 +75,9 @@ completion/performance boundary and is not silently rewritten as exit0.
 1. Native Claude/Codex hook loading: NOT RUN; hosted Work cannot load those CLI project hooks.
 2. Authenticated Git CLI Beads sync: actual export failed; browser/connector login does not
    authenticate git push or gh. No retry loop, invented auth, force/drop guard override or accepted risk.
-3. Independent bootstrap QA/scoped Code Review and trusted finalize: pending; do not declare merge readiness.
+3. Independent QA завершено: available checks PASS, overall acceptance FAIL на B6.
+   Scoped Code Review завершено: code quality/spec PASS, CHANGES_REQUESTED, один B6 blocker.
+   После metadata landing — affected canonical binding; trusted finalize/operator merge NOT RUN.
 
 These are B0 acceptance gates. Pipeline files are installed, but B0 is not closed and
 dependent product runtime tasks remain open. The operator has not accepted a native-hook risk.
@@ -84,3 +86,6 @@ dependent product runtime tasks remain open. The operator has not accepted a nat
 
 Это PM/Developer deterministic execution record, не independent QA EXECUTION/Code Review
 и не final readiness. Independent product/install Plan Reviews имеют отдельные reports.
+Independent QA: `../reviews/2026-10-05-bootstrap-qa.md`; Code Review:
+`../reviews/2026-10-05-bootstrap-code-review.md`. Факты первых reports сохранены без правок;
+canonical binding после status/index landing — `../reviews/2026-10-05-bootstrap-binding.md`.
