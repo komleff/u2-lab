@@ -24,7 +24,7 @@ affected verdict PLAN_READY. Evidence находится в docs/reviews
 Оператор поручил продолжать автономно и как минимум завершить план/адверсальное review.
 Оператор подтвердил GitHub Mobile login; create repo выполнен. GitHub connector публикует
 ветку/PR и evidence; Git CLI fetch работает, authenticated push/gh отсутствуют.
-Продуктовый runtime не начинать до PLAN_READY/доступных обязательных B0 prerequisites.
+Исторический runtime gate уточнён cloud amendment ниже; B0 acceptance остаётся открыт.
 Frozen source unchanged. Исходный mawk panic воспроизведён и устранён на совместимом
 официальном GNU awk5.2.1 из пакета Ubuntu без изменения source. Общий driver ограничен180s
 и завершился TIMEOUT124 после14 PASS groups; оставшиеся14 groups, включая finalizer55,
@@ -40,7 +40,22 @@ FAIL на B6 actual export/auth. Scoped Code Review: code quality/spec PASS, CHA
 Следующий адрес работы — authenticated CLI Beads export, restore/re-export в отдельном primary
 clone, actual native-hook smoke по INSTALL; затем affected QA/Code Review и trusted finalize.
 До этих обязательных gates не закрывать B0/не объявлять готовность; merge оператором.
-T1–T6 остаются зависимыми от B0. Unique verifier sessions: CRITICAL2/6 (Reviewer reused
+Canonical T1–T6 dependencies от B0 сохраняются; reversible preparation регулирует amendment ниже. Unique verifier sessions: CRITICAL2/6 (Reviewer reused
 для plan/code phases + separate QA); PRODUCT1/5. Metadata landing не меняет runtime/WHAT.
 Product acceptance fingerprint:6d1d4bc86e8f465e58d6412010d5226e26b44fbfc6f771f66cefd0b4dfbeb673.
 Scoped6 paths в round2 report; это не install approval/QA/full-PR readiness.
+
+
+Cloud amendment: `docs/plans/2026-10-05-cloud-execution.md`, independent PLAN_READY в
+`docs/reviews/2026-10-05-cloud-plan-review.md`. Это утверждённая HOW-поправка порядка
+обратимой подготовки: после deterministic cloud checks разрешена stacked T1–T6 work
+на базе bootstrap candidate; product PR merge-ineligible до acceptance base. P1–P14,
+B0/B6/B8, независимые product QA/review и operator finalize/merge неизменны.
+Cloud теперь read-snapshot/write-intents, больше не writer: не запускать bd/Dolt,
+wrapper/apply/export или push beads-backup из hosted Work. Исходный checkpoint сохраняет
+exact nine generated IDs и bytes; bootstrap queue — unapplied PENDING notes. Only writer —
+primary checkout оператора. First empty-remote import/export по
+`docs/guides/operator-bootstrap.md` через verified external frozen OverGate helper;
+новый project applier использовать только после review/merge trusted main. Current Task1
+implementation evidence — `.superpowers/sdd/2026-10-05-cloud-execution/task-1-report.md`;
+независимые cloud QA/code review ещё не выполнены этой Developer session.

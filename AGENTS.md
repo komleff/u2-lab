@@ -25,9 +25,19 @@ trusted Git checkout. После установки: `.agents/PM_ROLE.md`, `.age
   `git diff --check` и сверка документов/источников. Runtime tests пока NOT RUN.
 
 Beads — единственный task tracker, Memory Bank — контекст, Git/PR — документы и evidence.
-После установки Beads использовать только bd API из основного checkout; синхронизация —
+Cloud — read-snapshot/write-intents: `scripts/bd-read.sh` и append-only `.bd-intents/*.jsonl`.
+В hosted Work больше не запускать bd/Dolt, applier wrapper, export или push beads-backup.
+Единственный writer — основной checkout оператора: только bd API; синхронизация —
 `scripts/bd-sync-restore.sh` / `scripts/bd-sync-export.sh` и `origin/beads-backup`.
 Не писать Dolt или JSONL руками и не считать локальный JSONL авторитетным.
 План описывает последовательность и AC, не подменяет Beads статусом markdown checkbox.
+Generated checkpoint — только recovery input; исходные девять IDs сохраняются без правки.
+Первый empty-remote import/export: `docs/guides/operator-bootstrap.md`, внешний exact frozen
+OverGate helper. Project applier — только после operator review/merge в trusted main.
+Pending intent не canonical status. Не применять force/skip/trust override envs.
+Cloud amendment `docs/plans/2026-10-05-cloud-execution.md` получил независимый PLAN_READY:
+после deterministic cloud checks разрешена обратимая stacked T1–T6 preparation; B0/B6/B8,
+полная bootstrap/product QA/review/finalize и operator merge остаются обязательными.
+Product PR merge-ineligible, пока base bootstrap не принят; P1–P14 не изменены.
 
 Язык пользовательских документов — русский; paths и identifiers — английские.

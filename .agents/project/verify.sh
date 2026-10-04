@@ -7,4 +7,6 @@ cd -- "$PROJECT_ROOT"
 printf '%s\n' 'Product typecheck/unit/build/browser: NOT RUN (bootstrap stage)' 'Native hook activation: NOT RUN (requires actual native adapter smoke)'
 python3 scripts/check-reference.py
 python3 .agents/project/check-bootstrap.py
+node --test scripts/tests/test-bd-cloud.mjs
+bash -n scripts/bd-apply-intents.sh
 printf '%s\n' 'Bootstrap structural/project checks: PASS'

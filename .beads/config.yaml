@@ -54,3 +54,6 @@
 # - github.repo
 
 export.auto: false
+
+# Публикация только через trusted snapshot helper основного checkout.
+backup.git-push: false

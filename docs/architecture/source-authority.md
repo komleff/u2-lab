@@ -49,3 +49,15 @@ INSTALL/PM/RV и ADR §§3.28–3.32 — bootstrap owners. До managed apply in
 берётся из frozen source; новый installed package не сертифицирует собственную установку.
 OverGate MIT notice/provenance сохраняется согласно distribution inventory; это не
 назначает автоматически лицензию всему U2 или всему U2 Lab.
+
+
+## Project cloud Beads authority
+
+Cloud execution contract: `docs/plans/2026-10-05-cloud-execution.md`, C1–C6; independent
+PLAN_READY: `docs/reviews/2026-10-05-cloud-plan-review.md`. Project-owned tooling взято
+из U2 exact `cdc490e3517c8455f662f82579c45813cdbb9a76`, ADR-0042 single-writer routing;
+точные source/target blobs и transformations — `docs/verification/cloud-tooling-provenance.json`.
+Installed managed bd-env/reader/sync/hooks/roles не изменяются. Cloud пишет только pending
+intents; оператор применяет trusted tooling из primary checkout. Первичный recovery:
+`docs/guides/operator-bootstrap.md`; checkpoint не canonical authority. Product WHAT,
+P1–P14 и bootstrap acceptance gates сохранены.

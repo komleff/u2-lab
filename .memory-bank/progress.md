@@ -29,3 +29,14 @@ remaining14groups PASS с официальным GNU awk5.2.1. Все30groups и
 Real bd-sync-export FAIL: CLI Git authentication absent (browser/connector auth не Git CLI).
 Bootstrap CRITICAL и runtime PRODUCT — отдельные contracts. User просит короткие
 ограниченные ожидания инструментов; нет бесконечного polling или незавершённых promise.
+
+
+Cloud Task1: добавлены pinned U2 applier/engine с узкой ulab prefix адаптацией, PENDING
+notes queue, операторский guide и offline negative/idempotency fixtures. Подробные
+команды/RED→GREEN/неизменность managed/checkpoint — в Task1 Developer report
+`.superpowers/sdd/2026-10-05-cloud-execution/task-1-report.md`. QA/scoped Code Review C1–C6
+перед landing — pending; Developer не объявляет acceptance/merge readiness.
+Hosted дальнейших bd/Dolt mutations/snapshot publication нет. B0/B6/B8 не закрыты;
+first trusted export/restore/re-export/native activation/finalize/operator merge NOT RUN.
+Reversible product preparation допускается после deterministic cloud checks согласно
+independent cloud PLAN_READY; canonical dependencies и P1–P14 сохраняются.
