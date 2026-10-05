@@ -71,6 +71,8 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [GDD: оснастка и полезность корабля](gdd/gdd_u2_ship_fitting_v0.2.md) — proposed details поверх принятого направления; runtime ещё не реализован.
 - [Исследование current owners и UX](research/ship_fitting_source_synthesis.md) — routed41-source synthesis.
 - [Source manifest](research/ship_fitting_sources.json) — exact U2commit/blob/status/version.
-- [План реализации](plans/2026-10-05-ship-fitting-v0.2.md) — T1–T7, один Developer, review pending.
+- [План реализации](plans/2026-10-05-ship-fitting-v0.2.md) — T1–T7, один Developer, affected review pending.
 - [Verification Contract SF01–20](verification/ship-fitting-v0.2-contract.md) — numerical/domain/UI/replay/retention AC и review scope.
 - [Первоначальный proposal](product/ship-fitting-v0.2-proposal.md) — historical reference, superseded.
+
+- [Независимый design/plan review r1](reviews/2026-10-05-ship-fitting-plan-review-r1.md) — CHANGES_REQUIRED/history; B1 group accounting и B2 metric history исправлены, affected closure pending.

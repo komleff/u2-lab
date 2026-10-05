@@ -18,7 +18,10 @@ measured limiter добавлены как проверяемые детали. 
 candidate; неизвестные ТТХ честно experimental, не U2 production proof.
 
 Beads ulab-73w in_progress; source researchers2, не verifier sessions. Independent
-PRODUCT reviewer пока pending; budget5, one Reviewer для двух scope частей. Новые
+PRODUCT reviewer launch1/5: r1 CHANGES_REQUIRED, two BLOCKER. B1 selected-group
+numerator/membership и B2 unbounded metric histories исправлены targeted в GDD/VC/плане;
+affected closure pending той же session. Immutable report в docs/reviews, advisory не
+расширяет обязательный fix. One Reviewer для двух scope частей. Новые
 WHAT details требуют PO принятия, review не заменяет его. Нет code/QA/merge claim.
 
 Локальный checkout — sole Beads writer, не hosted Work. Node24.21.0/bd1.0.2 через

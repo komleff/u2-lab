@@ -56,7 +56,8 @@ T5–T7 complete browser workflow и release candidate. До T7 не публи�
 3. Cargo owner1.7 primary, SCU=1m³; density1500kg/m³ LAB-ORE-01, ranges1000–3000;
   24MJbeam/SCU, process factors1, return fraction0.35(range0.30–0.40).
 4. K_use фиксирует selected group до Run, включая выключенные в процессе изделия;
-   знаменатель не изменяется duty/выключением. Нет universal ranking или денежного ROI.
+   numerator добычи только этой же группы; positive mining requests вне неё отклоняются.
+   Знаменатель не изменяется duty/выключением; no hidden clamp. Нет universal ranking или денежного ROI.
 5. Mass/C/dry bills, typed shared stocks, signed radiation, thermal hysteresis, finite
    cooling и электрические потери сохраняются; no free contentsC и nominal fake output.
 6. Runtime snapshot immutable; schema `u2-ship-fit/1`, run schema `u2-lab/2`, model
@@ -65,6 +66,8 @@ T5–T7 complete browser workflow и release candidate. До T7 не публи�
 7. Max50000buckets/128MiB retained traces; max20000events(first128+last19872),
    one unacked telemetry chunk, controls ACK≤500ms. Dynamic channel roster фиксируется
    при Run; aggregate metrics считаются на physics step, не по downsampled events.
+   Metric state — counters/open-state O(knowninstances×knowncauses), без unlimited
+   limitation/recovery histories; keys fixed roster + fixed cause enum(power/thermal/resource/cargo), не строки событий.
 8. Ship profiles S/M/L, sources typed diesel/H₂; electric drive не новый fuel species.
    Generator optional, battery mandatory, XL reactor вне curated scope, XXL inactive.
 9.390px touch/keyboard, обычный HTTP LAN, HTTPS Pages с `/u2-lab/` prefix,
@@ -167,7 +170,8 @@ tests/model/fitting-{energy,stocks,drive}.test.ts; tests/fitting/run-validation.
 RunSpecV2 has schema/model/catalog versions, resolvedShip/fit snapshot, SI origins,
 initial stocks/cargo, environment, phases with requests(instanceId/role→duty), fixed
 selectedWorkGroup, process, duration/step. StateV2 owns shared tanks, gates, charge,
-buffers, cargo allocations/current mass, cumulative extraction and limitation intervals.
+buffers, cargo allocations/current mass, cumulative extraction и только текущий limitation state фиксированных causes/instances;
+никаких массивов прошлых limitation intervals.
 `validateRunSpecV2(input: unknown): ValidationResult<RunSpecV2>`;
 `initialStateV2(spec: RunSpecV2): StateV2`;
 `stepV2(spec: RunSpecV2, state: StateV2, dt: number, requests: RequestFrame): StepResultV2`.
@@ -179,7 +183,9 @@ Keep legacy step.ts and radiative-host-ledger-0.1 values/algorithm unchanged.
    generator/cooler depletion sum≤stock; beam output/return0.35/host ledger exactly once.
    Electric cF useful, bus=cF/(.95×.90), heat=bus−useful, self-export0.
 2. Add unknown/duplicate instance IDs, malformed gates/ranges, nonfinite values, invalid
-   request duty/duration tests; module kinds carry typed output rather than generic load mining.
+   request duty/duration tests; add3installed/1selected and all3positive requests→
+   validation error, duplicate/non-mining/unknown group IDs→error, off/duty keeps denominator.
+   Module kinds carry typed output rather than generic load mining.
 3. Run failing files → RED. Implement proportional governor delivery after protected loads,
    finite within-step stock exhaustion, independent ID state and authoritative energy ledger.
    Reuse pure signed radiation/gate math; explicitly dispatch legacy rather than modifying
@@ -198,14 +204,23 @@ tests/fitting/{scenarios,mining-metrics,comparison}.test.ts.
 `compareMiningConditions(a: RunSpecV2, b: RunSpecV2): { comparable: boolean; differences: string[] }`.
 MiningMetrics defines cycle/horizon SCU/time, species+purpose consumption, forced downtime,
 partial loss, recovery/null, K_use/interval label, earliest limiter grouped causes and
-per-cause overlapped intervals. Metrics are accumulated before retention and UI display.
+per-cause durations/union/overlap seconds. Exact accumulators use fixed counters and
+current open-cause state; no interval history. Recovery retains first completed duration,
+count/sum/max and one pending stop timestamp; mean=sum/count, pending not averaged.
+Metrics are accumulated before retention and UI display.
 
 1. Write failing tests: one laser1s→.0625125SCU; chosen group3 lasers,10swork+10sidle,
    fully powered work→K=.5, turning one off→K=1/3 with same denominator; no extraction→
-   per-unit N/A, 0group→N/A. Assert target success not limiter, simultaneous power/heat
+   per-unit N/A, 0group→N/A.3installed/1selected with only selected1powered givesK=.5 on10swork+10sidle;
+   its groupSCU is the only numerator, unselected positive requests reject beforerun.
+   Assert target success not limiter, simultaneous power/heat
    grouped, cooler exhausted without work loss not main limiter, missing recovery null.
 2. Add `cargo_full_partial_step`, `unload_not_stock_reset`, `repeat_carries_stocks`,
    `unfinished_cycle_not_complete`, `approach_requests_march_only`, `conditions_mismatch`.
+   Add metrics-only synthetic-step alternating-limit fixture: [1s work loss(power+heat),1s full work,1s service]×N.
+   Assert union loss=N s, per-cause power=N s and heat=N s, overlap=N s, downtime=0
+   for partial loss; zero-work variant gives forcedDowntime=N s and recovery countN,mean1s.
+   Compare N100 vs10000: identical accumulator key/collection counts, no history arrays.
    Direct propulsion shortfall is its own warning; fixed phase duration is not route completion.
 3. Run named tests → RED. Implement signatures, clipping useful extraction to remaining
    compatible volume and applying returned heat according to actual emitted beam.
@@ -249,7 +264,7 @@ separate from slot validation. Unknown schema/model rejects; unknown catalog fit
 known v2 model full numerical snapshot can explicit replay with “slots unverified” label.
 
 1. Write failing roundtrip of builtins/duplicates/local variants/full origins, changed
-   catalog after saved run no mutation, malformed file no previous result loss, malicious
+   catalog after saved run no mutation, selected-group membership preserved/revalidated after replay, malformed file no previous result loss, malicious
    label remains text, unknown versions clear error, exportedSCU/s/kg/N/K/J/W units.
 2. Save representative **baseline v1** files and expected results before new model changes;
    assert exact numeric values/results replay through legacy dispatch, untyped cargo kept
@@ -275,7 +290,9 @@ one independent QA then scoped Code Review follow PM pipeline.
    cargo-first, repeated cycles and CP/mass/ore density/return-heat endpoints. Save failed
    and incomplete outcomes too. Report SCU/h, typedkg/SCU, downtime/recovery/K/first limiter.
 2. Test maximum installable curated roster and dynamic telemetry with12h physical run,
-   retained heap/GC, peak preservation and event truncation. Channel roster includes every
+   retained heap/GC включая metric state, peak preservation and event truncation.
+   Include alternating work/service/limit phases to exercise bounded online counters
+   after event trace truncation; number of metric state cells independent of transitions. Channel roster includes every
    installed instance; reuse adaptive retention lower maxBuckets for higher channel count.
    Test ACK withholding + Pause/Step/Cancel≤500ms and newrun stale ACK, not only happy-path.
 3. Run `npm run typecheck`, `npm test`, `npm run build`, `npm run test:browser`,
