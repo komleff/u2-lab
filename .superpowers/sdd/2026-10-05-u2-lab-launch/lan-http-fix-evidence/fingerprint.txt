@@ -1,0 +1,6 @@
+package-lock.json 022eecdbd266af98777c83d9b8fe0b79ded81437
+package.json 9f093feba894ff4bae30eba9402a90b7d422b85d
+src/app/main.ts 70d13bcbab9720c68fdeaab3374775b016619948
+tests/browser/lab.spec.ts 6e21abc7fcf7d782bcdf9d0d271ee6466ad0b131
+
+sha256(sorted path SP git-blob-id LF + exact entire VC bytes): ad7d1b83cc852ea56c5291b26ea7236e4587a0bebec0cd7ec340071208a27ac8

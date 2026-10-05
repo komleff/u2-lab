@@ -197,3 +197,48 @@ test('RV-B3/P12 advanced JSON renders HTML-like imported tank IDs as literal tex
   await expect(page.locator('#modules')).toContainText(injected);
   await expect(page.locator('#modules b')).toHaveCount(0);
 });
+test('LAN HTTP insecure origin supports fresh start/reset/second start/step run IDs', async ({page}) => {
+  const {resolve} = await import('node:path');
+  const origin = 'http://u2-lab-lan.test:4173';
+  await page.context().route(origin + '/**', route => {
+    const path = new URL(route.request().url()).pathname;
+    return route.fulfill({path: resolve('dist', path === '/' ? 'index.html' : '.' + path)});
+  });
+  await page.addInitScript(() => {
+    (window as any).__labCommands = [];
+    const post = Worker.prototype.postMessage;
+    Worker.prototype.postMessage = function(message: any, ...rest: any[]) {
+      (window as any).__labCommands.push({type: message.type, runId: message.runId});
+      return (post as any).call(this, message, ...rest);
+    };
+  });
+  const errors: string[] = []; page.on('pageerror', e => errors.push(String(e)));
+  await page.goto(origin);
+  await expect(page.locator('footer')).toContainText('v0.1.1');
+  const capabilities = await page.evaluate(() => ({origin: location.origin, secure: isSecureContext,
+    randomUUID: typeof crypto.randomUUID, getRandomValues: typeof crypto.getRandomValues}));
+  expect(capabilities).toMatchObject({secure: false, randomUUID: 'undefined', getRandomValues: 'function'});
+  await page.locator('#duration').fill('14');
+  await page.getByRole('button', {name: 'Запуск', exact: true}).click();
+  await expect(page.locator('#status')).toContainText('Завершён');
+  await page.getByRole('button', {name: 'Сброс', exact: true}).click();
+  await expect(page.locator('#time')).toHaveText('0 s');
+  await page.getByRole('button', {name: 'Запуск', exact: true}).click();
+  await expect(page.locator('#status')).toContainText('Завершён');
+  await page.getByRole('button', {name: 'Сброс', exact: true}).click();
+  await page.locator('#duration').fill('43200'); await page.locator('#acceleration').selectOption('1');
+  await page.getByRole('button', {name: 'Шаг', exact: true}).click();
+  await expect(page.locator('#status')).toContainText('Шаг');
+  await expect(page.locator('#time')).not.toHaveText('0 s');
+  const commands = await page.evaluate(() => (window as any).__labCommands as {type: string; runId: string}[]);
+  const starts = commands.filter(c => c.type === 'start').map(c => c.runId);
+  expect(starts).toHaveLength(3); expect(new Set(starts).size).toBe(3);
+  expect(starts.every(id => id.length >= 32)).toBe(true); expect(errors).toEqual([]);
+  const evidence = {capabilities, starts, errors, chromium: page.context().browser()?.version(),
+    mapping: 'Identical own dist assets fulfilled at a non-local HTTP origin; actual secure-context settings unchanged; physical LAN device not tested'};
+  if (process.env.U2_LAN_HTTP_REPORT) {
+    const {writeFileSync} = await import('node:fs');
+    writeFileSync(process.env.U2_LAN_HTTP_REPORT, JSON.stringify(evidence, null, 2) + '\n');
+  }
+  console.log(JSON.stringify(evidence));
+});
