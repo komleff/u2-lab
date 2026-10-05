@@ -163,16 +163,18 @@ export function validateRunSpecV2(input: unknown): ValidationResult<RunSpecV2> {
         !ship.instances.some((i) => i.id === id && i.item.family === "mining")
       )
         bad("selectedWorkGroup", "Нужен установленный mining ID");
-    if (
-      !(
-        finite(s.durationSeconds) &&
-        s.durationSeconds > 0 &&
-        finite(s.stepSeconds) &&
-        s.stepSeconds > 0 &&
-        s.stepSeconds <= 1
-      )
-    )
-      bad("durationSeconds", "Длительность>0, physicsdt∈(0,1]");
+    // Runner и v2 kernel не интегрируют интервалы ≤1e−10 s:
+    // отказываем до запуска, чтобы такой опыт не объявлялся завершённым в time0.
+    if (!(finite(s.durationSeconds) && s.durationSeconds > 1e-10))
+      bad(
+        "durationSeconds",
+        "Длительность должна быть конечной >1e−10 s — численная граница v2",
+      );
+    if (!(finite(s.stepSeconds) && s.stepSeconds > 1e-10 && s.stepSeconds <= 1))
+      bad(
+        "stepSeconds",
+        "Физический шаг должен быть конечным в (1e−10,1] s — численная граница v2",
+      );
     if (!s.scenario.phases.length) bad("scenario.phases", "Пустой цикл");
     const phaseIds = new Set<string>();
     for (const p of s.scenario.phases) {

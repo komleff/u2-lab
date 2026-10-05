@@ -122,7 +122,14 @@ export function itemIssues(m: ModuleItem, path: string): FitIssue[] {
   )
     bad("SPECIES", "Propulsion type и operating species не согласованы");
   const required: Partial<Record<ModuleItem["family"], string[]>> = {
-    engine: ["forceN", "alpha", "efficiency", "hostFraction", "powerW"],
+    engine: [
+      "forceN",
+      "alpha",
+      "efficiency",
+      "hostFraction",
+      "powerW",
+      ...(m.propulsionType === "electric" ? ["pathEfficiency"] : []),
+    ],
     generator: ["powerW", "efficiency", "pathEfficiency", "exportFraction"],
     battery: ["capacityJ"],
     tank: ["fuelCapacityKg"],
@@ -137,7 +144,7 @@ export function itemIssues(m: ModuleItem, path: string): FitIssue[] {
   if (!required[m.family]) bad("FAMILY", "Неизвестное семейство");
   for (const k of required[m.family] ?? [])
     if (!Number.isFinite(m.numerics[k]))
-      bad("NUMBER", "Обязательное SI поле: " + k);
+      bad("NUMBER", "Обязательное SI поле: " + k, path + ".numerics." + k);
   if (
     ["generator", "mining", "solar", "engine"].includes(m.family) &&
     !(m.numerics.efficiency > 0)
@@ -145,6 +152,24 @@ export function itemIssues(m: ModuleItem, path: string): FitIssue[] {
     bad("RANGE", "КПД должен быть >0");
   if (m.family === "generator" && !(m.numerics.pathEfficiency > 0))
     bad("RANGE", "Path efficiency должен быть >0");
+  for (const key of [
+    ...(m.family === "engine" && m.propulsionType === "electric"
+      ? ["pathEfficiency"]
+      : []),
+    ...(m.family === "thermoinverter" ? ["copEfficiency"] : []),
+  ])
+    if (
+      !(
+        Number.isFinite(m.numerics[key]) &&
+        m.numerics[key] > 0 &&
+        m.numerics[key] <= 1
+      )
+    )
+      bad(
+        "RANGE",
+        "Коэффициент должен быть конечным в (0,1]",
+        path + ".numerics." + key,
+      );
   if (m.family === "h2" && !(m.numerics.qJKg > 0))
     bad("RANGE", "q должно быть >0");
   return issues;

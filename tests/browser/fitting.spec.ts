@@ -1,4 +1,76 @@
 import { test, expect } from "@playwright/test";
+test("CR-B1/B2 failed fit and numerical snapshot imports preserve last valid fit, result and frozen A", async ({
+  page,
+}) => {
+  const { loadCandidateCatalog, getPresetFit } = await import(
+    "../../src/fitting/catalog"
+  );
+  const { makeMiningRun } = await import("../../src/scenarios/fitting");
+  const { electricFit, thermoinverterFit } = await import(
+    "../fitting/input-fixtures"
+  );
+  const c = loadCandidateCatalog(),
+    electric = electricFit(c),
+    ti = thermoinverterFit(c);
+  const badElectric = structuredClone(electric),
+    badTi = structuredClone(ti);
+  const m =
+    badElectric.localVariants[
+      badElectric.instances[badElectric.assignments.march].itemId
+    ];
+  delete m.numerics.pathEfficiency;
+  delete m.origins["numerics.pathEfficiency"];
+  badTi.localVariants[
+    badTi.instances[badTi.assignments["signature-1"]].itemId
+  ].numerics.copEfficiency = 0;
+  const e = makeMiningRun(electric, c),
+    t = makeMiningRun(ti, c),
+    normal = makeMiningRun(getPresetFit("sputnik:1"), c);
+  if (!e.ok || !t.ok || !normal.ok) throw Error("positive fixture invalid");
+  delete e.value.resolvedShip.instances.find((i) => i.role === "march")!.item
+    .numerics.pathEfficiency;
+  t.value.resolvedShip.instances.find(
+    (i) => i.item.family === "thermoinverter",
+  )!.item.numerics.copEfficiency = 0;
+  const tinyStep = structuredClone(normal.value),
+    tinyHorizon = structuredClone(normal.value);
+  tinyStep.stepSeconds = 1e-12;
+  tinyHorizon.durationSeconds = 1e-12;
+  const cases = [
+    [badElectric, "pathEfficiency"],
+    [badTi, "copEfficiency"],
+    [e.value, "pathEfficiency"],
+    [t.value, "copEfficiency"],
+    [tinyStep, "stepSeconds"],
+    [tinyHorizon, "durationSeconds"],
+  ] as const;
+  await page.goto("/");
+  await page.locator("#fit-duration").fill("12");
+  await page.locator("#fit-start").click();
+  await expect(page.locator("#fit-status")).toContainText("Завершён");
+  await page.locator("#fit-freeze").click();
+  const result = await page.locator("#fit-result").textContent(),
+    revision = await page.locator("#fit-next-revision").textContent(),
+    fit = await page.locator("#fit-slots").textContent(),
+    a = await page.locator("#fit-comparison").textContent(),
+    time = await page.locator("#fit-time").textContent();
+  for (const [document, path] of cases) {
+    await page
+      .locator("#fit-import")
+      .setInputFiles({
+        name: "invalid.json",
+        mimeType: "application/json",
+        buffer: Buffer.from(JSON.stringify(document)),
+      });
+    await expect(page.locator("#fit-error")).toContainText(path);
+    await expect(page.locator("#fit-result")).toHaveText(result!);
+    await expect(page.locator("#fit-next-revision")).toHaveText(revision!);
+    await expect(page.locator("#fit-slots")).toHaveText(fit!);
+    await expect(page.locator("#fit-comparison")).toHaveText(a!);
+    await expect(page.locator("#fit-time")).toHaveText(time!);
+    await expect(page.locator("#fit-status")).toContainText("Завершён");
+  }
+});
 test("reference retro local variant TTX and provenance are explicit in preview and F3 before SKU replacement", async ({
   page,
 }) => {
