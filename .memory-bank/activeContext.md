@@ -1,3 +1,42 @@
+# Текущий этап — Claude Design UI, fixes первого Review, 2026-10-06
+
+Оператор тестирует промежуточный UI: http://192.168.68.65:4183/?v=claude-ui-30a1c9b.
+Final runtime source30a1c9b0953bf61723cd8a9deb570044e1f26862, PR #6 Draft / base PR #4 Draft.
+Старый Ship Fitting4186 и первый Legacy-интерфейс4186/?mode=legacy сохранены.
+Root-owned immutable roots/PIDs — primary ignored claude-ui-preview-verified.json.
+
+Independent QA r3 closed D12:4 own PASS, original72 mapping71PASS/1deferred includes67
+historical carry, не71fresh. First scoped UI Review r1: CHANGES_REQUESTED2BLOCKER/0ADVISORY
+on1d6dd47: B1 genuine supported4096s retained trace caused argument-count RangeError;
+B2 prior completed result labelled preliminary under new runId before first chunk.
+Sole Dev repaired only UI projection/render: finite extrema scan; current runId match;
+active immutable spec before measurement; prior history labels; previous-run F1 caption
+wrap; locked foreign-variant scalars and instance callbacks use actual active spec.
+Saved variant result/frozen A/next conditions intact; no numerical/model/protocol edits.
+
+Latest source-exact normal guard189unit/28browserPASS+1inherited screenshot SKIP;
+type/build/reference/bootstrap26PASS. Final artifact only candidate-fix-r3-final3:
+ZIPc6e89e0a… / dist59bb555e…; source68+wholeUI/SFVCfp9aeb826a…. PM independently
+verified68 Git source/85 protected+2experiments/6compiledcore/56raw evidence/ZIPCRC/17
+files allcopies and51live bodies. Previous127QAseals+Review and six prior snapshots
+are immutable; BF26/589/33f are superseded, not current binding. Actual true-mobile
+localhost/LAN/TLS-prefix before-first-chunk export/spec/geometry smoke PASS. Genuine
+LAN4096s/dt1 hidden-Lab completion PASS:4096ticks/buckets,87channels,21energycurves.
+
+Next: SAME QA prepared8originalIDs+2necessary linked UI15-02/UI16-03 regression under
+new exact source/binding handshake; then SAME Reviewer only B1/B2 changed surface
+scoped re-review. No full72/42/12h/matrix replay or new independent sessions. Original
+sourceExpected/whole UI01–18 WHAT unchanged; Review Contract1.3 captures named scope.
+No independent B1/B2 closure or final UI acceptance yet. Developer IDLE, freeze after
+QA RELEASE; primary sole Beads writer via bd1.2.2 API, preserve user docs/.DS_Store.
+
+UI13-02 unchanged missing event attribution explicitly deferred/disclosed. Mining until
+full/flight/refuel deferred by operator (ulab-dwi). Numerical QA r4/Review r3/12h proof
+carry only on unchanged core; physical new UI/native/public/base/bootstrap/main merge
+gates remain separate OPEN. Original bootstrap IDs untouched.
+
+## История до исправлений первого UI Review
+
 # Текущий этап — Claude Design UI, D12 fixed, 2026-10-06
 
 Промежуточная версия для оператора работает: http://192.168.68.65:4183/?v=claude-ui-c8f8b36

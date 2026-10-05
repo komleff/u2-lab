@@ -1,8 +1,8 @@
 {
   "version": "claude-ui-binding/1",
-  "runtimeSource": "c8f8b36ee300fa0adf9c739755efab9f05ddd265",
+  "runtimeSource": "30a1c9b0953bf61723cd8a9deb570044e1f26862",
   "base": "903d36b2ac4a2bfa90997803770ace13d520fbe9",
-  "fingerprint": "e8fcb471b0ce47aab34099774438891d7268e520408a7e3e25a5ace676e9e3a3",
+  "fingerprint": "f3c824596bfbbf26b1ec96c0c67296f244b3de19522e22437b296bd2b4e7e515",
   "rule": "SHA256 UTF-8 sorted-key compact JSON binding {blobs sorted by path, contract whole UI VC text}; actual Git blobs",
   "changedPaths": [
     "public/assets/README.md",
@@ -25,8 +25,10 @@
     "src/app/fitting.css",
     "src/app/fitting.ts",
     "tests/browser/claude-ui-fixes.spec.ts",
+    "tests/browser/claude-ui-review.spec.ts",
     "tests/browser/claude-ui.spec.ts",
     "tests/browser/fitting.spec.ts",
+    "tests/ui/code-review.test.ts",
     "tests/ui/presentation.test.ts",
     "tests/ui/qa-fixes.test.ts",
     "tests/ui/telemetry.test.ts",
@@ -164,7 +166,7 @@
       },
       {
         "path": "docs/verification/claude-design-ui-code-review-contract.md",
-        "blob": "af956308fa7645d36eadbcfcb4502bbc3335e0ae"
+        "blob": "aee79eef952a4fc7d703485c55445bfd4bd26933"
       },
       {
         "path": "docs/verification/claude-design-ui-v0.2-qa-cases.md",
@@ -232,7 +234,7 @@
       },
       {
         "path": "src/app/fitting-ui/compare-view.ts",
-        "blob": "068ebc1c47f8ede6e6bf5eb7765170004beda41b"
+        "blob": "145ccfffb5801d02f0992bd955dd7dbf5aa0e7bd"
       },
       {
         "path": "src/app/fitting-ui/dom.ts",
@@ -244,11 +246,11 @@
       },
       {
         "path": "src/app/fitting-ui/lab-channels.ts",
-        "blob": "21ab164d559db6a324067aa487ee4bee361752cf"
+        "blob": "95719d313f676dd84cd1a9afd638bf82334d173b"
       },
       {
         "path": "src/app/fitting-ui/lab-view.ts",
-        "blob": "ba0f8f0fa9e9b9d28e5520b1899103695066a91a"
+        "blob": "7c2afd89f908a1a834d65d187931ef8a95bbc56f"
       },
       {
         "path": "src/app/fitting-ui/presentation.ts",
@@ -256,7 +258,7 @@
       },
       {
         "path": "src/app/fitting-ui/ship-view.ts",
-        "blob": "25cd539a6abb2e6f82754bbc59c077f9a377d0fc"
+        "blob": "d356059caa5a2161c167cf74810fba1f23eb014a"
       },
       {
         "path": "src/app/fitting-ui/swap-dialog.ts",
@@ -268,15 +270,15 @@
       },
       {
         "path": "src/app/fitting-workspace.ts",
-        "blob": "baf265e9f315782df7e7adf1255c26d432d0b3f3"
+        "blob": "6abda3960cfae3e6b18eb0e72a8692695bba0d3d"
       },
       {
         "path": "src/app/fitting.css",
-        "blob": "0194821577a63d67e45cf1c180162d610a934efb"
+        "blob": "7a3925472c0f64309c6f261468d3030048e2290c"
       },
       {
         "path": "src/app/fitting.ts",
-        "blob": "71b482de778abdcf6454e7e7e7f17144e7ec4017"
+        "blob": "9cf02266db9649886302e27fec30477598178505"
       },
       {
         "path": "src/app/legacy.ts",
@@ -409,6 +411,10 @@
       {
         "path": "tests/browser/claude-ui-fixes.spec.ts",
         "blob": "fe9512b555dbb744d9c1187289d2d78e427bb501"
+      },
+      {
+        "path": "tests/browser/claude-ui-review.spec.ts",
+        "blob": "5bc81ac7edfa156fa7b266f892042861ac3d83ec"
       },
       {
         "path": "tests/browser/claude-ui.spec.ts",
@@ -595,6 +601,10 @@
         "blob": "71bb7286b55c00439ef3912fc00b7abdac6a4477"
       },
       {
+        "path": "tests/ui/code-review.test.ts",
+        "blob": "c611d460d70449996266fb9d78798b75bd69f5b1"
+      },
+      {
         "path": "tests/ui/presentation.test.ts",
         "blob": "80d9bedbe846232cf40a8072d51f733f665445ed"
       },
@@ -625,7 +635,7 @@
     }
   },
   "artifact": {
-    "archiveSha256": "fe45e0fde7c17b147b66253cdc18d832392bad90f59f7f67279d18c440998e29",
-    "distDigest": "eb127afa9fa367effd37308388293528322ba58a8a9c886c528ae691cfdcec2d"
+    "archiveSha256": "c6e89e0a38bcb0ca8cabe4897aef92d5faef0dfc69ab44a5f3191e0b6cd85ef2",
+    "distDigest": "59bb555e2c59875be0d0242d2c382c94bacc59e3bfaf059e2b59cb78cc255beb"
   }
 }

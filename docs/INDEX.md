@@ -139,3 +139,11 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [Sealed affected evidence](reviews/2026-10-06-claude-design-ui-qa-affected-r2-evidence.json) — hashes 55 read-only files.
 - [Developer fix r2](reviews/2026-10-06-claude-design-ui-developer-fix-r2.md) — c8f8b36, один CSS-перенос длинной ошибки и true-mobile регрессия; 185 unit / 27 browser PASS + 1 inherited SKIP.
 - Текущий стенд: [4183](http://192.168.68.65:4183/?v=claude-ui-c8f8b36). Независимая targeted QA D12 и один scoped UI Code Review ещё pending; model/mission остаются за рамками.
+
+## Claude Design UI — исправления первого Code Review
+
+- [Targeted QA r3](reviews/2026-10-06-claude-design-ui-qa-affected-r3.md) — D12 CLOSED,4 собственных PASS; исходная72-case mapping71PASS/1deferred включает historical carryover, не71 новый прогон.
+- [QA r3 evidence manifest](reviews/2026-10-06-claude-design-ui-qa-affected-r3-evidence.json) — 20 sealed files.
+- [Первое scoped UI Code Review](reviews/2026-10-06-claude-design-ui-code-review-r1.md) — immutable CHANGES_REQUESTED: CR-UI-B1 длинный trace/RangeError и CR-UI-B2 wrong-run projection;2BLOCKER/0ADVISORY.
+- [Developer fix r3](reviews/2026-10-06-claude-design-ui-developer-fix-r3.md) — final source30a1c9b,9UI/test paths;189unit/28browserPASS+1inheritedSKIP. Only final artifact candidate-fix-r3-final3 is current; BF/589/33f superseded snapshots сохранены.
+- Текущий [стенд4183](http://192.168.68.65:4183/?v=claude-ui-30a1c9b); same QA affected8originalIDs+2necessary linked regressions и same Reviewer scoped re-review pending.
