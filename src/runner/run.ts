@@ -39,7 +39,7 @@ export type RunResult = {
   };
   status: "complete" | "paused" | "cancelled";
 };
-export function createRun(runId: string, spec: RunSpec): RunContext {
+function createLegacyRun(runId: string, spec: RunSpec): RunContext {
   const checked = validateRunSpec(spec);
   if (!checked.ok)
     throw new Error(
@@ -56,7 +56,7 @@ export function createRun(runId: string, spec: RunSpec): RunContext {
     last: {},
   };
 }
-export function runChunk(
+function runLegacyChunk(
   run: RunContext,
   maxSteps: number,
   wallBudgetMs = Infinity,
@@ -191,7 +191,7 @@ export function runChunk(
   }
   return { steps, done: run.done, state: run.state, telemetry: run.last };
 }
-export function result(
+function legacyResult(
   run: RunContext,
   status: RunResult["status"] = run.done ? "complete" : "paused",
 ): RunResult {
@@ -211,3 +211,21 @@ export function result(
     status,
   });
 }
+
+import type {AnyRunSpec,RunSpecV2} from '../model/v2/types';
+import {createFittingRun,runFittingChunk,fittingResult,type RunContextV2,type RunResultV2} from './fitting-run';
+export type {RunContextV2,RunResultV2} from './fitting-run';
+export type AnyRunContext=RunContext|RunContextV2;
+export type AnyRunResult=RunResult|RunResultV2;
+export function createRun(runId:string,spec:RunSpec):RunContext;
+export function createRun(runId:string,spec:RunSpecV2):RunContextV2;
+export function createRun(runId:string,spec:AnyRunSpec):AnyRunContext;
+export function createRun(runId:string,spec:AnyRunSpec):AnyRunContext{return spec.schemaVersion==='u2-lab/2'?createFittingRun(runId,spec):createLegacyRun(runId,spec);}
+export function runChunk(run:RunContext,maxSteps:number,wallBudgetMs?:number):ReturnType<typeof runLegacyChunk>;
+export function runChunk(run:RunContextV2,maxSteps:number,wallBudgetMs?:number):ReturnType<typeof runFittingChunk>;
+export function runChunk(run:AnyRunContext,maxSteps:number,wallBudgetMs?:number):ReturnType<typeof runLegacyChunk>|ReturnType<typeof runFittingChunk>;
+export function runChunk(run:AnyRunContext,maxSteps:number,wallBudgetMs=Infinity){return run.spec.schemaVersion==='u2-lab/2'?runFittingChunk(run as RunContextV2,maxSteps,wallBudgetMs):runLegacyChunk(run as RunContext,maxSteps,wallBudgetMs);}
+export function result(run:RunContext,status?:RunResult['status']):RunResult;
+export function result(run:RunContextV2,status?:RunResultV2['status']):RunResultV2;
+export function result(run:AnyRunContext,status?:RunResult['status']):AnyRunResult;
+export function result(run:AnyRunContext,status?:RunResult['status']):AnyRunResult{return run.spec.schemaVersion==='u2-lab/2'?fittingResult(run as RunContextV2,status):legacyResult(run as RunContext,status);}

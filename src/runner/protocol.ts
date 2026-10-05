@@ -1,5 +1,5 @@
-import type { RunSpec } from "../model/types";
-import { createRun, runChunk, result, type RunContext } from "./run";
+import type { AnyRunSpec } from "../model/v2/types";
+import { createRun, runChunk, result, type AnyRunContext } from "./run";
 export type Control =
   | "start"
   | "pause"
@@ -12,11 +12,11 @@ export type WorkerCommand =
       runId: string;
       commandId: number;
       type: Control;
-      payload?: { spec?: RunSpec; maxSteps?: number };
+      payload?: { spec?: AnyRunSpec; maxSteps?: number };
     }
   | { runId: string; type: "telemetry-ack"; chunkId: number };
 export class WorkerController {
-  context?: RunContext;
+  context?: AnyRunContext;
   private pending?: { runId: string; chunkId: number };
   private chunkId = 0;
   private running = false;

@@ -82,7 +82,7 @@ it("old run ACK cannot release new slot; reset replaces state", () => {
   c.pump();
   c.handle({ runId: "a", type: "telemetry-ack", chunkId: 1 });
   expect(c.pendingChunks).toBe(1);
-  expect(c.context?.spec.ship.size).toBe("M");
+  expect((c.context?.spec as import("../src/model/types").RunSpec).ship.size).toBe("M");
 });
 it("cargo full advances immediately to return and unload with actual full-sortie time", () => {
   const p = structuredClone(presets[0]);

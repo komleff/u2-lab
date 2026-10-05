@@ -1,0 +1,12 @@
+import type {EnvironmentSample,ModelState,StepResult,Origin} from '../types';import type {ResolvedShip,PropulsionRole} from '../../fitting/types';
+export const MODEL_V2='ship-fitting-ledger-0.2' as const;
+export type Cause='power'|'thermal'|'resource'|'cargo';export const CAUSES:Cause[]=['power','thermal','resource','cargo'];
+export type RequestFrame=Record<string,number>;
+export type MiningProcess={id:string;energyJPerM3:number;densityKgM3:number;extractFactor:number;softFactor:number;workFactor:number;returnFraction:number};
+export type FittingPhase={id:string;action:'work'|'approach'|'braking'|'transit'|'service'|'idle';durationSeconds:number;requests:RequestFrame;environment?:EnvironmentSample;service?:{unload?:boolean;refuel?:boolean;charge?:boolean}};
+export type RunSpecV2={schemaVersion:'u2-lab/2';modelVersion:typeof MODEL_V2;catalogVersion:string;units:'SI';approvedBaseline:false;resolvedShip:ResolvedShip;origins:Record<string,Origin>;environment:EnvironmentSample;initial:{chargeJ:number;temperatureK:number;fuelKg:Record<string,number>;buffersJ:Record<string,number>;cargoM3:Record<string,number>};selectedWorkGroup:string[];process:MiningProcess;scenario:{name:string;repeat:boolean;targetM3:number;phases:FittingPhase[]};durationSeconds:number;stepSeconds:number};
+export type StateV2=ModelState&{schemaVersion:'u2-lab/2';cargoM3:Record<string,number>;currentMassKg:number;extractedByInstanceM3:Record<string,number>;consumptionKg:Record<string,number>;limitations:Record<string,Record<Cause,boolean>>;cyclesCompleted:number};
+export type MiningStepSummary={requested:boolean;requestedM3:number;selectedM3:number;causeSeconds:Record<Cause,number>;unionSeconds:number;overlapSeconds:number;forcedDowntimeSeconds:number;partialLossM3:number;firstLoss:{timeSeconds:number;causes:Cause[]}|null;firstPositiveSeconds:number|null;propulsionShortfall:boolean};
+export type StepResultV2=Omit<StepResult,'state'>&{state:StateV2;mining:MiningStepSummary};
+export type TelemetryDescriptor={id:string;unit:string;instanceId?:string;role?:PropulsionRole};
+export type AnyRunSpec=import('../types').RunSpec|RunSpecV2;
