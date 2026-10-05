@@ -1,3 +1,52 @@
+# Claude Design UI — локальная проверка завершена, 2026-10-06
+
+Рабочая ветка: feat/claude-design-ui; PR #6 остаётся Draft на базе PR #4 Draft.
+Runtime source: 30a1c9b0953bf61723cd8a9deb570044e1f26862.
+Новый стенд: http://192.168.68.65:4183/?v=claude-ui-30a1c9b;
+localhost: http://localhost:4183/?v=claude-ui-30a1c9b.
+Сохранены прежний Ship Fitting http://192.168.68.65:4186/ и Legacy-интерфейс
+Power & Heat http://192.168.68.65:4186/?mode=legacy. Immutable roots/PIDs записаны
+в primary ignored .overgate-runtime/claude-ui-preview-verified.json; branch switch
+и сборка проекта не меняют эти roots и не перезагружают пользовательские страницы.
+
+Independent QA r4: scoped PASS; CR-UI-B1/B2 и linked D12 CLOSED. Проверены 10
+адресованных affected slices, не 10 полных исходных методов. Mapping 72 адресов:
+71 PASS / 1 deferred UI13-02 с явными historical portions и carryover; raw boundary8
+и browser5 records не дополнительные cases. Отчёт и evidence manifest сохранены
+в docs/reviews/2026-10-06-claude-design-ui-qa-affected-r4.* и опубликованы в PR #6.
+Scoped Code Review r2: APPROVED, 0 BLOCKER / 0 ADVISORY; только 9 изменённых paths,
+19 прежних review paths перенесены по actual byte equality. Signed reports не изменены.
+
+Whole UI VC + 148-path binding: f3c824596bfbbf26b1ec96c0c67296f244b3de19522e22437b296bd2b4e7e515.
+Final artifact только candidate-fix-r3-final3: ZIP SHA256
+c6e89e0a38bcb0ca8cabe4897aef92d5faef0dfc69ab44a5f3191e0b6cd85ef2;
+dist digest 59bb555e2c59875be0d0242d2c382c94bacc59e3bfaf059e2b59cb78cc255beb.
+Normal guard: 189 unit / 28 browser PASS + 1 inherited screenshot SKIP;
+type/build/reference/bootstrap26 PASS. GitHub CI c62e3fa: 37386731050 и
+37386726084 SUCCESS, подтверждены API. Новые metadata HEAD checks учитываются
+отдельно; reports сохраняют силу только при actual source/contract equivalence.
+
+PM и QA проверили artifact68 sources, protected85 + 2 experiments, 6 compiled core
+assets, ZIP CRC/17 files/51 served bodies; все 127 прежних QA seals сохранены.
+Новая QA r4 добавляет 27 sealed evidence files. Genuine LAN4096s/dt1 visible/hidden
+Lab completion, независимые extrema/statistics, true390 first-message/native prior
+export и locked active.spec проходят. Numerical/Worker/catalog/IO/Legacy не изменены;
+прежнее physical12h evidence наследуется только на неизменном ядре.
+
+Оператор тестирует промежуточную версию; следующие действия — воспроизводить его
+замечания по current source, не запускать новый полный review/72/42/matrix/12h без
+изменения соответствующей surface. Primary — sole Beads writer через bd1.2.2 API;
+статусы ulab-3lg/U1–U6 берутся из Beads. Оригинальные bootstrap IDs не менять,
+user docs/.DS_Store сохранять. Canonical экспорт — только trusted frozen helper.
+
+Полный шахтёрский рейс, добыча до заполнения, перелёт и станционная заправка остаются
+DEFERRED по решению оператора: ulab-dwi. UI13-02 отсутствующая event attribution
+раскрыта честно; model fix отложен. Physical new UI/native adapter/public Pages/base
+bootstrap/full product acceptance и main merge остаются отдельными открытыми gates.
+Main merge делает только оператор; локальный UI verdict их не закрывает.
+
+## История предыдущих checkpoints
+
 # Текущий этап — Claude Design UI, fixes первого Review, 2026-10-06
 
 Оператор тестирует промежуточный UI: http://192.168.68.65:4183/?v=claude-ui-30a1c9b.

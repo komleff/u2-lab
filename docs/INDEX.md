@@ -113,7 +113,7 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 
 - [Передача Claude](ux/claude-design/README.md) и [обоснование v2.1](ux/claude-design/ship-fitting-power-heat-ux-v2.1.md) — exact PR5abbd2943 source; 22артборда, canvas/tokens.
 - [Принятая UI-область и решения переноса](product/claude-design-ui-v0.2-acceptance.md) — поручение оператора; новые шахтёрские миссии/багфиксы отложены.
-- [План интерфейса](plans/2026-10-06-claude-design-ui.md) — U1–U6; PLAN_READY и реализация, текущая affected QA ещё открыта.
+- [План интерфейса](plans/2026-10-06-claude-design-ui.md) — U1–U6; PLAN_READY; итог локальной QA/review зарегистрирован ниже.
 - [Приёмка UI01–18](verification/claude-design-ui-v0.2-contract.md) — функции/данные/mobile/LAN и сохранение модели.
 
 ## Claude Design UI — проверка и локальный запуск
@@ -125,20 +125,20 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 
 - [Scoped Code Review Contract](verification/claude-design-ui-code-review-contract.md) и [полный runtime/source binding](verification/claude-design-ui-runtime-binding.json) — affected UI scope, не verdict.
 
-## Claude Design UI — initial QA и исправленная промежуточная сборка
+## Claude Design UI — история initial QA и промежуточных исправлений
 
 - [Developer r1](reviews/2026-10-06-claude-design-ui-developer-r1.md) — исходный перенос на ab8353d; immutable history.
 - [Независимая QA r1](reviews/2026-10-06-claude-design-ui-qa-execution-r1.md) — 54 PASS / 17 FAIL / 1 deferred NOT RUN, 11 групп UI-дефектов; исходный FAIL сохранён.
 - [Sealed QA evidence manifest](reviews/2026-10-06-claude-design-ui-qa-r1-evidence.json) — hashes 52 файлов локальных доказательств.
-- [Developer fix r1](reviews/2026-10-06-claude-design-ui-developer-fix-r1.md) — ff01dfa, D01–D11 исправлены, guard 185 unit / 26 browser PASS + 1 inherited SKIP; independent affected QA и scoped Review pending.
+- [Developer fix r1](reviews/2026-10-06-claude-design-ui-developer-fix-r1.md) — ff01dfa, D01–D11 исправлены; исторический guard 185 unit / 26 browser PASS + 1 inherited SKIP.
 - Промежуточный стенд — 4183; прежний Ship Fitting и первая Лаба Legacy — 4186. Ссылки и сохранение вариантов в [руководстве](user/ship-fitting-ui.md).
 
-## Claude Design UI — D12 mobile error fix
+## Claude Design UI — история D12 mobile error fix
 
 - [Affected QA r2](reviews/2026-10-06-claude-design-ui-qa-affected-r2.md) — immutable FAIL: 39 PASS / 3 FAIL из 42 исходных ID; D01–D11 закрыты, один новый D12 на трёх адресах.
 - [Sealed affected evidence](reviews/2026-10-06-claude-design-ui-qa-affected-r2-evidence.json) — hashes 55 read-only files.
 - [Developer fix r2](reviews/2026-10-06-claude-design-ui-developer-fix-r2.md) — c8f8b36, один CSS-перенос длинной ошибки и true-mobile регрессия; 185 unit / 27 browser PASS + 1 inherited SKIP.
-- Текущий стенд: [4183](http://192.168.68.65:4183/?v=claude-ui-c8f8b36). Независимая targeted QA D12 и один scoped UI Code Review ещё pending; model/mission остаются за рамками.
+- Исторический D12 checkpoint: source c8f8b36. Итоговая сборка и closure — ниже; model/mission остаются за рамками.
 
 ## Claude Design UI — исправления первого Code Review
 
@@ -146,4 +146,12 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [QA r3 evidence manifest](reviews/2026-10-06-claude-design-ui-qa-affected-r3-evidence.json) — 20 sealed files.
 - [Первое scoped UI Code Review](reviews/2026-10-06-claude-design-ui-code-review-r1.md) — immutable CHANGES_REQUESTED: CR-UI-B1 длинный trace/RangeError и CR-UI-B2 wrong-run projection;2BLOCKER/0ADVISORY.
 - [Developer fix r3](reviews/2026-10-06-claude-design-ui-developer-fix-r3.md) — final source30a1c9b,9UI/test paths;189unit/28browserPASS+1inheritedSKIP. Only final artifact candidate-fix-r3-final3 is current; BF/589/33f superseded snapshots сохранены.
-- Текущий [стенд4183](http://192.168.68.65:4183/?v=claude-ui-30a1c9b); same QA affected8originalIDs+2necessary linked regressions и same Reviewer scoped re-review pending.
+- Итоговая [сборка4183](http://192.168.68.65:4183/?v=claude-ui-30a1c9b): affected QA r4 и scoped re-review r2 — ниже.
+
+## Claude Design UI — итоговая локальная QA и scoped closure
+
+- [Targeted QA r4](reviews/2026-10-06-claude-design-ui-qa-affected-r4.md) — scoped PASS: CR-UI-B1/B2 и linked D12 CLOSED; 10 адресованных affected slices с явно указанными historical portions, не новый полный 72-case прогон.
+- [QA r4 evidence manifest](reviews/2026-10-06-claude-design-ui-qa-affected-r4-evidence.json) — 27 новых sealed evidence files; 127 прежних seals сохранены.
+- [Scoped Code Review r2](reviews/2026-10-06-claude-design-ui-code-review-r2.md) — APPROVED, 0 BLOCKER / 0 ADVISORY; 9 изменённых UI/test paths, 19 прежних paths перенесены по actual byte equality.
+- [Новый локальный UI](http://192.168.68.65:4183/?v=claude-ui-30a1c9b), [прежний Ship Fitting](http://192.168.68.65:4186/) и [Legacy Power & Heat](http://192.168.68.65:4186/?mode=legacy) доступны параллельно.
+- Численное ядро сохранено; full mining mission/refuel и UI13-02 attribution deferred. Physical/native/public/base/main gates остаются отдельными, PR #6 Draft.

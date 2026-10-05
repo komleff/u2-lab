@@ -1,3 +1,19 @@
+# Claude Design UI — итог локальной проверки, 2026-10-06
+
+UI перенесён по принятому Claude Design v2.1. QA r4 закрыла CR-UI-B1/B2 и linked D12:
+10 адресованных affected slices PASS, остальные методы имеют явную историческую
+опору. Scoped Review r2 APPROVED, 0 blockers / 0 advisories. Whole source binding148
++ UI VC f3c82459…; source30a1c9b, immutable final3 ZIPc6e89e0a… / dist59bb555e….
+Текущий normal guard189unit/28browser PASS +1 inherited SKIP; c62 GitHub CI оба SUCCESS.
+
+Новый локальный UI работает на 4183; старый Ship Fitting и Legacy сохранены на4186.
+Signed QA/review и manifests опубликованы без изменения; source-equivalent metadata
+не требуют нового LLM review. Primary Beads — единственный tracker; U6/local handover
+finalize проходит через API и trusted export. Physical/native/public/base/main gates
+остаются открытыми. Полная mining mission и model attribution явно deferred.
+
+## История предыдущих checkpoints
+
 # Текущий этап — Claude Design UI, fixes первого Review, 2026-10-06
 
 Оператор тестирует промежуточный UI: http://192.168.68.65:4183/?v=claude-ui-30a1c9b.
