@@ -98,3 +98,10 @@ commands: docs/user/local-network.md. Same QA/Reviewer affected sessions reused;
 No queue/livebd/Dolt/export/task status or dependency mutations in this fix. Original9ID
 checkpoint/managed install bytes unchanged. B0/B6/B8/native/operator export+restore/finalize/
 operator merge OPEN; PR2 remains stacked/draft. Detection remains out of scope.
+
+## Ship Fitting planning — current2026-10-05
+
+Исследование current U2cdc490e через registry/directlinks завершено,41source manifest
+blobs проверен. GDD/VC SF01–20/T1–T7 authored; metadata/docs only, runtime unchanged.
+Beads ulab-73w in_progress. Actual Draft PR и independent design/plan review pending.
+Source research не QA/reviewer; никаких runtime PASS для нового fitting не заявлено.

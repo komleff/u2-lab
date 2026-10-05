@@ -65,3 +65,12 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 новый локальный12h ради UI fix не запускался. QB1/P13 closure сохранён. S/M не утверждают U2 SKU.
 Физическое второе LAN устройство,native hooks,operator export/restore,trusted finalize
 и merge остаются открытыми. Beads notes — PENDING,canonical9 задач неизменны.
+
+## U2 Ship Fitting v0.2 — дизайн
+
+- [GDD: оснастка и полезность корабля](gdd/gdd_u2_ship_fitting_v0.2.md) — proposed details поверх принятого направления; runtime ещё не реализован.
+- [Исследование current owners и UX](research/ship_fitting_source_synthesis.md) — routed41-source synthesis.
+- [Source manifest](research/ship_fitting_sources.json) — exact U2commit/blob/status/version.
+- [План реализации](plans/2026-10-05-ship-fitting-v0.2.md) — T1–T7, один Developer, review pending.
+- [Verification Contract SF01–20](verification/ship-fitting-v0.2-contract.md) — numerical/domain/UI/replay/retention AC и review scope.
+- [Первоначальный proposal](product/ship-fitting-v0.2-proposal.md) — historical reference, superseded.

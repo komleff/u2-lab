@@ -1,5 +1,35 @@
 # Active Context
 
+## Текущий этап Ship Fitting — 2026-10-05, Asia/Novosibirsk
+
+Оператор поручил PM/GD исследовать U2 fitting/модули/UX, подготовить идеи/дизайн/план и
+независимое адверсальное review дизайна + аудит плана. Runtime implementation сейчас
+не выполняется. Ветка design/ship-fitting-v0.2 от refreshed feature6fb7166513627941e2ba2c4a9a01c79ae1667820,
+а не прежнего c2ea755. Feature0.1.1 LAN HTTP fix уже affected QA PASS/scoped APPROVED.
+Public Pages https://komleff.github.io/u2-lab/ пока0.1.0; design не деплоит новую сборку.
+
+GD_ROLE отсутствует в lab managed6roles: применена роль/skill из frozen current U2
+cdc490e3517c8455f662f82579c45813cdbb9a76, проверенного fetch. Источники выбирались INDEX,
+ADR-INDEX/overview§16 и directlinks, без grep/keyword repo search/archive.41точный blob
+в manifest; cargo primary1.7 supersedes старый CSV и anchors прежнего proposal211b432.
+Документы в docs/INDEX.md: GDD, synthesis, VC SF01–20, planT1–T7. Пользователь принял
+SCU/cycle,h,typedfuel/H₂/SCU,downtime,recovery; ROI later. K_use role-specific и first
+measured limiter добавлены как проверяемые детали. Шесть профилей/40items — curated
+candidate; неизвестные ТТХ честно experimental, не U2 production proof.
+
+Beads ulab-73w in_progress; source researchers2, не verifier sessions. Independent
+PRODUCT reviewer пока pending; budget5, one Reviewer для двух scope частей. Новые
+WHAT details требуют PO принятия, review не заменяет его. Нет code/QA/merge claim.
+
+Локальный checkout — sole Beads writer, не hosted Work. Node24.21.0/bd1.0.2 через
+source .overgate-runtime/env.sh. First import/export/отдельныйrestore-reexport уже
+выполнены в ops/local-development; не повторять bootstrap/import. Проверенные локальные
+metadata/evidence остаются в ops commits, не включены в этот scoped design diff.
+Native Codex guard smoke прошёл ранее; full native/Claude/Windows/bootstrap finalize/
+affected independent acceptance и операторский merge остаются открытыми.
+
+Ниже история cloud и прежнего runtime, не текущая инструкция заново импортировать Beads.
+
 2026-10-05, Asia/Krasnoyarsk. Оператор утвердил концепцию и поручил:
 создать u2-lab → установить OverGate v4 с Memory Bank/Beads/.agents → прочитать PM_ROLE →
 закоммитить план → независимое review по pipeline → после согласования выполнять как PM.
