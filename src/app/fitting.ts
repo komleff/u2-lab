@@ -147,6 +147,11 @@ export function mountFitting(
       ["Масса · kg", mass(before), mass(item)],
       ["C · J/K", C(before), C(item)],
       [
+        "Номинальная тяга · N",
+        before?.numerics.forceN ?? 0,
+        item.numerics.forceN ?? 0,
+      ],
+      [
         "Номинальная мощность · W",
         before?.numerics.powerW ?? 0,
         item.numerics.powerW ?? 0,
@@ -175,6 +180,9 @@ export function mountFitting(
       "</tbody></table><p>Дельта массы: " +
       escaped(mass(item) - mass(before)) +
       " kg</p>" +
+      (f.localVariants[beforeId] || f.localVariants[candidate]
+        ? "<p>Локальный вариант: объявленные ТТХ и сухой bill показаны в таблице; происхождение и расчёт — в «Подробнее» и JSON.</p>"
+        : "") +
       (v.valid
         ? ""
         : `<p class="error">${v.issues
@@ -186,7 +194,10 @@ export function mountFitting(
       "fit-sources",
       JSON.stringify(
         {
+          installedItem: before,
+          installedLocalVariant: !!f.localVariants[beforeId],
           selectedItem: item,
+          selectedLocalVariant: !!f.localVariants[candidate],
           fitVersion: f.schemaVersion,
           catalogVersion: f.catalogVersion,
           model: activeSpec?.modelVersion,

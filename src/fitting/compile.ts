@@ -15,13 +15,6 @@ export function compileFit(
     };
   const h = structuredClone(c.hulls.find((h) => h.id === f.hullId)!);
   const roster = installedInstances(f, c);
-  // Role-specific bill сохраняет стоимость каждого двигателя; single reference — march, retro .4.
-  for (const i of roster)
-    if (i.item.family === "engine" && i.role === "retro") {
-      for (const m of i.item.materials) m.massKg *= 0.4;
-      i.item.numerics.forceN *= 0.4;
-      i.item.numerics.powerW *= 0.4;
-    }
   const materials = [
     ...h.materials.map((m) => ({ ...m, id: "shell:" + m.id })),
     ...roster.flatMap((i) =>

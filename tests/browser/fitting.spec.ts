@@ -1,4 +1,50 @@
 import { test, expect } from "@playwright/test";
+test("reference retro local variant TTX and provenance are explicit in preview and F3 before SKU replacement", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.locator("#fit-preset").selectOption("pony:1");
+  await page.locator("#fit-slot").selectOption("retro");
+  await expect(page.locator("#fit-preview")).toContainText("Референсный ретро");
+  await expect(page.locator("#fit-preview")).toContainText("Локальный вариант");
+  await expect(page.locator("#fit-preview")).toContainText("1180000");
+  await page.locator("#fit-f3").click();
+  await expect(page.locator("#fit-sources")).toContainText("0.4");
+  await expect(page.locator("#fit-sources")).toContainText("§8.2");
+  const { readFile } = await import("node:fs/promises");
+  for (const button of ["#fit-save", "#fit-export-run"]) {
+    const downloaded = page.waitForEvent("download");
+    await page.locator(button).click();
+    const download = await downloaded,
+      path = await download.path();
+    if (!path) throw Error("download missing");
+    const document = JSON.parse(await readFile(path, "utf8"));
+    const fit = document.resolvedShip?.fit ?? document;
+    const variant =
+      fit.localVariants[fit.instances[fit.assignments.retro].itemId];
+    expect(variant.numerics.forceN).toBe(1180000);
+    expect(variant.materials[0].massKg).toBe(1060);
+    expect(variant.origins["numerics.forceN"].derivation).toContain("0.4");
+    if (document.resolvedShip)
+      expect(
+        document.resolvedShip.instances.find((i: any) => i.role === "retro")
+          .item,
+      ).toEqual(variant);
+  }
+  await page.locator("#fit-item").selectOption("engine-diesel-S-single");
+  await expect(page.locator("#fit-preview")).toContainText("2950000");
+  await expect(page.locator("#fit-preview")).toContainText("1590 kg");
+  const sources = JSON.parse(
+    (await page.locator("#fit-sources").textContent())!,
+  );
+  expect(sources.installedItem.id).toBe("pony-engine-retro");
+  expect(sources.installedItem.materials[0].massKg).toBe(1060);
+  expect(sources.selectedItem.materials[0].massKg).toBe(2650);
+  expect(sources.installedLocalVariant).toBe(true);
+  expect(sources.selectedLocalVariant).toBe(false);
+  await page.locator("#fit-apply").click();
+  await expect(page.locator("#fit-preview")).toContainText("2950000");
+});
 test("v2 real Worker withholds one telemetry chunk, controls ACK below500ms and ignores old-run ACK", async ({
   page,
 }) => {
@@ -235,13 +281,11 @@ test("failed import keeps fit and result; HTML label is literal; unknown catalog
   await expect(page.locator("#fit-status")).toContainText("Завершён");
   const prior = await page.locator("#fit-result").textContent();
   const revision = await page.locator("#fit-next-revision").textContent();
-  await page
-    .locator("#fit-import")
-    .setInputFiles({
-      name: "bad.json",
-      mimeType: "application/json",
-      buffer: Buffer.from("{bad"),
-    });
+  await page.locator("#fit-import").setInputFiles({
+    name: "bad.json",
+    mimeType: "application/json",
+    buffer: Buffer.from("{bad"),
+  });
   await expect(page.locator("#fit-error")).not.toBeEmpty();
   await expect(page.locator("#fit-result")).toHaveText(prior!);
   await expect(page.locator("#fit-next-revision")).toHaveText(revision!);
@@ -253,13 +297,11 @@ test("failed import keeps fit and result; HTML label is literal; unknown catalog
     label: "<img src=x onerror=alert(1)>",
   };
   f.instances[f.assignments["payload-1"]].itemId = "local";
-  await page
-    .locator("#fit-import")
-    .setInputFiles({
-      name: "fit.json",
-      mimeType: "application/json",
-      buffer: Buffer.from(JSON.stringify(f)),
-    });
+  await page.locator("#fit-import").setInputFiles({
+    name: "fit.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(f)),
+  });
   await expect(page.locator("#fit-slots")).toContainText("<img");
   await expect(page.locator("#fit-slots img")).toHaveCount(0);
   const s = makeMiningRun(getPresetFit("sputnik"), c, { durationSeconds: 12 });

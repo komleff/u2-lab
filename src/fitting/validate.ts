@@ -270,12 +270,12 @@ export function validateFit(f: ShipFit, c: CandidateCatalog): FitValidation {
     if (
       h.architecture === "D" &&
       m.family === "engine" &&
-      m.propulsionType !== "diesel"
+      !["diesel", "electric"].includes(m.propulsionType!)
     )
       bad(
         "assignments." + slotId,
         "ARCHITECTURE",
-        "D требует diesel propulsion",
+        "D допускает дизельные или однородные электрические движители",
       );
   }
   for (const id of Object.keys(f.instances))

@@ -1,6 +1,11 @@
 import hullData from "./data/hulls.json" with { type: "json" };
 import itemData from "./data/modules.json" with { type: "json" };
-import type { CandidateCatalog, ModuleItem, ShipFit } from "./types";
+import type {
+  CandidateCatalog,
+  FieldOrigin,
+  ModuleItem,
+  ShipFit,
+} from "./types";
 export function loadCandidateCatalog(): CandidateCatalog {
   return structuredClone({
     version: "ship-fitting-0.2.0",
@@ -76,6 +81,55 @@ export function getPresetFit(id: string): ShipFit {
     put("power-2", "generator-diesel-" + (h.size === "S" ? "S" : "M"));
     put("power-3", "tank-diesel-" + (h.size === "S" ? "S" : "M"));
   }
+  // Референсная меньшая тяга принадлежит явному варианту, а не роли слота:
+  // одинаковый установленный SKU обязан сохранять свой полный сухой bill и ТТХ.
+  const retroBaseId = f.instances[f.assignments.retro].itemId;
+  const retro = structuredClone(
+    f.localVariants[retroBaseId] ?? c.items[retroBaseId],
+  );
+  const retroId = f.localVariants[retroBaseId]
+    ? retroBaseId
+    : "reference-retro-" + retroBaseId;
+  const sourceRef =
+    "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2";
+  const scaledOrigin = (
+    origin: FieldOrigin,
+    value: number,
+    unit: string,
+  ): FieldOrigin => ({
+    kind: "derived",
+    sourceRef: sourceRef + "; база: " + origin.sourceRef,
+    unit,
+    derivation: `${retroBaseId}: ${value} × 0.4; гражданский reference назад/вперёд = 0.38/0.95`,
+    note: "Явный локальный вариант лабораторного preset; пропорциональный bill и power сохранены как допущение. Это не коэффициент роли для любого SKU.",
+    ...(origin.range
+      ? { range: origin.range.map((v) => v * 0.4) as [number, number] }
+      : {}),
+  });
+  for (const key of ["forceN", "powerW"]) {
+    retro.origins["numerics." + key] = scaledOrigin(
+      retro.origins["numerics." + key],
+      retro.numerics[key],
+      key === "forceN" ? "N" : "W",
+    );
+    retro.numerics[key] *= 0.4;
+  }
+  retro.materials.forEach((material, index) => {
+    const field = `materials.${index}.massKg`;
+    const origin = scaledOrigin(retro.origins[field], material.massKg, "kg");
+    retro.origins[field] = origin;
+    material.origin = {
+      ...origin,
+      note:
+        origin.note +
+        " Cp остаётся отдельной экспериментальной гипотезой исходного bill.",
+    };
+    material.massKg *= 0.4;
+  });
+  retro.id = retroId;
+  retro.label = "Референсный ретро · " + retro.label;
+  f.localVariants[retroId] = retro;
+  put("retro", retroId);
   put("signature-1", "radiator-passive-" + (h.size === "S" ? "S" : "M"));
   if (h.slots.some((s) => s.id === "signature-2"))
     put("signature-2", "buffer-S");
