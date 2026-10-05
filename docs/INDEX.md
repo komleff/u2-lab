@@ -108,3 +108,10 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [2026-10-06-ship-fitting-code-review-r2.md](reviews/2026-10-06-ship-fitting-code-review-r2.md) — immutable history; current CR-B2 affected QA/review pending.
 - [2026-10-06-ship-fitting-developer-fix-r3.md](reviews/2026-10-06-ship-fitting-developer-fix-r3.md) — immutable history; current CR-B2 affected QA/review pending.
 - [2026-10-06-ship-fitting-developer-fix-r3-tablet-addendum.md](reviews/2026-10-06-ship-fitting-developer-fix-r3-tablet-addendum.md) — immutable history; current CR-B2 affected QA/review pending.
+
+## Claude Design v2.1 — текущий приоритет интерфейса
+
+- [Передача Claude](ux/claude-design/README.md) и [обоснование v2.1](ux/claude-design/ship-fitting-power-heat-ux-v2.1.md) — exact PR5abbd2943 source; 22артборда, canvas/tokens.
+- [Принятая UI-область и решения переноса](product/claude-design-ui-v0.2-acceptance.md) — поручение оператора; новые шахтёрские миссии/багфиксы отложены.
+- [План интерфейса](plans/2026-10-06-claude-design-ui.md) — U1–U6, independent Plan Review pending; runtime code NOT STARTED.
+- [Приёмка UI01–18](verification/claude-design-ui-v0.2-contract.md) — функции/данные/mobile/LAN и сохранение модели.

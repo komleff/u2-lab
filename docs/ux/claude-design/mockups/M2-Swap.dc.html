@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Ship Fitting v2 mobile — замена</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=PT+Sans+Narrow:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#141210}
+.m *{box-sizing:border-box}
+.m h2,.m p{margin:0}
+.m :focus-visible{outline:2px solid #4DA6FF;outline-offset:2px}
+.m .disp{font-family:'PT Sans Narrow','Arial Narrow',sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;line-height:1.05}
+.m .lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#a3906f}
+.m .sub{font-size:13px;color:#a3906f}
+.m .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;border:1px solid #5a4a34;border-radius:3px;background:#1A1815;color:#e8dcc6;font:inherit;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;text-decoration:none}
+.m .btn-p{background:#FFAA33;border-color:#FFAA33;color:#141210;font-weight:600;box-shadow:0 3px 0 #c98a29}
+.m .fc{flex:none;min-height:44px;padding:0 12px;background:#1A1815;border:1px solid #5a4a34;border-radius:3px;color:#c9b795;font:inherit;font-size:13px}
+.m .fc-on{background:#3A2818;border-color:#6a4a26;color:#FFAA33}
+.m .sz{display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:32px;border-radius:3px;background:#FFAA33;color:#141210;font-weight:600;font-size:13px;flex:none}
+.m .row{display:flex;flex-direction:column;gap:6px;width:100%;padding:10px 12px;background:#201d19;border:1px solid #3a3226;border-radius:3px;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.m .v{font-weight:600;color:#F2EDE0;white-space:nowrap}
+.m .d{font-size:12px;color:#c9b795}
+</style>
+</helmet>
+<div class="m" style="width: 390px; height: 844px; position: relative; overflow: hidden; background: #090807; color: #e8dcc6; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 14px; line-height: 1.45; font-variant-numeric: tabular-nums">
+<div aria-hidden="true" style="padding: 18px 16px; opacity: .4"><div class="disp" style="font-size: 22px; color: #F2EDE0">Демирмаш Титан</div></div>
+<section role="dialog" aria-modal="true" aria-label="Заменить: Лазер 3 — слот M" style="position: absolute; left: 0; right: 0; bottom: 0; top: 56px; display: flex; flex-direction: column; background: #1A1815; border-top: 2px solid #FFAA33; border-radius: 4px 4px 0 0">
+<div style="flex: none; display: flex; align-items: center; gap: 8px; padding: 6px 10px 6px 16px; border-bottom: 1px solid #3a3226">
+<span style="color: #FFAA33" aria-hidden="true">⇄</span>
+<h2 class="disp" style="font-size: 20px; color: #F2EDE0; flex: 1 1 auto">Заменить: Лазер 3 — Payload M</h2>
+<a class="btn" href="M2-Fitting.dc.html" aria-label="Закрыть окно замены" style="min-width: 44px; padding: 0">✕</a>
+</div>
+<div style="flex: none; padding: 10px 16px; display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid #241f18">
+<input type="search" aria-label="Поиск изделий" placeholder="Поиск среди изделий для слота M…" style="min-height: 44px; padding: 0 12px; background: #0E0D0B; border: 1px solid #5a4a34; border-radius: 3px; color: #e8dcc6; font: inherit">
+<div role="group" aria-label="Фильтры" style="display: flex; gap: 6px; overflow-x: auto">
+<button class="fc fc-on" type="button" aria-pressed="true">Все</button><button class="fc" type="button" aria-pressed="false">Лазеры</button><button class="fc" type="button" aria-pressed="false">Грузовые</button><button class="fc" type="button" aria-pressed="false">S</button><button class="fc" type="button" aria-pressed="false">M</button>
+</div>
+<label style="display: flex; align-items: center; gap: 8px; font-size: 13px"><span class="lbl">Сортировка</span><select style="flex: 1 1 auto; min-height: 44px; background: #0E0D0B; border: 1px solid #5a4a34; border-radius: 3px; color: #e8dcc6; font: inherit"><option>Номинал добычи ▼</option><option>Трюм после ▼</option><option>Потребление ▼</option></select></label>
+</div>
+<div style="flex: 1 1 auto; overflow-y: auto; padding: 10px 16px; display: flex; flex-direction: column; gap: 8px">
+<span class="sub"><b style="color: #FFAA33">7</b> изделий подходят слоту M</span>
+<button class="row" type="button" aria-label="Industrial S/G2">
+<span style="display: flex; gap: 10px; align-items: center"><span class="sz">S</span><span style="flex: 1 1 auto"><b style="color: #F2EDE0">Industrial S/G2</b><span class="sub" style="display: block">Лазер · Из U2</span></span><span style="text-align: right"><span class="v" style="display: block">255 SCU/ч</span><span class="d">▲ 30</span></span></span>
+<span class="sub">Лазеры после, номинал: 9,4 МВт</span>
+</button>
+<button class="row" type="button" aria-label="Civil S/G1, установлено" style="background: #211B12; border-color: #6a4a26">
+<span style="display: flex; gap: 10px; align-items: center"><span class="sz">S</span><span style="flex: 1 1 auto"><b style="color: #F2EDE0">Civil S/G1</b><span class="lbl" style="display: block; color: #FFAA33">✓ Установлено</span></span><span class="v">225 SCU/ч</span></span>
+</button>
+<button class="row" type="button" aria-label="BulkHold S, выбрано" aria-pressed="true" style="border: 2px solid #4DA6FF; background: #16232B; padding: 9px 11px">
+<span style="display: flex; gap: 10px; align-items: center"><span class="sz">S</span><span style="flex: 1 1 auto"><b style="color: #F2EDE0">BulkHold S</b><span class="sub" style="display: block">Груз навалочный · Из U2</span></span><span style="text-align: right"><span class="v" style="display: block">0 SCU/ч</span><span class="d">▼ 225</span></span></span>
+<span style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 10px; font-size: 13px; border-top: 1px solid #245158; padding-top: 6px">
+<span class="sub">Потребление</span><span>3,0 → 0 МВт</span>
+<span class="sub">Трюм</span><span>48 → 72 SCU</span>
+<span class="sub">Лазеры, номинал</span><span>9,0 → 6,0 МВт</span>
+<span class="sub">Масса</span><span style="color: #7d6f59">[т] → 1,8 т</span>
+</span>
+<span class="sub">Номинальные параметры, не результат работы.</span>
+</button>
+<button class="row" type="button" aria-label="Universal S">
+<span style="display: flex; gap: 10px; align-items: center"><span class="sz">S</span><span style="flex: 1 1 auto"><b style="color: #F2EDE0">Universal S</b><span class="sub" style="display: block">Груз универсальный · Из U2</span></span><span style="text-align: right"><span class="v" style="display: block">0 SCU/ч</span><span class="d">▼ 225</span></span></span>
+</button>
+</div>
+<div style="flex: none; padding: 10px 16px calc(12px + env(safe-area-inset-bottom)); background: #0E0D0B; border-top: 1px solid #3a3226; display: flex; flex-direction: column; gap: 8px">
+<label style="display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 13px; color: #c9b795"><input type="checkbox" style="width: 20px; height: 20px; accent-color: #FFAA33">Во все 3 слота Payload</label>
+<div style="display: flex; gap: 10px">
+<a class="btn" href="M2-Fitting.dc.html" style="flex: 1 1 0">Отмена</a>
+<button class="btn btn-p" type="button" style="flex: 2 1 0; min-height: 48px">Применить замену</button>
+</div>
+</div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,3 +1,7 @@
+# Current priority — 2026-10-06
+
+Оператор явно отложил новые багфиксы/фичи Лабы и поручил внедрить Claude Design v2.1. UI workitem ulab-3lg, isolated feat/claude-design-ui base903d36b. Source/acceptance/plan/UI01–18 — через docs/INDEX. Plan Review pending, runtime UI notstarted. Полныйшахтёрскийрейс/динамическаядобыча/станционнаязаправка сохранены вulab-dwi и DEFERRED perPO; не выполнять сейчас. Старый local4183stand сохраняется доhandoff. QAintervalr4 existingbase finishedPASS raw, signedreportassembling; новыеbugsнечинить. Native/bootstrap/publicdeploy/main merge gates open. Primarycheckout soleBeadswriter,bd1.2.2/Node24; userdocs/.DS_Store preserved.
+
 # Active Context
 
 ## Current checkpoint — 2026-10-06, Asia/Novosibirsk
