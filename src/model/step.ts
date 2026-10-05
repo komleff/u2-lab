@@ -32,6 +32,8 @@ export function stepModel(
   const total: TickTelemetry = {};
   const qmax = capacity(ship);
   let coolantConsumedKg = 0;
+  // Пик принадлежит физическим границам подшагов; усреднять его по dt нельзя.
+  let maxTemperatureK = input.temperatureK;
   let left = dt,
     iteration = 0;
   const add = (k: string, v: number, h: number) =>
@@ -409,6 +411,7 @@ export function stepModel(
       Math.min(qmax, state.chargeJ + batteryRate * h),
     );
     state.temperatureK = tNext;
+    maxTemperatureK = Math.max(maxTemperatureK, tNext);
     for (const [id, flow] of Object.entries(flows)) {
       state.fuelKg[id] = Math.max(0, state.fuelKg[id] - flow * h);
       if (state.fuelKg[id] < eps) {
@@ -512,5 +515,5 @@ export function stepModel(
       kind: now ? "constraint" : "recovered",
       message: now || "Ограничения сняты",
     });
-  return { state, telemetry: total, events, coolantConsumedKg };
+  return { state, telemetry: total, events, coolantConsumedKg, maxTemperatureK };
 }

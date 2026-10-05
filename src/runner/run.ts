@@ -178,6 +178,7 @@ export function runChunk(
       work,
       previousState,
       r.coolantConsumedKg,
+      r.maxTemperatureK,
     );
     if (!run.retention.channels.length)
       run.retention = new Retention(Object.keys(r.telemetry).sort());

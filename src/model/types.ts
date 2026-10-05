@@ -147,6 +147,7 @@ export type StepResult = {
   telemetry: TickTelemetry;
   events: LabEvent[];
   coolantConsumedKg: number;
+  maxTemperatureK: number;
 };
 export const capacity = (s: ShipConfig) =>
   s.accumulators.reduce((n, a) => n + a.capacityJ, 0);

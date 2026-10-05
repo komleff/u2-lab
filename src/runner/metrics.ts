@@ -60,10 +60,11 @@ export function updateMetrics(
   wantedWork: boolean,
   previous: ModelState,
   coolantConsumedKg: number,
+  maxTemperatureK: number,
 ) {
   m.ticks++;
   m.usefulWork = s.usefulWork;
-  m.maxTemperatureK = Math.max(m.maxTemperatureK, s.temperatureK);
+  m.maxTemperatureK = Math.max(m.maxTemperatureK, maxTemperatureK);
   m.energyResidualJ += t.energyResidualJ;
   m.sourceEnergyJ += (t.generatorW + t.solarW + t.externalElectricW) * dt;
   m.beamEnergyJ += t.beamW * dt;
