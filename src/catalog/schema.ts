@@ -171,6 +171,10 @@ export function validateRunSpec(input: unknown): ValidationResult<RunSpec> {
       )
         bad(`ship.modules.${m.id}`, "Доли должны быть ≤1");
       const g = m.gate;
+      for (const k of ["low", "high", "workHigh", "restartLow", "restartHigh"] as const)
+        requiredNumber(g[k], `ship.modules.${m.id}.gate.${k}`);
+      if (g.workLow !== undefined)
+        requiredNumber(g.workLow, `ship.modules.${m.id}.gate.workLow`);
       if (
         !(
           g.low < g.restartLow &&
@@ -187,7 +191,10 @@ export function validateRunSpec(input: unknown): ValidationResult<RunSpec> {
       tanks.add(t.id);
       if (!["diesel", "hydrogen"].includes(t.species))
         bad(`ship.tanks.${t.id}.species`, "Неподдерживаемый species");
+      requiredNumber(t.capacityKg, `ship.tanks.${t.id}.capacityKg`);
+      requiredNumber(t.energyJKg, `ship.tanks.${t.id}.energyJKg`);
       const q = p.initial.fuelKg[t.id];
+      requiredNumber(q, `initial.fuelKg.${t.id}`);
       if (!(q >= 0 && q <= t.capacityKg))
         bad(`initial.fuelKg.${t.id}`, "Запас вне ёмкости");
       if (!(t.energyJKg > 0))
@@ -196,6 +203,7 @@ export function validateRunSpec(input: unknown): ValidationResult<RunSpec> {
     for (const id of Object.keys(p.initial.fuelKg))
       if (!tanks.has(id)) bad(`initial.fuelKg.${id}`, "Нет физического бака");
     for (const [id, q] of Object.entries(p.initial.buffersJ)) {
+      requiredNumber(q, `initial.buffersJ.${id}`);
       const m = s.modules.find((m) => m.id === id && m.kind === "buffer");
       if (!m || q > m.capacityJ)
         bad(`initial.buffersJ.${id}`, "Буфер отсутствует или переполнен");
@@ -233,6 +241,9 @@ export function validateRunSpec(input: unknown): ValidationResult<RunSpec> {
         bad(path + ".law", "Неподдерживаемый закон");
     };
     env(p.environment, "environment");
+    requiredNumber(p.scenario.targetWork, "scenario.targetWork");
+    if (typeof p.scenario.repeat !== "boolean")
+      bad("scenario.repeat", "Обязательно boolean");
     if (!p.scenario.phases.length) bad("scenario.phases", "Нужна рабочая фаза");
     for (const [i, ph] of p.scenario.phases.entries()) {
       if (
@@ -254,6 +265,10 @@ export function validateRunSpec(input: unknown): ValidationResult<RunSpec> {
       );
       if (!(ph.durationSeconds > 0) || ph.duty > 1)
         bad(`scenario.phases.${i}`, "Положительная длительность, duty [0,1]");
+      if (ph.service)
+        for (const k of ["unload", "charge", "refuel"] as const)
+          if (typeof ph.service[k] !== "boolean")
+            bad(`scenario.phases.${i}.service.${k}`, "Обязательно boolean");
       if (ph.environment)
         env(ph.environment, `scenario.phases.${i}.environment`);
     }

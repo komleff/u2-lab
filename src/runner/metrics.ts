@@ -31,7 +31,7 @@ export function snapshotMetrics(m: RunMetrics): MetricSnapshot {
   const { targetCheckpoint, sortieCheckpoint, ...rest } = m;
   return structuredClone(rest);
 }
-export function initialMetrics(): RunMetrics {
+export function initialMetrics(temperatureK = 0): RunMetrics {
   return {
     ticks: 0,
     usefulWork: 0,
@@ -43,7 +43,7 @@ export function initialMetrics(): RunMetrics {
     firstSortieSeconds: null,
     fuelConsumedKg: {},
     coolantConsumedKg: 0,
-    maxTemperatureK: 0,
+    maxTemperatureK: temperatureK,
     energyResidualJ: 0,
     sourceEnergyJ: 0,
     beamEnergyJ: 0,

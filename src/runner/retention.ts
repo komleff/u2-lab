@@ -7,6 +7,9 @@ export type Bucket = {
   min: Float64Array;
   max: Float64Array;
 };
+// Включает объект bucket, три typed-array wrapper и ссылки массива;
+// numeric backing stores считаются отдельно. Запас подтверждён actual heap/GC fixture.
+const BUCKET_OVERHEAD_BYTES = 1024;
 export class Retention {
   buckets: Bucket[] = [];
   cadenceSeconds = 1;
@@ -19,7 +22,7 @@ export class Retention {
       2,
       Math.min(
         maxBuckets,
-        Math.floor((128 * 1024 * 1024) / (channels.length * 24 + 256)),
+        Math.floor((128 * 1024 * 1024) / (channels.length * 24 + BUCKET_OVERHEAD_BYTES)),
       ),
     );
   }
@@ -73,7 +76,7 @@ export class Retention {
     this.cadenceSeconds *= 2;
   }
   get bytes() {
-    return this.buckets.length * (this.channels.length * 24 + 256);
+    return this.buckets.length * (this.channels.length * 24 + BUCKET_OVERHEAD_BYTES);
   }
   metadata() {
     return {

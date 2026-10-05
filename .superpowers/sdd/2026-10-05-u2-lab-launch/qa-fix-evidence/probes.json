@@ -1,0 +1,272 @@
+[
+  {
+    "id": "IP01 electric analytic protected partial",
+    "ac": "P3/P4",
+    "result": "PASS",
+    "evidence": {
+      "chargeJ": 40,
+      "deliveredJ": 100,
+      "partialDeliveredJ": 10,
+      "residual": 0
+    }
+  },
+  {
+    "id": "IP02 shared H2 generator+engine+cooler permutation",
+    "ac": "P4/P6",
+    "result": "PASS",
+    "evidence": {
+      "hydrogenRemaining": 0,
+      "dieselUnaffected": 10,
+      "genW": 333.3333333333333,
+      "coolingW": 333.3333333333333,
+      "permutationTDelta": 0
+    }
+  },
+  {
+    "id": "IP03 powered cooling empty/finite",
+    "ac": "P6",
+    "result": "PASS",
+    "evidence": {
+      "starvedCooling": 0,
+      "tiReject": 130,
+      "bufferAbsorbed": 5
+    }
+  },
+  {
+    "id": "IP04 Background eligibility starts inside charge dt",
+    "ac": "P7",
+    "result": "PASS",
+    "evidence": {
+      "coarseBackgroundJ": 1.7516572715035323,
+      "fineBackgroundJ": 1.7517768507425562,
+      "coarseCharge": 87.24834272848987,
+      "fineCharge": 87.24822314925315
+    }
+  },
+  {
+    "id": "IP05 Background eligibility starts inside cooling dt",
+    "ac": "P7",
+    "result": "PASS",
+    "evidence": {
+      "coarseBackgroundJ": 0.7174916828865863,
+      "fineBackgroundJ": 0.7174916828859358,
+      "coarseT": 499.74638649565395,
+      "fineT": 499.746386495654
+    }
+  },
+  {
+    "id": "IP06 cancel discards pending step",
+    "ac": "P10",
+    "result": "PASS",
+    "evidence": {
+      "before": 0.1,
+      "after": 0.1,
+      "chunks": 1,
+      "acks": [
+        "start",
+        "step",
+        "cancel"
+      ]
+    }
+  },
+  {
+    "id": "IP07 schema strict numeric fields missing/strings",
+    "ac": "P12",
+    "result": "PASS",
+    "evidence": {
+      "rejected": [
+        "tank.energyJKg numeric string",
+        "gate.low numeric string",
+        "missing targetWork",
+        "nonboolean repeat"
+      ]
+    }
+  },
+  {
+    "id": "IP08 max temperature includes initial state",
+    "ac": "P13",
+    "result": "PASS",
+    "evidence": {
+      "initialT": 500,
+      "finalT": 496.9583727760537,
+      "maxTemperatureK": 500
+    }
+  },
+  {
+    "id": "IP09 dry-bill/cargo independence radiation sign",
+    "ac": "P5/P8",
+    "result": "PASS",
+    "evidence": {
+      "netW": -992.0116376514443,
+      "T": 300.09920116376514
+    }
+  },
+  {
+    "id": "IP10 schema negative/environment doublecount",
+    "ac": "P8/P12",
+    "result": "PASS",
+    "evidence": {
+      "rejected": 9
+    }
+  },
+  {
+    "id": "IP11 repeated service chunk replay immutable IO/A-B",
+    "ac": "P9/P11/P12",
+    "result": "PASS",
+    "evidence": {
+      "fuelConsumed": 0.799999999999983,
+      "events": 12,
+      "exactReplay": true
+    }
+  },
+  {
+    "id": "IP13 active radiator electrical heat has explicit sink",
+    "ac": "P4/P6",
+    "result": "PASS",
+    "evidence": {
+      "chargeDeltaJ": -10,
+      "temperatureDeltaK": 0.10000000000002274,
+      "deliveredW": 10,
+      "heatInW": 10,
+      "heatOutW": -2.2737367544323206e-12,
+      "radiationNetW": -2.2737367544323206e-12,
+      "claimedResidualJ": 0,
+      "telemetry": {
+        "requestedW": 10,
+        "deliveredW": 10,
+        "activeRequestedW": 0,
+        "activeW": 0,
+        "protectedW": 0,
+        "backgroundRequestedW": 0,
+        "backgroundW": 0,
+        "generatorW": 0,
+        "solarW": 0,
+        "externalElectricW": 0,
+        "generatorHostW": 0,
+        "pathLossW": 0,
+        "batteryLossW": 0,
+        "propulsionHostW": 0,
+        "loadHostW": 0,
+        "solarHostW": 0,
+        "directHeatW": 0,
+        "exhaustW": 0,
+        "beamW": 0,
+        "thrustN": 0,
+        "h2CoolingW": 0,
+        "h2AuxRejectW": 0,
+        "radiatorHostW": 10,
+        "tiCoolingW": 0,
+        "tiRejectW": 0,
+        "bufferAbsorbW": 0,
+        "bufferReleaseW": 0,
+        "radiationOutW": -2.2737367544323206e-12,
+        "radiationInW": 0,
+        "radiationNetW": -2.2737367544323206e-12,
+        "heatInW": 10,
+        "heatOutW": -2.2737367544323206e-12,
+        "workRate": 0,
+        "chemicalW": 0,
+        "energyResidualJ": 0,
+        "timeSeconds": 1,
+        "chargeJ": 90,
+        "soc": 0.9,
+        "temperatureK": 300.1,
+        "usefulWork": 0,
+        "cargo": 0
+      }
+    }
+  },
+  {
+    "id": "IP14 hot+cold restart and active below floors",
+    "ac": "P7",
+    "result": "PASS",
+    "evidence": {
+      "boundaries": [
+        {
+          "T": 100,
+          "stopped": true,
+          "deliveredW": 0
+        },
+        {
+          "T": 105,
+          "stopped": true,
+          "deliveredW": 0
+        },
+        {
+          "T": 110,
+          "stopped": false,
+          "deliveredW": 5
+        },
+        {
+          "T": 400,
+          "stopped": true,
+          "deliveredW": 0
+        },
+        {
+          "T": 390,
+          "stopped": true,
+          "deliveredW": 0
+        },
+        {
+          "T": 379,
+          "stopped": false,
+          "deliveredW": 4.2
+        }
+      ],
+      "activeChargeBelowFloor": 69
+    }
+  },
+  {
+    "id": "IP15 PV ledger + nonlinear half-step",
+    "ac": "P5/P8",
+    "result": "PASS",
+    "evidence": {
+      "absorbedW": 40,
+      "electricW": 10,
+      "heatW": 30,
+      "halfStepRelativeT": 3.527235402284043e-16,
+      "halfStepRelativeEnergy": 1.0562204193095194e-14
+    }
+  },
+  {
+    "id": "IP16 real eight-hour persistent replay + completed A/B checkpoints",
+    "ac": "P9/P11",
+    "result": "PASS",
+    "evidence": {
+      "duration": 28800,
+      "dt": 1,
+      "ticks": 28803,
+      "work": 192.00000000000009,
+      "fuel": 3532.8882401321475,
+      "targetTime": 809.8400319935965,
+      "sortieTime": 819.8400319935965
+    }
+  },
+  {
+    "id": "IP17 shipped S/M catalog JSON runnable/provenance",
+    "ac": "P2/P12",
+    "result": "PASS",
+    "evidence": [
+      {
+        "size": "S",
+        "model": "radiative-host-ledger-0.1",
+        "alpha": 5.65e-7,
+        "alphaOrigin": "experimental",
+        "thrustN": 2950000
+      },
+      {
+        "size": "M",
+        "model": "radiative-host-ledger-0.1",
+        "alpha": 5.65e-7,
+        "alphaOrigin": "experimental",
+        "thrustN": 8820000
+      }
+    ]
+  },
+  {
+    "id": "IP18 retained storage cap with admitted larger channel count",
+    "ac": "P10",
+    "result": "FAIL",
+    "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n98 !== 96\n"
+  }
+]

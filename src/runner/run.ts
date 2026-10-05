@@ -49,7 +49,7 @@ export function createRun(runId: string, spec: RunSpec): RunContext {
     runId,
     spec: checked.value,
     state: initialState(checked.value),
-    metrics: initialMetrics(),
+    metrics: initialMetrics(checked.value.initial.temperatureK),
     retention: new Retention([]),
     events: new EventRetention(),
     done: false,

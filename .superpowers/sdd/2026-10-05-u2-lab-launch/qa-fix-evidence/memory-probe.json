@@ -1,0 +1,16 @@
+[
+  {
+    "id": "IP18 retained storage cap with admitted larger channel count",
+    "ac": "P10",
+    "result": "PASS",
+    "evidence": {
+      "channels": 98,
+      "buckets": 25000,
+      "maxBuckets": 39756,
+      "estimatedBytes": 84400000,
+      "actualRetainedHeapPlusArrayBufferDelta": 121685752,
+      "limitBytes": 134217728,
+      "numericBytes": 58800000
+    }
+  }
+]

@@ -47,7 +47,10 @@ export class WorkerController {
     if (this.context?.runId !== c.runId) return;
     if (c.payload?.maxSteps)
       this.maxSteps = Math.min(20000, Math.max(1, c.payload.maxSteps));
-    if (c.type === "pause" || c.type === "cancel") this.running = false;
+    if (c.type === "pause" || c.type === "cancel") {
+      this.running = false;
+      this.stepping = false;
+    }
     if (c.type === "resume") this.running = !this.context.done;
     if (c.type === "step") {
       this.running = false;

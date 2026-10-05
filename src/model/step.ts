@@ -237,7 +237,8 @@ export function stepModel(
     let h2 = 0,
       ti = 0,
       tiReject = 0,
-      auxHeat = 0,
+      h2AuxHeat = 0,
+      radiatorHostHeat = 0,
       radiatorArea = ship.hullRadiationM2;
     for (const x of coolingRequests) {
       const ratio = x.work > 0 ? activeRatio : 1;
@@ -245,7 +246,7 @@ export function stepModel(
         const q = x.q * ratio,
           aux = x.work * ratio;
         h2 += q;
-        auxHeat += aux;
+        h2AuxHeat += aux;
         const flow = (q + aux) / x.m.qJKg;
         fuelFlow(x.m, flow);
         coolantFlowKgS += flow;
@@ -256,7 +257,7 @@ export function stepModel(
       }
       if (x.m.kind === "radiator") {
         radiatorArea += x.m.areaM2 * (x.m.auxW > 0 ? ratio : 1);
-        auxHeat += x.work * ratio;
+        radiatorHostHeat += x.work * ratio;
       }
     }
     let bufferAbsorb = 0,
@@ -288,10 +289,9 @@ export function stepModel(
       solarHeat +
       chargeLoss +
       dischargeLoss +
-      auxHeat +
+      radiatorHostHeat +
       direct -
       h2 -
-      auxHeat -
       ti -
       bufferAbsorb +
       bufferRelease;
@@ -314,6 +314,13 @@ export function stepModel(
     };
     if (batteryRate < 0) boundary(state.chargeJ / -batteryRate);
     if (batteryRate > 0) boundary((qmax - state.chargeJ) / batteryRate);
+    if (bgRequest > 0 && batteryRate !== 0) {
+      // Пересечение 80% в обоих направлениях; непрерывная SoC ramp
+      // пересчитывается при изменении доли не более 0.025 процентного пункта.
+      boundary((0.8 * qmax - state.chargeJ) / batteryRate);
+      if (state.chargeJ >= 0.8 * qmax - eps && state.chargeJ < qmax - eps)
+        boundary((0.00025 * 0.2 * qmax) / Math.abs(batteryRate));
+    }
     for (const [id, flow] of Object.entries(flows)) {
       if (flow > 0) {
         boundary(state.fuelKg[id] / flow);
@@ -345,11 +352,21 @@ export function stepModel(
           : [
               m.gate.low,
               m.gate.high,
-              ...(bg > 0 ? [m.gate.workHigh - 10] : []),
+              ...(bgRequest > 0 ? [m.gate.workHigh - 10] : []),
             ],
       ),
     ];
     for (const t of thresholds) {
+      // При охлаждении точный порог ещё закрыт строгим margin>10 K:
+      // короткий интервал переводит состояние внутрь разрешённой области.
+      if (
+        bgRequest > 0 && fraction === 0 && endT < t &&
+        ship.modules.some(m => m.enabled && !state.gates[m.id] &&
+          t === m.gate.workHigh - 10 && Math.abs(startT - t) < 1e-8)
+      ) {
+        const coolingRate = (net(startT) - constantHeat) / ship.heatCapacityJK;
+        h = Math.min(h, Math.max(1e-8, (Math.max(0, startT - t) + 2e-9) / coolingRate));
+      }
       if ((startT < t - eps && endT >= t) || (startT > t + eps && endT <= t)) {
         let lo = 0,
           hi = h;
@@ -405,7 +422,7 @@ export function stepModel(
         beam +
         radOut +
         h2 +
-        auxHeat +
+        h2AuxHeat +
         tiReject +
         curtailed) *
         h;
@@ -431,6 +448,8 @@ export function stepModel(
       beamW: beam,
       thrustN: thrust,
       h2CoolingW: h2,
+      h2AuxRejectW: h2AuxHeat,
+      radiatorHostW: radiatorHostHeat,
       tiCoolingW: ti,
       tiRejectW: tiReject,
       bufferAbsorbW: bufferAbsorb,
