@@ -59,6 +59,18 @@ export class FittingWorkspace {
   getActive() {
     return this.active && structuredClone(this.active);
   }
+  getCurrentResult() {
+    const r = this.active
+      ? this.variants.find((v) => v.id === this.active!.variantId)?.result
+      : this.selected().result;
+    return r && (!this.active || r.runId === this.active.runId)
+      ? structuredClone(r)
+      : undefined;
+  }
+  isPreviousResult(v = this.selected()) {
+    return !!(v.result && this.active?.variantId === v.id &&
+      v.result.runId !== this.active.runId);
+  }
   getFrozen() {
     return this.frozen && structuredClone(this.frozen);
   }

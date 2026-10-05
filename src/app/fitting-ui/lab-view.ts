@@ -44,15 +44,16 @@ export function labView(
   detailId: string,
   abView: AbView = "both",
 ) {
-  const active = w.getActive(),
-    m = r?.metrics,
+  const active = w.getActive();
+  if (active && r?.runId !== active.runId) r = undefined;
+  const m = r?.metrics,
     state = r?.state,
-    spec = r?.spec,
+    spec = active?.spec ?? r?.spec,
     v = w.getSelected(),
     locked = !!active,
     interval = m
       ? `наблюдаемый интервал 0–${num(m.durationSeconds, "с")} · ${m.intervalLabel}`
-      : "нет данных до первого теста";
+      : active ? "ожидается первое измерение текущего теста" : "нет данных до первого теста";
   const tiles = [
     ["Полезная добыча", num(m?.usefulWork, "SCU")],
     ["Темп", num(m?.scuPerHour, "SCU/ч")],
@@ -87,7 +88,7 @@ export function labView(
     rows = r ? channelRows(r, bucket) : [],
     names = laserNames(spec?.resolvedShip.instances ?? []),
     events = r?.events.filter((e) => eventMatches(e.kind, eventFilter)) ?? [];
-  return `<div class="lab-context"><h1>Power & Heat Lab</h1><p>${active ? `Активный тест: вариант ${esc(active.variantName)} · ревизия ${active.fitRevision}` : `Вариант ${esc(v.name)} · ревизия ${v.fit.fitRevision}`}${r ? ` · измерена ревизия ${r.spec.resolvedShip.fit.fitRevision} · run ${esc(r.runId)}` : ""}</p><p class="muted">${locked ? "Условия зафиксированы; правки оснастки относятся к следующему тесту." : "Лабораторный цикл с фиксированными фазами; реальная миссия и ETA не рассчитываются."}</p></div><div class="lab-columns"><aside class="lab-side"><section class="ui-panel"><h2>Условия теста</h2><div class="condition-fields">${fields.map(([k, id, label, def]) => `<label>${label}<input id="${id}" data-condition="${k}" type="number" step="any" value="${v.conditions[k] ?? def}" ${locked ? "disabled" : ""}></label>`).join("")}${[
+  return `<div class="lab-context"><h1>Power & Heat Lab</h1><p>${active ? `Активный тест: вариант ${esc(active.variantName)} · ревизия ${active.fitRevision} · run ${esc(active.runId)}` : `Вариант ${esc(v.name)} · ревизия ${v.fit.fitRevision}`}${r ? ` · измерена ревизия ${r.spec.resolvedShip.fit.fitRevision} · run ${esc(r.runId)}` : ""}</p><p class="muted">${locked ? "Условия зафиксированы; правки оснастки относятся к следующему тесту." : "Лабораторный цикл с фиксированными фазами; реальная миссия и ETA не рассчитываются."}</p></div><div class="lab-columns"><aside class="lab-side"><section class="ui-panel"><h2>Условия теста</h2><div class="condition-fields">${fields.map(([k, id, label, def]) => `<label>${label}<input id="${id}" data-condition="${k}" type="number" step="any" value="${v.conditions[k] ?? def}" ${locked ? "disabled" : ""}></label>`).join("")}${[
     ["fit-charge-fraction", "Заряд", "charge"],
     ["fit-fuel-fraction", "Дизель", "diesel"],
     ["fit-h2-fraction", "H₂", "hydrogen"],
@@ -125,7 +126,7 @@ export function labView(
             "",
           )}<p class="muted">Мощности охлаждения — последний bucket ${num(bucket?.startSeconds)}–${num(bucket?.endSeconds, "с")}, mean; пик выше относится ко всему измеренному интервалу.</p>`
       : "<p>Запасы и температура появятся после первого измерения.</p>"
-  }</section></aside><div class="lab-main"><section id="fit-result" class="ui-panel"><div class="result-heading"><strong>${testStatus(r, active?.status)}</strong><span>${esc(interval)}${!active && w.isStale() ? " · результат устарел" : ""}${active ? " · предварительно" : ""}</span></div><div class="result-tiles">${tiles.map(([label, val], i) => `<div class="result-tile ${i === 1 ? "accent" : ""}"><span class="eyebrow">${label}</span><strong>${esc(val)}</strong></div>`).join("")}</div><p class="muted">K_use неизменной выбранной группы включает весь горизонт, перелёт, обслуживание и выключение, а не только рабочую фазу.</p>${
+  }</section></aside><div class="lab-main"><section id="fit-result" class="ui-panel"><div class="result-heading"><strong>${testStatus(r, active?.status)}</strong><span>${esc(interval)}${!active && w.isStale() ? " · результат устарел" : ""}${active && r ? " · предварительно" : ""}</span></div><div class="result-tiles">${tiles.map(([label, val], i) => `<div class="result-tile ${i === 1 ? "accent" : ""}"><span class="eyebrow">${label}</span><strong>${esc(val)}</strong></div>`).join("")}</div><p class="muted">K_use неизменной выбранной группы включает весь горизонт, перелёт, обслуживание и выключение, а не только рабочую фазу.</p>${
     m
       ? `<p>Полные циклы: ${m.cyclesCompleted} · добыча в полных циклах ${num(m.completedCycles.scu, "SCU")} · текущий цикл ${num(m.currentCycleScu, "SCU")}. Абсолютный дизель ${num(m.fuelSpeciesKg.diesel, "кг")} · H₂ общий ${num(m.fuelSpeciesKg.hydrogen, "кг")}, из него охладитель ${num(m.h2CoolerKg, "кг")}.</p><p>Восстановления: ${m.recovery.count} · mean ${num(m.recovery.meanSeconds, "с")} · max ${num(m.recovery.maxSeconds, "с")}. Причины перекрываются: ${Object.entries(
           m.causeSeconds,
@@ -161,5 +162,5 @@ export function labView(
     )
     .join(
       "",
-    )}</div><label>Экземпляр<select id="event-instance" disabled aria-describedby="event-instance-note"><option>Нет attribution в событиях</option></select></label><p id="event-instance-note" class="muted">Отдельное поле instance отсутствует в текущем payload; фильтрация по экземпляру недоступна. Среда: только реально записанные события, без вывода из текста или метрик.</p><p id="fit-retention">Показано ${events.length} из видимых ${r?.events.length ?? 0}; всего ${r?.retention.totalEvents ?? 0}, отброшено ${r?.retention.droppedEvents ?? 0}.</p><div id="fit-events" class="ui-table-scroll" tabindex="0" aria-label="События теста"><table><thead><tr><th>Время · с</th><th>Событие</th><th>Факт / причина / экземпляр</th></tr></thead><tbody>${events.map((e) => `<tr><td>${num(e.timeSeconds)}</td><td>${esc(e.kind)}</td><td>${esc(e.message)}<small>Отдельные поля instance/cause отсутствуют в событии; сообщение сохранено буквально.</small></td></tr>`).join("") || '<tr><td colspan="3">Событий по фильтру нет</td></tr>'}</tbody></table></div></section><section class="ui-panel"><h2>Сравнение тестов A / B</h2><button id="fit-freeze" ${!v.result || !["complete", "cancelled"].includes(v.result.status) ? "disabled" : ""}>Зафиксировать A</button><div id="fit-comparison">${frozenCompare(w, abView)}</div></section></div></div>`;
+    )}</div><label>Экземпляр<select id="event-instance" disabled aria-describedby="event-instance-note"><option>Нет attribution в событиях</option></select></label><p id="event-instance-note" class="muted">Отдельное поле instance отсутствует в текущем payload; фильтрация по экземпляру недоступна. Среда: только реально записанные события, без вывода из текста или метрик.</p><p id="fit-retention">Показано ${events.length} из видимых ${r?.events.length ?? 0}; всего ${r?.retention.totalEvents ?? 0}, отброшено ${r?.retention.droppedEvents ?? 0}.</p><div id="fit-events" class="ui-table-scroll" tabindex="0" aria-label="События теста"><table><thead><tr><th>Время · с</th><th>Событие</th><th>Факт / причина / экземпляр</th></tr></thead><tbody>${events.map((e) => `<tr><td>${num(e.timeSeconds)}</td><td>${esc(e.kind)}</td><td>${esc(e.message)}<small>Отдельные поля instance/cause отсутствуют в событии; сообщение сохранено буквально.</small></td></tr>`).join("") || '<tr><td colspan="3">Событий по фильтру нет</td></tr>'}</tbody></table></div></section><section class="ui-panel"><h2>Сравнение тестов A / B</h2><button id="fit-freeze" ${!v.result || !["complete", "cancelled"].includes(v.result.status) ? "disabled" : ""}>${w.isPreviousResult(v) ? "Зафиксировать предыдущий тест как A" : "Зафиксировать A"}</button><div id="fit-comparison">${frozenCompare(w, abView)}</div></section></div></div>`;
 }

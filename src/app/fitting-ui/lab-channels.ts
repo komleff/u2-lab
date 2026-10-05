@@ -26,12 +26,16 @@ export function channelsView(r: RunResultV2 | undefined, s: ChannelState) {
   if (!units.includes(s.unit)) s.unit = units[0] ?? "W";
   const curves = rows.filter((x) => x.unit === s.unit && !s.hidden.has(x.id));
   const indices = curves.map((x) => r.channels.indexOf(x.id));
-  const values = r.buckets
-    .flatMap((b) => indices.flatMap((i) => [b.min[i], b.max[i]]))
-    .filter(Number.isFinite);
-  const low = Math.min(0, ...values),
-    high = Math.max(1, ...values),
-    start = r.buckets[0]?.startSeconds ?? 0,
+  // Retained trace может превышать лимит аргументов JS; границы учитывают всё окно.
+  let low = 0, high = 1;
+  for (const b of r.buckets)
+    for (const i of indices)
+      for (const value of [b.min[i], b.max[i]])
+        if (Number.isFinite(value)) {
+          low = Math.min(low, value);
+          high = Math.max(high, value);
+        }
+  const start = r.buckets[0]?.startSeconds ?? 0,
     end = r.buckets.at(-1)?.endSeconds ?? 1;
   const x = (t: number) =>
       40 + ((t - start) / Math.max(1e-12, end - start)) * 620,

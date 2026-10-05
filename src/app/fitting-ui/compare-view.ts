@@ -29,7 +29,7 @@ export function frozenCompare(w: FittingWorkspace, view: AbView = "both") {
   const check = b ? compareMiningConditions(a.spec, b.spec) : undefined,
     aa = compareFields(a),
     bb = b ? compareFields(b) : undefined;
-  return `<p>Неизменяемый снимок теста A · run ${esc(a.runId)} · ревизия ${a.spec.resolvedShip.fit.fitRevision}. ${b ? "Текущий результат B · " + esc(b.runId) + " · " + (b.status === "complete" ? "завершён" : b.status === "cancelled" ? "отменён · частичный интервал" : "предварительно") + " · " + num(b.metrics.durationSeconds, "с") : "B ещё не запускался"}</p><p class="${check?.comparable ? "success" : "warning"}">${check ? (check.comparable ? "Одинаковые сырьё, среда, фазы, горизонт и начальные запасы" : "Условия отличаются: " + esc(check.differences.join(" · "))) : "Ждёт тест B"}</p><div class="ab-comparison" data-view="${view}"><div class="ab-view-controls segments" role="group" aria-label="Вид сравнения A и B">${[
+  return `<p>Неизменяемый снимок теста A · run ${esc(a.runId)} · ревизия ${a.spec.resolvedShip.fit.fitRevision}. ${b ? (w.isPreviousResult() ? "Предыдущий тест B · " : "Текущий результат B · ") + esc(b.runId) + " · " + (b.status === "complete" ? "завершён" : b.status === "cancelled" ? "отменён · частичный интервал" : "предварительно") + " · " + num(b.metrics.durationSeconds, "с") : "B ещё не запускался"}</p><p class="${check?.comparable ? "success" : "warning"}">${check ? (check.comparable ? "Одинаковые сырьё, среда, фазы, горизонт и начальные запасы" : "Условия отличаются: " + esc(check.differences.join(" · "))) : "Ждёт тест B"}</p><div class="ab-comparison" data-view="${view}"><div class="ab-view-controls segments" role="group" aria-label="Вид сравнения A и B">${[
     ["both", "Рядом"],
     ["a", "Только A"],
     ["b", "Только B"],
@@ -103,8 +103,10 @@ export function compareView(
             num(r.metrics.firstLimiter.timeSeconds, "с")
           : "не выявлено / нет теста",
         r
-          ? (w.getActive()?.variantId === v.id
-              ? "предварительно · "
+          ? (w.isPreviousResult(v)
+              ? "предыдущий тест · run " + esc(r.runId) + " · "
+              : w.getActive()?.runId === r.runId
+                ? "предварительно · "
               : r.status === "cancelled"
                 ? "отменён · "
                 : "") +
