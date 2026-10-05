@@ -1,17 +1,17 @@
 ---
 title: "Claude Design UI — scoped Code Review Contract"
 status: active
-version: "1.1"
+version: "1.2"
 date: 2026-10-06
 ---
 # Цель и acceptance surface
 
 Проверить реализацию принятого Claude Design v2.1 по UI01–18, без изменения численной
 модели. Источники: accepted overlay, UX v2.1/Main/Lab/mobile, whole UI VC и final exact
-runtime/asset/test binding. Runtime source SHA: ff01dfa1b2411aa472bb7500babfde8277694f35. PM metadata SHA сверяется при final handshake.
+runtime/asset/test binding. Runtime source SHA: c8f8b36ee300fa0adf9c739755efab9f05ddd265. PM metadata SHA сверяется при final handshake.
 Полный content binding: docs/verification/claude-design-ui-runtime-binding.json.
-Immutable archive SHA256: 6d55860893fe0cccc63242df33aacc37d69fc7bd2f5afe875ac1311894508ab5.
-Dist digest: 55ee3288d859bff990b40cbc91a269d744655086465b183cea365cb1058b2d55.
+Immutable archive SHA256: fe45e0fde7c17b147b66253cdc18d832392bad90f59f7f67279d18c440998e29.
+Dist digest: eb127afa9fa367effd37308388293528322ba58a8a9c886c528ae691cfdcec2d.
 
 # Scope
 
@@ -39,6 +39,9 @@ OUT: новая физика/каталог/schema/protocol, динамичес�
 8. Missing event metadata: environment/instance filter affordances disclose unavailable
    payload fields, preserve actual aggregate propulsionShortfall and do not fabricate
    events, causes, times or attribution. The unchanged model attribution gap is deferred.
+9. Rejected import readability and native touch geometry: preserve full literal error
+   text/newlines while long paths wrap inside the visual viewport; actual isMobile +
+   hasTouch export after refusal remains reachable with fit/result/frozen A unchanged.
 
 # Findings and evidence
 
@@ -82,7 +85,7 @@ independently reports85protected base blobs; PM actual source verification confi
 all85. Предыдущий физический12h QA r4 остаётся inherited proof unchanged core.
 
 Initial independent QA r1:54 PASS/17 FAIL/1 NOT RUN; D01–D11 repaired by sole
-Developer. Review begins after affected QA on this exact fixed artifact. Examine
+Developer. Affected QA r2 closed D01–D11 counterexamples but found D12 under UI16-03/UI18-02/UI18-03: long rejected-import path expanded the true-mobile layout. One-property CSS fix and durable regression follow; review begins after targeted D12 affected QA on the exact final artifact. Examine
 the 11-path fix delta as part of the whole new UI surface; prior numerical review
 is source-equivalent carryover, not a new review of model/Worker. UI13-02 unavailable
 named attribution remains explicitly deferred by the operator scope.

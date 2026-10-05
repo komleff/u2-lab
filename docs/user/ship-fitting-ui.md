@@ -1,7 +1,7 @@
 ---
 title: "Ship Fitting и Power & Heat — локальный интерфейс"
 status: active
-version: "1.1"
+version: "1.2"
 date: 2026-10-06
 related:
   - docs/product/claude-design-ui-v0.2-acceptance.md

@@ -1,8 +1,8 @@
 {
   "version": "claude-ui-binding/1",
-  "runtimeSource": "ff01dfa1b2411aa472bb7500babfde8277694f35",
+  "runtimeSource": "c8f8b36ee300fa0adf9c739755efab9f05ddd265",
   "base": "903d36b2ac4a2bfa90997803770ace13d520fbe9",
-  "fingerprint": "51d7abe3cfd7fd2cc6b18786f90f3239ae7e74a5db75f2fbc04ac82b9da7d4f0",
+  "fingerprint": "e8fcb471b0ce47aab34099774438891d7268e520408a7e3e25a5ace676e9e3a3",
   "rule": "SHA256 UTF-8 sorted-key compact JSON binding {blobs sorted by path, contract whole UI VC text}; actual Git blobs",
   "changedPaths": [
     "public/assets/README.md",
@@ -164,7 +164,7 @@
       },
       {
         "path": "docs/verification/claude-design-ui-code-review-contract.md",
-        "blob": "39bbd8a7fa3d16b20a53415538fc6e4fba538165"
+        "blob": "af956308fa7645d36eadbcfcb4502bbc3335e0ae"
       },
       {
         "path": "docs/verification/claude-design-ui-v0.2-qa-cases.md",
@@ -272,7 +272,7 @@
       },
       {
         "path": "src/app/fitting.css",
-        "blob": "09b4e2d4b7bfafe6ed2e3ca22eaa7dc1e7be2c8e"
+        "blob": "0194821577a63d67e45cf1c180162d610a934efb"
       },
       {
         "path": "src/app/fitting.ts",
@@ -408,7 +408,7 @@
       },
       {
         "path": "tests/browser/claude-ui-fixes.spec.ts",
-        "blob": "796b6f8927ec547132f0b79d9822fe8e423d652c"
+        "blob": "fe9512b555dbb744d9c1187289d2d78e427bb501"
       },
       {
         "path": "tests/browser/claude-ui.spec.ts",
@@ -625,7 +625,7 @@
     }
   },
   "artifact": {
-    "archiveSha256": "6d55860893fe0cccc63242df33aacc37d69fc7bd2f5afe875ac1311894508ab5",
-    "distDigest": "55ee3288d859bff990b40cbc91a269d744655086465b183cea365cb1058b2d55"
+    "archiveSha256": "fe45e0fde7c17b147b66253cdc18d832392bad90f59f7f67279d18c440998e29",
+    "distDigest": "eb127afa9fa367effd37308388293528322ba58a8a9c886c528ae691cfdcec2d"
   }
 }

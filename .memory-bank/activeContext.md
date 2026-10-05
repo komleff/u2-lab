@@ -1,3 +1,39 @@
+# Текущий этап — Claude Design UI, D12 fixed, 2026-10-06
+
+Промежуточная версия для оператора работает: http://192.168.68.65:4183/?v=claude-ui-c8f8b36
+Runtime source c8f8b36ee300fa0adf9c739755efab9f05ddd265, PR #6 Draft / base PR #4 Draft.
+Старый Ship Fitting — 4186; первый интерфейс Лабы — 4186/?mode=legacy.
+Root-owned immutable roots/PIDs: ignored primary .overgate-runtime/claude-ui-preview-verified.json.
+
+Initial QA r1: 54 PASS / 17 FAIL / 1 deferred NOT RUN, 52 sealed files. Affected r2:
+42 original IDs = 39 PASS / 3 FAIL, 55 sealed files; D01–D11 counterexamples закрыты.
+Все три FAIL — новый D12: длинная missingPath ошибка расширяла true-mobile layout 390→405
+и блокировала native touch export. Sole Developer исправил одну CSS-строку плюс durable
+isMobile/hasTouch regression. RED405 → GREEN390, полные 8 строк ошибки сохранены; fit,
+result и frozen A unchanged. Fresh normal guard:185 unit/27 browser PASS +1 inherited
+screenshot SKIP, type/build/reference/bootstrap26 PASS. Actual extracted localhost/LAN/
+TLS-prefix true-mobile import refusal/native export smoke PASS; physical device NOT RUN.
+
+PM independently verified66 source paths+whole UI/SF VC,85 protected baseline blobs+2
+experiments,6 unchanged compiled core assets,14 raw fix evidence, ZIP CRC/all17files
+and51 live served bodies. ZIP fe45e0fd… / dist eb127afa…; prior artifacts/reports immutable.
+New Review Contract1.2 and full source binding accompany clean metadata handshake.
+Next: SAME QA only UI16-03/UI18-02/UI18-03 D12 + necessary linked UI15-02 atomic export
+regression, then SAME Reviewer one scoped UI Code Review. No new full42/72/12h replay.
+Original72 mapping before new closure:68 PASS/3 FAIL/1 deferred NOT RUN;29 historical
+PASS are source-equivalent carryover, not new own runtime executions.
+
+Numerical/catalog/runner/protocol/IO/Legacy unchanged; old numerical QA r4 / Review r3
+remain inherited exact-content proof. UI13-02 missing event/time/instance attribution
+is disclosed; unchanged model gap is deferred. Mining until full/flight/refuel deferred
+by operator (ulab-dwi). New UI physical/native/base/bootstrap/public Pages/operator
+main merge gates remain separate OPEN. Actual ddd0614 CI37374871209/37374874878 SUCCESS;
+prior3e runner-unavailable history remains NOT RUN. No final UI acceptance yet.
+Primary sole Beads writer via bd1.2.2 API; preserve user docs/.DS_Store. Developer IDLE;
+no product changes while new independent QA source freeze is active.
+
+## История checkpoints до D12
+
 # Текущий этап — Claude Design UI, 2026-10-06
 
 Оператор поручил поднять промежуточную версию и продолжать QA, сохранив старые интерфейсы.
