@@ -1,5 +1,10 @@
 # Active Context
 
+## Repaired candidate before independent acceptance
+
+Source-first QA r1 on8568ffee:88PASS/4FAIL/8NOTRUN,3defects F1cargoM/F2D-electric/F3retroSKU. Immutable report docs/reviews/2026-10-05-ship-fitting-qa-r1.md publishedexactPR4comment5998855076. SameDeveloper repaired source semantics on d54dd4bd; source-fidelity12RED→GREEN, reference6profiles preserved through explicitlocalvariants; ordinarySKU immutable,40catalog/fiveWHATblobs/wholeVC unchanged. Freshmanualguardverify121unit/12browser+1SKIP/type/build/reference/bootstrap26PASS; actualv2+v1physical12h and fullcapGC126549016B PASS, freshmatrices and extractedHTTP/localTLS prefixPASS. Independent affectedQA and oneCodeReview pending; noacceptance/merge-ready claim. T1/T2 reopened andT7 in_progress until independent closure. Node24.21.0/bd1.2.2 primarysolewriter.
+
+
 ## Ship Fitting candidate — 2026-10-05, Asia/Novosibirsk
 
 Оператор явно одобрил дизайн и T1–T7; accepted WHAT — docs/product/ship-fitting-v0.2-acceptance.md. Один Developer завершил семь последовательных milestones на32f399bc. Кандидат0.2.0: шесть корпусов/40изделий, slots/builtin bill, отдельная v2 физика и online mining metrics, UI/JSON/CSV/legacy replay. Пять accepted planning blobs и целый VC SF01–20 неизменны.
