@@ -67,6 +67,7 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   await page.getByRole("button", { name: /Вариант B ·/ }).click();
   await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
   await expect(page.locator("#fit-start")).toBeDisabled();
+  await expect(page.locator("#fit-duration")).toHaveValue("20");
   await expect(page.locator("#fit-time")).toHaveText("0 с / 20 с");
   expect(await page.locator("#fit-comparison .ab-side-a").innerHTML()).toBe(frozen);
   await page.evaluate(() => (window as any).releaseTelemetry());

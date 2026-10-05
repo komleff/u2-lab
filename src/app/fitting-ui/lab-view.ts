@@ -84,18 +84,38 @@ export function labView(
     ["returnFraction", "fit-return", "Возврат тепла · доля", 0.35],
     ["targetM3", "fit-target", "Цель добычи · SCU", 1000],
   ] as const;
+  const work = active?.spec.scenario.phases.filter((p) => p.action === "work") ?? [];
+  const duties = new Set(work.flatMap((p) => active!.spec.selectedWorkGroup.map((id) => p.requests[id])));
+  // Заблокированная форма относится к immutable тесту, а не к выбранной следующей сборке.
+  const conditions = active ? {
+    durationSeconds: active.spec.durationSeconds,
+    workSeconds: work.length === 1 ? work[0].durationSeconds : undefined,
+    duty: duties.size === 1 ? [...duties][0] : undefined,
+    effectiveBackgroundK: active.spec.environment.effectiveBackgroundK,
+    densityKgM3: active.spec.process.densityKgM3,
+    returnFraction: active.spec.process.returnFraction,
+    targetM3: active.spec.scenario.targetM3,
+  } : v.conditions;
+  const initial = active ? {
+    chargeFraction: active.spec.resolvedShip.batteryCapacityJ > 0
+      ? active.spec.initial.chargeJ / active.spec.resolvedShip.batteryCapacityJ : undefined,
+    fuelFraction: Object.fromEntries((["diesel", "hydrogen"] as const).map((species) => {
+      const capacity = active.spec.resolvedShip.resources[species].capacityKg;
+      return [species, capacity > 0 ? active.spec.initial.fuelKg[species] / capacity : undefined];
+    })),
+  } : v.fit.initial;
   const bucket = r?.buckets.at(-1),
     rows = r ? channelRows(r, bucket) : [],
     names = laserNames(spec?.resolvedShip.instances ?? []),
     events = r?.events.filter((e) => eventMatches(e.kind, eventFilter)) ?? [];
-  return `<div class="lab-context"><h1>Power & Heat Lab</h1><p>${active ? `Активный тест: вариант ${esc(active.variantName)} · ревизия ${active.fitRevision} · run ${esc(active.runId)}` : `Вариант ${esc(v.name)} · ревизия ${v.fit.fitRevision}`}${r ? ` · измерена ревизия ${r.spec.resolvedShip.fit.fitRevision} · run ${esc(r.runId)}` : ""}</p><p class="muted">${locked ? "Условия зафиксированы; правки оснастки относятся к следующему тесту." : "Лабораторный цикл с фиксированными фазами; реальная миссия и ETA не рассчитываются."}</p></div><div class="lab-columns"><aside class="lab-side"><section class="ui-panel"><h2>Условия теста</h2><div class="condition-fields">${fields.map(([k, id, label, def]) => `<label>${label}<input id="${id}" data-condition="${k}" type="number" step="any" value="${v.conditions[k] ?? def}" ${locked ? "disabled" : ""}></label>`).join("")}${[
+  return `<div class="lab-context"><h1>Power & Heat Lab</h1><p>${active ? `Активный тест: вариант ${esc(active.variantName)} · ревизия ${active.fitRevision} · run ${esc(active.runId)}` : `Вариант ${esc(v.name)} · ревизия ${v.fit.fitRevision}`}${r ? ` · измерена ревизия ${r.spec.resolvedShip.fit.fitRevision} · run ${esc(r.runId)}` : ""}</p><p class="muted">${locked ? "Условия зафиксированы; правки оснастки относятся к следующему тесту." : "Лабораторный цикл с фиксированными фазами; реальная миссия и ETA не рассчитываются."}</p></div><div class="lab-columns"><aside class="lab-side"><section class="ui-panel"><h2>Условия теста</h2><div class="condition-fields">${fields.map(([k, id, label, def]) => `<label>${label}<input id="${id}" data-condition="${k}" type="number" step="any" placeholder="—" value="${conditions[k] ?? (active ? "" : def)}" ${locked ? "disabled" : ""}></label>`).join("")}${[
     ["fit-charge-fraction", "Заряд", "charge"],
     ["fit-fuel-fraction", "Дизель", "diesel"],
     ["fit-h2-fraction", "H₂", "hydrogen"],
   ]
     .map(
       ([id, label, key]) =>
-        `<label>Начальный ${label} · доля<input id="${id}" data-initial="${key}" type="number" min="0" max="1" step=".1" value="${key === "charge" ? v.fit.initial.chargeFraction : (v.fit.initial.fuelFraction[key as "diesel"] ?? 1)}" ${locked ? "disabled" : ""}></label>`,
+        `<label>Начальный ${label} · доля<input id="${id}" data-initial="${key}" type="number" min="0" max="1" step=".1" placeholder="—" value="${key === "charge" ? (initial.chargeFraction ?? "") : (initial.fuelFraction[key as "diesel"] ?? (active ? "" : 1))}" ${locked ? "disabled" : ""}></label>`,
     )
     .join(
       "",

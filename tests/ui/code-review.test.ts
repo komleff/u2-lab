@@ -59,7 +59,9 @@ for (const changed of [false, true])
     const w = workspace(), old = complete(w, "old");
     expect(w.freeze()).toBe(true);
     const frozen = w.getFrozen();
-    w.select("B"); const foreign = complete(w, "foreign"); w.select("A");
+    w.select("B"); const foreign = complete(w, "foreign");
+    w.setConditions({ ...w.getSelected().conditions, durationSeconds: 900, workSeconds: 90, effectiveBackgroundK: 150 });
+    w.select("A");
     if (changed) { const fit = w.getFit(); fit.initial.chargeFraction = 0.5; w.applyFit(fit); }
     const started = w.start("new"); if (!started.ok) throw Error("start");
     w.setStatus("new", "paused");
@@ -83,6 +85,11 @@ for (const changed of [false, true])
     w.select("B");
     expect(w.getCurrentResult()).toBeUndefined();
     expect(w.getSelected().result).toEqual(foreign);
+    const foreignView = labView(w, foreign, channel(), "all", "");
+    expect(foreignView).toMatch(/id="fit-duration"[^>]+value="20"/);
+    expect(foreignView).toMatch(/id="fit-work-seconds"[^>]+value="120"/);
+    expect(foreignView).toMatch(/id="fit-background"[^>]+value="100"/);
+    expect(w.getSelected().conditions.durationSeconds).toBe(900);
     const fresh = createRun("new", started.value.spec); runChunk(fresh, 1);
     expect(w.acceptResult(result(fresh))).toBe(true);
     const current = w.getCurrentResult()!;
@@ -95,6 +102,7 @@ for (const changed of [false, true])
     expect(w.acceptResult(result(fresh))).toBe(true);
     expect(w.getActive()).toBeUndefined();
     expect(w.getCurrentResult()).toEqual(foreign);
+    expect(labView(w, foreign, channel(), "all", "")).toMatch(/id="fit-duration"[^>]+value="900"/);
     w.select("A"); expect(w.getCurrentResult()?.runId).toBe("new");
     expect(w.getFrozen()).toEqual(frozen);
   });
