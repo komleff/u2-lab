@@ -1,3 +1,34 @@
-import {it,expect} from 'vitest';import {fixture} from '../fitting/test-spec';import {initialStateV2,stepV2} from '../../src/model/v2/step';
-it('electric bus zero means zero force and drive makes no cargo; partial force proportional',()=>{const s=fixture('civilian-M');s.initial.chargeJ=0;let r=stepV2(s,initialStateV2(s),.1,{march:1});expect(r.telemetry.thrustN).toBe(0);expect(r.state.usefulWork).toBe(0);s.environment.energyInputs=[{sourceId:'test',representation:'electric',powerW:1e6}];s.resolvedShip.hull.hullPowerW=0;r=stepV2(s,initialStateV2(s),.1,{march:1});expect(r.telemetry.thrustN).toBeCloseTo(1e6*.9*.95*.9/7.8,5);expect(r.telemetry.engineUsefulW).toBeCloseTo(r.telemetry.thrustN*7.8,5);expect(r.telemetry.beamW).toBe(0);expect(Math.abs(r.telemetry.energyResidualJ)).toBeLessThan(.01);});
-it('direct drive burns alphaF typed fuel and closes chemical/useful/exhaust/host ledger',()=>{const s=fixture('sputnik');s.resolvedShip.hull.hullPowerW=0;for(const i of s.resolvedShip.instances)if(i.item.family==='generator')i.enabled=false;const state=initialStateV2(s);const r=stepV2(s,state,.1,{march:1});expect(state.fuelKg.diesel-r.state.fuelKg.diesel).toBeCloseTo(2.95e6*.565e-6*.1,8);expect(r.state.usefulWork).toBe(0);expect(r.telemetry.thrustN).toBe(2.95e6);expect(Math.abs(r.telemetry.energyResidualJ)).toBeLessThan(.01);});
+import { it, expect } from "vitest";
+import { fixture } from "../fitting/test-spec";
+import { initialStateV2, stepV2 } from "../../src/model/v2/step";
+it("electric bus zero means zero force and drive makes no cargo; partial force proportional", () => {
+  const s = fixture("civilian-M");
+  s.initial.chargeJ = 0;
+  let r = stepV2(s, initialStateV2(s), 0.1, { march: 1 });
+  expect(r.telemetry.thrustN).toBe(0);
+  expect(r.state.usefulWork).toBe(0);
+  s.environment.energyInputs = [
+    { sourceId: "test", representation: "electric", powerW: 1e6 },
+  ];
+  s.resolvedShip.hull.hullPowerW = 0;
+  r = stepV2(s, initialStateV2(s), 0.1, { march: 1 });
+  expect(r.telemetry.thrustN).toBeCloseTo((1e6 * 0.9 * 0.95 * 0.9) / 7.8, 5);
+  expect(r.telemetry.engineUsefulW).toBeCloseTo(r.telemetry.thrustN * 7.8, 5);
+  expect(r.telemetry.beamW).toBe(0);
+  expect(Math.abs(r.telemetry.energyResidualJ)).toBeLessThan(0.01);
+});
+it("direct drive burns alphaF typed fuel and closes chemical/useful/exhaust/host ledger", () => {
+  const s = fixture("sputnik");
+  s.resolvedShip.hull.hullPowerW = 0;
+  for (const i of s.resolvedShip.instances)
+    if (i.item.family === "generator") i.enabled = false;
+  const state = initialStateV2(s);
+  const r = stepV2(s, state, 0.1, { march: 1 });
+  expect(state.fuelKg.diesel - r.state.fuelKg.diesel).toBeCloseTo(
+    2.95e6 * 0.565e-6 * 0.1,
+    8,
+  );
+  expect(r.state.usefulWork).toBe(0);
+  expect(r.telemetry.thrustN).toBe(2.95e6);
+  expect(Math.abs(r.telemetry.energyResidualJ)).toBeLessThan(0.01);
+});

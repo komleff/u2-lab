@@ -1,8 +1,72 @@
-import type {ValidationResult} from '../catalog/schema';import type {ShipFit,CandidateCatalog,ResolvedShip} from './types';import {validateFit,installedInstances} from './validate';
-export function compileFit(f:ShipFit,c:CandidateCatalog):ValidationResult<ResolvedShip>{const v=validateFit(f,c);if(!v.readiness.canRun)return {ok:false,errors:v.issues.filter(i=>i.severity==='error'||i.code==='MISSING')};const h=structuredClone(c.hulls.find(h=>h.id===f.hullId)!);const roster=installedInstances(f,c);
- // Role-specific bill сохраняет стоимость каждого двигателя; single reference — march, retro .4.
- for(const i of roster)if(i.item.family==='engine'&&i.role==='retro'){for(const m of i.item.materials)m.massKg*=.4;i.item.numerics.forceN*=.4;i.item.numerics.powerW*=.4;}
- const materials=[...h.materials.map(m=>({...m,id:'shell:'+m.id})),...roster.flatMap(i=>i.item.materials.map(m=>({...m,id:i.id+':'+m.id})))];
- const resources:ResolvedShip['resources']={diesel:{capacityKg:0,energyJKg:43e6,consumerIds:[],tankIds:[]},hydrogen:{capacityKg:0,energyJKg:120e6,consumerIds:[],tankIds:[]}};const cargoCapacityM3={universal:0,bulk:0,liquid:0};let batteryCapacityJ=0;const bufferCapacityJ:Record<string,number>={},origins={...h.origins};
- for(const i of roster){const m=i.item;if(m.family==='cargo')cargoCapacityM3[m.cargoType!]+=m.numerics.cargoM3;if(i.enabled&&m.family==='battery')batteryCapacityJ+=m.numerics.capacityJ;if(i.enabled&&m.family==='buffer')bufferCapacityJ[i.id]=m.numerics.capacityJ;if(i.enabled&&m.species){const r=resources[m.species];if(m.family==='tank'){r.capacityKg+=m.numerics.fuelCapacityKg;r.tankIds.push(i.id);}else r.consumerIds.push(i.id);}for(const [k,o]of Object.entries(m.origins))origins[i.id+'.'+k]=o;}
- return {ok:true,value:structuredClone({hull:h,fit:f,instances:roster,dryMassKg:materials.reduce((n,m)=>n+m.massKg,0),heatCapacityJK:materials.reduce((n,m)=>n+m.massKg*m.cpJKgK,0),materials,batteryCapacityJ,bufferCapacityJ,cargoCapacityM3,resources,origins})};}
+import type { ValidationResult } from "../catalog/schema";
+import type { ShipFit, CandidateCatalog, ResolvedShip } from "./types";
+import { validateFit, installedInstances } from "./validate";
+export function compileFit(
+  f: ShipFit,
+  c: CandidateCatalog,
+): ValidationResult<ResolvedShip> {
+  const v = validateFit(f, c);
+  if (!v.readiness.canRun)
+    return {
+      ok: false,
+      errors: v.issues.filter(
+        (i) => i.severity === "error" || i.code === "MISSING",
+      ),
+    };
+  const h = structuredClone(c.hulls.find((h) => h.id === f.hullId)!);
+  const roster = installedInstances(f, c);
+  // Role-specific bill сохраняет стоимость каждого двигателя; single reference — march, retro .4.
+  for (const i of roster)
+    if (i.item.family === "engine" && i.role === "retro") {
+      for (const m of i.item.materials) m.massKg *= 0.4;
+      i.item.numerics.forceN *= 0.4;
+      i.item.numerics.powerW *= 0.4;
+    }
+  const materials = [
+    ...h.materials.map((m) => ({ ...m, id: "shell:" + m.id })),
+    ...roster.flatMap((i) =>
+      i.item.materials.map((m) => ({ ...m, id: i.id + ":" + m.id })),
+    ),
+  ];
+  const resources: ResolvedShip["resources"] = {
+    diesel: { capacityKg: 0, energyJKg: 43e6, consumerIds: [], tankIds: [] },
+    hydrogen: { capacityKg: 0, energyJKg: 120e6, consumerIds: [], tankIds: [] },
+  };
+  const cargoCapacityM3 = { universal: 0, bulk: 0, liquid: 0 };
+  let batteryCapacityJ = 0;
+  const bufferCapacityJ: Record<string, number> = {},
+    origins = { ...h.origins };
+  for (const i of roster) {
+    const m = i.item;
+    if (m.family === "cargo")
+      cargoCapacityM3[m.cargoType!] += m.numerics.cargoM3;
+    if (i.enabled && m.family === "battery")
+      batteryCapacityJ += m.numerics.capacityJ;
+    if (i.enabled && m.family === "buffer")
+      bufferCapacityJ[i.id] = m.numerics.capacityJ;
+    if (i.enabled && m.species) {
+      const r = resources[m.species];
+      if (m.family === "tank") {
+        r.capacityKg += m.numerics.fuelCapacityKg;
+        r.tankIds.push(i.id);
+      } else r.consumerIds.push(i.id);
+    }
+    for (const [k, o] of Object.entries(m.origins)) origins[i.id + "." + k] = o;
+  }
+  return {
+    ok: true,
+    value: structuredClone({
+      hull: h,
+      fit: f,
+      instances: roster,
+      dryMassKg: materials.reduce((n, m) => n + m.massKg, 0),
+      heatCapacityJK: materials.reduce((n, m) => n + m.massKg * m.cpJKgK, 0),
+      materials,
+      batteryCapacityJ,
+      bufferCapacityJ,
+      cargoCapacityM3,
+      resources,
+      origins,
+    }),
+  };
+}

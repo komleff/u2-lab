@@ -1,26 +1,25 @@
 # U2 Lab
 
-Легковесная браузерная лаборатория энергетики и тепла кораблей U2.
+Браузерная лаборатория оснастки, энергетики, тепла и добывающей работы кораблей U2.
 
-Первый модуль — Power & Heat: конфигурации S и M Civilian, воспроизводимые сценарии,
-графики, журнал событий и сравнение A/B. Запуск сначала в локальной сети.
+## Текущий кандидат
 
-## Текущий статус
+Ship Fitting **0.2.0** реализован в рабочей ветке `feat/ship-fitting-v0.2`,
+[Draft PR №4](https://github.com/komleff/u2-lab/pull/4). Шесть профилей корпуса и40 изделий,
+совместимость слотов, сухой material bill, общие конечные запасы, добыча и сравнение1/2/3
+лазеров. Корневой экран — оснастка; численная модель v1 доступна по `?mode=legacy`.
+[Руководство](docs/user/ship-fitting.md), [контракт SF01–20](docs/verification/ship-fitting-v0.2-contract.md),
+[матрица опытов](docs/experiments/ship-fitting-matrix.json) и [чувствительность](docs/experiments/ship-fitting-sensitivity.json).
 
-Браузерный Power & Heat **0.1.1** подготовлен для локальных экспериментов в
-[Draft PR №2](https://github.com/komleff/u2-lab/pull/2), ветка `feat/power-heat-lab`.
-Исправлен запуск по обычному LAN HTTP: runId создаётся через `crypto.getRandomValues`,
-доступный без secure context. Исходный non-local HTTP failure сохранён; affected QA PASS,
-scoped Code Review APPROVED в проверенной области. [Отчёт для агента на Mac](docs/handoffs/2026-10-05-mac-lan-http.md).
+Это Developer candidate для независимой QA и Code Review. Runtime acceptance и merge
+readiness не заявлены. Public Pages сохраняет прежнюю сборку; deployment не выполнен.
+Физическое второе устройство, native hooks и полная bootstrap/operator acceptance — NOT RUN.
+Числа с происхождением lab hypothesis не становятся каноническими ТТХ U2.
 
-56 unit tests,6 Chromium checks,typecheck/build — PASS;1 screenshot-only test SKIP.
-[CI точного исправления](https://github.com/komleff/u2-lab/actions/runs/37272666370) — SUCCESS.
-Упакованная и распакованная standalone0.1.1 проверена в localhost и non-local HTTP browser
-origin с `isSecureContext=false`; фактический Xiaomi/второе LAN устройство — NOT RUN.
-[Актуальные отчёты](docs/INDEX.md#проверка-реализации) сохраняют исходные failures и closures.
-Предшествующий Developer12h replay132.595s относится к неизменным физическим source paths;
-новый локальный12h ради UI fix не запускался. Полная bootstrap/operator acceptance и merge
-readiness не заявляются. Пресеты S/M экспериментальные.
+Legacy Power & Heat0.1.1 сохраняет модель `radiative-host-ledger-0.1` и exact replay
+старых экспортов, включая внешний численный snapshot. Его ordinary LAN HTTP исправление
+на `crypto.getRandomValues` сохранено. [Прежний отчёт](docs/handoffs/2026-10-05-mac-lan-http.md)
+относится к0.1.1, а не к новой оснастке.
 
 OverGate v4.0.0-rc.1, Memory Bank и исходные9 задач Beads подготовлены в
 [Draft PR №1](https://github.com/komleff/u2-lab/pull/1). Планы независимо PLAN_READY.
@@ -40,15 +39,14 @@ Canonical dependencies сохраняются; merge выполняет опер
 - [Текущий контекст](.memory-bank/activeContext.md)
 
 U2 остаётся источником утверждённых правил и ТТХ. U2 Lab хранит эксперименты, версионные
-наборы параметров и воспроизводимые результаты. Обнаружение, сенсоры и радары — следующий
-этап после согласования энергетики, тепла и параметров модулей.
+наборы параметров и воспроизводимые результаты. Обнаружение, сенсоры и радары не входят в текущую лабораторию.
 
 ## Power & Heat Lab v0.1
 
 Русскоязычный локальный browser lab: экспериментальные S/M, SI модель, Worker, рейсы, A/B, JSON/CSV.
 
 ```bash
-git clone --branch feat/power-heat-lab https://github.com/komleff/u2-lab.git
+git clone --branch feat/ship-fitting-v0.2 https://github.com/komleff/u2-lab.git
 cd u2-lab
 npm ci
 npm run build
@@ -57,6 +55,6 @@ npm run preview -- --host 0.0.0.0 --port 4173
 
 Откройте `http://localhost:4173` или `http://<LAN-IP>:4173`. Standalone `dist` также раздаётся
 `python3 -m http.server 4173 --bind 0.0.0.0 --directory dist`.
-[Подробное руководство](docs/user/local-network.md), [источники параметров](docs/experiments/parameter-intake.md).
+[Руководство оснастки](docs/user/ship-fitting.md); [историческое руководство v1](docs/user/local-network.md), [источники параметров](docs/experiments/parameter-intake.md).
 
 Runtime merge удерживается до acceptance bootstrap base; численные presets не утверждают U2 SKU.

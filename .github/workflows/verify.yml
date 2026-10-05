@@ -3,7 +3,7 @@ on: [push, pull_request]
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -12,7 +12,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: timeout 240 npm run test:long
+      - run: timeout 1500 npm run test:long
       - run: bash .agents/project/verify.sh
       - uses: actions/upload-artifact@v4
         if: always()

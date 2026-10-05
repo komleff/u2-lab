@@ -57,7 +57,7 @@
 | [Cloud QA](https://github.com/komleff/u2-lab/blob/bootstrap/overgate-v4/docs/reviews/2026-10-05-cloud-qa.md) | C1–C6 PASS | В bootstrap base, не full acceptance |
 | [Cloud Code Review](https://github.com/komleff/u2-lab/blob/bootstrap/overgate-v4/docs/reviews/2026-10-05-cloud-code-review.md) | scoped APPROVED | В bootstrap base, B0/B6/B8 остаются открытыми |
 
-Текущий runtime0.1.1 подготовлен для локальных экспериментов.56unit и6browser checks PASS,
+Предыдущий runtime0.1.1 подготовлен для локальных экспериментов.56unit и6browser checks PASS,
 1screenshot-only case SKIP; type/build PASS. Exact source CI37272666370/37272662118 SUCCESS.
 LAN HTTP affected QA/scoped review закрыли отсутствие randomUUID вне secure context;
 контекст браузера secure=false воспроизведён собственными assets, физический Xiaomi NOT RUN.
@@ -83,3 +83,12 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 
 - [Принятие дизайна и запуск реализации](product/ship-fitting-v0.2-acceptance.md) — current operator authority поверх frozen GDD/плана.
 - [ТЗ UX/UI для Claude Design](ux/ship-fitting-v0.2-claude-design-brief.md) — самодостаточный brief для HTML/SVG desktop/mobile макетов.
+
+## Ship Fitting0.2.0 — Developer candidate
+
+- [Работа с оснасткой и экспортом](user/ship-fitting.md) — функциональный workflow и границы лаборатории.
+- [Контролируемая серия Pony/IndustrialM1/2/3 и L3+hold](experiments/ship-fitting-matrix.json) — полные условия, численные snapshots и фактические незавершённые исходы.
+- [Чувствительность и ограничивающие сценарии](experiments/ship-fitting-sensitivity.json) — экспериментальные крайние условия, не вероятности.
+
+Независимые runtime QA и Code Review предстоят. Public Pages, физическое второе
+устройство, native/bootstrap/operator acceptance и merge остаются отдельными gates.

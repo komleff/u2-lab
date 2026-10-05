@@ -12,12 +12,20 @@ import { backgroundFraction, thermalDuty } from "../scheduler";
 export const SIGMA = 5.670374419e-8;
 export type ActionRequest = { moduleId: string; duty: number };
 const eps = 1e-10;
-import type {Cause,MiningStepSummary} from "./types";
-export type PhysicsModule=Module&{output?:"mining"|"drive";requestKey?:string};
-export type PhysicsShip=Omit<ShipConfig,"modules">&{modules:PhysicsModule[];returnFraction:number;cargoLimitM3:number;targetLimitM3:number};
+import type { Cause, MiningStepSummary } from "./types";
+export type PhysicsModule = Module & {
+  output?: "mining" | "drive";
+  requestKey?: string;
+};
+export type PhysicsShip = Omit<ShipConfig, "modules"> & {
+  modules: PhysicsModule[];
+  returnFraction: number;
+  cargoLimitM3: number;
+  targetLimitM3: number;
+};
 export function stepPhysicsV2(
   ship: PhysicsShip,
-  input: ModelState&{miningStopSeconds:number|null},
+  input: ModelState & { miningStopSeconds: number | null },
   env: EnvironmentSample,
   requests: readonly ActionRequest[],
   dt: number,
@@ -33,9 +41,33 @@ export function stepPhysicsV2(
   };
   const events = updateThermalGates(ship, state);
   const total: TickTelemetry = {};
-  const consumptionKg:Record<string,number>={};
-  const extractedByInstanceM3:Record<string,number>={};
-  const mining:MiningStepSummary={requested:false,requestedM3:0,selectedM3:0,causeSeconds:{power:0,thermal:0,resource:0,cargo:0},unionSeconds:0,overlapSeconds:0,forcedDowntimeSeconds:0,partialLossM3:0,firstLoss:null,firstPositiveSeconds:null,firstCauseSeconds:{power:null,thermal:null,resource:null,cargo:null},propulsionShortfall:false,recoveryDelta:{firstSeconds:null,count:0,sumSeconds:0,maxSeconds:0}};
+  const consumptionKg: Record<string, number> = {};
+  const extractedByInstanceM3: Record<string, number> = {};
+  const mining: MiningStepSummary = {
+    requested: false,
+    requestedM3: 0,
+    selectedM3: 0,
+    causeSeconds: { power: 0, thermal: 0, resource: 0, cargo: 0 },
+    unionSeconds: 0,
+    overlapSeconds: 0,
+    forcedDowntimeSeconds: 0,
+    partialLossM3: 0,
+    firstLoss: null,
+    firstPositiveSeconds: null,
+    firstCauseSeconds: {
+      power: null,
+      thermal: null,
+      resource: null,
+      cargo: null,
+    },
+    propulsionShortfall: false,
+    recoveryDelta: {
+      firstSeconds: null,
+      count: 0,
+      sumSeconds: 0,
+      maxSeconds: 0,
+    },
+  };
   const qmax = capacity(ship);
   let coolantConsumedKg = 0;
   // Пик принадлежит физическим границам подшагов; усреднять его по dt нельзя.
@@ -54,9 +86,9 @@ export function stepPhysicsV2(
     );
     const req = new Map(requests.map((r) => [r.moduleId, r.duty]));
     const flows: Record<string, number> = {};
-    const consumerFlows:Record<string,number>={};
-    const targetReached=state.usefulWork>=ship.targetLimitM3-1e-9;
-    const cargoFull=state.cargo>=ship.cargoLimitM3-1e-9;
+    const consumerFlows: Record<string, number> = {};
+    const targetReached = state.usefulWork >= ship.targetLimitM3 - 1e-9;
+    const cargoFull = state.cargo >= ship.cargoLimitM3 - 1e-9;
     let chemical = 0,
       genHeat = 0,
       exhaust = 0,
@@ -72,7 +104,28 @@ export function stepPhysicsV2(
       !state.gates[`tank:${m.tankId}`];
     const fuelFlow = (m: Module, flow: number) => {
       flows[m.tankId!] = (flows[m.tankId!] ?? 0) + flow;
-      consumerFlows[m.species+":"+(m.kind==="h2"?"cooler":m.kind==="engine"?"propulsion":"generator")+":"+m.id]=(consumerFlows[m.species+":"+(m.kind==="h2"?"cooler":m.kind==="engine"?"propulsion":"generator")+":"+m.id]??0)+flow;
+      consumerFlows[
+        m.species +
+          ":" +
+          (m.kind === "h2"
+            ? "cooler"
+            : m.kind === "engine"
+              ? "propulsion"
+              : "generator") +
+          ":" +
+          m.id
+      ] =
+        (consumerFlows[
+          m.species +
+            ":" +
+            (m.kind === "h2"
+              ? "cooler"
+              : m.kind === "engine"
+                ? "propulsion"
+                : "generator") +
+            ":" +
+            m.id
+        ] ?? 0) + flow;
     };
     const rawLoads = ship.modules
       .filter((m) => m.enabled && m.kind === "load")
@@ -93,7 +146,11 @@ export function stepPhysicsV2(
         p:
           m.powerW *
           (req.get(m.id) ?? (m.policy === "Background" ? 1 : 0)) *
-          allowed(m) * ((m as PhysicsModule).output==="mining"&&(cargoFull||targetReached)?0:1),
+          allowed(m) *
+          ((m as PhysicsModule).output === "mining" &&
+          (cargoFull || targetReached)
+            ? 0
+            : 1),
       }));
     let activeRequest = requestedLoads
         .filter((x) => x.m.policy !== "Background")
@@ -230,25 +287,51 @@ export function stepPhysicsV2(
       exhaust += power * (1 - m.efficiency) * (1 - m.hostFraction);
       thrust += f;
     }
-    let loadHeat=0,beam=0,workRate=0,returnHeat=0,electricUseful=0;
-    const instanceActual:Record<string,number>={},instanceBeam:Record<string,number>={},instanceForce:Record<string,number>={},instanceWork:Record<string,number>={};
-    for(const {m,p}of requestedLoads){
-      const actual=p*(m.policy==="Background"?(bgRequest?bg/bgRequest:0):activeRatio);
-      instanceActual[m.id]=actual;
-      loadHeat+=actual*(1-m.efficiency);
-      if((m as PhysicsModule).output==="mining"){
-        const emitted=actual*m.efficiency;instanceBeam[m.id]=emitted;beam+=emitted;
-        const work=emitted*m.workPerJ;instanceWork[m.id]=work;workRate+=work;
-        returnHeat+=emitted*ship.returnFraction;
-      }else if((m as PhysicsModule).output==="drive"){
-        const useful=actual*m.efficiency;electricUseful+=useful;
-        const force=m.powerW>0?m.forceN*actual/m.powerW:0;instanceForce[m.id]=force;thrust+=force;
-        if(force<m.forceN*(req.get(m.id)??0)-1e-6)mining.propulsionShortfall=true;
+    let loadHeat = 0,
+      beam = 0,
+      workRate = 0,
+      returnHeat = 0,
+      electricUseful = 0;
+    const instanceActual: Record<string, number> = {},
+      instanceBeam: Record<string, number> = {},
+      instanceForce: Record<string, number> = {},
+      instanceWork: Record<string, number> = {};
+    for (const { m, p } of requestedLoads) {
+      const actual =
+        p *
+        (m.policy === "Background"
+          ? bgRequest
+            ? bg / bgRequest
+            : 0
+          : activeRatio);
+      instanceActual[m.id] = actual;
+      loadHeat += actual * (1 - m.efficiency);
+      if ((m as PhysicsModule).output === "mining") {
+        const emitted = actual * m.efficiency;
+        instanceBeam[m.id] = emitted;
+        beam += emitted;
+        const work = emitted * m.workPerJ;
+        instanceWork[m.id] = work;
+        workRate += work;
+        returnHeat += emitted * ship.returnFraction;
+      } else if ((m as PhysicsModule).output === "drive") {
+        const useful = actual * m.efficiency;
+        electricUseful += useful;
+        const force = m.powerW > 0 ? (m.forceN * actual) / m.powerW : 0;
+        instanceForce[m.id] = force;
+        thrust += force;
+        if (force < m.forceN * (req.get(m.id) ?? 0) - 1e-6)
+          mining.propulsionShortfall = true;
       }
     }
-    for(const m of ship.modules.filter(m=>m.kind==="engine")){
-      const force=live.includes(m)&&tankLive(m)?m.forceN*(req.get(m.id)??0)*allowed(m):0;
-      instanceForce[m.id]=force;if(force<m.forceN*(req.get(m.id)??0)-1e-6)mining.propulsionShortfall=true;
+    for (const m of ship.modules.filter((m) => m.kind === "engine")) {
+      const force =
+        live.includes(m) && tankLive(m)
+          ? m.forceN * (req.get(m.id) ?? 0) * allowed(m)
+          : 0;
+      instanceForce[m.id] = force;
+      if (force < m.forceN * (req.get(m.id) ?? 0) - 1e-6)
+        mining.propulsionShortfall = true;
     }
     let coolantFlowKgS = 0;
     let h2 = 0,
@@ -302,7 +385,8 @@ export function stepPhysicsV2(
       genHeat +
       pathLoss +
       engineHeat +
-      loadHeat + returnHeat +
+      loadHeat +
+      returnHeat +
       solarHeat +
       chargeLoss +
       dischargeLoss +
@@ -327,25 +411,44 @@ export function stepPhysicsV2(
     };
     let h = left;
     const boundary = (time: number) => {
-      if (time > eps) h = Math.min(h, time);
+      // Даже очень короткое истощение меняет запас до пересчёта потоков:
+      // иначе остаток округления может снабжать весь следующий dt.
+      if (time > 0) h = Math.min(h, time);
     };
     // RK4 устойчив и точен на локальном тепловом масштабе, а не на
     // произвольном пользовательском dt. Подшаг также пересчитывает actual flows.
-    const thermalRate = (constantHeat - net(state.temperatureK)) / ship.heatCapacityJK;
-    const thermalSlope = env.law === "radiative"
-      ? 4 * radiatorArea * SIGMA * Math.max(state.temperatureK, env.effectiveBackgroundK) ** 3 / ship.heatCapacityJK
-      : env.linearWK / ship.heatCapacityJK;
+    const thermalRate =
+      (constantHeat - net(state.temperatureK)) / ship.heatCapacityJK;
+    const thermalSlope =
+      env.law === "radiative"
+        ? (4 *
+            radiatorArea *
+            SIGMA *
+            Math.max(state.temperatureK, env.effectiveBackgroundK) ** 3) /
+          ship.heatCapacityJK
+        : env.linearWK / ship.heatCapacityJK;
     if (thermalSlope > 0 && Math.abs(thermalRate) > eps) {
       boundary(0.05 / thermalSlope);
-      boundary(0.02 * Math.max(1, state.temperatureK, env.effectiveBackgroundK) / Math.abs(thermalRate));
+      boundary(
+        (0.02 * Math.max(1, state.temperatureK, env.effectiveBackgroundK)) /
+          Math.abs(thermalRate),
+      );
     }
     // Actual flows должны разрешать изменение linear thermal duty внутри шага,
     // иначе редкий dt завышает луч на пути к hard gate.
-    if(Math.abs(thermalRate)>eps)for(const m of live){
-      const T=state.temperatureK,g=m.gate;
-      const margin=T>g.workHigh?g.high-T:T<(g.workLow??g.low)?T-g.low:Infinity;
-      if(margin>1e-6&&Number.isFinite(margin))boundary(.005*margin/Math.abs(thermalRate));
-    }
+    if (Math.abs(thermalRate) > eps)
+      for (const m of live) {
+        const T = state.temperatureK,
+          g = m.gate;
+        const margin =
+          T > g.workHigh
+            ? g.high - T
+            : T < (g.workLow ?? g.low)
+              ? T - g.low
+              : Infinity;
+        if (margin > 1e-6 && Number.isFinite(margin))
+          boundary((0.005 * margin) / Math.abs(thermalRate));
+      }
     if (batteryRate < 0) boundary(state.chargeJ / -batteryRate);
     if (batteryRate > 0) boundary((qmax - state.chargeJ) / batteryRate);
     if (bgRequest > 0 && batteryRate !== 0) {
@@ -374,14 +477,20 @@ export function stepPhysicsV2(
             : Infinity,
       );
     }
-    if(workRate>0){boundary((ship.cargoLimitM3-state.cargo)/workRate);boundary((ship.targetLimitM3-state.usefulWork)/workRate);}
+    if (workRate > 0) {
+      boundary((ship.cargoLimitM3 - state.cargo) / workRate);
+      boundary((ship.targetLimitM3 - state.usefulWork) / workRate);
+    }
     const startT = state.temperatureK;
     const endT = temperatureAfter(h);
     const thresholds = [
-      ...ship.tanks.filter(t => t.gate).flatMap(t =>
-        state.gates[`tank:${t.id}`]
-          ? [t.gate!.restartLow, t.gate!.restartHigh]
-          : [t.gate!.low, t.gate!.high]),
+      ...ship.tanks
+        .filter((t) => t.gate)
+        .flatMap((t) =>
+          state.gates[`tank:${t.id}`]
+            ? [t.gate!.restartLow, t.gate!.restartHigh]
+            : [t.gate!.low, t.gate!.high],
+        ),
       ...live
         .filter((m) => m.kind === "buffer")
         .flatMap((m) => [m.absorbAboveK, m.releaseBelowK]),
@@ -399,12 +508,22 @@ export function stepPhysicsV2(
       // При охлаждении точный порог ещё закрыт строгим margin>10 K:
       // короткий интервал переводит состояние внутрь разрешённой области.
       if (
-        bgRequest > 0 && fraction === 0 && endT < t &&
-        ship.modules.some(m => m.enabled && !state.gates[m.id] &&
-          t === m.gate.workHigh - 10 && Math.abs(startT - t) < 1e-8)
+        bgRequest > 0 &&
+        fraction === 0 &&
+        endT < t &&
+        ship.modules.some(
+          (m) =>
+            m.enabled &&
+            !state.gates[m.id] &&
+            t === m.gate.workHigh - 10 &&
+            Math.abs(startT - t) < 1e-8,
+        )
       ) {
         const coolingRate = (net(startT) - constantHeat) / ship.heatCapacityJK;
-        h = Math.min(h, Math.max(1e-8, (Math.max(0, startT - t) + 2e-9) / coolingRate));
+        h = Math.min(
+          h,
+          Math.max(1e-8, (Math.max(0, startT - t) + 2e-9) / coolingRate),
+        );
       }
       if ((startT < t - eps && endT >= t) || (startT > t + eps && endT <= t)) {
         let lo = 0,
@@ -418,26 +537,77 @@ export function stepPhysicsV2(
         h = Math.min(h, hi);
       }
     }
-    if (!(h > eps)) h = Math.min(left, 1e-8);
-    const desired=targetReached?0:rawLoads.filter(x=>(x.m as PhysicsModule).output==="mining").reduce((n,x)=>n+x.p*x.m.efficiency*x.m.workPerJ,0);
-    const causes:Cause[]=[];
-    if(desired>0&&workRate<desired-1e-12){
-      const wanted=ship.modules.filter(m=>m.output==="mining"&&m.enabled&&(req.get(m.id)??0)>0);
-      if(cargoFull)causes.push("cargo");
-      if(!cargoFull&&wanted.some(m=>allowed(m)<1-1e-9))causes.push("thermal");
-      if(!cargoFull&&activeRatio<1-1e-9)causes.push("power");
-      if(!cargoFull&&((activeRatio<1-1e-9&&ship.modules.some(m=>m.kind==="generator"&&m.tankId&&!tankLive(m)))||(causes.includes("thermal")&&ship.modules.some(m=>m.kind==="h2"&&m.enabled&&!tankLive(m)))))causes.push("resource");
+    if (!(h > 0 && Number.isFinite(h))) h = Math.min(left, 1e-8);
+    const desired = targetReached
+      ? 0
+      : rawLoads
+          .filter((x) => (x.m as PhysicsModule).output === "mining")
+          .reduce((n, x) => n + x.p * x.m.efficiency * x.m.workPerJ, 0);
+    const causes: Cause[] = [];
+    if (desired > 0 && workRate < desired - 1e-12) {
+      const wanted = ship.modules.filter(
+        (m) => m.output === "mining" && m.enabled && (req.get(m.id) ?? 0) > 0,
+      );
+      if (cargoFull) causes.push("cargo");
+      if (!cargoFull && wanted.some((m) => allowed(m) < 1 - 1e-9))
+        causes.push("thermal");
+      if (!cargoFull && activeRatio < 1 - 1e-9) causes.push("power");
+      if (
+        !cargoFull &&
+        ((activeRatio < 1 - 1e-9 &&
+          ship.modules.some(
+            (m) => m.kind === "generator" && m.tankId && !tankLive(m),
+          )) ||
+          (causes.includes("thermal") &&
+            ship.modules.some(
+              (m) => m.kind === "h2" && m.enabled && !tankLive(m),
+            )))
+      )
+        causes.push("resource");
     }
-    mining.requested ||= desired>0;mining.requestedM3+=desired*h;mining.selectedM3+=workRate*h;
-    if(causes.length){mining.unionSeconds+=h;if(causes.length>1)mining.overlapSeconds+=h;for(const c of causes){mining.causeSeconds[c]+=h;if(mining.firstCauseSeconds![c]===null)mining.firstCauseSeconds![c]=state.timeSeconds;}if(!mining.firstLoss)mining.firstLoss={timeSeconds:state.timeSeconds,causes};else for(const c of causes)if(!mining.firstLoss.causes.includes(c))mining.firstLoss.causes.push(c);}
-    if(desired>0&&workRate<=1e-12)mining.forcedDowntimeSeconds+=h;
-    else if(desired>workRate+1e-12&&workRate>0)mining.partialLossM3+=(desired-workRate)*h;
-    if(desired>0&&workRate<=1e-12&&state.miningStopSeconds===null)state.miningStopSeconds=state.timeSeconds;
-    if(workRate>1e-12&&state.miningStopSeconds!==null){const seconds=state.timeSeconds-state.miningStopSeconds;const d=mining.recoveryDelta!;if(d.firstSeconds===null)d.firstSeconds=seconds;d.count++;d.sumSeconds+=seconds;d.maxSeconds=Math.max(d.maxSeconds,seconds);state.miningStopSeconds=null;}
-    if(workRate>1e-12&&mining.firstPositiveSeconds===null)mining.firstPositiveSeconds=state.timeSeconds;
-    for(const [k,v]of Object.entries(consumerFlows))consumptionKg[k]=(consumptionKg[k]??0)+v*h;
-    for(const [k,v]of Object.entries(instanceWork))extractedByInstanceM3[k]=(extractedByInstanceM3[k]??0)+v*h;
-    for(const m of ship.modules){add("deliveredW:"+m.id,instanceActual[m.id]??0,h);add("beamW:"+m.id,instanceBeam[m.id]??0,h);add("forceN:"+m.id,instanceForce[m.id]??0,h);}
+    mining.requested ||= desired > 0;
+    mining.requestedM3 += desired * h;
+    mining.selectedM3 += workRate * h;
+    if (causes.length) {
+      mining.unionSeconds += h;
+      if (causes.length > 1) mining.overlapSeconds += h;
+      for (const c of causes) {
+        mining.causeSeconds[c] += h;
+        if (mining.firstCauseSeconds![c] === null)
+          mining.firstCauseSeconds![c] = state.timeSeconds;
+      }
+      if (!mining.firstLoss)
+        mining.firstLoss = { timeSeconds: state.timeSeconds, causes };
+      else
+        for (const c of causes)
+          if (!mining.firstLoss.causes.includes(c))
+            mining.firstLoss.causes.push(c);
+    }
+    if (desired > 0 && workRate <= 1e-12) mining.forcedDowntimeSeconds += h;
+    else if (desired > workRate + 1e-12 && workRate > 0)
+      mining.partialLossM3 += (desired - workRate) * h;
+    if (desired > 0 && workRate <= 1e-12 && state.miningStopSeconds === null)
+      state.miningStopSeconds = state.timeSeconds;
+    if (workRate > 1e-12 && state.miningStopSeconds !== null) {
+      const seconds = state.timeSeconds - state.miningStopSeconds;
+      const d = mining.recoveryDelta!;
+      if (d.firstSeconds === null) d.firstSeconds = seconds;
+      d.count++;
+      d.sumSeconds += seconds;
+      d.maxSeconds = Math.max(d.maxSeconds, seconds);
+      state.miningStopSeconds = null;
+    }
+    if (workRate > 1e-12 && mining.firstPositiveSeconds === null)
+      mining.firstPositiveSeconds = state.timeSeconds;
+    for (const [k, v] of Object.entries(consumerFlows))
+      consumptionKg[k] = (consumptionKg[k] ?? 0) + v * h;
+    for (const [k, v] of Object.entries(instanceWork))
+      extractedByInstanceM3[k] = (extractedByInstanceM3[k] ?? 0) + v * h;
+    for (const m of ship.modules) {
+      add("deliveredW:" + m.id, instanceActual[m.id] ?? 0, h);
+      add("beamW:" + m.id, instanceBeam[m.id] ?? 0, h);
+      add("forceN:" + m.id, instanceForce[m.id] ?? 0, h);
+    }
     coolantConsumedKg += coolantFlowKgS * h;
     const tNext = Math.max(0, temperatureAfter(h));
     const thermalDelta = ship.heatCapacityJK * (tNext - startT);
@@ -478,7 +648,9 @@ export function stepPhysicsV2(
       (bufferAbsorb - bufferRelease) * h -
       (exhaust +
         engineUseful +
-        beam - returnHeat + electricUseful +
+        beam -
+        returnHeat +
+        electricUseful +
         radOut +
         h2 +
         h2AuxHeat +
@@ -505,9 +677,9 @@ export function stepPhysicsV2(
       directHeatW: direct,
       exhaustW: exhaust,
       beamW: beam,
-      returnHeatW:returnHeat,
-      externalBeamW:beam-returnHeat,
-      engineUsefulW:engineUseful+electricUseful,
+      returnHeatW: returnHeat,
+      externalBeamW: beam - returnHeat,
+      engineUsefulW: engineUseful + electricUseful,
       thrustN: thrust,
       h2CoolingW: h2,
       h2AuxRejectW: h2AuxHeat,
@@ -560,5 +732,14 @@ export function stepPhysicsV2(
       kind: now ? "constraint" : "recovered",
       message: now || "Ограничения сняты",
     });
-  return { state, telemetry: total, events, coolantConsumedKg, maxTemperatureK, mining, consumptionKg, extractedByInstanceM3 };
+  return {
+    state,
+    telemetry: total,
+    events,
+    coolantConsumedKg,
+    maxTemperatureK,
+    mining,
+    consumptionKg,
+    extractedByInstanceM3,
+  };
 }
