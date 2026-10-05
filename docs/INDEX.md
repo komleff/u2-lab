@@ -92,3 +92,5 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 
 Независимые runtime QA и Code Review предстоят. Public Pages, физическое второе
 устройство, native/bootstrap/operator acceptance и merge остаются отдельными gates.
+
+- [Power & Heat Lab — UX/UI ТЗ для Claude Design](ux/power-heat-lab-claude-design-brief.md).
