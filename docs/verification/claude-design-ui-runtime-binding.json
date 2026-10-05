@@ -1,8 +1,8 @@
 {
   "version": "claude-ui-binding/1",
-  "runtimeSource": "ab8353d91d1ce3584549b780e66699118e575c56",
+  "runtimeSource": "ff01dfa1b2411aa472bb7500babfde8277694f35",
   "base": "903d36b2ac4a2bfa90997803770ace13d520fbe9",
-  "fingerprint": "b9edfd197506d84a10a18a8954b7a8f1ce4505290715f43aeac9bf72b3bfa7eb",
+  "fingerprint": "51d7abe3cfd7fd2cc6b18786f90f3239ae7e74a5db75f2fbc04ac82b9da7d4f0",
   "rule": "SHA256 UTF-8 sorted-key compact JSON binding {blobs sorted by path, contract whole UI VC text}; actual Git blobs",
   "changedPaths": [
     "public/assets/README.md",
@@ -24,9 +24,11 @@
     "src/app/fitting-workspace.ts",
     "src/app/fitting.css",
     "src/app/fitting.ts",
+    "tests/browser/claude-ui-fixes.spec.ts",
     "tests/browser/claude-ui.spec.ts",
     "tests/browser/fitting.spec.ts",
     "tests/ui/presentation.test.ts",
+    "tests/ui/qa-fixes.test.ts",
     "tests/ui/telemetry.test.ts",
     "tests/ui/workspace.test.ts"
   ],
@@ -162,7 +164,7 @@
       },
       {
         "path": "docs/verification/claude-design-ui-code-review-contract.md",
-        "blob": "68a1e0a3ad213db5cfa641c26d061b8a8cc486aa"
+        "blob": "39bbd8a7fa3d16b20a53415538fc6e4fba538165"
       },
       {
         "path": "docs/verification/claude-design-ui-v0.2-qa-cases.md",
@@ -230,7 +232,7 @@
       },
       {
         "path": "src/app/fitting-ui/compare-view.ts",
-        "blob": "40be97b9e0d066c8186a3576de14adeca27f86b1"
+        "blob": "068ebc1c47f8ede6e6bf5eb7765170004beda41b"
       },
       {
         "path": "src/app/fitting-ui/dom.ts",
@@ -238,7 +240,7 @@
       },
       {
         "path": "src/app/fitting-ui/instance-details.ts",
-        "blob": "4637b7660643b03e399c026e82a5b58b6da855f0"
+        "blob": "c5f1037a3365dc3b089018b689e0c2214fa8c7d1"
       },
       {
         "path": "src/app/fitting-ui/lab-channels.ts",
@@ -246,23 +248,23 @@
       },
       {
         "path": "src/app/fitting-ui/lab-view.ts",
-        "blob": "1fba19051a094f3e402009e4b3ab42fa8c4b5948"
+        "blob": "ba0f8f0fa9e9b9d28e5520b1899103695066a91a"
       },
       {
         "path": "src/app/fitting-ui/presentation.ts",
-        "blob": "949a9c26bf51aaace99024c1d839f9bb1544df38"
+        "blob": "44030c7fb716a3f4b057ded2afb24a985cc07a6a"
       },
       {
         "path": "src/app/fitting-ui/ship-view.ts",
-        "blob": "636d6ac7350fe94fc6c964d31d7c3377c0334529"
+        "blob": "25cd539a6abb2e6f82754bbc59c077f9a377d0fc"
       },
       {
         "path": "src/app/fitting-ui/swap-dialog.ts",
-        "blob": "c90d93b1678a33964a5e458988f3463915c8f666"
+        "blob": "c74d810917aa87bd302a3d0340c006d6f38d067c"
       },
       {
         "path": "src/app/fitting-ui/telemetry.ts",
-        "blob": "4e0fef542010f8cd804a0cb6b87b53ef4db44d56"
+        "blob": "59b3b6800147714f07963730be7b6b8b90100020"
       },
       {
         "path": "src/app/fitting-workspace.ts",
@@ -270,11 +272,11 @@
       },
       {
         "path": "src/app/fitting.css",
-        "blob": "bc871f71484eaca9647af68c32f343ce5244f97e"
+        "blob": "09b4e2d4b7bfafe6ed2e3ca22eaa7dc1e7be2c8e"
       },
       {
         "path": "src/app/fitting.ts",
-        "blob": "4224c62690a03a0daffce7753c129f437c68e10f"
+        "blob": "71b482de778abdcf6454e7e7e7f17144e7ec4017"
       },
       {
         "path": "src/app/legacy.ts",
@@ -403,6 +405,10 @@
       {
         "path": "tests/artifact-smoke.mjs",
         "blob": "a30437d621ba60feeac718494439b3991c4e07f0"
+      },
+      {
+        "path": "tests/browser/claude-ui-fixes.spec.ts",
+        "blob": "796b6f8927ec547132f0b79d9822fe8e423d652c"
       },
       {
         "path": "tests/browser/claude-ui.spec.ts",
@@ -593,6 +599,10 @@
         "blob": "80d9bedbe846232cf40a8072d51f733f665445ed"
       },
       {
+        "path": "tests/ui/qa-fixes.test.ts",
+        "blob": "be1342cb7575d0c3dd4973fe6dada06a307d7095"
+      },
+      {
         "path": "tests/ui/telemetry.test.ts",
         "blob": "b8cd1041e0ef5a466640cea5ae4d8d7304a1b40f"
       },
@@ -615,7 +625,7 @@
     }
   },
   "artifact": {
-    "archiveSha256": "7131c5006194ab952e68f19a2ae5e85e88f65143c55f6d9e3b26d0e424c39cba",
-    "distDigest": "aa710b9b9f0c201799368ec40e4bff1876c3492e1c613706668ec138fbeeeb28"
+    "archiveSha256": "6d55860893fe0cccc63242df33aacc37d69fc7bd2f5afe875ac1311894508ab5",
+    "distDigest": "55ee3288d859bff990b40cbc91a269d744655086465b183cea365cb1058b2d55"
   }
 }

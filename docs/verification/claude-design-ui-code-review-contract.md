@@ -1,17 +1,17 @@
 ---
 title: "Claude Design UI — scoped Code Review Contract"
 status: active
-version: "1.0"
+version: "1.1"
 date: 2026-10-06
 ---
 # Цель и acceptance surface
 
 Проверить реализацию принятого Claude Design v2.1 по UI01–18, без изменения численной
 модели. Источники: accepted overlay, UX v2.1/Main/Lab/mobile, whole UI VC и final exact
-runtime/asset/test binding. Runtime source SHA: ab8353d91d1ce3584549b780e66699118e575c56. PM metadata SHA сверяется при final handshake.
+runtime/asset/test binding. Runtime source SHA: ff01dfa1b2411aa472bb7500babfde8277694f35. PM metadata SHA сверяется при final handshake.
 Полный content binding: docs/verification/claude-design-ui-runtime-binding.json.
-Immutable archive SHA256: 7131c5006194ab952e68f19a2ae5e85e88f65143c55f6d9e3b26d0e424c39cba.
-Dist digest: aa710b9b9f0c201799368ec40e4bff1876c3492e1c613706668ec138fbeeeb28.
+Immutable archive SHA256: 6d55860893fe0cccc63242df33aacc37d69fc7bd2f5afe875ac1311894508ab5.
+Dist digest: 55ee3288d859bff990b40cbc91a269d744655086465b183cea365cb1058b2d55.
 
 # Scope
 
@@ -32,6 +32,13 @@ OUT: новая физика/каталог/schema/protocol, динамичес�
    root/prefix same-origin assets, mobile390px critical actions, keyboard dialog.
 5. Regression: numerical/catalog/runner/scenarios/IO/legacy exact source equivalence,
    current full deterministic guard and artifact matching tested source.
+6. Instance measurement identity: replaced item in the same slot must not inherit prior
+   item telemetry; unchanged stale history keeps its real revision/time window.
+7. Accepted UI controls: source sorts/whole-fit nominal projection, mobile Compare cards,
+   A/B visibility selectors, ring group-gap budget and breakpoint layouts remain reachable.
+8. Missing event metadata: environment/instance filter affordances disclose unavailable
+   payload fields, preserve actual aggregate propulsionShortfall and do not fabricate
+   events, causes, times or attribution. The unchanged model attribution gap is deferred.
 
 # Findings and evidence
 
@@ -61,9 +68,11 @@ exact reviewed paths/blob/full contract fingerprint, evidence, not-tested surfac
 - `src/app/fitting-workspace.ts`
 - `src/app/fitting.css`
 - `src/app/fitting.ts`
+- `tests/browser/claude-ui-fixes.spec.ts`
 - `tests/browser/claude-ui.spec.ts`
 - `tests/browser/fitting.spec.ts`
 - `tests/ui/presentation.test.ts`
+- `tests/ui/qa-fixes.test.ts`
 - `tests/ui/telemetry.test.ts`
 - `tests/ui/workspace.test.ts`
 
@@ -71,3 +80,9 @@ exact reviewed paths/blob/full contract fingerprint, evidence, not-tested surfac
 binding для проверки эквивалентности, а не повторного полного ревью. Developer
 independently reports85protected base blobs; PM actual source verification confirms
 all85. Предыдущий физический12h QA r4 остаётся inherited proof unchanged core.
+
+Initial independent QA r1:54 PASS/17 FAIL/1 NOT RUN; D01–D11 repaired by sole
+Developer. Review begins after affected QA on this exact fixed artifact. Examine
+the 11-path fix delta as part of the whole new UI surface; prior numerical review
+is source-equivalent carryover, not a new review of model/Worker. UI13-02 unavailable
+named attribution remains explicitly deferred by the operator scope.

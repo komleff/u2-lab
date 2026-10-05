@@ -1,8 +1,35 @@
-# Current priority — 2026-10-06
+# Текущий этап — Claude Design UI, 2026-10-06
 
-Claude Design v2.1 UI реализован одним Developer наab8353d91d1ce3584549b780e66699118e575c56. Новый intermediate stand4183/HTTPS4184 включён; старый ShipFitting сохранён4186, Legacy первой Лабы4186/?mode=legacy. Оператор явно попросил начать собственные тесты параллельно independent QA/review.177unit/19browser+1legacy screenshotSKIP/type/build/reference/bootstrap26 PASS; actual extracted3origin Developer smoke PASS. PM independently verified65source/85protectedbaseline blobs, ZIP CRC and17dist/prefixfiles. UI acceptance ещё pending,72source-firstcases prepared; PR6Draft stacked onPR4.
+Оператор поручил поднять промежуточную версию и продолжать QA, сохранив старые интерфейсы.
+Исправленный runtime source: ff01dfa1b2411aa472bb7500babfde8277694f35, PR #6 Draft
+на базе feat/ship-fitting-v0.2 / PR #4 Draft. Единственный Developer исправил D01–D11
+по initial independent QA: 72 случая = 54 PASS / 17 FAIL / 1 NOT RUN. Исходный отчёт
+d0492e96 и 52 sealed evidence files сохранены и опубликованы без изменения.
 
-Accepted owner/plan/UI01–18 через docs/INDEX. Independent UI PLAN_READY0B0A exact9aa/39fp39a3ec34 published PR6comment6001382152. GDD§3/8/brief presentation только синхронизированы с принятым UX; numerical/formulas/catalog/runner/io unchanged. Старый interval QA r4 PASS/scopedCRr3APPROVED sealed/published; это carryover numerical evidence, не новая UI приёмка. Полный шахтёрский рейс/динамическая добыча/заправка остаются DEFERRED perPO вulab-dwi. Primary soleBeadswriter bd1.2.2/Node24; userdocs/.DS_Store preserve. Native/base-bootstrap/Pages/operator main merge gates open.
+Fixed guard: 185 unit, 26 browser PASS + 1 inherited screenshot SKIP; type/build/reference/
+bootstrap26 PASS. ZIP 6d558608… / dist 55ee3288…; PM проверил source66, whole UI/SF VC,
+85 protected baseline blobs, ZIP CRC, все 17 файлов в архиве/распаковке/prefix и 51 served
+body. Worker и ещё пять protected compiled assets равны исходной сборке. Новый стенд:
+http://192.168.68.65:4183/?v=claude-ui-ff01dfa; старый Ship Fitting — 4186, первый
+интерфейс Лабы — 4186/?mode=legacy. Immutable roots/PIDs записаны в ignored primary
+.overgate-runtime/claude-ui-preview-verified.json.
+
+Следующий этап: SAME QA affected 42 исходных ID (17 FAIL + 25 необходимых regression),
+после exact clean metadata/binding handshake; затем один scoped UI Code Review.
+Ни final UI acceptance, ни merge readiness пока не объявлены. Review Contract и полный
+runtime/source binding зарегистрированы в docs/INDEX.md; принятый whole UI01–18 VC
+и sourceExpected неизменны. Численное ядро, каталог, runner/protocol/IO/Legacy неизменны;
+прежние interval QA r4 / scoped Review r3 остаются source-equivalent proof ядра.
+
+Полный шахтёрский рейс, добыча до заполнения трюма и заправка явно DEFERRED оператором:
+ulab-dwi. UI13-02: существующий propulsionShortfall flag не имеет named event/time/
+instance attribution; отсутствие данных раскрывается честно, model/Worker fix не входит.
+Physical новый UI/native/base-bootstrap/public Pages/operator main merge gates открыты.
+GitHub3e checks не получили hosted runner до первого шага; external CI NOT RUN, local
+guards PASS. Primary — sole Beads writer, bd1.2.2 / Node24; docs/.DS_Store пользователя
+сохранять. Developer IDLE; только PM metadata перед QA, без новых продуктовых правок.
+
+Ниже исторические checkpoints; текущие инструкции находятся выше и в docs/INDEX.md.
 
 # Active Context
 
