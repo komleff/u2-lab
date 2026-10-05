@@ -110,3 +110,9 @@ Actual Draft PR3 открыт до independent PLAN_REVIEW. r1 CHANGES_REQUIRED,
 уточнены: closed selected mining group без hiddenclamp, online bounded metric state
 без истории интервалов, exact alternating-limit oracle. Affected review той же session pending.
 Unique verifier launch1/5; runtime unchanged. Report r1 сохранён дословно с SHA25616c28c3a…
+
+Affected r2 той же session: design PLAN_READY, plan PLAN_READY, active BLOCKER0; B1/B2
+CLOSED, A1/A2 advisory unchanged. Five reviewedpaths+entireVC fingerprint550085b4…
+самостоятельно проверен PM; report bytes6267c405… сохранены дословно. New numeric/UX
+proposal PO acceptance ещё separate, runtime implementation/QA/merge не выполнены.
+Planning deliverables в DraftPR3, original runtime/base acceptance gates не закрывались.

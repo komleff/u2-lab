@@ -20,7 +20,9 @@ candidate; неизвестные ТТХ честно experimental, не U2 prod
 Beads ulab-73w in_progress; source researchers2, не verifier sessions. Independent
 PRODUCT reviewer launch1/5: r1 CHANGES_REQUIRED, two BLOCKER. B1 selected-group
 numerator/membership и B2 unbounded metric histories исправлены targeted в GDD/VC/плане;
-affected closure pending той же session. Immutable report в docs/reviews, advisory не
+affected r2 PLAN_READY для design/plan, activeB0 в той же session.
+Candidate676862a, fingerprint550085b4eb58989563863ee27fffd339e1398f26f084775aa353fa48b78627ce;
+report r2 SHA2566267c405d7a40ef66084349b61bba901565942a14d124c0be83fb555714fb644. Immutable reports + final binding в docs/reviews, advisory не
 расширяет обязательный fix. One Reviewer для двух scope частей. Новые
 WHAT details требуют PO принятия, review не заменяет его. Нет code/QA/merge claim.
 
