@@ -17,7 +17,7 @@ export type PhysicsModule=Module&{output?:"mining"|"drive";requestKey?:string};
 export type PhysicsShip=Omit<ShipConfig,"modules">&{modules:PhysicsModule[];returnFraction:number;cargoLimitM3:number;targetLimitM3:number};
 export function stepPhysicsV2(
   ship: PhysicsShip,
-  input: ModelState,
+  input: ModelState&{miningStopSeconds:number|null},
   env: EnvironmentSample,
   requests: readonly ActionRequest[],
   dt: number,
@@ -35,7 +35,7 @@ export function stepPhysicsV2(
   const total: TickTelemetry = {};
   const consumptionKg:Record<string,number>={};
   const extractedByInstanceM3:Record<string,number>={};
-  const mining:MiningStepSummary={requested:false,requestedM3:0,selectedM3:0,causeSeconds:{power:0,thermal:0,resource:0,cargo:0},unionSeconds:0,overlapSeconds:0,forcedDowntimeSeconds:0,partialLossM3:0,firstLoss:null,firstPositiveSeconds:null,propulsionShortfall:false};
+  const mining:MiningStepSummary={requested:false,requestedM3:0,selectedM3:0,causeSeconds:{power:0,thermal:0,resource:0,cargo:0},unionSeconds:0,overlapSeconds:0,forcedDowntimeSeconds:0,partialLossM3:0,firstLoss:null,firstPositiveSeconds:null,firstCauseSeconds:{power:null,thermal:null,resource:null,cargo:null},propulsionShortfall:false,recoveryDelta:{firstSeconds:null,count:0,sumSeconds:0,maxSeconds:0}};
   const qmax = capacity(ship);
   let coolantConsumedKg = 0;
   // Пик принадлежит физическим границам подшагов; усреднять его по dt нельзя.
@@ -339,6 +339,13 @@ export function stepPhysicsV2(
       boundary(0.05 / thermalSlope);
       boundary(0.02 * Math.max(1, state.temperatureK, env.effectiveBackgroundK) / Math.abs(thermalRate));
     }
+    // Actual flows должны разрешать изменение linear thermal duty внутри шага,
+    // иначе редкий dt завышает луч на пути к hard gate.
+    if(Math.abs(thermalRate)>eps)for(const m of live){
+      const T=state.temperatureK,g=m.gate;
+      const margin=T>g.workHigh?g.high-T:T<(g.workLow??g.low)?T-g.low:Infinity;
+      if(margin>1e-6&&Number.isFinite(margin))boundary(.005*margin/Math.abs(thermalRate));
+    }
     if (batteryRate < 0) boundary(state.chargeJ / -batteryRate);
     if (batteryRate > 0) boundary((qmax - state.chargeJ) / batteryRate);
     if (bgRequest > 0 && batteryRate !== 0) {
@@ -422,9 +429,11 @@ export function stepPhysicsV2(
       if(!cargoFull&&((activeRatio<1-1e-9&&ship.modules.some(m=>m.kind==="generator"&&m.tankId&&!tankLive(m)))||(causes.includes("thermal")&&ship.modules.some(m=>m.kind==="h2"&&m.enabled&&!tankLive(m)))))causes.push("resource");
     }
     mining.requested ||= desired>0;mining.requestedM3+=desired*h;mining.selectedM3+=workRate*h;
-    if(causes.length){mining.unionSeconds+=h;if(causes.length>1)mining.overlapSeconds+=h;for(const c of causes)mining.causeSeconds[c]+=h;if(!mining.firstLoss)mining.firstLoss={timeSeconds:state.timeSeconds,causes};}
+    if(causes.length){mining.unionSeconds+=h;if(causes.length>1)mining.overlapSeconds+=h;for(const c of causes){mining.causeSeconds[c]+=h;if(mining.firstCauseSeconds![c]===null)mining.firstCauseSeconds![c]=state.timeSeconds;}if(!mining.firstLoss)mining.firstLoss={timeSeconds:state.timeSeconds,causes};else for(const c of causes)if(!mining.firstLoss.causes.includes(c))mining.firstLoss.causes.push(c);}
     if(desired>0&&workRate<=1e-12)mining.forcedDowntimeSeconds+=h;
     else if(desired>workRate+1e-12&&workRate>0)mining.partialLossM3+=(desired-workRate)*h;
+    if(desired>0&&workRate<=1e-12&&state.miningStopSeconds===null)state.miningStopSeconds=state.timeSeconds;
+    if(workRate>1e-12&&state.miningStopSeconds!==null){const seconds=state.timeSeconds-state.miningStopSeconds;const d=mining.recoveryDelta!;if(d.firstSeconds===null)d.firstSeconds=seconds;d.count++;d.sumSeconds+=seconds;d.maxSeconds=Math.max(d.maxSeconds,seconds);state.miningStopSeconds=null;}
     if(workRate>1e-12&&mining.firstPositiveSeconds===null)mining.firstPositiveSeconds=state.timeSeconds;
     for(const [k,v]of Object.entries(consumerFlows))consumptionKg[k]=(consumptionKg[k]??0)+v*h;
     for(const [k,v]of Object.entries(instanceWork))extractedByInstanceM3[k]=(extractedByInstanceM3[k]??0)+v*h;
