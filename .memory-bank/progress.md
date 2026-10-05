@@ -1,5 +1,17 @@
 # Progress
 
+## Current checkpoint — 2026-10-06, Asia/Novosibirsk
+
+Ship Fitting0.2.0 accepted design/plan implemented; source a9f3a84ff6fa42b5c830bceb965a7812feb1ffbb. QA r2 independently closed source cargoM/D-hybrid/SKU defects and seven measurement gaps:99PASS/0FAIL/1externalNOTRUN. Code Review r1 found CR-B1 coefficient admission NaN and CR-B2 unsupported interval false-complete. Same Developer repaired guards only, full manualverify146unit/13browser+1screenshotSKIP/type/build/reference/bootstrap26PASS. Independent affected QA and scoped Review of CR-B1/CR-B2 pending; no final acceptance yet.
+
+Runtime binding83paths+wholeVC fingerprint bb3b442f129483a15e1b1e2929c188fb391dc8a225a7cedda91daecb3881eefe. New extracted artifact ZIP4efe485b…/distDigest5f18d8d6…, source40paths+wholeVC42767008…. Calculations/catalog/matrix/v1 blobs unchanged since prior physical12h; fresh12h NOT RUN for guard-only delta. Initial/r1/r2 reports immutable; one Developer/two unique independent verifier sessions, affected turns reused. Root PM sole Beads/GitHub publisher; Node24.21.0/bd1.2.2 primary sole writer. Do not repeat bootstrap/import or close baseB0.
+
+Power & Heat UX brief ready: docs/ux/power-heat-lab-claude-design-brief.md, exact GitHub copy on feature branch; FASTulab-5xz CLOSED. Claude Ship Fitting mock not attached; visual integration is separate. Primary currently design branch pending ordinary final feature handover; external worktree retained. Preview4183/4184 still fix-r1 until root replaces with new immutable artifact before affected QA.
+
+PR4 remains Draft/stacked; public newPages, second physical LAN device, native adapter activation, original base/bootstrap/finalize/operator main merge gates remain separate NOTRUN/OPEN. Manual pre-bash dispatch is not native activation.
+
+## Historical checkpoints (statuses below are history)
+
 Готово: согласован scope; прочитаны OverGate INSTALL/PM/RV/current ADR и U2 current owners;
 получен чистый trusted OverGate Git checkout с exact RC SHA; подготовлены локальные
 project authority, Memory Bank и документы планирования.

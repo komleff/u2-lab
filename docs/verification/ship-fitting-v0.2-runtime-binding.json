@@ -1,9 +1,9 @@
 {
-  "status": "repaired candidate; affectedQA/CodeReview pending",
-  "developerHead": "d54dd4bd6beaa92e532c2bf537bb3a05860c4c0b",
+  "status": "CR-B1/CR-B2 repaired candidate; independent affected QA/scoped Code Review pending",
+  "developerHead": "a9f3a84ff6fa42b5c830bceb965a7812feb1ffbb",
   "base": "6fb7166513627941e2ba2c4a9a01c79ae1667820",
   "U2Source": "cdc490e3517c8455f662f82579c45813cdbb9a76",
-  "fingerprint": "25b73e117daa583617617dcb4c2fc25ae3e6acf74b3774dccfb1a8b093f4826c",
+  "fingerprint": "bb3b442f129483a15e1b1e2929c188fb391dc8a225a7cedda91daecb3881eefe",
   "binding": {
     "blobs": [
       {
@@ -40,7 +40,7 @@
       },
       {
         "path": "docs/verification/ship-fitting-v0.2-code-review-contract.md",
-        "blob": "8566261f46d864e6212d4abaadc49b706e609ae1"
+        "blob": "8243df95b19ba0b813898fa8c59310db3b193d82"
       },
       {
         "path": "index.html",
@@ -120,7 +120,7 @@
       },
       {
         "path": "src/fitting/validate.ts",
-        "blob": "671add1dd3302cd1c47852a9fc7c7f6ee74c3ee1"
+        "blob": "8b49296c785a5fa75edfd840ddf2c784ff93f74c"
       },
       {
         "path": "src/io/fitting-csv.ts",
@@ -156,7 +156,7 @@
       },
       {
         "path": "src/model/v2/step.ts",
-        "blob": "3b861c68aaa26960e76aca87bf0a74822be5b230"
+        "blob": "b5eed666341800e1c085c476718ebfe28ffa91f5"
       },
       {
         "path": "src/model/v2/types.ts",
@@ -204,7 +204,7 @@
       },
       {
         "path": "tests/browser/fitting.spec.ts",
-        "blob": "b243175b7747db4a161f55286bbf8c14b31a3deb"
+        "blob": "ee2c678e93a817514f8c276b062a7c3b970344ce"
       },
       {
         "path": "tests/browser/lab.spec.ts",
@@ -257,6 +257,14 @@
       {
         "path": "tests/fitting/fixtures/legacy-external.json",
         "blob": "971d8e1837368020285c0f9d7bc3c6213e9360a4"
+      },
+      {
+        "path": "tests/fitting/input-fixtures.ts",
+        "blob": "b6c2ad31b1c15149c409cd8862012c1f638d36d9"
+      },
+      {
+        "path": "tests/fitting/input-guards.test.ts",
+        "blob": "38b884eed3f649f92f9504e09814d0982f4ab5ca"
       },
       {
         "path": "tests/fitting/io.test.ts",
@@ -337,11 +345,11 @@
     }
   },
   "artifact": {
-    "sourceFingerprint": "8107ca70d7ad8c4b3aa797236a48cfa1a74fe8544bb8257539a1aea56a5ffe89",
-    "distDigest": "a1d561744a60fb06b79b60b58ff442a515c33eb88bcd8e81429aa5e07c37e810",
-    "archiveSha256": "3f8467bc07b256a1c6435a900bad59bdf7410d86fe46ca68941d57c66cf37b49",
-    "archive": "/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2/.overgate-runtime/ship-fitting-v0.2-candidate-fix-r1/u2-lab-ship-fitting-v0.2.0-fix-r1.zip",
-    "extracted": "/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2/.overgate-runtime/ship-fitting-v0.2-candidate-fix-r1/dist",
-    "prefixRoot": "/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2/.overgate-runtime/ship-fitting-v0.2-candidate-fix-r1/prefix"
+    "sourceFingerprint": "42767008891dbb09d64367956d30c604920fa0916e820af8e0f79c238c47c921",
+    "distDigest": "5f18d8d6cb13cd7fa44b1307b8ee50e2998fdec5c11cf6a5228084734d387ba2",
+    "archiveSha256": "4efe485b200d456705b84429ee8dbe42fe8a6f1a1f50f06e835437008c0e4970",
+    "archive": "/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2/.overgate-runtime/ship-fitting-v0.2-candidate-fix-r2/u2-lab-ship-fitting-v0.2.0-fix-r2.zip",
+    "extracted": "/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2/.overgate-runtime/ship-fitting-v0.2-candidate-fix-r2/dist",
+    "prefixRoot": "/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2/.overgate-runtime/ship-fitting-v0.2-candidate-fix-r2/prefix"
   }
 }

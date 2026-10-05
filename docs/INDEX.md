@@ -90,7 +90,14 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [Контролируемая серия Pony/IndustrialM1/2/3 и L3+hold](experiments/ship-fitting-matrix.json) — полные условия, численные snapshots и фактические незавершённые исходы.
 - [Чувствительность и ограничивающие сценарии](experiments/ship-fitting-sensitivity.json) — экспериментальные крайние условия, не вероятности.
 
-Независимые runtime QA и Code Review предстоят. Public Pages, физическое второе
+Независимый QA r2: 99 PASS / 1 external NOT RUN; три прежних дефекта закрыты. Code Review r1 выявил CR-B1/CR-B2, исправленные Developer r2; их affected QA/scoped Review предстоят. Public Pages, физическое второе
 устройство, native/bootstrap/operator acceptance и merge остаются отдельными gates.
 
 - [Power & Heat Lab — UX/UI ТЗ для Claude Design](ux/power-heat-lab-claude-design-brief.md).
+
+- [QA r1](reviews/2026-10-05-ship-fitting-qa-r1.md) — immutable FAIL history.
+- [Developer fix r1](reviews/2026-10-05-ship-fitting-developer-fix-r1.md) — cargo/architecture/ordinary SKU fixes.
+- [QA r2](reviews/2026-10-06-ship-fitting-qa-r2.md) — 99 PASS / 1 external NOT RUN.
+- [Code Review r1](reviews/2026-10-06-ship-fitting-code-review-r1.md) — CHANGES_REQUESTED: CR-B1/CR-B2.
+- [Developer fix r2](reviews/2026-10-06-ship-fitting-developer-fix-r2.md) — input guards, boundary/atomic-import regression.
+- [Runtime binding](verification/ship-fitting-v0.2-runtime-binding.json) — explicit paths and entire VC; no verdict.
