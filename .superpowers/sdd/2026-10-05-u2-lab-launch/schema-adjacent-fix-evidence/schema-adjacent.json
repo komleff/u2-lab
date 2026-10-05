@@ -1,0 +1,14 @@
+[
+  {
+    "name": "tank gate numeric string",
+    "result": "PASS",
+    "validationAccepted": false,
+    "createRunAccepted": false
+  },
+  {
+    "name": "tank gate missing critical high",
+    "result": "PASS",
+    "validationAccepted": false,
+    "createRunAccepted": false
+  }
+]

@@ -131,3 +131,23 @@ it('IP05/P7 a slow crossing at the exact margin advances beyond numerical eligib
   expect(a.backgroundJ).toBeGreaterThan(900);
   expect(Math.abs(a.backgroundJ - b.backgroundJ) / b.backgroundJ).toBeLessThan(.001);
 });
+it.each([
+  ['low', '150'],
+  ['high', undefined],
+] as const)('F4-adjacent/P12 rejects supplied physical tank gate.%s with wrong type or missing required field', (field, value) => {
+  const p = structuredClone(presets[0]);
+  const gate = p.ship.tanks[0].gate as any;
+  if (value === undefined) delete gate[field]; else gate[field] = value;
+  const path = `ship.tanks.${p.ship.tanks[0].id}.gate.${field}`;
+  const checked = validateRunSpec(p);
+  expect(checked.ok).toBe(false);
+  if (!checked.ok) expect(checked.errors.some(e => e.path === path && e.message)).toBe(true);
+  expect(() => createRun('invalid-tank-gate', p)).toThrow(path);
+});
+it('F4-adjacent/P12 physical tank gate remains optional; a complete supplied gate stays valid', () => {
+  const p = structuredClone(presets[0]);
+  expect(validateRunSpec(p).ok).toBe(true);
+  delete p.ship.tanks[0].gate;
+  expect(validateRunSpec(p).ok).toBe(true);
+  expect(() => createRun('no-tank-gate', p)).not.toThrow();
+});

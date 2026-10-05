@@ -65,3 +65,46 @@ have changed. Fresh affected balances/convergence, S/M short matrix, real8h and 
 Screenshots not regenerated; no new UI layout. Native/operator hooks, physical second LAN device, live bd/Dolt,
 remote CI, GitHub publication, acceptance/finalize/merge NOT RUN by Developer. Same independent QA/review
 must close source issues; parent PM owns publication. No live task queue/Memory Bank changes.
+
+
+## Round2 — same F4/P12 adjacent physical tank gate (current candidate)
+
+This section supersedes initial candidate metadata/fingerprint/quick verification above;
+round1 evidence is retained as history. Isolated branch remains `fix/product-qa`;
+round2 base `660ab8d74bce9bc0d796fdc72048f1b3d8904e42` (PM report-only synchronization,
+published runtime e91fd6dc). Status DONE_WITH_CONCERNS, affected independent QA pending.
+No original feature checkout edits. Role/model unchanged from dispatch metadata above.
+Current nine scoped code/test paths + unchanged exact VC fingerprint: `b6353e85019d3ca626d84512c921513a70d4c01fb1a2b404e3ae12fa679a9a27`.
+Manifest: `schema-adjacent-fix-evidence/fingerprint.txt`.
+
+Same QA session repro accepted supplied physical tank `gate.low='150'` and separately missing `gate.high`.
+On the exact base, two new durable cases were RED2/2 (validator returnedtrue and createRun accepted).
+Root cause: module Gate fields were validated, optional supplied tank Gate fields were skipped.
+A shared requiredGate helper now applies the existing mandatory finite numeric fields and existing
+hysteresis ordering to both module gates and supplied tank gates. Absent tank gate remains optional;
+complete existing preset gates remain valid. No kernel, stock, scheduling, telemetry, retention,
+parameter/configuration/spec/authority changes in this round.
+
+GREEN assertions require exact `ship.tanks.<id>.gate.low` / `.high` path with a reason and createRun rejection.
+An additional positive regression covers complete supplied gates and omitted optional tank gate.
+Copied original QA repro at `schema-adjacent-fix-evidence/schema-adjacent.mjs` givesPASS2/2;
+its actual output is `schema-adjacent-fix-evidence/schema-adjacent.json`.
+
+Commands:
+
+```sh
+npx vitest run tests/qa-regressions.test.ts
+npm run typecheck
+npx vitest run tests/qa-regressions.test.ts tests/catalog.test.ts tests/io.test.ts
+node .superpowers/sdd/2026-10-05-u2-lab-launch/schema-adjacent-fix-evidence/schema-adjacent.mjs
+PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/workspace/scratch/faaeb0182a68/tooling/browser/extracted/chromium bash .agents/project/verify.sh
+git diff --check
+```
+
+Initial targeted commandRED2/2; final targeted24tests PASS and typecheckPASS.
+Fresh final full project verify exit0:51unit tests/10files PASS, typecheck/Vite buildPASS,
+4browser PASS +1screenshot-only SKIPPED (U2_SCREENSHOTS unset),26bootstrap PASS,
+structure and shell syntaxPASS. Actual Chromium153.0.8010.0, late40k buckets/42kernelchannels/dt1s
+matching pause0.1ms/cancel0.1ms. Runtime source edits limited to `src/catalog/schema.ts`.
+Full physical12h not rerun for schema-only changes; parent QA's concurrent12h in another
+checkout was not modified. Native/operator/LAN2/livebd/remoteCI/acceptance/merge still NOT RUN.

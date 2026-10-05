@@ -1,4 +1,4 @@
-import type { RunSpec } from "../model/types";
+import type { RunSpec, Gate } from "../model/types";
 import { capacity } from "../model/types";
 export type ValidationResult<T> =
   | { ok: true; value: T }
@@ -52,6 +52,26 @@ export function validateRunSpec(input: unknown): ValidationResult<RunSpec> {
     const requiredNumber = (v: unknown, path: string) => {
       if (typeof v !== "number" || !Number.isFinite(v) || v < 0)
         bad(path, "Обязательно конечное неотрицательное SI число");
+    };
+    const requiredGate = (value: unknown, path: string) => {
+      if (!value || typeof value !== "object" || Array.isArray(value)) {
+        bad(path, "Требуется объект thermal gate");
+        return;
+      }
+      const g = value as Gate;
+      for (const k of ["low", "high", "workHigh", "restartLow", "restartHigh"] as const)
+        requiredNumber(g[k], `${path}.${k}`);
+      if (g.workLow !== undefined)
+        requiredNumber(g.workLow, `${path}.workLow`);
+      if (
+        !(
+          g.low < g.restartLow &&
+          g.restartLow < g.restartHigh &&
+          g.restartHigh < g.high &&
+          g.workHigh < g.high
+        )
+      )
+        bad(path, "Неверный hysteresis corridor");
     };
     const s = p.ship;
     for (const k of [
@@ -170,20 +190,7 @@ export function validateRunSpec(input: unknown): ValidationResult<RunSpec> {
         m.exportFraction > 1
       )
         bad(`ship.modules.${m.id}`, "Доли должны быть ≤1");
-      const g = m.gate;
-      for (const k of ["low", "high", "workHigh", "restartLow", "restartHigh"] as const)
-        requiredNumber(g[k], `ship.modules.${m.id}.gate.${k}`);
-      if (g.workLow !== undefined)
-        requiredNumber(g.workLow, `ship.modules.${m.id}.gate.workLow`);
-      if (
-        !(
-          g.low < g.restartLow &&
-          g.restartLow < g.restartHigh &&
-          g.restartHigh < g.high &&
-          g.workHigh < g.high
-        )
-      )
-        bad(`ship.modules.${m.id}.gate`, "Неверный hysteresis corridor");
+      requiredGate(m.gate, `ship.modules.${m.id}.gate`);
     }
     const tanks = new Set<string>();
     for (const t of s.tanks) {
@@ -193,6 +200,7 @@ export function validateRunSpec(input: unknown): ValidationResult<RunSpec> {
         bad(`ship.tanks.${t.id}.species`, "Неподдерживаемый species");
       requiredNumber(t.capacityKg, `ship.tanks.${t.id}.capacityKg`);
       requiredNumber(t.energyJKg, `ship.tanks.${t.id}.energyJKg`);
+      if (t.gate !== undefined) requiredGate(t.gate, `ship.tanks.${t.id}.gate`);
       const q = p.initial.fuelKg[t.id];
       requiredNumber(q, `initial.fuelKg.${t.id}`);
       if (!(q >= 0 && q <= t.capacityKg))
