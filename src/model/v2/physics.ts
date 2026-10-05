@@ -77,7 +77,8 @@ export function stepPhysicsV2(
   const add = (k: string, v: number, h: number) =>
     (total[k] = (total[k] ?? 0) + v * h);
   const allowed = (m: Module) => thermalDuty(ship, state, m.id);
-  while (left > eps) {
+  // eps запасов не является разрешением отбросить часть физического времени.
+  while (left > 0) {
     if (++iteration > 10000) throw new Error("Unresolved event boundary");
     const live = ship.modules.filter(
       (m) =>
@@ -700,6 +701,9 @@ export function stepPhysicsV2(
     total.energyResidualJ = (total.energyResidualJ ?? 0) + residual;
     events.push(...updateThermalGates(ship, state));
   }
+  // Все положительные подинтервалы уже интегрированы; одна операция сложения
+  // согласует clock с dt метрик, не накапливая округление внутренних границ.
+  state.timeSeconds = input.timeSeconds + dt;
   for (const key of Object.keys(total))
     if (key !== "energyResidualJ") total[key] /= dt;
   total.timeSeconds = state.timeSeconds;

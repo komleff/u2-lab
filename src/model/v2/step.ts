@@ -163,8 +163,8 @@ export function validateRunSpecV2(input: unknown): ValidationResult<RunSpecV2> {
         !ship.instances.some((i) => i.id === id && i.item.family === "mining")
       )
         bad("selectedWorkGroup", "Нужен установленный mining ID");
-    // Runner и v2 kernel не интегрируют интервалы ≤1e−10 s:
-    // отказываем до запуска, чтобы такой опыт не объявлялся завершённым в time0.
+    // Сохраняем поддерживаемый диапазон номинальных параметров опыта.
+    // Положительные clipped остатки меньше этой границы kernel интегрирует.
     if (!(finite(s.durationSeconds) && s.durationSeconds > 1e-10))
       bad(
         "durationSeconds",

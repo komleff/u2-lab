@@ -10001,26 +10001,26 @@
         "stepSeconds": 0.01
       },
       "metrics": {
-        "ticks": 60000,
-        "usefulWork": 5.979166666660535,
-        "selectedWorkM3": 5.979166666664063,
-        "durationSeconds": 599.9999999991185,
+        "ticks": 60001,
+        "usefulWork": 5.9791666666733905,
+        "selectedWorkM3": 5.97916666667692,
+        "durationSeconds": 600,
         "ratedSelectedM3S": 0.014583333333333334,
-        "kUseHorizon": 0.6833333333340397,
-        "scuPerHour": 35.875000000015916,
+        "kUseHorizon": 0.6833333333345052,
+        "scuPerHour": 35.875000000040345,
         "intervalLabel": "наблюдаемый горизонт / неполный цикл",
         "cyclesCompleted": 3,
         "completedCycles": {
-          "scu": 5.249999999991946,
-          "durationSeconds": 539.999999999463,
-          "kUse": 0.6666666666663069
+          "scu": 5.24999999999857,
+          "durationSeconds": 539.999999999917,
+          "kUse": 0.6666666666665876
         },
-        "currentCycleScu": 0.7291666666666266,
-        "currentCycleSeconds": 59.99999999999663,
+        "currentCycleScu": 0.7291666666728603,
+        "currentCycleSeconds": 60.000000000424095,
         "lastCycle": {
-          "scu": 1.7499999999951956,
-          "durationSeconds": 179.99999999967562,
-          "kUse": 0.6666666666660378
+          "scu": 1.7499999999996532,
+          "durationSeconds": 179.99999999998127,
+          "kUse": 0.6666666666666039
         },
         "firstTargetSeconds": null,
         "firstLimiter": null,
@@ -10038,18 +10038,18 @@
         "plannedTransitSeconds": 159.99999999999946,
         "plannedServiceSeconds": 30.00000000000189,
         "fuelSpeciesKg": {
-          "diesel": 103.40944387025283,
+          "diesel": 103.40944387028212,
           "hydrogen": 0
         },
         "fuelPurposeKg": {
-          "diesel:generator": 16.73844387019953,
+          "diesel:generator": 16.738443870228814,
           "diesel:propulsion": 86.67099999998709,
           "hydrogen:generator": 0,
           "hydrogen:propulsion": 0,
           "hydrogen:cooler": 0
         },
         "fuelPerScu": {
-          "diesel": 17.294959253579187,
+          "diesel": 17.2949592535469,
           "hydrogen": 0
         },
         "h2CoolerKg": 0,
@@ -10062,19 +10062,19 @@
           "pendingStopSeconds": null
         },
         "propulsionShortfall": false,
-        "maxTemperatureK": 312.89101561238454,
-        "energyResidualJ": 0.026045768041124795,
-        "sourceEnergyJ": 4449659412.930992,
-        "beamEnergyJ": 143499999.99983168,
-        "returnHeatJ": 50224999.99994109
+        "maxTemperatureK": 312.8910156268474,
+        "energyResidualJ": 0.026047098210935832,
+        "sourceEnergyJ": 4449659412.932257,
+        "beamEnergyJ": 143500000.00014025,
+        "returnHeatJ": 50225000.000049084
       },
       "state": {
         "schemaVersion": "u2-lab/2",
         "timeSeconds": 600,
-        "chargeJ": 9637833333.307713,
-        "temperatureK": 312.89101561238454,
+        "chargeJ": 9637833333.306932,
+        "temperatureK": 312.8910156268474,
         "fuelKg": {
-          "diesel": 11896.59055609759,
+          "diesel": 11896.59055609757,
           "hydrogen": 0
         },
         "buffersJ": {
@@ -10091,17 +10091,17 @@
           "fit:signature-2": false,
           "tank:diesel": false
         },
-        "cargo": 0.7291666666666266,
+        "cargo": 0.7291666666728603,
         "cargoM3": {
-          "ore": 0.729166666668668
+          "ore": 0.7291666666749022
         },
-        "currentMassKg": 67224.2081637614,
-        "usefulWork": 5.979166666660535,
+        "currentMassKg": 67224.20816377073,
+        "usefulWork": 5.9791666666733905,
         "extractedByInstanceM3": {
-          "builtin:laser": 5.979166666664063
+          "builtin:laser": 5.97916666667692
         },
         "consumptionKg": {
-          "diesel:generator:fit:power-2": 16.73844387019953,
+          "diesel:generator:fit:power-2": 16.738443870228814,
           "diesel:propulsion:fit:march": 66.66999999999429,
           "diesel:propulsion:fit:retro": 20.001000000000534,
           "diesel:propulsion:fit:strafe": 0,
@@ -10205,72 +10205,72 @@
           "message": "Фаза: braking"
         },
         {
-          "timeSeconds": 139.99999999999628,
+          "timeSeconds": 139.9999999999909,
           "kind": "phase",
           "message": "Фаза: unload"
         },
         {
-          "timeSeconds": 149.99999999998727,
+          "timeSeconds": 149.9999999999818,
           "kind": "phase",
           "message": "Фаза: recovery"
         },
         {
-          "timeSeconds": 179.99999999995998,
+          "timeSeconds": 179.99999999995453,
           "kind": "phase",
           "message": "Фаза: approach"
         },
         {
-          "timeSeconds": 189.9999999999509,
+          "timeSeconds": 189.99999999994543,
           "kind": "phase",
           "message": "Фаза: mining"
         },
         {
-          "timeSeconds": 310,
+          "timeSeconds": 309.9999999998363,
           "kind": "phase",
           "message": "Фаза: braking"
         },
         {
-          "timeSeconds": 319.9999999999962,
+          "timeSeconds": 319.9999999998272,
           "kind": "phase",
           "message": "Фаза: unload"
         },
         {
-          "timeSeconds": 329.9999999999871,
+          "timeSeconds": 329.9999999998181,
           "kind": "phase",
           "message": "Фаза: recovery"
         },
         {
-          "timeSeconds": 359.9999999999598,
+          "timeSeconds": 359.9999999997908,
           "kind": "phase",
           "message": "Фаза: approach"
         },
         {
-          "timeSeconds": 369.9999999999507,
+          "timeSeconds": 369.9999999997817,
           "kind": "phase",
           "message": "Фаза: mining"
         },
         {
-          "timeSeconds": 490,
+          "timeSeconds": 489.9999999996726,
           "kind": "phase",
           "message": "Фаза: braking"
         },
         {
-          "timeSeconds": 499.9999999999909,
+          "timeSeconds": 499.9999999996635,
           "kind": "phase",
           "message": "Фаза: unload"
         },
         {
-          "timeSeconds": 509.9999999999818,
+          "timeSeconds": 509.9999999996544,
           "kind": "phase",
           "message": "Фаза: recovery"
         },
         {
-          "timeSeconds": 539.9999999999545,
+          "timeSeconds": 539.9999999996271,
           "kind": "phase",
           "message": "Фаза: approach"
         },
         {
-          "timeSeconds": 549.9999999999454,
+          "timeSeconds": 549.999999999618,
           "kind": "phase",
           "message": "Фаза: mining"
         }
@@ -10279,7 +10279,7 @@
         "policy": "mean/min/max/count; deterministic adjacent merge",
         "originalCadenceSeconds": 1,
         "cadenceSeconds": 1,
-        "totalTicks": 60000,
+        "totalTicks": 60001,
         "buckets": 600,
         "maxBuckets": 43129,
         "estimatedBytes": 1867200,
@@ -20816,13 +20816,13 @@
         "stepSeconds": 0.01
       },
       "metrics": {
-        "ticks": 60000,
-        "usefulWork": 31.609291666674288,
-        "selectedWorkM3": 31.609291666678907,
-        "durationSeconds": 599.9999999995725,
+        "ticks": 60001,
+        "usefulWork": 31.609291666707247,
+        "selectedWorkM3": 31.609291666711865,
+        "durationSeconds": 600,
         "ratedSelectedM3S": 0.07709583333333334,
-        "kUseHorizon": 0.6833333333340847,
-        "scuPerHour": 189.65575000018086,
+        "kUseHorizon": 0.6833333333343105,
+        "scuPerHour": 189.65575000024347,
         "intervalLabel": "наблюдаемый горизонт / неполный цикл",
         "cyclesCompleted": 3,
         "completedCycles": {
@@ -20830,8 +20830,8 @@
           "durationSeconds": 539.999999999917,
           "kUse": 0.6666666666669053
         },
-        "currentCycleScu": 3.8547916666664976,
-        "currentCycleSeconds": 59.99999999999663,
+        "currentCycleScu": 3.854791666699453,
+        "currentCycleSeconds": 60.000000000424095,
         "lastCycle": {
           "scu": 9.251500000002578,
           "durationSeconds": 179.99999999998127,
@@ -20853,18 +20853,18 @@
         "plannedTransitSeconds": 159.99999999999946,
         "plannedServiceSeconds": 30.00000000000189,
         "fuelSpeciesKg": {
-          "diesel": 105.4274086789759,
+          "diesel": 105.42740867899009,
           "hydrogen": 0
         },
         "fuelPurposeKg": {
-          "diesel:generator": 18.756408678865743,
+          "diesel:generator": 18.756408678879943,
           "diesel:propulsion": 86.67099999998709,
           "hydrogen:generator": 0,
           "hydrogen:propulsion": 0,
           "hydrogen:cooler": 0
         },
         "fuelPerScu": {
-          "diesel": 3.3353296806118604,
+          "diesel": 3.3353296806088317,
           "hydrogen": 0
         },
         "h2CoolerKg": 0,
@@ -20877,19 +20877,19 @@
           "pendingStopSeconds": null
         },
         "propulsionShortfall": false,
-        "maxTemperatureK": 348.48682198346523,
-        "energyResidualJ": -0.023509167214559312,
-        "sourceEnergyJ": 4536431899.700448,
-        "beamEnergyJ": 758622999.9999504,
-        "returnHeatJ": 265518050.00018075
+        "maxTemperatureK": 348.4868219835181,
+        "energyResidualJ": -0.023509309509401295,
+        "sourceEnergyJ": 4536431899.701061,
+        "beamEnergyJ": 758623000.0007415,
+        "returnHeatJ": 265518050.00045758
       },
       "state": {
         "schemaVersion": "u2-lab/2",
         "timeSeconds": 600,
-        "chargeJ": 8298500000.0236225,
-        "temperatureK": 348.48682198346523,
+        "chargeJ": 8298500000.02182,
+        "temperatureK": 348.4868219835181,
         "fuelKg": {
-          "diesel": 11894.57259127795,
+          "diesel": 11894.572591277936,
           "hydrogen": 0
         },
         "buffersJ": {
@@ -20907,18 +20907,18 @@
           "fit:payload-1": false,
           "tank:diesel": false
         },
-        "cargo": 3.8547916666664976,
+        "cargo": 3.854791666699453,
         "cargoM3": {
-          "ore": 3.8547916666686888
+          "ore": 3.8547916667016473
         },
-        "currentMassKg": 74110.62769894178,
-        "usefulWork": 31.609291666674288,
+        "currentMassKg": 74110.62769899121,
+        "usefulWork": 31.609291666707247,
         "extractedByInstanceM3": {
-          "builtin:laser": 5.979166666670686,
-          "fit:payload-1": 25.630124999973447
+          "builtin:laser": 5.97916666667692,
+          "fit:payload-1": 25.630125000000174
         },
         "consumptionKg": {
-          "diesel:generator:fit:power-2": 18.756408678865743,
+          "diesel:generator:fit:power-2": 18.756408678879943,
           "diesel:propulsion:fit:march": 66.66999999999429,
           "diesel:propulsion:fit:retro": 20.001000000000534,
           "diesel:propulsion:fit:strafe": 0,
@@ -21028,72 +21028,72 @@
           "message": "Фаза: braking"
         },
         {
-          "timeSeconds": 139.99999999999596,
+          "timeSeconds": 139.9999999999909,
           "kind": "phase",
           "message": "Фаза: unload"
         },
         {
-          "timeSeconds": 149.99999999998695,
+          "timeSeconds": 149.9999999999818,
           "kind": "phase",
           "message": "Фаза: recovery"
         },
         {
-          "timeSeconds": 179.99999999995967,
+          "timeSeconds": 179.99999999995453,
           "kind": "phase",
           "message": "Фаза: approach"
         },
         {
-          "timeSeconds": 189.99999999995057,
+          "timeSeconds": 189.99999999994543,
           "kind": "phase",
           "message": "Фаза: mining"
         },
         {
-          "timeSeconds": 309.9999999998417,
+          "timeSeconds": 309.9999999998363,
           "kind": "phase",
           "message": "Фаза: braking"
         },
         {
-          "timeSeconds": 319.99999999983356,
+          "timeSeconds": 319.9999999998272,
           "kind": "phase",
           "message": "Фаза: unload"
         },
         {
-          "timeSeconds": 329.99999999982447,
+          "timeSeconds": 329.9999999998181,
           "kind": "phase",
           "message": "Фаза: recovery"
         },
         {
-          "timeSeconds": 359.9999999997972,
+          "timeSeconds": 359.9999999997908,
           "kind": "phase",
           "message": "Фаза: approach"
         },
         {
-          "timeSeconds": 369.9999999997881,
+          "timeSeconds": 369.9999999997817,
           "kind": "phase",
           "message": "Фаза: mining"
         },
         {
-          "timeSeconds": 489.99999999967895,
+          "timeSeconds": 489.9999999996726,
           "kind": "phase",
           "message": "Фаза: braking"
         },
         {
-          "timeSeconds": 499.99999999966985,
+          "timeSeconds": 499.9999999996635,
           "kind": "phase",
           "message": "Фаза: unload"
         },
         {
-          "timeSeconds": 509.99999999966076,
+          "timeSeconds": 509.9999999996544,
           "kind": "phase",
           "message": "Фаза: recovery"
         },
         {
-          "timeSeconds": 539.9999999996335,
+          "timeSeconds": 539.9999999996271,
           "kind": "phase",
           "message": "Фаза: approach"
         },
         {
-          "timeSeconds": 549.9999999996244,
+          "timeSeconds": 549.999999999618,
           "kind": "phase",
           "message": "Фаза: mining"
         }
@@ -21102,7 +21102,7 @@
         "policy": "mean/min/max/count; deterministic adjacent merge",
         "originalCadenceSeconds": 1,
         "cadenceSeconds": 1,
-        "totalTicks": 60000,
+        "totalTicks": 60001,
         "buckets": 600,
         "maxBuckets": 41838,
         "estimatedBytes": 1924800,
@@ -32168,13 +32168,13 @@
         "stepSeconds": 0.01
       },
       "metrics": {
-        "ticks": 60000,
-        "usefulWork": 42.98041666666427,
-        "selectedWorkM3": 42.980416666666684,
-        "durationSeconds": 599.9999999995725,
+        "ticks": 60001,
+        "usefulWork": 42.98041666672395,
+        "selectedWorkM3": 42.98041666672636,
+        "durationSeconds": 600,
         "ratedSelectedM3S": 0.13960833333333333,
-        "kUseHorizon": 0.5131071051954552,
-        "scuPerHour": 257.88250000016933,
+        "kUseHorizon": 0.513107105195802,
+        "scuPerHour": 257.88250000034367,
         "intervalLabel": "наблюдаемый горизонт / неполный цикл",
         "cyclesCompleted": 3,
         "completedCycles": {
@@ -32182,8 +32182,8 @@
           "durationSeconds": 539.999999999917,
           "kUse": 0.47752641317993605
         },
-        "currentCycleScu": 6.980416666667453,
-        "currentCycleSeconds": 59.99999999999663,
+        "currentCycleScu": 6.98041666672713,
+        "currentCycleSeconds": 60.000000000424095,
         "lastCycle": {
           "scu": 12.000000000003833,
           "durationSeconds": 179.99999999998127,
@@ -32191,7 +32191,7 @@
         },
         "firstTargetSeconds": null,
         "firstLimiter": {
-          "timeSeconds": 95.95475437238292,
+          "timeSeconds": 95.95475437238287,
           "causes": [
             "cargo"
           ]
@@ -32200,53 +32200,53 @@
           "power": 0,
           "thermal": 0,
           "resource": 0,
-          "cargo": 102.13573688285646
+          "cargo": 102.13573688285652
         },
-        "limitationUnionSeconds": 102.13573688285646,
+        "limitationUnionSeconds": 102.13573688285652,
         "overlapSeconds": 0,
-        "forcedDowntimeSeconds": 102.13573688285646,
+        "forcedDowntimeSeconds": 102.13573688285652,
         "partialLossSeconds": 0,
         "partialLossM3": 0,
         "plannedTransitSeconds": 159.99999999999946,
         "plannedServiceSeconds": 30.00000000000189,
         "fuelSpeciesKg": {
-          "diesel": 104.85489111581688,
+          "diesel": 104.85489111583108,
           "hydrogen": 0
         },
         "fuelPurposeKg": {
-          "diesel:generator": 18.183891115711035,
+          "diesel:generator": 18.183891115725235,
           "diesel:propulsion": 86.67099999998709,
           "hydrogen:generator": 0,
           "hydrogen:propulsion": 0,
           "hydrogen:cooler": 0
         },
         "fuelPerScu": {
-          "diesel": 2.4395968966290322,
+          "diesel": 2.439596896625975,
           "hydrogen": 0
         },
         "h2CoolerKg": 0,
         "recovery": {
-          "firstSeconds": 94.04524562756848,
+          "firstSeconds": 94.04524562756257,
           "count": 3,
-          "sumSeconds": 282.135736882636,
-          "meanSeconds": 94.04524562754534,
-          "maxSeconds": 94.04524562756848,
+          "sumSeconds": 282.13573688263006,
+          "meanSeconds": 94.04524562754335,
+          "maxSeconds": 94.04524562756257,
           "pendingStopSeconds": null
         },
         "propulsionShortfall": false,
-        "maxTemperatureK": 359.94863255531027,
-        "energyResidualJ": -0.0069747219498772495,
-        "sourceEnergyJ": 4511813644.484581,
-        "beamEnergyJ": 1031530000.0002627,
-        "returnHeatJ": 361035500.0001839
+        "maxTemperatureK": 359.9486325553961,
+        "energyResidualJ": -0.00697483001247079,
+        "sourceEnergyJ": 4511813644.485194,
+        "beamEnergyJ": 1031530000.001695,
+        "returnHeatJ": 361035500.00068516
       },
       "state": {
         "schemaVersion": "u2-lab/2",
         "timeSeconds": 600,
-        "chargeJ": 7718467647.591877,
-        "temperatureK": 359.94863255531027,
+        "chargeJ": 7718467647.58865,
+        "temperatureK": 359.9486325553961,
         "fuelKg": {
-          "diesel": 11895.145108844268,
+          "diesel": 11895.145108844254,
           "hydrogen": 0
         },
         "buffersJ": {
@@ -32265,19 +32265,19 @@
           "fit:payload-2": false,
           "tank:diesel": false
         },
-        "cargo": 6.980416666667453,
+        "cargo": 6.98041666672713,
         "cargoM3": {
-          "ore": 6.980416666664269
+          "ore": 6.980416666723947
         },
-        "currentMassKg": 80999.63771650149,
-        "usefulWork": 42.98041666666427,
+        "currentMassKg": 80999.63771659098,
+        "usefulWork": 42.98041666672395,
         "extractedByInstanceM3": {
-          "builtin:laser": 4.489687170458497,
-          "fit:payload-1": 19.24536474809387,
-          "fit:payload-2": 19.24536474809387
+          "builtin:laser": 4.489687170464731,
+          "fit:payload-1": 19.245364748120593,
+          "fit:payload-2": 19.245364748120593
         },
         "consumptionKg": {
-          "diesel:generator:fit:power-2": 18.183891115711035,
+          "diesel:generator:fit:power-2": 18.183891115725235,
           "diesel:propulsion:fit:march": 66.66999999999429,
           "diesel:propulsion:fit:retro": 20.001000000000534,
           "diesel:propulsion:fit:strafe": 0,
@@ -32388,7 +32388,7 @@
           "message": "Фаза: mining"
         },
         {
-          "timeSeconds": 95.96000000001226,
+          "timeSeconds": 95.96000000001219,
           "kind": "constraint",
           "message": "Недостаток электропитания / тепловой лимит|Топливо исчерпано"
         },
@@ -32403,92 +32403,92 @@
           "message": "Топливо исчерпано"
         },
         {
-          "timeSeconds": 139.99999999999682,
+          "timeSeconds": 139.9999999999909,
           "kind": "phase",
           "message": "Фаза: unload"
         },
         {
-          "timeSeconds": 149.99999999998778,
+          "timeSeconds": 149.9999999999818,
           "kind": "phase",
           "message": "Фаза: recovery"
         },
         {
-          "timeSeconds": 179.9999999999605,
+          "timeSeconds": 179.99999999995453,
           "kind": "phase",
           "message": "Фаза: approach"
         },
         {
-          "timeSeconds": 189.9999999999514,
+          "timeSeconds": 189.99999999994543,
           "kind": "phase",
           "message": "Фаза: mining"
         },
         {
-          "timeSeconds": 275.95999999987356,
+          "timeSeconds": 275.95999999986725,
           "kind": "constraint",
           "message": "Недостаток электропитания / тепловой лимит|Топливо исчерпано"
         },
         {
-          "timeSeconds": 309.9999999998426,
+          "timeSeconds": 309.9999999998363,
           "kind": "phase",
           "message": "Фаза: braking"
         },
         {
-          "timeSeconds": 310.0099999998426,
+          "timeSeconds": 310.0099999998363,
           "kind": "constraint",
           "message": "Топливо исчерпано"
         },
         {
-          "timeSeconds": 319.9999999998335,
+          "timeSeconds": 319.9999999998272,
           "kind": "phase",
           "message": "Фаза: unload"
         },
         {
-          "timeSeconds": 329.9999999998244,
+          "timeSeconds": 329.9999999998181,
           "kind": "phase",
           "message": "Фаза: recovery"
         },
         {
-          "timeSeconds": 359.9999999997971,
+          "timeSeconds": 359.9999999997908,
           "kind": "phase",
           "message": "Фаза: approach"
         },
         {
-          "timeSeconds": 369.99999999978803,
+          "timeSeconds": 369.9999999997817,
           "kind": "phase",
           "message": "Фаза: mining"
         },
         {
-          "timeSeconds": 455.9599999997099,
+          "timeSeconds": 455.95999999970354,
           "kind": "constraint",
           "message": "Недостаток электропитания / тепловой лимит|Топливо исчерпано"
         },
         {
-          "timeSeconds": 489.99999999967895,
+          "timeSeconds": 489.9999999996726,
           "kind": "phase",
           "message": "Фаза: braking"
         },
         {
-          "timeSeconds": 490.00999999967894,
+          "timeSeconds": 490.0099999996726,
           "kind": "constraint",
           "message": "Топливо исчерпано"
         },
         {
-          "timeSeconds": 499.99999999966985,
+          "timeSeconds": 499.9999999996635,
           "kind": "phase",
           "message": "Фаза: unload"
         },
         {
-          "timeSeconds": 509.99999999966076,
+          "timeSeconds": 509.9999999996544,
           "kind": "phase",
           "message": "Фаза: recovery"
         },
         {
-          "timeSeconds": 539.9999999996335,
+          "timeSeconds": 539.9999999996271,
           "kind": "phase",
           "message": "Фаза: approach"
         },
         {
-          "timeSeconds": 549.9999999996244,
+          "timeSeconds": 549.999999999618,
           "kind": "phase",
           "message": "Фаза: mining"
         }
@@ -32497,7 +32497,7 @@
         "policy": "mean/min/max/count; deterministic adjacent merge",
         "originalCadenceSeconds": 1,
         "cadenceSeconds": 1,
-        "totalTicks": 60000,
+        "totalTicks": 60001,
         "buckets": 600,
         "maxBuckets": 40622,
         "estimatedBytes": 1982400,
@@ -40493,13 +40493,13 @@
         "stepSeconds": 0.01
       },
       "metrics": {
-        "ticks": 60000,
-        "usefulWork": 25.63012499997345,
-        "selectedWorkM3": 25.63012499997345,
-        "durationSeconds": 599.9999999995725,
+        "ticks": 60001,
+        "usefulWork": 25.630125000000174,
+        "selectedWorkM3": 25.630125000000174,
+        "durationSeconds": 600,
         "ratedSelectedM3S": 0.0625125,
-        "kUseHorizon": 0.6833333333331123,
-        "scuPerHour": 153.78074999995025,
+        "kUseHorizon": 0.683333333333338,
+        "scuPerHour": 153.78075000000104,
         "intervalLabel": "наблюдаемый горизонт / неполный цикл",
         "cyclesCompleted": 3,
         "completedCycles": {
@@ -40507,8 +40507,8 @@
           "durationSeconds": 539.999999999917,
           "kUse": 0.666666666666724
         },
-        "currentCycleScu": 3.12562500000002,
-        "currentCycleSeconds": 59.99999999999663,
+        "currentCycleScu": 3.1256250000267416,
+        "currentCycleSeconds": 60.000000000424095,
         "lastCycle": {
           "scu": 7.501500000000049,
           "durationSeconds": 179.99999999998127,
@@ -40530,18 +40530,18 @@
         "plannedTransitSeconds": 159.99999999999946,
         "plannedServiceSeconds": 30.00000000000189,
         "fuelSpeciesKg": {
-          "diesel": 399.4047635291729,
+          "diesel": 399.40476352930614,
           "hydrogen": 0
         },
         "fuelPurposeKg": {
-          "diesel:generator": 140.27316352888616,
+          "diesel:generator": 140.2731635290194,
           "diesel:propulsion": 259.1316000000123,
           "hydrogen:generator": 0,
           "hydrogen:propulsion": 0,
           "hydrogen:cooler": 0
         },
         "fuelPerScu": {
-          "diesel": 15.583410675117138,
+          "diesel": 15.583410675106089,
           "hydrogen": 0
         },
         "h2CoolerKg": 0,
@@ -40554,19 +40554,19 @@
           "pendingStopSeconds": null
         },
         "propulsionShortfall": false,
-        "maxTemperatureK": 364.9570133189841,
-        "energyResidualJ": 7.78265530243516e-7,
-        "sourceEnergyJ": 17186618137.80617,
-        "beamEnergyJ": 615122999.9999598,
-        "returnHeatJ": 215293050.00011623
+        "maxTemperatureK": 364.9570133190078,
+        "energyResidualJ": 7.782655302430823e-7,
+        "sourceEnergyJ": 17186618137.81191,
+        "beamEnergyJ": 615123000.0006012,
+        "returnHeatJ": 215293050.0003407
       },
       "state": {
         "schemaVersion": "u2-lab/2",
         "timeSeconds": 600,
         "chargeJ": 3682499999.9999995,
-        "temperatureK": 364.9570133189841,
+        "temperatureK": 364.9570133190078,
         "fuelKg": {
-          "diesel": 23600.59523647579,
+          "diesel": 23600.595236475656,
           "hydrogen": 0
         },
         "buffersJ": {
@@ -40583,17 +40583,17 @@
           "fit:payload-1": false,
           "tank:diesel": false
         },
-        "cargo": 3.12562500000002,
+        "cargo": 3.1256250000267416,
         "cargoM3": {
-          "ore": 3.12562499999558
+          "ore": 3.1256250000223034
         },
-        "currentMassKg": 217138.58321328566,
-        "usefulWork": 25.63012499997345,
+        "currentMassKg": 217138.58321332565,
+        "usefulWork": 25.630125000000174,
         "extractedByInstanceM3": {
-          "fit:payload-1": 25.63012499997345
+          "fit:payload-1": 25.630125000000174
         },
         "consumptionKg": {
-          "diesel:generator:fit:power-2": 140.27316352888616,
+          "diesel:generator:fit:power-2": 140.2731635290194,
           "diesel:propulsion:fit:march": 199.33200000001762,
           "diesel:propulsion:fit:retro": 59.79959999999639,
           "diesel:propulsion:fit:strafe": 0,
@@ -40771,7 +40771,7 @@
         "policy": "mean/min/max/count; deterministic adjacent merge",
         "originalCadenceSeconds": 1,
         "cadenceSeconds": 1,
-        "totalTicks": 60000,
+        "totalTicks": 60001,
         "buckets": 600,
         "maxBuckets": 43129,
         "estimatedBytes": 1867200,
@@ -49296,13 +49296,13 @@
         "stepSeconds": 0.01
       },
       "metrics": {
-        "ticks": 60000,
-        "usefulWork": 51.2602499999469,
-        "selectedWorkM3": 51.2602499999469,
-        "durationSeconds": 599.9999999995725,
+        "ticks": 60001,
+        "usefulWork": 51.26025000000035,
+        "selectedWorkM3": 51.26025000000035,
+        "durationSeconds": 600,
         "ratedSelectedM3S": 0.125025,
-        "kUseHorizon": 0.6833333333331123,
-        "scuPerHour": 307.5614999999005,
+        "kUseHorizon": 0.683333333333338,
+        "scuPerHour": 307.56150000000207,
         "intervalLabel": "наблюдаемый горизонт / неполный цикл",
         "cyclesCompleted": 3,
         "completedCycles": {
@@ -49310,8 +49310,8 @@
           "durationSeconds": 539.999999999917,
           "kUse": 0.666666666666724
         },
-        "currentCycleScu": 6.25125000000004,
-        "currentCycleSeconds": 59.99999999999663,
+        "currentCycleScu": 6.251250000053483,
+        "currentCycleSeconds": 60.000000000424095,
         "lastCycle": {
           "scu": 15.003000000000098,
           "durationSeconds": 179.99999999998127,
@@ -49333,18 +49333,18 @@
         "plannedTransitSeconds": 159.99999999999946,
         "plannedServiceSeconds": 30.00000000000189,
         "fuelSpeciesKg": {
-          "diesel": 489.54052498209785,
+          "diesel": 489.5405249823251,
           "hydrogen": 0
         },
         "fuelPurposeKg": {
-          "diesel:generator": 230.40892498224693,
+          "diesel:generator": 230.40892498247416,
           "diesel:propulsion": 259.1316000000123,
           "hydrogen:generator": 0,
           "hydrogen:propulsion": 0,
           "hydrogen:cooler": 0
         },
         "fuelPerScu": {
-          "diesel": 9.550100223518319,
+          "diesel": 9.550100223512796,
           "hydrogen": 0
         },
         "h2CoolerKg": 0,
@@ -49357,19 +49357,19 @@
           "pendingStopSeconds": null
         },
         "propulsionShortfall": false,
-        "maxTemperatureK": 388.9598039614066,
-        "energyResidualJ": -0.008688925696333172,
-        "sourceEnergyJ": 21062455880.319317,
-        "beamEnergyJ": 1230245999.9999197,
-        "returnHeatJ": 430586100.00023246
+        "maxTemperatureK": 388.95980396145393,
+        "energyResidualJ": -0.008688801313029317,
+        "sourceEnergyJ": 21062455880.329098,
+        "beamEnergyJ": 1230246000.0012023,
+        "returnHeatJ": 430586100.0006814
       },
       "state": {
         "schemaVersion": "u2-lab/2",
         "timeSeconds": 600,
-        "chargeJ": 3536722222.2309203,
-        "temperatureK": 388.9598039614066,
+        "chargeJ": 3536722222.230768,
+        "temperatureK": 388.95980396145393,
         "fuelKg": {
-          "diesel": 23510.45947506283,
+          "diesel": 23510.459475062606,
           "hydrogen": 0
         },
         "buffersJ": {
@@ -49387,18 +49387,18 @@
           "fit:payload-2": false,
           "tank:diesel": false
         },
-        "cargo": 6.25125000000004,
+        "cargo": 6.251250000053483,
         "cargoM3": {
-          "ore": 6.25124999999116
+          "ore": 6.251250000044607
         },
-        "currentMassKg": 223936.88495186606,
-        "usefulWork": 51.2602499999469,
+        "currentMassKg": 223936.88495194603,
+        "usefulWork": 51.26025000000035,
         "extractedByInstanceM3": {
-          "fit:payload-1": 25.63012499997345,
-          "fit:payload-2": 25.63012499997345
+          "fit:payload-1": 25.630125000000174,
+          "fit:payload-2": 25.630125000000174
         },
         "consumptionKg": {
-          "diesel:generator:fit:power-2": 230.40892498224693,
+          "diesel:generator:fit:power-2": 230.40892498247416,
           "diesel:propulsion:fit:march": 199.33200000001762,
           "diesel:propulsion:fit:retro": 59.79959999999639,
           "diesel:propulsion:fit:strafe": 0,
@@ -49582,7 +49582,7 @@
         "policy": "mean/min/max/count; deterministic adjacent merge",
         "originalCadenceSeconds": 1,
         "cadenceSeconds": 1,
-        "totalTicks": 60000,
+        "totalTicks": 60001,
         "buckets": 600,
         "maxBuckets": 41838,
         "estimatedBytes": 1924800,
@@ -58636,13 +58636,13 @@
         "stepSeconds": 0.01
       },
       "metrics": {
-        "ticks": 60000,
-        "usefulWork": 76.8903749999355,
-        "selectedWorkM3": 76.8903749999355,
-        "durationSeconds": 599.9999999995725,
+        "ticks": 60001,
+        "usefulWork": 76.89037500001567,
+        "selectedWorkM3": 76.89037500001567,
+        "durationSeconds": 600,
         "ratedSelectedM3S": 0.1875375,
-        "kUseHorizon": 0.683333333333247,
-        "scuPerHour": 461.34224999994166,
+        "kUseHorizon": 0.6833333333334726,
+        "scuPerHour": 461.34225000009394,
         "intervalLabel": "наблюдаемый горизонт / неполный цикл",
         "cyclesCompleted": 3,
         "completedCycles": {
@@ -58650,8 +58650,8 @@
           "durationSeconds": 539.999999999917,
           "kUse": 0.666666666666703
         },
-        "currentCycleScu": 9.376874999999409,
-        "currentCycleSeconds": 59.99999999999663,
+        "currentCycleScu": 9.376875000079574,
+        "currentCycleSeconds": 60.000000000424095,
         "lastCycle": {
           "scu": 22.50449999999944,
           "durationSeconds": 179.99999999998127,
@@ -58673,18 +58673,18 @@
         "plannedTransitSeconds": 159.99999999999946,
         "plannedServiceSeconds": 30.00000000000189,
         "fuelSpeciesKg": {
-          "diesel": 573.4091111765663,
+          "diesel": 573.4091111767934,
           "hydrogen": 0
         },
         "fuelPurposeKg": {
-          "diesel:generator": 314.27751117631504,
+          "diesel:generator": 314.27751117654225,
           "diesel:propulsion": 259.1316000000123,
           "hydrogen:generator": 0,
           "hydrogen:propulsion": 0,
           "hydrogen:cooler": 0
         },
         "fuelPerScu": {
-          "diesel": 7.457488810232064,
+          "diesel": 7.457488810227244,
           "hydrogen": 0
         },
         "h2CoolerKg": 0,
@@ -58697,19 +58697,19 @@
           "pendingStopSeconds": null
         },
         "propulsionShortfall": false,
-        "maxTemperatureK": 411.2786815164012,
-        "energyResidualJ": -0.0031244545098161325,
-        "sourceEnergyJ": 24668805086.678696,
-        "beamEnergyJ": 1845368999.9998796,
-        "returnHeatJ": 645879149.9994583
+        "maxTemperatureK": 411.2786815164536,
+        "energyResidualJ": -0.003124415730578931,
+        "sourceEnergyJ": 24668805086.688477,
+        "beamEnergyJ": 1845369000.0018036,
+        "returnHeatJ": 645879150.0001317
       },
       "state": {
         "schemaVersion": "u2-lab/2",
         "timeSeconds": 600,
-        "chargeJ": 3306055555.5587797,
-        "temperatureK": 411.2786815164012,
+        "chargeJ": 3306055555.557203,
+        "temperatureK": 411.2786815164536,
         "fuelKg": {
-          "diesel": 23426.59088888105,
+          "diesel": 23426.590888880826,
           "hydrogen": 0
         },
         "buffersJ": {
@@ -58728,19 +58728,19 @@
           "fit:payload-3": false,
           "tank:diesel": false
         },
-        "cargo": 9.376874999999409,
+        "cargo": 9.376875000079574,
         "cargoM3": {
-          "ore": 9.37687499998674
+          "ore": 9.376875000066903
         },
-        "currentMassKg": 230741.45386567767,
-        "usefulWork": 76.8903749999355,
+        "currentMassKg": 230741.4538657977,
+        "usefulWork": 76.89037500001567,
         "extractedByInstanceM3": {
-          "fit:payload-1": 25.63012499997345,
-          "fit:payload-2": 25.63012499997345,
-          "fit:payload-3": 25.63012499997345
+          "fit:payload-1": 25.630125000000174,
+          "fit:payload-2": 25.630125000000174,
+          "fit:payload-3": 25.630125000000174
         },
         "consumptionKg": {
-          "diesel:generator:fit:power-2": 314.27751117631504,
+          "diesel:generator:fit:power-2": 314.27751117654225,
           "diesel:propulsion:fit:march": 199.33200000001762,
           "diesel:propulsion:fit:retro": 59.79959999999639,
           "diesel:propulsion:fit:strafe": 0,
@@ -58930,7 +58930,7 @@
         "policy": "mean/min/max/count; deterministic adjacent merge",
         "originalCadenceSeconds": 1,
         "cadenceSeconds": 1,
-        "totalTicks": 60000,
+        "totalTicks": 60001,
         "buckets": 600,
         "maxBuckets": 40622,
         "estimatedBytes": 1982400,
@@ -68455,13 +68455,13 @@
         "stepSeconds": 0.01
       },
       "metrics": {
-        "ticks": 60000,
-        "usefulWork": 76.8903749999355,
-        "selectedWorkM3": 76.8903749999355,
-        "durationSeconds": 599.9999999995725,
+        "ticks": 60001,
+        "usefulWork": 76.89037500001567,
+        "selectedWorkM3": 76.89037500001567,
+        "durationSeconds": 600,
         "ratedSelectedM3S": 0.1875375,
-        "kUseHorizon": 0.683333333333247,
-        "scuPerHour": 461.34224999994166,
+        "kUseHorizon": 0.6833333333334726,
+        "scuPerHour": 461.34225000009394,
         "intervalLabel": "наблюдаемый горизонт / неполный цикл",
         "cyclesCompleted": 3,
         "completedCycles": {
@@ -68469,8 +68469,8 @@
           "durationSeconds": 539.999999999917,
           "kUse": 0.666666666666703
         },
-        "currentCycleScu": 9.376874999999409,
-        "currentCycleSeconds": 59.99999999999663,
+        "currentCycleScu": 9.376875000079574,
+        "currentCycleSeconds": 60.000000000424095,
         "lastCycle": {
           "scu": 22.50449999999944,
           "durationSeconds": 179.99999999998127,
@@ -68492,18 +68492,18 @@
         "plannedTransitSeconds": 159.99999999999946,
         "plannedServiceSeconds": 30.00000000000189,
         "fuelSpeciesKg": {
-          "diesel": 575.3778573313646,
+          "diesel": 575.3778573315917,
           "hydrogen": 0
         },
         "fuelPurposeKg": {
-          "diesel:generator": 316.24625733110304,
+          "diesel:generator": 316.24625733133024,
           "diesel:propulsion": 259.1316000000123,
           "hydrogen:generator": 0,
           "hydrogen:propulsion": 0,
           "hydrogen:cooler": 0
         },
         "fuelPerScu": {
-          "diesel": 7.48309339539373,
+          "diesel": 7.483093395388883,
           "hydrogen": 0
         },
         "h2CoolerKg": 0,
@@ -68516,19 +68516,19 @@
           "pendingStopSeconds": null
         },
         "propulsionShortfall": false,
-        "maxTemperatureK": 335.35236715492636,
-        "energyResidualJ": -0.008698283694684505,
-        "sourceEnergyJ": 24772096516.641273,
-        "beamEnergyJ": 1845368999.9998796,
-        "returnHeatJ": 645879149.9994583
+        "maxTemperatureK": 335.35236715494506,
+        "energyResidualJ": -0.008698265714984802,
+        "sourceEnergyJ": 24772096516.651066,
+        "beamEnergyJ": 1845369000.0018036,
+        "returnHeatJ": 645879150.0001317
       },
       "state": {
         "schemaVersion": "u2-lab/2",
         "timeSeconds": 600,
-        "chargeJ": 1732722222.2310884,
-        "temperatureK": 335.35236715492636,
+        "chargeJ": 1732722222.2283716,
+        "temperatureK": 335.35236715494506,
         "fuelKg": {
-          "diesel": 23424.622142727472,
+          "diesel": 23424.622142727247,
           "hydrogen": 0
         },
         "buffersJ": {
@@ -68547,19 +68547,19 @@
           "fit:payload-3": false,
           "tank:diesel": false
         },
-        "cargo": 9.376874999999409,
+        "cargo": 9.376875000079574,
         "cargoM3": {
-          "ore": 9.37687499998674
+          "ore": 9.376875000066903
         },
-        "currentMassKg": 676328.5002842655,
-        "usefulWork": 76.8903749999355,
+        "currentMassKg": 676328.5002843855,
+        "usefulWork": 76.89037500001567,
         "extractedByInstanceM3": {
-          "fit:payload-1": 25.63012499997345,
-          "fit:payload-2": 25.63012499997345,
-          "fit:payload-3": 25.63012499997345
+          "fit:payload-1": 25.630125000000174,
+          "fit:payload-2": 25.630125000000174,
+          "fit:payload-3": 25.630125000000174
         },
         "consumptionKg": {
-          "diesel:generator:fit:power-2": 316.24625733110304,
+          "diesel:generator:fit:power-2": 316.24625733133024,
           "diesel:propulsion:fit:march": 199.33200000001762,
           "diesel:propulsion:fit:retro": 59.79959999999639,
           "diesel:propulsion:fit:strafe": 0,
@@ -68755,7 +68755,7 @@
         "policy": "mean/min/max/count; deterministic adjacent merge",
         "originalCadenceSeconds": 1,
         "cadenceSeconds": 1,
-        "totalTicks": 60000,
+        "totalTicks": 60001,
         "buckets": 600,
         "maxBuckets": 40329,
         "estimatedBytes": 1996800,

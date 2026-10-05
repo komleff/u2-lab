@@ -111,7 +111,9 @@ export function runFittingChunk(
       remaining,
       run.spec.durationSeconds - run.state.timeSeconds,
     );
-    if (dt <= 1e-10) {
+    if (!(dt > 0)) {
+      if (run.state.timeSeconds < run.spec.durationSeconds)
+        throw Error("Не разрешён положительный остаток времени v2");
       run.done = true;
       break;
     }
@@ -120,6 +122,8 @@ export function runFittingChunk(
       ? { ...run.spec, environment: phase.environment }
       : run.spec;
     const step = stepV2(s, previous, dt, phase.requests);
+    if (!(step.state.timeSeconds > previous.timeSeconds))
+      throw Error("Шаг v2 не продвигает время в численной точности горизонта");
     run.state = step.state;
     run.last = step.telemetry;
     updateMiningMetrics(run.metrics, previous, step, dt, run.spec);
@@ -151,10 +155,9 @@ export function runFittingChunk(
       : run.state.timeSeconds >= cycleDuration - 1e-8
         ? 1
         : 0;
-    if (run.state.timeSeconds >= run.spec.durationSeconds - 1e-8) {
-      run.state.timeSeconds = run.spec.durationSeconds;
-      run.done = true;
-    }
+    // Завершение следует за рассчитанным временем: положительный хвост,
+    // включая остаток округления, должен пройти kernel и учёт метрик.
+    if (run.state.timeSeconds >= run.spec.durationSeconds) run.done = true;
   }
   return { steps, done: run.done, state: run.state, telemetry: run.last };
 }
