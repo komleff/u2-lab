@@ -65,3 +65,21 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 новый локальный12h ради UI fix не запускался. QB1/P13 closure сохранён. S/M не утверждают U2 SKU.
 Физическое второе LAN устройство,native hooks,operator export/restore,trusted finalize
 и merge остаются открытыми. Beads notes — PENDING,canonical9 задач неизменны.
+
+## U2 Ship Fitting v0.2 — дизайн
+
+- [GDD: оснастка и полезность корабля](gdd/gdd_u2_ship_fitting_v0.2.md) — принят оператором2026-10-05; runtime implementation started.
+- [Исследование current owners и UX](research/ship_fitting_source_synthesis.md) — routed41-source synthesis.
+- [Source manifest](research/ship_fitting_sources.json) — exact U2commit/blob/status/version.
+- [План реализации](plans/2026-10-05-ship-fitting-v0.2.md) — T1–T7, independent PLAN_READY; PO approval recorded; T1–T7 execution started.
+- [Verification Contract SF01–20](verification/ship-fitting-v0.2-contract.md) — numerical/domain/UI/replay/retention AC и review scope.
+- [Первоначальный proposal](product/ship-fitting-v0.2-proposal.md) — historical reference, superseded.
+
+- [Независимый design/plan review r1](reviews/2026-10-05-ship-fitting-plan-review-r1.md) — CHANGES_REQUIRED/history; B1 group accounting и B2 metric history закрыты affected r2.
+
+- [Affected design/plan review r2](reviews/2026-10-05-ship-fitting-plan-review-r2.md) — PLAN_READY для обеих частей; active BLOCKER0, A1/A2 advisory сохранены.
+- [Итоговая привязка design evidence](reviews/2026-10-05-ship-fitting-final-binding.md) — PM deterministic check, не runtime QA.
+- [Draft PR3](https://github.com/komleff/u2-lab/pull/3) — scoped docs/design/plan, PO approval recorded; plan evidence preserved.
+
+- [Принятие дизайна и запуск реализации](product/ship-fitting-v0.2-acceptance.md) — current operator authority поверх frozen GDD/плана.
+- [ТЗ UX/UI для Claude Design](ux/ship-fitting-v0.2-claude-design-brief.md) — самодостаточный brief для HTML/SVG desktop/mobile макетов.

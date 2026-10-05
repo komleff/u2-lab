@@ -98,3 +98,29 @@ commands: docs/user/local-network.md. Same QA/Reviewer affected sessions reused;
 No queue/livebd/Dolt/export/task status or dependency mutations in this fix. Original9ID
 checkpoint/managed install bytes unchanged. B0/B6/B8/native/operator export+restore/finalize/
 operator merge OPEN; PR2 remains stacked/draft. Detection remains out of scope.
+
+## Ship Fitting planning — current2026-10-05
+
+Исследование current U2cdc490e через registry/directlinks завершено,41source manifest
+blobs проверен. GDD/VC SF01–20/T1–T7 authored; metadata/docs only, runtime unchanged.
+Beads ulab-73w in_progress. Actual Draft PR и independent design/plan review pending.
+Source research не QA/reviewer; никаких runtime PASS для нового fitting не заявлено.
+
+Actual Draft PR3 открыт до independent PLAN_REVIEW. r1 CHANGES_REQUIRED,2B/2A; B1/B2
+уточнены: closed selected mining group без hiddenclamp, online bounded metric state
+без истории интервалов, exact alternating-limit oracle. Affected review той же session pending.
+Unique verifier launch1/5; runtime unchanged. Report r1 сохранён дословно с SHA25616c28c3a…
+
+Affected r2 той же session: design PLAN_READY, plan PLAN_READY, active BLOCKER0; B1/B2
+CLOSED, A1/A2 advisory unchanged. Five reviewedpaths+entireVC fingerprint550085b4…
+самостоятельно проверен PM; report bytes6267c405… сохранены дословно. New numeric/UX
+proposal PO acceptance ещё separate, runtime implementation/QA/merge не выполнены.
+Planning deliverables в DraftPR3, original runtime/base acceptance gates не закрывались.
+
+## Ship Fitting implementation — operator approval2026-10-05
+
+Дизайн и план явно одобрены оператором, PLAN_READY уже действителен; повторногоauditнет.
+Planning ulab-73w CLOSED; runtime ulab-zk2 IN_PROGRESS, T1–T7 ulab-zk2.1–.7 created,
+sequential dependencies, T1started. PM готовит UXbrief для ClaudeDesign и запускает
+oneprimaryDeveloper. НезависимыеQA/CodeReview послеimplementation; verifierbudget1/5.
+BootstrapB0 остаётся OPEN; выражениеB0 в close-reasonplanning означает0designblockers.
