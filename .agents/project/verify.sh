@@ -3,8 +3,11 @@ set -euo pipefail
 # Проверки запускаются из корня, чтобы результат не зависел от cwd вызывающего hook.
 PROJECT_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd -- "$PROJECT_ROOT"
-# Отсутствующий runtime не должен превращать структурную проверку в product PASS.
-printf '%s\n' 'Product typecheck/unit/build/browser: NOT RUN (bootstrap stage)' 'Native hook activation: NOT RUN (requires actual native adapter smoke)'
+printf '%s\n' 'Native hook activation: NOT RUN (requires actual native adapter smoke)'
+npm run typecheck
+npm test
+npm run build
+npm run test:browser
 python3 scripts/check-reference.py
 python3 .agents/project/check-bootstrap.py
 node --test scripts/tests/test-bd-cloud.mjs

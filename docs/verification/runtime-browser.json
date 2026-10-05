@@ -1,0 +1,8 @@
+{
+  "buckets": 41760,
+  "channels": 40,
+  "physicsDtSeconds": 1,
+  "pauseMs": 2.2000000029802322,
+  "cancelMs": 0.19999999925494194,
+  "chromium": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.0 Safari/537.36"
+}

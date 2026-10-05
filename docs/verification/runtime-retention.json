@@ -1,0 +1,9 @@
+{
+  "fixture": "12h/dt0.01/64channels",
+  "ticks": 4320000,
+  "buckets": 43200,
+  "bytes": 77414400,
+  "wallMs": 7542.384529,
+  "pauseMs": 0.011343000000124448,
+  "queue": 1
+}

@@ -1,0 +1,11 @@
+src/catalog/schema.ts 22b38b89966ab06f15a4ccef065b3077bc0a6452
+src/model/step.ts fd3de5f381a56e69acff6bd8f1b639fed653ba51
+src/runner/metrics.ts 135debf2467490b48675eab204b71cf828a45ef4
+src/runner/protocol.ts 6c197c138bb31b3fc301183a7a1fb266adb97f24
+src/runner/retention.ts 412803e9de6c2bfcfc5275060a8f439ed35c3782
+src/runner/run.ts 7a95f8491164f5b861916a984d778163a3ec4579
+tests/qa-regressions.test.ts aae92992bd0b17df8eca028b9134149d064eaa7d
+tests/retention-memory.mjs 63724dcf078a95e103091a90bb3effdd51db27f5
+tests/retention-memory.test.ts 4d2b7b8c3df1c7f96fa65c3117a61276b62e70f8
+
+sha256(sorted path SP git-blob-id LF + exact VC bytes): 50b8f3411c4addaeb2716d56920739932a28f294ef848389e89451a683982770
