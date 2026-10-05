@@ -312,6 +312,16 @@ export function stepModel(
     const boundary = (time: number) => {
       if (time > eps) h = Math.min(h, time);
     };
+    // RK4 устойчив и точен на локальном тепловом масштабе, а не на
+    // произвольном пользовательском dt. Подшаг также пересчитывает actual flows.
+    const thermalRate = (constantHeat - net(state.temperatureK)) / ship.heatCapacityJK;
+    const thermalSlope = env.law === "radiative"
+      ? 4 * radiatorArea * SIGMA * Math.max(state.temperatureK, env.effectiveBackgroundK) ** 3 / ship.heatCapacityJK
+      : env.linearWK / ship.heatCapacityJK;
+    if (thermalSlope > 0 && Math.abs(thermalRate) > eps) {
+      boundary(0.05 / thermalSlope);
+      boundary(0.02 * Math.max(1, state.temperatureK, env.effectiveBackgroundK) / Math.abs(thermalRate));
+    }
     if (batteryRate < 0) boundary(state.chargeJ / -batteryRate);
     if (batteryRate > 0) boundary((qmax - state.chargeJ) / batteryRate);
     if (bgRequest > 0 && batteryRate !== 0) {
@@ -343,6 +353,10 @@ export function stepModel(
     const startT = state.temperatureK;
     const endT = temperatureAfter(h);
     const thresholds = [
+      ...ship.tanks.filter(t => t.gate).flatMap(t =>
+        state.gates[`tank:${t.id}`]
+          ? [t.gate!.restartLow, t.gate!.restartHigh]
+          : [t.gate!.low, t.gate!.high]),
       ...live
         .filter((m) => m.kind === "buffer")
         .flatMap((m) => [m.absorbAboveK, m.releaseBelowK]),

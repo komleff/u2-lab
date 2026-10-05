@@ -180,3 +180,20 @@ test("step after reset starts an experiment and editing next preset keeps active
   const soc = Number((await page.locator("#soc").innerText()).replace("%", ""));
   expect(soc).toBeGreaterThan(99);
 });
+test('RV-B3/P12 advanced JSON renders HTML-like imported tank IDs as literal text', async ({page}) => {
+  const {presets, markEdits} = await import('../../src/catalog/presets');
+  const p = structuredClone(presets[0]);
+  const injected = '<b>tank</b> "quoted"';
+  const original = p.ship.tanks[0].id;
+  p.ship.tanks[0].id = injected;
+  for (const m of p.ship.modules) if (m.tankId === original) m.tankId = injected;
+  p.initial.fuelKg[injected] = p.initial.fuelKg[original]; delete p.initial.fuelKg[original];
+  markEdits(p);
+  await page.goto('/');
+  await page.getByRole('button', {name: 'Все параметры / фазы JSON'}).click();
+  await page.locator('#json-editor').fill(JSON.stringify(p));
+  await page.getByRole('button', {name: 'Применить', exact: true}).click();
+  await expect(page.locator('#editor')).not.toBeVisible();
+  await expect(page.locator('#modules')).toContainText(injected);
+  await expect(page.locator('#modules b')).toHaveCount(0);
+});

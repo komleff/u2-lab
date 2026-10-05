@@ -160,7 +160,7 @@ function configuration() {
           ["efficiency", "PV efficiency"],
         ],
       };
-      return `<details class="module" ${i === 0 ? "open" : ""}><summary><span class="module-title">${html(m.id)} / ${m.kind}<input type="checkbox" data-enable="${i}" aria-label="Включить ${html(m.id)}" ${m.enabled ? "checked" : ""}></span></summary>${(keys[m.kind] ?? []).map(([k, label]) => field(`${path}.${k}`, label, m[k] as number)).join("")}<p class="model-note">${m.policy} · tank ${m.tankId ?? "—"} · critical ${m.gate.low}…${m.gate.high} K / restart ${m.gate.restartLow}…${m.gate.restartHigh} K</p></details>`;
+      return `<details class="module" ${i === 0 ? "open" : ""}><summary><span class="module-title">${html(m.id)} / ${m.kind}<input type="checkbox" data-enable="${i}" aria-label="Включить ${html(m.id)}" ${m.enabled ? "checked" : ""}></span></summary>${(keys[m.kind] ?? []).map(([k, label]) => field(`${path}.${k}`, label, m[k] as number)).join("")}<p class="model-note">${m.policy} · tank ${html(m.tankId ?? "—")} · critical ${m.gate.low}…${m.gate.high} K / restart ${m.gate.restartLow}…${m.gate.restartHigh} K</p></details>`;
     })
     .join("");
   $("environment-fields").innerHTML =
