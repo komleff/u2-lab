@@ -17,7 +17,7 @@
 | [Независимое bootstrap QA](reviews/2026-10-05-bootstrap-qa.md) | overall FAIL / available checks PASS | Реальный B6 auth failure, native/restore NOT RUN |
 | [Scoped Code Review](reviews/2026-10-05-bootstrap-code-review.md) | CHANGES_REQUESTED / code PASS | Один acceptance blocker B6, без новых code defects |
 | [Canonical metadata binding](reviews/2026-10-05-bootstrap-binding.md) | affected snapshot | Binding после status/index landing; gates не отменяет |
-| [Cloud execution amendment](plans/2026-10-05-cloud-execution.md) | independent PLAN_READY / Task1 evidence | Single operator writer, stacked preparation, C1–C6 |
+| [Cloud execution amendment](plans/2026-10-05-cloud-execution.md) | independent PLAN_READY / cloud QA PASS / scoped APPROVED | Single operator writer, stacked preparation, C1–C6 |
 | [Cloud Plan Review](reviews/2026-10-05-cloud-plan-review.md) | PLAN_READY | Scoped amendment; bootstrap acceptance не заменяет |
 | [Operator bootstrap](guides/operator-bootstrap.md) | operator actions NOT RUN | Exact checkpoint import, external trusted first export, later trusted applier |
 | [Cloud tooling provenance](verification/cloud-tooling-provenance.json) | pinned source / exact target blobs | Узкая ulab adaptation, managed inventory unchanged |
@@ -32,3 +32,20 @@
 - [Retained64channels](verification/runtime-retention.json)
 - [Worker/browser latency](verification/runtime-browser.json)
 - [Фактический12h kernel](verification/runtime-long-kernel.json)
+
+## Проверка реализации
+
+| Документ | Статус | Область |
+|---|---|---|
+| [Исходная продуктовая QA](reviews/2026-10-05-product-qa.md) | FAIL / history | Семь воспроизводимых исходных ошибок |
+| [Повторная QA](reviews/2026-10-05-product-qa-affected.md) | PASS affected surface / history | Закрыты семь ошибок и соседняя проверка gate бака |
+| [Исходное Code Review](reviews/2026-10-05-product-code-review.md) | CHANGES_REQUESTED / history | Три отдельных blockers |
+| [QA исправлений ревью](reviews/2026-10-05-product-review-fix-qa.md) | PASS affected surface | Свежие численные/DOM/long/retention проверки |
+| [Повторное scoped Code Review](reviews/2026-10-05-product-code-review-affected.md) | APPROVED / 0 blockers | Четыре изменённых code/test paths и exact QA evidence |
+| [Cloud QA](https://github.com/komleff/u2-lab/blob/bootstrap/overgate-v4/docs/reviews/2026-10-05-cloud-qa.md) | C1–C6 PASS | В bootstrap base, не full acceptance |
+| [Cloud Code Review](https://github.com/komleff/u2-lab/blob/bootstrap/overgate-v4/docs/reviews/2026-10-05-cloud-code-review.md) | scoped APPROVED | В bootstrap base, B0/B6/B8 остаются открытыми |
+
+Текущий runtime подготовлен для локальных экспериментов. 54 unit tests и5 browser checks PASS,
+1 screenshot-only case SKIP; fresh independent S12h/dt0.01 —134.916s. Экспериментальные S/M
+не утверждают U2 SKU. Физическое второе LAN устройство, native hooks, operator export/restore,
+trusted finalize и merge остаются открытыми. Beads notes — PENDING, canonical9 задач неизменны.

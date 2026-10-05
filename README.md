@@ -8,9 +8,11 @@
 ## Текущий статус
 
 Браузерный Power & Heat v0.1 реализован в [Draft PR №2](https://github.com/komleff/u2-lab/pull/2),
-ветка `feat/power-heat-lab`. Developer checks:38 unit tests,5 Chromium browser checks,
-typecheck/build — PASS. Независимая продуктовая QA и scoped Code Review — следующий этап;
-acceptance/merge readiness не заявляются. Пресеты S/M явно экспериментальные.
+ветка `feat/power-heat-lab`. Независимая продуктовая QA — PASS; affected scoped Code Review —
+APPROVED, открытых blockers нет. 54 unit tests,5 Chromium browser checks, typecheck/build — PASS
+(1 screenshot-only test SKIP). Свежий независимый12h replay:4.32 млн ticks за134.916s.
+[Актуальные отчёты](docs/INDEX.md#проверка-реализации) сохраняют все исходные failures и их closure.
+Полная bootstrap/operator acceptance и merge readiness не заявляются. Пресеты S/M явно экспериментальные.
 
 OverGate v4.0.0-rc.1, Memory Bank и исходные9 задач Beads подготовлены в
 [Draft PR №1](https://github.com/komleff/u2-lab/pull/1). Планы независимо PLAN_READY.

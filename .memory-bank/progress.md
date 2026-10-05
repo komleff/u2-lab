@@ -41,24 +41,34 @@ first trusted export/restore/re-export/native activation/finalize/operator merge
 Reversible product preparation допускается после deterministic cloud checks согласно
 independent cloud PLAN_READY; canonical dependencies и P1–P14 сохраняются.
 
-
 ## Runtime preparation — current state
 
-Public Draft PR2 (`feat/power-heat-lab`, base bootstrap PR1) содержит реализованный T1–T6
-Power & Heat v0.1. Independent cloud QA C1–C6 PASS и scoped Code Review APPROVED опубликованы
-в base: docs/reviews/2026-10-05-cloud-qa.md и 2026-10-05-cloud-code-review.md. Это не B0 closure.
-Developer current checks:38 unit,5 actual Chromium browser,typecheck/build,26 cloud fixtures
-и structure/syntax PASS. Фактический S12h/dt0.01 replay завершён за132.46s; synthetic64channel
-retention и late Worker control измерены отдельно. Exact evidence/report —
-.superpowers/sdd/2026-10-05-u2-lab-launch/runtime-report.md; docs/verification/runtime-*.json.
-Продуктовая QA подготовила31 independent case из spec/VC; execution и scoped product Review
-ещё pending. Не объявлять product acceptance/merge readiness до этих этапов.
-Параметры S/M и palette сохраняют canonical/derived/experimental origins; material/Cp/throughput
-замены — видимые lab experiments, не утверждённые U2 SKU. Detection tuning исключён.
+Power & Heat v0.1 реализован в Draft PR2 (`feat/power-heat-lab`, base bootstrap PR1).
+План получил independent PLAN_READY; cloud C1–C6 QA PASS и scoped Review APPROVED в base.
+Original product QA FAIL7 сохранён; seven+adjacent tank-gate validation исправлены.
+One scoped Review CHANGES_REQUESTED3 сохранён; nonlinear RK4 accuracy, within-dt tank
+critical/restart boundaries и imported-ID literal rendering исправлены с RED→GREEN tests.
+Independent affected QA PASS и scoped re-review APPROVED, active blocker/advisory0.
+Current reports: docs/INDEX.md#проверка-реализации. Review binds4 changed code/test paths
++entireVC (3c50d8d27786ba102263d9d66d60cb42ab8b802dd0dfcfa09d83efd4d38c308c);
+current independent QA report f035e006da38a7ce03699ead6360f4184856b887ae8fa804a78d2a6588bbef46.
+54 unit/typecheck/build,5 actual Chromium browser PASS,1 screenshot-only SKIP.
+Fresh own QA S12h/dt0.01:4,320,033ticks/43,200buckets/42channels/134.916s;
+energy residual−0.072141J over64.1072GJ. Retained64×50k≈111.49MB;98 nearcap≈120.56MB,
+both<128MiB. Root standalone HTTP smoke: S/M14s,A/B,390px,independent local contexts,
+no remote assets/page exceptions. Physical LAN2 is NOT RUN.
 
-Hosted Beads remains read-snapshot/write-intents: никаких live bd/Dolt/apply/export/snapshot push.
-Исходный recovery checkpoint и9IDs неизменны; runtime-preparation queue содержит только
-unapplied PENDING notes к исходным tasks. Status/dependencies/close не запрашиваются.
-B0/B6/B8, operator first export/restore/native/finalize/merge и physical LAN2 остаются открытыми.
-Следующий шаг PM: exact candidate publication → independent product QA → one scoped Review;
-реальные blockers возвращаются Developer, affected rechecks в тех же sessions.
+S/M/palette сохраняют canonical/derived/experimental origins; fitting/material/Cp/throughput
+gaps явно экспериментальные. Detection tuning исключён до согласования энергии/тепла/модулей.
+Source U2/current WHAT, exact P1–P14 и fixed67-operation inventory не изменены.
+
+Hosted Beads — read-snapshot/write-intents ONLY; не запускать live bd/Dolt/applier wrapper/
+export/snapshot push. Original recovery checkpoint9IDs/bytes unchanged. Queues are
+unapplied PENDING NOTE-only intents; canonical status/deps/close не изменены.
+Verification notes: .bd-intents/verification-results.jsonl; applying is operator action
+after trusted bootstrap acceptance. Existing B0/B6/B8/canonical deps stay open.
+Next operator actions: docs/guides/operator-bootstrap.md — authenticated primary first
+export/restore, real native hook smoke, affected bootstrap acceptance/finalize and operator merge.
+Do not repeat completed planning/install/product audits or request hosted credentials.
+PRODUCT verifier sessions3/5 (Plan,QA,reused scopedRV); affected same-session checks aren't new launches.
+This delivery is reversible runtime preparation, not full bootstrap/readiness/merge acceptance.
