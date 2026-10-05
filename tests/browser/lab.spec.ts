@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 test("runnable Russian lab: S/M, charts, pause/step/reset, immutable A/B and safe import", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/?mode=legacy");
   await expect(
     page.getByRole("heading", { name: "Power & Heat Lab" }),
   ).toBeVisible();
@@ -46,7 +46,7 @@ test("small screen keeps config charts and journal accessible, all runtime asset
     if (!r.url().startsWith("http://127.0.0.1:4173")) remote.push(r.url());
   });
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
+  await page.goto("/?mode=legacy");
   await expect(page.locator("#configuration")).toBeVisible();
   await expect(page.locator("#power-chart")).toBeVisible();
   await expect(page.locator("#events")).toBeVisible();
@@ -73,7 +73,7 @@ test("real Worker controls ACK below500ms with40000 retained buckets and missing
     { id: "idle", action: "idle", durationSeconds: 43200, duty: 0 },
   ];
   markEdits(p);
-  await page.goto("/");
+  await page.goto("/?mode=legacy");
   const evidence = await page.evaluate(
     async ({ p, file }) => {
       return await new Promise<any>((resolve, reject) => {
@@ -151,7 +151,7 @@ test("real Worker controls ACK below500ms with40000 retained buckets and missing
 
 test("own app screenshots", async ({ page }) => {
   test.skip(!process.env.U2_SCREENSHOTS);
-  await page.goto("/");
+  await page.goto("/?mode=legacy");
   await page.getByRole("button", { name: "Запуск", exact: true }).click();
   await expect(page.locator("#status")).toContainText("Завершён");
   await page.screenshot({
@@ -167,7 +167,7 @@ test("own app screenshots", async ({ page }) => {
 test("step after reset starts an experiment and editing next preset keeps active run stocks", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/?mode=legacy");
   await page.locator("#duration").fill("43200");
   await page.locator("#acceleration").selectOption("1");
   await page.getByRole("button", { name: "Сброс", exact: true }).click();
@@ -189,7 +189,7 @@ test('RV-B3/P12 advanced JSON renders HTML-like imported tank IDs as literal tex
   for (const m of p.ship.modules) if (m.tankId === original) m.tankId = injected;
   p.initial.fuelKg[injected] = p.initial.fuelKg[original]; delete p.initial.fuelKg[original];
   markEdits(p);
-  await page.goto('/');
+  await page.goto('/?mode=legacy');
   await page.getByRole('button', {name: 'Все параметры / фазы JSON'}).click();
   await page.locator('#json-editor').fill(JSON.stringify(p));
   await page.getByRole('button', {name: 'Применить', exact: true}).click();
@@ -213,7 +213,7 @@ test('LAN HTTP insecure origin supports fresh start/reset/second start/step run 
     };
   });
   const errors: string[] = []; page.on('pageerror', e => errors.push(String(e)));
-  await page.goto(origin);
+  await page.goto(origin+'/?mode=legacy');
   await expect(page.locator('footer')).toContainText('v0.1.1');
   const capabilities = await page.evaluate(() => ({origin: location.origin, secure: isSecureContext,
     randomUUID: typeof crypto.randomUUID, getRandomValues: typeof crypto.getRandomValues}));

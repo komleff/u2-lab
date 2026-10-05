@@ -1,6 +1,6 @@
 import type {ShipFit,CandidateCatalog,FitValidation,FitIssue,ModuleItem,ResolvedInstance} from './types';
 const sizes=['XS','S','M','L','XL','XXL'];
-export function installedInstances(f:ShipFit,c:CandidateCatalog):ResolvedInstance[]{const h=c.hulls.find(h=>h.id===f.hullId);if(!h)return [];return [...h.builtins.map(b=>({id:b.id,item:structuredClone(b.item),enabled:true,builtin:true,role:b.role})),...Object.entries(f.assignments).flatMap(([slotId,id])=>{const i=f.instances[id],s=h.slots.find(s=>s.id===slotId);const item=i&&(f.localVariants[i.itemId]??c.items[i.itemId]);return i&&item&&s?[{id:i.id,item:structuredClone(item),enabled:i.enabled,builtin:false,slotId,role:s.role}]:[];})];}
+export function installedInstances(f:ShipFit,c:CandidateCatalog):ResolvedInstance[]{const h=c.hulls.find(h=>h.id===f.hullId);if(!h)return [];return [...h.builtins.map(b=>({id:b.id,item:structuredClone(b.item),enabled:f.builtinModes?.[b.id]?.enabled??true,builtin:true,role:b.role})),...Object.entries(f.assignments).flatMap(([slotId,id])=>{const i=f.instances[id],s=h.slots.find(s=>s.id===slotId);const item=i&&(f.localVariants[i.itemId]??c.items[i.itemId]);return i&&item&&s?[{id:i.id,item:structuredClone(item),enabled:i.enabled,builtin:false,slotId,role:s.role}]:[];})];}
 export function itemIssues(m:ModuleItem,path:string):FitIssue[]{const issues:FitIssue[]=[];const bad=(code:string,message:string,p=path)=>issues.push({path:p,code,message,severity:'error'});if(!m||!m.numerics||!m.gate||!Array.isArray(m.materials)){bad('ITEM','Неполное изделие');return issues;}
  for(const [k,n]of Object.entries(m.numerics))if(typeof n!=='number'||!Number.isFinite(n)||n<0)bad('NUMBER','Нужно конечное неотрицательное SI число',path+'.numerics.'+k);
  for(const k of ['efficiency','exportFraction','pathEfficiency','hostFraction','copEfficiency'])if(m.numerics[k]!==undefined&&(!(m.numerics[k]>=0&&m.numerics[k]<=1)))bad('RANGE','Доля должна быть в [0,1]');
@@ -16,6 +16,7 @@ export function validateFit(f:ShipFit,c:CandidateCatalog):FitValidation{
  if(!Number.isInteger(f.fitRevision)||f.fitRevision<1)bad('fitRevision','REVISION','Нужна положительная ревизия');
  const h=c.hulls.find(h=>h.id===f.hullId);if(!h){bad('hullId','HULL','Неизвестный корпус');return finish();}
  const used=new Set(h.builtins.map(b=>b.id));
+ for(const [id,mode]of Object.entries(f.builtinModes??{}))if(!h.builtins.some(b=>b.id===id&&!["battery","tank","cargo"].includes(b.item.family))||typeof mode.enabled!=="boolean")bad("builtinModes."+id,"BUILTIN_MODE","Недопустимый режим встроенного изделия");
  for(const [slotId,id]of Object.entries(f.assignments)){
   const s=h.slots.find(s=>s.id===slotId);if(!s){bad('assignments.'+slotId,'SLOT','Встроенный или неизвестный слот нельзя изменить');continue;}
   if(used.has(id))bad('assignments.'+slotId,'DUPLICATE_ID','Экземпляр уже назначен или принадлежит корпусу');used.add(id);
