@@ -1,0 +1,935 @@
+{
+  "baseline": "6fb7166513627941e2ba2c4a9a01c79ae1667820",
+  "spec": {
+    "schemaVersion": "u2-lab/1",
+    "units": "SI",
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "approvedBaseline": false,
+    "origins": {
+      "ship.heatCapacityJK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X3",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.dryMassKg": {
+        "kind": "derived",
+        "sourceRef": "intake:mass_ledger",
+        "derivation": "Сумма выбранных сухих масс, без cargo/fuel",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.thermalMaterials.0.massKg": {
+        "kind": "derived",
+        "sourceRef": "intake:mass_ledger",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.thermalMaterials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X3",
+        "derivation": "Frozen C_ship / dry assembly mass; effective experimental cp, not complete canonical material closure",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.hullPowerW": {
+        "kind": "canonical",
+        "sourceRef": "s8 §8; s29 cargo",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.hullRadiationM2": {
+        "kind": "experimental",
+        "sourceRef": "intake:X3",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.dischargeEfficiency": {
+        "kind": "experimental",
+        "sourceRef": "intake:X7",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.chargeEfficiency": {
+        "kind": "experimental",
+        "sourceRef": "intake:X7",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.accumulators.0.capacityJ": {
+        "kind": "derived",
+        "sourceRef": "s10 §4; stored e_acc × dry mass",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.tanks.0.capacityKg": {
+        "kind": "canonical",
+        "sourceRef": "s29 tank_diesel",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.tanks.0.energyJKg": {
+        "kind": "canonical",
+        "sourceRef": "s5 §3 diesel LHV",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.tanks.0.gate.low": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.tanks.0.gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.tanks.0.gate.high": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.tanks.0.gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.tanks.0.gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.tanks.0.gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.0.gate.low": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.0.gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.0.gate.high": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.0.gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.0.gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.0.gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.0.powerW": {
+        "kind": "canonical",
+        "sourceRef": "s10 §2–§3; s11 §2",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.0.efficiency": {
+        "kind": "experimental",
+        "sourceRef": "intake:X1",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.0.exportFraction": {
+        "kind": "canonical",
+        "sourceRef": "s11 generator self-export",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.0.pathEfficiency": {
+        "kind": "experimental",
+        "sourceRef": "intake:X1",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.0.forceN": {
+        "kind": "canonical",
+        "sourceRef": "s8 §8; s29 cargo",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.0.alpha": {
+        "kind": "experimental",
+        "sourceRef": "intake:X2",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.0.hostFraction": {
+        "kind": "experimental",
+        "sourceRef": "intake:X2",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.0.areaM2": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.0.capacityJ": {
+        "kind": "derived",
+        "sourceRef": "s10 §4; stored e_acc × dry mass",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.0.coolingW": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.0.auxW": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.0.qJKg": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.0.hotK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.0.copEfficiency": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.0.workPerJ": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.0.absorbAboveK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.0.releaseBelowK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.1.gate.low": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.1.gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.1.gate.high": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.1.gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.1.gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.1.gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.1.powerW": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.1.efficiency": {
+        "kind": "experimental",
+        "sourceRef": "intake:X1/X7",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.1.exportFraction": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.1.pathEfficiency": {
+        "kind": "experimental",
+        "sourceRef": "intake:X1/X7",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.1.forceN": {
+        "kind": "canonical",
+        "sourceRef": "s8 §8.1–§8.2",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.1.alpha": {
+        "kind": "experimental",
+        "sourceRef": "intake:X2; s5 §3.2",
+        "derivation": "0.565 kg/(MN s) / 1e6",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.1.hostFraction": {
+        "kind": "experimental",
+        "sourceRef": "intake:X2",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.1.areaM2": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.1.capacityJ": {
+        "kind": "derived",
+        "sourceRef": "s10 §4; stored e_acc × dry mass",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.1.coolingW": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.1.auxW": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.1.qJKg": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.1.hotK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.1.copEfficiency": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.1.workPerJ": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.1.absorbAboveK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.1.releaseBelowK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.2.gate.low": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.2.gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.2.gate.high": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.2.gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.2.gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.2.gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.2.powerW": {
+        "kind": "canonical",
+        "sourceRef": "s34 §2 CivilS/G1",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.2.efficiency": {
+        "kind": "canonical",
+        "sourceRef": "s34 §4 eta_laser=.5001",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.2.exportFraction": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.2.pathEfficiency": {
+        "kind": "experimental",
+        "sourceRef": "intake:X1/X7",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.2.forceN": {
+        "kind": "canonical",
+        "sourceRef": "s8 §8; s29 cargo",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.2.alpha": {
+        "kind": "experimental",
+        "sourceRef": "intake:X2",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.2.hostFraction": {
+        "kind": "experimental",
+        "sourceRef": "intake:X2",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.2.areaM2": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.2.capacityJ": {
+        "kind": "derived",
+        "sourceRef": "s10 §4; stored e_acc × dry mass",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.2.coolingW": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.2.auxW": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.2.qJKg": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.2.hotK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.2.copEfficiency": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.2.workPerJ": {
+        "kind": "experimental",
+        "sourceRef": "lab:work-conversion-1",
+        "derivation": "Условная добыча1 SCU/100MJ beam; не промышленный U2 throughput",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.2.absorbAboveK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.2.releaseBelowK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.gate.low": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.3.gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.3.gate.high": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.3.gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.3.gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.3.gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "intake:X4",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.3.powerW": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.efficiency": {
+        "kind": "experimental",
+        "sourceRef": "intake:X1/X7",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.exportFraction": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.pathEfficiency": {
+        "kind": "experimental",
+        "sourceRef": "intake:X1/X7",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.forceN": {
+        "kind": "canonical",
+        "sourceRef": "s8 §8; s29 cargo",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.alpha": {
+        "kind": "experimental",
+        "sourceRef": "intake:X2",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.hostFraction": {
+        "kind": "experimental",
+        "sourceRef": "intake:X2",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.areaM2": {
+        "kind": "derived",
+        "sourceRef": "s14 §3 passive",
+        "derivation": "emissivity × area",
+        "note": "Источник закреплён в parameter-intake.json; полный preset экспериментальный"
+      },
+      "ship.modules.3.capacityJ": {
+        "kind": "derived",
+        "sourceRef": "s10 §4; stored e_acc × dry mass",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.coolingW": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.auxW": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.qJKg": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.hotK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.copEfficiency": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.workPerJ": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.absorbAboveK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.modules.3.releaseBelowK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "ship.cargoCapacity": {
+        "kind": "canonical",
+        "sourceRef": "s8 §8; s29 cargo",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "initial.chargeJ": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "initial.temperatureK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "initial.fuelKg.diesel": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "environment.effectiveBackgroundK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "environment.solarFluxWm2": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "environment.linearWK": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "scenario.targetWork": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "scenario.phases.0.durationSeconds": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "scenario.phases.0.duty": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "scenario.phases.1.durationSeconds": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "scenario.phases.1.duty": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "scenario.phases.2.durationSeconds": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "scenario.phases.2.duty": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "scenario.phases.3.durationSeconds": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "scenario.phases.3.duty": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "scenario.phases.4.durationSeconds": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "scenario.phases.4.duty": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "stepSeconds": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      },
+      "durationSeconds": {
+        "kind": "experimental",
+        "sourceRef": "intake:X6",
+        "note": "Экспериментальная конфигурация; не утверждённый SKU"
+      }
+    },
+    "ship": {
+      "label": "S Civilian/G1 — экспериментальная lab configuration",
+      "size": "S",
+      "heatCapacityJK": 35659900,
+      "dryMassKg": 55050,
+      "thermalMaterials": [
+        {
+          "id": "intake-dry-assembly",
+          "massKg": 55050,
+          "cpJKgK": 647.7729336966394,
+          "contents": "dry"
+        }
+      ],
+      "hullPowerW": 2500,
+      "hullRadiationM2": 456.45,
+      "dischargeEfficiency": 0.9,
+      "chargeEfficiency": 1,
+      "accumulators": [
+        {
+          "id": "accumulator",
+          "capacityJ": 3682500000
+        }
+      ],
+      "tanks": [
+        {
+          "id": "diesel",
+          "species": "diesel",
+          "capacityKg": 6000,
+          "energyJKg": 43000000,
+          "gate": {
+            "low": 150,
+            "workLow": 200,
+            "high": 570,
+            "restartLow": 180,
+            "restartHigh": 550,
+            "workHigh": 500
+          }
+        }
+      ],
+      "modules": [
+        {
+          "id": "generator",
+          "kind": "generator",
+          "enabled": true,
+          "policy": "Active",
+          "gate": {
+            "low": 150,
+            "workLow": 200,
+            "high": 570,
+            "restartLow": 180,
+            "restartHigh": 550,
+            "workHigh": 510
+          },
+          "powerW": 2000000,
+          "efficiency": 0.35,
+          "exportFraction": 0.45,
+          "pathEfficiency": 0.9,
+          "forceN": 0,
+          "alpha": 0,
+          "hostFraction": 1,
+          "areaM2": 0,
+          "capacityJ": 0,
+          "coolingW": 0,
+          "auxW": 0,
+          "qJKg": 10000000,
+          "hotK": 800,
+          "copEfficiency": 0.5,
+          "workPerJ": 0,
+          "absorbAboveK": 290,
+          "releaseBelowK": 280,
+          "tankId": "diesel",
+          "species": "diesel"
+        },
+        {
+          "id": "engine",
+          "kind": "engine",
+          "enabled": true,
+          "policy": "Active",
+          "gate": {
+            "low": 150,
+            "workLow": 200,
+            "high": 700,
+            "restartLow": 180,
+            "restartHigh": 680,
+            "workHigh": 570
+          },
+          "powerW": 0,
+          "efficiency": 0.32,
+          "exportFraction": 0,
+          "pathEfficiency": 1,
+          "forceN": 2950000,
+          "alpha": 5.65e-7,
+          "hostFraction": 0.05,
+          "areaM2": 0,
+          "capacityJ": 0,
+          "coolingW": 0,
+          "auxW": 0,
+          "qJKg": 10000000,
+          "hotK": 800,
+          "copEfficiency": 0.5,
+          "workPerJ": 0,
+          "absorbAboveK": 290,
+          "releaseBelowK": 280,
+          "tankId": "diesel",
+          "species": "diesel"
+        },
+        {
+          "id": "laser",
+          "kind": "load",
+          "enabled": true,
+          "policy": "Active",
+          "gate": {
+            "low": 150,
+            "workLow": 200,
+            "high": 570,
+            "restartLow": 180,
+            "restartHigh": 550,
+            "workHigh": 510
+          },
+          "powerW": 3000000,
+          "efficiency": 0.5001,
+          "exportFraction": 0,
+          "pathEfficiency": 1,
+          "forceN": 0,
+          "alpha": 0,
+          "hostFraction": 1,
+          "areaM2": 0,
+          "capacityJ": 0,
+          "coolingW": 0,
+          "auxW": 0,
+          "qJKg": 10000000,
+          "hotK": 800,
+          "copEfficiency": 0.5,
+          "workPerJ": 1e-8,
+          "absorbAboveK": 290,
+          "releaseBelowK": 280
+        },
+        {
+          "id": "passive",
+          "kind": "radiator",
+          "enabled": true,
+          "policy": "Active",
+          "gate": {
+            "low": 150,
+            "workLow": 200,
+            "high": 570,
+            "restartLow": 180,
+            "restartHigh": 550,
+            "workHigh": 510
+          },
+          "powerW": 0,
+          "efficiency": 1,
+          "exportFraction": 0,
+          "pathEfficiency": 1,
+          "forceN": 0,
+          "alpha": 0,
+          "hostFraction": 1,
+          "areaM2": 441,
+          "capacityJ": 0,
+          "coolingW": 0,
+          "auxW": 0,
+          "qJKg": 10000000,
+          "hotK": 800,
+          "copEfficiency": 0.5,
+          "workPerJ": 0,
+          "absorbAboveK": 290,
+          "releaseBelowK": 280
+        }
+      ],
+      "cargoCapacity": 12
+    },
+    "environment": {
+      "effectiveBackgroundK": 100,
+      "solarFluxWm2": 0,
+      "solarSourceId": "sun",
+      "backgroundSourceId": "deep-space",
+      "energyInputs": [],
+      "directHeat": [],
+      "law": "radiative",
+      "linearWK": 0
+    },
+    "initial": {
+      "chargeJ": 3682500000,
+      "temperatureK": 300,
+      "fuelKg": {
+        "diesel": 6000
+      },
+      "buffersJ": {}
+    },
+    "scenario": {
+      "name": "Добыча → возвращение → разгрузка",
+      "repeat": true,
+      "targetWork": 12,
+      "phases": [
+        {
+          "id": "approach",
+          "durationSeconds": 10,
+          "action": "approach",
+          "duty": 1
+        },
+        {
+          "id": "mining",
+          "durationSeconds": 800,
+          "action": "work",
+          "duty": 1
+        },
+        {
+          "id": "return",
+          "durationSeconds": 10,
+          "action": "return",
+          "duty": 0.4
+        },
+        {
+          "id": "unload",
+          "durationSeconds": 10,
+          "action": "service",
+          "duty": 0,
+          "service": {
+            "refuel": false,
+            "unload": true,
+            "charge": false
+          }
+        },
+        {
+          "id": "recovery",
+          "durationSeconds": 970,
+          "action": "recovery",
+          "duty": 0
+        }
+      ]
+    },
+    "durationSeconds": 4,
+    "stepSeconds": 0.01
+  },
+  "state": {
+    "timeSeconds": 4,
+    "chargeJ": 3682500000,
+    "temperatureK": 300.2283000643182,
+    "fuelKg": {
+      "diesel": 5993.3321796892415
+    },
+    "buffersJ": {},
+    "gates": {
+      "generator": false,
+      "engine": false,
+      "laser": false,
+      "passive": false,
+      "tank:diesel": false
+    },
+    "cargo": 0,
+    "usefulWork": 0,
+    "phaseKey": "0:0",
+    "constraints": [],
+    "sourceRecovery": false
+  },
+  "metrics": {
+    "ticks": 400,
+    "usefulWork": 0,
+    "firstConstraintSeconds": null,
+    "forcedDowntimeSeconds": 0,
+    "recoverySeconds": null,
+    "nextActionReadySeconds": null,
+    "firstTargetSeconds": null,
+    "firstSortieSeconds": null,
+    "fuelConsumedKg": {
+      "diesel": 6.667820310758543
+    },
+    "coolantConsumedKg": 0,
+    "maxTemperatureK": 300.2283000643182,
+    "energyResidualJ": 2.5960616767406464e-8,
+    "sourceEnergyJ": 11111.111111111015,
+    "beamEnergyJ": 0,
+    "thrustImpulseNs": 11800000
+  }
+}
