@@ -83,3 +83,4 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 
 - [Принятие дизайна и запуск реализации](product/ship-fitting-v0.2-acceptance.md) — current operator authority поверх frozen GDD/плана.
 - [ТЗ UX/UI для Claude Design](ux/ship-fitting-v0.2-claude-design-brief.md) — самодостаточный brief для HTML/SVG desktop/mobile макетов.
+- [Макеты Ship Fitting v2.1 и Power & Heat Lab: решения и сценарии](ux/claude-design/ship-fitting-power-heat-ux-v2.1.md) — принято оператором 2026-10-06; отклонения от ТЗ, карта функционала, workflow, указания кодеру; исходники макетов в `ux/claude-design/mockups/`.

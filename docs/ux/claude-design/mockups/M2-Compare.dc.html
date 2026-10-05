@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Ship Fitting mobile — сравнение</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=PT+Sans+Narrow:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#141210}
+.m *{box-sizing:border-box}
+.m h1,.m h2,.m p,.m dl,.m dd{margin:0}
+.m :focus-visible{outline:2px solid #4DA6FF;outline-offset:2px}
+.m .disp{font-family:'PT Sans Narrow','Arial Narrow',sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;line-height:1.05}
+.m .lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#a3906f}
+.m .sub{font-size:13px;color:#a3906f}
+.m .sq{display:inline-block;width:9px;height:9px;flex:none}
+.m .ok{background:#5F9E4E}.m .warn{background:#E5C23A}
+.m .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;border:1px solid #5a4a34;border-radius:3px;background:#1A1815;color:#e8dcc6;font:inherit;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;text-decoration:none}
+.m .seg{display:flex;border:1px solid #5a4a34;border-radius:3px;overflow:hidden}
+.m .seg button{flex:1 1 0;min-height:44px;background:#1A1815;border:0;border-right:1px solid #3a3226;color:#c9b795;font:inherit;font-size:13px;cursor:pointer}
+.m .seg button:last-child{border-right:0}
+.m .seg .on{background:#3A2818;color:#FFAA33}
+.m .card{display:flex;flex-direction:column;gap:6px;padding:12px;background:#201d19;border:1px solid #3a3226;border-radius:3px}
+.m .card-a{border-color:#6a4a26;background:#211B12}
+.m .ln{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:4px 0;border-bottom:1px solid #2b251d}
+.m .ln dt{color:#a3906f}
+.m .ln dd{color:#F2EDE0;text-align:right}
+.m .bar{height:8px;background:#2e2820;box-shadow:inset 0 0 0 1px #5a4a34;border-radius:1px;overflow:hidden}
+.m .bar i{display:block;height:8px;background:#FFAA33}
+</style>
+</helmet>
+<div class="m" style="width: 390px; height: 844px; display: flex; flex-direction: column; background: #141210; color: #e8dcc6; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 14px; line-height: 1.45; font-variant-numeric: tabular-nums">
+<header style="flex: none; display: flex; align-items: center; gap: 10px; height: 56px; padding: 0 12px; background: linear-gradient(#26211B, #1C1815); border-bottom: 2px solid #4a3f30">
+<a class="btn" href="M2-Fitting.dc.html" aria-label="Назад к оснастке" style="min-width: 44px; padding: 0 12px">←</a>
+<h1 class="disp" style="font-size: 22px; color: #F2EDE0">Сравнение</h1>
+<span class="sub" style="margin-left: auto">Титан · цикл 300 с</span>
+</header>
+<div style="flex: 1 1 auto; overflow-y: auto; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span class="lbl">Сортировать по</span>
+<div class="seg" role="group" aria-label="Показатель для сравнения">
+<sc-for list="{{keys}}" as="k" hint-placeholder-count="3"><button type="button" class="{{k.cls}}" onClick="{{k.set}}" aria-pressed="{{k.on}}">{{k.t}}</button></sc-for>
+</div>
+</div>
+<sc-for list="{{cards}}" as="c" hint-placeholder-count="3">
+<section class="{{c.cls}}" aria-label="{{c.name}}">
+<div style="display: flex; align-items: baseline; gap: 8px">
+<h2 class="disp" style="font-size: 20px; color: #F2EDE0">{{c.name}}</h2>
+<sc-if value="{{c.isA}}" hint-placeholder-val="{{false}}"><span class="sub">текущая</span></sc-if>
+<b style="margin-left: auto; font-size: 20px; color: #FFAA33; white-space: nowrap">{{c.head}}</b>
+</div>
+<div class="bar" aria-hidden="true"><i style="width: {{c.pct}}%"></i></div>
+<dl>
+<sc-for list="{{c.rows}}" as="r" hint-placeholder-count="5"><div class="ln"><dt>{{r.k}}</dt><dd>{{r.v}}</dd></div></sc-for>
+</dl>
+<div style="display: flex; gap: 8px; align-items: center; font-size: 13px"><span class="sq warn" aria-hidden="true"></span>{{c.lim}}</div>
+</section>
+</sc-for>
+<div style="display: flex; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid #3d5a33; background: #182015; border-radius: 3px; font-size: 13px"><span class="sq ok" aria-hidden="true"></span>Одинаковые сырьё, среда, фазы и запасы</div>
+<p class="sub" style="color: #c9b795">Третий лазер добавляет 6 SCU/ч (+4 %), но использование оснастки падает с 30,7 до 21,3 %. Общего рейтинга нет.</p>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = this.state || {}, set = o => this.setState(o);
+    const key = st.key || 'rate';
+    const V = [
+      { id: 'A', name: 'A · 3 лазера', rate: 144, k: 21.3, d: 4.0, out: '12', h2: '0,50', lim: 'Питание · 18,2 с' },
+      { id: 'B', name: 'B · 2 лазера', rate: 138, k: 30.7, d: 3.0, out: '11,5', h2: '0,30', lim: 'Тепло · 74,0 с' },
+      { id: 'C', name: 'C · 1 лазер', rate: 108, k: 48.0, d: 3.0, out: '9', h2: '0,20', lim: 'Тепло · 96,0 с' }
+    ];
+    const fx = n => n.toFixed(1).replace('.', ',');
+    const K = { rate: ['SCU/ч', v => v.rate + ' SCU/ч', v => v.rate / 144 * 100, -1], k: ['Использование', v => fx(v.k) + ' %', v => v.k / 48 * 100, -1], d: ['Дизель', v => fx(v.d) + ' кг/SCU', v => v.d / 4 * 100, 1] };
+    const kd = K[key];
+    const list = V.slice().sort((a, b) => (a[key] - b[key]) * kd[3]);
+    return {
+      keys: Object.keys(K).map(k => ({ t: K[k][0], on: k === key, cls: k === key ? 'on' : '', set: () => set({ key: k }) })),
+      cards: list.map(v => ({ name: v.name, isA: v.id === 'A', cls: v.id === 'A' ? 'card card-a' : 'card', head: kd[1](v), pct: Math.round(kd[2](v)), lim: 'Первое ограничение: ' + v.lim,
+        rows: [{ k: 'Добыча за цикл', v: v.out + ' SCU' }, { k: 'SCU/ч', v: String(v.rate) }, { k: 'Использование оснастки', v: fx(v.k) + ' %' }, { k: 'Дизель', v: fx(v.d) + ' кг/SCU' }, { k: 'H₂', v: v.h2 + ' кг/SCU' }] }))
+    };
+  }
+}
+</script>
+</body>
+</html>
