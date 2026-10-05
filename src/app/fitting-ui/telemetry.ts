@@ -58,6 +58,7 @@ export function eventMatches(kind: string, filter: string) {
     (filter === "thermal" && kind.startsWith("thermal")) ||
     (filter === "resource" && /resource|battery|cargo|buffer/.test(kind)) ||
     (filter === "phase" && kind === "phase") ||
+    (filter === "environment" && kind.startsWith("environment")) ||
     (filter === "service" && /service|unload/.test(kind)) ||
     (filter === "limit" && /limit|constraint/.test(kind))
   );

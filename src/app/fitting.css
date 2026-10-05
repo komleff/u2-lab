@@ -261,6 +261,8 @@ body:has(.fitting-app) {
 }
 .fitting-app .variant-tabs button {
   white-space: nowrap;
+  min-width: 44px;
+  flex-shrink: 0;
 }
 .fitting-app #fit-next-revision,
 .fitting-app #fit-active-owner {
@@ -464,6 +466,9 @@ body:has(.fitting-app) {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 .fitting-app .module-card {
+  width: 100%;
+  height: 100%;
+  text-align: left;
   border: 1px solid var(--border);
   border-left: 3px solid var(--action);
   border-radius: 3px;
@@ -472,6 +477,20 @@ body:has(.fitting-app) {
   display: flex;
   flex-direction: column;
   gap: 7px;
+}
+.fitting-app .module-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.fitting-app .module-wrapper .module-card {
+  flex: 1;
+}
+.fitting-app .card-enable {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+}
+.fitting-app .card-action-label {
+  color: var(--action);
 }
 .fitting-app .builtin {
   border-left-color: #5a4a34;
@@ -582,8 +601,10 @@ body:has(.fitting-app) {
 }
 .fitting-app .lab-columns {
   display: grid;
-  grid-template-columns: 300px minmax(0, 1fr);
-  gap: 18px;
+  grid-template-columns: 256px minmax(0, 824px) 280px;
+  grid-template-areas: "conditions main resources";
+  gap: 16px;
+  align-items: start;
 }
 .fitting-app .condition-fields {
   display: grid;
@@ -835,9 +856,7 @@ body:has(.fitting-app) {
   .fitting-app .result-tiles {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  .fitting-app .lab-columns {
-    grid-template-columns: 260px minmax(0, 1fr);
-  }
+
   .fitting-app .condition-fields {
     grid-template-columns: 1fr;
   }
@@ -846,7 +865,6 @@ body:has(.fitting-app) {
   }
 }
 @media (max-width: 800px) {
-  .fitting-app .lab-columns,
   .fitting-app .ship-hero {
     grid-template-columns: 1fr;
   }
@@ -895,18 +913,19 @@ body:has(.fitting-app) {
     gap: 6px;
   }
   .fitting-app .control-buttons button {
-    flex: 1;
+    flex: 0 0 auto;
+    min-width: 44px;
     font-size: 12px;
   }
   .fitting-app .control-buttons .primary {
     min-height: 48px;
-    flex: 2;
+    flex: 0 0 auto;
   }
   .fitting-app .ui-controls .control-status {
     width: 100%;
   }
-  .fitting-app .fitting-app {
-    padding-bottom: 180px;
+  .fitting-app {
+    padding-bottom: 260px;
   }
   .fitting-app .ui-panel {
     padding: 14px;
@@ -952,7 +971,7 @@ body:has(.fitting-app) {
     margin-left: 0;
   }
   .fitting-app {
-    padding-bottom: 210px;
+    padding-bottom: 290px;
   }
   .fitting-app .ui-brand strong {
     font-size: 26px;
@@ -1054,5 +1073,89 @@ body:has(.fitting-app) {
   }
   .fitting-app .catalog-row strong {
     overflow-wrap: anywhere;
+  }
+}
+
+.fitting-app .lab-side {
+  grid-area: conditions;
+}
+.fitting-app .lab-main {
+  grid-area: main;
+}
+.fitting-app .lab-right {
+  grid-area: resources;
+}
+.fitting-app .compare-cards,
+.fitting-app .ab-rows,
+.fitting-app .ab-view-controls {
+  display: none;
+}
+.fitting-app .catalog-metrics {
+  flex: 0 1 50%;
+  overflow-wrap: anywhere;
+}
+.fitting-app .catalog-row > span:nth-child(2) {
+  min-width: 100px;
+}
+.fitting-app .compare-cards article {
+  border: 1px solid var(--border);
+  padding: 12px;
+  margin-top: 12px;
+}
+.fitting-app .compare-cards dl > div,
+.fitting-app .ab-rows dl > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.fitting-app .ab-rows {
+  gap: 12px;
+}
+.fitting-app .ab-rows > section {
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+@media (min-width: 768px) and (max-width: 1279px) {
+  .fitting-app .lab-columns {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "main main" "conditions resources";
+  }
+}
+@media (max-width: 767px) {
+  .fitting-app input,
+  .fitting-app select {
+    font-size: 16px;
+  }
+  .fitting-app .lab-columns {
+    grid-template-columns: 1fr;
+    grid-template-areas: "main" "conditions" "resources";
+  }
+  .fitting-app .compare-desktop,
+  .fitting-app .ab-desktop {
+    display: none;
+  }
+  .fitting-app .compare-cards {
+    display: block;
+  }
+  .fitting-app .ab-rows {
+    display: flex;
+  }
+  .fitting-app .ab-view-controls {
+    display: flex;
+  }
+  .fitting-app .ab-comparison[data-view="a"] .ab-side-b,
+  .fitting-app .ab-comparison[data-view="a"] .ab-plot-b,
+  .fitting-app .ab-comparison[data-view="b"] .ab-side-a,
+  .fitting-app .ab-comparison[data-view="b"] .ab-plot-a {
+    display: none;
+  }
+  .fitting-app .ab-rows dl > div {
+    display: block;
+    min-height: 92px;
+  }
+  .fitting-app .catalog-metrics {
+    min-width: 0;
   }
 }
