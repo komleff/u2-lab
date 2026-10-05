@@ -41,7 +41,7 @@ first trusted export/restore/re-export/native activation/finalize/operator merge
 Reversible product preparation допускается после deterministic cloud checks согласно
 independent cloud PLAN_READY; canonical dependencies и P1–P14 сохраняются.
 
-## Runtime preparation — current state
+## Runtime preparation — history before LAN HTTP patch
 
 Power & Heat v0.1 подготовлен для локальных экспериментов в Draft PR2, base bootstrap PR1.
 Product и cloud планы получили independent PLAN_READY; cloud C1–C6 QA PASS/scoped APPROVED.
@@ -73,3 +73,28 @@ no canonical status/dependency/close. B0/B6/B8/operator export/restore/native ho
 merge remain open. Next operator procedure: docs/guides/operator-bootstrap.md.
 PRODUCT verifier sessions3/5: same Plan/QA/RV; affected turns are not new launches.
 This is reversible preparation; full bootstrap/readiness/merge acceptance не заявляется.
+
+## LAN HTTP patch0.1.1 — current state
+
+Operator Xiaomi/Chrome page opened at http://192.168.68.65:4173 but simulation did not start.
+Baseline non-local HTTP QA FAIL is preserved: reset() called secure-context-only randomUUID;
+actual secure=false browser threw TypeError before Worker. The former two localhost contexts
+did not cover this boundary. Developer replaced only opaque runId generation with16CSPRNG
+bytes via getRandomValues; new durable browser regression RED→GREEN, footer/package0.1.1.
+Model/catalog/schema/protocol/physical source blobs and accepted WHAT/P1–P14 unchanged.
+Fix source fead162208d1e7d1918f36d8f51089110e924c51; affected QA candidate c2ea755cc47ca9f8f3ac62dc0da8fc45e1abfa2d.
+Current affected QA PASS: docs/reviews/2026-10-05-lan-http-qa-affected.md,
+SHA256 c21055922e1e73d4039a83027b0719f90c82fdbe7b0034e05c68ba3f3827dc12.
+Current scoped Review APPROVED: docs/reviews/2026-10-05-lan-http-code-review.md,
+SHA256 1d04eb5b65303860cbe56a8ad9e56b25dd539cdcbcce69d588bcdbdda7a5bab9.
+Exact4changedpaths+entireVC fingerprint ad7d1b83cc852ea56c5291b26ea7236e4587a0bebec0cd7ec340071208a27ac8.
+Developer56unit/6browser PASS+1screenshotSKIP,type/build/26bootstrap PASS. Source CI
+37272666370/37272662118 SUCCESS; actual extracted ZIP0.1.1 localhost/non-local HTTP PASS,
+SHA2562738ebf9b24a2f4694c9705e72afc228db5391962622f5457c3b9a02fea72c1c,40075B/6files.
+Real Xiaomi/second physical LAN NOTRUN; browser origin emulation is not physical acceptance.
+No new local12h replay for UI-only delta; previous physical evidence retained honestly.
+Detailed current transfer: docs/handoffs/2026-10-05-mac-lan-http.md; launch/checkfooter/tablet
+commands: docs/user/local-network.md. Same QA/Reviewer affected sessions reused; no new swarm.
+No queue/livebd/Dolt/export/task status or dependency mutations in this fix. Original9ID
+checkpoint/managed install bytes unchanged. B0/B6/B8/native/operator export+restore/finalize/
+operator merge OPEN; PR2 remains stacked/draft. Detection remains out of scope.

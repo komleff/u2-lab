@@ -1,7 +1,22 @@
-# Запуск Power & Heat Lab v0.1
+# Запуск Power & Heat Lab0.1.1
 
 Требуются Node24 (или совместимая версия >=22.12) и npm. Все runtime assets локальны;
 каждый браузер запускает независимый Web Worker. Simulation backend, аккаунт и CDN не нужны.
+
+
+Patch0.1.1 исправляет запуск по обычному LAN HTTP. В footer должно быть `Power & Heat v0.1.1`.
+Run ID использует `crypto.getRandomValues`; secure-context-only `randomUUID` больше не нужен.
+При обновлении остановите собственный старый сервер Ctrl+C, пересоберите dist либо распакуйте
+новую standalone в отдельную папку, затем снова запустите сервер этой папки.
+Для существующего адреса: `http://192.168.68.65:4173/?v=0.1.1`; если хост изменился,
+используйте его реальный LAN IP. Если footer старый, проверьте server directory и обновление страницы.
+HTTPS и изменение Chrome security flags для запуска не требуются.
+
+Короткая проверка на втором устройстве: S14s/Запуск→Завершён,Сброс→0s,M14s/Запуск→Завершён,
+Шаг после сброса→время>0. Для pause/resume используйте600s и ускорение×1;12h ждать не нужно.
+[Подробный отчёт для локального агента на Mac](../handoffs/2026-10-05-mac-lan-http.md).
+Hosted QA воспроизвела настоящую API-доступность secure=false origin собственными assets;
+физический Xiaomi/второй LAN клиент проверяет оператор. Это разные поверхности проверки.
 
 Сейчас runtime находится в draft-ветке; `main` сохраняет начальный seed до operator merge.
 
@@ -11,7 +26,6 @@ cd u2-lab
 npm ci
 npm run typecheck
 npm test
-npm run test:long
 npm run build
 npm run preview -- --host 0.0.0.0 --port 4173
 ```

@@ -32,7 +32,9 @@
 - [Retained64channels](verification/runtime-retention.json)
 - [Worker/browser latency](verification/runtime-browser.json)
 - [Фактический12h kernel](verification/runtime-long-kernel.json)
-- [Проверка распакованного preview](verification/standalone-preview.json)
+- [Проверка прежнего preview0.1](verification/standalone-preview.json) — history
+- [Проверка standalone0.1.1 / non-local HTTP](verification/lan-http-preview.json)
+- [Отчёт и передача агенту на Mac](handoffs/2026-10-05-mac-lan-http.md)
 
 ## Проверка реализации
 
@@ -48,11 +50,18 @@
 | [QA исправления пика](reviews/2026-10-05-product-peak-qa-affected.md) | PASS affected QB1/P13 | Три dt,40 tests и необходимые численные/replay проверки |
 | [Scoped review исправления пика](reviews/2026-10-05-product-peak-code-review.md) | APPROVED / 0 blockers,0 advisories | Пять code/test paths, entire VC и exact QA hash |
 | [Итоговая привязка метаданных](reviews/2026-10-05-product-final-binding.md) | PM SELF-CHECK | Не новый verifier и не full acceptance |
+| [LAN HTTP baseline QA](reviews/2026-10-05-lan-http-qa.md) | FAIL / history | secure=false / randomUUID unavailable, Start/Reset/Step падали до Worker |
+| [LAN HTTP affected QA](reviews/2026-10-05-lan-http-qa-affected.md) | PASS affected P1/P10 | Start/reset/new M/step, ID и stale-message cases; фактический Xiaomi NOT RUN |
+| [LAN HTTP scoped Code Review](reviews/2026-10-05-lan-http-code-review.md) | APPROVED / 0 blockers | Opaque IDs, HTTP API gate, regression и exact QA evidence |
+| [LAN HTTP итоговая привязка](reviews/2026-10-05-lan-http-final-binding.md) | PM SELF-CHECK | Metadata landing; не новый verifier/full acceptance |
 | [Cloud QA](https://github.com/komleff/u2-lab/blob/bootstrap/overgate-v4/docs/reviews/2026-10-05-cloud-qa.md) | C1–C6 PASS | В bootstrap base, не full acceptance |
 | [Cloud Code Review](https://github.com/komleff/u2-lab/blob/bootstrap/overgate-v4/docs/reviews/2026-10-05-cloud-code-review.md) | scoped APPROVED | В bootstrap base, B0/B6/B8 остаются открытыми |
 
-Текущий runtime подготовлен для локальных экспериментов.56 unit tests и5 browser checks PASS,
-1 screenshot-only case SKIP; свежий Developer S12h/dt0.01 —132.595s. Последняя независимая QA
-и scoped review закрыли QB1/P13. Экспериментальные S/M не утверждают U2 SKU.
-Физическое второе LAN устройство, native hooks, operator export/restore, trusted finalize
-и merge остаются открытыми. Beads notes — PENDING, canonical9 задач неизменны.
+Текущий runtime0.1.1 подготовлен для локальных экспериментов.56unit и6browser checks PASS,
+1screenshot-only case SKIP; type/build PASS. Exact source CI37272666370/37272662118 SUCCESS.
+LAN HTTP affected QA/scoped review закрыли отсутствие randomUUID вне secure context;
+контекст браузера secure=false воспроизведён собственными assets, физический Xiaomi NOT RUN.
+Предшествующий physical12h132.595s сохранён для неизменных model/kernel/Worker paths;
+новый локальный12h ради UI fix не запускался. QB1/P13 closure сохранён. S/M не утверждают U2 SKU.
+Физическое второе LAN устройство,native hooks,operator export/restore,trusted finalize
+и merge остаются открытыми. Beads notes — PENDING,canonical9 задач неизменны.
