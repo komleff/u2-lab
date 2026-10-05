@@ -1,4 +1,4 @@
-import hullData from './data/hulls.json';import itemData from './data/modules.json';
+import hullData from './data/hulls.json' with {type:'json'};import itemData from './data/modules.json' with {type:'json'};
 import type {CandidateCatalog,ModuleItem,ShipFit} from './types';
 export function loadCandidateCatalog():CandidateCatalog{return structuredClone({version:'ship-fitting-0.2.0',hulls:hullData,items:itemData}) as unknown as CandidateCatalog;}
 export function getPresetFit(id:string):ShipFit{

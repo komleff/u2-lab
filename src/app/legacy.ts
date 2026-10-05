@@ -711,3 +711,6 @@ $("apply-json").onclick = () => {
 window.addEventListener("resize", chart);
 configuration();
 update();
+
+const importedLegacy=sessionStorage.getItem('u2-lab:legacy-import');
+if(importedLegacy&&apply(importedLegacy))sessionStorage.removeItem('u2-lab:legacy-import');

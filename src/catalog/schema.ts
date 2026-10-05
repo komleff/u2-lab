@@ -287,3 +287,7 @@ export function validateRunSpec(input: unknown): ValidationResult<RunSpec> {
     ? { ok: false, errors }
     : { ok: true, value: structuredClone(p) };
 }
+
+// Диспетчер не переинтерпретирует числа legacy snapshot по текущему каталогу.
+export function validateAnyRunSpec(input:unknown):ValidationResult<import('../model/v2/types').AnyRunSpec>{return (input as any)?.schemaVersion==='u2-lab/2'?validateRunSpecV2(input):validateRunSpec(input);}
+import {validateRunSpecV2} from '../model/v2/step';
