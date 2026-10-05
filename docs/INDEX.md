@@ -57,7 +57,7 @@
 | [Cloud QA](https://github.com/komleff/u2-lab/blob/bootstrap/overgate-v4/docs/reviews/2026-10-05-cloud-qa.md) | C1–C6 PASS | В bootstrap base, не full acceptance |
 | [Cloud Code Review](https://github.com/komleff/u2-lab/blob/bootstrap/overgate-v4/docs/reviews/2026-10-05-cloud-code-review.md) | scoped APPROVED | В bootstrap base, B0/B6/B8 остаются открытыми |
 
-Текущий runtime0.1.1 подготовлен для локальных экспериментов.56unit и6browser checks PASS,
+Предыдущий runtime0.1.1 подготовлен для локальных экспериментов.56unit и6browser checks PASS,
 1screenshot-only case SKIP; type/build PASS. Exact source CI37272666370/37272662118 SUCCESS.
 LAN HTTP affected QA/scoped review закрыли отсутствие randomUUID вне secure context;
 контекст браузера secure=false воспроизведён собственными assets, физический Xiaomi NOT RUN.
@@ -65,3 +65,46 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 новый локальный12h ради UI fix не запускался. QB1/P13 closure сохранён. S/M не утверждают U2 SKU.
 Физическое второе LAN устройство,native hooks,operator export/restore,trusted finalize
 и merge остаются открытыми. Beads notes — PENDING,canonical9 задач неизменны.
+
+## U2 Ship Fitting v0.2 — дизайн
+
+- [GDD: оснастка и полезность корабля](gdd/gdd_u2_ship_fitting_v0.2.md) — принят оператором2026-10-05; runtime implementation started.
+- [Исследование current owners и UX](research/ship_fitting_source_synthesis.md) — routed41-source synthesis.
+- [Source manifest](research/ship_fitting_sources.json) — exact U2commit/blob/status/version.
+- [План реализации](plans/2026-10-05-ship-fitting-v0.2.md) — T1–T7, independent PLAN_READY; PO approval recorded; T1–T7 execution started.
+- [Verification Contract SF01–20](verification/ship-fitting-v0.2-contract.md) — numerical/domain/UI/replay/retention AC и review scope.
+- [Первоначальный proposal](product/ship-fitting-v0.2-proposal.md) — historical reference, superseded.
+
+- [Независимый design/plan review r1](reviews/2026-10-05-ship-fitting-plan-review-r1.md) — CHANGES_REQUIRED/history; B1 group accounting и B2 metric history закрыты affected r2.
+
+- [Affected design/plan review r2](reviews/2026-10-05-ship-fitting-plan-review-r2.md) — PLAN_READY для обеих частей; active BLOCKER0, A1/A2 advisory сохранены.
+- [Итоговая привязка design evidence](reviews/2026-10-05-ship-fitting-final-binding.md) — PM deterministic check, не runtime QA.
+- [Draft PR3](https://github.com/komleff/u2-lab/pull/3) — scoped docs/design/plan, PO approval recorded; plan evidence preserved.
+
+- [Принятие дизайна и запуск реализации](product/ship-fitting-v0.2-acceptance.md) — current operator authority поверх frozen GDD/плана.
+- [ТЗ UX/UI для Claude Design](ux/ship-fitting-v0.2-claude-design-brief.md) — самодостаточный brief для HTML/SVG desktop/mobile макетов.
+
+## Ship Fitting0.2.0 — Developer candidate
+
+- [Работа с оснасткой и экспортом](user/ship-fitting.md) — функциональный workflow и границы лаборатории.
+- [Контролируемая серия Pony/IndustrialM1/2/3 и L3+hold](experiments/ship-fitting-matrix.json) — полные условия, численные snapshots и фактические незавершённые исходы.
+- [Чувствительность и ограничивающие сценарии](experiments/ship-fitting-sensitivity.json) — экспериментальные крайние условия, не вероятности.
+
+Независимый QA r2: 99 PASS / 1 external NOT RUN; три прежних дефекта закрыты. Code Review r1 выявил CR-B1/CR-B2, исправленные Developer r2; их affected QA/scoped Review предстоят. Public Pages, физическое второе
+устройство, native/bootstrap/operator acceptance и merge остаются отдельными gates.
+
+- [Power & Heat Lab — UX/UI ТЗ для Claude Design](ux/power-heat-lab-claude-design-brief.md).
+
+- [QA r1](reviews/2026-10-05-ship-fitting-qa-r1.md) — immutable FAIL history.
+- [Developer fix r1](reviews/2026-10-05-ship-fitting-developer-fix-r1.md) — cargo/architecture/ordinary SKU fixes.
+- [QA r2](reviews/2026-10-06-ship-fitting-qa-r2.md) — 99 PASS / 1 external NOT RUN.
+- [Code Review r1](reviews/2026-10-06-ship-fitting-code-review-r1.md) — CHANGES_REQUESTED: CR-B1/CR-B2.
+- [Developer fix r2](reviews/2026-10-06-ship-fitting-developer-fix-r2.md) — input guards, boundary/atomic-import regression.
+- [Runtime binding](verification/ship-fitting-v0.2-runtime-binding.json) — explicit paths and entire VC; no verdict.
+
+## Ship Fitting — interval fix, проверка ещё открыта
+
+- [2026-10-06-ship-fitting-qa-r3.md](reviews/2026-10-06-ship-fitting-qa-r3.md) — immutable history; current CR-B2 affected QA/review pending.
+- [2026-10-06-ship-fitting-code-review-r2.md](reviews/2026-10-06-ship-fitting-code-review-r2.md) — immutable history; current CR-B2 affected QA/review pending.
+- [2026-10-06-ship-fitting-developer-fix-r3.md](reviews/2026-10-06-ship-fitting-developer-fix-r3.md) — immutable history; current CR-B2 affected QA/review pending.
+- [2026-10-06-ship-fitting-developer-fix-r3-tablet-addendum.md](reviews/2026-10-06-ship-fitting-developer-fix-r3-tablet-addendum.md) — immutable history; current CR-B2 affected QA/review pending.

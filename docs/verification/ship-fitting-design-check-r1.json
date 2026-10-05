@@ -1,0 +1,49 @@
+{
+  "kind": "PM deterministic documentation check; not independent QA/review",
+  "commit": "95b26f25a917deb92120198ba658f60aa10618cf",
+  "source_commit": "cdc490e3517c8455f662f82579c45813cdbb9a76",
+  "results": {
+    "pinned_source_blobs": {
+      "count": 41,
+      "result": "PASS"
+    },
+    "new_document_links_metadata": "PASS",
+    "vc_ac_coverage": "SF01–20 present; PASS",
+    "gdd_no_implementation_code_and_glossary_at_end": "PASS",
+    "git_diff_check": "PASS",
+    "runtime_changed_paths": []
+  },
+  "not_tested": [
+    "Ship Fitting runtime: not implemented",
+    "runtime unit/browser/long kernel: not run for docs-only delta",
+    "physical second LAN device",
+    "native bootstrap acceptance/finalize/merge"
+  ],
+  "review_binding": {
+    "commit": "95b26f25a917deb92120198ba658f60aa10618cf",
+    "fingerprint": "fd046943cd1f7112950bd6fa174b5d55686d832c4f818268dae8a0b31f74bb66",
+    "blobs": [
+      {
+        "path": "docs/gdd/gdd_u2_ship_fitting_v0.2.md",
+        "blob": "97a9e4e2d0a8facf4ce372070dab2486a6722197"
+      },
+      {
+        "path": "docs/plans/2026-10-05-ship-fitting-v0.2.md",
+        "blob": "ec0926adc534c51bbc5375c73588e8c5ed2310ed"
+      },
+      {
+        "path": "docs/research/ship_fitting_source_synthesis.md",
+        "blob": "a98c69894d98c688a0c4b19d4e7f39ff44004a67"
+      },
+      {
+        "path": "docs/research/ship_fitting_sources.json",
+        "blob": "a61c4e7d816d792b5a7e3cfea7c3554c9860c1ec"
+      },
+      {
+        "path": "docs/verification/ship-fitting-v0.2-contract.md",
+        "blob": "a8140d51bd4238b7909a8d5c60589a7ee059b634"
+      }
+    ],
+    "contract": "docs/verification/ship-fitting-v0.2-contract.md"
+  }
+}

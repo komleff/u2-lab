@@ -1,5 +1,38 @@
 # Active Context
 
+## Current checkpoint — 2026-10-06, Asia/Novosibirsk
+
+Ship Fitting0.2.0 accepted design/plan implemented; source a9f3a84ff6fa42b5c830bceb965a7812feb1ffbb. QA r2 independently closed source cargoM/D-hybrid/SKU defects and seven measurement gaps:99PASS/0FAIL/1externalNOTRUN. Code Review r1 found CR-B1 coefficient admission NaN and CR-B2 unsupported interval false-complete. Same Developer repaired guards only, full manualverify146unit/13browser+1screenshotSKIP/type/build/reference/bootstrap26PASS. Independent affected QA and scoped Review of CR-B1/CR-B2 pending; no final acceptance yet.
+
+Runtime binding83paths+wholeVC fingerprint bb3b442f129483a15e1b1e2929c188fb391dc8a225a7cedda91daecb3881eefe. New extracted artifact ZIP4efe485b…/distDigest5f18d8d6…, source40paths+wholeVC42767008…. Calculations/catalog/matrix/v1 blobs unchanged since prior physical12h; fresh12h NOT RUN for guard-only delta. Initial/r1/r2 reports immutable; one Developer/two unique independent verifier sessions, affected turns reused. Root PM sole Beads/GitHub publisher; Node24.21.0/bd1.2.2 primary sole writer. Do not repeat bootstrap/import or close baseB0.
+
+Power & Heat UX brief ready: docs/ux/power-heat-lab-claude-design-brief.md, exact GitHub copy on feature branch; FASTulab-5xz CLOSED. Claude Ship Fitting mock not attached; visual integration is separate. Primary currently design branch pending ordinary final feature handover; external worktree retained. Preview4183/4184 still fix-r1 until root replaces with new immutable artifact before affected QA.
+
+PR4 remains Draft/stacked; public newPages, second physical LAN device, native adapter activation, original base/bootstrap/finalize/operator main merge gates remain separate NOTRUN/OPEN. Manual pre-bash dispatch is not native activation.
+
+## Historical checkpoints (statuses below are history)
+
+## Repaired candidate before independent acceptance
+
+Source-first QA r1 on8568ffee:88PASS/4FAIL/8NOTRUN,3defects F1cargoM/F2D-electric/F3retroSKU. Immutable report docs/reviews/2026-10-05-ship-fitting-qa-r1.md publishedexactPR4comment5998855076. SameDeveloper repaired source semantics on d54dd4bd; source-fidelity12RED→GREEN, reference6profiles preserved through explicitlocalvariants; ordinarySKU immutable,40catalog/fiveWHATblobs/wholeVC unchanged. Freshmanualguardverify121unit/12browser+1SKIP/type/build/reference/bootstrap26PASS; actualv2+v1physical12h and fullcapGC126549016B PASS, freshmatrices and extractedHTTP/localTLS prefixPASS. Independent affectedQA and oneCodeReview pending; noacceptance/merge-ready claim. T1/T2 reopened andT7 in_progress until independent closure. Node24.21.0/bd1.2.2 primarysolewriter.
+
+
+## Ship Fitting candidate — 2026-10-05, Asia/Novosibirsk
+
+Оператор явно одобрил дизайн и T1–T7; accepted WHAT — docs/product/ship-fitting-v0.2-acceptance.md. Один Developer завершил семь последовательных milestones на32f399bc. Кандидат0.2.0: шесть корпусов/40изделий, slots/builtin bill, отдельная v2 физика и online mining metrics, UI/JSON/CSV/legacy replay. Пять accepted planning blobs и целый VC SF01–20 неизменны.
+
+Developer /verify:109unit,11Chromium+1screenshotSKIP, type/build/reference/bootstrap26PASS. Новые v2 и прежние v1 physical12h PASS; maximum retention actualGC126542176B<128MiB. Extracted ZIP actual non-loopback HTTP и localTLS /u2-lab/ PASS; не физическое второе устройство и не actual Pages. Это Developer evidence: independent QA execution и один scoped Code Review ещё pending. Исторический PLAN_READY — docs/reviews/2026-10-05-ship-fitting-plan-review-r2.md.
+
+Source authority: frozen U2 cdc490e3517c8455f662f82579c45813cdbb9a76,41точный owner blob в manifest; INDEX/direct links, без keyword search/archive. Lab gaps явно experimental. Verification methods — source-first100cases в docs/verification/ship-fitting-v0.2-qa-cases.md. Code Review Contract и exact runtime binding рядом; они не verdict.
+
+Beads: primary checkout sole writer. ulab-73w closed; ulab-zk2 in_progress, T1–T6closed, T7candidate awaiting independent acceptance. Node24.21.0/bd1.2.2 через primary .overgate-runtime/env.sh. Olderbd1.0.2 status updates failed against current events.id schema; backup/read-only diagnosis and supported1.2.2 API updates recovered state without manual DB edits/re-init. Initial bootstrap IDs/dependencies/queue unchanged. No hosted writer.
+
+UX: docs/ux/ship-fitting-v0.2-claude-design-brief.md; latest operator requested separate Power & Heat Lab brief — docs/ux/power-heat-lab-claude-design-brief.md, FAST ulab-5xz. External Ship Fitting mock was not attached; no visual integration or new runtime WHAT inferred.
+
+Draft PR4 feat/ship-fitting-v0.2 → feat/power-heat-lab. PM single GitHub publisher, operator-only main merge. Public Pages historical0.1.0; new deployment conditional on original bootstrap/base acceptance. Physical second device/native/bootstrap/finalize/source PR merge gates remain open. Previous P1–P14/v1 numerical semantics preserved. Local persistent preview will be issued after candidate verification.
+
+Ниже история cloud и прежнего runtime, не текущая инструкция заново импортировать Beads.
+
 2026-10-05, Asia/Krasnoyarsk. Оператор утвердил концепцию и поручил:
 создать u2-lab → установить OverGate v4 с Memory Bank/Beads/.agents → прочитать PM_ROLE →
 закоммитить план → независимое review по pipeline → после согласования выполнять как PM.
@@ -117,3 +150,7 @@ commands: docs/user/local-network.md. Same QA/Reviewer affected sessions reused;
 No queue/livebd/Dolt/export/task status or dependency mutations in this fix. Original9ID
 checkpoint/managed install bytes unchanged. B0/B6/B8/native/operator export+restore/finalize/
 operator merge OPEN; PR2 remains stacked/draft. Detection remains out of scope.
+
+## Current functional checkpoint — 2026-10-06
+
+Developer fix-r3 source7d946042 repairs remaining CR-B2 positive interval integration; independent affected QA/scoped review pending. Code Review r2 keeps CR-B2 OPEN; CR-B1 and previous source defects independently closed. Accepted5WHAT/wholeVC unchanged. New artifact candidate-fix-r3 ZIP2c910bc3…, dist5b23d780…; immutable reports and tablet addendum via docs/INDEX. Fresh current v2 physical12h/matrix required for changed runner/kernel; unchanged v1 proof carries prior long evidence. XiaomiPad8ProChrome154 ordinaryLAN page+Start/results operator PASS onfix-r2; fullcontrols/fix-r3 physical unconfirmed, priorwhitecauseunknown. ClaudeUXPR5 remains separate incoming UI scope; no current visual polish. Native/publicdeployment/basebootstrap/operator merge gates remain open. Beads solewriter primary; actualbd1.2.2/Node24, not older historicalenv above.

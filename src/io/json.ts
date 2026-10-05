@@ -69,3 +69,5 @@ export function exportEventsCsv(r: RunResult) {
     ].join("\n")
   );
 }
+
+export {parseExperimentJson,serializeExperiment,parseFitJson,serializeFit} from './fitting-json';

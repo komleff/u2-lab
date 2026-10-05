@@ -1,5 +1,17 @@
 # Progress
 
+## Current checkpoint — 2026-10-06, Asia/Novosibirsk
+
+Ship Fitting0.2.0 accepted design/plan implemented; source a9f3a84ff6fa42b5c830bceb965a7812feb1ffbb. QA r2 independently closed source cargoM/D-hybrid/SKU defects and seven measurement gaps:99PASS/0FAIL/1externalNOTRUN. Code Review r1 found CR-B1 coefficient admission NaN and CR-B2 unsupported interval false-complete. Same Developer repaired guards only, full manualverify146unit/13browser+1screenshotSKIP/type/build/reference/bootstrap26PASS. Independent affected QA and scoped Review of CR-B1/CR-B2 pending; no final acceptance yet.
+
+Runtime binding83paths+wholeVC fingerprint bb3b442f129483a15e1b1e2929c188fb391dc8a225a7cedda91daecb3881eefe. New extracted artifact ZIP4efe485b…/distDigest5f18d8d6…, source40paths+wholeVC42767008…. Calculations/catalog/matrix/v1 blobs unchanged since prior physical12h; fresh12h NOT RUN for guard-only delta. Initial/r1/r2 reports immutable; one Developer/two unique independent verifier sessions, affected turns reused. Root PM sole Beads/GitHub publisher; Node24.21.0/bd1.2.2 primary sole writer. Do not repeat bootstrap/import or close baseB0.
+
+Power & Heat UX brief ready: docs/ux/power-heat-lab-claude-design-brief.md, exact GitHub copy on feature branch; FASTulab-5xz CLOSED. Claude Ship Fitting mock not attached; visual integration is separate. Primary currently design branch pending ordinary final feature handover; external worktree retained. Preview4183/4184 still fix-r1 until root replaces with new immutable artifact before affected QA.
+
+PR4 remains Draft/stacked; public newPages, second physical LAN device, native adapter activation, original base/bootstrap/finalize/operator main merge gates remain separate NOTRUN/OPEN. Manual pre-bash dispatch is not native activation.
+
+## Historical checkpoints (statuses below are history)
+
 Готово: согласован scope; прочитаны OverGate INSTALL/PM/RV/current ADR и U2 current owners;
 получен чистый trusted OverGate Git checkout с exact RC SHA; подготовлены локальные
 project authority, Memory Bank и документы планирования.
@@ -98,3 +110,29 @@ commands: docs/user/local-network.md. Same QA/Reviewer affected sessions reused;
 No queue/livebd/Dolt/export/task status or dependency mutations in this fix. Original9ID
 checkpoint/managed install bytes unchanged. B0/B6/B8/native/operator export+restore/finalize/
 operator merge OPEN; PR2 remains stacked/draft. Detection remains out of scope.
+
+## Ship Fitting planning — current2026-10-05
+
+Исследование current U2cdc490e через registry/directlinks завершено,41source manifest
+blobs проверен. GDD/VC SF01–20/T1–T7 authored; metadata/docs only, runtime unchanged.
+Beads ulab-73w in_progress. Actual Draft PR и independent design/plan review pending.
+Source research не QA/reviewer; никаких runtime PASS для нового fitting не заявлено.
+
+Actual Draft PR3 открыт до independent PLAN_REVIEW. r1 CHANGES_REQUIRED,2B/2A; B1/B2
+уточнены: closed selected mining group без hiddenclamp, online bounded metric state
+без истории интервалов, exact alternating-limit oracle. Affected review той же session pending.
+Unique verifier launch1/5; runtime unchanged. Report r1 сохранён дословно с SHA25616c28c3a…
+
+Affected r2 той же session: design PLAN_READY, plan PLAN_READY, active BLOCKER0; B1/B2
+CLOSED, A1/A2 advisory unchanged. Five reviewedpaths+entireVC fingerprint550085b4…
+самостоятельно проверен PM; report bytes6267c405… сохранены дословно. New numeric/UX
+proposal PO acceptance ещё separate, runtime implementation/QA/merge не выполнены.
+Planning deliverables в DraftPR3, original runtime/base acceptance gates не закрывались.
+
+## Ship Fitting implementation — operator approval2026-10-05
+
+Дизайн и план явно одобрены оператором, PLAN_READY уже действителен; повторногоauditнет.
+Planning ulab-73w CLOSED; runtime ulab-zk2 IN_PROGRESS, T1–T7 ulab-zk2.1–.7 created,
+sequential dependencies, T1started. PM готовит UXbrief для ClaudeDesign и запускает
+oneprimaryDeveloper. НезависимыеQA/CodeReview послеimplementation; verifierbudget1/5.
+BootstrapB0 остаётся OPEN; выражениеB0 в close-reasonplanning означает0designblockers.

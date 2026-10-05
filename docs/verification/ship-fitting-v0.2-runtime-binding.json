@@ -1,0 +1,359 @@
+{
+  "status": "Remaining CR-B2 fix provided; independent affected QA/scoped Code Review pending",
+  "developerHead": "7d9460421e9a4b12e451c5add81f2785e9205309",
+  "base": "6fb7166513627941e2ba2c4a9a01c79ae1667820",
+  "U2Source": "cdc490e3517c8455f662f82579c45813cdbb9a76",
+  "fingerprint": "46ae5968310c61e731342a17ce7a2977540b6742c996692375b242a4a15b52d8",
+  "binding": {
+    "blobs": [
+      {
+        "path": ".github/workflows/verify.yml",
+        "blob": "e037b53e4e0cc99685b2bfd2912bc0fadc3f1536"
+      },
+      {
+        "path": "docs/experiments/ship-fitting-matrix.json",
+        "blob": "249226c0b8b29bc00a4902282569087b28f9a634"
+      },
+      {
+        "path": "docs/experiments/ship-fitting-sensitivity.json",
+        "blob": "7778e9766062c1b52769d54eb80f9810d88a24a1"
+      },
+      {
+        "path": "docs/gdd/gdd_u2_ship_fitting_v0.2.md",
+        "blob": "eac9ece236840af775181d5936799df1e8cff2bd"
+      },
+      {
+        "path": "docs/plans/2026-10-05-ship-fitting-v0.2.md",
+        "blob": "aa48875c5c40aae0b3b98f137c704edc11bd0b44"
+      },
+      {
+        "path": "docs/product/ship-fitting-v0.2-acceptance.md",
+        "blob": "49d640538146c38114e195dae9d796074c785588"
+      },
+      {
+        "path": "docs/research/ship_fitting_source_synthesis.md",
+        "blob": "a98c69894d98c688a0c4b19d4e7f39ff44004a67"
+      },
+      {
+        "path": "docs/research/ship_fitting_sources.json",
+        "blob": "a61c4e7d816d792b5a7e3cfea7c3554c9860c1ec"
+      },
+      {
+        "path": "docs/verification/ship-fitting-v0.2-code-review-contract.md",
+        "blob": "f2cd50f16c366662ee63833cbd8e0e32f026170e"
+      },
+      {
+        "path": "index.html",
+        "blob": "616d3e500291d24f43d2ecdd96d4a054f2c2680e"
+      },
+      {
+        "path": "package-lock.json",
+        "blob": "af0a9d91cb82c090ac960f32dee6dfbed37ff4ff"
+      },
+      {
+        "path": "package.json",
+        "blob": "8c4e0cd7fa3722937070955d20d65fe6668c698e"
+      },
+      {
+        "path": "src/app/charts.ts",
+        "blob": "a068ec31eec35cd288525c77e83cd30e77eee695"
+      },
+      {
+        "path": "src/app/compare.ts",
+        "blob": "03ba109855b80e9628a8055021ff73ac9a311540"
+      },
+      {
+        "path": "src/app/fitting-session.ts",
+        "blob": "79d13341654ba9f4ae32f77dfbd82940df5e2d32"
+      },
+      {
+        "path": "src/app/fitting.css",
+        "blob": "18ea45fd7bc6257b023ccabed0781d548de661d9"
+      },
+      {
+        "path": "src/app/fitting.ts",
+        "blob": "bb8c9235c7e367f53d18c3cd7cd5f97f8dca8e00"
+      },
+      {
+        "path": "src/app/legacy.ts",
+        "blob": "9b9dd1f720782ea9e97f80f82933d6c46937b22a"
+      },
+      {
+        "path": "src/app/main.ts",
+        "blob": "5519fb48cf46d01abec46f91b139a847e4e69975"
+      },
+      {
+        "path": "src/app/styles.css",
+        "blob": "831ca51d176678d70628aaad4e432185c0f18390"
+      },
+      {
+        "path": "src/catalog/presets.ts",
+        "blob": "1c9a44b72efe7d744c4e47b2f7fe4f36fcffb0b3"
+      },
+      {
+        "path": "src/catalog/schema.ts",
+        "blob": "1df4dd7e084fd760b7d740e7d63739bdcec00e45"
+      },
+      {
+        "path": "src/fitting/cargo.ts",
+        "blob": "db9202aaf0d083f7241e22bdd05fdbe3ca7a7fa0"
+      },
+      {
+        "path": "src/fitting/catalog.ts",
+        "blob": "57cd8b5deaa723e30736c1a5f9a9d70871c60a61"
+      },
+      {
+        "path": "src/fitting/compile.ts",
+        "blob": "15c08bbd71eac42ce05ed92e6c382cd93f4bf6b4"
+      },
+      {
+        "path": "src/fitting/data/hulls.json",
+        "blob": "e3e58cae57d5868f3459c444f6543590899f1939"
+      },
+      {
+        "path": "src/fitting/data/modules.json",
+        "blob": "8eeab46d4aea4b8bd665f5b1a9538cf3ff00547d"
+      },
+      {
+        "path": "src/fitting/types.ts",
+        "blob": "3d424945b306c669b6216bc56d1b00be6ee606d6"
+      },
+      {
+        "path": "src/fitting/validate.ts",
+        "blob": "8b49296c785a5fa75edfd840ddf2c784ff93f74c"
+      },
+      {
+        "path": "src/io/fitting-csv.ts",
+        "blob": "04780f50e258c773fe567ab321386bdf0e14d993"
+      },
+      {
+        "path": "src/io/fitting-json.ts",
+        "blob": "f77387afd849d765ad24e8b2ba973637e6ad92a5"
+      },
+      {
+        "path": "src/io/json.ts",
+        "blob": "1068b436e651c290bf14f4a81b103b188bffdcf5"
+      },
+      {
+        "path": "src/model/scheduler.ts",
+        "blob": "79dfea044f13c224c65c8a914fd9f04c5c75ea3f"
+      },
+      {
+        "path": "src/model/step.ts",
+        "blob": "1ac60444582b26ff610eba6e3cd943c51a3a4285"
+      },
+      {
+        "path": "src/model/thermal-gates.ts",
+        "blob": "55b0cd91c368016f2485d3ccbb3924ab915d0e3d"
+      },
+      {
+        "path": "src/model/types.ts",
+        "blob": "e317006703d9f63a88018b13d26ac93c4648a749"
+      },
+      {
+        "path": "src/model/v2/physics.ts",
+        "blob": "ab8a765826db1f035769327ee3a0a526d5ff73af"
+      },
+      {
+        "path": "src/model/v2/step.ts",
+        "blob": "5b403a856c0c04869e2a511d797f94eef0fd1b50"
+      },
+      {
+        "path": "src/model/v2/types.ts",
+        "blob": "a3d839c0837a3abe14a477945bae8f0d98f6e956"
+      },
+      {
+        "path": "src/runner/fitting-run.ts",
+        "blob": "9bee614bd5be7eba1f4504224b1f8465996da630"
+      },
+      {
+        "path": "src/runner/metrics.ts",
+        "blob": "7f43b033a956174d01d2ebb0249cdda118adb470"
+      },
+      {
+        "path": "src/runner/mining-metrics.ts",
+        "blob": "dd3125d63322cc07cbaef504bcad1933be6debc7"
+      },
+      {
+        "path": "src/runner/protocol.ts",
+        "blob": "7d6b7a95e2c11c775e4ce961c1a350f582d77268"
+      },
+      {
+        "path": "src/runner/retention.ts",
+        "blob": "412803e9de6c2bfcfc5275060a8f439ed35c3782"
+      },
+      {
+        "path": "src/runner/run.ts",
+        "blob": "8145e6149237b37148c37056d0c8966f8f918daf"
+      },
+      {
+        "path": "src/runner/worker.ts",
+        "blob": "7a74cd0f2a16999ff195aee1c24fc095d948a447"
+      },
+      {
+        "path": "src/scenarios/fitting.ts",
+        "blob": "92042fa5db627550c9c0fe824cd75d3c5a38ba58"
+      },
+      {
+        "path": "src/scenarios/schema.ts",
+        "blob": "d10c5101743da454e1ce0b647bd791e87ee94a41"
+      },
+      {
+        "path": "tests/artifact-smoke.mjs",
+        "blob": "a30437d621ba60feeac718494439b3991c4e07f0"
+      },
+      {
+        "path": "tests/browser/fitting.spec.ts",
+        "blob": "ee2c678e93a817514f8c276b062a7c3b970344ce"
+      },
+      {
+        "path": "tests/browser/lab.spec.ts",
+        "blob": "10cd77037856ebb119161dbf6a6b289d971ac463"
+      },
+      {
+        "path": "tests/fitting-long.mjs",
+        "blob": "b1210da55c15e09d11f21aeecda3d7811c42e6f4"
+      },
+      {
+        "path": "tests/fitting-memory.mjs",
+        "blob": "1f35c7f02842cca147ef16df5e0eccb8847b020f"
+      },
+      {
+        "path": "tests/fitting/bill.test.ts",
+        "blob": "7724b9de8980a9fedb2ace73bc9b90be3b1aed8c"
+      },
+      {
+        "path": "tests/fitting/bounded-state.test.ts",
+        "blob": "ba419869f018c8422db9a3fc373523fa42733aed"
+      },
+      {
+        "path": "tests/fitting/cargo.test.ts",
+        "blob": "3cfa32399765b681e8daa49874c884c88ede20ce"
+      },
+      {
+        "path": "tests/fitting/catalog.test.ts",
+        "blob": "a817a29b7ef712bd5c8a20eeb3c12aa0da3e1986"
+      },
+      {
+        "path": "tests/fitting/comparison.test.ts",
+        "blob": "492fb14ed6f023a314c90eb5af72954b1d309efd"
+      },
+      {
+        "path": "tests/fitting/compatibility.test.ts",
+        "blob": "1f94ff58d2464b40cd6f0f2ad4d758b3521d76d4"
+      },
+      {
+        "path": "tests/fitting/controller.test.ts",
+        "blob": "e2c1fb818a36c9fc7758b45adb37db16335d23e8"
+      },
+      {
+        "path": "tests/fitting/fixtures/legacy-0.json",
+        "blob": "5e969149e2adaeb9a7811dc10a450cc7cf25276c"
+      },
+      {
+        "path": "tests/fitting/fixtures/legacy-1.json",
+        "blob": "98c1716219ad17bdb7d46b74619f9f53a8ba625f"
+      },
+      {
+        "path": "tests/fitting/fixtures/legacy-external.json",
+        "blob": "971d8e1837368020285c0f9d7bc3c6213e9360a4"
+      },
+      {
+        "path": "tests/fitting/input-fixtures.ts",
+        "blob": "b6c2ad31b1c15149c409cd8862012c1f638d36d9"
+      },
+      {
+        "path": "tests/fitting/input-guards.test.ts",
+        "blob": "38b884eed3f649f92f9504e09814d0982f4ab5ca"
+      },
+      {
+        "path": "tests/fitting/io.test.ts",
+        "blob": "1f90266c8c196d260de907fecf02da4aa45167b7"
+      },
+      {
+        "path": "tests/fitting/legacy.test.ts",
+        "blob": "7828ff24c2bfedea4f8ff635b2b8788686ff94e7"
+      },
+      {
+        "path": "tests/fitting/matrix.test.ts",
+        "blob": "3fa7e51e8a2d839b2437df72fdda5d25f1f15bd1"
+      },
+      {
+        "path": "tests/fitting/mining-metrics.test.ts",
+        "blob": "c6f5e394bbd52953865a33a4fce2a7ef5cac487e"
+      },
+      {
+        "path": "tests/fitting/run-validation.test.ts",
+        "blob": "6fa4480599efd63f48194438e490d717df9b0e51"
+      },
+      {
+        "path": "tests/fitting/scenarios.test.ts",
+        "blob": "b5d3fdba30804951802262dfad6ca25a3ddc42ce"
+      },
+      {
+        "path": "tests/fitting/source-fidelity.test.ts",
+        "blob": "6c2f162d5c35c13a260342ed0e6ad349d68bd5a4"
+      },
+      {
+        "path": "tests/fitting/test-spec.ts",
+        "blob": "5ef1e0f932818a3f0275575a365c96f9f2976bcc"
+      },
+      {
+        "path": "tests/fitting/time-integration.test.ts",
+        "blob": "650894dd5bfe3e57840ff6690496ff961c8c3ebb"
+      },
+      {
+        "path": "tests/fitting/worst-fit.ts",
+        "blob": "70e48b70c0af9762eb1c1b345dde95f7032371f0"
+      },
+      {
+        "path": "tests/long-kernel.test.ts",
+        "blob": "278de7b315a0a894ba9b4b20ca02e82137ff7be7"
+      },
+      {
+        "path": "tests/model/fitting-dispatch.test.ts",
+        "blob": "bd0d83364d3fc78c18826626be98285f65ed6389"
+      },
+      {
+        "path": "tests/model/fitting-drive.test.ts",
+        "blob": "c193815c0546ca443f55278aaa0f6eb6b4e89306"
+      },
+      {
+        "path": "tests/model/fitting-energy.test.ts",
+        "blob": "0f5254d1e51896702d9d590f202bdf150f82a008"
+      },
+      {
+        "path": "tests/model/fitting-refinement.test.ts",
+        "blob": "1d9164c4cdce5a37be750f2e3d24206e9da53b74"
+      },
+      {
+        "path": "tests/model/fitting-stocks.test.ts",
+        "blob": "4b587883564c7df6f07e96dd254368e100a6a50a"
+      },
+      {
+        "path": "tests/retention-memory.test.ts",
+        "blob": "e9c3f2d652fc26fb3f94f7b196bb82a63185c164"
+      },
+      {
+        "path": "tests/runner.test.ts",
+        "blob": "71bb7286b55c00439ef3912fc00b7abdac6a4477"
+      },
+      {
+        "path": "vite.config.ts",
+        "blob": "10e2c43ff8cb04792699695e9678d0d36c36d465"
+      }
+    ],
+    "contract": {
+      "path": "docs/verification/ship-fitting-v0.2-contract.md",
+      "text": "---\ntitle: \"Ship Fitting v0.2 — Verification Contract\"\nstatus: draft\nversion: \"0.2\"\ndate: 2026-10-05\nbeads: [ulab-73w]\nrelated:\n  - docs/gdd/gdd_u2_ship_fitting_v0.2.md\n  - docs/plans/2026-10-05-ship-fitting-v0.2.md\n---\n\n# Приёмка Ship Fitting\n\nSource WHAT: [GDD](../gdd/gdd_u2_ship_fitting_v0.2.md), current U241-source manifest\nи решения оператора2026-10-05. Новые lab details пока proposal; independent review\nпроверяет непротиворечивость и проверяемость, не утверждает WHAT вместо PO.\nScope: mining fitting laboratory; SI внутри, понятные units снаружи.\n\n## AC и проверяемые контрпримеры\n\n| AC | Expected / error / edge behavior | Метод и owning task |\n|---|---|---|\n| SF01 | Шесть профилей с current Payload/builtin cargo; Pony встроенный лазер/12SCU/12t diesel tank/Power3×S/G0 UNKNOWN. Каждый ready preset имеет все четыре propulsion roles и аккумулятор; вся numeric bill полна и конечна | Catalog data check, presets integration; T1/T2 |\n| SF02 | Ровно одно изделие/slot; category, caliber, single/pair и resource architecture проверяются. Smaller-fit разрешён. Нельзя поставить третий сменный лазер в S2×S; Pony3total и M3swappable разрешены, L3+hold разрешён | Domain positive/negative unit; T2 |\n| SF03 | Built-ins видны, не снимаются, free slots не потребляют; duplicate SKUs независимы по ID/state. Неполный fit сохраняется, readiness отличается; missing mandatory закрывает Run. Generator optional, аккумулятор mandatory; zero stocks показывают warning и реальный resource failure | Domain/UI tests; T2/T5 |\n| SF04 | Diesel/H₂ direct propulsion homogeneous; все четыре powered engines одного propulsion type. Electric≠energy architecture. Diesel+H₂ utility допустим только с реальным Power cryotank и разрешающими slots/architecture; E/A не приобретают fuel. XL Reactor не монтируется в L, XXL неактивен | Table-driven compatibility; T2 |\n| SF05 | Dry mass и C=Σm·cp точно соответствуют material bill каждого installed/builtin изделия один раз. Fuel/cargo contents только current mass. Add/remove battery/generator/buffer/radiator/cargo меняет свои реальные sums; builtin cargo mass не0 и не спрятанная масса съёмного SKU | Numerical bill/property fixtures; T1/T2 |\n| SF06 | Current cargo1.7 values, SCU=м³; mixed cargo: сумма universal allocations≤U, specialized volumes только compatible. Density даётkg. Full compatible cargo останавливает mining, unload освобождает cargo без refuel/charge/cooling reset. Payload liquid никогда auto-fuel | Cargo unit and simulation boundaries; T2/T4 |\n| SF07 | Scenario requests называют instance/propulsion role; approach не включает retro/strafe/turn. Неизвестный/повторный group ID, non-mining ID группы, положительный mining request вне fixed группы, duty вне[0,1], zero/negative phase duration, repeated empty cycle отклоняются. Work duty0 не starvation | Schema/kernel tests; T3/T4 |\n| SF08 | Electric actual force пропорциональна delivered bus и command/gate, при power0 force0; не создаёт mining output. Direct drive расходуетαF typed fuel, source energy и exhaust/host ledger закрыты. Useful mechanical energy не учитывается вторым beam output | Isolated energy test, mixed-load deficit, direct regression; T3 |\n| SF09 | При двух/трёх laser duplicates actual beam равен actual delivered energy×η, typed output только mining.3×CivilS nominal9MW не получает9MW от8MW generator без finite battery withdrawal. Partial power делится deterministic governor policy, без stacking penalties | Analytical case and shared-deficit run; T3/T4 |\n| SF10 | LAB-ORE-01:24MJbeam/SCU, factors1, density1500kg/m³, return0.35. Один fully powered CivilS/G1:0.0625125SCU/s. Beam return входит в host и вычитается из external useful output один раз; finite tank/buffer/accumulator и within-step bounds сохраняются | Kernel analytical/dt refinement; T3/T4 |\n| SF11 | Diesel/H₂ shared stocks для generator/engine/cooler не клонируются; sums consumers≤actual stock. Signed radiation и thermal gates/restart/finite inverter rejection сохраняются; hotter background не «охлаждение». No freeC from contents | Existing invariants + selected new fixtures; T3 |\n| SF12 | SCU/cycle и SCU/h подписывают точный интервал; unfinished cycle не получает invented completion. kg/SCU по species и назначениям; H₂cooler — subset общего H₂, не второе слагаемое. Extraction0→N/A. Planned transit/service отделены от forced downtime, de-rating показан отдельно; missing recovery→«не восстановился» | Exact metrics fixtures; T4 |\n| SF13 | K_use фиксированной selected group∈[0,1], actual numerator только той же группы; 0group/time→N/A. Transit/service входят в cycle duration; manual off/duty не уменьшают denominator. Partial horizon отдельный K. Значение показывается рядом с абсолютной добычей, нет общего рейтинга всех ролей | 3installed/1selected outside-group request→error (не clamp); valid-group integral oracle, export/replay membership и UI labels; T3/T4/T5/T6 |\n| SF14 | First limiter — earliest actual requested mining loss; ties≤physics dt сгруппированы, target reached не blocker. Resource exhaustion без потери work остаётся resource event. Overlapping cause durations не суммируются100%; no event→«не выявлено за опыт» | Deterministic event/metrics fixtures; T4 |\n| SF15 | Same-task1/2/3 series сохраняет hull, ore/environment/phases/service rules/horizon и объявленные initial stock. Added laser mass/heat не скрыты. Changed conditions отмечены как non-comparable. Repeated cycle не reset; sensitivity endpoints cargo mass/cp/ore density/return heat явны, не probability | Matrix JSON + paired UI test; T4/T5/T7 |\n| SF16 | Preset→slot→swap без JSON; side-by-side delta до применения, отказ объясняется; builtin/removable разделены.390px touch/keyboard, no hover/drag dependency. Empty/error сохраняют последнюю валидную конфигурацию; fields F3 имеют units/provenance | Playwright DOM,390px smoke; T5 |\n| SF17 | Edit creates next fitRevision; running/resolved A snapshots неизменны. Start/reset/import меняют runId; stale chunks/acks/results не меняют новый run. Pause/Step/Cancel acknowledgments≤500ms и не требуют telemetry ACK; не более1 unacked telemetry chunk | Protocol unit + Worker browser; T5/T7 |\n| SF18 | Fit+run export содержит versions/resolved SI snapshot/instance IDs/conditions/origins. Known v1 остаётся exact legacy numeric experiment/model; не объявляется slot-valid v2. Unknown model/schema reject; unknown catalog с trusted supported numerical snapshot only explicit snapshot replay, не validated fit. Failed import не удаляет предыдущий fit/result; labels выводятся текстом | Versioned roundtrip/security/legacy fixtures; T6 |\n| SF19 | Worst bounded curated fit12h: retention≤50000buckets/128MiB, events≤20000(first128+last19872), actual heap check включает metric state. Exact durations/union/overlap/loss/recovery online: counters+open-state O(knowninstances×knowncauses), без unlimited histories; fixed roster/cause keys. Alternating work/service/limit oracle сохраняет exact sums и constant state при росте циклов. Aggregation/cadence/channel count видны. Metrics не выводятся из потерянных raw events или downsampled peaks. Export units correct permodule/mining/currentmass | Retention/performance/peak +12h kernel; T4/T6/T7 |\n| SF20 | Fresh clean build/test/typecheck/browser pass; ordinary LAN HTTP и Pages HTTPS/prefix same-origin work. Old0.1.1 fix не потерян. Second physical device/native/bootstrap acceptance отдельно и честно NOT RUN если нет evidence | Build/actual extracted dist/browser prefix+HTTP; T7 |\n\n## Numerical agreement\n\nExact authored constants/metadata сравниваются точно, derived bill relative tolerance1e−8.\nОдно-step analytic energy balance: residual≤max(1e−3J,1e−8·sourceEnergyJ).\nShort repeated run: integrated residual≤max(1J,1e−6·cumulativeInputEnergyJ).\ndt refinement0.01/0.005/0.0025s для finite depletion/gate/cargo/return cases:\nразница useful SCU≤1%, event time≤largest dt плюс совпадение first cause/tie semantics.\nЕсли near-simultaneous причины меняют порядок в пределахdt, вывод остаётся grouped,\nа не подменяется уверенным одиночным ограничителем. Tolerances не ослабляются ради PASS.\n\n## Совместимость и границы evidence\n\nBaseline feature commit `6fb7166513627941e2ba2c4a9a01c79ae1667820`:0.1.1 LAN fix имеет\naffected QA PASS/scoped APPROVED. Public Pages пока0.1.0, separate deployment не сделан\nв design stage. Prior12h evidence для старого model не является новым fit12h acceptance.\nBootstrap/native/operator merge и физическое второе устройство остаются отдельными gates.\nСтарые P1–P14 не меняются для legacy model; новый model проверяется SF01–20 и переносимыми\nenergy/retention/protocol invariants. Устаревший cargo/laser anchor нельзя менять внутри v1.\n\n## Review Contract текущего этапа\n\n**Mode:** PLAN_REVIEW, PRODUCT, один independent Reviewer; бюджет5 unique verifier launches.\n**Goal:** adversarial design audit + audit implementation plan, до runtime work.\n**Acceptance surface:** GDD§1–10, source synthesis/manifest, этот VC целиком и planT1–T7.\n**Changed runtime surface:** нет; runtime/source/test blobs равны baseline.\n**Named risks:** ошибочная source authority, builtin double count/freeC, optimistic mining\nпри power/heat/cargo deficit, fictional electric ledger, legacy reinterpretation/data loss,\nretention growth и freeze при delayed ACK, неопределённые сравнительные метрики.\n**IN:** source fidelity/accepted vs proposed WHAT, slot/cargo/model/metrics correctness,\nAC coverage, dependencies, ownership, rollback, меньший безопасный scope.\n**OUT:** bootstrap governance re-audit, deployment/merge, invented complete U2 production\nrecipes, whole game balance/flight/market/sensor systems, runtime QA до реализации.\n\nReviewer выпускает отдельно результаты «дизайн» и «план» в одной verifier session;\nобщий PLAN_READY только если BLOCKER=0 в обеих частях. Advisory не расширяет scope.\nBlocker fix→affected re-review той же session. PM публикует неизменный signed report в PR.\n\nКаждый отчёт: actual role/model (если ID недоступен, так и написать), commit, explicit\nreviewed paths, blob hashes + entire VC text fingerprint(SHA256 canonical JSON\n`{blobs:[{path,blob}],contract:{path,text}}`, UTF-8, sorted keys, no extra whitespace),\nverdict/BLOCKER/ADVISORY/not-reviewed surface. Пути в blobs сортируются по path.\nПосле metadata landing совпавшие fingerprints сохраняют evidence; новое source/WHAT\nизменение требует только affected review. QA позже: case|sourceAC|method|result|evidence,\nодин scoped Code Review после QA. Этот planning PR не удостоверяет runtime completion.\n"
+    }
+  },
+  "artifact": {
+    "sourceFingerprint": "2cc85b43685cca09dff252452420d6379824e44264ead1e27be561be81877559",
+    "distDigest": "5b23d780c28adbcf8f946310561cd22c801f6e55f64b4904369edbeee6ec3f81",
+    "archiveSha256": "2c910bc3f203ba0c2ff809a34ad51fa3e0649e7177ec9a11c923f20b7df102bc",
+    "archive": "/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2/.overgate-runtime/ship-fitting-v0.2-candidate-fix-r3/u2-lab-ship-fitting-v0.2.0-fix-r3.zip",
+    "extracted": "/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2/.overgate-runtime/ship-fitting-v0.2-candidate-fix-r3/dist",
+    "prefixRoot": "/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2/.overgate-runtime/ship-fitting-v0.2-candidate-fix-r3/prefix"
+  }
+}

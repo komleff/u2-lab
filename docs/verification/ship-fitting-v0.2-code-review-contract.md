@@ -1,0 +1,24 @@
+# PM Code Review Contract — U2 Ship Fitting v0.2
+
+Mode: CODE_REVIEW / PRODUCT. One existing Reviewer session; no additional reviewers.
+Status: active contract, not a verdict. Independent QA precedes Code Review. Exact candidate and explicit paths are bound in ship-fitting-v0.2-runtime-binding.json; metadata movement requires content-equivalence checks. Accepted WHAT remains unchanged.
+
+Goal: determine whether the approved six-hull, forty-item fitting laboratory meets SF01–20 and preserves exact v1 replay on the current runtime candidate.
+Acceptance surface: docs/product/ship-fitting-v0.2-acceptance.md, accepted GDD §1–10, approved T1–T7 plan, whole docs/verification/ship-fitting-v0.2-contract.md. Source synthesis and frozen manifest supply field authority; no new full-game research.
+Changed runtime surface: explicit base 6fb7166513627941e2ba2c4a9a01c79ae1667820 → final candidate runtime/data/config/test/tool paths, listed individually in the final binding. Include catalog JSON, numerical model, scenario/metrics, Worker protocol, fitting UI, import/export, retention and new tests. Metadata reports are evidence, not numerical runtime authority.
+
+Named risks:
+1. Double-counted builtins/materials, missing dry mass/C, free contents C, wrong slots/pairs/architecture or cargo volume allocation (SF01–06).
+2. Optimistic nominal mining under shared power/fuel/heat/cargo limits, fictional electric energy/force or duplicated return heat (SF07–11). Include the actual T7 tiny positive battery remainder/depletion-boundary regression and its source-energy vs stock-delta invariant; do not infer safety only from an internally closed ledger.
+3. Misleading cycle throughput/K/downtime/recovery/first-limiter claims, hidden group clamp, changed comparison conditions or unbounded online metric state (SF12–15/SF19).
+4. Mutable running snapshots, stale Worker messages, controls blocked by telemetry ACK, mobile interaction failures and ordinary HTTP or Pages-prefix regression (SF16–17/SF20).
+5. Legacy reinterpretation, unsupported versions trusted implicitly, non-atomic imports, text labels rendered as markup, incomplete resolved export/replay (SF18).
+
+IN: changed runtime/test/data surface, source-faithful accepted behavior, numerical/protocol/persistence invariants, targeted independent counterexamples, QA failures and meaningful regression risk. Developer tests are evidence, not a replacement for independent review.
+OUT: bootstrap/native governance re-audit, operator main merge, unrelated legacy refactor, full flight/market/detection/game balance, external Claude visual polish not yet delivered, advisory scope expansion.
+
+Classification: true SF/mandatory invariant/regression/build/security/data-loss defect = BLOCKER. Other suggestions = ADVISORY. Advisory does not become an automatic fix. Return an immutable signed report with actual role/model, exact SHA/build, explicit paths+blob hashes+entire VC canonical fingerprint, APPROVED or CHANGES_REQUESTED, evidence, findings/triage and not-reviewed surface. No code/GitHub/Beads edits. After blocker fixes, affected review only in this same session.
+
+Artifact reference: remaining CR-B2 fix provided by Developer 7d9460421e9a4b12e451c5add81f2785e9205309; independent affected QA and scoped re-review pending. ZIP SHA256 2c910bc3f203ba0c2ff809a34ad51fa3e0649e7177ec9a11c923f20b7df102bc; distDigest 5b23d780c28adbcf8f946310561cd22c801f6e55f64b4904369edbeee6ec3f81. Signed history retained: QA r2 closes F1–F3/seven measurement gaps; QA r3 passes prior coefficient/domain cases; Code Review r2 closes CR-B1 but keeps CR-B2 OPEN for unequal micro dt/horizon false completion (49.995%/98% lost work). Review only remaining CR-B2 and necessary regression in the existing session, after independent affected QA. Check state clock, measured phase time, useful work/energy, every positive clipped remainder, chunk/phase invariance, actual Worker completion/controls and honest retained tick count. Do not invent an engineering minimum or relax tolerances. Changed v2 kernel/runner means fresh current physical v2 12h and matrix/refinement evidence are required; legacy v1 source is unchanged and previous physical v1 evidence plus current short exact replay remain valid. No catalog/spec/accepted WHAT changes. Physical fix-r2 Xiaomi page and Start/results are now operator PASS; complete device controls and physical fix-r3 are not yet confirmed. Developer tablet addendum supersedes its earlier historical white-screen concern; original cause remains unconfirmed.
+
+Evidence method: source-first100cases. The118-channel adaptive cap is34807retained buckets; no new40000retained-bucket requirement for v2. Legacy40000 behavior remains separate. Affected QA closes failed/changed surface and seven previously unmeasured exact variants; external physical/native/publicdeploy gates remain NOTRUN. LocalTLS prefix is deployment emulation, not publicPages or second-device acceptance.

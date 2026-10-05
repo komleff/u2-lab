@@ -1,0 +1,52 @@
+import type { ValidationResult } from "../catalog/schema";
+import type { ResolvedShip } from "./types";
+export type CargoAllocation = {
+  specialized: Record<string, number>;
+  universal: Record<string, number>;
+  massKg: number;
+};
+export const commodities: Record<
+  string,
+  { type: "bulk" | "liquid" | "universal"; densityKgM3: number }
+> = {
+  ore: { type: "bulk", densityKgM3: 1500 },
+  water: { type: "liquid", densityKgM3: 1000 },
+  diesel: { type: "liquid", densityKgM3: 850 },
+  hydrogen: { type: "liquid", densityKgM3: 71 },
+};
+export function allocateCargo(
+  s: ResolvedShip,
+  a: Record<string, number>,
+  definitions = commodities,
+): ValidationResult<CargoAllocation> {
+  const left = { ...s.cargoCapacityM3 },
+    value: CargoAllocation = { specialized: {}, universal: {}, massKg: 0 };
+  const errors: { path: string; code: string; message: string }[] = [];
+  for (const [id, n] of Object.entries(a).sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
+    const c = definitions[id];
+    if (!c || !Number.isFinite(n) || n < 0) {
+      errors.push({
+        path: "cargo." + id,
+        code: "CARGO",
+        message: "Неизвестный товар или неверный объём",
+      });
+      continue;
+    }
+    const specialized = c.type === "universal" ? 0 : Math.min(n, left[c.type]);
+    if (c.type !== "universal") left[c.type] -= specialized;
+    const universal = n - specialized;
+    left.universal -= universal;
+    value.specialized[id] = specialized;
+    value.universal[id] = universal;
+    value.massKg += n * c.densityKgM3;
+  }
+  if (left.universal < -1e-9)
+    errors.push({
+      path: "cargo",
+      code: "CARGO_FULL",
+      message: "Недостаточно совместимого общего объёма",
+    });
+  return errors.length ? { ok: false, errors } : { ok: true, value };
+}
