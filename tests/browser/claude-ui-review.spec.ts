@@ -65,10 +65,16 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   await expect(page.locator(".compare-desktop [data-compare-variant=A]")).toContainText("предыдущий тест · run " + ids[0]);
   await expect(page.locator(".compare-desktop [data-compare-variant=A]")).not.toContainText("предварительно");
   await page.getByRole("button", { name: /Вариант B ·/ }).click();
+  await page.getByRole("button", { name: "Оснастка", exact: true }).click();
+  await page.locator("#fit-preset").selectOption("pony:1");
   await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
   await expect(page.locator("#fit-start")).toBeDisabled();
   await expect(page.locator("#fit-duration")).toHaveValue("20");
   await expect(page.locator("#fit-time")).toHaveText("0 с / 20 с");
+  await page.locator('.lab-main [data-instance="fit:march"]').click();
+  const oldMarch = JSON.parse(oldBytes.toString()).spec.resolvedShip.instances.find((i: any) => i.id === "fit:march");
+  await expect(page.getByRole("dialog")).toContainText('"id": "' + oldMarch.item.id + '"');
+  await page.locator("#instance-close").click();
   expect(await page.locator("#fit-comparison .ab-side-a").innerHTML()).toBe(frozen);
   await page.evaluate(() => (window as any).releaseTelemetry());
   await expect(page.locator("#fit-time")).not.toHaveText("0 с / 20 с");

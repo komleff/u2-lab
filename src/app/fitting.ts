@@ -285,7 +285,7 @@ export function mountFitting(
         instance = (
           b.closest(".ship-hero, .systems")
             ? built
-            : (r?.spec.resolvedShip.instances ?? built)
+            : ((active?.spec ?? r?.spec)?.resolvedShip.instances ?? built)
         ).find((i) => i.id === b.dataset.instance);
         render();
       };
