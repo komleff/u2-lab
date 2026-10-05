@@ -1,0 +1,27 @@
+{
+  "fixture": "12h real S mining kernel",
+  "ticks": 4320033,
+  "buckets": 43200,
+  "channels": 40,
+  "bytes": 52531200,
+  "wallMs": 132462.26058200002,
+  "metrics": {
+    "ticks": 4320033,
+    "usefulWork": 287.99999998510106,
+    "firstConstraintSeconds": null,
+    "forcedDowntimeSeconds": 0,
+    "recoverySeconds": null,
+    "nextActionReadySeconds": null,
+    "firstTargetSeconds": 809.8400319918533,
+    "firstSortieSeconds": 819.8400319918442,
+    "fuelConsumedKg": {
+      "diesel": 5299.332360254665
+    },
+    "coolantConsumedKg": 0,
+    "maxTemperatureK": 492.0529367883149,
+    "energyResidualJ": -0.07214139105025236,
+    "sourceEnergyJ": 64107202559.87655,
+    "beamEnergyJ": 28799999999.95835,
+    "thrustImpulseNs": 1002525735.3400437
+  }
+}

@@ -7,14 +7,18 @@
 
 ## Текущий статус
 
-Создан публичный `komleff/u2-lab`; работа опубликована в [Draft PR №1](https://github.com/komleff/u2-lab/pull/1).
-План запуска прошёл независимое адверсальное ревью: PLAN_READY, активных блокеров нет.
-OverGate v4.0.0-rc.1 установлен из точного SHA после отдельного независимого ревью inventory.
-Созданы свежий Memory Bank и девять задач Beads. Браузерный runtime ещё не реализован.
+Браузерный Power & Heat v0.1 реализован в [Draft PR №2](https://github.com/komleff/u2-lab/pull/2),
+ветка `feat/power-heat-lab`. Developer checks:38 unit tests,5 Chromium browser checks,
+typecheck/build — PASS. Независимая продуктовая QA и scoped Code Review — следующий этап;
+acceptance/merge readiness не заявляются. Пресеты S/M явно экспериментальные.
 
-Полная приёмка установки остаётся открытой: загрузка hooks в настоящем CLI здесь NOT RUN,
-а CLI-публикация Beads требует Git-аутентификации. До закрытия B0 не заявлять готовность
-пайплайна или начинать зависимые runtime-задачи. Точные результаты — в bootstrap evidence.
+OverGate v4.0.0-rc.1, Memory Bank и исходные9 задач Beads подготовлены в
+[Draft PR №1](https://github.com/komleff/u2-lab/pull/1). Планы независимо PLAN_READY.
+Cloud read-snapshot/write-intents канал Beads прошёл QA C1–C6 PASS и scoped Review APPROVED.
+Принятая cloud HOW-поправка разрешает обратимую подготовку runtime поверх bootstrap.
+Полная приёмка B0/B6/B8 остаётся открытой: исходный CLI export/auth FAIL сохранён;
+operator export/restore, native hooks, finalize/merge и второй LAN-клиент NOT RUN.
+Canonical dependencies сохраняются; merge выполняет оператор после закрытия gates.
 
 - [Документы](docs/INDEX.md)
 - [Принятый продуктовый контракт](docs/product/power-heat-lab-v0.1.md)
@@ -28,3 +32,21 @@ OverGate v4.0.0-rc.1 установлен из точного SHA после о�
 U2 остаётся источником утверждённых правил и ТТХ. U2 Lab хранит эксперименты, версионные
 наборы параметров и воспроизводимые результаты. Обнаружение, сенсоры и радары — следующий
 этап после согласования энергетики, тепла и параметров модулей.
+
+## Power & Heat Lab v0.1
+
+Русскоязычный локальный browser lab: экспериментальные S/M, SI модель, Worker, рейсы, A/B, JSON/CSV.
+
+```bash
+git clone --branch feat/power-heat-lab https://github.com/komleff/u2-lab.git
+cd u2-lab
+npm ci
+npm run build
+npm run preview -- --host 0.0.0.0 --port 4173
+```
+
+Откройте `http://localhost:4173` или `http://<LAN-IP>:4173`. Standalone `dist` также раздаётся
+`python3 -m http.server 4173 --bind 0.0.0.0 --directory dist`.
+[Подробное руководство](docs/user/local-network.md), [источники параметров](docs/experiments/parameter-intake.md).
+
+Runtime merge удерживается до acceptance bootstrap base; численные presets не утверждают U2 SKU.

@@ -23,3 +23,12 @@
 | [Cloud tooling provenance](verification/cloud-tooling-provenance.json) | pinned source / exact target blobs | Узкая ulab adaptation, managed inventory unchanged |
 
 Утверждённые правила и параметры остаются в U2. Search result — candidate, не authority.
+
+## Power & Heat runtime v0.1
+
+- [LAN / standalone запуск](user/local-network.md)
+- [Первичная матрица](experiments/first-matrix.md)
+- [Actual short matrix](experiments/first-matrix-results.json)
+- [Retained64channels](verification/runtime-retention.json)
+- [Worker/browser latency](verification/runtime-browser.json)
+- [Фактический12h kernel](verification/runtime-long-kernel.json)

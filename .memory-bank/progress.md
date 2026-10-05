@@ -40,3 +40,25 @@ Hosted дальнейших bd/Dolt mutations/snapshot publication нет. B0/B6
 first trusted export/restore/re-export/native activation/finalize/operator merge NOT RUN.
 Reversible product preparation допускается после deterministic cloud checks согласно
 independent cloud PLAN_READY; canonical dependencies и P1–P14 сохраняются.
+
+
+## Runtime preparation — current state
+
+Public Draft PR2 (`feat/power-heat-lab`, base bootstrap PR1) содержит реализованный T1–T6
+Power & Heat v0.1. Independent cloud QA C1–C6 PASS и scoped Code Review APPROVED опубликованы
+в base: docs/reviews/2026-10-05-cloud-qa.md и 2026-10-05-cloud-code-review.md. Это не B0 closure.
+Developer current checks:38 unit,5 actual Chromium browser,typecheck/build,26 cloud fixtures
+и structure/syntax PASS. Фактический S12h/dt0.01 replay завершён за132.46s; synthetic64channel
+retention и late Worker control измерены отдельно. Exact evidence/report —
+.superpowers/sdd/2026-10-05-u2-lab-launch/runtime-report.md; docs/verification/runtime-*.json.
+Продуктовая QA подготовила31 independent case из spec/VC; execution и scoped product Review
+ещё pending. Не объявлять product acceptance/merge readiness до этих этапов.
+Параметры S/M и palette сохраняют canonical/derived/experimental origins; material/Cp/throughput
+замены — видимые lab experiments, не утверждённые U2 SKU. Detection tuning исключён.
+
+Hosted Beads remains read-snapshot/write-intents: никаких live bd/Dolt/apply/export/snapshot push.
+Исходный recovery checkpoint и9IDs неизменны; runtime-preparation queue содержит только
+unapplied PENDING notes к исходным tasks. Status/dependencies/close не запрашиваются.
+B0/B6/B8, operator first export/restore/native/finalize/merge и physical LAN2 остаются открытыми.
+Следующий шаг PM: exact candidate publication → independent product QA → one scoped Review;
+реальные blockers возвращаются Developer, affected rechecks в тех же sessions.
