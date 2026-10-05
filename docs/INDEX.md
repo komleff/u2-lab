@@ -32,6 +32,7 @@
 - [Retained64channels](verification/runtime-retention.json)
 - [Worker/browser latency](verification/runtime-browser.json)
 - [Фактический12h kernel](verification/runtime-long-kernel.json)
+- [Проверка распакованного preview](verification/standalone-preview.json)
 
 ## Проверка реализации
 
@@ -40,12 +41,18 @@
 | [Исходная продуктовая QA](reviews/2026-10-05-product-qa.md) | FAIL / history | Семь воспроизводимых исходных ошибок |
 | [Повторная QA](reviews/2026-10-05-product-qa-affected.md) | PASS affected surface / history | Закрыты семь ошибок и соседняя проверка gate бака |
 | [Исходное Code Review](reviews/2026-10-05-product-code-review.md) | CHANGES_REQUESTED / history | Три отдельных blockers |
-| [QA исправлений ревью](reviews/2026-10-05-product-review-fix-qa.md) | PASS affected surface | Свежие численные/DOM/long/retention проверки |
-| [Повторное scoped Code Review](reviews/2026-10-05-product-code-review-affected.md) | APPROVED / 0 blockers | Четыре изменённых code/test paths и exact QA evidence |
+| [QA исправлений ревью](reviews/2026-10-05-product-review-fix-qa.md) | PASS affected surface / history | Численные/DOM/long/retention проверки предыдущего candidate |
+| [Повторное scoped Code Review](reviews/2026-10-05-product-code-review-affected.md) | APPROVED / history | Четыре предыдущих code/test paths и exact QA evidence |
+| [QA метаданных предыдущего candidate](reviews/2026-10-05-product-metadata-qa.md) | PASS / history | Документы candidate820, без нового runtime запуска |
+| [Проверка внутреннего пика](reviews/2026-10-05-product-peak-qa.md) | FAIL / history | QB1/P13: пик внутри base-dt терялся в метрике |
+| [QA исправления пика](reviews/2026-10-05-product-peak-qa-affected.md) | PASS affected QB1/P13 | Три dt,40 tests и необходимые численные/replay проверки |
+| [Scoped review исправления пика](reviews/2026-10-05-product-peak-code-review.md) | APPROVED / 0 blockers,0 advisories | Пять code/test paths, entire VC и exact QA hash |
+| [Итоговая привязка метаданных](reviews/2026-10-05-product-final-binding.md) | PM SELF-CHECK | Не новый verifier и не full acceptance |
 | [Cloud QA](https://github.com/komleff/u2-lab/blob/bootstrap/overgate-v4/docs/reviews/2026-10-05-cloud-qa.md) | C1–C6 PASS | В bootstrap base, не full acceptance |
 | [Cloud Code Review](https://github.com/komleff/u2-lab/blob/bootstrap/overgate-v4/docs/reviews/2026-10-05-cloud-code-review.md) | scoped APPROVED | В bootstrap base, B0/B6/B8 остаются открытыми |
 
-Текущий runtime подготовлен для локальных экспериментов. 54 unit tests и5 browser checks PASS,
-1 screenshot-only case SKIP; fresh independent S12h/dt0.01 —134.916s. Экспериментальные S/M
-не утверждают U2 SKU. Физическое второе LAN устройство, native hooks, operator export/restore,
-trusted finalize и merge остаются открытыми. Beads notes — PENDING, canonical9 задач неизменны.
+Текущий runtime подготовлен для локальных экспериментов.56 unit tests и5 browser checks PASS,
+1 screenshot-only case SKIP; свежий Developer S12h/dt0.01 —132.595s. Последняя независимая QA
+и scoped review закрыли QB1/P13. Экспериментальные S/M не утверждают U2 SKU.
+Физическое второе LAN устройство, native hooks, operator export/restore, trusted finalize
+и merge остаются открытыми. Beads notes — PENDING, canonical9 задач неизменны.

@@ -7,12 +7,18 @@
 
 ## Текущий статус
 
-Браузерный Power & Heat v0.1 реализован в [Draft PR №2](https://github.com/komleff/u2-lab/pull/2),
-ветка `feat/power-heat-lab`. Независимая продуктовая QA — PASS; affected scoped Code Review —
-APPROVED, открытых blockers нет. 54 unit tests,5 Chromium browser checks, typecheck/build — PASS
-(1 screenshot-only test SKIP). Свежий независимый12h replay:4.32 млн ticks за134.916s.
-[Актуальные отчёты](docs/INDEX.md#проверка-реализации) сохраняют все исходные failures и их closure.
-Полная bootstrap/operator acceptance и merge readiness не заявляются. Пресеты S/M явно экспериментальные.
+Браузерный Power & Heat v0.1 подготовлен для локальных экспериментов в
+[Draft PR №2](https://github.com/komleff/u2-lab/pull/2), ветка `feat/power-heat-lab`.
+Независимая affected QA — PASS; scoped Code Review исправлений — APPROVED,
+открытых runtime blockers в проверенной области нет. Последнее исправление сохраняет
+температурный пик внутри шага: около500 K при трёх размерах dt; балансы энергии не изменились.
+
+56 модульных тестов,5 Chromium проверок, typecheck/build — PASS;1 screenshot-only test SKIP.
+Свежий физический12h replay Developer:4.32 млн ticks за132.60s; независимая QA повторила
+численные и метрические проверки на текущем коде. [CI исходного candidate](https://github.com/komleff/u2-lab/actions/runs/37253950268) — SUCCESS.
+[Актуальные отчёты](docs/INDEX.md#проверка-реализации) сохраняют исходные failures и их closure.
+Готовая standalone сборка проверена после упаковки и распаковки.
+Полная bootstrap/operator acceptance и merge readiness не заявляются. Пресеты S/M экспериментальные.
 
 OverGate v4.0.0-rc.1, Memory Bank и исходные9 задач Beads подготовлены в
 [Draft PR №1](https://github.com/komleff/u2-lab/pull/1). Планы независимо PLAN_READY.
