@@ -150,3 +150,7 @@ commands: docs/user/local-network.md. Same QA/Reviewer affected sessions reused;
 No queue/livebd/Dolt/export/task status or dependency mutations in this fix. Original9ID
 checkpoint/managed install bytes unchanged. B0/B6/B8/native/operator export+restore/finalize/
 operator merge OPEN; PR2 remains stacked/draft. Detection remains out of scope.
+
+## Current functional checkpoint — 2026-10-06
+
+Developer fix-r3 source7d946042 repairs remaining CR-B2 positive interval integration; independent affected QA/scoped review pending. Code Review r2 keeps CR-B2 OPEN; CR-B1 and previous source defects independently closed. Accepted5WHAT/wholeVC unchanged. New artifact candidate-fix-r3 ZIP2c910bc3…, dist5b23d780…; immutable reports and tablet addendum via docs/INDEX. Fresh current v2 physical12h/matrix required for changed runner/kernel; unchanged v1 proof carries prior long evidence. XiaomiPad8ProChrome154 ordinaryLAN page+Start/results operator PASS onfix-r2; fullcontrols/fix-r3 physical unconfirmed, priorwhitecauseunknown. ClaudeUXPR5 remains separate incoming UI scope; no current visual polish. Native/publicdeployment/basebootstrap/operator merge gates remain open. Beads solewriter primary; actualbd1.2.2/Node24, not older historicalenv above.

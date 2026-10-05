@@ -1,9 +1,9 @@
 {
-  "status": "CR-B1/CR-B2 repaired candidate; independent affected QA/scoped Code Review pending",
-  "developerHead": "a9f3a84ff6fa42b5c830bceb965a7812feb1ffbb",
+  "status": "Remaining CR-B2 fix provided; independent affected QA/scoped Code Review pending",
+  "developerHead": "7d9460421e9a4b12e451c5add81f2785e9205309",
   "base": "6fb7166513627941e2ba2c4a9a01c79ae1667820",
   "U2Source": "cdc490e3517c8455f662f82579c45813cdbb9a76",
-  "fingerprint": "bb3b442f129483a15e1b1e2929c188fb391dc8a225a7cedda91daecb3881eefe",
+  "fingerprint": "46ae5968310c61e731342a17ce7a2977540b6742c996692375b242a4a15b52d8",
   "binding": {
     "blobs": [
       {
@@ -12,11 +12,11 @@
       },
       {
         "path": "docs/experiments/ship-fitting-matrix.json",
-        "blob": "7bfc29b46603bf3e67eefdb3f27f2c7623b3c8d2"
+        "blob": "249226c0b8b29bc00a4902282569087b28f9a634"
       },
       {
         "path": "docs/experiments/ship-fitting-sensitivity.json",
-        "blob": "64721a3b787bdcc6ab9b9f8b6f722091fef35a3b"
+        "blob": "7778e9766062c1b52769d54eb80f9810d88a24a1"
       },
       {
         "path": "docs/gdd/gdd_u2_ship_fitting_v0.2.md",
@@ -40,7 +40,7 @@
       },
       {
         "path": "docs/verification/ship-fitting-v0.2-code-review-contract.md",
-        "blob": "8243df95b19ba0b813898fa8c59310db3b193d82"
+        "blob": "f2cd50f16c366662ee63833cbd8e0e32f026170e"
       },
       {
         "path": "index.html",
@@ -152,11 +152,11 @@
       },
       {
         "path": "src/model/v2/physics.ts",
-        "blob": "611cfb32566bf46128308357e6dc2224503d915a"
+        "blob": "ab8a765826db1f035769327ee3a0a526d5ff73af"
       },
       {
         "path": "src/model/v2/step.ts",
-        "blob": "b5eed666341800e1c085c476718ebfe28ffa91f5"
+        "blob": "5b403a856c0c04869e2a511d797f94eef0fd1b50"
       },
       {
         "path": "src/model/v2/types.ts",
@@ -164,7 +164,7 @@
       },
       {
         "path": "src/runner/fitting-run.ts",
-        "blob": "f6e6e22071a2641233484a0a573e9e175c2e93f9"
+        "blob": "9bee614bd5be7eba1f4504224b1f8465996da630"
       },
       {
         "path": "src/runner/metrics.ts",
@@ -299,6 +299,10 @@
         "blob": "5ef1e0f932818a3f0275575a365c96f9f2976bcc"
       },
       {
+        "path": "tests/fitting/time-integration.test.ts",
+        "blob": "650894dd5bfe3e57840ff6690496ff961c8c3ebb"
+      },
+      {
         "path": "tests/fitting/worst-fit.ts",
         "blob": "70e48b70c0af9762eb1c1b345dde95f7032371f0"
       },
@@ -345,11 +349,11 @@
     }
   },
   "artifact": {
-    "sourceFingerprint": "42767008891dbb09d64367956d30c604920fa0916e820af8e0f79c238c47c921",
-    "distDigest": "5f18d8d6cb13cd7fa44b1307b8ee50e2998fdec5c11cf6a5228084734d387ba2",
-    "archiveSha256": "4efe485b200d456705b84429ee8dbe42fe8a6f1a1f50f06e835437008c0e4970",
-    "archive": "/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2/.overgate-runtime/ship-fitting-v0.2-candidate-fix-r2/u2-lab-ship-fitting-v0.2.0-fix-r2.zip",
-    "extracted": "/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2/.overgate-runtime/ship-fitting-v0.2-candidate-fix-r2/dist",
-    "prefixRoot": "/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2/.overgate-runtime/ship-fitting-v0.2-candidate-fix-r2/prefix"
+    "sourceFingerprint": "2cc85b43685cca09dff252452420d6379824e44264ead1e27be561be81877559",
+    "distDigest": "5b23d780c28adbcf8f946310561cd22c801f6e55f64b4904369edbeee6ec3f81",
+    "archiveSha256": "2c910bc3f203ba0c2ff809a34ad51fa3e0649e7177ec9a11c923f20b7df102bc",
+    "archive": "/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2/.overgate-runtime/ship-fitting-v0.2-candidate-fix-r3/u2-lab-ship-fitting-v0.2.0-fix-r3.zip",
+    "extracted": "/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2/.overgate-runtime/ship-fitting-v0.2-candidate-fix-r3/dist",
+    "prefixRoot": "/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2/.overgate-runtime/ship-fitting-v0.2-candidate-fix-r3/prefix"
   }
 }

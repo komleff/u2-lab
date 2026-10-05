@@ -101,3 +101,10 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [Code Review r1](reviews/2026-10-06-ship-fitting-code-review-r1.md) — CHANGES_REQUESTED: CR-B1/CR-B2.
 - [Developer fix r2](reviews/2026-10-06-ship-fitting-developer-fix-r2.md) — input guards, boundary/atomic-import regression.
 - [Runtime binding](verification/ship-fitting-v0.2-runtime-binding.json) — explicit paths and entire VC; no verdict.
+
+## Ship Fitting — interval fix, проверка ещё открыта
+
+- [2026-10-06-ship-fitting-qa-r3.md](reviews/2026-10-06-ship-fitting-qa-r3.md) — immutable history; current CR-B2 affected QA/review pending.
+- [2026-10-06-ship-fitting-code-review-r2.md](reviews/2026-10-06-ship-fitting-code-review-r2.md) — immutable history; current CR-B2 affected QA/review pending.
+- [2026-10-06-ship-fitting-developer-fix-r3.md](reviews/2026-10-06-ship-fitting-developer-fix-r3.md) — immutable history; current CR-B2 affected QA/review pending.
+- [2026-10-06-ship-fitting-developer-fix-r3-tablet-addendum.md](reviews/2026-10-06-ship-fitting-developer-fix-r3-tablet-addendum.md) — immutable history; current CR-B2 affected QA/review pending.
