@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Power &amp; Heat Lab — испытание корабля</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=PT+Sans+Narrow:wght@700&amp;family=Noto+Sans+SC:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#141210}
+.lab{--amber:#FFAA33;--amber-p:#c98a29;--cyan:#2EC4D9;--azure:#4DA6FF;--green:#5F9E4E;--yellow:#E5C23A;--warn:#D23B2C;--surface:#1A1815;--card:#201d19;--sunken:#17150F;--deep:#0E0D0B;--amber-tint:#211B12;--azure-tint:#16232B;--amber-soft:#3A2818;--b:#5a4a34;--b-dim:#3a3226;--b-faint:#241f18;--text:#e8dcc6;--muted:#a3906f;--dim:#7d6f59;--faint:#5a4a34;--soft:#c9b795;--bright:#F2EDE0;font-family:'IBM Plex Mono','Noto Sans SC',ui-monospace,Menlo,monospace;font-size:14px;line-height:1.45;color:var(--text);background:#141210;font-variant-numeric:tabular-nums}
+.lab *{box-sizing:border-box}
+.lab h1,.lab h2,.lab h3,.lab p,.lab dl,.lab dd{margin:0}
+.lab :focus-visible{outline:2px solid var(--azure);outline-offset:2px}
+.disp{font-family:'PT Sans Narrow','Arial Narrow',sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;line-height:1.05}
+.lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.sub{font-size:13px;color:var(--muted)}
+.ph{color:var(--muted)}
+.t-warn{color:var(--yellow)}
+.panel{background:var(--surface);border:1px solid var(--b-dim);border-radius:3px}
+.ptitle{display:flex;align-items:center;gap:10px;min-height:44px;flex-wrap:wrap}
+.sq{display:inline-block;width:9px;height:9px;flex:none}
+.sq-ok{background:var(--green)}.sq-warn{background:var(--yellow)}.sq-err{background:var(--warn)}.sq-off{background:var(--faint)}.sq-run{background:var(--cyan)}.sq-sel{background:var(--azure)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 14px;border:1px solid var(--b);border-radius:3px;background:var(--surface);color:var(--text);font:inherit;font-size:13px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap;text-decoration:none}
+.btn:hover{border-color:var(--amber);color:var(--bright)}
+.btn-p{background:var(--amber);border-color:var(--amber);color:#141210;font-weight:600;box-shadow:0 3px 0 var(--amber-p)}
+.btn-p:hover{color:#141210;background:#ffb84f}
+.btn-x{border-color:var(--b)}
+.btn-s{min-height:32px;padding:0 10px;font-size:12px}
+.btn:disabled{background:var(--sunken);border-style:dashed;border-color:var(--b-dim);color:var(--faint);box-shadow:none;cursor:not-allowed}
+.chip{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 7px;border:1px solid var(--b-dim);border-radius:2px;font-size:12px;color:var(--soft);white-space:nowrap}
+.demo{color:var(--yellow);border-color:#6b5a1e}
+.nav{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;color:var(--soft);text-decoration:none;font-size:13px;letter-spacing:.1em;text-transform:uppercase;border-bottom:3px solid transparent}
+.nav:hover{color:var(--bright)}
+.nav-on{color:var(--amber);border-bottom-color:var(--amber)}
+.cell{background:var(--surface);padding:10px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.val{font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px;color:var(--bright);flex-wrap:wrap;min-width:0;overflow-wrap:anywhere}
+.seg{display:inline-flex;border:1px solid var(--b);border-radius:3px;overflow:hidden}
+.seg button{min-height:40px;padding:0 12px;background:var(--surface);border:0;border-right:1px solid var(--b-dim);color:var(--soft);font:inherit;font-size:13px;cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg .on{background:var(--amber-soft);color:var(--amber)}
+.bar{height:8px;background:#2e2820;box-shadow:inset 0 0 0 1px #5a4a34;border-radius:1px;overflow:hidden}
+.bar i{display:block;height:8px}
+.tile{padding:12px 14px;background:var(--card);border:1px solid var(--b-dim);border-radius:3px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.tile-on{background:var(--amber-tint);border-color:#6a4a26}
+.tv{font-size:26px;font-weight:600;color:var(--bright);line-height:1.05;white-space:nowrap}
+.tile-on .tv{color:var(--amber)}
+.tl{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fld{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 8px;align-items:center;font-size:13px}
+.fld label{color:var(--soft)}
+.inp{width:96px;min-height:36px;padding:0 8px;background:var(--deep);border:1px solid var(--b);border-radius:3px;color:var(--text);font:inherit;font-size:13px;text-align:right}
+.sel{width:100%;min-height:40px;padding:0 8px;background:var(--deep);border:1px solid var(--b);border-radius:3px;color:var(--text);font:inherit;font-size:13px}
+.lg{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 10px;background:var(--surface);border:1px solid var(--b-dim);border-radius:3px;color:var(--soft);font:inherit;font-size:12px;cursor:pointer}
+.lg-off{opacity:.45;text-decoration:line-through}
+.sw{display:inline-block;width:18px;height:0;border-top-width:2px;border-top-style:solid}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{font-weight:500;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:right;padding:8px 10px;border-bottom:1px solid var(--b)}
+.tbl td{padding:9px 10px;text-align:right;border-bottom:1px solid var(--b-faint)}
+.tbl th:first-child,.tbl td:first-child{text-align:left}
+.trow{cursor:pointer}
+.trow:hover td{background:#1d1a16}
+.trow-on td{background:var(--azure-tint)}
+.ln{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:7px 0;border-bottom:1px solid var(--b-faint);font-size:13px}
+.ln dt{color:var(--soft)}
+.ln dd{text-align:right;color:var(--bright)}
+.fc{min-height:36px;padding:0 10px;background:var(--surface);border:1px solid var(--b-dim);border-radius:3px;color:var(--soft);font:inherit;font-size:12px;cursor:pointer}
+.fc-on{background:var(--amber-soft);border-color:#6a4a26;color:var(--amber)}
+details>summary{cursor:pointer;list-style:none}
+</style>
+</helmet>
+<div class="lab" style="min-height: 100vh; padding-bottom: 48px">
+<header style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap; min-height: 64px; padding: 0 24px; background: linear-gradient(#26211B, #1C1815); border-bottom: 2px solid #4a3f30">
+<span class="disp" style="font-size: 22px; color: #FFAA33; border: 1px solid #FFAA33; padding: 3px 8px; border-radius: 2px; background: #2A1A12">U2</span>
+<span class="disp" style="font-size: 24px; color: #F2EDE0">Lab</span>
+<nav aria-label="Разделы" style="display: flex; gap: 4px; flex-wrap: wrap">
+<a class="nav" href="Main.dc.html">Ship Fitting</a>
+<a class="nav nav-on" href="#" aria-current="page">Power &amp; Heat</a>
+<a class="nav" href="#ab">Сравнение</a>
+</nav>
+<div style="margin-left: auto; display: flex; gap: 10px; align-items: center; flex-wrap: wrap">
+<span class="chip demo">DEMO — только иллюстрация интерфейса</span>
+<button class="btn" type="button">Открыть JSON</button>
+<button class="btn" type="button">Экспорт ▾</button>
+</div>
+</header>
+<sc-if value="{{impErr}}" hint-placeholder-val="{{false}}">
+<div style="max-width: 1440px; margin: 10px auto 0; padding: 0 24px; display: flex; justify-content: flex-end">
+<div role="alert" style="max-width: 760px; display: flex; gap: 10px; align-items: flex-start; padding: 10px 14px; border: 1px solid #D23B2C; background: #1F120E; border-radius: 3px; font-size: 13px">
+<span class="sq sq-err" aria-hidden="true" style="margin-top: 5px"></span>
+<span style="flex: 1 1 auto"><b>Открыть JSON: файл run-0930.json не принят.</b> Схема теста u2-lab/0 не поддерживается. Корабль, тест и результат на экране не изменились.</span>
+<button class="btn btn-s" type="button" onClick="{{closeImp}}" aria-label="Закрыть сообщение об ошибке">✕</button>
+</div>
+</div>
+</sc-if>
+<div style="max-width: 1440px; margin: 0 auto; padding: 0 24px; display: flex; flex-direction: column; gap: 16px">
+<section aria-label="Контекст теста" style="margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1px; background: #3a3226; border: 1px solid #3a3226; border-radius: 3px">
+<div class="cell" style="grid-column: span 2; flex-direction: row; align-items: center; gap: 12px"><img src="/_blob/dfe74e4e22f670faf56a2a65544ec721" alt="Демирмаш Титан — концепт-арт" width="120" height="52" style="width: 120px; height: 52px; object-fit: contain; flex: none; background: #0E0D0B; border: 1px solid #241f18"><span style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><span class="lbl">Корабль · Демирмаш</span><span class="val">Титан · вариант A</span><span class="sub">{{cx.fit}}</span></span></div>
+<div class="cell"><span class="lbl">Задача</span><span class="val">Добыча</span><span class="sub">LAB-ORE-01 · цикл 300 с · группа Лазер 1–3</span></div>
+<div class="cell"><span class="lbl">Состояние теста</span><span class="val"><span class="{{cx.stSq}}" aria-hidden="true"></span>{{cx.st}}</span><span class="sub">{{cx.stSub}}</span></div>
+<div class="cell"><span class="lbl">Интервал расчёта</span><span class="val">шаг 0,1 с</span><span class="sub">графики: агрегация 1 с</span></div>
+<div class="cell" style="justify-content: center; align-items: flex-start"><a class="btn" href="Main.dc.html">⇄ Изменить оснастку</a></div>
+</section>
+<sc-if value="{{cx.editNote}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; gap: 10px; align-items: center; padding: 8px 14px; border: 1px solid #245158; background: #16232B; color: #cfe6f5; border-radius: 3px; font-size: 13px"><span class="sq sq-sel" aria-hidden="true"></span><b>Изменения относятся к следующему тесту.</b> Идёт расчёт сборки 12; редактируется сборка 13 (Лазер 3 → Industrial S/G2).</div>
+</sc-if>
+<section class="panel" aria-label="Управление тестом" style="padding: 12px 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap">
+<button class="btn btn-p" type="button" onClick="{{onStart}}" disabled="{{ctl.startOff}}" style="min-height: 44px">{{ctl.startLbl}}</button>
+<button class="btn" type="button" onClick="{{onPause}}" disabled="{{ctl.pauseOff}}" style="min-height: 44px">Пауза</button>
+<button class="btn" type="button" onClick="{{onStep}}" disabled="{{ctl.stepOff}}" style="min-height: 44px">Шаг</button>
+<button class="btn btn-x" type="button" onClick="{{onCancel}}" disabled="{{ctl.cancelOff}}" style="min-height: 44px">Отмена</button>
+<button class="btn" type="button" onClick="{{onReset}}" disabled="{{ctl.resetOff}}" style="min-height: 44px">Сброс</button>
+<span style="display: flex; flex-direction: column; gap: 2px; margin-left: 8px">
+<span class="lbl">Скорость расчёта</span>
+<span class="seg" role="group" aria-label="Скорость расчёта"><sc-for list="{{speeds}}" as="sp" hint-placeholder-count="4"><button type="button" class="{{sp.cls}}" onClick="{{sp.set}}" aria-pressed="{{sp.on}}">{{sp.t}}</button></sc-for></span>
+</span>
+<span class="sub" style="max-width: 280px">Меняет только скорость по часам пользователя — не шаг и не результат.</span>
+</div>
+<sc-if value="{{ctl.confirm}}" hint-placeholder-val="{{false}}">
+<div role="alertdialog" aria-label="Подтверждение отмены" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 10px 14px; border: 1px solid #6b5a1e; background: #1f1b10; border-radius: 3px; font-size: 13px">
+<span style="flex: 1 1 360px"><b>Отменить тест?</b> Измеренный интервал 0–100 с сохранится как наблюдаемый, без завершённого цикла.</span>
+<button class="btn btn-x" type="button" onClick="{{doCancel}}">Отменить тест</button>
+<button class="btn" type="button" onClick="{{noCancel}}">Вернуться</button>
+</div>
+</sc-if>
+<div style="display: grid; grid-template-columns: 140px minmax(0, 1fr) 120px; gap: 12px; align-items: center">
+<span class="lbl">Время симуляции</span>
+<div style="position: relative">
+<div style="display: flex; height: 26px; border: 1px solid #5a4a34; border-radius: 2px; overflow: hidden">
+<sc-for list="{{phases}}" as="p" hint-placeholder-count="5"><div style="width: {{p.w}}%; background: {{p.bg}}; border-right: 1px solid #3a3226; display: flex; align-items: center; justify-content: center; font-size: 11px; color: {{p.fg}}; white-space: nowrap; overflow: hidden">{{p.t}}</div></sc-for>
+</div>
+<div aria-hidden="true" style="position: absolute; top: -4px; bottom: -4px; left: {{prog.pct}}%; width: 2px; background: #F2EDE0"></div>
+</div>
+<span style="font-weight: 600; color: #F2EDE0; text-align: right">{{prog.t}}</span>
+</div>
+</section>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start">
+<aside aria-label="Условия теста" style="flex: 0 1 256px; min-width: 240px; display: flex; flex-direction: column; gap: 12px">
+<section class="panel" style="padding: 6px 14px 14px; display: flex; flex-direction: column; gap: 10px">
+<div class="ptitle"><h2 class="disp" style="font-size: 20px">Сценарий</h2><span class="sub" style="margin-left: auto">{{lockTxt}}</span></div>
+<select class="sel" aria-label="Сценарий"><option>Добыча · цикл с возвратом</option><option>Добыча до заполнения трюма</option><option>Стоянка · охлаждение</option></select>
+<div class="fld"><label for="lab-h">Горизонт</label><span><input id="lab-h" class="inp" value="300" disabled="{{locked}}"> с</span>
+<label for="lab-g">Цель добычи</label><span><input id="lab-g" class="inp" value="—" disabled="{{locked}}"> SCU</span>
+<label for="lab-r">Повтор цикла</label><span><input id="lab-r" class="inp" value="1" disabled="{{locked}}"> раз</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px; font-size: 12px">
+<span class="lbl">Фазы</span>
+<span>Добыча 150 с · Лазер 1–3 · доля 100 %</span>
+<span>Возврат 40 с · марш</span>
+<span>Разгрузка и обслуживание 60 с</span>
+<span>Подход 40 с · марш</span>
+<span>Торможение 10 с · ретро</span>
+<span class="sub">Длительности задаёт сценарий; маршрут не рассчитывается.</span>
+</div>
+</section>
+<section class="panel" style="padding: 6px 14px 14px; display: flex; flex-direction: column; gap: 10px">
+<div class="ptitle"><h2 class="disp" style="font-size: 20px">Среда</h2></div>
+<div class="fld"><label for="lab-bg">Радиационный фон</label><span><input id="lab-bg" class="inp" value="3" disabled="{{locked}}"> K</span>
+<label for="lab-fl">Падающий поток</label><span><input id="lab-fl" class="inp" value="1,36" disabled="{{locked}}"> кВт/м²</span></div>
+<span class="sub">Фон и прямой поток — разные вклады; один источник не задаётся дважды.</span>
+</section>
+<section class="panel" style="padding: 6px 14px 14px; display: flex; flex-direction: column; gap: 10px">
+<div class="ptitle"><h2 class="disp" style="font-size: 20px">Начальное состояние</h2></div>
+<div class="fld"><label for="lab-t">Температура корпуса</label><span><input id="lab-t" class="inp" value="290" disabled="{{locked}}"> K</span>
+<label for="lab-soc">Заряд</label><span><input id="lab-soc" class="inp" value="100" disabled="{{locked}}"> %</span>
+<label for="lab-d">Дизель · ходовой бак</label><span><input id="lab-d" class="inp" value="1 200" disabled="{{locked}}"> кг</span>
+<label for="lab-hh">H₂ · криобак</label><span><input id="lab-hh" class="inp" value="100" disabled="{{locked}}"> кг</span>
+<label for="lab-c">Груз в трюме</label><span><input id="lab-c" class="inp" value="0" disabled="{{locked}}"> SCU</span></div>
+<span class="sub">Только установленные баки и аккумулятор. Топливо в трюме двигатели не питает.</span>
+</section>
+<details class="panel" style="padding: 0 14px"><summary style="display: flex; align-items: center; min-height: 44px; gap: 10px"><h2 class="disp" style="font-size: 20px">Дополнительно</h2><span class="lbl" style="margin-left: auto">▼</span></summary><p class="sub" style="padding-bottom: 12px">Исследовательские параметры фаз и закон среды. Автоматика генераторов и запасов — принятая, ручных приоритетов нет.</p></details>
+<section class="panel" style="padding: 6px 14px 14px; display: flex; flex-direction: column; gap: 6px">
+<div class="ptitle"><h2 class="disp" style="font-size: 20px">Рабочая группа</h2><span class="sub" style="margin-left: auto">до запуска</span></div>
+<sc-for list="{{group}}" as="g" hint-placeholder-count="3">
+<div style="display: flex; gap: 8px; align-items: center; font-size: 13px; min-height: 28px"><span class="sq sq-ok" aria-hidden="true"></span><span style="flex: 1 1 auto">{{g.n}}</span><span class="sub">{{g.v}}</span></div>
+</sc-for>
+<span class="sub">Отключение лазера не уменьшает знаменатель использования.</span>
+</section>
+</aside>
+<main style="flex: 1 1 600px; max-width: 824px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<section class="panel" aria-label="Результат теста" style="padding: 6px 16px 16px; display: flex; flex-direction: column; gap: 12px">
+<div class="ptitle"><span class="{{res.sq}}" aria-hidden="true"></span><h2 class="disp" style="font-size: 22px; color: #F2EDE0">{{res.title}}</h2><span class="sub" style="margin-left: auto">{{res.scope}}</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+<sc-for list="{{tiles}}" as="t" hint-placeholder-count="9"><div class="{{t.cls}}"><span class="tl">{{t.l}}</span><span class="tv">{{t.v}}</span><span class="sub">{{t.s}}</span></div></sc-for>
+</div>
+<sc-if value="{{res.empty}}" hint-placeholder-val="{{false}}">
+<p class="sub">Результата пока нет. Проверьте условия слева и нажмите «Запуск» — или откройте сохранённый тест.</p>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span class="lbl">Сохранённые тесты</span>
+<sc-for list="{{saved}}" as="sv" hint-placeholder-count="2">
+<button type="button" style="display: flex; gap: 12px; align-items: center; width: 100%; min-height: 48px; padding: 8px 12px; background: #201d19; border: 1px solid #3a3226; border-radius: 3px; color: inherit; font: inherit; text-align: left; cursor: pointer">
+<span style="flex: 1 1 auto; display: flex; flex-direction: column"><b style="color: #F2EDE0">{{sv.n}}</b><span class="sub">{{sv.s}}</span></span>
+<sc-if value="{{sv.tag}}" hint-placeholder-val="{{false}}"><span class="chip demo">{{sv.tag}}</span></sc-if>
+<span class="lbl" style="color: #FFAA33">Открыть</span>
+</button>
+</sc-for>
+<span class="sub">Тест Legacy model хранит прежние числа и не пересчитывается; без слотных данных он не считается проверенной оснасткой.</span>
+</div>
+</sc-if>
+</section>
+<section class="panel" aria-label="Графики" style="padding: 6px 16px 16px; display: flex; flex-direction: column; gap: 10px">
+<div class="ptitle">
+<h2 class="disp" style="font-size: 22px; color: #F2EDE0">Каналы</h2>
+<span class="seg" role="group" aria-label="Группа каналов"><sc-for list="{{grps}}" as="g" hint-placeholder-count="4"><button type="button" class="{{g.cls}}" onClick="{{g.set}}" aria-pressed="{{g.on}}">{{g.t}}</button></sc-for></span>
+<span class="sub" style="margin-left: auto">общая ось времени · 0–300 с</span>
+</div>
+<div role="group" aria-label="Кривые" style="display: flex; gap: 6px; flex-wrap: wrap">
+<sc-for list="{{legend}}" as="l" hint-placeholder-count="4"><button type="button" class="{{l.cls}}" onClick="{{l.toggle}}" aria-pressed="{{l.on}}"><span class="sw" style="border-top-color: {{l.c}}; border-top-style: {{l.st}}"></span>{{l.t}}</button></sc-for>
+</div>
+<sc-for list="{{charts}}" as="ch" hint-placeholder-count="2">
+<figure style="margin: 0; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; gap: 10px; align-items: baseline"><span class="lbl" style="color: #c9b795">{{ch.title}}</span><span class="sub">{{ch.axis}}</span></div>
+<div style="position: relative; height: 170px; background: #0E0D0B; border: 1px solid #241f18">
+<svg viewBox="0 0 600 160" preserveAspectRatio="none" width="100%" height="170" aria-hidden="true" style="display: block">
+<rect x="0" y="0" width="300" height="160" fill="#1a1712"></rect>
+<rect x="380" y="0" width="120" height="160" fill="#171612"></rect>
+<path d="M0 40H600M0 80H600M0 120H600M100 0V160M200 0V160M300 0V160M400 0V160M500 0V160" stroke="#241f18" stroke-width="1" vector-effect="non-scaling-stroke"></path>
+<sc-for list="{{ch.zones}}" as="z" hint-placeholder-count="1"><path d="{{z.d}}" stroke="{{z.c}}" stroke-width="1.5" stroke-dasharray="6 4" vector-effect="non-scaling-stroke" fill="none"></path></sc-for>
+<sc-for list="{{ch.lines}}" as="ln" hint-placeholder-count="2"><polyline points="{{ln.pts}}" fill="none" stroke="{{ln.c}}" stroke-width="{{ln.w}}" stroke-dasharray="{{ln.dash}}" vector-effect="non-scaling-stroke"></polyline></sc-for>
+<sc-if value="{{cur.on}}" hint-placeholder-val="{{true}}"><path d="{{cur.d}}" stroke="#4DA6FF" stroke-width="1.5" vector-effect="non-scaling-stroke"></path></sc-if>
+</svg>
+<sc-for list="{{ch.marks}}" as="mk" hint-placeholder-count="1"><span style="position: absolute; right: 6px; top: {{mk.top}}px; font-size: 11px; color: {{mk.c}}; background: #0E0D0B; padding: 0 3px">{{mk.t}}</span></sc-for>
+<sc-if value="{{ch.empty}}" hint-placeholder-val="{{false}}"><div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #a3906f; font-size: 13px">График появится после запуска</div></sc-if>
+</div>
+<figcaption class="sub" style="color: #c9b795">{{ch.sum}}</figcaption>
+</figure>
+</sc-for>
+<sc-if value="{{cur.on}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; border: 1px solid #245158; background: #16232B; border-radius: 3px">
+<div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap">
+<span class="lbl" style="color: #4DA6FF">Момент {{cur.t}}</span>
+<span style="font-size: 13px; color: #cfe6f5">ближайшее событие: {{cur.ev}}</span>
+<span style="margin-left: auto; display: flex; gap: 6px"><button class="btn btn-s" type="button" onClick="{{cur.prev}}" aria-label="Предыдущее событие">◀ событие</button><button class="btn btn-s" type="button" onClick="{{cur.next}}" aria-label="Следующее событие">событие ▶</button></span>
+</div>
+<table class="tbl" aria-label="Значения каналов в выбранный момент"><tbody><sc-for list="{{cur.rows}}" as="r" hint-placeholder-count="4"><tr><td>{{r.k}}</td><td style="color: #F2EDE0">{{r.v}}</td></tr></sc-for></tbody></table>
+</div>
+</sc-if>
+<p class="sub">Агрегация 1 с · min / mean / max сохраняются, короткие пики видны в сводке · каналов на экране {{chN}} из 38 сохраняемых · сводка относится ко всему интервалу, а не к видимому окну.</p>
+</section>
+<section class="panel" aria-label="Модули" style="padding: 6px 16px 16px; display: flex; flex-direction: column; gap: 8px">
+<div class="ptitle"><h2 class="disp" style="font-size: 22px; color: #F2EDE0">Модули</h2><span class="sub" style="margin-left: auto">средние за фазу добычи · выберите строку для подробностей</span></div>
+<div style="overflow-x: auto" tabindex="0" aria-label="Таблица модулей; прокручивается по горизонтали">
+<table class="tbl" style="min-width: 760px">
+<thead><tr><th scope="col">Экземпляр</th><th scope="col">Режим / доля</th><th scope="col">Запрос / доставлено</th><th scope="col">Полезный выход</th><th scope="col">Тепло в корпус</th><th scope="col">Тепл. затвор</th><th scope="col">Ресурс</th></tr></thead>
+<tbody>
+<sc-for list="{{mods}}" as="m" hint-placeholder-count="8">
+<tr class="{{m.cls}}">
+<td><button type="button" onClick="{{m.pick}}" aria-pressed="{{m.on}}" style="background: none; border: 0; padding: 0; color: #F2EDE0; font: inherit; font-weight: 600; cursor: pointer; text-align: left; min-height: 32px">{{m.n}}</button><span class="sub" style="display: block; font-size: 11px">{{m.kind}}</span></td>
+<td>{{m.mode}}</td><td>{{m.pw}}</td><td>{{m.out}}</td><td>{{m.heat}}</td><td class="{{m.gateCls}}">{{m.gate}}</td><td>{{m.res}}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</section>
+<sc-if value="{{inst.on}}" hint-placeholder-val="{{false}}">
+<section class="panel" aria-label="Карточка экземпляра" style="padding: 6px 16px 16px; display: flex; flex-direction: column; gap: 10px; border-color: #245158">
+<div class="ptitle"><span class="sq sq-sel" aria-hidden="true"></span><h2 class="disp" style="font-size: 22px; color: #F2EDE0">{{inst.n}}</h2><span class="sub">{{inst.kind}}</span><button class="btn btn-s" type="button" onClick="{{inst.close}}" aria-label="Закрыть карточку экземпляра" style="margin-left: auto">✕</button></div>
+<div style="display: flex; gap: 16px; flex-wrap: wrap">
+<dl style="flex: 1 1 340px">
+<sc-for list="{{inst.rows}}" as="r" hint-placeholder-count="8"><div class="ln"><dt>{{r.k}}</dt><dd>{{r.v}} <span class="chip" style="height: 18px; font-size: 11px">{{r.p}}</span></dd></div></sc-for>
+</dl>
+<dl style="flex: 1 1 260px">
+<sc-for list="{{inst.mass}}" as="r" hint-placeholder-count="4"><div class="ln"><dt>{{r.k}}</dt><dd>{{r.v}}</dd></div></sc-for>
+</dl>
+</div>
+<p class="sub">{{inst.note}}</p>
+</section>
+</sc-if>
+<section class="panel" aria-label="Журнал событий" style="padding: 6px 16px 16px; display: flex; flex-direction: column; gap: 8px">
+<div class="ptitle"><h2 class="disp" style="font-size: 22px; color: #F2EDE0">Журнал</h2><span class="sub" style="margin-left: auto">{{logInfo}}</span></div>
+<div role="group" aria-label="Фильтр журнала" style="display: flex; gap: 6px; flex-wrap: wrap"><sc-for list="{{lf}}" as="f" hint-placeholder-count="6"><button type="button" class="{{f.cls}}" onClick="{{f.set}}" aria-pressed="{{f.on}}">{{f.t}}</button></sc-for></div>
+<table class="tbl"><thead><tr><th scope="col">Время</th><th scope="col" style="text-align: left">Фаза</th><th scope="col" style="text-align: left">Событие</th><th scope="col" style="text-align: left">Причина</th><th scope="col" style="text-align: left">Экземпляр</th></tr></thead>
+<tbody><sc-for list="{{log}}" as="e" hint-placeholder-count="6"><tr><td>{{e.t}}</td><td style="text-align: left" class="sub">{{e.ph}}</td><td style="text-align: left"><span style="display: inline-flex; gap: 8px; align-items: center"><span class="{{e.sq}}" aria-hidden="true"></span>{{e.txt}}</span></td><td style="text-align: left" class="sub">{{e.why}}</td><td style="text-align: left" class="sub">{{e.inst}}</td></tr></sc-for></tbody></table>
+<sc-if value="{{logEmpty}}" hint-placeholder-val="{{false}}"><p class="sub">Событий нет.</p></sc-if>
+</section>
+</main>
+<aside aria-label="Ограничения и запасы" style="flex: 0 1 280px; min-width: 260px; display: flex; flex-direction: column; gap: 12px">
+<section class="panel" aria-label="Первый ограничитель" style="padding: 6px 14px 14px; display: flex; flex-direction: column; gap: 8px; border-color: {{lim.bc}}">
+<div class="ptitle"><span class="{{lim.sq}}" aria-hidden="true"></span><h2 class="disp" style="font-size: 20px">Первый ограничитель</h2></div>
+<span style="font-size: 22px; font-weight: 600; color: {{lim.c}}">{{lim.t}}</span>
+<dl>
+<sc-for list="{{lim.rows}}" as="r" hint-placeholder-count="3"><div class="ln"><dt>{{r.k}}</dt><dd>{{r.v}}</dd></div></sc-for>
+</dl>
+<p style="font-size: 13px; color: #c9b795">{{lim.why}}</p>
+</section>
+<section class="panel" aria-label="Запасы" style="padding: 6px 14px 14px; display: flex; flex-direction: column; gap: 10px">
+<div class="ptitle"><h2 class="disp" style="font-size: 20px">Запасы</h2><span class="sub" style="margin-left: auto">{{stockAt}}</span></div>
+<sc-for list="{{stocks}}" as="s" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<div style="display: flex; justify-content: space-between; font-size: 13px"><span>{{s.k}}</span><span class="{{s.cls}}">{{s.v}}</span></div>
+<div class="bar"><i style="width: {{s.pct}}%; background: {{s.c}}"></i></div>
+</div>
+</sc-for>
+<span class="sub">Электрический запас один на всю сеть — по устройствам не дублируется.</span>
+</section>
+<section class="panel" aria-label="Охлаждение" style="padding: 6px 14px 14px; display: flex; flex-direction: column; gap: 8px">
+<div class="ptitle"><h2 class="disp" style="font-size: 20px">Охлаждение</h2></div>
+<div style="display: flex; align-items: baseline; gap: 8px"><span style="font-size: 26px; font-weight: 600; color: #F2EDE0">{{cool.t}}</span><span class="sub">{{cool.tSub}}</span></div>
+<div style="position: relative; height: 14px; background: #2e2820; box-shadow: inset 0 0 0 1px #5a4a34">
+<div style="position: absolute; left: 0; top: 0; bottom: 0; width: {{cool.pct}}%; background: #FFAA33"></div>
+<div aria-hidden="true" style="position: absolute; left: 79%; top: -3px; bottom: -3px; width: 2px; background: #c9b795"></div>
+<div aria-hidden="true" style="position: absolute; left: 90%; top: -3px; bottom: -3px; width: 2px; background: #E5C23A"></div>
+</div>
+<div style="display: flex; justify-content: space-between; font-size: 11px" class="sub"><span>290 K</span><span>рестарт 395</span><span>стоп 410 K</span></div>
+<dl>
+<sc-for list="{{cool.rows}}" as="r" hint-placeholder-count="4"><div class="ln"><dt>{{r.k}}</dt><dd>{{r.v}}</dd></div></sc-for>
+</dl>
+</section>
+<section class="panel" aria-label="Предупреждения" style="padding: 6px 14px 14px; display: flex; flex-direction: column; gap: 8px">
+<div class="ptitle"><h2 class="disp" style="font-size: 20px">Предупреждения</h2><span class="chip" style="margin-left: auto">{{warnN}}</span></div>
+<sc-for list="{{warns}}" as="w" hint-placeholder-count="2"><div style="display: flex; gap: 8px; align-items: flex-start; font-size: 13px"><span class="sq sq-warn" aria-hidden="true" style="margin-top: 5px"></span><span>{{w}}</span></div></sc-for>
+<sc-if value="{{noWarns}}" hint-placeholder-val="{{false}}"><span class="sub">Нет.</span></sc-if>
+</section>
+</aside>
+</div>
+<section class="panel" aria-label="Энерготепловой учёт" style="padding: 0 16px">
+<button type="button" onClick="{{toggleLedger}}" aria-expanded="{{ledgerOpen}}" style="display: flex; align-items: center; gap: 12px; width: 100%; min-height: 52px; background: none; border: 0; color: inherit; font: inherit; cursor: pointer; text-align: left">
+<h2 class="disp" style="font-size: 22px; color: #F2EDE0">Энерготепловой учёт</h2><span class="sub">энергия за тест, J · откуда → куда</span><span class="lbl" style="margin-left: auto">{{ledgerChev}}</span>
+</button>
+<sc-if value="{{ledgerOpen}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; gap: 16px; flex-wrap: wrap; padding-bottom: 16px">
+<sc-for list="{{ledger}}" as="lc" hint-placeholder-count="3">
+<div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 6px">
+<span class="lbl" style="color: #c9b795">{{lc.t}}</span>
+<sc-for list="{{lc.rows}}" as="r" hint-placeholder-count="4">
+<div style="display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; padding: 8px 10px; background: #201d19; border: 1px solid #3a3226; border-left: 3px solid {{r.c}}; border-radius: 2px; font-size: 13px"><span>{{r.k}}</span><b style="color: #F2EDE0; white-space: nowrap">{{r.v}}</b><span class="sub" style="grid-column: span 2; font-size: 12px">{{r.s}}</span></div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+<p class="sub" style="padding-bottom: 16px">Выхлоп источника не изображается охлаждением корпуса. Возврат луча входит в тепло корпуса один раз и один раз вычитается из внешнего выхода. Баланс сходится · точные SI-данные — в «Источниках параметров».</p>
+</sc-if>
+</section>
+<section id="ab" class="panel" aria-label="Сравнение A и B" style="padding: 6px 16px 16px; display: flex; flex-direction: column; gap: 12px">
+<div class="ptitle">
+<h2 class="disp" style="font-size: 26px; color: #F2EDE0">Сравнение A / B</h2>
+<span class="sub">{{ab.sub}}</span>
+<span style="margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap">
+<button class="btn" type="button" onClick="{{fixA}}" disabled="{{ab.fixOff}}">{{ab.fixLbl}}</button>
+<a class="btn" href="Main.dc.html">⇄ Изменить оснастку для B</a>
+</span>
+</div>
+<sc-if value="{{ab.none}}" hint-placeholder-val="{{false}}"><p class="sub">Зафиксируйте результат как A, измените условия или оснастку и запустите B. Выигрыш замены подтверждает измерение B, а не номинальный расчёт.</p></sc-if>
+<sc-if value="{{ab.has}}" hint-placeholder-val="{{true}}">
+<div style="overflow-x: auto" tabindex="0" aria-label="Таблица сравнения A и B">
+<table class="tbl" style="min-width: 640px">
+<thead><tr><th scope="col">Показатель</th><th scope="col" style="color: #FFAA33">{{ab.aName}}</th><th scope="col">{{ab.bName}}</th><th scope="col">B − A</th></tr></thead>
+<tbody><sc-for list="{{ab.rows}}" as="r" hint-placeholder-count="8"><tr><td style="color: #c9b795">{{r.k}}</td><td style="color: #F2EDE0">{{r.a}}</td><td style="color: #F2EDE0">{{r.b}}</td><td class="sub">{{r.d}}</td></tr></sc-for></tbody>
+</table>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span class="lbl" style="color: #c9b795">Доставлено всем потребителям, МВт · общая шкала</span>
+<div style="height: 120px; background: #0E0D0B; border: 1px solid #241f18">
+<svg viewBox="0 0 600 160" preserveAspectRatio="none" width="100%" height="120" aria-hidden="true" style="display: block">
+<path d="M0 40H600M0 80H600M0 120H600M100 0V160M200 0V160M300 0V160M400 0V160M500 0V160" stroke="#241f18" stroke-width="1" vector-effect="non-scaling-stroke"></path>
+<polyline points="{{ab.ptsA}}" fill="none" stroke="#FFAA33" stroke-width="2.5" vector-effect="non-scaling-stroke"></polyline>
+<polyline points="{{ab.ptsB}}" fill="none" stroke="#4DA6FF" stroke-width="2" stroke-dasharray="7 4" vector-effect="non-scaling-stroke"></polyline>
+</svg>
+</div>
+<span class="sub">сплошная янтарная — A · пунктир азур — B. {{ab.chartSum}}</span>
+</div>
+<sc-if value="{{ab.same}}" hint-placeholder-val="{{true}}"><div style="display: flex; gap: 10px; align-items: center; padding: 10px 14px; border: 1px solid #3d5a33; background: #182015; border-radius: 3px; font-size: 13px"><span class="sq sq-ok" aria-hidden="true"></span>Одинаковые сырьё, среда, фазы, горизонт и начальные запасы</div></sc-if>
+<sc-if value="{{ab.diff}}" hint-placeholder-val="{{false}}">
+<div style="padding: 10px 14px; border: 1px solid #6b5a1e; background: #211B12; border-radius: 3px; font-size: 13px; display: flex; flex-direction: column; gap: 6px">
+<span style="display: flex; gap: 10px; align-items: center"><span class="sq sq-warn" aria-hidden="true"></span><b>Условия различаются</b> — разница в результате не относится только к оснастке</span>
+<ul style="margin: 0; padding-left: 20px"><li>Среда: фон 3 K → 40 K</li><li>Начальный заряд: 100 % → 60 %</li></ul>
+</div>
+</sc-if>
+</sc-if>
+</section>
+<div style="display: flex; gap: 16px; flex-wrap: wrap">
+<details class="panel" style="flex: 2 1 560px; padding: 0 16px"><summary style="display: flex; align-items: center; gap: 12px; min-height: 52px"><h2 class="disp" style="font-size: 22px">Источники параметров</h2><span class="sub">версии модели и каталога, точные SI, гипотезы, параметры агрегации</span><span class="lbl" style="margin-left: auto">▼</span></summary><p class="sub" style="padding-bottom: 14px">Модель u2-lab/2 · каталог Ship Fitting v0.2 · Civil S/G1: η 0,5001 (Из U2) · LAB-ORE-01 1500 кг/м³ (Гипотеза) · возврат луча 0,35 (Гипотеза, 0,30–0,40).</p></details>
+<section class="panel" aria-label="Экспорт" style="flex: 1 1 320px; padding: 6px 16px 16px; display: flex; flex-direction: column; gap: 8px">
+<div class="ptitle"><h2 class="disp" style="font-size: 22px">Экспорт</h2></div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><button class="btn btn-s" type="button">Сохранить тест</button><button class="btn btn-s" type="button">Сохранить результат</button><button class="btn btn-s" type="button">CSV каналов</button></div>
+<span class="sub">Файл теста содержит версии и полный численный снимок.</span>
+</section>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"view":{"editor":"enum","options":["done","running","paused","heat","ab","abdiff","empty","import"],"default":"done","section":"Состояние"},"$preview":{"width":1440,"height":3600}}'>
+class Component extends DCLogic {
+  series() {
+    if (this._s) return this._s;
+    const stops = [[61, 67.4], [88, 95.1], [112, 121.8], [133, 138.6]];
+    const del = [[0, 9.4], [18.2, 9.4], [18.2, 8], [45, 8], [45, 3.1]];
+    const gen = [[0, 8], [45, 8], [45, 4.1]];
+    stops.forEach(([a, b]) => { del.push([a, 3.1], [a, 0.4], [b, 0.4], [b, 3.1]); gen.push([a, a < 70.5 ? 4.1 : 3.1], [a, a < 70.5 ? 1.4 : 0.4], [b, b < 70.5 ? 1.4 : 0.4], [b, b < 70.5 ? 4.1 : 3.1]); if (b < 70.5) gen.push([70.5, 4.1], [70.5, 3.1]); });
+    const tail = [[150, 3.1], [150, 0.6], [190, 0.6], [190, 0.3], [250, 0.3], [250, 0.6], [300, 0.6]];
+    tail.forEach(p => { del.push(p); gen.push(p); });
+    const mine = [];
+    del.forEach(([t, v]) => { mine.push([t, t <= 150 ? Math.max(0, (v - 0.4) / 9 * 0.1875) : 0]); });
+    this._s = {
+      stops,
+      req: [[0, 9.4], [150, 9.4], [150, 0.6], [190, 0.6], [190, 0.3], [250, 0.3], [250, 0.6], [300, 0.6]],
+      del, gen,
+      soc: [[0, 100], [18.2, 0], [45, 0], [70.5, 100], [300, 100]],
+      temp: [[0, 290], [45, 400], [61, 410.6], [67.4, 396], [88, 410.6], [95.1, 395.5], [112, 410.6], [121.8, 394], [133, 410.6], [138.6, 396], [150, 404], [190, 372], [250, 345], [300, 330]],
+      hin: [[0, 6.5], [18.2, 6.5], [18.2, 5.5], [45, 5.5], [45, 2.2], [61, 2.2], [61, 0.4], [67.4, 0.4], [67.4, 2.2], [88, 2.2], [88, 0.4], [95.1, 0.4], [95.1, 2.2], [112, 2.2], [112, 0.4], [121.8, 0.4], [121.8, 2.2], [133, 2.2], [133, 0.4], [138.6, 0.4], [138.6, 2.2], [150, 2.2], [150, 0.6], [190, 0.6], [190, 0.3], [300, 0.3]],
+      hout: [[0, -0.2], [8, 0], [45, 2.6], [61, 3.0], [150, 2.9], [190, 2.2], [250, 1.5], [300, 1.2]],
+      diesel: [[0, 100], [150, 97], [190, 96.6], [250, 96.5], [300, 96]],
+      h2: [[0, 100], [61, 100], [150, 94.5], [300, 94]],
+      buf: [[0, 0], [61, 100], [150, 100], [190, 60], [250, 20], [300, 0]],
+      cargo: [[0, 0], [18.2, 3.4], [45, 7.6], [150, 12], [190, 12], [250, 0], [300, 0]],
+      mine, rated: [[0, 0.1875], [150, 0.1875], [150, 0], [300, 0]],
+      thrR: [[0, 0], [150, 0], [150, 120], [190, 120], [190, 0], [250, 0], [250, 120], [290, 120], [290, 80], [300, 80]],
+      thrA: [[0, 0], [150, 0], [150, 120], [190, 120], [190, 0], [250, 0], [250, 120], [290, 120], [290, 66], [300, 66]],
+      events: [
+        { t: 0, ph: 'Добыча', k: 'phase', sq: 'sq sq-run', txt: 'Начало добычи · группа Лазер 1–3', inst: 'Лазер 1–3', why: 'фаза по сценарию' },
+        { t: 18.2, ph: 'Добыча', k: 'limit', sq: 'sq sq-warn', txt: 'Питание: лазерам 7,6 из 9,0 МВт', inst: 'Аккумулятор S → Лазер 1–3', why: 'аккумулятор исчерпан, генератор 8,0 МВт' },
+        { t: 45, ph: 'Добыча', k: 'limit', sq: 'sq sq-warn', txt: 'Тепло: автоматика снижает выдачу лазеров', inst: 'Лазер 1–3', why: 'корпус у порога, отвод меньше прихода' },
+        { t: 61, ph: 'Добыча', k: 'heat', sq: 'sq sq-warn', txt: 'Тепловой стоп № 1 · корпус 410,6 K', inst: 'Лазер 1–3', why: 'порог 410 K · буфер полон' },
+        { t: 67.4, ph: 'Добыча', k: 'heat', sq: 'sq sq-ok', txt: 'Рестарт через 6,4 с · 395 K', inst: 'Лазер 1–3', why: 'остывание до 395 K' },
+        { t: 70.5, ph: 'Добыча', k: 'res', sq: 'sq sq-ok', txt: 'Аккумулятор заряжен до 100 %', inst: 'Аккумулятор S', why: 'генератор при остановленных лазерах' },
+        { t: 88, ph: 'Добыча', k: 'heat', sq: 'sq sq-warn', txt: 'Тепловой стоп № 2 · рестарт через 7,1 с', inst: 'Лазер 1–3', why: 'порог 410 K' },
+        { t: 112, ph: 'Добыча', k: 'heat', sq: 'sq sq-warn', txt: 'Тепловой стоп № 3 · рестарт через 9,8 с', inst: 'Лазер 1–3', why: 'порог 410 K' },
+        { t: 133, ph: 'Добыча', k: 'heat', sq: 'sq sq-warn', txt: 'Тепловой стоп № 4 · рестарт через 5,6 с', inst: 'Лазер 1–3', why: 'порог 410 K' },
+        { t: 150, ph: 'Возврат', k: 'phase', sq: 'sq sq-off', txt: 'Конец добычи: 12 SCU · переход «Возврат»', inst: 'Марш', why: 'фаза по сценарию' },
+        { t: 190, ph: 'Обслуживание', k: 'svc', sq: 'sq sq-off', txt: 'Разгрузка 12 SCU', inst: 'Встроенный трюм', why: 'заправка и сброс тепла не автоматические' },
+        { t: 250, ph: 'Подход', k: 'phase', sq: 'sq sq-off', txt: 'Переход «Подход»', inst: 'Марш', why: 'фаза по сценарию' },
+        { t: 290, ph: 'Торможение', k: 'thrust', sq: 'sq sq-warn', txt: 'Недоставка тяги: ретро 66 из 80 кН', inst: 'Торможение', why: 'тяга одиночного M ниже требования фазы' },
+        { t: 300, ph: 'Торможение', k: 'phase', sq: 'sq sq-ok', txt: 'Цикл завершён', inst: '—', why: 'фаза по сценарию' }
+      ]
+    };
+    return this._s;
+  }
+  renderVals() {
+    const P = this.props || {}, st = this.state || {}, S = this.series();
+    const set = o => this.setState(o);
+    const view = P.view || 'done';
+    const exp = st.exp || ({ running: 'running', paused: 'paused', empty: 'none' }[view] || 'done');
+    const live = exp === 'running' || exp === 'paused';
+    const T = 300, cut = (live || exp === 'cancelled') ? 100 : (exp === 'none' ? 0 : T);
+    const grp = st.grp || (view === 'heat' ? 'heat' : 'energy');
+    const hidden = st.hidden || {};
+    const curIdx = st.cur !== undefined ? st.cur : (view === 'heat' ? 3 : 1);
+    const fx = (n, d) => n.toFixed(d === undefined ? 1 : d).replace('.', ',').replace('-', '−');
+    const interp = (arr, t) => { for (let i = 1; i < arr.length; i++) { if (arr[i][0] >= t) { const a = arr[i - 1], b = arr[i]; return b[0] === a[0] ? b[1] : a[1] + (b[1] - a[1]) * (t - a[0]) / (b[0] - a[0]); } } return arr[arr.length - 1][1]; };
+    const pts = (arr, lo, hi) => {
+      const out = [];
+      for (let i = 0; i < arr.length; i++) { const p = arr[i]; if (p[0] > cut) { out.push([cut, interp(arr, cut)]); break; } out.push(p); }
+      return out.map(p => (p[0] / T * 600).toFixed(1) + ',' + (150 - (p[1] - lo) / (hi - lo) * 140).toFixed(1)).join(' ');
+    };
+    const yOf = (v, lo, hi) => 150 - (v - lo) / (hi - lo) * 140;
+    const L = (k, t, arr, c, dash, w, u, d) => ({ k, t, arr, c, dash: dash || '', w: w || 2, u, d: d === undefined ? 1 : d });
+    const G = {
+      energy: [
+        { title: 'Электрическая мощность, МВт', axis: 'шкала 0–10 МВт', lo: 0, hi: 10, zones: [], lines: [L('req', 'Запрошено', S.req, '#a3906f', '6 4', 1.5, ' МВт'), L('del', 'Доставлено', S.del, '#2EC4D9', '', 2.5, ' МВт'), L('gen', 'Генератор', S.gen, '#FFAA33', '2 3', 1.5, ' МВт')],
+          sum: 'Запрос 9,4 МВт до 150 с. Доставлено полностью до 18,2 с (аккумулятор), затем 8,0 МВт генератора. С 45 с доставку ограничивает тепловой режим, а не питание: лазеры сами снижают запрос.' },
+        { title: 'Заряд аккумулятора, %', axis: 'шкала 0–100 %', lo: 0, hi: 100, zones: [], lines: [L('soc', 'Заряд (SoC)', S.soc, '#2EC4D9', '', 2.5, ' %', 0)],
+          sum: 'Разряжен к 18,2 с; генератор восстановил заряд к 70,5 с — восстановление не бесплатное, оно за счёт дизеля.' }
+      ],
+      heat: [
+        { title: 'Температура корпуса, K', axis: 'шкала 280–420 K', lo: 280, hi: 420, zones: [{ v: 410, c: '#E5C23A', t: 'стоп 410 K' }, { v: 395, c: '#c9b795', t: 'рестарт 395 K' }], lines: [L('temp', 'T корпуса', S.temp, '#FFAA33', '', 2.5, ' K')],
+          sum: 'Порог 410 K достигнут четыре раза (61, 88, 112, 133 с); пик 410,6 K. После добычи корпус остывает до 330 K — сброс тепла не мгновенный.' },
+        { title: 'Тепловые потоки, МВт', axis: 'ниже нуля — тепло приходит извне', lo: -1, hi: 7, zones: [{ v: 0, c: '#5a4a34', t: '0' }], lines: [L('hin', 'Тепло в корпус', S.hin, '#E5C23A', '', 2, ' МВт'), L('hout', 'Отвод: радиаторы и охладитель', S.hout, '#c9b795', '6 4', 2, ' МВт')],
+          sum: 'Первые 8 с излучение среды греет корпус (отвод ниже нуля). Буфер принимает избыток до 61 с, дальше отвод упирается в ~3 МВт.' }
+      ],
+      stock: [
+        { title: 'Запасы, %', axis: 'шкала 0–100 %', lo: 0, hi: 100, zones: [], lines: [L('diesel', 'Дизель', S.diesel, '#FFAA33', '', 2, ' %'), L('h2', 'H₂', S.h2, '#c9b795', '6 4', 2, ' %'), L('buf', 'Тепловой буфер, заполнение', S.buf, '#E5C23A', '2 3', 2, ' %', 0)],
+          sum: 'Дизель −4 %, H₂ −6 % за цикл; буфер полон с 61 с и освобождается после добычи.' },
+        { title: 'Трюм, SCU', axis: 'шкала 0–48 SCU', lo: 0, hi: 48, zones: [], lines: [L('cargo', 'Заполнение трюма', S.cargo, '#c9b795', '', 2.5, ' SCU')],
+          sum: '12 SCU к концу добычи; разгрузка в фазе обслуживания освобождает объём.' }
+      ],
+      work: [
+        { title: 'Добыча, SCU/с', axis: 'шкала 0–0,2 SCU/с', lo: 0, hi: 0.2, zones: [], lines: [L('rated', 'Номинал группы', S.rated, '#a3906f', '6 4', 1.5, ' SCU/с', 3), L('mine', 'Фактически', S.mine, '#2EC4D9', '', 2.5, ' SCU/с', 3)],
+          sum: 'Номинал группы 0,1875 SCU/с. Фактически: полный до 18,2 с, 84 % до 45 с, затем около 30 % и четыре нулевых провала.' },
+        { title: 'Тяга, кН', axis: 'шкала 0–140 кН', lo: 0, hi: 140, zones: [], lines: [L('thrR', 'Запрошено', S.thrR, '#a3906f', '6 4', 1.5, ' кН', 0), L('thrA', 'Фактически', S.thrA, '#FFAA33', '', 2.5, ' кН', 0)],
+          sum: 'Марш на возврате и подходе доставлен полностью; ретро на 290–300 с — 66 из 80 кН.' }
+      ]
+    };
+    const none = exp === 'none';
+    const cg = G[grp];
+    const charts = cg.map(ch => ({
+      title: ch.title, axis: ch.axis, sum: none ? 'Данных нет до запуска.' : ch.sum, empty: none,
+      zones: ch.zones.map(z => ({ d: 'M0 ' + yOf(z.v, ch.lo, ch.hi).toFixed(1) + ' H600', c: z.c })),
+      marks: ch.zones.map(z => ({ t: z.t, c: z.c, top: Math.max(0, Math.round(yOf(z.v, ch.lo, ch.hi) / 160 * 170) - 16) })),
+      lines: none ? [] : ch.lines.filter(l => !hidden[l.k]).map(l => ({ pts: pts(l.arr, ch.lo, ch.hi), c: l.c, w: l.w, dash: l.dash }))
+    }));
+    const allLines = [];
+    cg.forEach(ch => ch.lines.forEach(l => allLines.push(l)));
+    const legend = allLines.map(l => ({ t: l.t, c: l.c, st: l.dash ? 'dashed' : 'solid', on: !hidden[l.k], cls: hidden[l.k] ? 'lg lg-off' : 'lg', toggle: () => set({ hidden: Object.assign({}, hidden, { [l.k]: !hidden[l.k] }) }) }));
+    const evAvail = S.events.filter(e => e.t <= cut);
+    const ci = Math.min(curIdx, Math.max(0, evAvail.length - 1));
+    const ce = evAvail[ci];
+    const cur = (none || !ce) ? { on: false, rows: [] } : {
+      on: true, t: fx(ce.t) + ' с', ev: fx(ce.t) + ' с · ' + ce.txt, d: 'M' + (ce.t / T * 600).toFixed(1) + ' 0 V160',
+      rows: allLines.map(l => ({ k: l.t, v: fx(interp(l.arr, ce.t), l.d) + l.u })),
+      prev: () => set({ cur: Math.max(0, ci - 1) }), next: () => set({ cur: Math.min(evAvail.length - 1, ci + 1) })
+    };
+    const grps = [['energy', 'Энергия'], ['heat', 'Тепло'], ['stock', 'Запасы'], ['work', 'Работа']].map(([k, t]) => ({ t, on: k === grp, cls: k === grp ? 'on' : '', set: () => set({ grp: k }) }));
+    const E = this.rest(exp, live, cut, view, st, set, fx, S);
+    return Object.assign({ charts, legend, cur, grps, chN: allLines.filter(l => !hidden[l.k]).length }, E);
+  }
+  rest(exp, live, cut, view, st, set, fx, S) {
+    const none = exp === 'none', canc = exp === 'cancelled';
+    const tile = (l, v, s, on) => ({ l, v, s, cls: on ? 'tile tile-on' : 'tile' });
+    const TL = {
+      done: [tile('Полезная добыча', '12 SCU', 'за цикл 300 с'), tile('Темп', '144 SCU/ч', 'за полный цикл', true), tile('Использование оснастки', '21,3 %', 'группа Лазер 1–3 · полный цикл'),
+        tile('Дизель', '4,0 кг/SCU', 'генератор 3,4 · двигатели 0,6'), tile('H₂', '0,50 кг/SCU', 'генератор 0 · двигатели 0 · охладитель 0,50'), tile('Вынужденный простой', '29 с', '4 тепловых стопа · плановые фазы не входят'),
+        tile('Частичное снижение выдачи', '102,9 с', 'питание 26,8 с · тепловой режим 76,1 с'), tile('Восстановление', '6,4 с', 'первое · 4 из 4 · ср. 7,2 · макс 9,8 с'), tile('Пик температуры', '410,6 K', 'стоп-порог 410 K')],
+      live: [tile('Полезная добыча', '10,0 SCU', 'за 100 с · предварительно'), tile('Темп', '—', 'после полного цикла', true), tile('Использование оснастки', '—', 'после остановки теста'),
+        tile('Дизель', '—', 'на единицу — после цикла'), tile('H₂', '—', 'на единицу — после цикла'), tile('Вынужденный простой', '13,5 с', '2 тепловых стопа пока'),
+        tile('Частичное снижение выдачи', '68,3 с', 'питание 26,8 с · тепловой режим 41,5 с'), tile('Восстановление', '6,4 с', 'первое · 2 из 2'), tile('Пик температуры', '410,6 K', 'стоп-порог 410 K')],
+      cancelled: [tile('Полезная добыча', '10,0 SCU', 'наблюдаемый интервал 0–100 с'), tile('Темп', '360 SCU/ч', 'за наблюдаемый интервал, не цикл', true), tile('Использование оснастки', '53,3 %', 'наблюдаемый интервал'),
+        tile('Дизель', '2,4 кг/SCU', '24 кг · наблюдаемый интервал'), tile('H₂', '0,30 кг/SCU', '3 кг · наблюдаемый интервал'), tile('Вынужденный простой', '13,5 с', '2 тепловых стопа'),
+        tile('Частичное снижение выдачи', '68,3 с', 'питание 26,8 с · тепловой режим 41,5 с'), tile('Восстановление', '6,4 с', 'первое · 2 из 2'), tile('Пик температуры', '410,6 K', 'стоп-порог 410 K')],
+      none: ['Полезная добыча', 'Темп', 'Использование оснастки', 'Дизель', 'H₂', 'Вынужденный простой', 'Частичное снижение выдачи', 'Восстановление', 'Пик температуры'].map((l, i) => tile(l, '—', 'нет данных', i === 1))
+    };
+    const tiles = TL[live ? 'live' : exp] || TL.done;
+    const RES = {
+      done: { title: 'Цикл завершён · задача выполнена с ограничениями', sq: 'sq sq-warn', scope: 'сборка 12 · 300 / 300 с' },
+      running: { title: 'Тест выполняется · данные предварительные', sq: 'sq sq-run', scope: '100 / 300 с · фаза «Добыча»' },
+      paused: { title: 'Пауза · данные предварительные', sq: 'sq sq-off', scope: 'остановлено на 100,0 с' },
+      cancelled: { title: 'Тест отменён · наблюдаемый интервал 0–100 с', sq: 'sq sq-off', scope: 'завершённого цикла нет' },
+      none: { title: 'Результата нет', sq: 'sq sq-off', scope: 'тест не запускался' }
+    };
+    const res = Object.assign({ empty: none }, RES[exp]);
+    const CX = {
+      done: ['Завершён', 'sq sq-ok', 'цикл 300 / 300 с'], running: ['Выполняется', 'sq sq-run', 'скорость ×60 · фаза «Добыча»'], paused: ['Пауза', 'sq sq-off', 'на 100,0 с · можно сделать шаг'],
+      cancelled: ['Отменён', 'sq sq-off', 'сохранён интервал 0–100 с'], none: ['Не запускался', 'sq sq-off', 'условия можно менять']
+    }[exp];
+    const cx = { fit: 'сборка 12 · оснастка проверена в Ship Fitting', st: CX[0], stSq: CX[1], stSub: CX[2], editNote: live };
+    const confirm = st.confirm !== undefined ? st.confirm : view === 'paused';
+    const ctl = { startLbl: exp === 'paused' ? 'Продолжить' : (none ? 'Запуск' : 'Запуск заново'), startOff: exp === 'running', pauseOff: exp !== 'running', stepOff: exp !== 'paused', cancelOff: !live, resetOff: none, confirm: confirm && live };
+    const sp = st.speed || (live ? 'x60' : 'x10');
+    const speeds = [['x1', '×1'], ['x10', '×10'], ['x60', '×60'], ['max', 'макс']].map(([k, t]) => ({ t, on: k === sp, cls: k === sp ? 'on' : '', set: () => set({ speed: k }) }));
+    const tNow = none ? 0 : cut;
+    const PH = [['Добыча 150 с', 0, 150], ['Возврат 40', 150, 190], ['Обслуживание 60', 190, 250], ['Подход 40', 250, 290], ['Торм.', 290, 300]];
+    const phases = PH.map(([t, a, b]) => { const on = !none && tNow >= a && tNow <= b && (live || canc); return { t, w: ((b - a) / 3).toFixed(2), bg: on ? '#3A2818' : (tNow >= b ? '#2a241c' : '#1a1815'), fg: on ? '#FFAA33' : '#a3906f' }; });
+    const prog = { pct: (tNow / 300 * 100).toFixed(1), t: fx(tNow, 0) + ' / 300 с' };
+    const locked = live;
+    const group = [1, 2, 3].map(n => ({ n: 'Лазер ' + n + ' · Civil S/G1', v: 'доля 100 %' }));
+    const fin = !none && !live && !canc;
+    const lim = none ? { t: 'Ещё не измерено', c: '#a3906f', sq: 'sq sq-off', bc: '#3a3226', rows: [], why: 'Появится после запуска. Нехватка мощности или охлаждения не запрещает запуск — лаборатория покажет последствия.' }
+      : { t: 'Питание · 18,2 с', c: '#E5C23A', sq: 'sq sq-warn', bc: '#6b5a1e',
+        rows: [{ k: 'Канал', v: 'лазерам 7,6 из 9,0 МВт' }, { k: 'Экземпляры', v: 'Лазер 1, 2, 3' }, { k: 'Причина', v: 'аккумулятор исчерпан' }, { k: 'Затем', v: 'тепло · с 45,0 с' }],
+        why: 'Генератор M даёт 8,0 МВт, а группа и прочие потребители просят 9,4 МВт. Первые 18,2 с разницу покрывал аккумулятор. Выигрыш другого генератора или аккумулятора подтвердит только тест B.' };
+    const stocks = none ? [['Заряд', '100 %', 100, '#2EC4D9'], ['Дизель', '1 200 кг · 100 %', 100, '#FFAA33'], ['H₂', '100 кг · 100 %', 100, '#c9b795'], ['Тепловой буфер', '0 %', 0, '#E5C23A'], ['Трюм', '0 / 48 SCU', 0, '#c9b795']]
+      : (live || canc) ? [['Заряд', '100 % · восстановлен к 70,5 с', 100, '#2EC4D9'], ['Дизель', '1 176 кг · 98 %', 98, '#FFAA33'], ['H₂', '97 кг · 97 %', 97, '#c9b795'], ['Тепловой буфер', '100 % · полон с 61 с', 100, '#E5C23A'], ['Трюм', '10,0 / 48 SCU', 21, '#c9b795']]
+      : [['Заряд', '100 %', 100, '#2EC4D9'], ['Дизель', '1 152 кг · 96 %', 96, '#FFAA33'], ['H₂', '94 кг · 94 %', 94, '#c9b795'], ['Тепловой буфер', '0 % · освобождён', 0, '#E5C23A'], ['Трюм', '0 / 48 SCU · разгружен', 0, '#c9b795']];
+    const cool = none ? { t: '290 K', tSub: 'начальная', pct: 0, rows: [{ k: 'Пороги', v: 'рестарт 395 · стоп 410 K' }] }
+      : (live || canc) ? { t: '396 K', tSub: 'сейчас · пик 410,6 K', pct: 80, rows: [{ k: 'Тепловые стопы', v: '2 · 13,5 с' }, { k: 'Буфер', v: 'полон с 61,0 с' }, { k: 'H₂ охладитель', v: '3,0 кг · 0,3 МВт' }, { k: 'Отвод радиаторов', v: '3,0 МВт' }] }
+      : { t: '330 K', tSub: 'в конце · пик 410,6 K', pct: 30, rows: [{ k: 'Тепловые стопы', v: '4 · 29 с' }, { k: 'Буфер', v: 'заполнен к 61,0 с · освобождён' }, { k: 'H₂ охладитель', v: '6,0 кг · 0,3 МВт' }, { k: 'Отвод радиаторов', v: 'до 3,0 МВт' }] };
+    const warns = none ? [] : (fin ? ['Недоставка тяги: ретро 66 из 80 кН на 290–300 с. Сценарий с заданным временем не подтверждает торможение.', 'Тепловой буфер полон с 61,0 с — дальше отвод только радиаторами и охладителем.'] : ['Тепловой буфер полон с 61,0 с — дальше отвод только радиаторами и охладителем.']);
+    const R = this.rest2(exp, live, none, fin, view, st, set, fx, S, cut);
+    return Object.assign({ tiles, res, cx, ctl, speeds, phases, prog, locked, lockTxt: locked ? 'зафиксирован на время теста' : 'можно менять', group, lim,
+      stocks: stocks.map(s => ({ k: s[0], v: s[1], pct: s[2], c: s[3], cls: '' })), stockAt: none ? 'начальные' : (fin ? 'на 300 с' : 'на 100 с'), cool, warns, warnN: String(warns.length), noWarns: warns.length === 0,
+      impErr: view === 'import' && !st.impClosed, closeImp: () => set({ impClosed: true }),
+      onStart: () => set({ exp: 'running', confirm: false }), onPause: () => set({ exp: 'paused' }), onStep: () => set({ exp: 'paused' }),
+      onCancel: () => set({ confirm: true }), doCancel: () => set({ exp: 'cancelled', confirm: false }), noCancel: () => set({ confirm: false }), onReset: () => set({ exp: 'none', confirm: false }) }, R);
+  }
+  rest2(exp, live, none, fin, view, st, set, fx, S, cut) {
+    const instId = st.inst !== undefined ? st.inst : (view === 'heat' ? 'l3' : null);
+    const M = [
+      ['l1', 'Лазер 1', 'Северин · Civil S/G1 · сменный', 'доля 100 %', '3,0 / 1,27 МВт', 'луч 0,64 МВт · 0,027 SCU/с', '0,86 МВт', '4 стопа · 29 с', '—', 1],
+      ['l2', 'Лазер 2', 'Северин · Civil S/G1 · сменный', 'доля 100 %', '3,0 / 1,27 МВт', 'луч 0,64 МВт · 0,027 SCU/с', '0,86 МВт', '4 стопа · 29 с', '—', 1],
+      ['l3', 'Лазер 3', 'Северин · Civil S/G1 · сменный', 'доля 100 %', '3,0 / 1,27 МВт', 'луч 0,64 МВт · 0,027 SCU/с', '0,86 МВт', '4 стопа · 29 с', '—', 1],
+      ['gen', 'Генератор M', 'Демирмаш · дизельный · сменный', 'авто', '— / выработка 4,4 МВт', 'электричество', 'выхлоп отдельно', 'норма', 'дизель 40,8 кг', 0],
+      ['acc', 'Аккумулятор S', 'Северин · сменный', 'авто', 'выдача до 1,4 МВт', 'запас сети', '—', 'норма', 'исчерпан 18,2 с', 0],
+      ['rad', 'Пассивный радиатор M', 'Демирмаш · сменный', 'всегда', '—', 'отвод до 1,9 МВт', '—', 'норма', '—', 0],
+      ['arad', 'Активный радиатор S', 'Blackwell · сменный', 'авто', '0,3 / 0,3 МВт', 'отвод до 0,8 МВт', '0,3 МВт', 'норма', '—', 0],
+      ['buf', 'Тепловой буфер S', 'Wanjia 万家 · сменный', 'авто', '—', 'принял до 61 с', '—', 'полон 61–150 с', '—', 0],
+      ['cool', 'H₂ охладитель S', 'Dingheng 鼎衡 · сменный', 'авто', '—', 'отвод 0,3 МВт', '—', 'норма', 'H₂ 6,0 кг', 0],
+      ['march', 'Марш', 'Демирмаш · дизельный M · сменный', 'возврат, подход', '—', 'тяга 120 / 120 кН', '—', 'норма', 'дизель 6,1 кг', 0],
+      ['retro', 'Торможение', 'Демирмаш · дизельный M · сменный', 'торможение', '—', 'тяга 66 / 80 кН ▲', '—', 'норма', 'дизель 1,1 кг', 0],
+      ['hold', 'Универсальный трюм', 'Демирмаш · встроенный · заменить нельзя', '—', '—', 'до 12 / 48 SCU', '—', '—', '—', 0]
+    ];
+    const mods = none ? [] : M.map(r => ({ n: r[1], kind: r[2], mode: r[3], pw: r[4], out: r[5], heat: r[6], gate: r[7], res: r[8], gateCls: r[9] ? 't-warn' : '',
+      on: r[0] === instId, cls: 'trow' + (r[0] === instId ? ' trow-on' : ''), pick: () => set({ inst: r[0] === instId ? null : r[0] }) }));
+    const ir = M.filter(r => r[0] === instId)[0];
+    let inst = { on: false };
+    if (ir && !none) {
+      const laser = instId.charAt(0) === 'l';
+      inst = { on: true, n: ir[1], kind: ir[2], close: () => set({ inst: null }),
+        rows: laser ? [
+          { k: 'Запрошено, номинал', v: '3,0 МВт', p: 'Из U2' }, { k: 'Доставлено, среднее за добычу', v: '1,27 МВт', p: 'Расчёт' },
+          { k: 'Доля в луч η', v: '0,5001', p: 'Из U2' }, { k: 'Луч, среднее', v: '0,64 МВт', p: 'Расчёт' },
+          { k: 'Возврат луча в корпус', v: '0,35 · 0,22 МВт', p: 'Гипотеза' }, { k: 'Тепло в корпус, среднее', v: '0,86 МВт', p: 'Расчёт' },
+          { k: 'Добыча экземпляра', v: '4,0 SCU · 0,027 SCU/с', p: 'Расчёт' }, { k: 'Тепловой затвор', v: '4 стопа · 29 с', p: 'Измерено' }
+        ] : [{ k: 'Режим', v: ir[3], p: 'DEMO' }, { k: 'Мощность', v: ir[4], p: 'DEMO' }, { k: 'Выход', v: ir[5], p: 'DEMO' }, { k: 'Тепло в корпус', v: ir[6], p: 'DEMO' }, { k: 'Ресурс', v: ir[8], p: 'DEMO' }],
+        mass: [{ k: 'Сухая масса', v: '[т]' }, { k: 'Теплоёмкость', v: '[кДж/K] · LAB-STEEL-MIX' }, { k: 'Содержимое', v: 'топливо и груз меняют массу, но не теплоёмкость' }],
+        note: laser ? 'Пример канала из ТЗ при условном питании 2 МВт: луч 1,0002 МВт, возврат 0,35007 МВт, тепло в корпус 1,34987 МВт, внешний выход 0,65013 МВт, добыча 0,041675 SCU/с. Это изолированная иллюстрация канала, не момент этого теста.' : 'Значения — иллюстрация интерфейса.' };
+    }
+    const lfk = st.lf || 'all';
+    const LF = [['all', 'Все'], ['limit', 'Ограничения'], ['thrust', 'Недоставка тяги'], ['heat', 'Тепловой стоп / рестарт'], ['res', 'Ресурсы'], ['phase', 'Фазы и среда'], ['svc', 'Обслуживание']];
+    const lf = LF.map(([k, t]) => ({ t, on: k === lfk, cls: k === lfk ? 'fc fc-on' : 'fc', set: () => set({ lf: k }) }));
+    const evs = none ? [] : S.events.filter(e => e.t <= cut);
+    const log = evs.filter(e => lfk === 'all' || e.k === lfk).map(e => ({ t: fx(e.t) + ' с', ph: e.ph, txt: e.txt, sq: e.sq, inst: e.inst, why: e.why || '—' }));
+    const ledgerOpen = st.ledger !== undefined ? st.ledger : view === 'heat';
+    const lr = (k, v, s, c) => ({ k, v, s, c });
+    const ledger = [
+      { t: 'Источники', rows: [lr('Дизель → генератор', '1,74 ГДж', '40,8 кг × 42,6 МДж/кг', '#FFAA33'), lr('Дизель → двигатели', '0,31 ГДж', '7,2 кг · в тягу и выхлоп', '#FFAA33'), lr('Излучение среды', '0,02 ГДж', 'приход в первые 8 с', '#c9b795')] },
+      { t: 'Преобразование', rows: [lr('Электричество генератора', '0,71 ГДж', 'из них за добычу 0,66 · выхлоп 1,03 ГДж уходит наружу', '#2EC4D9'), lr('Лазерам доставлено', '0,57 ГДж', 'прочим потребителям 0,14 · луч 0,29 ГДж', '#2EC4D9'), lr('Внешний полезный выход', '0,19 ГДж', 'луч минус возврат 0,10 ГДж', '#5F9E4E')] },
+      { t: 'Тепло корпуса', rows: [lr('Тепло в корпус', '0,51 ГДж', 'лазеры 0,38 · прочие 0,13 · плюс среда 0,02', '#E5C23A'), lr('Отвод радиаторами и охладителем', '0,41 ГДж', 'H₂ охладителя — расход ресурса, не источник', '#c9b795'), lr('Буфер и нагрев корпуса', '0,12 ГДж', '0,51 + 0,02 − 0,41 · сходится', '#a3906f')] }
+    ];
+    const abMode = st.ab || ({ ab: 'same', abdiff: 'diff' }[view] || 'none');
+    const shift = (arr, t0) => arr.map(p => [p[0] === 18.2 ? t0 : p[0], p[1]]);
+    const toPts = arr => arr.filter(p => p[0] <= 300).map(p => (p[0] / 300 * 600).toFixed(1) + ',' + (150 - p[1] / 10 * 140).toFixed(1)).join(' ');
+    const rowsSame = [['Оснастка', '3 × Civil S/G1', 'Лазер 3 → Industrial S/G2', '—'], ['Добыча за цикл', '12 SCU', '12,3 SCU', '+0,3'], ['SCU/ч', '144', '148', '+4'], ['Использование оснастки', '21,3 %', '21,0 %', '−0,3 п.п.'], ['Дизель, кг/SCU', '4,0', '4,1', '+0,1'], ['H₂, кг/SCU', '0,50', '0,52', '+0,02'], ['Вынужденный простой', '29 с', '33 с', '+4 с'], ['Восстановление, первое', '6,4 с', '6,9 с', '+0,5 с'], ['Первое ограничение', 'Питание · 18,2 с', 'Питание · 14,2 с', 'раньше на 4,0 с']];
+    const rowsDiff = [['Оснастка', '3 × Civil S/G1', '3 × Civil S/G1', '—'], ['Добыча за цикл', '12 SCU', '11,1 SCU', '−0,9'], ['SCU/ч', '144', '133', '−11'], ['Использование оснастки', '21,3 %', '19,7 %', '−1,6 п.п.'], ['Дизель, кг/SCU', '4,0', '4,2', '+0,2'], ['H₂, кг/SCU', '0,50', '0,61', '+0,11'], ['Вынужденный простой', '29 с', '41 с', '+12 с'], ['Восстановление, первое', '6,4 с', '7,5 с', '+1,1 с'], ['Первое ограничение', 'Питание · 18,2 с', 'Питание · 10,9 с', 'раньше на 7,3 с']];
+    const rowsFixed = rowsSame.map(r => [r[0], r[1], '—', '—']);
+    const AB = {
+      none: { none: true, has: false, sub: 'A не зафиксирован' },
+      fixed: { none: false, has: true, sub: 'A — сборка 12 · B ещё не запускался', aName: 'A · сборка 12', bName: 'B · не запускался', rows: rowsFixed, same: false, diff: false, ptsB: '', chartSum: 'B появится после запуска.' },
+      same: { none: false, has: true, sub: 'A — сборка 12 · B — сборка 13', aName: 'A · сборка 12', bName: 'B · сборка 13', rows: rowsSame, same: true, diff: false, ptsB: toPts(shift(S.del, 14.2)), chartSum: 'B раньше упирается в питание: запрос 9,8 МВт против 9,4.' },
+      diff: { none: false, has: true, sub: 'A и B — сборка 12, разные условия', aName: 'A · сборка 12', bName: 'B · сборка 12 · другие условия', rows: rowsDiff, same: false, diff: true, ptsB: toPts(shift(S.del, 10.9)), chartSum: 'Разница в основном от условий, а не от оснастки.' }
+    };
+    const ab = Object.assign({ fixOff: !fin || abMode !== 'none', fixLbl: abMode === 'none' ? 'Зафиксировать A' : 'A зафиксирован', ptsA: toPts(S.del), aName: '', bName: '', rows: [], same: false, diff: false }, AB[abMode]);
+    ab.rows = ab.rows.map(r => ({ k: r[0], a: r[1], b: r[2], d: r[3] }));
+    const saved = [{ n: 'Тест A · Демирмаш Титан · сборка 12', s: '2026-10-05 · модель u2-lab/2 · оснастка проверена', tag: '' }, { n: 'run-0930 · Демирмаш Титан', s: '2026-09-30 · без слотных данных', tag: 'Legacy model · слоты не проверены' }];
+    return { mods, inst, lf, log, logEmpty: log.length === 0, logInfo: none ? 'нет событий' : log.length + ' из ' + evs.length + ' · отброшено 0', ledger, ledgerOpen, ledgerChev: ledgerOpen ? 'Свернуть ▲' : 'Развернуть ▼',
+      toggleLedger: () => set({ ledger: !ledgerOpen }), ab, fixA: () => set({ ab: 'fixed' }), saved, hasSaved: none };
+  }
+}
+</script>
+</body>
+</html>

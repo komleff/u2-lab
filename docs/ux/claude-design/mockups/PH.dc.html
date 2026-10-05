@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Ship Fitting — сводка Power &amp; Heat и сравнение</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=PT+Sans+Narrow:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#141210}
+.p2{font-family:'IBM Plex Mono',ui-monospace,Menlo,monospace;font-size:14px;line-height:1.45;color:#e8dcc6;font-variant-numeric:tabular-nums}
+.p2 *{box-sizing:border-box}
+.p2 h2,.p2 h3,.p2 p,.p2 dl,.p2 dd{margin:0}
+.p2 :focus-visible{outline:2px solid #4DA6FF;outline-offset:2px}
+.p2 .disp{font-family:'PT Sans Narrow','Arial Narrow',sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;line-height:1.05}
+.p2 .lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#a3906f}
+.p2 .sub{font-size:13px;color:#a3906f}
+.p2 .pn{background:#1A1815;border:1px solid #3a3226;border-radius:3px;padding:6px 16px 16px;display:flex;flex-direction:column;gap:12px}
+.p2 .hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;min-height:48px}
+.p2 .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.p2 .tile{padding:12px 14px;background:#201d19;border:1px solid #3a3226;border-radius:3px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.p2 .tile-on{background:#211B12;border-color:#6a4a26}
+.p2 .tv{font-size:28px;font-weight:600;color:#F2EDE0;line-height:1.05;white-space:nowrap}
+.p2 .tile-on .tv{color:#FFAA33}
+.p2 .tl{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#a3906f}
+.p2 .ln{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:8px 0;border-bottom:1px solid #241f18;font-size:14px}
+.p2 .ln dt{color:#c9b795}
+.p2 .ln dd{text-align:right;color:#F2EDE0}
+.p2 .sq{display:inline-block;width:9px;height:9px;flex:none}
+.p2 .ok{background:#5F9E4E}.p2 .warn{background:#E5C23A}.p2 .off{background:#5a4a34}.p2 .run{background:#2EC4D9}
+.p2 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border:1px solid #FFAA33;border-radius:3px;background:#1A1815;color:#FFAA33;font:inherit;font-size:13px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap;text-decoration:none}
+.p2 .btn:hover{background:#3A2818}
+.p2 .chip{display:inline-flex;align-items:center;height:22px;padding:0 7px;border:1px solid #3a3226;border-radius:2px;font-size:12px;color:#c9b795;white-space:nowrap}
+.p2 .tbl{width:100%;border-collapse:collapse;min-width:720px}
+.p2 .tbl th{font-weight:500;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#a3906f;text-align:right;padding:10px 14px;border-bottom:1px solid #5a4a34}
+.p2 .tbl td{padding:11px 14px;text-align:right;border-bottom:1px solid #241f18}
+.p2 .tbl th:first-child,.p2 .tbl td:first-child{text-align:left;color:#c9b795}
+.p2 .col-a{background:#211B12}
+</style>
+</helmet>
+<div class="p2" style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #3a3226; padding-bottom: 12px">
+<h2 id="ph" class="disp" style="font-size: 30px; color: #F2EDE0">Power &amp; Heat · сводка</h2>
+<span class="chip">{{scope}}</span>
+<a class="btn" href="Lab.dc.html" style="margin-left: auto">Открыть в лаборатории →</a>
+</div>
+<sc-if value="{{isNone}}" hint-placeholder-val="{{false}}">
+<section class="pn" aria-label="Тест не запускался" style="padding: 24px 20px; align-items: flex-start">
+<span class="lbl">Результат теста</span>
+<span style="font-size: 18px; font-weight: 600; color: #F2EDE0">Тест ещё не запускался</span>
+<span class="sub">Запуск — кнопкой в полосе итога сверху, когда сборка комплектна. Графики, журнал и энерготепловой учёт — в лаборатории.</span>
+</section>
+</sc-if>
+<sc-if value="{{isLive}}" hint-placeholder-val="{{false}}">
+<section class="pn" aria-label="Тест выполняется" style="padding: 16px 20px">
+<div class="hd"><span class="sq run" aria-hidden="true"></span><h3 class="disp" style="font-size: 22px">{{liveTitle}}</h3><span class="sub" style="margin-left: auto">100 из 300 с · сборка 12</span></div>
+<div class="tiles">
+<div class="tile"><span class="tv">10,0</span><span class="tl">SCU пока</span></div>
+<div class="tile"><span class="tv" style="color: #E5C23A">Питание</span><span class="tl">первое ограничение · 18,2 с</span></div>
+<div class="tile"><span class="tv">13,5 с</span><span class="tl">без добычи · 2 тепловых стопа</span></div>
+</div>
+<p class="sub">Показатели предварительные: темп, расход на единицу и использование оснастки считаются по завершённому циклу. Управление тестом — в полосе итога сверху.</p>
+</section>
+</sc-if>
+<sc-if value="{{isNf}}" hint-placeholder-val="{{false}}">
+<section class="pn" aria-label="Задача не завершена" style="padding: 16px 20px">
+<div class="hd"><span class="sq warn" aria-hidden="true"></span><h3 class="disp" style="font-size: 22px">Задача не завершена в горизонте</h3><span class="sub" style="margin-left: auto">горизонт 600 с · цель 48 SCU · без перелёта</span></div>
+<div class="tiles">
+<div class="tile"><span class="tv">31,6</span><span class="tl">из 48 SCU</span></div>
+<div class="tile tile-on"><span class="tv">189,6</span><span class="tl">SCU/ч · только добыча, без перелёта</span></div>
+<div class="tile"><span class="tv">28,1 %</span><span class="tl">использование · наблюдаемый горизонт</span></div>
+</div>
+<dl>
+<div class="ln"><dt>Первое ограничение</dt><dd>Питание · 18,2 с</dd></div>
+<div class="ln"><dt>Восстановление</dt><dd>первое 6,4 с · 8 завершённых · ср. 7,8 · макс 10,2 с · последнее: не восстановилась</dd></div>
+<div class="ln"><dt>Дизель / H₂</dt><dd>3,6 / 0,72 кг/SCU</dd></div>
+</dl>
+<p class="sub">Время до цели не вычисляется: в горизонте она не достигнута. Темп выше, чем у цикла, потому что в горизонте нет перелёта и обслуживания.</p>
+</section>
+</sc-if>
+<sc-if value="{{isDone}}" hint-placeholder-val="{{true}}">
+<section class="pn" aria-label="Результат теста">
+<div class="hd"><span class="sq warn" aria-hidden="true"></span><h3 class="disp" style="font-size: 22px">Результат</h3><span class="sub" style="margin-left: auto">задача выполнена с ограничениями</span></div>
+<div class="tiles">
+<div class="tile"><span class="tv">12</span><span class="tl">SCU за цикл</span></div>
+<div class="tile tile-on"><span class="tv">144</span><span class="tl">SCU/ч</span></div>
+<div class="tile"><span class="tv">21,3 %</span><span class="tl">использование добывающей оснастки</span></div>
+</div>
+<dl style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); column-gap: 24px">
+<div class="ln"><dt>Первое ограничение</dt><dd><span class="sq warn" aria-hidden="true"></span> Питание · 18,2 с · аккумулятор исчерпан</dd></div>
+<div class="ln"><dt>Затем</dt><dd>тепло · с 45,0 с автоматика снижает выдачу</dd></div>
+<div class="ln"><dt>Дизель</dt><dd>4,0 кг/SCU · генератор 3,4 · двигатели 0,6</dd></div>
+<div class="ln"><dt>H₂</dt><dd>0,50 кг/SCU · охладитель</dd></div>
+<div class="ln"><dt>Вынужденный простой</dt><dd>29 с · 4 тепловых стопа</dd></div>
+<div class="ln"><dt>Частичное снижение выдачи</dt><dd>питание 26,8 с · тепловой режим 76,1 с</dd></div>
+<div class="ln"><dt>Восстановление</dt><dd>первое 6,4 с · 4 из 4 · ср. 7,2 · макс 9,8 с</dd></div>
+<div class="ln"><dt>Пересечение причин</dt><dd>нет: питание до 45 с, стопы с 61 с</dd></div>
+</dl>
+<p class="sub">Использование добывающей оснастки (K_use) — доля потенциальной добычи выбранных лазеров за полный цикл, включая перелёт, простой и обслуживание. Не КПД и не рейтинг корабля. Графики, журнал и энерготепловой учёт — в лаборатории.</p>
+</section>
+</sc-if>
+<div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap; border-bottom: 1px solid #3a3226; padding-bottom: 12px; margin-top: 16px">
+<h2 id="cmp" class="disp" style="font-size: 30px; color: #F2EDE0">Сравнение</h2>
+<span class="chip">серия Демирмаш Титан · цикл 300 с</span>
+</div>
+<section class="pn" aria-label="Таблица сравнения" style="padding: 0">
+<div tabindex="0" aria-label="Таблица сравнения; прокручивается по горизонтали" style="overflow-x: auto">
+<table class="tbl">
+<thead><tr><th scope="col">Показатель</th><th scope="col">C · 1 лазер</th><th scope="col">B · 2 лазера</th><th scope="col" class="col-a" style="color: #FFAA33">A · 3 лазера · сборка 12</th></tr></thead>
+<tbody>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+<tr><td>{{r.k}}</td><td>{{r.c}}</td><td>{{r.b}}</td><td class="col-a" style="color: #F2EDE0; font-weight: 600">{{r.a}}</td></tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</section>
+<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center">
+<div style="flex: 1 1 420px; padding: 10px 14px; border: 1px solid #3d5a33; background: #182015; border-radius: 3px; display: flex; gap: 10px; align-items: center; font-size: 13px"><span class="sq ok" aria-hidden="true"></span>Одинаковые сырьё, среда, фазы и начальные запасы</div>
+<p class="sub" style="flex: 2 1 520px; color: #c9b795">Третий лазер добавляет 6 SCU/ч (+4 %), а использование оснастки падает с 30,7 до 21,3 % и растёт расход дизеля. Общего рейтинга нет.</p>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"exp":{"editor":"enum","options":["done","none","running","paused","nf"],"default":"done"},"$preview":{"width":1392,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const exp = this.props.exp || 'done';
+    return {
+      isDone: exp === 'done', isNone: exp === 'none', isNf: exp === 'nf', isLive: exp === 'running' || exp === 'paused',
+      liveTitle: exp === 'paused' ? 'Пауза' : 'Тест выполняется',
+      scope: { done: 'тест сборки 12 · цикл 300 с', none: 'теста нет', running: 'идёт тест сборки 12', paused: 'пауза · сборка 12', nf: 'горизонт 600 с' }[exp],
+      rows: [
+        { k: 'Добыча за цикл', c: '9 SCU', b: '11,5 SCU', a: '12 SCU' },
+        { k: 'SCU/ч', c: '108', b: '138', a: '144' },
+        { k: 'Дизель, кг/SCU', c: '3,0', b: '3,0', a: '4,0' },
+        { k: 'H₂, кг/SCU', c: '0,20', b: '0,30', a: '0,50' },
+        { k: 'Использование оснастки', c: '48,0 %', b: '30,7 %', a: '21,3 %' },
+        { k: 'Первое ограничение', c: 'Тепло · 96,0 с', b: 'Тепло · 74,0 с', a: 'Питание · 18,2 с' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
