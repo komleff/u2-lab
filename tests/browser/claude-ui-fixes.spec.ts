@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { readFile } from "node:fs/promises";
 test("D01/D02/D04/D10 source-derived preview, bidirectional catalogue and whole-card accessible identity", async ({
   page,
 }) => {
@@ -195,5 +196,104 @@ test("D11 exact Lab 767/768/1279/1280 canvas boundaries", async ({ page }) => {
       if (width >= 768) expect(b.left.y).toBe(b.right.y);
       else expect(b.right.y).toBeGreaterThanOrEqual(b.left.b);
     }
+  }
+});
+test("D12 true mobile long rejected import preserves viewport, literal errors and native result export", async ({
+  browser,
+}) => {
+  const { loadCandidateCatalog } = await import("../../src/fitting/catalog");
+  const { electricFit } = await import("../fitting/input-fixtures");
+  const invalid = electricFit(loadCandidateCatalog());
+  const roles = ["march", "retro", "strafe", "turn"];
+  for (const role of roles) {
+    const item =
+      invalid.localVariants[
+        invalid.instances[invalid.assignments[role]].itemId
+      ];
+    delete item.numerics.pathEfficiency;
+    delete item.origins["numerics.pathEfficiency"];
+  }
+  const fullError = roles
+    .flatMap((role) => [
+      `instances.fit:${role}.numerics.pathEfficiency: Обязательное SI поле: pathEfficiency`,
+      `instances.fit:${role}.numerics.pathEfficiency: Коэффициент должен быть конечным в (0,1]`,
+    ])
+    .join("\n");
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+    acceptDownloads: true,
+  });
+  try {
+    const p = await context.newPage();
+    const tap = async (selector: string) => {
+      const button = p.locator(selector);
+      await button.scrollIntoViewIfNeeded();
+      await button.tap();
+    };
+    const downloaded = async (selector: string) => {
+      const wait = p.waitForEvent("download");
+      await tap(selector);
+      const d = await wait;
+      return readFile((await d.path())!);
+    };
+    const geometry = () =>
+      p.evaluate(() => ({
+        inner: innerWidth,
+        document: document.documentElement.scrollWidth,
+        visual: visualViewport!.width,
+        scale: visualViewport!.scale,
+        touch: navigator.maxTouchPoints > 0,
+      }));
+    await p.goto("/");
+    await p.locator("#fit-preset").selectOption("pony:3");
+    await p.getByRole("button", { name: "Power & Heat", exact: true }).tap();
+    await p.locator("#fit-duration").fill("3600");
+    await p.locator("#fit-speed").selectOption("1");
+    await tap("#fit-start");
+    await expect(p.locator("#fit-time")).not.toHaveText("0 с / 3 600 с");
+    await tap("#fit-pause");
+    await expect(p.locator("#fit-status")).toContainText("Пауза");
+    await tap("#fit-cancel");
+    await tap("#cancel-yes");
+    await expect(p.locator("#fit-status")).toContainText("Отменён");
+    await tap("#fit-freeze");
+    await tap("#fit-f3");
+    const beforeFit = await downloaded("#fit-save");
+    const beforeResult = await downloaded("#fit-export-result");
+    const beforeA = await p.locator("#fit-comparison .ab-side-a").textContent();
+    expect(JSON.parse(beforeResult.toString()).status).toBe("cancelled");
+    expect(await geometry()).toEqual({
+      inner: 390,
+      document: 390,
+      visual: 390,
+      scale: 1,
+      touch: true,
+    });
+    await p
+      .locator("#fit-import")
+      .setInputFiles({
+        name: "missing-path.json",
+        mimeType: "application/json",
+        buffer: Buffer.from(JSON.stringify(invalid)),
+      });
+    await expect(p.locator("#fit-error")).toContainText(
+      "instances.fit:strafe.numerics.pathEfficiency",
+    );
+    expect(await p.locator("#fit-error").textContent()).toBe(fullError);
+    expect(await geometry()).toEqual({
+      inner: 390,
+      document: 390,
+      visual: 390,
+      scale: 1,
+      touch: true,
+    });
+    expect(await downloaded("#fit-export-result")).toEqual(beforeResult);
+    expect(await downloaded("#fit-save")).toEqual(beforeFit);
+    await expect(p.locator("#fit-comparison .ab-side-a")).toHaveText(beforeA!);
+    expect(await p.locator("#fit-error").textContent()).toBe(fullError);
+  } finally {
+    await context.close();
   }
 });

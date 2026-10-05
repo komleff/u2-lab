@@ -271,6 +271,7 @@ body:has(.fitting-app) {
 }
 .fitting-app #fit-error:not(:empty) {
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
   padding: 12px 24px;
   border-left: 3px solid #d23b2c;
   background: #2b1713;
