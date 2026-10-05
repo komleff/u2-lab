@@ -1,6 +1,8 @@
 # Current priority — 2026-10-06
 
-Оператор явно отложил новые багфиксы/фичи Лабы и поручил внедрить Claude Design v2.1. UI workitem ulab-3lg, isolated feat/claude-design-ui base903d36b. Source/acceptance/plan/UI01–18 — через docs/INDEX. Plan Review pending, runtime UI notstarted. Полныйшахтёрскийрейс/динамическаядобыча/станционнаязаправка сохранены вulab-dwi и DEFERRED perPO; не выполнять сейчас. Старый local4183stand сохраняется доhandoff. QAintervalr4 existingbase finishedPASS raw, signedreportassembling; новыеbugsнечинить. Native/bootstrap/publicdeploy/main merge gates open. Primarycheckout soleBeadswriter,bd1.2.2/Node24; userdocs/.DS_Store preserved.
+Claude Design v2.1 UI реализован одним Developer наab8353d91d1ce3584549b780e66699118e575c56. Новый intermediate stand4183/HTTPS4184 включён; старый ShipFitting сохранён4186, Legacy первой Лабы4186/?mode=legacy. Оператор явно попросил начать собственные тесты параллельно independent QA/review.177unit/19browser+1legacy screenshotSKIP/type/build/reference/bootstrap26 PASS; actual extracted3origin Developer smoke PASS. PM independently verified65source/85protectedbaseline blobs, ZIP CRC and17dist/prefixfiles. UI acceptance ещё pending,72source-firstcases prepared; PR6Draft stacked onPR4.
+
+Accepted owner/plan/UI01–18 через docs/INDEX. Independent UI PLAN_READY0B0A exact9aa/39fp39a3ec34 published PR6comment6001382152. GDD§3/8/brief presentation только синхронизированы с принятым UX; numerical/formulas/catalog/runner/io unchanged. Старый interval QA r4 PASS/scopedCRr3APPROVED sealed/published; это carryover numerical evidence, не новая UI приёмка. Полный шахтёрский рейс/динамическая добыча/заправка остаются DEFERRED perPO вulab-dwi. Primary soleBeadswriter bd1.2.2/Node24; userdocs/.DS_Store preserve. Native/base-bootstrap/Pages/operator main merge gates open.
 
 # Active Context
 

@@ -1,0 +1,621 @@
+{
+  "version": "claude-ui-binding/1",
+  "runtimeSource": "ab8353d91d1ce3584549b780e66699118e575c56",
+  "base": "903d36b2ac4a2bfa90997803770ace13d520fbe9",
+  "fingerprint": "b9edfd197506d84a10a18a8954b7a8f1ce4505290715f43aeac9bf72b3bfa7eb",
+  "rule": "SHA256 UTF-8 sorted-key compact JSON binding {blobs sorted by path, contract whole UI VC text}; actual Git blobs",
+  "changedPaths": [
+    "public/assets/README.md",
+    "public/assets/fonts/IBM-Plex-Mono-OFL.txt",
+    "public/assets/fonts/IBMPlexMono-Medium.ttf",
+    "public/assets/fonts/IBMPlexMono-Regular.ttf",
+    "public/assets/fonts/PT-Sans-Narrow-OFL.txt",
+    "public/assets/fonts/PTSansNarrow-Bold.ttf",
+    "public/assets/titan-640.webp",
+    "src/app/fitting-ui/compare-view.ts",
+    "src/app/fitting-ui/dom.ts",
+    "src/app/fitting-ui/instance-details.ts",
+    "src/app/fitting-ui/lab-channels.ts",
+    "src/app/fitting-ui/lab-view.ts",
+    "src/app/fitting-ui/presentation.ts",
+    "src/app/fitting-ui/ship-view.ts",
+    "src/app/fitting-ui/swap-dialog.ts",
+    "src/app/fitting-ui/telemetry.ts",
+    "src/app/fitting-workspace.ts",
+    "src/app/fitting.css",
+    "src/app/fitting.ts",
+    "tests/browser/claude-ui.spec.ts",
+    "tests/browser/fitting.spec.ts",
+    "tests/ui/presentation.test.ts",
+    "tests/ui/telemetry.test.ts",
+    "tests/ui/workspace.test.ts"
+  ],
+  "binding": {
+    "blobs": [
+      {
+        "path": "docs/gdd/gdd_u2_ship_fitting_v0.2.md",
+        "blob": "c6175fa39562a3c123e5b86531f3f9b9bd1ac5bf"
+      },
+      {
+        "path": "docs/plans/2026-10-06-claude-design-ui.md",
+        "blob": "4bebfddf3010f75c0b8c3af6496cd8e1b52d3b01"
+      },
+      {
+        "path": "docs/product/claude-design-ui-v0.2-acceptance.md",
+        "blob": "8017aebf7aebb2c1e1bbaa6ea356e651b3e31e19"
+      },
+      {
+        "path": "docs/product/ship-fitting-v0.2-acceptance.md",
+        "blob": "49d640538146c38114e195dae9d796074c785588"
+      },
+      {
+        "path": "docs/ux/claude-design/README.md",
+        "blob": "aad635b5d766bc4a01201f83ff71cef0680fc5da"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/Lab-AB.dc.html",
+        "blob": "1369e9e60d3d8526969b7df4288d609752be81aa"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/Lab-ABDiff.dc.html",
+        "blob": "0fdbbd8bd50f9a135c26d956be9654aa6882d398"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/Lab-Empty.dc.html",
+        "blob": "93d655dad60d5636ca93470aa5a8e072704e08b1"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/Lab-Heat.dc.html",
+        "blob": "77eb732a53d50afab35561637231ef1515619b13"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/Lab-Import.dc.html",
+        "blob": "27031bf8336aba1d4b7d905554329f0d1440450e"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/Lab-Paused.dc.html",
+        "blob": "984cba5872c16658810c38e6eecca0b95ee86f23"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/Lab-Running.dc.html",
+        "blob": "e180dad831f1405dff157e8f887c9b75bf0bcbf0"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/Lab.dc.html",
+        "blob": "c1440fd191013749afe3a799b02a8ac9ec9d0f53"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/LabM-AB.dc.html",
+        "blob": "a0c49715993357f51b330625c1bd8011978a787f"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/LabM-Channels.dc.html",
+        "blob": "2569c38ecb51f74a01f14c1396dfd2699444132e"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/LabM-Run.dc.html",
+        "blob": "47477faef793deef6206eebcef88af1f9ac04977"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/M2-Compare.dc.html",
+        "blob": "1cdeef3808f35778b8ee5b8b728db1ee149d130a"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/M2-Fitting.dc.html",
+        "blob": "4f8f5ffa94a2eee6ec6439db2e8e3f39d508130f"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/M2-Swap.dc.html",
+        "blob": "d87bdb6e974561a8e9a0ea86de1b138ba49ec3a1"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/Main.dc.html",
+        "blob": "99621bfe0f74f697e0b61934355da60c1819f1eb"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/PH.dc.html",
+        "blob": "63d13c702c0d34745ef1f4a8822df30f49a79622"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/States2.dc.html",
+        "blob": "27744f5da18c4b9f5a316bb876013899dbd8a3ac"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/V2-Flat.dc.html",
+        "blob": "65740f61ff447193d060139d996a95c073949e48"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/V2-Incomplete.dc.html",
+        "blob": "7d6c183b7930e99edf9c80bc163692d01a8301f6"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/V2-NotFinished.dc.html",
+        "blob": "1182284c6f09ea15d3e58d72067f86726be69337"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/V2-Running.dc.html",
+        "blob": "0ed8dabfcc02b51bef2bb09fb779c49e650d112d"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/V2-Swap.dc.html",
+        "blob": "45f356c0cacf9a382f998ecc88fa74ddc7ca4c01"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/canvas.json",
+        "blob": "79f4e6828d39c3e358d0aa72e3fc380cbb2495ec"
+      },
+      {
+        "path": "docs/ux/claude-design/mockups/ds/u2/tokens.json",
+        "blob": "be0fc63ca87db8fb4ad7472db125c01c89c35815"
+      },
+      {
+        "path": "docs/ux/claude-design/ship-fitting-power-heat-ux-v2.1.md",
+        "blob": "0b89e4cc860a187ede0b5f601b6483b113bd5169"
+      },
+      {
+        "path": "docs/ux/power-heat-lab-claude-design-brief.md",
+        "blob": "89b35b663ee14d7fcdf48b2b7b1e24f78495946c"
+      },
+      {
+        "path": "docs/ux/ship-fitting-v0.2-claude-design-brief.md",
+        "blob": "c303930bd5b44022c65088953a49ace15f368828"
+      },
+      {
+        "path": "docs/verification/claude-design-ui-code-review-contract.md",
+        "blob": "68a1e0a3ad213db5cfa641c26d061b8a8cc486aa"
+      },
+      {
+        "path": "docs/verification/claude-design-ui-v0.2-qa-cases.md",
+        "blob": "b56ad6ce2337e34e17130101b4cb87d0388dae14"
+      },
+      {
+        "path": "docs/verification/ship-fitting-v0.2-contract.md",
+        "blob": "314d1770363d642df4c2dec069a308b715911c58"
+      },
+      {
+        "path": "index.html",
+        "blob": "616d3e500291d24f43d2ecdd96d4a054f2c2680e"
+      },
+      {
+        "path": "package-lock.json",
+        "blob": "af0a9d91cb82c090ac960f32dee6dfbed37ff4ff"
+      },
+      {
+        "path": "package.json",
+        "blob": "8c4e0cd7fa3722937070955d20d65fe6668c698e"
+      },
+      {
+        "path": "playwright.config.ts",
+        "blob": "7640eddd834600b7d75331c878a6eefad3d0e5ad"
+      },
+      {
+        "path": "public/assets/README.md",
+        "blob": "8a8214a9f9014b45bdd2e76dc624eb4ad2e382d0"
+      },
+      {
+        "path": "public/assets/fonts/IBM-Plex-Mono-OFL.txt",
+        "blob": "670c6c04ec17a19131aefbb47472a11c2a5d831c"
+      },
+      {
+        "path": "public/assets/fonts/IBMPlexMono-Medium.ttf",
+        "blob": "33c546f68b6007a45a3f10e845523abb2db25399"
+      },
+      {
+        "path": "public/assets/fonts/IBMPlexMono-Regular.ttf",
+        "blob": "0c9770d5183ba60dc4350d3e011b782a320761ae"
+      },
+      {
+        "path": "public/assets/fonts/PT-Sans-Narrow-OFL.txt",
+        "blob": "297566b7d1e44269c07de66090240f0cc30a9b01"
+      },
+      {
+        "path": "public/assets/fonts/PTSansNarrow-Bold.ttf",
+        "blob": "f0e2068a03c2355634ec75ccd1f1ffc5ac69feda"
+      },
+      {
+        "path": "public/assets/titan-640.webp",
+        "blob": "596252a0b42a3e7282a914bd04c04db3c13ba3af"
+      },
+      {
+        "path": "src/app/charts.ts",
+        "blob": "a068ec31eec35cd288525c77e83cd30e77eee695"
+      },
+      {
+        "path": "src/app/compare.ts",
+        "blob": "03ba109855b80e9628a8055021ff73ac9a311540"
+      },
+      {
+        "path": "src/app/fitting-session.ts",
+        "blob": "79d13341654ba9f4ae32f77dfbd82940df5e2d32"
+      },
+      {
+        "path": "src/app/fitting-ui/compare-view.ts",
+        "blob": "40be97b9e0d066c8186a3576de14adeca27f86b1"
+      },
+      {
+        "path": "src/app/fitting-ui/dom.ts",
+        "blob": "b35636a7303e06d6349c6a3b24ba5f53df5bb0cc"
+      },
+      {
+        "path": "src/app/fitting-ui/instance-details.ts",
+        "blob": "4637b7660643b03e399c026e82a5b58b6da855f0"
+      },
+      {
+        "path": "src/app/fitting-ui/lab-channels.ts",
+        "blob": "21ab164d559db6a324067aa487ee4bee361752cf"
+      },
+      {
+        "path": "src/app/fitting-ui/lab-view.ts",
+        "blob": "1fba19051a094f3e402009e4b3ab42fa8c4b5948"
+      },
+      {
+        "path": "src/app/fitting-ui/presentation.ts",
+        "blob": "949a9c26bf51aaace99024c1d839f9bb1544df38"
+      },
+      {
+        "path": "src/app/fitting-ui/ship-view.ts",
+        "blob": "636d6ac7350fe94fc6c964d31d7c3377c0334529"
+      },
+      {
+        "path": "src/app/fitting-ui/swap-dialog.ts",
+        "blob": "c90d93b1678a33964a5e458988f3463915c8f666"
+      },
+      {
+        "path": "src/app/fitting-ui/telemetry.ts",
+        "blob": "4e0fef542010f8cd804a0cb6b87b53ef4db44d56"
+      },
+      {
+        "path": "src/app/fitting-workspace.ts",
+        "blob": "baf265e9f315782df7e7adf1255c26d432d0b3f3"
+      },
+      {
+        "path": "src/app/fitting.css",
+        "blob": "bc871f71484eaca9647af68c32f343ce5244f97e"
+      },
+      {
+        "path": "src/app/fitting.ts",
+        "blob": "4224c62690a03a0daffce7753c129f437c68e10f"
+      },
+      {
+        "path": "src/app/legacy.ts",
+        "blob": "9b9dd1f720782ea9e97f80f82933d6c46937b22a"
+      },
+      {
+        "path": "src/app/main.ts",
+        "blob": "5519fb48cf46d01abec46f91b139a847e4e69975"
+      },
+      {
+        "path": "src/app/styles.css",
+        "blob": "831ca51d176678d70628aaad4e432185c0f18390"
+      },
+      {
+        "path": "src/catalog/presets.ts",
+        "blob": "1c9a44b72efe7d744c4e47b2f7fe4f36fcffb0b3"
+      },
+      {
+        "path": "src/catalog/schema.ts",
+        "blob": "1df4dd7e084fd760b7d740e7d63739bdcec00e45"
+      },
+      {
+        "path": "src/fitting/cargo.ts",
+        "blob": "db9202aaf0d083f7241e22bdd05fdbe3ca7a7fa0"
+      },
+      {
+        "path": "src/fitting/catalog.ts",
+        "blob": "57cd8b5deaa723e30736c1a5f9a9d70871c60a61"
+      },
+      {
+        "path": "src/fitting/compile.ts",
+        "blob": "15c08bbd71eac42ce05ed92e6c382cd93f4bf6b4"
+      },
+      {
+        "path": "src/fitting/data/hulls.json",
+        "blob": "e3e58cae57d5868f3459c444f6543590899f1939"
+      },
+      {
+        "path": "src/fitting/data/modules.json",
+        "blob": "8eeab46d4aea4b8bd665f5b1a9538cf3ff00547d"
+      },
+      {
+        "path": "src/fitting/types.ts",
+        "blob": "3d424945b306c669b6216bc56d1b00be6ee606d6"
+      },
+      {
+        "path": "src/fitting/validate.ts",
+        "blob": "8b49296c785a5fa75edfd840ddf2c784ff93f74c"
+      },
+      {
+        "path": "src/io/fitting-csv.ts",
+        "blob": "04780f50e258c773fe567ab321386bdf0e14d993"
+      },
+      {
+        "path": "src/io/fitting-json.ts",
+        "blob": "f77387afd849d765ad24e8b2ba973637e6ad92a5"
+      },
+      {
+        "path": "src/io/json.ts",
+        "blob": "1068b436e651c290bf14f4a81b103b188bffdcf5"
+      },
+      {
+        "path": "src/model/scheduler.ts",
+        "blob": "79dfea044f13c224c65c8a914fd9f04c5c75ea3f"
+      },
+      {
+        "path": "src/model/step.ts",
+        "blob": "1ac60444582b26ff610eba6e3cd943c51a3a4285"
+      },
+      {
+        "path": "src/model/thermal-gates.ts",
+        "blob": "55b0cd91c368016f2485d3ccbb3924ab915d0e3d"
+      },
+      {
+        "path": "src/model/types.ts",
+        "blob": "e317006703d9f63a88018b13d26ac93c4648a749"
+      },
+      {
+        "path": "src/model/v2/physics.ts",
+        "blob": "ab8a765826db1f035769327ee3a0a526d5ff73af"
+      },
+      {
+        "path": "src/model/v2/step.ts",
+        "blob": "5b403a856c0c04869e2a511d797f94eef0fd1b50"
+      },
+      {
+        "path": "src/model/v2/types.ts",
+        "blob": "a3d839c0837a3abe14a477945bae8f0d98f6e956"
+      },
+      {
+        "path": "src/runner/fitting-run.ts",
+        "blob": "9bee614bd5be7eba1f4504224b1f8465996da630"
+      },
+      {
+        "path": "src/runner/metrics.ts",
+        "blob": "7f43b033a956174d01d2ebb0249cdda118adb470"
+      },
+      {
+        "path": "src/runner/mining-metrics.ts",
+        "blob": "dd3125d63322cc07cbaef504bcad1933be6debc7"
+      },
+      {
+        "path": "src/runner/protocol.ts",
+        "blob": "7d6b7a95e2c11c775e4ce961c1a350f582d77268"
+      },
+      {
+        "path": "src/runner/retention.ts",
+        "blob": "412803e9de6c2bfcfc5275060a8f439ed35c3782"
+      },
+      {
+        "path": "src/runner/run.ts",
+        "blob": "8145e6149237b37148c37056d0c8966f8f918daf"
+      },
+      {
+        "path": "src/runner/worker.ts",
+        "blob": "7a74cd0f2a16999ff195aee1c24fc095d948a447"
+      },
+      {
+        "path": "src/scenarios/fitting.ts",
+        "blob": "92042fa5db627550c9c0fe824cd75d3c5a38ba58"
+      },
+      {
+        "path": "src/scenarios/schema.ts",
+        "blob": "d10c5101743da454e1ce0b647bd791e87ee94a41"
+      },
+      {
+        "path": "tests/artifact-smoke.mjs",
+        "blob": "a30437d621ba60feeac718494439b3991c4e07f0"
+      },
+      {
+        "path": "tests/browser/claude-ui.spec.ts",
+        "blob": "6d7c2f6703c61614e5626626f9b98579d6bf6996"
+      },
+      {
+        "path": "tests/browser/fitting.spec.ts",
+        "blob": "18750d36b5909551cafee900a4639a39076b9fee"
+      },
+      {
+        "path": "tests/browser/lab.spec.ts",
+        "blob": "10cd77037856ebb119161dbf6a6b289d971ac463"
+      },
+      {
+        "path": "tests/catalog.test.ts",
+        "blob": "d03ac5f5af7a0348937acd91342a41b2cc7c9398"
+      },
+      {
+        "path": "tests/fitting-long.mjs",
+        "blob": "b1210da55c15e09d11f21aeecda3d7811c42e6f4"
+      },
+      {
+        "path": "tests/fitting-memory.mjs",
+        "blob": "1f35c7f02842cca147ef16df5e0eccb8847b020f"
+      },
+      {
+        "path": "tests/fitting/bill.test.ts",
+        "blob": "7724b9de8980a9fedb2ace73bc9b90be3b1aed8c"
+      },
+      {
+        "path": "tests/fitting/bounded-state.test.ts",
+        "blob": "ba419869f018c8422db9a3fc373523fa42733aed"
+      },
+      {
+        "path": "tests/fitting/cargo.test.ts",
+        "blob": "3cfa32399765b681e8daa49874c884c88ede20ce"
+      },
+      {
+        "path": "tests/fitting/catalog.test.ts",
+        "blob": "a817a29b7ef712bd5c8a20eeb3c12aa0da3e1986"
+      },
+      {
+        "path": "tests/fitting/comparison.test.ts",
+        "blob": "492fb14ed6f023a314c90eb5af72954b1d309efd"
+      },
+      {
+        "path": "tests/fitting/compatibility.test.ts",
+        "blob": "1f94ff58d2464b40cd6f0f2ad4d758b3521d76d4"
+      },
+      {
+        "path": "tests/fitting/controller.test.ts",
+        "blob": "e2c1fb818a36c9fc7758b45adb37db16335d23e8"
+      },
+      {
+        "path": "tests/fitting/fixtures/legacy-0.json",
+        "blob": "5e969149e2adaeb9a7811dc10a450cc7cf25276c"
+      },
+      {
+        "path": "tests/fitting/fixtures/legacy-1.json",
+        "blob": "98c1716219ad17bdb7d46b74619f9f53a8ba625f"
+      },
+      {
+        "path": "tests/fitting/fixtures/legacy-external.json",
+        "blob": "971d8e1837368020285c0f9d7bc3c6213e9360a4"
+      },
+      {
+        "path": "tests/fitting/input-fixtures.ts",
+        "blob": "b6c2ad31b1c15149c409cd8862012c1f638d36d9"
+      },
+      {
+        "path": "tests/fitting/input-guards.test.ts",
+        "blob": "38b884eed3f649f92f9504e09814d0982f4ab5ca"
+      },
+      {
+        "path": "tests/fitting/io.test.ts",
+        "blob": "1f90266c8c196d260de907fecf02da4aa45167b7"
+      },
+      {
+        "path": "tests/fitting/legacy.test.ts",
+        "blob": "7828ff24c2bfedea4f8ff635b2b8788686ff94e7"
+      },
+      {
+        "path": "tests/fitting/matrix.test.ts",
+        "blob": "3fa7e51e8a2d839b2437df72fdda5d25f1f15bd1"
+      },
+      {
+        "path": "tests/fitting/mining-metrics.test.ts",
+        "blob": "c6f5e394bbd52953865a33a4fce2a7ef5cac487e"
+      },
+      {
+        "path": "tests/fitting/run-validation.test.ts",
+        "blob": "6fa4480599efd63f48194438e490d717df9b0e51"
+      },
+      {
+        "path": "tests/fitting/scenarios.test.ts",
+        "blob": "b5d3fdba30804951802262dfad6ca25a3ddc42ce"
+      },
+      {
+        "path": "tests/fitting/source-fidelity.test.ts",
+        "blob": "6c2f162d5c35c13a260342ed0e6ad349d68bd5a4"
+      },
+      {
+        "path": "tests/fitting/test-spec.ts",
+        "blob": "5ef1e0f932818a3f0275575a365c96f9f2976bcc"
+      },
+      {
+        "path": "tests/fitting/time-integration.test.ts",
+        "blob": "650894dd5bfe3e57840ff6690496ff961c8c3ebb"
+      },
+      {
+        "path": "tests/fitting/worst-fit.ts",
+        "blob": "70e48b70c0af9762eb1c1b345dde95f7032371f0"
+      },
+      {
+        "path": "tests/io.test.ts",
+        "blob": "f4c14b9770b215e9098581c0f51f5b43a2c0a003"
+      },
+      {
+        "path": "tests/long-kernel.test.ts",
+        "blob": "278de7b315a0a894ba9b4b20ca02e82137ff7be7"
+      },
+      {
+        "path": "tests/matrix.test.ts",
+        "blob": "a24aa01131860590d54ea7a5df5d649d8ed95d66"
+      },
+      {
+        "path": "tests/metrics.test.ts",
+        "blob": "9e29a208d74eace0cc5bd7b103a3a7edec9c9691"
+      },
+      {
+        "path": "tests/model/boundaries.test.ts",
+        "blob": "a3b9f1e160d43f2da39bde28bf9e96240e0d8ae9"
+      },
+      {
+        "path": "tests/model/fitting-dispatch.test.ts",
+        "blob": "bd0d83364d3fc78c18826626be98285f65ed6389"
+      },
+      {
+        "path": "tests/model/fitting-drive.test.ts",
+        "blob": "c193815c0546ca443f55278aaa0f6eb6b4e89306"
+      },
+      {
+        "path": "tests/model/fitting-energy.test.ts",
+        "blob": "0f5254d1e51896702d9d590f202bdf150f82a008"
+      },
+      {
+        "path": "tests/model/fitting-refinement.test.ts",
+        "blob": "1d9164c4cdce5a37be750f2e3d24206e9da53b74"
+      },
+      {
+        "path": "tests/model/fitting-stocks.test.ts",
+        "blob": "4b587883564c7df6f07e96dd254368e100a6a50a"
+      },
+      {
+        "path": "tests/model/kernel.test.ts",
+        "blob": "e9526f56158bc080641a193864d0f7c3628c5638"
+      },
+      {
+        "path": "tests/peak-cycle.test.ts",
+        "blob": "e0c0f3efc81e9a4231f9a7c382344a7967e9d505"
+      },
+      {
+        "path": "tests/performance.test.ts",
+        "blob": "4734efcfaf0d95139e4849b743a315ed58642dde"
+      },
+      {
+        "path": "tests/qa-regressions.test.ts",
+        "blob": "d9c2c3f954d211815c267a161d66072563e97828"
+      },
+      {
+        "path": "tests/retention-memory.mjs",
+        "blob": "63724dcf078a95e103091a90bb3effdd51db27f5"
+      },
+      {
+        "path": "tests/retention-memory.test.ts",
+        "blob": "e9c3f2d652fc26fb3f94f7b196bb82a63185c164"
+      },
+      {
+        "path": "tests/review-regressions.test.ts",
+        "blob": "cbcec8a835be44f56e9fcfe4d6bd0a97f760de2f"
+      },
+      {
+        "path": "tests/runner.test.ts",
+        "blob": "71bb7286b55c00439ef3912fc00b7abdac6a4477"
+      },
+      {
+        "path": "tests/ui/presentation.test.ts",
+        "blob": "80d9bedbe846232cf40a8072d51f733f665445ed"
+      },
+      {
+        "path": "tests/ui/telemetry.test.ts",
+        "blob": "b8cd1041e0ef5a466640cea5ae4d8d7304a1b40f"
+      },
+      {
+        "path": "tests/ui/workspace.test.ts",
+        "blob": "0b6faf2dedf18849a44e141191962f68ae658225"
+      },
+      {
+        "path": "tsconfig.json",
+        "blob": "67db4b67d70f4354dc0f6ea28206b2219e1c264b"
+      },
+      {
+        "path": "vite.config.ts",
+        "blob": "10e2c43ff8cb04792699695e9678d0d36c36d465"
+      }
+    ],
+    "contract": {
+      "path": "docs/verification/claude-design-ui-v0.2-contract.md",
+      "text": "---\ntitle: \"Verification Contract — Claude Design UI v2.1\"\nstatus: active\nversion: \"1.0\"\ndate: 2026-10-06\nrelated:\n  - docs/product/claude-design-ui-v0.2-acceptance.md\n  - docs/ux/claude-design/ship-fitting-power-heat-ux-v2.1.md\n  - docs/verification/ship-fitting-v0.2-contract.md\n---\n# Приёмка интерфейса\n\nSource: accepted UX v2.1 §§1–12/UC01–17, token snapshot, exact mock packageabbd2943.\nСуществующий SF01–20 задаёт правила чисел/совместимости/snapshot; эта VC — affected UI\nsurface. Полный рейс/добыча до заполнения/заправка явно отложены оператором.\n\n| ID | Источник | Expected / error / edge | Method |\n|---|---|---|---|\n| UI01 | UX4.1/5.1/7 | Fitting↔Lab↔Compare сохраняют выбранную сборку, результат, active test identity и frozen A; нет лишнего Worker/start/reset | actual browser navigation, observe Worker command and data |\n| UI02 | UX4.2/9, SF17 | F1 видна при прокрутке, состояния no-test/running/paused/complete/task-not-finished/cancelled текстом; кнопка действует по состоянию; incomplete reason рядом | browser states; scroll/touch |\n| UI03 | UX4.3/4.4, SF01/05/06 | Six-hull preset updates actual passport/slots; mass/C/cargo/nominals match compileFit; DEMO values/manufacturers не выдаются за каталог | source-derived compile oracle for S/M/L |\n| UI04 | UX4.4/11.5 | Ring использует все категории и builtins, min18°/44px, сектор по количеству; insufficient space/column<440/phone→flat; slot click same dialog | layout function boundary + browser S/L/390px |\n| UI05 | UX4.6/4.7, SF03 | Встроенное в собственной группе, замок/read-only и отдельный count; не занимает/removes slot; разные экземпляры и slot/item sizes различимы | all6 hulls counts and actual readonly interactions |\n| UI06 | UX4.8/UC02–04, SF02/16 | Search/filter/sort compatible table, explicit refusal, whole-ship now/after preview; cancel/Esc no change, apply/remove one revision | catalog swap browser + compile/validation oracle |\n| UI07 | UX4.8/7, SF16/17 | Batch payload targets only removable slots; preview all affected; success atomic+1revision; any refusal preserves completefit/revision/result/frozenA | positive batch + mixed/invalid target unit/browser |\n| UI08 | UX4.5/4.10/9 | A/B/C/+ variants independent; switch discards only uncommitted candidate; stale own result never current/foreign; frozen test A immutable; oneglobal test identifies owner | workspace boundary tests + running variant switch |\n| UI09 | UX5.3/5.4/UC06/11, SF17 | Start/Pause/Resume/Step/Cancel confirmation/Reset/speed real Worker; locked active conditions; fit edit nextrevision; cancel preserves partial interval; old chunks/ACK ignored | actual Worker + state/command tests |\n| UI10 | UX4.7/4.9/5.5/9, SF12–14 | Metrics/cards use current result/identity; prior/stale/preliminary/time windows labeled; undefined denominator/zero/no-recovery/no-limit handled; selected-group K unchanged | seeded real results + direct metrics oracle |\n| UI11 | UX4.10/M2-Compare, SF15 | Variant compare shows actual SCU/cycle/hour,K,typed fuel/limiter, condition differences and sorting; no invented overall score | equal/different conditions+missing/current/stale result |\n| UI12 | UX5.6/LabM-Channels, SF19 | Energy/heat/stocks/work channels, requested dashed vs delivered solid, legend/button time selection/table units/textsummary; retained mean/min/max/count honest | actual captured trace and timestamp/bucket oracle |\n| UI13 | UX5.7/5.8, SF05/09–11 | Instance card actualID/origins/material bill/energy/heat/resource; event filters/cause/time/instance inclpropulsionShortfall; dropped/count accurate; no DEMO fallback | real sample snapshot/channel/event and source selection |\n| UI14 | UX5.10/UC12, SF15 | Frozen A/B table/difference and plot same fields; exact identical-conditions check; freeze/current edit/reset does not mutate A | original compare API + browser frozen provenance |\n| UI15 | UX5.10/UC13, SF18 | Fit/run/result/CSV export existing formats; malformed/version/numeric import preserves last validfit/revision/result/A/active snapshot; supported legacy route/replay explicit | existing8invalid input variants + actual import/download bytes |\n| UI16 | UX11.7/6 | Modal focus trap/Esc/return; touch44px, group aria-expanded, graph textsummary, button time navigation; critical function accessible390 and tablet without hover | keyboard/touch browser; no horizontal pageoverflow |\n| UI17 | UX10/11, Main/Lab/mobile | Source layout hierarchy/colors/fonts/spacing/readonly hatch and desktop→mobile relationships implemented; all runtime assets local; visualsource no support.js/privatecanvas dependency | finite rendered screenshot/source inspection+assetrequest list |\n| UI18 | SF18–20, namedLANregression | numerical/catalog/runner/scenario/io/legacy source untouched; existing unit/replay/build checks pass; immutable extracted artifact localhost+ordinary LAN IP secure=false+HTTPSprefix real Start/control/IO, noerrors/404 | Gitblob equivalence + guard + 3origin smoke |\n\n# Инварианты и границы\n\n- Тест привязан к owner variant, fit revision, immutable RunSpec и runId; навигация/рендер\n  не меняет эти поля. Некорректный импорт или batch не меняет любое из прежних данных.\n- Совместимость/readiness вычисляются существующими validators; warning нулевого\n  operating resource не превращается в structural error. Число сменных слотов не растёт.\n- SCU = м³; существующие actual model metrics/units/interval labels сохраняются.\n  Нет попытки пересчитать K_use по включённому времени или вывести реальную ETA.\n- DOM text uses escaped/textContent values; malicious label/import stays literal.\n- Только локальные assets относительно root/prefix. HTTP не зависит от secure-only APIs.\n- Numeric/model/worker/schema changes outside scope — остановка и запись отдельного\n  finding, не исправление «заодно» после явного operator defer.\n- Screenshot сравнение подтверждает перенос раскладки, не создаёт separate review cycle.\n  Второе физическое устройство/native/publicdeploy/base gates показываются отдельно.\n\n# Evidence\n\nQA: Test case | Source AC | Method | Result | Evidence; exact SHA/build, source paths+blobs\nи whole VC canonical SHA256, role/model, PASS/FAIL/NOTRUN. Developer tests — не replacement.\nОдин scoped Reviewer с именованными UI рисками. Advisory не mandatory fix.\n\nПосле metadata/rebase deterministic checks на текущем HEAD. Source fingerprints проверяются\nпо actual Git blobs и relevant whole contract text; old result valid только для unchanged\nreviewed surface. Положительный verdict не означает base-bootstrap acceptance/main merge.\n\n"
+    }
+  },
+  "artifact": {
+    "archiveSha256": "7131c5006194ab952e68f19a2ae5e85e88f65143c55f6d9e3b26d0e424c39cba",
+    "distDigest": "aa710b9b9f0c201799368ec40e4bff1876c3492e1c613706668ec138fbeeeb28"
+  }
+}

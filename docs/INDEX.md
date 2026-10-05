@@ -115,3 +115,12 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [Принятая UI-область и решения переноса](product/claude-design-ui-v0.2-acceptance.md) — поручение оператора; новые шахтёрские миссии/багфиксы отложены.
 - [План интерфейса](plans/2026-10-06-claude-design-ui.md) — U1–U6, independent Plan Review pending; runtime code NOT STARTED.
 - [Приёмка UI01–18](verification/claude-design-ui-v0.2-contract.md) — функции/данные/mobile/LAN и сохранение модели.
+
+## Claude Design UI — проверка и локальный запуск
+
+- [Независимый Plan Review: PLAN_READY](reviews/2026-10-06-claude-design-ui-plan-review-r1.md) — exact9aa, историческая связка плана,0blockers.
+- [72 source-first QA cases](verification/claude-design-ui-v0.2-qa-cases.md) — методы приёмки UI01–18; подготовка не runtime verdict.
+- [Локальный интерфейс и варианты](user/ship-fitting-ui.md) — запуск4183, поведение сборок/снимка A.
+- [Численный QA r4](reviews/2026-10-06-ship-fitting-qa-affected-r4.md) и [scoped Code Review r3](reviews/2026-10-06-ship-fitting-code-review-r3.md) — immutable закрытие прежних interval/source дефектов на903; UI туда не входит.
+
+- [Scoped Code Review Contract](verification/claude-design-ui-code-review-contract.md) и [полный runtime/source binding](verification/claude-design-ui-runtime-binding.json) — affected UI scope, не verdict.
