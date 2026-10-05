@@ -1,0 +1,162 @@
+import type { FittingWorkspace } from "../fitting-workspace";
+import type { RunResultV2 } from "../../runner/run";
+import type { ChannelState } from "./lab-channels";
+import { channelsView } from "./lab-channels";
+import { frozenCompare } from "./compare-view";
+import { channelRows, eventMatches } from "./telemetry";
+import { esc, num } from "./presentation";
+const causeNames: Record<string, string> = {
+  power: "Питание",
+  thermal: "Тепло",
+  resource: "Ресурс",
+  cargo: "Трюм",
+};
+export function firstLimiter(r?: RunResultV2) {
+  return r?.metrics.firstLimiter
+    ? r.metrics.firstLimiter.causes.map((c) => causeNames[c]).join(" + ") +
+        " · " +
+        num(r.metrics.firstLimiter.timeSeconds, "с")
+    : r
+      ? "не выявлено за измеренный интервал"
+      : "ещё не измерено";
+}
+export function testStatus(
+  r: RunResultV2 | undefined,
+  active?: "running" | "paused",
+) {
+  return active === "running"
+    ? "Выполняется"
+    : active === "paused"
+      ? "Пауза"
+      : r?.status === "cancelled"
+        ? "Отменён"
+        : r?.status === "complete"
+          ? r.metrics.firstTargetSeconds !== null
+            ? "Завершён"
+            : "Завершён · задача не завершена в горизонте"
+          : "Ещё не запускался";
+}
+export function labView(
+  w: FittingWorkspace,
+  r: RunResultV2 | undefined,
+  c: ChannelState,
+  eventFilter: string,
+  detailId: string,
+) {
+  const active = w.getActive(),
+    m = r?.metrics,
+    state = r?.state,
+    spec = r?.spec,
+    v = w.getSelected(),
+    locked = !!active,
+    interval = m
+      ? `наблюдаемый интервал 0–${num(m.durationSeconds, "с")} · ${m.intervalLabel}`
+      : "нет данных до первого теста";
+  const tiles = [
+    ["Полезная добыча", num(m?.usefulWork, "SCU")],
+    ["Темп", num(m?.scuPerHour, "SCU/ч")],
+    [
+      "Использование оснастки",
+      num(m?.kUseHorizon == null ? null : m.kUseHorizon * 100, "%"),
+    ],
+    ["Дизель", num(m?.fuelPerScu.diesel, "кг/SCU")],
+    ["H₂", num(m?.fuelPerScu.hydrogen, "кг/SCU")],
+    ["Вынужденный простой", num(m?.forcedDowntimeSeconds, "с")],
+    ["Частичное снижение выдачи", num(m?.partialLossSeconds, "с")],
+    [
+      "Восстановление, первое",
+      m && m.recovery.firstSeconds === null
+        ? m.forcedDowntimeSeconds > 0
+          ? "не восстановился"
+          : "не потребовалось"
+        : num(m?.recovery.firstSeconds, "с"),
+    ],
+    ["Пик температуры", num(m?.maxTemperatureK, "K")],
+  ];
+  const fields = [
+    ["durationSeconds", "fit-duration", "Горизонт · с", 600],
+    ["effectiveBackgroundK", "fit-background", "Фон · K", 100],
+    ["workSeconds", "fit-work-seconds", "Рабочая фаза · с", 120],
+    ["duty", "fit-duty", "Рабочая доля [0…1]", 1],
+    ["densityKgM3", "fit-density", "Плотность руды · кг/м³", 1500],
+    ["returnFraction", "fit-return", "Возврат тепла · доля", 0.35],
+    ["targetM3", "fit-target", "Цель добычи · SCU", 1000],
+  ] as const;
+  const bucket = r?.buckets.at(-1),
+    rows = r ? channelRows(r, bucket) : [],
+    events = r?.events.filter((e) => eventMatches(e.kind, eventFilter)) ?? [];
+  return `<div class="lab-context"><h1>Power & Heat Lab</h1><p>${active ? `Активный тест: вариант ${esc(active.variantName)} · ревизия ${active.fitRevision}` : `Вариант ${esc(v.name)} · ревизия ${v.fit.fitRevision}`}${r ? ` · измерена ревизия ${r.spec.resolvedShip.fit.fitRevision} · run ${esc(r.runId)}` : ""}</p><p class="muted">${locked ? "Условия зафиксированы; правки оснастки относятся к следующему тесту." : "Лабораторный цикл с фиксированными фазами; реальная миссия и ETA не рассчитываются."}</p></div><section id="fit-result" class="ui-panel"><div class="result-heading"><strong>${testStatus(r, active?.status)}</strong><span>${esc(interval)}${!active && w.isStale() ? " · результат устарел" : ""}${active ? " · предварительно" : ""}</span></div><div class="result-tiles">${tiles.map(([label, val], i) => `<div class="result-tile ${i === 1 ? "accent" : ""}"><span class="eyebrow">${label}</span><strong>${esc(val)}</strong></div>`).join("")}</div><p class="muted">K_use неизменной выбранной группы включает весь горизонт, перелёт, обслуживание и выключение, а не только рабочую фазу.</p>${
+    m
+      ? `<p>Полные циклы: ${m.cyclesCompleted} · добыча в полных циклах ${num(m.completedCycles.scu, "SCU")} · текущий цикл ${num(m.currentCycleScu, "SCU")}. Абсолютный дизель ${num(m.fuelSpeciesKg.diesel, "кг")} · H₂ общий ${num(m.fuelSpeciesKg.hydrogen, "кг")}, из него охладитель ${num(m.h2CoolerKg, "кг")}.</p><p>Восстановления: ${m.recovery.count} · mean ${num(m.recovery.meanSeconds, "с")} · max ${num(m.recovery.maxSeconds, "с")}. Причины перекрываются: ${Object.entries(
+          m.causeSeconds,
+        )
+          .map(([c, t]) => causeNames[c] + ": " + num(t, "с"))
+          .join(
+            " · ",
+          )}. Объединение ${num(m.limitationUnionSeconds, "с")} · перекрытие ${num(m.overlapSeconds, "с")} · частичная потеря ${num(m.partialLossM3, "SCU")}.</p>`
+      : ""
+  }</section><div class="lab-columns"><aside class="lab-side"><section class="ui-panel"><h2>Условия теста</h2><div class="condition-fields">${fields.map(([k, id, label, def]) => `<label>${label}<input id="${id}" data-condition="${k}" type="number" step="any" value="${v.conditions[k] ?? def}" ${locked ? "disabled" : ""}></label>`).join("")}${[
+    ["fit-charge-fraction", "Заряд", "charge"],
+    ["fit-fuel-fraction", "Дизель", "diesel"],
+    ["fit-h2-fraction", "H₂", "hydrogen"],
+  ]
+    .map(
+      ([id, label, key]) =>
+        `<label>Начальный ${label} · доля<input id="${id}" data-initial="${key}" type="number" min="0" max="1" step=".1" value="${key === "charge" ? v.fit.initial.chargeFraction : (v.fit.initial.fuelFraction[key as "diesel"] ?? 1)}" ${locked ? "disabled" : ""}></label>`,
+    )
+    .join(
+      "",
+    )}</div><p class="muted">Рабочая фаза — заданная длительность лабораторного сценария, не время до полного трюма.</p>${spec ? `<div class="phase-strip">${spec.scenario.phases.map((p) => `<span>${esc(p.id)} · ${num(p.durationSeconds, "с")}</span>`).join("")}</div>` : ""}</section><section class="ui-panel limiter"><span class="eyebrow">Первый ограничитель</span><h2>${firstLimiter(r)}</h2><p>${m?.propulsionShortfall ? "Недоставка тяги: заданное время фазы не доказывает завершение маршрута." : "Ограничитель возникает только при фактической потере выбранной добычи."}</p></section><section class="ui-panel"><h2>Запасы и охлаждение</h2><p>${state ? "На " + num(state.timeSeconds, "с") : "Не измерено"}</p>${
+    state
+      ? `<dl><div><dt>Заряд</dt><dd>${num(state.chargeJ / 1e6, "МДж")}</dd></div>${Object.entries(
+          state.fuelKg,
+        )
+          .map(
+            ([id, q]) =>
+              `<div><dt>${esc(id)}</dt><dd>${num(q, "кг")}</dd></div>`,
+          )
+          .join(
+            "",
+          )}<div><dt>Трюм на борту</dt><dd>${num(state.cargo, "SCU")}</dd></div><div><dt>Текущая масса</dt><dd>${num(state.currentMassKg, "кг")}</dd></div><div><dt>Корпус</dt><dd>${num(state.temperatureK, "K")}</dd></div>${Object.entries(
+          state.buffersJ,
+        )
+          .map(
+            ([id, q]) =>
+              `<div><dt>Буфер ${esc(id)}</dt><dd>${num(q / 1e6, "МДж")}</dd></div>`,
+          )
+          .join("")}</dl>${rows
+          .filter((x) =>
+            /radiation|Cooling|bufferAbsorb|bufferRelease/.test(x.id),
+          )
+          .map((x) => `<p>${esc(x.id)}: ${num(x.mean, x.unit)}</p>`)
+          .join(
+            "",
+          )}<p class="muted">Мощности охлаждения — последний bucket ${num(bucket?.startSeconds)}–${num(bucket?.endSeconds, "с")}, mean; пик выше относится ко всему измеренному интервалу.</p>`
+      : "<p>Запасы и температура появятся после первого измерения.</p>"
+  }</section></aside><div class="lab-main">${channelsView(r, c)}<section class="ui-panel"><h2>Модули и каналы экземпляров</h2><div class="ui-table-scroll" tabindex="0" aria-label="Измеренные экземпляры"><table><thead><tr><th>Экземпляр</th><th>Номинал · W</th><th>Доставлено · W</th><th>Луч · W</th><th>Тяга · N</th><th>Ресурс</th></tr></thead><tbody>${
+    spec
+      ? spec.resolvedShip.instances
+          .map((i) => {
+            const find = (prefix: string) =>
+              rows.find((x) => x.id === prefix + ":" + i.id)?.mean;
+            return `<tr><th><button data-instance="${esc(i.id)}">${esc(i.item.label)}</button><small>${esc(i.id)} · ${i.builtin ? "встроено" : "сменный"}</small></th><td>${num(i.item.numerics.powerW, "W")}</td><td>${num(find("deliveredW"))}</td><td>${num(find("beamW"))}</td><td>${num(find("forceN"))}</td><td>${i.item.species ? esc(i.item.species) : "—"}</td></tr>`;
+          })
+          .join("")
+      : '<tr><td colspan="6">Нет снимка теста</td></tr>'
+  }</tbody></table></div><p class="muted">Выдача — среднее последнего bucket; номинал из снимка. Нет канала — «—», не DEMO. Сухой bill, пороги и provenance — по кнопке экземпляра.</p></section><section class="ui-panel"><h2>Журнал событий</h2><div class="segments" role="group" aria-label="Фильтры событий">${[
+    ["all", "Все"],
+    ["limit", "Ограничения"],
+    ["thrust", "Недоставка тяги"],
+    ["thermal", "Тепловой стоп / рестарт"],
+    ["resource", "Ресурсы"],
+    ["phase", "Фазы"],
+    ["service", "Обслуживание"],
+  ]
+    .map(
+      ([id, label]) =>
+        `<button data-event-filter="${id}" aria-pressed="${eventFilter === id}">${label}</button>`,
+    )
+    .join(
+      "",
+    )}</div><p id="fit-retention">Показано ${events.length} из видимых ${r?.events.length ?? 0}; всего ${r?.retention.totalEvents ?? 0}, отброшено ${r?.retention.droppedEvents ?? 0}.</p><div id="fit-events" class="ui-table-scroll" tabindex="0" aria-label="События теста"><table><thead><tr><th>Время · с</th><th>Событие</th><th>Факт / причина / экземпляр</th></tr></thead><tbody>${events.map((e) => `<tr><td>${num(e.timeSeconds)}</td><td>${esc(e.kind)}</td><td>${esc(e.message)}<small>Отдельные поля instance/cause отсутствуют в событии; сообщение сохранено буквально.</small></td></tr>`).join("") || '<tr><td colspan="3">Событий по фильтру нет</td></tr>'}</tbody></table></div></section><section class="ui-panel"><h2>Сравнение тестов A / B</h2><button id="fit-freeze" ${!v.result || !["complete", "cancelled"].includes(v.result.status) ? "disabled" : ""}>Зафиксировать A</button><div id="fit-comparison">${frozenCompare(w)}</div></section></div></div>`;
+}
