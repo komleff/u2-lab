@@ -1,4 +1,6 @@
 import { test, expect } from "@playwright/test";
+import { readFile } from "node:fs/promises";
+test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
 test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous result and frozen A honestly", async ({ page }) => {
   await page.addInitScript(() => {
     const Native = Worker;
@@ -35,6 +37,10 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   await expect(page.locator("#fit-status")).toContainText("Завершён");
   await page.locator("#fit-freeze").click();
   const frozen = await page.locator("#fit-comparison .ab-side-a").innerHTML();
+  await page.locator("#fit-f3").click();
+  const oldDownload = page.waitForEvent("download");
+  await page.locator("#fit-export-result").tap();
+  const oldBytes = await readFile((await (await oldDownload).path())!);
   await page.locator("#fit-speed").selectOption("1");
   await page.evaluate(() => {
     (document.querySelector("#fit-start") as HTMLButtonElement).click();
@@ -48,6 +54,13 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   await expect(page.locator(".lab-context")).toContainText("run " + ids[1]);
   await expect(page.locator(".lab-context")).not.toContainText(ids[0]);
   await expect(page.locator(".fit-f1")).toContainText("предыдущий тест · run " + ids[0]);
+  expect(await page.evaluate(() => ({
+    inner: innerWidth, document: document.documentElement.scrollWidth,
+    visual: visualViewport!.width, scale: visualViewport!.scale,
+  }))).toEqual({ inner: 390, document: 390, visual: 390, scale: 1 });
+  const retainedDownload = page.waitForEvent("download");
+  await page.locator("#fit-export-result").tap();
+  expect(await readFile((await (await retainedDownload).path())!)).toEqual(oldBytes);
   await page.getByRole("button", { name: "Сравнение", exact: true }).click();
   await expect(page.locator(".compare-desktop [data-compare-variant=A]")).toContainText("предыдущий тест · run " + ids[0]);
   await expect(page.locator(".compare-desktop [data-compare-variant=A]")).not.toContainText("предварительно");

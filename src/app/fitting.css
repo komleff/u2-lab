@@ -244,6 +244,9 @@ body:has(.fitting-app) {
   color: #f2ede0;
   font-size: 14px;
 }
+.fitting-app .fit-f1 small {
+  overflow-wrap: anywhere;
+}
 .fitting-app .workspace-meta {
   max-width: 1440px;
   margin: auto;
