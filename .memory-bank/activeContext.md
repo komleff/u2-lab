@@ -3,8 +3,9 @@
 ## Текущий этап Ship Fitting — 2026-10-05, Asia/Novosibirsk
 
 Оператор поручил PM/GD исследовать U2 fitting/модули/UX, подготовить идеи/дизайн/план и
-независимое адверсальное review дизайна + аудит плана. Runtime implementation сейчас
-не выполняется. Ветка design/ship-fitting-v0.2 от refreshed feature6fb7166513627941e2ba2c4a9a01c79ae1667820,
+независимое адверсальное review дизайна + аудит плана. Оператор2026-10-05 явно одобрил дизайн/план и поручил реализацию PM.
+Current acceptance: docs/product/ship-fitting-v0.2-acceptance.md; содержательные reviewed
+blobs не изменены. Runtime work item ulab-zk2 и7children созданы; T1 in_progress. Ветка design/ship-fitting-v0.2 от refreshed feature6fb7166513627941e2ba2c4a9a01c79ae1667820,
 а не прежнего c2ea755. Feature0.1.1 LAN HTTP fix уже affected QA PASS/scoped APPROVED.
 Public Pages https://komleff.github.io/u2-lab/ пока0.1.0; design не деплоит новую сборку.
 
@@ -17,14 +18,15 @@ SCU/cycle,h,typedfuel/H₂/SCU,downtime,recovery; ROI later. K_use role-specific
 measured limiter добавлены как проверяемые детали. Шесть профилей/40items — curated
 candidate; неизвестные ТТХ честно experimental, не U2 production proof.
 
-Beads ulab-73w in_progress; source researchers2, не verifier sessions. Independent
+Beads ulab-73w CLOSED после explicitPO approval; runtime ulab-zk2 in_progress; source researchers2, не verifier sessions. Independent
 PRODUCT reviewer launch1/5: r1 CHANGES_REQUIRED, two BLOCKER. B1 selected-group
 numerator/membership и B2 unbounded metric histories исправлены targeted в GDD/VC/плане;
 affected r2 PLAN_READY для design/plan, activeB0 в той же session.
 Candidate676862a, fingerprint550085b4eb58989563863ee27fffd339e1398f26f084775aa353fa48b78627ce;
 report r2 SHA2566267c405d7a40ef66084349b61bba901565942a14d124c0be83fb555714fb644. Immutable reports + final binding в docs/reviews, advisory не
 расширяет обязательный fix. One Reviewer для двух scope частей. Новые
-WHAT details требуют PO принятия, review не заменяет его. Нет code/QA/merge claim.
+WHAT details приняты текущим решением PO; review не заменял это решение.
+Independent QA/runtimeCodeReview ещё pending, fullbasebootstrap/merge gates остаются открытыми.
 
 Локальный checkout — sole Beads writer, не hosted Work. Node24.21.0/bd1.0.2 через
 source .overgate-runtime/env.sh. First import/export/отдельныйrestore-reexport уже
@@ -32,6 +34,9 @@ source .overgate-runtime/env.sh. First import/export/отдельныйrestore-r
 metadata/evidence остаются в ops commits, не включены в этот scoped design diff.
 Native Codex guard smoke прошёл ранее; full native/Claude/Windows/bootstrap finalize/
 affected independent acceptance и операторский merge остаются открытыми.
+
+UX/UI ТЗ для внешнего Claude Design: docs/ux/ship-fitting-v0.2-claude-design-brief.md.
+Разработка численной модели не ждёт внешний макет. Один Developer, PM primary soleBeadswriter.
 
 Ниже история cloud и прежнего runtime, не текущая инструкция заново импортировать Beads.
 

@@ -116,3 +116,11 @@ CLOSED, A1/A2 advisory unchanged. Five reviewedpaths+entireVC fingerprint550085b
 самостоятельно проверен PM; report bytes6267c405… сохранены дословно. New numeric/UX
 proposal PO acceptance ещё separate, runtime implementation/QA/merge не выполнены.
 Planning deliverables в DraftPR3, original runtime/base acceptance gates не закрывались.
+
+## Ship Fitting implementation — operator approval2026-10-05
+
+Дизайн и план явно одобрены оператором, PLAN_READY уже действителен; повторногоauditнет.
+Planning ulab-73w CLOSED; runtime ulab-zk2 IN_PROGRESS, T1–T7 ulab-zk2.1–.7 created,
+sequential dependencies, T1started. PM готовит UXbrief для ClaudeDesign и запускает
+oneprimaryDeveloper. НезависимыеQA/CodeReview послеimplementation; verifierbudget1/5.
+BootstrapB0 остаётся OPEN; выражениеB0 в close-reasonplanning означает0designblockers.
