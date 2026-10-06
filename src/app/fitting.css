@@ -1098,6 +1098,21 @@ body:has(.fitting-app) {
   flex: 0 1 50%;
   overflow-wrap: anywhere;
 }
+
+/* i — сосед выбора, чтобы техническое раскрытие не меняло монтаж. */
+.fitting-app .catalog-entry, .fitting-app .module-wrapper { position: relative; min-width: 0; }
+.fitting-app .catalog-entry .catalog-row { padding-right: 64px; }
+.fitting-app .module-profile { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; overflow-wrap: anywhere; }
+.fitting-app .module-card .module-profile { margin: 8px 0; }
+.fitting-app .module-card .module-top { padding-right: 38px; }
+.fitting-app .module-info > summary, .fitting-app .module-info-button { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border); border-radius: 8px; font-weight: 600; }
+.fitting-app .module-info > summary { list-style: none; }
+.fitting-app .module-info > summary::-webkit-details-marker { display: none; }
+.fitting-app .catalog-entry > .module-info > summary, .fitting-app .module-info-button { position: absolute; right: 8px; top: 8px; }
+.fitting-app .module-info { margin: 8px 0; }
+.fitting-app .module-info-body { min-width: 0; padding: 8px; border: 1px solid var(--border); border-radius: 8px; }
+.fitting-app .module-info-body pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 260px; overflow: auto; font-size: 12px; line-height: 1.5; }
+.fitting-app #fit-preview > summary { cursor: pointer; font-weight: 600; }
 .fitting-app .catalog-row > span:nth-child(2) {
   min-width: 100px;
 }

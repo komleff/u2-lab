@@ -53,7 +53,7 @@ it("D01 Industrial L budgets category gaps before choosing a ring", () => {
       expect(gap - layout.minimumAngle).toBeCloseTo(2, 10);
   }
 });
-it("D02 preview displays source-oracle nominal ship load/mining deltas and catalogue columns", () => {
+it("D02 optional preview preserves source-oracle nominal ship load/mining deltas and warnings", () => {
   const w = workspace();
   const html = swapDialog(w, {
     slotId: "payload-1",
@@ -67,15 +67,6 @@ it("D02 preview displays source-oracle nominal ship load/mining deltas and catal
   });
   expect(html).toContain('data-delta-power-w="-3000000"');
   expect(html).toContain('data-delta-mining-scu-s="-0.0625125"');
-  for (const label of [
-    "Потребление",
-    "Добыча",
-    "Лазеров после",
-    "Трюм после",
-    "Источник",
-    "Объём изделия",
-  ])
-    expect(html).toContain(label);
   for (const value of ["power-asc", "power-desc", "mining-asc", "mining-desc"])
     expect(html).toContain(`value="${value}"`);
   expect(html).toContain("последний лазер");

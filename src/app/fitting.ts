@@ -18,7 +18,7 @@ import { swapDialog, type SwapState } from "./fitting-ui/swap-dialog";
 import { instanceDetails } from "./fitting-ui/instance-details";
 import { labView, firstLimiter, testStatus } from "./fitting-ui/lab-view";
 import { compareView, type AbView } from "./fitting-ui/compare-view";
-import { esc, num, replacement } from "./fitting-ui/presentation";
+import { esc, num, replacement, nominalProcess } from "./fitting-ui/presentation";
 import { updateDom } from "./fitting-ui/dom";
 import { numericalVariant } from "./fitting-ui/local-variant";
 import { measuredIdentity } from "./fitting-ui/result-context";
@@ -44,6 +44,7 @@ export function mountFitting(
     });
   let swap: SwapState | undefined,
     instance: ResolvedInstance | undefined,
+    instanceReturnId: string | undefined,
     savingFit: { name: string; value: string; returnId: string } | undefined,
     confirmCancel = false,
     freezeRunId: string | undefined,
@@ -155,11 +156,12 @@ export function mountFitting(
     return w.getCurrentResult();
   }
   function closeDialog() {
-    const returnId = savingFit?.returnId ?? swap?.returnId ?? "fit-start";
+    const returnId = savingFit?.returnId ?? swap?.returnId ?? (instance ? instanceReturnId : undefined) ?? "fit-start";
     savingFit = undefined;
     swap = undefined;
     instance = undefined;
     confirmCancel = false;
+    instanceReturnId = undefined;
     render();
     el(returnId)?.focus();
   }
@@ -234,7 +236,7 @@ export function mountFitting(
         )
         .join(
           "",
-        )}</select></label></div><p class="control-reason">${active ? "Один расчёт: " + esc(active.variantName) + " · второй запуск недоступен. Пауза/продолжение управляют этим опытом; шаг доступен на паузе." : !v.readiness.canRun ? "Запуск недоступен: " + esc(v.readiness.missing.join(", ")) : !nextRun.ok ? "Запуск недоступен: " + esc(nextRun.errors.map(e=>e.path+": "+e.message).join(" · ")) : "Следующий запуск использует выбранный черновик. Пауза/шаг/отмена доступны после запуска."}</p></div><footer>U2 Ship Fitting v2.2 · интерфейс v4 · каталог ${esc(catalog.version.replace("ship-fitting-", ""))} · модель ${(active?.spec ?? r?.spec)?.modelVersion ?? sel.conditions.modelVersion ?? "ship-fitting-ledger-0.2"} · лабораторные ТТХ · thermal diagnostics v0.1</footer><dialog id="ui-dialog" aria-labelledby="${swap ? "swap-title" : "dialog-title"}"></dialog>`,
+        )}</select></label></div><p class="control-reason">${active ? "Один расчёт: " + esc(active.variantName) + " · второй запуск недоступен. Пауза/продолжение управляют этим опытом; шаг доступен на паузе." : !v.readiness.canRun ? "Запуск недоступен: " + esc(v.readiness.missing.join(", ")) : !nextRun.ok ? "Запуск недоступен: " + esc(nextRun.errors.map(e=>e.path+": "+e.message).join(" · ")) : "Следующий запуск использует выбранный черновик. Пауза/шаг/отмена доступны после запуска."}</p></div><footer>U2 Ship Fitting v2.2 · интерфейс v4.1 · каталог ${esc(catalog.version.replace("ship-fitting-", ""))} · модель ${(active?.spec ?? r?.spec)?.modelVersion ?? sel.conditions.modelVersion ?? "ship-fitting-ledger-0.2"} · лабораторные ТТХ · thermal diagnostics v0.1</footer><dialog id="ui-dialog" aria-labelledby="${swap ? "swap-title" : "dialog-title"}"></dialog>`,
     );
     for (const id of openDetails)
       el<HTMLDetailsElement>(id) && (el<HTMLDetailsElement>(id)!.open = true);
@@ -275,6 +277,7 @@ export function mountFitting(
             ? built
             : ((active?.spec ?? r?.spec)?.resolvedShip.instances ?? built)
         ).find((i) => i.id === b.dataset.instance);
+        instanceReturnId = b.id;
         render();
       };
     for (const b of root.querySelectorAll<HTMLButtonElement>("[data-group]"))
@@ -543,7 +546,7 @@ export function mountFitting(
           : swap
           ? swapDialog(w, swap)
           : instance
-            ? instanceDetails(instance, r)
+            ? instanceDetails(instance, r, r?.spec.process ?? nominalProcess(w))
             : '<div class="dialog-header"><h2 id="dialog-title">Отменить активный тест?</h2></div><p>Сохранится измеренный частичный интервал; завершённого цикла это не подтверждает.</p><div class="dialog-footer"><button id="cancel-no">Продолжить тест</button><button id="cancel-yes" class="primary">Отменить тест</button></div>',
       );
       if (!dialog.open) dialog.showModal();
