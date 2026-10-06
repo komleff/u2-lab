@@ -1,3 +1,15 @@
+# Operator family-filter fix каталога, 2026-10-07
+
+ulab-p2w/MC03, один существующий Developer, PR13/fix/catalog-dialog-focus от2ede529.
+WHAT0.5: семейства и All только category+families выбранного слота; search/size
+не сужают список семейств, refusals внутри семейства остаются. Неполный fit
+можно чинить, stale family→all; initial Close/intentional search сохраняются.
+HOW0.1/PLAN_READY прежний; no physics/catalog/schema. Developer RED/GREEN+
+normalguard → experimentalLAN4196/Pages с сохранением архивов/старого4189.
+Независимый budget5/5/final+1 pending прежний; не запускать новых verifier.
+Последний самоаудит выполнен, counter0/3; эта fix-итерация затем1/3.
+Прежняя поставка2ede529 live до новой проверенной сборки; history ниже.
+
 # Operator focus-fix каталога, 2026-10-07
 
 ulab-p2w/MC03, existing Developer fix-turn; fix/catalog-dialog-focus от4339eca2.

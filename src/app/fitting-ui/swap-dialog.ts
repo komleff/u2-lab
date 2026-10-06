@@ -29,7 +29,12 @@ export function swapDialog(w: FittingWorkspace, s: SwapState) {
     h = fitHull(f, w.catalog)!,
     slot = h.slots.find((x) => x.id === s.slotId)!,
     installed = f.instances[f.assignments[s.slotId]]?.itemId;
-  const items = Object.values({ ...w.catalog.items, ...f.localVariants });
+  const items = Object.values({ ...w.catalog.items, ...f.localVariants }).filter(
+    (m) => m.category === slot.category && slot.families.includes(m.family),
+  );
+  const families = [...new Set(items.map((m) => m.family))];
+  if (s.family !== "all" && !families.some((family) => family === s.family))
+    s.family = "all";
   const process = nominalProcess(w);
   const [field, direction] = s.sort.split("-");
   const metric = (m: (typeof items)[number]) =>
@@ -105,7 +110,7 @@ export function swapDialog(w: FittingWorkspace, s: SwapState) {
       ? nominalFit(candidate, w.catalog, process)
       : undefined;
   const all = slot.category === "payload";
-  return `<div class="dialog-header"><h2 id="swap-title">${installed ? "Заменить" : "Установить"}: ${esc(slot.id)} · слот ${slot.size}</h2><button id="swap-close" autofocus aria-label="Закрыть окно замены">✕</button></div><div class="dialog-body"><div class="filters"><label>Поиск изделий<input id="swap-search" type="search" value="${esc(s.query)}" placeholder="Название изделия"></label><label>Семейство<select id="swap-family"><option value="all">Все</option>${[...new Set(items.map((m) => m.family))].map((x) => `<option ${s.family === x ? "selected" : ""}>${x}</option>`).join("")}</select></label><label>Калибр<select id="swap-size"><option value="all">Все</option>${["XS", "S", "M", "L", "XL", "XXL"].map((x) => `<option ${s.size === x ? "selected" : ""}>${x}</option>`).join("")}</select></label><label>Сортировка<select id="swap-sort">${[
+  return `<div class="dialog-header"><h2 id="swap-title">${installed ? "Заменить" : "Установить"}: ${esc(slot.id)} · слот ${slot.size}</h2><button id="swap-close" autofocus aria-label="Закрыть окно замены">✕</button></div><div class="dialog-body"><div class="filters"><label>Поиск изделий<input id="swap-search" type="search" value="${esc(s.query)}" placeholder="Название изделия"></label><label>Семейство<select id="swap-family"><option value="all">Все</option>${families.map((x) => `<option ${s.family === x ? "selected" : ""}>${x}</option>`).join("")}</select></label><label>Калибр<select id="swap-size"><option value="all">Все</option>${["XS", "S", "M", "L", "XL", "XXL"].map((x) => `<option ${s.size === x ? "selected" : ""}>${x}</option>`).join("")}</select></label><label>Сортировка<select id="swap-sort">${[
     ["name", "Название ▲"],
     ["name-desc", "Название ▼"],
     ["mass-asc", "Масса ▲"],

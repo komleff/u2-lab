@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import { loadCandidateCatalog } from '../../src/fitting/catalog';
 
 test('MC03 catalog opens without editable focus and intentional search preserves mounting and return focus', async ({ browser }) => {
   for (const width of [1440, 1024, 390]) {
@@ -79,4 +80,84 @@ test('MC03 catalog opens without editable focus and intentional search preserves
       expect(errors).toEqual([]);
     } finally { await context.close(); }
   }
+});
+
+test('MC03 tablet catalog families follow the slot, retain real refusals and repair incomplete mounting', async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 1024, height: 1000 }, isMobile: true, hasTouch: true, acceptDownloads: true });
+  try {
+    const p = await context.newPage(), errors: string[] = [];
+    p.on('pageerror', e => errors.push(e.message));
+    const act = async (selector: string) => { const x = p.locator(selector); await x.scrollIntoViewIfNeeded(); await x.tap(); };
+    const save = async () => { await act('#fit-save'); const download = p.waitForEvent('download'); await act('#fit-save-confirm'); return readFile((await (await download).path())!); };
+    await p.goto('/');
+    await p.locator('#fit-preset').selectOption('pony:2');
+    const before = await save(), original = JSON.parse(before.toString()), revision = await p.locator('#fit-next-revision').textContent();
+    const items = { ...loadCandidateCatalog().items, ...original.localVariants };
+    const familyOptions = () => p.locator('#swap-family option').evaluateAll(ns => ns.map(n => (n as HTMLOptionElement).value).sort());
+    const groups = [
+      ['payload-1', 'payload', ['cargo', 'mining']],
+      ['power-3', 'power', ['battery', 'generator', 'solar', 'tank']],
+      ['signature-1', 'signature', ['buffer', 'h2', 'radiator', 'thermoinverter']],
+      ['march', 'propulsion', ['engine']],
+      ['strafe', 'propulsion', ['engine']],
+    ] as const;
+    for (const [slot, category, families] of groups) {
+      await act('#slot-' + slot);
+      await expect(p.locator('#swap-close')).toBeFocused();
+      expect.soft(await familyOptions(), slot).toEqual(['all', ...families].sort());
+      const rendered = await p.locator('[data-candidate]').evaluateAll(ns => ns.map(n => (n as HTMLElement).dataset.candidate!));
+      const outsideSlot = rendered.filter(id => items[id].category !== category || !(families as readonly string[]).includes(items[id].family));
+      expect.soft(outsideSlot, `${slot}: catalog contains only slot categories/families`).toEqual([]);
+      if (slot === 'payload-1') await expect(p.locator('[data-candidate="pony-removable-laser-S-G0"]')).toBeVisible();
+      if (slot === 'power-3') await expect(p.locator('[data-candidate="pony-generator"]')).toBeVisible();
+      if (slot === 'strafe') {
+        await expect(p.locator('[data-candidate="engine-diesel-S-single"]')).toContainText('Нужен парный модуль');
+        await expect(p.locator('[data-candidate="engine-diesel-S-pair"]')).not.toHaveClass(/incompatible/);
+      }
+      await p.locator('#swap-family').selectOption(families[0]);
+      await p.locator('#swap-size').selectOption('M');
+      expect.soft(await familyOptions(), `${slot}: family/size selection`).toEqual(['all', ...families].sort());
+      await act('#swap-search'); await p.keyboard.type('НетТакогоИзделия');
+      await expect(p.locator('[data-candidate]')).toHaveCount(0);
+      expect.soft(await familyOptions(), `${slot}: empty search`).toEqual(['all', ...families].sort());
+      await act('#swap-close');
+      await expect(p.locator('#slot-' + slot)).toBeFocused();
+      await expect(p.locator('#fit-next-revision')).toHaveText(revision!);
+      await act('#slot-' + slot);
+      await expect(p.locator('#swap-family')).toHaveValue('all');
+      await expect(p.locator('#swap-search')).toHaveValue('');
+      await act('#swap-close');
+    }
+    expect(await save()).toEqual(before);
+    await act('#slot-march'); await act('#fit-remove');
+    await expect(p.locator('#fit-start')).toBeDisabled();
+    await expect(p.locator('#fit-readiness')).toContainText('march');
+    await act('#slot-march');
+    expect.soft(await familyOptions(), 'incomplete mandatory slot').toEqual(['all', 'engine']);
+    await act('[data-candidate="engine-hydrogen-S-single"]');
+    await act('#fit-preview > summary');
+    await expect(p.locator('#fit-preview')).toContainText('D допускает');
+    await expect(p.locator('#fit-apply')).toBeDisabled();
+    await act('[data-candidate="pony-engine-march"]');
+    await expect(p.locator('#fit-apply')).toBeEnabled();
+    await act('#fit-apply');
+    await expect(p.locator('#slot-march')).toBeFocused();
+    const restored = structuredClone(original); restored.fitRevision += 2;
+    expect(JSON.parse((await save()).toString())).toEqual(restored);
+    await act('#slot-payload-1');
+    await p.locator('#swap-family').selectOption('all');
+    await act('[data-candidate="cargo-bulk-M"]');
+    await expect(p.locator('#fit-apply')).toBeDisabled();
+    await expect(p.locator('[data-candidate="cargo-bulk-M"]')).toContainText('Калибр изделия превышает слот');
+    await act('[data-candidate="cargo-bulk-S"]');
+    await p.locator('#swap-batch').check();
+    await act('#fit-apply');
+    restored.fitRevision++;
+    for (const slot of ['payload-1', 'payload-2']) {
+      restored.assignments[slot] = 'fit:' + slot;
+      restored.instances['fit:' + slot] = { id: 'fit:' + slot, itemId: 'cargo-bulk-S', enabled: true };
+    }
+    expect(JSON.parse((await save()).toString())).toEqual(restored);
+    expect(errors).toEqual([]);
+  } finally { await context.close(); }
 });
