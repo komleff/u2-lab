@@ -1,23 +1,22 @@
 # Прогресс — 2026-10-07
 
-U2 DraftPR842/775ea принятую горячую/холодную кривую и wear синхронизирует в
-каноне; игра Unity/server не менялась. Lab DraftPR10/runtimea6 добавляет
-причинные sparse diagnostics, первый ограничитель, сообщения о торможении,
-экспорт событий и обе температурные полосы. Рабочая QA-версия LIVE4196,
-старый station86 LIVE4189 сохранён. Источники и отчёты — docs/INDEX.md.
+PUBLIC https://komleff.github.io/u2-lab/?v=thermal-a6c7430: v2.2/UI4/catalog0.2.3/
+thermal diagnostics0.1. Exact17assets и настоящий WorkerStart/advance/Pause/
+bands/errors0 PASS. Первая Lab /legacy-v1/4files exact/Start/Pause/errors0 PASS.
+LAN4196/latest и4189/previous сохранены; source a6, gh-pages b2842bc.
 
-PlanReview READY; исходные QA FAIL сохранены. QA4 закрывает TD05-B1:
-18styled cases и2nativeLANstarts PASS; пять других TD перенесены по
-неизменности кода. CodeReview5 CHANGES_REQUESTED: CR-TD-B1 lost Legacy transition. Fix a6 observer/tests
-детерминированно проверен, независимое закрытие PENDING; budget5/5.
-Оператору задан вопрос о двух дополнительных адресованных проверках.
-489unit/49browser+1SKIP/26cloud Developer normalguard PASS; PM finalcommit
-требует свежий обычный guard. Численное ядро/TTX/H₂governor неизменны,
-wear simulation NOT RUN. Главный rollback — прежние immutable builds.
+PR10 thermal diagnostics: QA6 PASS/CR-TD-B1 CLOSED, Review7 APPROVED/0B0A.
+5affectedriskrows/26API+7native assertions, один LegacyWorker; reviewer2bounded
+controls. Старые FAIL/CHANGES_REQUESTED сохранены. TD05 classQA4 и неизменные
+AC/численные доказательства перенесены, без новой полной кампании.
+Normalguard489unit/49browser+1SKIP/26cloud PASS; финальный metadata commit
+проходит обычный guard, currentHEAD/result — FINAL ACCEPTANCE в PR10.
 
-Самоаудит PM_ERR/DOC_PR после3циклов выполнен/reset0; Review5 завершён/counter1/3.
-Beads canonical ulab-6ty через root API; закрытие только после текущей приёмки.
-Все base/public/native/main/operator merge остаются отдельно; PRDraft.
+U2 canon DraftPR842/775ea: единая thermal curve+wear; Unity/server не менялись.
+H₂governor/численный wear OUT. Stacked bases/bootstrap/native/main/merge OPEN,
+обеPR Draft; operator merge отдельно. Beads ulab-6ty/rootprimary solewriter.
+Оператор дал +5, использовано7/10, reserve3; два самоаудита PM_ERR1.3/DOC_PR,
+второй при3/3, counter0/3. Новых verifier launches без namedFAIL не нужно.
 
-Предыдущая v2.2: physical missions/M/HY/station charge, missionB1/B2 и
-stationCR-ST-B1 локально закрыты; PR9Draft, previous reports immutable.
+Прежняя v2.2: physical missions/M/HY/station service, PR9Draft; миссионные и
+станционные blockers локально закрыты. Полная неизменная история — docs/INDEX.md.

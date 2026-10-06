@@ -4,19 +4,22 @@
 
 ## Текущий кандидат
 
-Ship Fitting **0.2.0** реализован в рабочей ветке `feat/ship-fitting-v0.2`,
-[Draft PR №4](https://github.com/komleff/u2-lab/pull/4). Шесть профилей корпуса и40 изделий,
-совместимость слотов, сухой material bill, общие конечные запасы, добыча и сравнение1/2/3
-лазеров. Корневой экран — оснастка; численная модель v1 доступна по `?mode=legacy`.
-[Руководство](docs/user/ship-fitting.md), [контракт SF01–20](docs/verification/ship-fitting-v0.2-contract.md),
-[матрица опытов](docs/experiments/ship-fitting-matrix.json) и [чувствительность](docs/experiments/ship-fitting-sensitivity.json).
+Ship Fitting **v2.2**, интерфейс v4 и thermal diagnostics v0.1 доступны на
+[GitHub Pages](https://komleff.github.io/u2-lab/?v=thermal-a6c7430).
+Каталог0.2.3 содержит50 изделий, включая M-модули и гибридные комплектации.
+Добывающий цикл включает порожний и загруженный полёты, добычу до заполнения трюма,
+разгрузку и выбранное обслуживание станции. Поддерживаются варианты, графики,
+анализ ограничений и JSON/CSV. [Текущие контракты и отчёты](docs/INDEX.md).
 
-Это Developer candidate для независимой QA и Code Review. Runtime acceptance и merge
-readiness не заявлены. Public Pages сохраняет прежнюю сборку; deployment не выполнен.
-Физическое второе устройство, native hooks и полная bootstrap/operator acceptance — NOT RUN.
+Публичная сборка — экспериментальный стенд из [Draft PR №10](https://github.com/komleff/u2-lab/pull/10),
+runtime a6c7430; публикация не означает merge исходных веток. Публичные файлы,
+запуск/рост времени/пауза и обе температурные полосы проверены; ошибок браузера нет.
+Независимые affected QA и scoped Review подтвердили закрытие Legacy thermal protection/restart.
+Физическое второе устройство на этой сборке, native hooks и полная bootstrap/operator acceptance — NOT RUN.
 Числа с происхождением lab hypothesis не становятся каноническими ТТХ U2.
 
-Legacy Power & Heat0.1.1 сохраняет модель `radiative-host-ledger-0.1` и exact replay
+Самая первая [Power & Heat Lab](https://komleff.github.io/u2-lab/legacy-v1/) сохранена отдельно.
+Обновлённый Legacy доступен по `?mode=legacy`. Legacy Power & Heat0.1.1 сохраняет модель `radiative-host-ledger-0.1` и exact replay
 старых экспортов, включая внешний численный snapshot. Его ordinary LAN HTTP исправление
 на `crypto.getRandomValues` сохранено. [Прежний отчёт](docs/handoffs/2026-10-05-mac-lan-http.md)
 относится к0.1.1, а не к новой оснастке.
@@ -46,7 +49,7 @@ U2 остаётся источником утверждённых правил �
 Русскоязычный локальный browser lab: экспериментальные S/M, SI модель, Worker, рейсы, A/B, JSON/CSV.
 
 ```bash
-git clone --branch feat/ship-fitting-v0.2 https://github.com/komleff/u2-lab.git
+git clone --branch feat/thermal-diagnostics https://github.com/komleff/u2-lab.git
 cd u2-lab
 npm ci
 npm run build
