@@ -69,3 +69,43 @@ it('CC04 real alternating requested propulsion retains one ongoing cause per ins
  for(let j=0;j<100;j++){const requests:Record<string,number>=j%2?{march:.01}:{retro:.01},p=stepV2(s,state,.0001,requests);events.push(...observer.observeV2(s,state,p,requests,'flight'));state=p.state;}
  expect(events.filter(e=>e.kind==='diagnostic-thrust-thermal')).toHaveLength(2);expect(events.filter(e=>e.kind==='diagnostic-wear')).toHaveLength(1);expect(events.filter(e=>e.kind==='cooling-control')).toHaveLength(1);
 });
+
+function controlInterval(family:'h2'|'radiator',T:number,background:number){
+ const f=getPresetFit('pony:1');
+ for(const [slot,itemId] of Object.entries({'signature-1':family==='h2'?'h2-cooler-S':'radiator-active-S',...(family==='h2'?{'power-3':'tank-hydrogen-S'}:{})})){
+  const id='fit:'+slot;f.assignments[slot]=id;f.instances[id]={id,itemId,enabled:true};
+ }
+ const made=makeMiningRun(f,loadCandidateCatalog(),{temperatureK:T,effectiveBackgroundK:background,durationSeconds:1,stepSeconds:.5});if(!made.ok)throw Error(json(made));return made.value;
+}
+function intervalEvent(s:ReturnType<typeof controlInterval>,prefixes:string[]){
+ const checked=validateRunSpecV2(s);expect(checked.ok,checked.ok?'':json(checked.errors)).toBe(true);const previous=initialStateV2(s),step=stepV2(s,previous,.5,{}),before=json(step);
+ for(const prefix of prefixes)expect(step.telemetry[prefix+':fit:signature-1']).toBeGreaterThan(0);
+ const events=new DiagnosticObserver().observeV2(s,previous,step,{},'crossing'),event=events.find(e=>e.kind==='cooling-control'&&e.message.includes('[fit:signature-1]'))!;
+ expect(json(step)).toBe(before);expect(event.timeSeconds).toBe(step.state.timeSeconds);expect(event.message).toContain(`интервал ${previous.timeSeconds}–${step.state.timeSeconds} с`);
+ expect(event.message).toContain(`T ${previous.temperatureK.toFixed(3)} → ${step.state.temperatureK.toFixed(3)} K`);
+ for(const prefix of prefixes)expect(event.message).toContain((100*step.telemetry[prefix+':fit:signature-1']).toFixed(1)+'%');
+ return {previous,step,event,events};
+}
+it('CR-CC-B1 Active heating crossing reports accepted closed/requested fractions, not OPEN at its cold start',()=>{
+ const s=controlInterval('radiator',399.9,400);s.environment.directHeat=[{sourceId:'test-positive-heat',powerW:s.resolvedShip.heatCapacityJK*.4}];
+ const {previous,step,event}=intervalEvent(s,['coolingClosed','coolingRequested']);expect(previous.temperatureK).toBeLessThan(400);expect(step.state.temperatureK).toBeGreaterThan(400);expect(event.message).toContain('закрыт');expect(event.message).toContain('запрошено');expect(event.message).not.toContain('открыт');
+});
+it('CR-CC-B1 Active cooling crossing retains both real requested and closed portions',()=>{
+ const f=getPresetFit('civilian-M:1');for(const [slot,itemId] of Object.entries({'signature-1':'radiator-active-S','signature-2':'thermoinverter-M'})){const id='fit:'+slot;f.assignments[slot]=id;f.instances[id]={id,itemId,enabled:true};}
+ const made=makeMiningRun(f,loadCandidateCatalog(),{temperatureK:400.001,effectiveBackgroundK:400,durationSeconds:1,stepSeconds:.5});if(!made.ok)throw Error(json(made));
+ const {step,event}=intervalEvent(made.value,['coolingRequested','coolingClosed']);expect(step.state.temperatureK).toBeLessThan(400);expect(event.message).toContain('запрошено');expect(event.message).toContain('закрыт');
+});
+it.each(['warming','cooling'])('CR-CC-B1 H2 %s across floor reports floor and no-demand portions honestly',direction=>{
+ const s=controlInterval('h2',direction==='warming'?299.9:300.1,100);
+ if(direction==='warming')s.environment.directHeat=[{sourceId:'test-positive-heat',powerW:s.resolvedShip.heatCapacityJK*.4}];
+ else {s.environment.law='linear-fog-experiment';s.environment.linearWK=s.resolvedShip.heatCapacityJK*.01;}
+ const {step,event}=intervalEvent(s,['coolingOffFloor','coolingOffDemand']);expect(direction==='warming'?step.state.temperatureK>300:step.state.temperatureK<300).toBe(true);expect(event.message).toContain('защита от переохлаждения300 K');expect(event.message).toContain('не требуется');
+});
+it('CR-CC-B1 H2 crossing workHigh reports both unneeded and requested thermal demand',()=>{
+ const s=controlInterval('h2',499.9,100);s.environment.directHeat=[{sourceId:'test-positive-heat',powerW:s.resolvedShip.heatCapacityJK*.4}];
+ const {event}=intervalEvent(s,['coolingOffDemand','coolingRequested']);expect(event.message).toContain('не требуется');expect(event.message).toContain('запрошено');
+});
+it('CR-CC-B1 a uniform Active request with zero actual pump never asserts deployment; real shortage remains',()=>{
+ const s=controlInterval('radiator',450,100);s.initial.chargeJ=0;s.initial.fuelKg.diesel=0;
+ const {step,event,events}=intervalEvent(s,['coolingRequested']);expect(step.telemetry['coolingAuxW:fit:signature-1']).toBe(0);expect(event.message).toContain('запрошено');expect(event.message).not.toContain('открыт');expect(events.some(e=>e.kind.includes('power')&&e.message.includes('[fit:signature-1]'))).toBe(true);
+});

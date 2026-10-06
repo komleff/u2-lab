@@ -111,14 +111,21 @@ export class DiagnosticObserver {
    } else if(['h2','thermoinverter','radiator'].includes(i.item.family)&&(i.item.family!=='radiator'||m.auxW>0)) {
     const controlled=i.item.family==='h2'||i.item.family==='radiator';
     const requested=!controlled||(t['coolingRequested:'+i.id]??0)>0;
-    const mode=requested?'requested':(t['coolingOffFloor:'+i.id]??0)>0?'floor':(t['coolingClosed:'+i.id]??0)>0?'closed':'unneeded';
+    const modes=(i.item.family==='h2'
+     ? [{mode:'requested',share:t['coolingRequested:'+i.id]??0},{mode:'floor',share:t['coolingOffFloor:'+i.id]??0},{mode:'unneeded',share:t['coolingOffDemand:'+i.id]??0}]
+     : [{mode:'requested',share:t['coolingRequested:'+i.id]??0},{mode:'closed',share:t['coolingClosed:'+i.id]??0}]).filter(x=>x.share>0);
+    const mode=modes.map(x=>x.mode).join('|');
     let episode=this.coolingModes.get(i.id);
     if(controlled&&episode?.phase!==phase){episode={phase,seen:new Set()};this.coolingModes.set(i.id,episode);}
-    // Один reason в фазе образует episode; переключение импульсов тяги
-    // не повторяет тот же текст каждый dt. Состояние остаётся в telemetry.
-    if(controlled&&!episode!.seen.has(mode)){
-     const text=mode==='floor'?'H₂ охлаждение OFF: защита от переохлаждения300 K':mode==='closed'?'Активный радиатор закрыт: фон не холоднее корпуса':mode==='unneeded'?'H₂ охлаждение не требуется: рабочий диапазон / обычные тепловые пути':i.item.family==='h2'?'H₂ охлаждение запрошено по тепловой потребности':'Активный радиатор открыт: полезный температурный градиент';
-     controlEvents.push({timeSeconds:previous.timeSeconds,kind:'cooling-control',message:`${phase} · ${text} [${i.id}]; T ${n(previous.temperatureK)} K, фон ${n(s.environment.effectiveBackgroundK)} K`});
+    // Флаги усреднены по принятому интервалу, не описывают точный момент
+    // переключения или фактическую выдачу. Ключ набора режимов ограничен;
+    // изменение долей внутри того же набора не создаёт сообщения каждый dt.
+    if(controlled&&modes.length&&!episode!.seen.has(mode)){
+     const text=modes.map(({mode,share})=>{
+      const label=mode==='floor'?'H₂ охлаждение OFF: защита от переохлаждения300 K':mode==='closed'?'Активный радиатор закрыт: фон не холоднее корпуса':mode==='unneeded'?'H₂ охлаждение не требуется: рабочий диапазон / обычные тепловые пути':i.item.family==='h2'?'H₂ охлаждение запрошено по тепловой потребности':'Охлаждение активным радиатором запрошено: полезный температурный градиент';
+      const pct=100*share;return `${label} (${pct<.05?'<0.1':pct.toFixed(1)}% времени)`;
+     }).join(' · ');
+     controlEvents.push({timeSeconds:step.state.timeSeconds,kind:'cooling-control',message:`${phase} · Принятый интервал ${previous.timeSeconds}–${step.state.timeSeconds} с: ${text} [${i.id}]; T ${n(previous.temperatureK)} → ${n(step.state.temperatureK)} K, фон ${n(s.environment.effectiveBackgroundK)} K; фактическое питание охлаждения в среднем ${n(t['coolingAuxW:'+i.id]??0)} W`});
      episode!.seen.add(mode);
     }
     const working=thermal>0&&(i.item.family!=='h2'||(previous.fuelKg.hydrogen??0)>1e-10&&!previous.gates['tank:hydrogen']);
