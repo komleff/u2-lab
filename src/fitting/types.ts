@@ -131,7 +131,7 @@ export type FitValidation = {
   valid: boolean;
 };
 export type CandidateCatalog = {
-  version: "ship-fitting-0.2.0";
+  version: "ship-fitting-0.2.0" | "ship-fitting-0.2.1";
   hulls: HullProfile[];
   items: Record<string, ModuleItem>;
 };

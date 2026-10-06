@@ -273,7 +273,7 @@ test("preset slot filtered catalog delta swap run comparison at390px", async ({
   await page.locator('[data-slot="payload-3"]').last().click();
   await page.locator('[data-candidate="cargo-bulk-S"]').click();
   await expect(page.locator("#fit-preview")).toContainText("после");
-  await expect(page.locator("#fit-preview")).toContainText("-400");
+  await expect(page.locator("#fit-preview")).toContainText(/-10\s*200/);
   await page.locator("#fit-apply").click();
   await expect(page.locator("#fit-slots")).toContainText("навалочный");
   await page.getByRole("link", { name: "Условия", exact: true }).click();

@@ -1,0 +1,787 @@
+{
+  "engine-diesel-industrial-M-march": {
+    "id": "engine-diesel-industrial-M-march",
+    "label": "Дизельный движитель Industrial M/G2 · марш single",
+    "family": "engine",
+    "category": "propulsion",
+    "size": "M",
+    "formFactor": "single",
+    "generation": 2,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 82352.94117647059,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01; docs/product/ship-fitting-catalog-0.2.1.md",
+          "unit": "kg; J/(kg·K)",
+          "note": "Dry mass derived от force-share; material recipe/cp470 — laboratory hypothesis, не production BOM.",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "forceN": 16228800,
+      "alpha": 4.5199999999999997e-07,
+      "efficiency": 0.4,
+      "pathEfficiency": 0.95,
+      "hostFraction": 0.7,
+      "powerW": 0
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.forceN": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/data/ship_module_ttx_master_v0.1/propulsion_force_mass_input.csv:M/Industrial; U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8",
+        "unit": "N",
+        "note": "Exact compact input; без повторного Class/G multiplier.",
+        "derivation": "16228800 × 1"
+      },
+      "numerics.alpha": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_power_components_v0.1.md§2.2/2.3; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "kg/(N·s)",
+        "range": [
+          3.616e-07,
+          5.65e-07
+        ],
+        "derivation": "0.565e-6 × 0.32 / 0.40",
+        "note": "Расход связан с actual КПД; не независимый бонус класса."
+      },
+      "numerics.efficiency": {
+        "kind": "experimental",
+        "sourceRef": "lab:industrial-diesel-M-efficiency-01; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "1",
+        "range": [
+          0.32,
+          0.5
+        ],
+        "note": "Лабораторный кандидат, точный Industrial efficiency owner не замкнут."
+      },
+      "numerics.pathEfficiency": {
+        "kind": "experimental",
+        "sourceRef": "lab:industrial-diesel-M-path-host-01; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "1",
+        "note": "Прежний явный lab default, не Industrial production proof."
+      },
+      "numerics.hostFraction": {
+        "kind": "experimental",
+        "sourceRef": "lab:industrial-diesel-M-path-host-01; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "1",
+        "note": "Прежний явный lab default, не Industrial production proof."
+      },
+      "numerics.powerW": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/brand/u2_engine_thermal_doctrine.md§3",
+        "unit": "W",
+        "derivation": "0: direct diesel propulsion, не electric bus load",
+        "note": "Host/exhaust и chemical input вычисляет существующий ledger."
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/data/ship_module_ttx_master_v0.1/propulsion_force_mass_input.csv:M/Industrial; U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8",
+        "unit": "kg",
+        "derivation": "160000 × 16228800 / (16228800 + 6955200 + 4173120 + 4173120)",
+        "note": "Force-share пакета четырёх установленных слотов; pair установлен дважды. Материал/cp — отдельные lab candidates, не Industrial BOM."
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      }
+    },
+    "class": "Industrial",
+    "species": "diesel",
+    "propulsionType": "diesel"
+  },
+  "engine-diesel-industrial-M-retro": {
+    "id": "engine-diesel-industrial-M-retro",
+    "label": "Дизельный движитель Industrial M/G2 · ретро single",
+    "family": "engine",
+    "category": "propulsion",
+    "size": "M",
+    "formFactor": "single",
+    "generation": 2,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 35294.117647058825,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01; docs/product/ship-fitting-catalog-0.2.1.md",
+          "unit": "kg; J/(kg·K)",
+          "note": "Dry mass derived от force-share; material recipe/cp470 — laboratory hypothesis, не production BOM.",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "forceN": 6955200,
+      "alpha": 4.5199999999999997e-07,
+      "efficiency": 0.4,
+      "pathEfficiency": 0.95,
+      "hostFraction": 0.7,
+      "powerW": 0
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.forceN": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/data/ship_module_ttx_master_v0.1/propulsion_force_mass_input.csv:M/Industrial; U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8",
+        "unit": "N",
+        "note": "Ретро ×3/7; пара ×9/35. Turn=Strafe — явная лабораторная гипотеза, не yaw curve.",
+        "derivation": "16228800 × 3/7"
+      },
+      "numerics.alpha": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_power_components_v0.1.md§2.2/2.3; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "kg/(N·s)",
+        "range": [
+          3.616e-07,
+          5.65e-07
+        ],
+        "derivation": "0.565e-6 × 0.32 / 0.40",
+        "note": "Расход связан с actual КПД; не независимый бонус класса."
+      },
+      "numerics.efficiency": {
+        "kind": "experimental",
+        "sourceRef": "lab:industrial-diesel-M-efficiency-01; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "1",
+        "range": [
+          0.32,
+          0.5
+        ],
+        "note": "Лабораторный кандидат, точный Industrial efficiency owner не замкнут."
+      },
+      "numerics.pathEfficiency": {
+        "kind": "experimental",
+        "sourceRef": "lab:industrial-diesel-M-path-host-01; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "1",
+        "note": "Прежний явный lab default, не Industrial production proof."
+      },
+      "numerics.hostFraction": {
+        "kind": "experimental",
+        "sourceRef": "lab:industrial-diesel-M-path-host-01; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "1",
+        "note": "Прежний явный lab default, не Industrial production proof."
+      },
+      "numerics.powerW": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/brand/u2_engine_thermal_doctrine.md§3",
+        "unit": "W",
+        "derivation": "0: direct diesel propulsion, не electric bus load",
+        "note": "Host/exhaust и chemical input вычисляет существующий ledger."
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/data/ship_module_ttx_master_v0.1/propulsion_force_mass_input.csv:M/Industrial; U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8",
+        "unit": "kg",
+        "derivation": "160000 × 6955200 / (16228800 + 6955200 + 4173120 + 4173120)",
+        "note": "Force-share пакета четырёх установленных слотов; pair установлен дважды. Материал/cp — отдельные lab candidates, не Industrial BOM."
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      }
+    },
+    "class": "Industrial",
+    "species": "diesel",
+    "propulsionType": "diesel"
+  },
+  "engine-diesel-industrial-M-pair": {
+    "id": "engine-diesel-industrial-M-pair",
+    "label": "Дизельный движитель Industrial M/G2 · пара Strafe/Turn",
+    "family": "engine",
+    "category": "propulsion",
+    "size": "M",
+    "formFactor": "pair",
+    "generation": 2,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 21176.470588235294,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01; docs/product/ship-fitting-catalog-0.2.1.md",
+          "unit": "kg; J/(kg·K)",
+          "note": "Dry mass derived от force-share; material recipe/cp470 — laboratory hypothesis, не production BOM.",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "forceN": 4173120,
+      "alpha": 4.5199999999999997e-07,
+      "efficiency": 0.4,
+      "pathEfficiency": 0.95,
+      "hostFraction": 0.7,
+      "powerW": 0
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.forceN": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/data/ship_module_ttx_master_v0.1/propulsion_force_mass_input.csv:M/Industrial; U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8",
+        "unit": "N",
+        "note": "Ретро ×3/7; пара ×9/35. Turn=Strafe — явная лабораторная гипотеза, не yaw curve.",
+        "derivation": "16228800 × 9/35"
+      },
+      "numerics.alpha": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_power_components_v0.1.md§2.2/2.3; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "kg/(N·s)",
+        "range": [
+          3.616e-07,
+          5.65e-07
+        ],
+        "derivation": "0.565e-6 × 0.32 / 0.40",
+        "note": "Расход связан с actual КПД; не независимый бонус класса."
+      },
+      "numerics.efficiency": {
+        "kind": "experimental",
+        "sourceRef": "lab:industrial-diesel-M-efficiency-01; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "1",
+        "range": [
+          0.32,
+          0.5
+        ],
+        "note": "Лабораторный кандидат, точный Industrial efficiency owner не замкнут."
+      },
+      "numerics.pathEfficiency": {
+        "kind": "experimental",
+        "sourceRef": "lab:industrial-diesel-M-path-host-01; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "1",
+        "note": "Прежний явный lab default, не Industrial production proof."
+      },
+      "numerics.hostFraction": {
+        "kind": "experimental",
+        "sourceRef": "lab:industrial-diesel-M-path-host-01; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "1",
+        "note": "Прежний явный lab default, не Industrial production proof."
+      },
+      "numerics.powerW": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/brand/u2_engine_thermal_doctrine.md§3",
+        "unit": "W",
+        "derivation": "0: direct diesel propulsion, не electric bus load",
+        "note": "Host/exhaust и chemical input вычисляет существующий ledger."
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/data/ship_module_ttx_master_v0.1/propulsion_force_mass_input.csv:M/Industrial; U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8",
+        "unit": "kg",
+        "derivation": "160000 × 4173120 / (16228800 + 6955200 + 4173120 + 4173120)",
+        "note": "Force-share пакета четырёх установленных слотов; pair установлен дважды. Материал/cp — отдельные lab candidates, не Industrial BOM."
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      }
+    },
+    "class": "Industrial",
+    "species": "diesel",
+    "propulsionType": "diesel"
+  },
+  "mining-civil-M": {
+    "id": "mining-civil-M",
+    "label": "Добывающий лазер Civilian M/G1",
+    "family": "mining",
+    "category": "payload",
+    "size": "M",
+    "formFactor": "single",
+    "generation": 1,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 8800,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX/cp470 кандидат; dry mass mining-civil-S ×4, family-specific; не production proof.",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "powerW": 12000000.0,
+      "efficiency": 0.5001
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.powerW": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_laser_energy_productivity_and_recovery_balance_v0.1_draft.md§2/4; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "W",
+        "derivation": "mining-civil-S: 3000000.0 ×4, family-specific size-step",
+        "note": "Явный derived lab candidate; не универсальный scaling других families, без повторного G multiplier."
+      },
+      "numerics.efficiency": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_laser_energy_productivity_and_recovery_balance_v0.1_draft.md§2/4",
+        "unit": "1",
+        "note": "Явный authored reference; нет automatic Class/G multipliers"
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_laser_energy_productivity_and_recovery_balance_v0.1_draft.md§2/4; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "kg",
+        "derivation": "mining-civil-S: 2200.0 ×4, family-specific size-step",
+        "note": "Явный derived lab candidate; не универсальный scaling других families, без повторного G multiplier."
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      }
+    },
+    "class": "Civilian"
+  },
+  "mining-industrial-L": {
+    "id": "mining-industrial-L",
+    "label": "Добывающий лазер Industrial L/G2",
+    "family": "mining",
+    "category": "payload",
+    "size": "L",
+    "formFactor": "single",
+    "generation": 2,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 48000,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX/cp470 кандидат; dry mass mining-industrial-M ×4, family-specific; не production proof.",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "powerW": 54400000.0,
+      "efficiency": 0.5280929999999999
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.powerW": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_laser_energy_productivity_and_recovery_balance_v0.1_draft.md§2/4; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "W",
+        "derivation": "mining-industrial-M: 13600000.0 ×4, family-specific size-step",
+        "note": "Явный derived lab candidate; не универсальный scaling других families, без повторного G multiplier."
+      },
+      "numerics.efficiency": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_laser_energy_productivity_and_recovery_balance_v0.1_draft.md§2/4",
+        "unit": "1",
+        "note": "Явный authored reference; нет automatic Class/G multipliers"
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_laser_energy_productivity_and_recovery_balance_v0.1_draft.md§2/4; docs/product/ship-fitting-catalog-0.2.1.md",
+        "unit": "kg",
+        "derivation": "mining-industrial-M: 12000.0 ×4, family-specific size-step",
+        "note": "Явный derived lab candidate; не универсальный scaling других families, без повторного G multiplier."
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      }
+    },
+    "class": "Industrial"
+  }
+}

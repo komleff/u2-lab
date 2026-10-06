@@ -2,8 +2,8 @@ import { compileFit } from "../../src/fitting/compile";
 import { getPresetFit, loadCandidateCatalog } from "../../src/fitting/catalog";
 import type { RunSpecV2 } from "../../src/model/v2/types";
 export function fixture(id = "industrial-M:3"): RunSpecV2 {
-  const fit = getPresetFit(id),
-    c = loadCandidateCatalog(),
+  const fit = getPresetFit(id, "ship-fitting-0.2.0"),
+    c = loadCandidateCatalog("ship-fitting-0.2.0"),
     r = compileFit(fit, c);
   if (!r.ok) throw Error(JSON.stringify(r.errors));
   const s = r.value;

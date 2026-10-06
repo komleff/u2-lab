@@ -1,3 +1,4 @@
+import { isKnownCatalogVersion } from "../fitting/editions";
 import type { ValidationResult } from "../catalog/schema";
 import type { RunResultV2 } from "../runner/run";
 import { parseExperimentJson } from "./fitting-json";
@@ -16,7 +17,7 @@ export function parseResultJson(text: string): ValidationResult<RunResultV2> {
     if (!object(r)) throw Error("Нужен объект результата");
     const parsed = parseExperimentJson(JSON.stringify(r.spec));
     if (!parsed.ok) return parsed as ValidationResult<RunResultV2>;
-    if (parsed.value.schemaVersion !== "u2-lab/2" || parsed.value.catalogVersion !== "ship-fitting-0.2.0") {
+    if (parsed.value.schemaVersion !== "u2-lab/2" || !isKnownCatalogVersion(parsed.value.catalogVersion)) {
       bad("spec", "Анализ результата поддерживает численную модель v2 и текущий каталог; Legacy открывается отдельно");
       return { ok: false, errors };
     }

@@ -1,3 +1,4 @@
+import { fitItem, isKnownCatalogVersion } from "./editions";
 import type {
   ShipFit,
   CandidateCatalog,
@@ -24,7 +25,7 @@ export function installedInstances(
     ...Object.entries(f.assignments).flatMap(([slotId, id]) => {
       const i = f.instances[id],
         s = h.slots.find((s) => s.id === slotId);
-      const item = i && (f.localVariants[i.itemId] ?? c.items[i.itemId]);
+      const item = i && fitItem(f, c, i.itemId);
       return i && item && s
         ? [
             {
@@ -202,7 +203,8 @@ export function validateFit(f: ShipFit, c: CandidateCatalog): FitValidation {
   if (
     !f ||
     f.schemaVersion !== "u2-ship-fit/1" ||
-    f.catalogVersion !== c.version ||
+    !isKnownCatalogVersion(f.catalogVersion) ||
+    !isKnownCatalogVersion(c.version) ||
     !f.assignments ||
     !f.instances ||
     !f.localVariants ||
@@ -254,7 +256,7 @@ export function validateFit(f: ShipFit, c: CandidateCatalog): FitValidation {
       bad("instances." + id, "INSTANCE", "Неизвестный или неверный экземпляр");
       continue;
     }
-    const m = f.localVariants[i.itemId] ?? c.items[i.itemId];
+    const m = fitItem(f, c, i.itemId);
     if (!m) {
       bad("instances." + id, "ITEM", "Неизвестное изделие");
       continue;

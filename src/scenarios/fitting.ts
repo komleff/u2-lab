@@ -67,7 +67,7 @@ export function makeMiningRun(
   const s: RunSpecV2 = {
     schemaVersion: "u2-lab/2",
     modelVersion: "ship-fitting-ledger-0.2",
-    catalogVersion: c.version,
+    catalogVersion: f.catalogVersion,
     units: "SI",
     approvedBaseline: false,
     resolvedShip: ship,

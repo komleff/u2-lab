@@ -1,6 +1,8 @@
 import { it, expect } from "vitest";
 import { writeFileSync } from "node:fs";
-import { getPresetFit, loadCandidateCatalog } from "../../src/fitting/catalog";
+import { getPresetFit as getPreset, loadCandidateCatalog as loadCatalog } from "../../src/fitting/catalog";
+const loadCandidateCatalog = () => loadCatalog("ship-fitting-0.2.0");
+const getPresetFit = (id: string) => getPreset(id, "ship-fitting-0.2.0");
 import {
   makeMiningRun,
   compareMiningConditions,

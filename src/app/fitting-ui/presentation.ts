@@ -1,3 +1,4 @@
+import { catalogHasItem } from "../../fitting/editions";
 import type {
   ShipFit,
   CandidateCatalog,
@@ -79,6 +80,9 @@ export function replacement(
   batch = false,
 ) {
   const next = structuredClone(f);
+  if (itemId && !next.localVariants[itemId] &&
+      !catalogHasItem(next.catalogVersion, itemId) && catalogHasItem(c.version, itemId))
+    next.catalogVersion = c.version;
   const h = c.hulls.find((x) => x.id === f.hullId)!;
   const targets = batch
     ? h.slots.filter((s) => s.category === "payload")

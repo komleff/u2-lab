@@ -218,5 +218,5 @@ it("D02 nominal projection retains explicit absent thermal demand and enabled/lo
   f.builtinModes = { ...f.builtinModes, [builtin.id]: { enabled: false } };
   const after = nominalFit(f, c, process);
   expect(after.lasers).toBe(2);
-  expect(after.miningScuS).toBeCloseTo(2 * 0.0625125, 10);
+  expect(after.miningScuS).toBeCloseTo(2 * 1e6 * .35 / 24e6, 10);
 });
