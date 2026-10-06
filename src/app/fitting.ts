@@ -70,7 +70,7 @@ export function mountFitting(
     pending = new Map<number, { at: number; type: string }>();
   root.classList.add("fitting-app");
   const el = <T extends HTMLElement = HTMLElement>(id: string) =>
-    root.querySelector<T>("#" + id);
+    root.querySelector<T>("#" + CSS.escape(id));
   const listen = (id: string, fn: () => void) => {
     const x = el(id);
     if (x) x.onclick = fn;
