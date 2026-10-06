@@ -45,7 +45,7 @@ test("CR-B1/B2 failed fit and numerical snapshot imports preserve last valid fit
     [tinyHorizon, "durationSeconds"],
   ] as const;
   await page.goto("/");
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("12");
   await page.locator("#fit-start").click();
   await expect(page.locator("#fit-status")).toContainText("Завершён");
@@ -89,6 +89,7 @@ test("reference retro local variant TTX and provenance are explicit in preview a
   for (const button of ["#fit-save", "#fit-export-run"]) {
     const downloaded = page.waitForEvent("download");
     await page.locator(button).click();
+    if (button === "#fit-save") await page.locator("#fit-save-confirm").click();
     const download = await downloaded,
       path = await download.path();
     if (!path) throw Error("download missing");
@@ -275,7 +276,7 @@ test("preset slot filtered catalog delta swap run comparison at390px", async ({
   await expect(page.locator("#fit-preview")).toContainText("-400");
   await page.locator("#fit-apply").click();
   await expect(page.locator("#fit-slots")).toContainText("навалочный");
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("12");
   await page.locator("#fit-start").click();
   await expect(page.locator("#fit-status")).toContainText("Завершён");
@@ -287,9 +288,9 @@ test("preset slot filtered catalog delta swap run comparison at390px", async ({
   await expect(page.locator("#fit-comparison")).toContainText(
     "Неизменяемый снимок",
   );
-  await page.getByRole("button", { name: "Оснастка", exact: true }).click();
+  await page.getByRole("link", { name: "Оснастка", exact: true }).click();
   await page.locator("#fit-preset").selectOption("industrial-M:1");
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-start").click();
   await expect(page.locator("#fit-status")).toContainText("Завершён");
   await expect(page.locator("#fit-comparison")).toContainText("Одинаковые");
@@ -309,7 +310,7 @@ test("incomplete fit and incompatible preview explain refusal; builtin and F3 so
   await expect(page.locator("#fit-preview")).toContainText("Семейство");
   await expect(page.locator("#fit-apply")).toBeDisabled();
   await page.locator("#fit-remove").click();
-  await expect(page.locator("#fit-main-action")).toBeDisabled();
+  await expect(page.locator("#fit-start")).toBeDisabled();
   await expect(page.locator("#fit-readiness")).toContainText("march");
   await page.locator('[data-slot="power-1"]').last().click();
   await page.keyboard.press("Escape");
@@ -321,14 +322,14 @@ test("edit during run retains running revision and reset rejects late results; z
   page,
 }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("43200");
   await page.locator("#fit-speed").selectOption("1");
   await page.locator("#fit-start").click();
   await page.locator("#fit-pause").click();
   await expect(page.locator("#fit-status")).toContainText("Пауза");
   const revision = await page.locator("#fit-running-revision").textContent();
-  await page.getByRole("button", { name: "Оснастка", exact: true }).click();
+  await page.getByRole("link", { name: "Оснастка", exact: true }).click();
   await page.locator('[data-slot="payload-1"]').last().click();
   await page.locator('[data-candidate="mining-industrial-S"]').click();
   await page.locator("#fit-apply").click();
@@ -337,7 +338,7 @@ test("edit during run retains running revision and reset rejects late results; z
   await page.locator("#fit-reset").click();
   await page.waitForTimeout(100);
   await expect(page.locator("#fit-time")).toContainText("0 с");
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-charge-fraction").fill("0");
   await page.locator("#fit-fuel-fraction").fill("0");
   await page.keyboard.press("Tab");
@@ -352,7 +353,7 @@ test("failed import keeps fit and result; HTML label is literal; unknown catalog
   );
   const { makeMiningRun } = await import("../../src/scenarios/fitting");
   await page.goto("/");
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("12");
   await page.locator("#fit-start").click();
   await expect(page.locator("#fit-status")).toContainText("Завершён");

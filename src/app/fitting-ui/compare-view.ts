@@ -2,6 +2,7 @@ import type { FittingWorkspace, Variant } from "../fitting-workspace";
 import type { RunResultV2 } from "../../runner/run";
 import { compareMiningConditions } from "../../scenarios/fitting";
 import { esc, num } from "./presentation";
+import { measuredIdentity, conditionDifferences } from "./result-context";
 export const compareFields = (r: RunResultV2) => [
   r.metrics.usefulWork,
   r.metrics.scuPerHour,
@@ -29,7 +30,7 @@ export function frozenCompare(w: FittingWorkspace, view: AbView = "both") {
   const check = b ? compareMiningConditions(a.spec, b.spec) : undefined,
     aa = compareFields(a),
     bb = b ? compareFields(b) : undefined;
-  return `<p>Неизменяемый снимок теста A · run ${esc(a.runId)} · ревизия ${a.spec.resolvedShip.fit.fitRevision}. ${b ? (w.isPreviousResult() ? "Предыдущий тест B · " : "Текущий результат B · ") + esc(b.runId) + " · " + (b.status === "complete" ? "завершён" : b.status === "cancelled" ? "отменён · частичный интервал" : "предварительно") + " · " + num(b.metrics.durationSeconds, "с") : "B ещё не запускался"}</p><p class="${check?.comparable ? "success" : "warning"}">${check ? (check.comparable ? "Одинаковые сырьё, среда, фазы, горизонт и начальные запасы" : "Условия отличаются: " + esc(check.differences.join(" · "))) : "Ждёт тест B"}</p><div class="ab-comparison" data-view="${view}"><div class="ab-view-controls segments" role="group" aria-label="Вид сравнения A и B">${[
+  return `<p>Неизменяемый снимок теста A · run ${esc(a.runId)} · ревизия ${a.spec.resolvedShip.fit.fitRevision}.</p><p>${measuredIdentity(a)}</p><p>${b ? measuredIdentity(b) : ""} ${b ? (w.isPreviousResult() ? "Предыдущий тест B · " : "Текущий результат B · ") + esc(b.runId) + " · " + (b.status === "complete" ? "завершён" : b.status === "cancelled" ? "отменён · частичный интервал" : "предварительно") + " · " + num(b.metrics.durationSeconds, "с") : "B ещё не запускался"}</p>${b ? conditionDifferences(a.spec, b.spec) : "<p>Ждёт тест B</p>"}<div class="ab-comparison" data-view="${view}"><div class="ab-view-controls segments" role="group" aria-label="Вид сравнения A и B">${[
     ["both", "Рядом"],
     ["a", "Только A"],
     ["b", "Только B"],
@@ -73,7 +74,7 @@ export function compareView(
   view: AbView = "both",
 ) {
   const variants = sortVariants(w.getVariants(), sort),
-    base = variants.find((v) => v.result)?.result;
+    base = w.getComparisonBase();
   const [metric] = sort.split("-");
   const barValue = (v: Variant) =>
     metric === "k"
@@ -133,8 +134,8 @@ export function compareView(
     "Условия / актуальность",
   ];
   const identity = (v: Variant) =>
-    `<button data-variant="${v.id}">${esc(v.name)}</button> · ревизия ${v.fit.fitRevision}`;
-  return `<section class="ui-panel"><h1>Сравнение вариантов</h1><label>Сортировка<select id="compare-sort">${[
+    `<button data-variant="${v.id}">${esc(v.name)}</button><p>${v.result ? measuredIdentity(v.result) : "Не измерено"}</p><p>Следующий черновик: ${esc(w.catalog.hulls.find(h => h.id === v.fit.hullId)?.label)} · ревизия ${v.fit.fitRevision}</p>`;
+  return `<section class="ui-panel"><h1>Сравнение вариантов</h1><label>База сравнения — сортировка её не меняет<select id="compare-base"><option value="">Выберите измеренный опыт</option>${w.getFrozen() ? `<option value="reference" ${w.getComparisonBaseId() === "reference" ? "selected" : ""}>Эталон опыта A · ${esc(w.getFrozen()!.runId)}</option>` : ""}${w.getVariants().filter(v => v.result).map(v => `<option value="${v.id}" ${w.getComparisonBaseId() === v.id ? "selected" : ""}>Вариант ${esc(v.name)} · ${esc(v.result!.runId)}</option>`).join("")}</select></label><p>База: ${base ? measuredIdentity(base) : "не выбрана"}</p><label>Сортировка<select id="compare-sort">${[
     ["name", "Имя ▲"],
     ["name-desc", "Имя ▼"],
     ["rate-asc", "SCU/ч ▲"],
@@ -150,5 +151,5 @@ export function compareView(
     )
     .join(
       "",
-    )}</select></label><div class="compare-desktop ui-table-scroll" tabindex="0" aria-label="Результаты вариантов"><table><thead><tr><th>Вариант / ревизия</th>${labels.map((label) => `<th>${label}</th>`).join("")}</tr></thead><tbody>${rows.map(({ v, values }) => `<tr data-compare-variant="${v.id}"><th>${identity(v)}</th>${values.map((x) => `<td>${x}</td>`).join("")}</tr>`).join("")}</tbody></table></div><div class="compare-cards">${rows.map(({ v, values }) => `<article data-compare-variant="${v.id}"><h2>${identity(v)}</h2><dl>${labels.map((label, i) => `<div><dt>${label}</dt><dd>${values[i]}</dd></div>`).join("")}</dl>${metric !== "name" && barValue(v) != null ? `<div class="measurement"><span class="bar"><i style="width:${max ? (barValue(v)! / max) * 100 : 0}%"></i></span><small>Относительная величина выбранной метрики · ${metric === "k" ? "K_use" : metric === "diesel" ? "Дизель кг/SCU" : "SCU/ч"}; не рейтинг</small></div>` : ""}</article>`).join("")}</div><p>Общего рейтинга нет. Устаревшие результаты не предсказывают следующую ревизию.</p></section><section class="ui-panel"><h2>Сравнение тестов A / B</h2>${frozenCompare(w, view)}</section>`;
+    )}</select></label><div class="compare-desktop ui-table-scroll" tabindex="0" aria-label="Результаты вариантов"><table><thead><tr><th>Вариант / ревизия</th>${labels.map((label) => `<th>${label}</th>`).join("")}</tr></thead><tbody>${rows.map(({ v, values }) => `<tr data-compare-variant="${v.id}"><th>${identity(v)}</th>${values.map((x) => `<td>${x}</td>`).join("")}</tr>`).join("")}</tbody></table></div><div class="compare-cards">${rows.map(({ v, values }) => `<article data-compare-variant="${v.id}"><div class="variant-identity">${identity(v)}</div><dl>${labels.map((label, i) => `<div><dt>${label}</dt><dd>${values[i]}</dd></div>`).join("")}</dl>${metric !== "name" && barValue(v) != null ? `<div class="measurement"><span class="bar"><i style="width:${max ? (barValue(v)! / max) * 100 : 0}%"></i></span><small>Относительная величина выбранной метрики · ${metric === "k" ? "K_use" : metric === "diesel" ? "Дизель кг/SCU" : "SCU/ч"}; не рейтинг</small></div>` : ""}</article>`).join("")}</div><div class="comparison-conditions">${variants.filter(v => base && v.result).map(v => `<details><summary>Условия варианта ${esc(v.name)} / базы · ${esc(v.result!.runId)}</summary>${conditionDifferences(base!.spec, v.result!.spec)}</details>`).join("")}</div><p>Общего рейтинга нет. Устаревшие результаты не предсказывают следующую ревизию.</p></section><section class="ui-panel"><h2>Эталон опыта A и выбранный результат B</h2><button id="fit-freeze" ${w.getActive() ? (w.getActive()?.status !== "paused" ? "disabled" : "") : !w.getSelected().result ? "disabled" : ""}>${w.getActive()?.status === "paused" ? "Зафиксировать паузу как эталон A" : "Зафиксировать A"}</button><p>Эталон — отдельный снимок опыта, а не имя варианта A. После фиксации на паузе отмените или завершите текущий расчёт перед запуском B.</p><div id="fit-comparison">${frozenCompare(w, view)}</div></section>`;
 }

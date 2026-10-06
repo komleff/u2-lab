@@ -23,19 +23,19 @@ test("UI01/08/09 navigation and variant selection preserve one real Worker test 
     };
   });
   await page.goto("/");
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("3600");
   await page.locator("#fit-speed").selectOption("1");
   await page.locator("#fit-start").click();
   await page.locator("#fit-pause").click();
   await expect(page.locator("#fit-status")).toContainText("Пауза");
   const time = await page.locator("#fit-time").textContent();
-  await page.getByRole("button", { name: "Оснастка", exact: true }).click();
+  await page.getByRole("link", { name: "Оснастка", exact: true }).click();
   await page.getByRole("button", { name: /Вариант B ·/ }).click();
   await expect(page.locator("#fit-active-owner")).toContainText("A");
-  await expect(page.locator("#fit-main-action")).toBeDisabled();
-  await page.getByRole("button", { name: "Сравнение", exact: true }).click();
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await expect(page.locator("#fit-start")).toBeDisabled();
+  await page.getByRole("link", { name: "Сравнение", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await expect(page.locator("#fit-time")).toHaveText(time!);
   expect(await page.evaluate(() => (window as any).starts.length)).toBe(1);
   expect(await page.evaluate(() => (window as any).workers)).toBe(1);
@@ -84,20 +84,20 @@ test("UI16 mobile actions are reachable, groups expose state and page does not o
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await expect(page.locator("#fit-start")).toBeVisible();
 });
 test("UI09/12/14 real pause/step/cancel interval and snapshot A survive reset", async ({
   page,
 }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("3600");
   await page.locator("#fit-speed").selectOption("1");
   await page.locator("#fit-start").click();
   await page.locator("#fit-pause").click();
   await expect(page.locator("#fit-status")).toContainText("Пауза");
-  await expect(page.locator("#fit-duration")).toBeDisabled();
+  await expect(page.locator("#fit-duration")).toBeEnabled();
   const before = await page.locator("#fit-time").textContent();
   await page.locator("#fit-step").click();
   await expect(page.locator("#fit-time")).not.toHaveText(before!);

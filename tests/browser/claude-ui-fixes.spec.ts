@@ -52,7 +52,7 @@ test("D03/D05/D06 mobile Compare cards and honest filters expose accepted contro
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
-  await page.getByRole("button", { name: "Сравнение", exact: true }).click();
+  await page.getByRole("link", { name: "Сравнение", exact: true }).click();
   for (const s of [
     "rate-asc",
     "rate-desc",
@@ -64,7 +64,7 @@ test("D03/D05/D06 mobile Compare cards and honest filters expose accepted contro
     await page.locator("#compare-sort").selectOption(s);
   await expect(page.locator(".compare-cards")).toBeVisible();
   await expect(page.locator(".compare-cards article")).toHaveCount(3);
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await expect(page.locator('[data-event-filter="environment"]')).toBeVisible();
   await expect(page.locator("#event-instance")).toBeDisabled();
   await expect(page.locator("#event-instance-note")).toContainText(
@@ -95,7 +95,7 @@ for (const width of [390, 900])
     const plus = await p.locator("#fit-add-variant").boundingBox();
     expect(plus!.width).toBeGreaterThanOrEqual(44);
     expect(plus!.height).toBeGreaterThanOrEqual(44);
-    await p.getByRole("button", { name: "Power & Heat", exact: true }).tap();
+    await p.getByRole("link", { name: "Условия", exact: true }).tap();
     expect(await p.locator("#fit-speed option").allTextContents()).toEqual([
       "×1",
       "×10",
@@ -127,7 +127,7 @@ test("D07 scheduling speeds leave the numerical snapshot and measured result unc
   page,
 }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("0.05");
   await page.locator("#fit-f3").click();
   const snapshots: any[] = [];
@@ -153,11 +153,11 @@ test("D09 historical laser channel is not relabelled as replacement cargo", asyn
   page,
 }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("20");
   await page.locator("#fit-start").click();
   await expect(page.locator("#fit-status")).toContainText("Завершён");
-  await page.getByRole("button", { name: "Оснастка", exact: true }).click();
+  await page.getByRole("link", { name: "Оснастка", exact: true }).click();
   const card = page.locator(".system-payload .module-card").nth(1);
   await expect(card).toContainText("% номинала");
   await page.locator('[data-slot="payload-1"]').last().click();
@@ -166,9 +166,9 @@ test("D09 historical laser channel is not relabelled as replacement cargo", asyn
   await expect(card).not.toContainText("% номинала");
   await expect(card).toContainText("изменено после теста");
 });
-test("D11 exact Lab 767/768/1279/1280 canvas boundaries", async ({ page }) => {
+test("v4 full-width analysis supersedes the D11 screen canvas at all original boundary widths", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   for (const width of [767, 768, 1279, 1280, 1440]) {
     await page.setViewportSize({ width, height: 1100 });
     const b = await page.evaluate(() => {
@@ -184,18 +184,10 @@ test("D11 exact Lab 767/768/1279/1280 canvas boundaries", async ({ page }) => {
       };
     });
     expect(b.overflow).toBe(false);
-    if (width >= 1280) {
-      expect(b.left.w).toBe(256);
-      expect(b.right.w).toBe(280);
-      expect(b.center.w).toBeLessThanOrEqual(824);
-      expect(b.left.y).toBe(b.center.y);
-      expect(b.right.y).toBe(b.center.y);
-    } else {
-      expect(b.left.y).toBeGreaterThanOrEqual(b.center.b);
-      expect(b.right.y).toBeGreaterThanOrEqual(b.center.b);
-      if (width >= 768) expect(b.left.y).toBe(b.right.y);
-      else expect(b.right.y).toBeGreaterThanOrEqual(b.left.b);
-    }
+    expect(b.left.w).toBe(b.center.w);
+    expect(b.right.w).toBe(b.center.w);
+    expect(b.center.y).toBeGreaterThanOrEqual(b.left.b);
+    expect(b.right.y).toBeGreaterThanOrEqual(b.center.b);
   }
 });
 test("D12 true mobile long rejected import preserves viewport, literal errors and native result export", async ({
@@ -235,6 +227,7 @@ test("D12 true mobile long rejected import preserves viewport, literal errors an
     const downloaded = async (selector: string) => {
       const wait = p.waitForEvent("download");
       await tap(selector);
+      if (selector === "#fit-save") await tap("#fit-save-confirm");
       const d = await wait;
       return readFile((await d.path())!);
     };
@@ -248,7 +241,7 @@ test("D12 true mobile long rejected import preserves viewport, literal errors an
       }));
     await p.goto("/");
     await p.locator("#fit-preset").selectOption("pony:3");
-    await p.getByRole("button", { name: "Power & Heat", exact: true }).tap();
+    await p.getByRole("link", { name: "Условия", exact: true }).tap();
     await p.locator("#fit-duration").fill("3600");
     await p.locator("#fit-speed").selectOption("1");
     await tap("#fit-start");

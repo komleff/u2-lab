@@ -4,6 +4,11 @@ import type { RunResultV2 } from "../runner/run";
 import type { MiningConditions } from "../scenarios/fitting";
 import { FittingSession } from "./fitting-session";
 import { parseFitJson, parseExperimentJson } from "../io/fitting-json";
+import { parseResultJson } from "../io/fitting-result";
+import { makeMiningRun } from "../scenarios/fitting";
+import { validateFit } from "../fitting/validate";
+import { getPresetFit } from "../fitting/catalog";
+import { conditionsFromSpec } from "./fitting-ui/conditions";
 export type Variant = {
   id: string;
   name: string;
@@ -11,6 +16,7 @@ export type Variant = {
   conditions: MiningConditions;
   result?: RunResultV2;
   replaySpec?: RunSpecV2;
+  opened?: "fit" | "run" | "result";
 };
 export type ActiveTest = {
   runId: string;
@@ -25,6 +31,7 @@ export class FittingWorkspace {
   selectedId = "A";
   private active?: ActiveTest;
   private frozen?: RunResultV2;
+  private baselineId?: string;
   constructor(
     fit: ShipFit,
     readonly catalog: CandidateCatalog,
@@ -74,12 +81,21 @@ export class FittingWorkspace {
   getFrozen() {
     return this.frozen && structuredClone(this.frozen);
   }
+  getComparisonBase() {
+    return this.baselineId === "reference" ? this.getFrozen()
+      : structuredClone(this.variants.find(v => v.id === this.baselineId)?.result);
+  }
+  setComparisonBase(id: string) {
+    if ((id === "reference" && this.frozen) || this.variants.some(v => v.id === id && v.result)) this.baselineId = id;
+  }
+  getComparisonBaseId() { return this.baselineId; }
   snapshot() {
     return structuredClone({
       variants: this.variants,
       selectedId: this.selectedId,
       active: this.active,
       frozen: this.frozen,
+      baselineId: this.baselineId,
     });
   }
   select(id: string) {
@@ -106,7 +122,10 @@ export class FittingWorkspace {
     return v;
   }
   setConditions(conditions: MiningConditions) {
-    if (this.active) return false;
+    const fit = this.selected().fit;
+    const ready = validateFit(fit, this.catalog).readiness.canRun;
+    const checked = makeMiningRun(ready ? fit : getPresetFit(fit.hullId + ":3"), this.catalog, conditions);
+    if (!checked.ok) return false;
     this.selected().conditions = structuredClone(conditions);
     this.selected().replaySpec = undefined;
     return true;
@@ -157,12 +176,14 @@ export class FittingWorkspace {
     if (r.runId !== this.active?.runId) return false;
     const owner = this.variants.find((v) => v.id === this.active!.variantId)!;
     owner.result = structuredClone(r);
+    this.baselineId ??= owner.id;
     if (r.status === "complete" || r.status === "cancelled")
       this.active = undefined;
     return true;
   }
   showRun(r: RunResultV2) {
     this.selected().result = structuredClone(r);
+    this.baselineId ??= this.selectedId;
   }
   abort() {
     this.active = undefined;
@@ -173,9 +194,10 @@ export class FittingWorkspace {
     this.variants.find((v) => v.id === id)!.result = undefined;
   }
   freeze() {
-    const r = this.selected().result;
-    if (!r || !["complete", "cancelled"].includes(r.status)) return false;
+    const r = this.getCurrentResult();
+    if (!r || (this.active && this.active.status !== "paused")) return false;
     this.frozen = structuredClone(r);
+    this.baselineId = "reference";
     return true;
   }
   importDocument(source: string, allowSnapshotReplay = false) {
@@ -185,9 +207,24 @@ export class FittingWorkspace {
         const p = parseFitJson(source, this.catalog);
         if (!p.ok) return p;
         const v = this.applyFit(p.value);
+        if (v.valid) this.selected().opened = "fit";
         return v.valid
           ? { ok: true as const, value: "fit" as const }
           : { ok: false as const, errors: v.issues };
+      }
+      // Документ результата нельзя принять как один spec и назвать восстановленными измерениями.
+      if (o.spec && ("state" in o || "metrics" in o || "channels" in o || "buckets" in o || "runId" in o)) {
+        const p = parseResultJson(source);
+        if (!p.ok) return p;
+        if (this.active) return { ok: false as const, errors: [{ path: "activeTest", message: "Завершите или отмените активный опыт перед открытием результата" }] };
+        const fit = parseFitJson(JSON.stringify(p.value.spec.resolvedShip.fit), this.catalog);
+        if (!fit.ok) return fit;
+        this.selected().fit = structuredClone(fit.value);
+        this.selected().conditions = conditionsFromSpec(p.value.spec);
+        this.selected().replaySpec = structuredClone(p.value.spec);
+        this.selected().opened = "result";
+        this.showRun(p.value);
+        return { ok: true as const, value: "result" as const };
       }
       const p = parseExperimentJson(source, { allowSnapshotReplay });
       if (!p.ok) return p;
@@ -205,6 +242,10 @@ export class FittingWorkspace {
           ],
         };
       this.selected().replaySpec = structuredClone(p.value);
+      const fit = parseFitJson(JSON.stringify(p.value.resolvedShip.fit), this.catalog);
+      if (fit.ok) this.selected().fit = structuredClone(fit.value);
+      this.selected().conditions = conditionsFromSpec(p.value);
+      this.selected().opened = "run";
       return { ok: true as const, value: "replay" as const };
     } catch {
       return {

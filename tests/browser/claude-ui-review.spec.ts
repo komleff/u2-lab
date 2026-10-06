@@ -31,7 +31,7 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
     };
   });
   await page.goto("/");
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("20");
   await page.locator("#fit-start").click();
   await expect(page.locator("#fit-status")).toContainText("Завершён");
@@ -54,6 +54,8 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   await expect(page.locator(".lab-context")).toContainText("run " + ids[1]);
   await expect(page.locator(".lab-context")).not.toContainText(ids[0]);
   await expect(page.locator(".fit-f1")).toContainText("предыдущий тест · run " + ids[0]);
+  await expect(page.locator('.compare-cards [data-compare-variant="A"]')).toContainText("предыдущий тест · run " + ids[0]);
+
   expect(await page.evaluate(() => ({
     inner: innerWidth, document: document.documentElement.scrollWidth,
     visual: visualViewport!.width, scale: visualViewport!.scale,
@@ -61,15 +63,17 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   const retainedDownload = page.waitForEvent("download");
   await page.locator("#fit-export-result").tap();
   expect(await readFile((await (await retainedDownload).path())!)).toEqual(oldBytes);
-  await page.getByRole("button", { name: "Сравнение", exact: true }).click();
+  await page.getByRole("link", { name: "Сравнение", exact: true }).click();
   await expect(page.locator(".compare-desktop [data-compare-variant=A]")).toContainText("предыдущий тест · run " + ids[0]);
   await expect(page.locator(".compare-desktop [data-compare-variant=A]")).not.toContainText("предварительно");
   await page.getByRole("button", { name: /Вариант B ·/ }).click();
-  await page.getByRole("button", { name: "Оснастка", exact: true }).click();
+  await page.getByRole("link", { name: "Оснастка", exact: true }).click();
   await page.locator("#fit-preset").selectOption("pony:1");
-  await page.getByRole("button", { name: "Power & Heat", exact: true }).click();
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await expect(page.locator("#fit-start")).toBeDisabled();
-  await expect(page.locator("#fit-duration")).toHaveValue("20");
+  await expect(page.locator("#fit-duration")).toHaveValue("600");
+  await expect(page.locator(".lab-context")).toContainText("Активный тест: вариант A");
+  await expect(page.locator(".lab-side")).toContainText("Следующий черновик");
   await expect(page.locator("#fit-time")).toHaveText("0 с / 20 с");
   await page.locator('.lab-main [data-instance="fit:march"]').click();
   const oldMarch = JSON.parse(oldBytes.toString()).spec.resolvedShip.instances.find((i: any) => i.id === "fit:march");

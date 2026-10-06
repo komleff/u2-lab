@@ -18,6 +18,8 @@ import { labView, firstLimiter, testStatus } from "./fitting-ui/lab-view";
 import { compareView, type AbView } from "./fitting-ui/compare-view";
 import { esc, num, replacement } from "./fitting-ui/presentation";
 import { updateDom } from "./fitting-ui/dom";
+import { numericalVariant } from "./fitting-ui/local-variant";
+import { measuredIdentity } from "./fitting-ui/result-context";
 import type { ChannelState } from "./fitting-ui/lab-channels";
 export type FittingController = {
   getFit(): ShipFit;
@@ -38,16 +40,18 @@ export function mountFitting(
     worker = new Worker(new URL("../runner/worker.ts", import.meta.url), {
       type: "module",
     });
-  let screen = "fitting",
-    swap: SwapState | undefined,
+  let swap: SwapState | undefined,
     instance: ResolvedInstance | undefined,
+    savingFit: { name: string; value: string; returnId: string } | undefined,
     confirmCancel = false,
+    freezeRunId: string | undefined,
     error = "",
     ack = "",
     runId = "",
     commandId = 0,
     speed = 20000,
     selectedSlot = "payload-1",
+    numericalField = "efficiency",
     allowSnapshot = false,
     compareSort = "name",
     abView: AbView = "both";
@@ -92,9 +96,11 @@ export function mountFitting(
       render();
       return;
     }
+    freezeRunId = undefined;
     runId = prepared.value.runId;
     pending.clear();
     channel.eventIndex = 0;
+    channel.bucketIndex = undefined;
     error = "";
     onRun(structuredClone(prepared.value.spec));
     send("start", { spec: prepared.value.spec, maxSteps: speed });
@@ -104,6 +110,7 @@ export function mountFitting(
     if (type === "reset") {
       if (w.getActive()) send("cancel");
       w.reset();
+      freezeRunId = undefined;
       runId = newId();
       pending.clear();
       confirmCancel = false;
@@ -118,13 +125,6 @@ export function mountFitting(
     }
     if (!w.getActive()) return;
     send(type, { maxSteps: speed });
-  }
-  function mainAction() {
-    const a = w.getActive();
-    if (a) {
-      if (a.variantId !== w.selectedId) return;
-      control(a.status === "running" ? "pause" : "resume");
-    } else start();
   }
   const download = (name: string, value: string, type = "application/json") => {
     const url = URL.createObjectURL(new Blob([value], { type })),
@@ -153,7 +153,8 @@ export function mountFitting(
     return w.getCurrentResult();
   }
   function closeDialog() {
-    const returnId = swap?.returnId ?? "fit-main-action";
+    const returnId = savingFit?.returnId ?? swap?.returnId ?? "fit-start";
+    savingFit = undefined;
     swap = undefined;
     instance = undefined;
     confirmCancel = false;
@@ -169,6 +170,7 @@ export function mountFitting(
     const openDetails = [
       ...root.querySelectorAll<HTMLDetailsElement>("details[open][id]"),
     ].map((d) => d.id);
+    channel.detailsOpen = openDetails.includes("channel-details");
     const fit = w.getFit(),
       v = validateFit(fit, catalog),
       sel = w.getSelected(),
@@ -183,20 +185,13 @@ export function mountFitting(
       ),
       stale = w.isStale(),
       controls = active ? active.status : undefined;
-    const action = active
-      ? active.variantId === w.selectedId
-        ? active.status === "running"
-          ? "Пауза"
-          : "Продолжить"
-        : "Тест другого варианта"
-      : own
-        ? "Запустить снова"
-        : "Запустить тест";
     const built = installedInstances(fit, catalog),
       item = built.find((i) => i.slotId === selectedSlot)?.item;
+    if (item && !(numericalField in item.numerics))
+      numericalField = Object.keys(item.numerics).find(k => item.origins["numerics." + k]?.unit) ?? "";
     updateDom(
       root,
-      `<header class="ui-header"><div class="ui-brand"><span>U2</span><strong>${screen === "lab" ? "Power & Heat" : "Ship Fitting"}</strong></div><nav aria-label="Разделы"><button data-screen="fitting" aria-pressed="${screen === "fitting"}">Оснастка</button><button data-screen="lab" aria-pressed="${screen === "lab"}">Power & Heat</button><button data-screen="compare" aria-pressed="${screen === "compare"}">Сравнение</button></nav><div class="file-actions"><button id="fit-save">Сохранить сборку</button><label class="ui-file">Импорт JSON<input id="fit-import" type="file" accept=".json"></label><a href="?mode=legacy">Legacy v1</a></div></header><section class="fit-f1" aria-label="Итог сборки"><div><span class="eyebrow">Комплектность</span><strong id="fit-readiness">${
+      `<header class="ui-header"><div class="ui-brand"><span>U2</span><strong>Рабочее пространство ГД</strong></div><nav aria-label="Разделы"><a href="#workspace-fitting">Оснастка</a><a href="#workspace-conditions">Условия</a><a href="#workspace-charts">Графики</a><a href="#workspace-compare">Сравнение</a></nav><div class="file-actions"><button id="fit-save">Сохранить сборку</button><label class="ui-file">Импорт JSON<input id="fit-import" type="file" accept=".json"></label><a href="?mode=legacy">Legacy v1</a></div><p class="persistent-context">${esc(catalog.hulls.find(h => h.id === fit.hullId)?.label)} · вариант ${esc(sel.name)} · черновик ${fit.fitRevision}${active ? " · активный: " + esc(active.variantName) + " / " + esc(active.spec.resolvedShip.hull.label) + " / ревизия " + active.fitRevision : " · активного теста нет"}${r ? " · измерено: " + esc(r.spec.resolvedShip.hull.label) + " / ревизия " + r.spec.resolvedShip.fit.fitRevision : " · текущие измерения отсутствуют"}</p></header><section class="fit-f1" aria-label="Итог сборки"><div><span class="eyebrow">Комплектность</span><strong id="fit-readiness">${
         v.readiness.canRun
           ? "Готова · монтаж совместим" +
             (v.readiness.resourceWarnings.length
@@ -224,7 +219,7 @@ export function mountFitting(
         )
         .join(
           "",
-        )}<button id="fit-add-variant" aria-label="Добавить вариант">+</button></div><div><span id="fit-next-revision">Следующая сборка: ${fit.fitRevision}</span><span id="fit-active-owner">${active ? " · активный тест: " + esc(active.variantName) + " · ревизия " + active.fitRevision : " · активного теста нет"}</span></div></div><div id="fit-error" role="alert">${esc(error)}</div><p id="fit-replay-note">${sel.replaySpec ? "Численный снимок: следующий запуск воспроизводит сохранённые числа и условия. " + (sel.replaySpec.snapshotReplayOnly ? "Совместимость слотов не проверена." : "") : ""}</p><main class="ui-main"><section class="screen" ${screen !== "fitting" ? "hidden" : ""}>${shipView(w, innerWidth <= 700 ? 0 : innerWidth <= 800 ? root.clientWidth - 32 : innerWidth <= 1100 ? (root.clientWidth - 76) / 2 : Math.max(440, (root.clientWidth - 76) * 0.475), collapsed)}</section><section class="screen" ${screen !== "lab" ? "hidden" : ""}>${labView(w, r, channel, eventFilter, "", abView)}</section><section class="screen" ${screen !== "compare" ? "hidden" : ""}>${compareView(w, compareSort, abView)}</section><details class="ui-panel" id="fit-more"><summary id="fit-f3">Подробнее · SI, источники, ledger и экспорт</summary><p>Числа U2, расчёты и гипотезы различаются по происхождению. Эксперимент не является production proof.</p><label><input id="fit-allow-snapshot" type="checkbox" ${allowSnapshot ? "checked" : ""}>Разрешить явное численное воспроизведение неизвестного каталога (слоты не проверены)</label><p>${previous ? "Экспорт сохранённого результата: предыдущий тест · run " + esc(own!.runId) : "Экспорт результата выбранного варианта"}</p><div class="export-actions"><button id="fit-export-run">Экспорт теста JSON</button><button id="fit-export-result">Экспорт результата JSON</button><button id="fit-export-csv">Экспорт измерений CSV</button></div><pre id="fit-sources">${esc(JSON.stringify({ installedItem: item, installedLocalVariant: !!item && !!fit.localVariants[item.id], fitVersion: fit.schemaVersion, catalogVersion: fit.catalogVersion, model: (active?.spec ?? r?.spec)?.modelVersion, hull: catalog.hulls.find((h) => h.id === fit.hullId), resolvedOrigins: (active?.spec ?? r?.spec)?.origins, units: "SI" }, null, 2))}</pre><label>Собственный численный вариант выбранного изделия · мощность W<input id="fit-variant-power" type="number" value="${item?.numerics.powerW ?? 0}" min="0"></label><button id="fit-variant" ${!item ? "disabled" : ""}>Создать вариант выбранного изделия</button><pre id="fit-ledger">${esc(r ? JSON.stringify({ energyResidualJ: r.metrics.energyResidualJ, sourceEnergyJ: r.metrics.sourceEnergyJ, beamEnergyJ: r.metrics.beamEnergyJ, returnHeatJ: r.metrics.returnHeatJ, fuelPurposeKg: r.metrics.fuelPurposeKg }, null, 2) : "Ledger появится после теста")}</pre></details></main><div class="ui-controls" aria-label="Управление тестом"><div class="control-status"><span id="fit-running-revision">${active ? "Тест использует сборку: " + active.fitRevision : "Активного теста нет"}</span><strong id="fit-time">${num(r?.state.timeSeconds ?? 0, "с")} / ${num(active?.spec.durationSeconds ?? r?.spec.durationSeconds ?? sel.conditions.durationSeconds, "с")}</strong><span id="fit-ack">${esc(ack)}</span></div><div class="control-buttons">${screen === "fitting" ? `<button id="fit-main-action" class="primary" ${active ? (active.variantId !== w.selectedId ? "disabled" : "") : !v.readiness.canRun ? "disabled" : ""}>${action}</button>` : `<button id="fit-start" class="primary" ${active || !v.readiness.canRun ? "disabled" : ""}>${own ? "Запуск заново" : "Запуск"}</button><button id="fit-pause" ${controls !== "running" ? "disabled" : ""}>Пауза</button><button id="fit-resume" ${controls !== "paused" ? "disabled" : ""}>Продолжить</button><button id="fit-step" ${controls !== "paused" ? "disabled" : ""}>Шаг</button><button id="fit-cancel" ${!active ? "disabled" : ""}>Отмена</button>`}<button id="fit-reset">Сброс</button><label>Расчёт ×<select id="fit-speed">${[
+        )}<button id="fit-add-variant" aria-label="Добавить вариант">+</button></div><div><span id="fit-next-revision">Следующая сборка: ${fit.fitRevision}</span><span id="fit-active-owner">${active ? " · активный тест: " + esc(active.variantName) + " · ревизия " + active.fitRevision : " · активного теста нет"}</span></div></div><div id="fit-error" role="alert">${esc(error)}</div><p id="fit-replay-note">${sel.opened ? "Открыто: " + ({ fit: "сборка", run: "численный опыт для повторения", result: "измеренный результат для анализа без нового расчёта" }[sel.opened]) + ". " : ""}${sel.replaySpec ? "Численный снимок: следующий запуск воспроизводит сохранённые числа и условия. " + (sel.replaySpec.snapshotReplayOnly ? "Совместимость слотов не проверена." : "") : ""}</p>${sel.replaySpec ? `<section class="ui-panel opened-object"><h2>Открытый численный объект · ${esc(sel.replaySpec.resolvedShip.hull.label)}</h2><p>Ревизия ${sel.replaySpec.resolvedShip.fit.fitRevision} · модель ${esc(sel.replaySpec.modelVersion)} · горизонт ${num(sel.replaySpec.durationSeconds, "с")} · исходная T ${num(sel.replaySpec.initial.temperatureK, "K")}</p><p>Следующий запуск повторяет именно этот snapshot. Правка черновика завершает режим точного повторения и готовит существующий лабораторный цикл.</p><div class="phase-strip">${sel.replaySpec.scenario.phases.map(p => `<span>${esc(p.id)} · ${num(p.durationSeconds, "с")}</span>`).join("")}</div></section>` : ""}<main class="ui-main"><section id="workspace-fitting" class="workspace-section" aria-label="Оснастка">${shipView(w, innerWidth <= 700 ? 0 : Math.max(440, root.clientWidth - 48), collapsed)}</section><section id="workspace-conditions" class="workspace-section" aria-label="Условия и измерения">${labView(w, r, channel, eventFilter, "", abView)}</section><section id="workspace-compare" class="workspace-section" aria-label="Сравнение">${compareView(w, compareSort, abView)}</section><details class="ui-panel" id="fit-more"><summary id="fit-f3">Подробнее · SI, источники, ledger и экспорт</summary><p>Числа U2, расчёты и гипотезы различаются по происхождению. Эксперимент не является production proof.</p><label><input id="fit-allow-snapshot" type="checkbox" ${allowSnapshot ? "checked" : ""}>Разрешить явное численное воспроизведение неизвестного каталога (слоты не проверены)</label><p>${previous ? "Экспорт сохранённого результата: предыдущий тест · run " + esc(own!.runId) : "Экспорт результата выбранного варианта"}</p><div class="export-actions"><button id="fit-save-more">Сохранить сборку</button><button id="fit-export-run">${active ? "Экспорт активного опыта JSON" : "Экспорт следующего опыта JSON"}</button><button id="fit-export-result">Экспорт результата JSON</button><button id="fit-export-csv">Экспорт измерений CSV</button><p>Сборка JSON хранит монтаж; опыт — immutable snapshot для повторения; результат — измеренные state/metrics/trace/events. CSV содержит retained mean/min/max/count, не все физические ticks. Варианты остаются в памяти страницы, reload их не сохраняет.</p>${own ? `<p>Экспорт выбранного результата: ${measuredIdentity(own)}</p>` : ""}</div><pre id="fit-sources">${esc(JSON.stringify({ installedItem: item, installedLocalVariant: !!item && !!fit.localVariants[item.id], fitVersion: fit.schemaVersion, catalogVersion: fit.catalogVersion, model: (active?.spec ?? r?.spec)?.modelVersion, hull: catalog.hulls.find((h) => h.id === fit.hullId), resolvedOrigins: (active?.spec ?? r?.spec)?.origins, units: "SI" }, null, 2))}</pre><label>Собственный численный вариант выбранного изделия · мощность W<input id="fit-variant-power" type="number" value="${item?.numerics.powerW ?? 0}" min="0"></label><button id="fit-variant" ${!item ? "disabled" : ""}>Создать вариант выбранного изделия</button><label>Локальная численная гипотеза · существующее поле<select id="fit-variant-field">${Object.keys(item?.numerics ?? {}).map(key => `<option ${numericalField === key ? "selected" : ""}>${esc(key)}</option>`).join("")}</select></label><label>Значение · ${esc(item?.origins["numerics." + numericalField]?.unit ?? "единица не указана")}<input id="fit-variant-value" type="number" step="any" value="${item?.numerics[numericalField] ?? 0}"></label><p>Меняется отдельный local variant, каталог и встроенные изделия сохраняются. Единица и experimental provenance проверяются.</p><button id="fit-variant-numeric" ${!item ? "disabled" : ""}>Создать численную гипотезу</button><pre id="fit-ledger">${esc(r ? JSON.stringify({ energyResidualJ: r.metrics.energyResidualJ, sourceEnergyJ: r.metrics.sourceEnergyJ, beamEnergyJ: r.metrics.beamEnergyJ, returnHeatJ: r.metrics.returnHeatJ, fuelPurposeKg: r.metrics.fuelPurposeKg }, null, 2) : "Ledger появится после теста")}</pre></details></main><div class="ui-controls" aria-label="Управление тестом"><div class="control-status"><span id="fit-running-revision">${active ? "Тест использует сборку: " + active.fitRevision : "Активного теста нет"}</span><strong id="fit-time">${num(r?.state.timeSeconds ?? 0, "с")} / ${num(active?.spec.durationSeconds ?? r?.spec.durationSeconds ?? sel.conditions.durationSeconds, "с")}</strong><span id="fit-ack">${esc(ack)}</span></div><div class="control-buttons"><button id="fit-start" class="primary" ${active || !v.readiness.canRun ? "disabled" : ""}>${own ? "Запуск заново" : "Запуск"}</button><button id="fit-pause" ${controls !== "running" ? "disabled" : ""}>Пауза</button><button id="fit-resume" ${controls !== "paused" ? "disabled" : ""}>Продолжить</button><button id="fit-step" ${controls !== "paused" ? "disabled" : ""}>Шаг</button><button id="fit-cancel" ${!active ? "disabled" : ""}>Отмена</button><button id="fit-reset">Сброс</button><label>Расчёт ×<select id="fit-speed">${[
         [1, "×1"],
         [10, "×10"],
         [60, "×60"],
@@ -236,18 +231,10 @@ export function mountFitting(
         )
         .join(
           "",
-        )}</select></label></div></div><footer>U2 Lab · 0.2.0 · UI Claude Design v2.1 · лабораторные ТТХ</footer><dialog id="ui-dialog" aria-labelledby="${swap ? "swap-title" : "dialog-title"}"></dialog>`,
+        )}</select></label></div><p class="control-reason">${active ? "Один расчёт: " + esc(active.variantName) + " · второй запуск недоступен. Пауза/продолжение управляют этим опытом; шаг доступен на паузе." : !v.readiness.canRun ? "Запуск недоступен: " + esc(v.readiness.missing.join(", ")) : "Следующий запуск использует выбранный черновик. Пауза/шаг/отмена доступны после запуска."}</p></div><footer>U2 Lab · интерфейс v4.0 · модель ${(active?.spec ?? r?.spec)?.modelVersion ?? "ship-fitting-ledger-0.2"} · лабораторные ТТХ</footer><dialog id="ui-dialog" aria-labelledby="${swap ? "swap-title" : "dialog-title"}"></dialog>`,
     );
     for (const id of openDetails)
       el<HTMLDetailsElement>(id) && (el<HTMLDetailsElement>(id)!.open = true);
-    for (const b of root.querySelectorAll<HTMLButtonElement>("[data-screen]"))
-      b.onclick = () => {
-        screen = b.dataset.screen!;
-        swap = undefined;
-        instance = undefined;
-        render();
-        window.scrollTo(0, 0);
-      };
     for (const b of root.querySelectorAll<HTMLButtonElement>("[data-variant]"))
       b.onclick = () => {
         w.select(b.dataset.variant!);
@@ -310,11 +297,11 @@ export function mountFitting(
     if (preset) preset.onchange = () => apply(getPresetFit(preset.value));
     for (const x of root.querySelectorAll<HTMLInputElement>("[data-condition]"))
       x.oninput = () => {
-        w.setConditions({
-          ...w.getSelected().conditions,
-          [x.dataset.condition!]: x.valueAsNumber,
-        });
+        const valid = w.setConditions({ ...w.getSelected().conditions, [x.dataset.condition!]: x.valueAsNumber });
+        error = valid ? "" : "Условия отклонены текущей валидацией. Последний допустимый черновик и активный опыт сохранены.";
+        if (el("fit-error")) el("fit-error")!.textContent = error;
       };
+    for (const x of root.querySelectorAll<HTMLInputElement>("[data-condition]")) x.onchange = () => render();
     for (const x of root.querySelectorAll<HTMLInputElement>("[data-initial]"))
       x.onchange = () => {
         const next = w.getFit();
@@ -342,7 +329,21 @@ export function mountFitting(
             " · " +
             v.readiness.resourceWarnings.map((i) => i.message).join(" · ");
       };
-    listen("fit-main-action", mainAction);
+    const repeat = el<HTMLInputElement>("fit-repeat");
+    if (repeat) repeat.onchange = () => {
+      w.setConditions({ ...w.getSelected().conditions, repeat: repeat.checked }); render();
+    };
+    const numericPicker = el<HTMLSelectElement>("fit-variant-field");
+    if (numericPicker) numericPicker.onchange = () => { numericalField = numericPicker.value; render(); };
+    listen("fit-variant-numeric", () => {
+      const fit = w.getFit(), base = installedInstances(fit, catalog).find(i => i.slotId === selectedSlot)?.item;
+      if (!base) return;
+      const variant = numericalVariant(base, numericalField, el<HTMLInputElement>("fit-variant-value")!.valueAsNumber, "local:" + newId());
+      if (!variant.ok) { error = variant.errors.map(e => e.path + ": " + e.message).join("\n"); render(); return; }
+      fit.localVariants[variant.value.id] = variant.value;
+      apply(replacement(fit, catalog, selectedSlot, variant.value.id));
+    });
+
     listen("fit-start", start);
     for (const c of ["pause", "resume", "step", "cancel", "reset"])
       listen("fit-" + c, () => control(c));
@@ -351,9 +352,12 @@ export function mountFitting(
       sp.onchange = () => {
         speed = Number(sp.value);
       };
-    listen("fit-save", () =>
-      download("u2-ship-fit.json", serializeFit(w.getFit())),
-    );
+    for (const id of ["fit-save", "fit-save-more"])
+      listen(id, () => {
+        savingFit = { name: "u2-ship-fit.json", value: serializeFit(w.getFit()), returnId: id };
+        render();
+        el<HTMLInputElement>("fit-save-name")?.select();
+      });
     listen("fit-export-run", exportRun);
     listen("fit-export-result", () => {
       const result = w.getSelected().result;
@@ -422,8 +426,11 @@ export function mountFitting(
         allowSnapshot = allow.checked;
       };
     listen("fit-freeze", () => {
-      if (!w.freeze())
-        error = "Сначала завершите тест или нажмите Отмена для снимка.";
+      const active = w.getActive();
+      if (active?.status === "paused") {
+        freezeRunId = active.runId;
+        send("snapshot");
+      } else if (!w.freeze()) error = "Эталон доступен для результата или на паузе активного опыта.";
       render();
     });
     listen("fit-variant", () => {
@@ -472,11 +479,24 @@ export function mountFitting(
         channel.unit = unit.value;
         render();
       };
+    const channelDetails = el<HTMLDetailsElement>("channel-details");
+    if (channelDetails) channelDetails.ontoggle = () => {
+      if (channel.detailsOpen !== channelDetails.open) render();
+    };
+    const bucketPicker = el<HTMLInputElement>("chart-bucket");
+    if (bucketPicker) bucketPicker.oninput = () => {
+      channel.bucketIndex = bucketPicker.valueAsNumber;
+      render();
+    };
+    for (const b of root.querySelectorAll<HTMLButtonElement>("[data-event-index]"))
+      b.onclick = () => { channel.eventIndex = Number(b.dataset.eventIndex); channel.bucketIndex = undefined; render(); };
     listen("channel-prev", () => {
+      channel.bucketIndex = undefined;
       channel.eventIndex = Math.max(0, channel.eventIndex - 1);
       render();
     });
     listen("channel-next", () => {
+      channel.bucketIndex = undefined;
       channel.eventIndex = Math.min(
         (r?.events.length ?? 1) - 1,
         channel.eventIndex + 1,
@@ -495,6 +515,8 @@ export function mountFitting(
         abView = b.dataset.abView as AbView;
         render();
       };
+    const basePicker = el<HTMLSelectElement>("compare-base");
+    if (basePicker) basePicker.onchange = () => { w.setComparisonBase(basePicker.value); render(); };
     const sort = el<HTMLSelectElement>("compare-sort");
     if (sort)
       sort.onchange = () => {
@@ -502,14 +524,16 @@ export function mountFitting(
         render();
       };
     const dialog = el<HTMLDialogElement>("ui-dialog")!;
-    if (swap || instance || confirmCancel) {
+    if (savingFit || swap || instance || confirmCancel) {
       dialog.setAttribute(
         "aria-labelledby",
         swap ? "swap-title" : "dialog-title",
       );
       updateDom(
         dialog,
-        swap
+        savingFit
+          ? `<div class="dialog-header"><h2 id="dialog-title">Сохранить сборку</h2></div><label for="fit-save-name">Имя файла</label><input id="fit-save-name" type="text" value="${esc(savingFit.name)}"><p>Монтаж выбранного варианта · JSON. Файл скачает браузер.</p><div class="dialog-footer"><button id="fit-save-cancel">Отмена</button><button id="fit-save-confirm" class="primary">Сохранить</button></div>`
+          : swap
           ? swapDialog(w, swap)
           : instance
             ? instanceDetails(instance, r)
@@ -523,6 +547,17 @@ export function mountFitting(
       listen("swap-close", closeDialog);
       listen("instance-close", closeDialog);
       listen("cancel-no", closeDialog);
+      listen("fit-save-cancel", closeDialog);
+      const filename = el<HTMLInputElement>("fit-save-name");
+      if (filename) filename.oninput = () => { if (savingFit) savingFit.name = filename.value; };
+      listen("fit-save-confirm", () => {
+        if (!savingFit) return;
+        let name = savingFit.name.split(/[\\/]/).pop()!.replace(/[\u0000-\u001f\u007f]/g, "").trim();
+        if (!name || /^\.+$/.test(name)) name = "u2-ship-fit";
+        if (!/\.json$/i.test(name)) name += ".json";
+        download(name, savingFit.value);
+        closeDialog();
+      });
       listen("cancel-yes", () => {
         confirmCancel = false;
         send("cancel");
@@ -603,7 +638,7 @@ export function mountFitting(
         });
       }
     }
-    if (!swap && !instance && !confirmCancel && dialog.open) dialog.close();
+    if (!savingFit && !swap && !instance && !confirmCancel && dialog.open) dialog.close();
     if (focusId) {
       const x = el<HTMLInputElement>(focusId);
       x?.focus({ preventScroll: true });
@@ -635,7 +670,13 @@ export function mountFitting(
       worker.postMessage({ runId, type: "telemetry-ack", chunkId: m.chunkId });
       render();
     } else if (m.type === "complete" || m.type === "snapshot") {
-      if (w.acceptResult(m.payload)) render();
+      if (w.acceptResult(m.payload)) {
+        if (m.type === "snapshot" && freezeRunId === m.runId) {
+          w.freeze();
+          freezeRunId = undefined;
+        }
+        render();
+      }
     } else if (m.type === "error") {
       error = String(m.payload);
       w.abort();

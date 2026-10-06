@@ -86,9 +86,12 @@ for (const changed of [false, true])
     expect(w.getCurrentResult()).toBeUndefined();
     expect(w.getSelected().result).toEqual(foreign);
     const foreignView = labView(w, foreign, channel(), "all", "");
-    expect(foreignView).toMatch(/id="fit-duration"[^>]+value="20"/);
-    expect(foreignView).toMatch(/id="fit-work-seconds"[^>]+value="120"/);
-    expect(foreignView).toMatch(/id="fit-background"[^>]+value="100"/);
+    expect(foreignView).toMatch(/id="fit-duration"[^>]+value="900"/);
+    expect(foreignView).toContain("Следующий черновик");
+    expect(foreignView).toContain("Неизменные фазы активного опыта");
+    expect(w.getActive()?.spec).toEqual(started.value.spec);
+    expect(foreignView).toMatch(/id="fit-work-seconds"[^>]+value="90"/);
+    expect(foreignView).toMatch(/id="fit-background"[^>]+value="150"/);
     expect(w.getSelected().conditions.durationSeconds).toBe(900);
     const fresh = createRun("new", started.value.spec); runChunk(fresh, 1);
     expect(w.acceptResult(result(fresh))).toBe(true);

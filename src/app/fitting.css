@@ -1163,3 +1163,70 @@ body:has(.fitting-app) {
     min-width: 0;
   }
 }
+
+/* Общий рабочий лист: навигация и владелец расчёта остаются достижимыми. */
+.fitting-app .ui-header { position: sticky; top: 0; z-index: 8; padding: 8px 16px; gap: 8px; }
+.fitting-app .ui-brand strong { font-size: 22px; }
+.fitting-app .persistent-context { flex: 1 0 100%; font-size: 11px; margin: 0; overflow-wrap: anywhere; }
+.fitting-app .fit-f1 { position: static; }
+.fitting-app .workspace-section { scroll-margin-top: 160px; }
+.fitting-app .ship-hero { grid-template-columns: minmax(240px, 1fr) minmax(0, 1fr); padding: 16px; }
+.fitting-app .ship-art { max-height: 100px; object-fit: contain; }
+.fitting-app .ship-passport { gap: 5px; }
+.fitting-app .ship-passport h1 { font-size: 28px; }
+.fitting-app .overview-charts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.fitting-app .overview-charts figure { border: 1px solid var(--border); padding: 8px; }
+.fitting-app .overview-charts h3 { min-height: 40px; }
+.fitting-app .control-reason { flex: 1 0 100%; font-size: 11px; margin: 0; }
+.fitting-app .condition-differences { overflow-wrap: anywhere; }
+.fitting-app .condition-differences dd { font-size: 11px; padding: 5px; }
+.fitting-app .ui-controls { gap: 6px; padding-top: 6px; padding-bottom: calc(6px + env(safe-area-inset-bottom)); }
+.fitting-app .ui-main > .workspace-section { margin-bottom: 20px; }
+.fitting-app #fit-ring .slot-ring { margin: 12px auto; }
+@media (max-width: 800px) {
+  .fitting-app .ui-brand strong { font-size: 18px; }
+  .fitting-app .ship-hero { grid-template-columns: 1fr; }
+  .fitting-app .ui-header nav { width: 100%; justify-content: space-between; }
+  .fitting-app .ui-header nav a { padding: 6px; font-size: 12px; }
+  .fitting-app .workspace-section { scroll-margin-top: 230px; }
+}
+@media (max-width: 500px) {
+  .fitting-app .overview-charts { grid-template-columns: 1fr; }
+  .fitting-app .file-actions { width: auto; font-size: 10px; }
+  .fitting-app .persistent-context { font-size: 10px; }
+  .fitting-app .ui-controls .control-buttons { gap: 4px; }
+  .fitting-app .ui-controls .control-buttons button { padding: 6px; font-size: 11px; }
+}
+
+/* Графики занимают рабочую ширину; боковые панели не уменьшают оси. */
+.fitting-app .lab-columns { grid-template-columns: minmax(0, 1fr); grid-template-areas: "conditions" "main" "resources"; }
+.fitting-app .condition-fields { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.fitting-app .lab-main, .fitting-app .lab-side, .fitting-app .lab-right { min-width: 0; }
+.fitting-app .overview-charts svg text, .fitting-app #channel-details svg text { font-size: 20px; }
+.fitting-app .selected-interval { background: var(--panel-active, #3a3226); }
+.fitting-app #chart-bucket { width: 100%; }
+@media (max-width: 900px) {
+  .fitting-app .condition-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fitting-app .overview-charts { grid-template-columns: 1fr; }
+}
+@media (max-width: 500px) {
+  .fitting-app .condition-fields { grid-template-columns: 1fr; }
+  .fitting-app .overview-charts svg text { font-size: 28px; }
+}
+
+/* Поручение оператора: каждая система — самостоятельная строка раздела. */
+.fitting-app .systems { grid-template-columns: minmax(0, 1fr); }
+.fitting-app .system { grid-column: 1 / -1; min-width: 0; }
+
+.fitting-app .first-limiter-summary { border-left: 3px solid var(--action); padding: 8px 12px; margin: 12px 0; background: var(--card); }
+.fitting-app .first-limiter-summary strong { display: block; font-size: 22px; color: var(--action); }
+/* Длинные реальные run IDs сохраняются целиком и переносятся в узких ячейках. */
+.fitting-app .compare-cards dd,
+.fitting-app .variant-identity,
+.fitting-app .fit-f1 small,
+.fitting-app .lab-context p,
+.fitting-app .export-actions p,
+.fitting-app .control-reason { min-width: 0; overflow-wrap: anywhere; }
+
+/* Длинный рабочий лист прокручивается без случайного обновления на верхней границе. */
+html:has(.fitting-app), body:has(.fitting-app) { overscroll-behavior-y: none; }

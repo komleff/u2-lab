@@ -147,8 +147,8 @@ it("D03/D05/D06/D11 accepted controls retain real absent-data semantics", () => 
   );
   expect(html).toContain('data-event-filter="environment"');
   expect(html).toContain('id="event-instance"');
-  expect(html).toContain("Только A");
-  expect(html).toContain("Только B");
+  expect(compare).toContain("Только A");
+  expect(compare).toContain("Только B");
   expect(html).toContain('class="lab-right"');
   expect(w.snapshot()).toEqual(before);
 });
