@@ -26,6 +26,15 @@
 
 ## Текущий приоритет — рабочий процесс ГД
 
+- [Чистка карточек модулей](plans/2026-10-07-module-card-cleanup.md) — прямое поручение оператора: профильные ТТХ без чужих показателей и итогов сборки; служебные подробности под «i», MC01–05; небольшая UI-задача, расчёт неизменен.
+- [Plan Review чистки карточек](reviews/2026-10-07-module-card-cleanup-plan-review.md) — PLAN_READY/0BLOCKER/0ADVISORY; MC01–05,6 UI owners.
+- [Developer](reviews/2026-10-07-module-card-cleanup-developer.md) и [исправление i](reviews/2026-10-07-module-card-cleanup-developer-fix-r1.md) —85fee8c, общий scoped ID lookup; guard489unit/51browser+1SKIP/26cloud PASS, численные52owners неизменны.
+- [Первичная QA](reviews/2026-10-07-module-card-cleanup-qa-r1.md) — исторический FAIL: MC-UI-B1, colon-ID ломал render/Close.
+- [Affected QA](reviews/2026-10-07-module-card-cleanup-qa-affected-r1.md) — PASS/MC-UI-B1 CLOSED;8 native cycles1440/touch390/errors0, exact fit bytes/revision; остальное покрытие перенесено по неизменности, не полный повтор.
+- [Code Review r1](reviews/2026-10-07-module-card-cleanup-code-review-r1.md) — CHANGES_REQUESTED/CR-MC-B1: пустой ID существующего ring/table invoker; отдельное минимальное исправление, не повтор colon-ID QA.
+- [Developer idless fix](reviews/2026-10-07-module-card-cleanup-developer-idless-fix.md) и [QA5](reviews/2026-10-07-module-card-cleanup-qa-idless-fix.md) —721e815/CR-MC-B1 CLOSED по QA,6idless+2named cycles/errors0, прежние bytes. Verifierbudget5/5, финальная scoped closure требует явного +1 оператора.
+- Экспериментальный [LAN4196](http://192.168.68.65:4196/?v=module-721e815):17exactassets, actualStart1.7s/Pause/iClose/errors0. Это новая UI4.1; H₂ алгоритм этой поставкой не исправлен.
+
 - [Пони: один слот контроля сигнатур](plans/2026-10-06-pony-signature-slot.md) — принятое изменение баланса, план/VC P01–P05; новый каталог0.2.2, исторические0.2.0/0.2.1 сохраняются.
 - [Pony Plan Review](reviews/2026-10-06-pony-signature-slot-plan-review.md), [Developer](reviews/2026-10-06-pony-signature-slot-developer.md), [QA](reviews/2026-10-06-pony-signature-slot-qa.md), [Review1](reviews/2026-10-06-pony-slot-code-review-r1.md) — history: known resolved ghost buffer B1.
 - [Pony B1 fix](reviews/2026-10-06-pony-signature-slot-developer-fix-r1.md), [affected QA](reviews/2026-10-06-pony-signature-slot-qa-affected-r1.md), [scoped Review2](reviews/2026-10-06-pony-slot-code-review-r2.md) — local PASS/APPROVED bbe3fc; old numeric snapshots unchanged; live4188. Не M/mission acceptance.
@@ -61,7 +70,7 @@
 сценариев. Claude Design теперь рассматривается как ассеты и предложение макета.
 Прежние технические QA/review не являются пользовательской приёмкой удобства.
 
-- [Рабочий процесс и критерии v4](product/ship-fitting-gd-workspace-v4.md) — accepted0.2/WF01–15, оператор одобрил выполнение и footer version.
+- [Рабочий процесс и критерии v4](product/ship-fitting-gd-workspace-v4.md) — accepted0.3/WF01–15, компактные собственные ТТХ/кнопка i; интерфейс v4.1.
 - [Инвентаризация v1/v2/v3](research/2026-10-06-ui-capability-inventory.md) — 22 рабочих сценария, сохранённые/потерянные/скрытые возможности и source anchors; read-only Developer, не runtime QA.
 - [План восстановления v4](plans/2026-10-06-gd-workspace-v4.md) и [сценарная приёмка](verification/gd-workspace-v4-contract.md) — frozenf52 sources; signed PLAN_READY ниже; initial candidate17bb6b6 сохранён; текущий runtime15f5d90e LIVE4188 с каталогом0.2.1 и исправлением условий неполных сборок; история ниже.
 - [Независимый Plan Review v4](reviews/2026-10-06-gd-workspace-v4-plan-review.md) — PLAN_READY,0BLOCKER/1ADVISORY; три exact docs+wholeVC fingerprint19d33e57… . Один Developer, один Worker, сохранённые стенды.

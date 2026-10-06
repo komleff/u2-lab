@@ -10,9 +10,8 @@ import {
   roleNames,
   passport,
   slotLayout,
-  nominal,
-  mass,
-  heatCapacity,
+  moduleProfile,
+  nominalProcess,
   laserNames,
   snapshotMatches,
 } from "./presentation";
@@ -31,7 +30,8 @@ export function shipView(
     selected = w.getSelected(),
     r = selected.result,
     stale = w.isStale(),
-    previous = w.isPreviousResult(selected);
+    previous = w.isPreviousResult(selected),
+    process = nominalProcess(w);
   const all = [
       ...h.slots.map((s) => ({
         id: s.id,
@@ -108,7 +108,7 @@ export function shipView(
                   del !== null && requested && requested > 0
                     ? (del / requested) * 100
                     : null;
-                return `<div class="module-wrapper"><button ${x.builtin ? "" : `id="slot-${esc(x.slot?.id)}"`} data-${x.builtin ? "instance" : "slot"}="${esc(x.builtin ? x.id : x.slot?.id)}" class="module-card ${x.builtin ? "builtin" : ""} ${!m && x.slot?.mandatory ? "invalid" : ""}"><div class="module-top"><span class="calibre">${esc(m?.size ?? x.slot?.size)}</span><div><span class="eyebrow">${x.builtin ? "🔒 Встроено · заменить нельзя" : `${esc(x.slot?.id)} · слот ${x.slot?.size}`}</span><h3>${esc(names.get(x.id) ?? roleNames[x.slot?.role ?? ""] ?? m?.label ?? (x.slot?.mandatory ? "Пустой обязательный слот" : "Пусто"))}</h3>${(x.slot?.role || names.has(x.id)) && m ? `<p>${esc(m.label)}</p>` : ""}<span class="muted">${m ? "производитель не указан" : ""}</span></div><strong class="nominal">${m ? nominal(m) : "—"}</strong></div>${m ? `<p class="muted">Номинал · ${num(mass(m), "кг")} · C ${num(heatCapacity(m), "Дж/K")} ${fit.localVariants[m.id] ? "· локальный вариант — ТТХ и происхождение в деталях" : ""}</p>` : ""}${pct !== null ? `<div class="measurement"><span class="bar"><i style="width:${Math.max(0, Math.min(100, pct!))}%"></i></span>${num(pct, "% номинала")} · ${previous ? "предыдущий тест · run " + esc(r!.runId) + " · " : ""}${stale ? "устарело · " : ""}bucket ${num(b!.startSeconds)}–${num(b!.endSeconds, "с")}</div>` : `<p class="muted">${r && !same && m ? "не измерено — изменено после теста" : r ? "нет канала выдачи в снимке" : "не измерено"}</p>`}<span class="card-action-label">${x.builtin ? "Параметры" : m ? "Заменить" : "Установить"}</span></button>${m && (!x.builtin || m.family === "mining") ? `<label class="card-enable"><input type="checkbox" data-enable="${esc(x.id)}" ${x.builtin ? 'data-builtin="true"' : ""} ${x.enabled ? "checked" : ""}>Включён · ${esc(names.get(x.id) ?? m.label)}</label>` : ""}</div>`;
+                return `<div class="module-wrapper"><button ${x.builtin ? `id="instance-${esc(x.id)}"` : `id="slot-${esc(x.slot?.id)}"`} data-${x.builtin ? "instance" : "slot"}="${esc(x.builtin ? x.id : x.slot?.id)}" class="module-card ${x.builtin ? "builtin" : ""} ${!m && x.slot?.mandatory ? "invalid" : ""}"><div class="module-top"><span class="calibre">${esc(m?.size ?? x.slot?.size)}</span><div><span class="eyebrow">${x.builtin ? "🔒 Встроено · заменить нельзя" : `${esc(x.slot?.id)} · слот ${x.slot?.size}`}</span><h3>${esc(names.get(x.id) ?? roleNames[x.slot?.role ?? ""] ?? m?.label ?? (x.slot?.mandatory ? "Пустой обязательный слот" : "Пусто"))}</h3>${(x.slot?.role || names.has(x.id)) && m ? `<p>${esc(m.label)}</p>` : ""}</div></div>${m ? `<div class="module-profile">${moduleProfile(m, process)}</div>${fit.localVariants[m.id] ? '<p class="muted">Локальная гипотеза · ТТХ под i</p>' : ""}` : ""}${pct !== null ? `<div class="measurement"><span class="bar"><i style="width:${Math.max(0, Math.min(100, pct!))}%"></i></span>${num(pct, "% номинала")} · ${previous ? "предыдущий тест · run " + esc(r!.runId) + " · " : ""}${stale ? "устарело · " : ""}bucket ${num(b!.startSeconds)}–${num(b!.endSeconds, "с")}</div>` : r && !same && m ? '<p class="warning">не измерено — изменено после теста</p>' : ""}<span class="card-action-label">${x.builtin ? "Параметры" : m ? "Заменить" : "Установить"}</span></button>${m ? `<button class="module-info-button" id="info-${esc(x.id)}" data-instance="${esc(x.id)}" aria-label="Технические сведения: ${esc(m.label)}">i</button>` : ""}${m && (!x.builtin || m.family === "mining") ? `<label class="card-enable"><input type="checkbox" data-enable="${esc(x.id)}" ${x.builtin ? 'data-builtin="true"' : ""} ${x.enabled ? "checked" : ""}>Включён · ${esc(names.get(x.id) ?? m.label)}</label>` : ""}</div>`;
               })
               .join(
                 "",

@@ -1,3 +1,15 @@
+# UI4.1 cleanup checkpoint — 2026-10-07
+
+LAN4196 module721e815: cleanedownmodulestats +harmless i, full-fit previewcollapsed;
+actualStart1.7s/Pause/iClose/errors0,17assetbytes exact. Model/catalog unchanged.
+IndependentQA5 closesemptyIDclass; priorQA3closescolon. Review4CHANGES_REQUESTED
+preserved, finalscopedclosure pendingexplicit+1budget after5/5. PR11Draft.
+Normalguard489unit/52browser+1existingSKIP/26cloudPASS. PMaudit3/3 repeated.
+
+SeparateCC01–05 implementation inisolatedcoolingcheckout/PR12 afterPlanReady1
+andrealDraft. U2normPR843/18d2c82. NewH₂/Active behaviorNOTdelivered yet.
+Publicthermal/v1 andold4189 preserved. Rootprimary remainssoleBeadswriter.
+
 # Прогресс — 2026-10-07
 
 PUBLIC https://komleff.github.io/u2-lab/?v=thermal-a6c7430: v2.2/UI4/catalog0.2.3/

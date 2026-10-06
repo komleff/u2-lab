@@ -151,7 +151,9 @@ export function nominalProcess(
   const reference = makeMiningRun(
     getPresetFit(w.getFit().hullId + ":1", w.getFit().catalogVersion as CandidateCatalog["version"]),
     w.catalog,
-    w.getSelected().conditions,
+    // Чужие ID после смены корпуса не мешают чтению процесса; реальный draft
+    // сохраняет свою группу и отказ Start без переоснащения или нормализации.
+    { ...w.getSelected().conditions, selectedWorkGroup: undefined },
   );
   return reference.ok ? reference.value.process : undefined;
 }
@@ -230,4 +232,37 @@ export function nominal(m: ModuleItem) {
   if (n.powerW !== undefined) return num(n.powerW / 1e6, "МВт");
   if (n.areaM2 !== undefined) return num(n.areaM2, "м²");
   return m.family;
+}
+
+// Карточка описывает изделие; показатели всей сборки остаются в отдельном preview.
+export function moduleProfile(m: ModuleItem, process?: RunSpecV2["process"]) {
+  const n = m.numerics;
+  const traits: string[] = [];
+  switch (m.family) {
+    case "cargo":
+      traits.push(({ universal: "Универсальный", bulk: "Навалочный", liquid: "Жидкий" }[m.cargoType!] ?? "Грузовой") + " трюм · " + num(n.cargoM3, "SCU"));
+      break;
+    case "mining":
+      traits.push("Мощность " + num(n.powerW / 1e6, "МВт"), "Номинал добычи " + num(miningNominal(m, process), "SCU/с", 7));
+      break;
+    case "engine":
+      traits.push("Тяга " + num(n.forceN / 1e3, "кН"));
+      if (m.propulsionType === "electric") traits.push("Потребление " + num(n.powerW / 1e6, "МВт"));
+      break;
+    case "generator": traits.push("Номинальная мощность " + num(n.powerW / 1e6, "МВт")); break;
+    case "solar": traits.push("Площадь " + num(n.areaM2, "м²"), "КПД " + num(n.efficiency * 100, "%")); break;
+    case "battery": traits.push("Ёмкость " + num(n.capacityJ / 1e9, "ГДж")); break;
+    case "tank": traits.push((m.species === "hydrogen" ? "H₂" : "Дизель") + " · " + num(n.fuelCapacityKg, "кг")); break;
+    case "buffer": traits.push("Ёмкость " + num(n.capacityJ / 1e9, "ГДж"), "Лимит теплообмена " + num(n.coolingW / 1e6, "МВт")); break;
+    case "radiator": traits.push("Площадь " + num(n.areaM2, "м²")); break;
+    case "h2": traits.push("Предел охлаждения " + num(n.coolingW / 1e6, "МВт")); break;
+    case "thermoinverter": traits.push("Предел охлаждения " + num(n.coolingW / 1e6, "МВт"), "Поверхность " + num(n.areaM2, "м²")); break;
+  }
+  if (n.auxW > 0) traits.push("Вспомогательное питание " + num(n.auxW / 1e6, "МВт"));
+  traits.push("Масса " + num(mass(m), "кг"));
+  return traits.map(x => `<span>${esc(x)}</span>`).join("");
+}
+
+export function technicalDetails(m: ModuleItem, id: string, preId?: string) {
+  return `<details class="module-info" id="${esc(id)}" data-info-item="${esc(m.id)}"><summary aria-label="Технические сведения: ${esc(m.label)}">i</summary><div class="module-info-body"><h4>ТТХ и происхождение · ${esc(m.label)}</h4><pre ${preId ? `id="${esc(preId)}"` : ""}>${esc(JSON.stringify(m, null, 2))}</pre></div></details>`;
 }

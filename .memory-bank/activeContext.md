@@ -1,3 +1,22 @@
+# Текущий приоритет — cooling, UI cleanup status
+
+Cooling Beads ulab-6xr/PR12: isolated /Users/komleff/Documents/GitHub/u2-lab-cooling-control,
+feat/cooling-control planHEADc850478 fromQA-testedUI721e815. PlanReview1READY,
+realDraftbeforecode, oneDeveloperreleasedCC01–05; physicsnotdelivered yet.
+U2normPR843/18d2c82 palette0.4; source viaINDEX, not archived search.
+
+UIcleanup ulab-p2w/PR11: wholeHOW/MC01–05 unchanged, productWHAT0.3 current.
+Source721e815, guard489unit/52browser+existingSKIP/26cloudPASS. QA2colonFAIL,
+QA3closurePASS, Review4emptyIDBLOCKER, one-lineclassfix thenQA5CLOSED.
+Both6idless and2named nativecycles/errors0, exactfit/result/revision. Reports
+literal inPR11/INDEX; historicalFAIL preserved. Budget5/5, requested+1scoped
+closureexplicitly, pendingoperator; no6thlaunch. FinalCodeReviewnotAPPROVED.
+SelfauditPM_ERR1.3/DOC_PRafterQA3 andReview4/fix/QA5, counterreset0/3.
+LAN http://192.168.68.65:4196/?v=module-721e815 ownedPID65511;
+module-cleanup-preview-server.json +rollback record. Exact17HTTPassets,
+actualWorkerStart1.7s/Pause/iClose/errors0. Cooling stilloldalgorithm.
+Old4189station86 andpublicthermal/v1 preserved; no operator/main merge.
+
 # Текущий пакет: температурная диагностика, 2026-10-07
 
 Принято оператором: единая линейная hot/cold кривая с индивидуальными ТТХ,

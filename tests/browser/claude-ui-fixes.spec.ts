@@ -42,7 +42,7 @@ test("D01/D02/D04/D10 source-derived preview, bidirectional catalogue and whole-
   await expect(page.locator("#swap-sort")).toHaveValue("power-asc");
   await expect(
     page.locator('[data-candidate="mining-industrial-S"]'),
-  ).toContainText("Δ активной колонки");
+  ).toContainText("Номинал добычи");
   await page.keyboard.press("Escape");
   await expect(
     page.locator('button.module-card[data-slot="payload-1"]'),

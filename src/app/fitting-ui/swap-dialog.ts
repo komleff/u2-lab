@@ -5,10 +5,10 @@ import {
   esc,
   num,
   mass,
-  heatCapacity,
   passport,
   replacement,
-  nominal,
+  moduleProfile,
+  technicalDetails,
   nominalProcess,
   nominalFit,
   miningNominal,
@@ -36,23 +36,12 @@ export function swapDialog(w: FittingWorkspace, s: SwapState) {
     field === "mass"
       ? mass(m)
       : field === "cargo"
-        ? Object.values(
-            passport(
-              replacement(f, w.catalog, s.slotId, m.id, s.batch),
-              w.catalog,
-            ).cargo,
-          ).reduce((n, x) => n + x, 0)
+        ? m.family === "cargo" ? m.numerics.cargoM3 : null
         : field === "power"
-          ? loadNominal(m)
+          ? loadNominal(m) && loadNominal(m)! > 0 ? loadNominal(m) : null
           : field === "mining"
-            ? miningNominal(m, process)
-            : field === "lasers"
-              ? nominalFit(
-                  replacement(f, w.catalog, s.slotId, m.id, s.batch),
-                  w.catalog,
-                  process,
-                ).lasers
-              : null;
+            ? m.family === "mining" ? miningNominal(m, process) : null
+            : null;
   const compare = (a: (typeof items)[number], b: (typeof items)[number]) => {
     if (field === "source")
       return (
@@ -121,14 +110,12 @@ export function swapDialog(w: FittingWorkspace, s: SwapState) {
     ["name-desc", "Название ▼"],
     ["mass-asc", "Масса ▲"],
     ["mass-desc", "Масса ▼"],
-    ["cargo-asc", "Объём SCU ▲"],
-    ["cargo-desc", "Объём SCU ▼"],
+    ["cargo-asc", "Вместимость ▲"],
+    ["cargo-desc", "Вместимость ▼"],
     ["power-asc", "Потребление ▲"],
     ["power-desc", "Потребление ▼"],
     ["mining-asc", "Добыча ▲"],
     ["mining-desc", "Добыча ▼"],
-    ["lasers-asc", "Лазеров после ▲"],
-    ["lasers-desc", "Лазеров после ▼"],
     ["source-asc", "Источник ▲"],
     ["source-desc", "Источник ▼"],
   ]
@@ -140,12 +127,9 @@ export function swapDialog(w: FittingWorkspace, s: SwapState) {
       "",
     )}</select></label></div><p class="muted">${shown.filter((x) => x.v.valid).length} подходят · ${shown.filter((x) => !x.v.valid).length} с отказом · номинальные параметры</p><div class="catalog-head segments" role="group" aria-label="Сортировка по колонкам">${[
     ["name", "Изделие"],
-    ["power", "Потребление"],
-    ["mining", "Номинал добычи"],
     ["mass", "Масса"],
-    ["cargo", "Трюм после"],
-    ["lasers", "Лазеров после"],
-    ["source", "Источник"],
+    ...(s.family === "cargo" ? [["cargo", "Вместимость"]] : []),
+    ...(s.family === "mining" ? [["power", "Мощность"], ["mining", "Номинал добычи"]] : []),
   ]
     .map(
       ([id, label]) =>
@@ -153,32 +137,12 @@ export function swapDialog(w: FittingWorkspace, s: SwapState) {
     )
     .join(
       "",
-    )}<span class="muted">Объём модуля: отсутствует в каталоге</span></div><p class="muted">Дельта активной числовой колонки — к установленному изделию; совместимые кандидаты всегда первыми.</p><div class="catalog-list" role="group" aria-label="Каталог изделий">${
-    shown
-      .map(
-        ({ m, v }) =>
-          `<button class="catalog-row ${m.id === s.candidate ? "selected" : ""} ${!v.valid ? "incompatible" : ""}" data-candidate="${esc(m.id)}" aria-pressed="${m.id === s.candidate}"><span class="calibre">${m.size}</span><span><strong>${esc(m.label)}</strong><span class="muted">${m.family} · производитель не указан ${m.id === installed ? "· установлено" : ""}</span>${
-            !v.valid
-              ? `<span class="warning">Не подходит: ${esc(
-                  v.issues
-                    .filter((x) => x.severity === "error")
-                    .map((x) => x.message)
-                    .join(" · "),
-                )}</span>`
-              : ""
-          }</span><span class="catalog-metrics">${nominal(m)}${["power", "mining", "mass", "cargo", "lasers"].includes(field) ? `<small>Δ активной колонки: ${num(metric(m) !== null && items.find((x) => x.id === installed) && metric(items.find((x) => x.id === installed)!) !== null ? metric(m)! - metric(items.find((x) => x.id === installed)!)! : null, field === "power" ? "W" : field === "mining" ? "SCU/с" : field === "mass" ? "кг" : field === "cargo" ? "SCU" : "лазеров", 7)}</small>` : ""}<small>Масса ${num(mass(m), "кг")} · C ${num(heatCapacity(m), "Дж/K")}</small><small>Объём изделия: не указан</small><small>Потребление: ${num(loadNominal(m) == null ? null : loadNominal(m)! / 1e6, "МВт")}${loadNominal(m) === null ? " · зависит от температуры" : ""}</small><small>Добыча: ${num(miningNominal(m, process), "SCU/с", 7)}</small><small>Лазеров после: ${nominalFit(replacement(f, w.catalog, s.slotId, m.id, s.batch), w.catalog, process).lasers} · номинал ${num(nominalFit(replacement(f, w.catalog, s.slotId, m.id, s.batch), w.catalog, process).miningScuS, "SCU/с", 7)}</small><small>Трюм после · SCU (унив. / нав. / жидк.): ${Object.values(
-            passport(
-              replacement(f, w.catalog, s.slotId, m.id, s.batch),
-              w.catalog,
-            ).cargo,
-          )
-            .map((x) => num(x))
-            .join(
-              " / ",
-            )}</small><small>Источник: ${esc([...new Set(Object.values(m.origins).map((o) => o.kind + " · " + o.sourceRef))].join("; "))}</small></span></button>`,
-      )
+    )}</div><div class="catalog-list" role="group" aria-label="Каталог изделий">${
+    shown.map(({ m, v }) =>
+      `<div class="catalog-entry"><button class="catalog-row ${m.id === s.candidate ? "selected" : ""} ${!v.valid ? "incompatible" : ""}" data-candidate="${esc(m.id)}" aria-pressed="${m.id === s.candidate}"><span class="calibre">${m.size}</span><span><strong>${esc(m.label)}</strong>${m.id === installed ? '<span class="muted">Установлено</span>' : ""}${!v.valid ? `<span class="warning">Не подходит: ${esc(v.issues.filter(x => x.severity === "error").map(x => x.message).join(" · "))}</span>` : ""}</span><span class="catalog-metrics module-profile">${moduleProfile(m, process)}</span></button>${technicalDetails(m, "candidate-info-" + m.id)}</div>`,
+    )
       .join("") || "<p>Ничего не найдено. Измените фильтры.</p>"
-  }</div><section id="fit-preview" aria-label="Предпросмотр всей сборки"><h3>Вся сборка: сейчас → после</h3>${
+  }</div><details id="fit-preview" aria-label="Предпросмотр всей сборки"><summary>Изменения сборки</summary><h3>Вся сборка: сейчас → после</h3>${
     after
       ? `<dl><div data-delta-power-w="${beforeNominal.powerW !== null && afterNominal!.powerW !== null ? afterNominal!.powerW - beforeNominal.powerW : "unavailable"}"><dt>Потребление всей сборки · номинальное</dt><dd>${num(beforeNominal.powerW == null ? null : beforeNominal.powerW / 1e6, "МВт")} → ${num(afterNominal!.powerW == null ? null : afterNominal!.powerW / 1e6, "МВт")} · Δ ${num(beforeNominal.powerW !== null && afterNominal!.powerW !== null ? (afterNominal!.powerW - beforeNominal.powerW) / 1e6 : null, "МВт")}</dd></div><div data-delta-mining-scu-s="${beforeNominal.miningScuS !== null && afterNominal!.miningScuS !== null ? afterNominal!.miningScuS - beforeNominal.miningScuS : "unavailable"}"><dt>Добыча всей сборки · номинальная</dt><dd>${num(beforeNominal.miningScuS, "SCU/с", 7)} → ${num(afterNominal!.miningScuS, "SCU/с", 7)} · Δ ${num(beforeNominal.miningScuS !== null && afterNominal!.miningScuS !== null ? afterNominal!.miningScuS - beforeNominal.miningScuS : null, "SCU/с", 7)}</dd></div><div><dt>Лазеров после</dt><dd>${beforeNominal.lasers} → ${afterNominal!.lasers}</dd></div><div><dt>Сухая масса</dt><dd>${num(before.dryMassKg, "кг")} → ${num(after.dryMassKg, "кг")} · Δ ${num(after.dryMassKg - before.dryMassKg, "кг")}</dd></div><div><dt>C</dt><dd>${num(before.heatCapacityJK, "Дж/K")} → ${num(after.heatCapacityJK, "Дж/K")}</dd></div><div><dt>Трюм универсальный / навалочный / жидкий</dt><dd>${Object.values(
           before.cargo,
@@ -199,5 +163,5 @@ export function swapDialog(w: FittingWorkspace, s: SwapState) {
               )
         }</p>${validation?.readiness.missing.length ? `<p class="warning">Сборка неполная: ${esc(validation.readiness.missing.join(" · "))}</p>` : ""}<details><summary>Объявленные ТТХ и происхождение ${f.localVariants[item!.id] ? "· локальный вариант" : ""}</summary><pre>${esc(JSON.stringify(item, null, 2))}</pre></details>`
       : "<p>Выберите изделие для предпросмотра.</p>"
-  }</section></div><div class="dialog-footer">${all ? `<label><input id="swap-batch" type="checkbox" ${s.batch ? "checked" : ""}>Все сменные Payload</label>` : ""}<button id="fit-remove" ${!installed ? "disabled" : ""}>Снять изделие</button><button id="fit-apply" class="primary" ${!validation?.valid || (s.candidate === installed && !s.batch) ? "disabled" : ""}>Применить замену</button><p class="muted">Снятие обязательного изделия допустимо; неполная сборка не запустится.</p></div>`;
+  }</details></div><div class="dialog-footer">${all ? `<label><input id="swap-batch" type="checkbox" ${s.batch ? "checked" : ""}>Все сменные Payload</label>` : ""}<button id="fit-remove" ${!installed ? "disabled" : ""}>Снять изделие</button><button id="fit-apply" class="primary" ${!validation?.valid || (s.candidate === installed && !s.batch) ? "disabled" : ""}>Применить замену</button><p class="muted">Снятие обязательного изделия допустимо; неполная сборка не запустится.</p></div>`;
 }

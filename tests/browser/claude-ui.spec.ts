@@ -145,7 +145,7 @@ test("UI03/17 six hulls update actual passport; local assets and tablet fallback
         maximumFractionDigits: 2,
       }),
     );
-    await expect(page.locator("#fit-slots")).toContainText(
+    await expect(page.locator("#fit-slots")).not.toContainText(
       "производитель не указан",
     );
   }
