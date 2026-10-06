@@ -71,3 +71,19 @@ Installed managed bd-env/reader/sync/hooks/roles не изменяются. Clou
 intents; оператор применяет trusted tooling из primary checkout. Первичный recovery:
 `docs/guides/operator-bootstrap.md`; checkpoint не canonical authority. Product WHAT,
 P1–P14 и bootstrap acceptance gates сохранены.
+
+
+## Автоматика охлаждения: уточнение 2026-10-07
+
+Источник: решение оператора и [U2 PR843](https://github.com/komleff/u2/pull/843),
+commit18d2c82a664ec2f58998608417bf199e8ded58ea; cooling palette0.4 §§4/7/10,
+thermal doctrine0.2.8. Current owner найден через U2 docs/INDEX.md.
+H₂ Efficient Auto работает по потребности рабочего температурного коридора,
+учитывая обычные пути отвода и накопленное тепло; при T_ship≤300K сам охладитель
+не отбирает тепло, не запрашивает питание и не расходует H₂. Это не общий floor
+корпуса и не цель охлаждать до300K; другие H₂ consumers сохраняют свой расход.
+Active при T_env≥T_ship закрывает площадь и насос, снова доступен при полезном
+перепаде. Hull/Passive signed exchange и отдельная роль TI остаются. Служебные
+причины OFF/закрытия отличимы от настоящей нехватки ресурсов/защиты. Численные
+ТТХ/enthalpy и stored-result schema не меняются; прошлые результаты не
+пересчитываются при открытии. HOW/CC01–05 — [план](../plans/2026-10-07-cooling-control.md).

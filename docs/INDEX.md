@@ -64,7 +64,7 @@
 сценариев. Claude Design теперь рассматривается как ассеты и предложение макета.
 Прежние технические QA/review не являются пользовательской приёмкой удобства.
 
-- [Рабочий процесс и критерии v4](product/ship-fitting-gd-workspace-v4.md) — accepted0.2/WF01–15, оператор одобрил выполнение и footer version.
+- [Рабочий процесс и критерии v4](product/ship-fitting-gd-workspace-v4.md) — accepted0.3/WF01–15, компактные собственные ТТХ/кнопка i; интерфейс v4.1.
 - [Инвентаризация v1/v2/v3](research/2026-10-06-ui-capability-inventory.md) — 22 рабочих сценария, сохранённые/потерянные/скрытые возможности и source anchors; read-only Developer, не runtime QA.
 - [План восстановления v4](plans/2026-10-06-gd-workspace-v4.md) и [сценарная приёмка](verification/gd-workspace-v4-contract.md) — frozenf52 sources; signed PLAN_READY ниже; initial candidate17bb6b6 сохранён; текущий runtime15f5d90e LIVE4188 с каталогом0.2.1 и исправлением условий неполных сборок; история ниже.
 - [Независимый Plan Review v4](reviews/2026-10-06-gd-workspace-v4-plan-review.md) — PLAN_READY,0BLOCKER/1ADVISORY; три exact docs+wholeVC fingerprint19d33e57… . Один Developer, один Worker, сохранённые стенды.
@@ -235,3 +235,10 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [Scoped Review a6](reviews/2026-10-07-thermal-diagnostics-code-review-legacy-fix.md) — sealed APPROVED/CR-TD-B1 CLOSED/0BLOCKER/0ADVISORY; два изменённых файла и необходимые callers, без новой полной кампании. Budget7/10, reserve3; самоаудит повторён при3/3.
 - [Публичный стенд](https://komleff.github.io/u2-lab/?v=thermal-a6c7430) — exact a6,17public assets/Start/Pause/bands/errors0 PASS; [первая Lab](https://komleff.github.io/u2-lab/legacy-v1/) сохранена и проверена. Публикация не означает merge Draft PR.
 - Текущий стенд: [thermala6, порт4196](http://192.168.68.65:4196/?v=thermal-a6c7430); HTTP17assets и Start/advance/Pause PASS. Прежняя [station86, порт4189](http://192.168.68.65:4189/?v=station-86dee5d) сохранена.
+
+
+## Автоматическое охлаждение — CC01–05
+
+- [План H₂/Active](plans/2026-10-07-cooling-control.md) — direct operator WHAT и existing Efficient Auto; PRODUCT, runtime ещё NOT RUN.
+- [Plan Review](reviews/2026-10-07-cooling-control-plan-review.md) — PLAN_READY/0BLOCKER/0ADVISORY, whole HOW; budget1/5.
+- [Current source authority](architecture/source-authority.md#автоматика-охлаждения-уточнение-2026-10-07) — U2 palette0.4/PR843, floor именно H₂, signed hull/Passive сохранён.
