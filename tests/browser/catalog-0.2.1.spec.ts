@@ -16,7 +16,7 @@ for(const width of [1440,390])test(`catalog0.2.1 native ${width} user assembly, 
  expect((await exported("#fit-save")).catalogVersion).toBe("ship-fitting-0.2.0");
  await action("#slot-march");await expect(page.locator('[data-candidate="engine-diesel-industrial-M-march"]')).toBeVisible();await action('[data-candidate="engine-diesel-industrial-M-march"]');
  await expect(page.locator("#fit-preview")).toContainText("16228800");await expect(page.locator("#fit-preview")).toContainText("experimental");
- await action("#fit-apply");expect((await exported("#fit-save")).catalogVersion).toBe("ship-fitting-0.2.1");
+ await action("#fit-apply");expect((await exported("#fit-save")).catalogVersion).toBe("ship-fitting-0.2.2");
  await page.locator("#fit-preset").selectOption("industrial-M:2");
  const signature=page.locator('[data-group="signature"]');if(await signature.getAttribute("aria-expanded")==="false")await signature.click();
  for(const [slot,item] of [["power-1","battery-M"],["power-4","battery-M"],["payload-3","cargo-bulk-M"],["signature-2","radiator-passive-M"],["signature-3","radiator-passive-M"],["signature-4","radiator-passive-M"]])await select(slot,item);
@@ -26,7 +26,7 @@ for(const width of [1440,390])test(`catalog0.2.1 native ${width} user assembly, 
  await expect(page.locator("#fit-result")).toContainText("Первый ограничитель");
  await expect(page.locator("#lab-first-limiter")).toContainText("не выявлено за измеренный интервал");
  const run=await exported("#fit-export-run"),native=await exported("#fit-export-result");
- expect(run.catalogVersion).toBe("ship-fitting-0.2.1");expect(native.spec).toEqual(run);expect(native.spec.resolvedShip.fit).toEqual(fit);
+ expect(run.catalogVersion).toBe("ship-fitting-0.2.2");expect(native.spec).toEqual(run);expect(native.spec.resolvedShip.fit).toEqual(fit);
  expect(run.resolvedShip.dryMassKg).toBeCloseTo(412245.5504768165,7);expect(native.state.timeSeconds).toBe(5.25);expect(native.metrics.usefulWork).toBeGreaterThan(0);
  await action("#fit-freeze");const frozen=await page.locator(".ab-side-a").innerHTML();
  const bad=structuredClone(fit);bad.catalogVersion="ship-fitting-0.2.0";await open(bad);await expect(page.locator("#fit-error")).not.toBeEmpty();expect(await exported("#fit-save")).toEqual(fit);expect(await exported("#fit-export-result")).toEqual(native);expect(await page.locator(".ab-side-a").innerHTML()).toBe(frozen);

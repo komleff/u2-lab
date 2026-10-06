@@ -1,4 +1,4 @@
-import { catalogHasItem } from "../../fitting/editions";
+import { catalogHasItem, fitHull } from "../../fitting/editions";
 import type {
   ShipFit,
   CandidateCatalog,
@@ -56,7 +56,7 @@ export function passport(f: ShipFit, c: CandidateCatalog) {
       cargo: compiled.value.cargoCapacityM3,
       complete: true,
     };
-  const h = c.hulls.find((x) => x.id === f.hullId)!;
+  const h = fitHull(f, c)!;
   const mats = [
     ...h.materials,
     ...installedInstances(f, c).flatMap((i) => i.item.materials),
@@ -83,7 +83,7 @@ export function replacement(
   if (itemId && !next.localVariants[itemId] &&
       !catalogHasItem(next.catalogVersion, itemId) && catalogHasItem(c.version, itemId))
     next.catalogVersion = c.version;
-  const h = c.hulls.find((x) => x.id === f.hullId)!;
+  const h = fitHull(next, c)!;
   const targets = batch
     ? h.slots.filter((s) => s.category === "payload")
     : h.slots.filter((s) => s.id === slotId);
@@ -149,7 +149,7 @@ export function nominalProcess(
   const current = w.prepare();
   if (current.ok) return current.value.process;
   const reference = makeMiningRun(
-    getPresetFit(w.getFit().hullId + ":1"),
+    getPresetFit(w.getFit().hullId + ":1", w.getFit().catalogVersion as CandidateCatalog["version"]),
     w.catalog,
     w.getSelected().conditions,
   );
@@ -188,7 +188,7 @@ export function nominalFit(
   return {
     powerW: roster.some((i) => loadNominal(i.item) === null)
       ? null
-      : c.hulls.find((h) => h.id === f.hullId)!.hullPowerW +
+      : fitHull(f, c)!.hullPowerW +
         roster.reduce((n, i) => n + loadNominal(i.item)!, 0),
     miningScuS: !mining.length
       ? 0

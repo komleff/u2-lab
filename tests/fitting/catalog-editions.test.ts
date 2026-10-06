@@ -1,14 +1,16 @@
 import { it, expect } from "vitest";
 import { createHash } from "node:crypto";
 import baseline from "./fixtures/catalog-0.2.0-digests.json";
-import { getPresetFit, loadCandidateCatalog } from "../../src/fitting/catalog";
+import { getPresetFit as editionPreset, loadCandidateCatalog } from "../../src/fitting/catalog";
+import type { CandidateCatalog } from "../../src/fitting/types";
 import { makeMiningRun } from "../../src/scenarios/fitting";
 import { createRun, runChunk, result } from "../../src/runner/run";
 import { parseFitJson, parseExperimentJson, serializeFit, serializeExperiment } from "../../src/io/fitting-json";
 import { parseResultJson } from "../../src/io/fitting-result";
 import { FittingWorkspace } from "../../src/app/fitting-workspace";
 import { replacement } from "../../src/app/fitting-ui/presentation";
-const old = "ship-fitting-0.2.0", current=loadCandidateCatalog();
+const old = "ship-fitting-0.2.0", current=loadCandidateCatalog("ship-fitting-0.2.1");
+const getPresetFit = (id: string, v: CandidateCatalog["version"] = "ship-fitting-0.2.1") => editionPreset(id, v);
 const json=(x:unknown)=>JSON.stringify(x,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as any):v);
 const digest=(x:unknown)=>createHash("sha256").update(json(x)).digest("hex");
 for(const [id,oracle] of Object.entries(baseline.rows)) it(`old ${id} retains exact native fit/spec/zero/partial/completed hashes in the current catalog`,()=>{
@@ -31,7 +33,7 @@ it("both known editions open fit/spec/native result; unknown catalogs still requ
   const f=getPresetFit("industrial-M:2",version), s=makeMiningRun(f,current,{durationSeconds:2,stepSeconds:1});if(!s.ok)throw Error(json(s));
   expect(s.value.catalogVersion).toBe(version);expect(parseFitJson(serializeFit(f),current).ok).toBe(true);expect(parseExperimentJson(serializeExperiment(s.value))).toEqual(s);
   const run=createRun(version,s.value);while(!run.done)runChunk(run,10);expect(parseResultJson(json(result(run))).ok).toBe(true);
-  const unknown=structuredClone(s.value);unknown.catalogVersion="ship-fitting-0.2.2";unknown.resolvedShip.fit.catalogVersion=unknown.catalogVersion;
+  const unknown=structuredClone(s.value);unknown.catalogVersion="ship-fitting-0.2.3";unknown.resolvedShip.fit.catalogVersion=unknown.catalogVersion;
   expect(parseExperimentJson(json(unknown)).ok).toBe(false);expect(parseExperimentJson(json(unknown),{allowSnapshotReplay:true}).ok).toBe(true);
   const r=result(run);r.spec=unknown;expect(parseResultJson(json(r)).ok).toBe(false);
  }

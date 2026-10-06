@@ -1,6 +1,7 @@
 import { catalogHasItem, isKnownCatalogVersion } from "../fitting/editions";
 import { validateRunSpec, type ValidationResult } from "../catalog/schema";
 import { validateFit } from "../fitting/validate";
+import { loadCandidateCatalog } from "../fitting/catalog";
 import { validateRunSpecV2 } from "../model/v2/step";
 import type { ShipFit, CandidateCatalog } from "../fitting/types";
 import type { AnyRunSpec } from "../model/v2/types";
@@ -46,6 +47,9 @@ export function parseExperimentJson(
           Object.values(fit.instances).some(i => !fit.localVariants[i.itemId] && !catalogHasItem(spec.catalogVersion, i.itemId)) ||
           validated.value.resolvedShip.instances.some(i => !i.builtin && !fit.localVariants[i.item.id] && !catalogHasItem(spec.catalogVersion, i.item.id)))
         return invalid("CATALOG_INVENTORY", "Изделие или version stamp не принадлежит объявленному каталогу");
+      const mounting = validateFit(fit, loadCandidateCatalog(spec.catalogVersion));
+      if (!mounting.valid)
+        return { ok: false, errors: mounting.issues.filter(i => i.severity === "error") };
     } else {
       if (!options.allowSnapshotReplay)
         return invalid(

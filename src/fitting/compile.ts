@@ -1,6 +1,7 @@
 import type { ValidationResult } from "../catalog/schema";
 import type { ShipFit, CandidateCatalog, ResolvedShip } from "./types";
 import { validateFit, installedInstances } from "./validate";
+import { fitHull } from "./editions";
 export function compileFit(
   f: ShipFit,
   c: CandidateCatalog,
@@ -13,7 +14,7 @@ export function compileFit(
         (i) => i.severity === "error" || i.code === "MISSING",
       ),
     };
-  const h = structuredClone(c.hulls.find((h) => h.id === f.hullId)!);
+  const h = structuredClone(fitHull(f, c)!);
   const roster = installedInstances(f, c);
   const materials = [
     ...h.materials.map((m) => ({ ...m, id: "shell:" + m.id })),

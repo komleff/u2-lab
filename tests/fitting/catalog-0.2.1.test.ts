@@ -1,12 +1,14 @@
 import { it, expect } from "vitest";
-import { loadCandidateCatalog, getPresetFit } from "../../src/fitting/catalog";
+import { loadCandidateCatalog as loadEdition, getPresetFit as editionPreset } from "../../src/fitting/catalog";
 import { compileFit } from "../../src/fitting/compile";
 import { validateFit } from "../../src/fitting/validate";
 import { initialStateV2, stepV2 } from "../../src/model/v2/step";
 import { makeMiningRun } from "../../src/scenarios/fitting";
 import baseItems from "../../src/fitting/data/modules.json";
 import baseHulls from "../../src/fitting/data/hulls.json";
-import type { ShipFit } from "../../src/fitting/types";
+import type { ShipFit, CandidateCatalog } from "../../src/fitting/types";
+const loadCandidateCatalog = (v: CandidateCatalog["version"] = "ship-fitting-0.2.1") => loadEdition(v);
+const getPresetFit = (id: string, v: CandidateCatalog["version"] = "ship-fitting-0.2.1") => editionPreset(id, v);
 const mass = (m: { materials: { massKg: number }[] }) => m.materials.reduce((s,b) => s+b.massKg,0);
 const install = (f: ShipFit, slot: string, itemId: string) => {
  const id = "fit:"+slot; f.assignments[slot]=id; f.instances[id]={id,itemId,enabled:true};
@@ -93,6 +95,6 @@ it("all supported new defaults produce short finite native measurements and actu
  }
 });
 it("rejects unsupported catalog loader/preset editions rather than manufacturing a future inventory",()=>{
- expect(()=>loadCandidateCatalog("ship-fitting-0.2.2" as any)).toThrow("Неизвестная версия каталога");
- expect(()=>getPresetFit("industrial-M:2","ship-fitting-0.2.2" as any)).toThrow("Неизвестная версия каталога");
+ expect(()=>loadCandidateCatalog("ship-fitting-0.2.3" as any)).toThrow("Неизвестная версия каталога");
+ expect(()=>getPresetFit("industrial-M:2","ship-fitting-0.2.3" as any)).toThrow("Неизвестная версия каталога");
 });
