@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { createHash } from "node:crypto";
 import baseline from "./fixtures/catalog-0.2.1-pony-digests.json";
-import { getPresetFit, loadCandidateCatalog } from "../../src/fitting/catalog";
+import { getPresetFit as editionPreset, loadCandidateCatalog as editionCatalog } from "../../src/fitting/catalog";
 import * as editions from "../../src/fitting/editions";
 import { validateFit } from "../../src/fitting/validate";
 import { compileFit } from "../../src/fitting/compile";
@@ -15,12 +15,14 @@ import { shipView } from "../../src/app/fitting-ui/ship-view";
 import { swapDialog } from "../../src/app/fitting-ui/swap-dialog";
 import { validateRunSpecV2 } from "../../src/model/v2/step";
 import type { RunSpecV2 } from "../../src/model/v2/types";
+const getPresetFit: typeof editionPreset = (id, version="ship-fitting-0.2.2") => editionPreset(id,version);
+const loadCandidateCatalog: typeof editionCatalog = (version="ship-fitting-0.2.2") => editionCatalog(version);
 const old = "ship-fitting-0.2.1", next = "ship-fitting-0.2.2";
 const wire = (x: unknown) => JSON.stringify(x, (_, v) => ArrayBuffer.isView(v) ? Array.from(v as any) : v);
 const digest = (x: unknown) => createHash("sha256").update(wire(x)).digest("hex");
 const signatureSlots = (h: ReturnType<typeof loadCandidateCatalog>["hulls"][number]) => h.slots.filter(s => s.category === "signature");
 describe("P01–P04 edition-specific Pony signature mount", () => {
-  it("defaults to0.2.2 and preserves45 items, other hulls and every Pony field except the accepted slot/provenance", () => {
+  it("explicit0.2.2 and preserves45 items, other hulls and every Pony field except the accepted slot/provenance", () => {
     const c = loadCandidateCatalog(), previous = loadCandidateCatalog(old);
     expect(c.version).toBe(next); expect(c.items).toEqual(previous.items); expect(Object.keys(c.items)).toHaveLength(45);
     for (const h of c.hulls) {
@@ -82,7 +84,7 @@ describe("P01–P04 edition-specific Pony signature mount", () => {
     expect(parseFitJson(wire(claimed.resolvedShip.fit), c).ok).toBe(false);
     expect(parseExperimentJson(wire(claimed), { allowSnapshotReplay: true }).ok).toBe(false);
     for (const doc of [claimed.resolvedShip.fit, claimed, native]) { expect(w.importDocument(wire(doc), true).ok).toBe(false); expect(w.snapshot()).toEqual(before); }
-    const unknown = structuredClone(previous.value); unknown.catalogVersion = "ship-fitting-0.2.3"; unknown.resolvedShip.fit.catalogVersion = unknown.catalogVersion;
+    const unknown = structuredClone(previous.value); unknown.catalogVersion = "ship-fitting-future-test"; unknown.resolvedShip.fit.catalogVersion = unknown.catalogVersion;
     expect(parseExperimentJson(wire(unknown)).ok).toBe(false); expect(parseExperimentJson(wire(unknown), { allowSnapshotReplay: true }).ok).toBe(true);
     expect(parseResultJson(wire({ ...native, spec: unknown })).ok).toBe(false);
   });

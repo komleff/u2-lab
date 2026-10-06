@@ -6,6 +6,33 @@ import type {
 } from "../types";
 import type { ResolvedShip, PropulsionRole } from "../../fitting/types";
 export const MODEL_V2 = "ship-fitting-ledger-0.2" as const;
+export const MODEL_MISSION = "ship-fitting-mission-0.2.2" as const;
+export type MissionConfig = {
+  distanceM: number;
+  cruiseSpeedMS: number | null;
+  referenceVfaMS: number;
+  cPrimeMS: 3000;
+  stopPolicy: "full-hold" | "first-stop";
+  approachSeconds: number;
+  serviceSeconds: number;
+  maneuverDuty: number;
+};
+export type MissionState = {
+  stage: "outbound" | "approach" | "mining" | "inbound" | "service" | "done" | "stranded";
+  flightMode: "acceleration" | "coast" | "braking";
+  positionM: number;
+  velocityMS: number;
+  stageStartedSeconds: number;
+  tripStartedSeconds: number;
+  outboundMassKg: number;
+  inboundMassKg: number | null;
+  peakVelocityMS: number;
+  deliveredM3: number;
+  receivedFuelKg: Record<string, number>;
+  elapsed: { flight: number; approach: number; mining: number; service: number; recovery: number };
+  firstLimiter: { timeSeconds: number; phase: string; instanceIds: string[]; causes: Cause[]; message: string } | null;
+  terminalReason: string | null;
+};
 export type Cause = "power" | "thermal" | "resource" | "cargo";
 export const CAUSES: Cause[] = ["power", "thermal", "resource", "cargo"];
 export type RequestFrame = Record<string, number>;
@@ -28,7 +55,8 @@ export type FittingPhase = {
 };
 export type RunSpecV2 = {
   schemaVersion: "u2-lab/2";
-  modelVersion: typeof MODEL_V2;
+  modelVersion: typeof MODEL_V2 | typeof MODEL_MISSION;
+  mission?: MissionConfig;
   catalogVersion: string;
   units: "SI";
   approvedBaseline: false;
@@ -55,6 +83,7 @@ export type RunSpecV2 = {
   stepSeconds: number;
 };
 export type StateV2 = ModelState & {
+  mission?: MissionState;
   schemaVersion: "u2-lab/2";
   cargoM3: Record<string, number>;
   currentMassKg: number;

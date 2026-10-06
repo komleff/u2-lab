@@ -33,7 +33,7 @@ it("both known editions open fit/spec/native result; unknown catalogs still requ
   const f=getPresetFit("industrial-M:2",version), s=makeMiningRun(f,current,{durationSeconds:2,stepSeconds:1});if(!s.ok)throw Error(json(s));
   expect(s.value.catalogVersion).toBe(version);expect(parseFitJson(serializeFit(f),current).ok).toBe(true);expect(parseExperimentJson(serializeExperiment(s.value))).toEqual(s);
   const run=createRun(version,s.value);while(!run.done)runChunk(run,10);expect(parseResultJson(json(result(run))).ok).toBe(true);
-  const unknown=structuredClone(s.value);unknown.catalogVersion="ship-fitting-0.2.3";unknown.resolvedShip.fit.catalogVersion=unknown.catalogVersion;
+  const unknown=structuredClone(s.value);unknown.catalogVersion="ship-fitting-future-test";unknown.resolvedShip.fit.catalogVersion=unknown.catalogVersion;
   expect(parseExperimentJson(json(unknown)).ok).toBe(false);expect(parseExperimentJson(json(unknown),{allowSnapshotReplay:true}).ok).toBe(true);
   const r=result(run);r.spec=unknown;expect(parseResultJson(json(r)).ok).toBe(false);
  }

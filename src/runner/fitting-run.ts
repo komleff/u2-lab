@@ -1,5 +1,7 @@
 import type { RunSpecV2, StateV2, FittingPhase } from "../model/v2/types";
 import { validateRunSpecV2, initialStateV2, stepV2 } from "../model/v2/step";
+import { MODEL_MISSION } from "../model/v2/types";
+import { initializeMission, runMissionChunk } from "./mission";
 import type { TickTelemetry } from "../model/types";
 import { Retention, EventRetention, type Bucket } from "./retention";
 import {
@@ -65,7 +67,7 @@ export function createFittingRun(runId: string, spec: RunSpecV2): RunContextV2 {
   const v = validateRunSpecV2(spec);
   if (!v.ok)
     throw Error(v.errors.map((e) => e.path + ": " + e.message).join("\n"));
-  return {
+  const run:RunContextV2 = {
     runId,
     spec: v.value,
     state: initialStateV2(v.value),
@@ -75,12 +77,15 @@ export function createFittingRun(runId: string, spec: RunSpecV2): RunContextV2 {
     done: false,
     last: {},
   };
+  if(v.value.modelVersion===MODEL_MISSION)initializeMission(run);
+  return run;
 }
 export function runFittingChunk(
   run: RunContextV2,
   maxSteps: number,
   wallBudgetMs = Infinity,
 ) {
+  if(run.spec.modelVersion===MODEL_MISSION)return runMissionChunk(run,maxSteps,wallBudgetMs);
   const started = performance.now();
   let steps = 0;
   while (!run.done && steps < maxSteps) {

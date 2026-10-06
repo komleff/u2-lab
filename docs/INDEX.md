@@ -30,10 +30,20 @@
 - [Pony Plan Review](reviews/2026-10-06-pony-signature-slot-plan-review.md), [Developer](reviews/2026-10-06-pony-signature-slot-developer.md), [QA](reviews/2026-10-06-pony-signature-slot-qa.md), [Review1](reviews/2026-10-06-pony-slot-code-review-r1.md) — history: known resolved ghost buffer B1.
 - [Pony B1 fix](reviews/2026-10-06-pony-signature-slot-developer-fix-r1.md), [affected QA](reviews/2026-10-06-pony-signature-slot-qa-affected-r1.md), [scoped Review2](reviews/2026-10-06-pony-slot-code-review-r2.md) — local PASS/APPROVED bbe3fc; old numeric snapshots unchanged; live4188. Не M/mission acceptance.
 
-- [Задание v2.2: событийная добыча и рейс](product/ship-fitting-v2.2-mission-brief.md) — accepted v0.3; основной рейс до полного трюма не блокируется optional уточнением. Лабораторные опоры явно подписаны; runtime пока не реализован.
-- [M-модули и гибридные сборки](product/ship-fitting-medium-modules.md) — MF01–04/HY01–02, независимый PLAN_READY;50 SKU планируются, в live каталоге пока45.
-- [План рейса и M-поставки](plans/2026-10-06-mission-medium-delivery.md) — PRODUCT HOW/VC M01–09 + medium contract, новый Plan Review до кода.
+- [Задание v2.2: событийная добыча и рейс](product/ship-fitting-v2.2-mission-brief.md) — accepted v0.3; основной рейс до полного трюма реализован в локальном кандидате4189. Лабораторные опоры явно подписаны; QA PASS и scoped review APPROVED в local scope d57; rootguard перед commit, base/native/main отдельно открыты.
+- [M-модули и гибридные сборки](product/ship-fitting-medium-modules.md) — MF01–04/HY01–02, независимый PLAN_READY;50 SKU доступны в исправленном черновике4189 (d57); независимая QA PASS и scoped review APPROVED local scope; rootguard перед commit, base/main отдельно открыты.
+- [План рейса и M-поставки](plans/2026-10-06-mission-medium-delivery.md) — PRODUCT HOW/VC v1.2 M01–09 + medium contract, PLAN_READY; DEV_RELEASE одному исполнителю.
 - [Plan Review M/HY](reviews/2026-10-06-medium-hybrid-plan-review.md) — READY0BLOCKER/0ADVISORY; exact whole contract e6088c0a… .
+- [Plan Review рейса/M integration](reviews/2026-10-06-mission-medium-plan-review.md) — PLAN_READY0B/0A; M09 fixture B1 закрыт v1.2, три whole contracts/24owner paths, fingerprint fef78c6c… .
+- [Developer: восстановление и повтор рейсов](reviews/2026-10-06-mission-medium-developer-fix-r1.md) — ec259, 427unit/46browser+1SKIP; operator FAIL исправлен и независимо проверен; immutable история первого fix; последующее закрытие B1/B2 ниже.
+- [Независимая QA рейса/M/HY](reviews/2026-10-06-mission-medium-qa.md), [15 AC](reviews/2026-10-06-mission-medium-qa-case-ledger.json), [source binding](reviews/2026-10-06-mission-medium-qa-source-binding.json), [evidence manifest](reviews/2026-10-06-mission-medium-qa-evidence.json) — PASS в адресованном local PRODUCT scope ec259; две сквозные LAN цепочки и реальные часовые рейсы. Исторический PASS; последующее affected закрытие ниже, native/base/main gates отдельно.
+- [Code Review рейса/M/HY r1](reviews/2026-10-06-mission-medium-code-review-r1.md), [52-path binding](reviews/2026-10-06-mission-medium-code-review-r1-reviewed-paths.json) — CHANGES_REQUESTED: CR-MISSION-B1 renewable recovery и CR-MISSION-B2 zero-time repeat,2BLOCKER/0ADVISORY; один Developer fix, affected QA/scoped re-review. Immutable CHANGES_REQUESTED history; B1/B2 CLOSED scoped r2 ниже.
+- [Developer fix-r2](reviews/2026-10-06-mission-medium-developer-fix-r2.md) — d57ad5bc, только mission owner +20 durable tests;447unit/46browser+1SKIP PASS. Immutable d57 LIVE4189: affectedQA5PASS, scopedReview2APPROVED;20 tests добавлены.
+
+- [Affected QA B1/B2](reviews/2026-10-06-mission-medium-qa-affected-r2.md), [source binding](reviews/2026-10-06-mission-medium-qa-affected-r2-source-binding.json), [case ledger](reviews/2026-10-06-mission-medium-qa-affected-r2-case-ledger.json), [evidence](reviews/2026-10-06-mission-medium-qa-affected-r2-evidence.json) —5 адресованных PASS/0productFAIL на d57; один Sputnik H3600/3service/90SCU, один LANtouch390 Worker workflow. Не повторный QA15.
+
+- [Scoped Code Review r2](reviews/2026-10-06-mission-medium-code-review-r2.md), [2 delta/51 carryover binding](reviews/2026-10-06-mission-medium-code-review-r2-reviewed-paths.json) — APPROVED, CR-MISSION-B1/B2 CLOSED,0BLOCKER/0ADVISORY; source d57, fullguard/base/main отдельно.
+- [Следующее дополнение: «Заправлять и заряжать»](plans/2026-10-06-station-service.md) — прямое поручение оператора, proposed HOW/AC ST01–06; shore charge ещё не реализована и не включена в предыдущее review.
 
 Оператор отклонил UX v3 и поручил адверсальное ревью GD, UX/UI и пользовательских
 сценариев. Claude Design теперь рассматривается как ассеты и предложение макета.

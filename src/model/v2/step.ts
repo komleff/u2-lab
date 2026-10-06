@@ -1,6 +1,6 @@
 import type { ValidationResult } from "../../catalog/schema";
 import type { RunSpecV2, StateV2, StepResultV2, RequestFrame } from "./types";
-import { CAUSES, MODEL_V2 } from "./types";
+import { CAUSES, MODEL_V2, MODEL_MISSION } from "./types";
 import { itemIssues } from "../../fitting/validate";
 import { allocateCargo, commodities } from "../../fitting/cargo";
 import { moduleBase } from "../../catalog/presets";
@@ -21,7 +21,7 @@ export function validateRunSpecV2(input: unknown): ValidationResult<RunSpecV2> {
   try {
     if (
       s.schemaVersion !== "u2-lab/2" ||
-      s.modelVersion !== MODEL_V2 ||
+      ![MODEL_V2, MODEL_MISSION].includes(s.modelVersion) ||
       s.units !== "SI" ||
       s.approvedBaseline !== false ||
       !s.catalogVersion
@@ -241,6 +241,23 @@ export function validateRunSpecV2(input: unknown): ValidationResult<RunSpecV2> {
         bad("initial.buffersJ." + id, "Запас вне ёмкости буфера");
     if (!allocateCargo(ship, s.initial.cargoM3).ok)
       bad("initial.cargoM3", "Невалидный cargo");
+    if (s.modelVersion === MODEL_MISSION) {
+      const m=s.mission;
+      if (!m) bad("mission", "Нужны условия физического рейса");
+      else {
+        for (const k of ["distanceM", "approachSeconds", "serviceSeconds"] as const)
+          if (!finite(m[k])) bad("mission."+k,"Нужно конечное неотрицательное SI значение");
+        if (m.cPrimeMS!==3000) bad("mission.cPrimeMS","Поддерживается стартовая среда c′=3000 m/s");
+        if (!(finite(m.referenceVfaMS)&&m.referenceVfaMS>0&&m.referenceVfaMS<3000)) bad("mission.referenceVfaMS","Лабораторная V_FA должна быть в (0,c′)");
+        if (m.cruiseSpeedMS!==null && !(finite(m.cruiseSpeedMS)&&m.cruiseSpeedMS>0&&m.cruiseSpeedMS<3000)) bad("mission.cruiseSpeedMS","Лимит скорости должен быть в (0,c′), Max=null");
+        if (!["full-hold","first-stop"].includes(m.stopPolicy)) bad("mission.stopPolicy","Неизвестное условие выхода из добычи");
+        if (!(finite(m.maneuverDuty)&&m.maneuverDuty<=1)) bad("mission.maneuverDuty","Манёвровый запрос должен быть в [0,1]");
+      }
+      if (!(s.scenario.targetM3>0)) bad("scenario.targetM3","Цель сданной руды должна быть >0");
+      if (Object.values(s.initial.cargoM3).some(n=>n!==0)) bad("initial.cargoM3","Первый вылет миссии должен быть без руды");
+      if (!s.selectedWorkGroup.some(id=>ship.instances.some(i=>i.id===id&&i.enabled&&i.item.family==="mining"))) bad("selectedWorkGroup","Нет включённых выбранных шахтёрских лазеров");
+      if (!(ship.cargoCapacityM3.bulk+ship.cargoCapacityM3.universal>0)) bad("resolvedShip.cargoCapacityM3","Нет совместимого рудного трюма");
+    }
     for (const e of [
       s.environment,
       ...s.scenario.phases.flatMap((p) =>

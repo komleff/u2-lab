@@ -1,44 +1,56 @@
-# Основной приоритет: рейс v2.2 и реальные M-модули — 2026-10-06
+# Текущий результат: повторяемый рейс v2.2 + M/HY
 
-Оператор повторно потребовал настоящий цикл станция→поле→станция и указал, что M
-отсутствуют. В live4188 пока45 SKU/старый timed цикл. Нельзя считать готовый план
-реализацией. PM признал ошибку приоритетов/optional blocker; больше не блокируем
-принятый fullhold уточнением firststop. Приняты WHAT missionbrief v0.3 и medium
-contract; HOW/VC docs/plans/2026-10-06-mission-medium-delivery.md. DraftPR9 base
-feat/pony-signature-slot, root545c722. Одна следующая поставка, milestones: основной
-рейс первым, пять M/HY вторыми. MPlanREADY0B/0A; missionintegrationPlanReview идёт.
-RuntimeDEV_RELEASE после короткого PonyB1closure и missionPlanREADY.
+Рабочий стенд: http://192.168.68.65:4189/?v=mission-fix2-d57ad5b
+localhost4189; PID48607, record .overgate-runtime/mission-medium-preview-server.json.
+Immutable source d57ad5bc75c77954e7eefe63fbe5630ca4529c62;
+source5FP103f9dd52637b7ec8316bc275c2c1db4ee413b92df4d12c0edf28bd8a687eb05,
+build17FPf9800bf4c01633a1a31c81f5cd22ac3ff6c5558f964f069b663815ac4d6342d1.
+Serving linked mission-medium-v2.2-candidate-fix-r2/extracted/dist. Только owned4189
+переключён;4183v3/4186v2+Legacy/4188Pony и артефакты старых кандидатов сохранены.
 
-PonyPR8Draft: new0.2.2 oneSig, old.0/.1 twoSig preserved. Review1 нашёл known
-resolved ghostbufferB1; fixbbe3fc (rootf3c8ed1) только3blobs. Affected QA4rowsPASS
-(81API/25browser internal assertions), scopedr2 APPROVED0B/B1CLOSED. Кандидатimmutable
-linked u2-lab-claude-ui/.overgate-runtime/pony-signature-slot-candidate-fix-r1,
-LAN4191 root-owned. Original3265artifact/reports/evidence остаются историей.
+PRODUCT PR9 https://github.com/komleff/u2-lab/pull/9 Draft,
+head feat/ship-fitting-mission-medium, base feat/pony-signature-slot/PR8Draft.
+WHAT briefv0.3 + medium, HOWv1.2 M01–09/MF01–04/HY01–02 PLAN_READY.
+50SKU/пять новых M, однородный propulsion + разрешённые auxiliary Power hybrids.
+Default H3600/bg100/rho1500/return.35/target10000/distance100km/Max/fullhold/repeat.
+Событийная добыча, физические загруженный/порожний перелёты, обслуживание,
+разгрузка/заправка после station arrival. Refuel не равно battery charge.
 
-Новая миссия: H3600,bg100K,rho1500,return.35,target10000deliveredSCU,approach10,
-unload/refuel10,distance100km,Max/fullhold/repeat. Outboundempty/inboundactualcargo.
-March/retro работают поinstalledTTX: actualforce→relativisticp=γmv,c′3000; actual
-fuel/energy/heat continuous, no teleport/coastmass free acceleration. Tagged new
-model сохраняетold ship-fitting-ledger-0.2 replay. LabreferenceV_FA500 editable,
-Tfirst300,approachmaneuver .1strafe/.1turn explicit experimental. Candidate dt.1
-только приM09convergence, иначе smallerverified. Firststop=полная остановка группы;
-partialthrottling толькоlimiter. Optional clarification не блокируетdefault.
+Initial QA15 на ec259 PASS; signed docs/reviews/2026-10-06-mission-medium-qa.md.
+Review1 CHANGES_REQUESTED2B/0A: transient solar и zero-time repeat. Точный fix d57:
+mission.ts +20durabletests. AffectedQA4:5risk rows PASS, own27+whole5FP09369dc5.
+ScopedReview5 APPROVED0B0A: B1/B2 CLOSED; own2+whole4FPbc266ffd,51carryover equal.
+Reports/sidecars опубликованы PR9 exact comments6016090464/6016205987 и INDEX.
+Полных QA15/52review/ZIP/часовых матриц заново не запускали. Source freeze RELEASED.
+QAown Sputnik H3600:3services,90SCU delivered,30aboard, inbound/nonterminal.
+CivilianM без generator действительно разряжен~573s; сH2gen reachesH, actual
+power ограничивает добычу. Его H2remaining/refills не означает fullbattery.
+Параметры операторских fits, где Power не указан, явно assumed, не exactJSON.
 
-M/HY WHAT13078B/e6088c0a unchangedREADY: пяти Mfamilies, total50/newcatalog.3,
-versionedEutilitytanks/solar/generator, allfour Electric propulsion; DauxH₂allowed.
-Cp470intensive, extensiveS×4; distinct diesel/H₂stocks/ledger, finite sharedH₂.
-No changescurrentdefaults besidesedition. Old.0/.1/.2/localvariants preserve.
+Developer normalguard447unit/46browserPASS+1inheritedscreenshotSKIP. Root mandatory
+normalguard исполняется перед итоговым commit; логи .overgate-runtime/mission-medium-
+root-commit-guard-final.txt и PR содержат фактический результат. Два прежних FAIL
+rootлога сохранены: traceparentENOENT и activeexportfixture завершился до сравнения;
+толькоtestfix132/ac4 внесены, исходные assertions/activeowner/runtime не ослаблены.
+Root src/test byte-equivalent d57; finalGithead связан content fingerprints, не
+подменяет исходный verifier sourceSHA. Main/base/bootstrap/native/physical/public/
+operator merge остаются отдельными OPEN; local scope не сертификат mainmerge.
 
-Один существующий Developer/QA/Reviewer; PM soleBeads/publisher, normalguards.
-No mainmerge/force/skip/swarm. Reviewed runtime/wholecontracts frozen; metadata
-может изменяться. Selfaudit PM_ERR/DOC_PR послекаждых3QA/Review+triage: сейчас1/3
-послеPonyclosure;missionPlan станет2/3.
-Тройной packagingproof убран: PMmanifests/changedblobs, QAactualwholeworkflows.
+Новый прямой request: ulab-558 «Заправлять и заряжать», полная battery на станции,
+явный received station electricity. План docs/plans/2026-10-06-station-service.md
+proposed для отдельного bounded PRODUCT work item; runtime ещё НЕ реализован.
+Старые mission snapshots должны replay fuel-only/noCharge; checkbox fresh ON.
+Следующий shortest шаг: independentPlanReview этого маленького дополнения → один
+тот же Developer → addressedQA/one scopedReview → immutable4189. PR9 ужеDraft,
+план должен быть опубликован доDEV_RELEASE. Старые whole contracts не изменены.
 
-LIVE: http://192.168.68.65:4188/?v=cat022-bbe3fc — Pony0.2.2 с B1fix,
-not M/not mission. Oldv3/4183,TLS4184,v2+Legacy4186 preserved. Helper
-rootgd-v4-local-http/serve.py; immutableartifacts, notcwd mutablebuild. Physical
-Xiaomi/PublicPages/native/bootstrap/mainacceptance отдельноOPEN. ulab-w7j imported
-replaydurationblurfirstStart baselinebugOUTPony/M; newmissionnativefirstclick must
-work. Beads33tasks/original9; latestbackup e594aaa32tasks needs nexttrustedexport.
-User docs/.DS_Store6148B/3cd7c2cc… preserve. Current U2source0fe06927… viaINDEX only.
+Beads solecanonicalwriter root/API; missionulab-dwi, M/HYulab-w6w и B1/B2 закрываются
+по локальному accepted scope; ulab-dwi зависит отulab-zk2, неforceclosure.
+ulab-w7j исторический replay-durationblur OUT/unfixed. Generated backup — recovery,
+не authority; после текущих APIupdates один trusted bd-sync-export finalcheckpoint.
+Исходные9IDs сохраняются; docs/.DS_Store user-owned НЕstage. U2currentowner0fe06927.
+
+Срочный самоаудит PM_ERRreference1.2/DOC_PR выполнен по сигналу оператора:
+Review1+fix-r2+QA4 =3/3 → reset0; scopedReview5+triage теперь1/3.
+На будущее считать каждые3 review/QA+triage/FIX iterations, включаяfixturns.
+Не добавлять proof machinery/свежие swarms/полныеcampaigns. Цель — доступный GDстенд.

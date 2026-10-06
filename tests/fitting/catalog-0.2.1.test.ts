@@ -95,6 +95,6 @@ it("all supported new defaults produce short finite native measurements and actu
  }
 });
 it("rejects unsupported catalog loader/preset editions rather than manufacturing a future inventory",()=>{
- expect(()=>loadCandidateCatalog("ship-fitting-0.2.3" as any)).toThrow("Неизвестная версия каталога");
- expect(()=>getPresetFit("industrial-M:2","ship-fitting-0.2.3" as any)).toThrow("Неизвестная версия каталога");
+ expect(()=>loadCandidateCatalog("ship-fitting-future-test" as any)).toThrow("Неизвестная версия каталога");
+ expect(()=>getPresetFit("industrial-M:2","ship-fitting-future-test" as any)).toThrow("Неизвестная версия каталога");
 });

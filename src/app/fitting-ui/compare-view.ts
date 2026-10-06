@@ -1,19 +1,20 @@
 import type { FittingWorkspace, Variant } from "../fitting-workspace";
 import type { RunResultV2 } from "../../runner/run";
-import { compareMiningConditions } from "../../scenarios/fitting";
+import { compareMissionConditions } from "../../scenarios/mission";
 import { esc, num } from "./presentation";
+import { firstLimiter } from "./lab-view";
 import { measuredIdentity, conditionDifferences } from "./result-context";
 export const compareFields = (r: RunResultV2) => [
-  r.metrics.usefulWork,
-  r.metrics.scuPerHour,
+  r.metrics.mission ? r.metrics.mission.deliveredM3 : r.metrics.usefulWork,
+  r.metrics.mission ? r.metrics.mission.deliveredScuPerHour : r.metrics.scuPerHour,
   r.metrics.kUseHorizon == null ? null : r.metrics.kUseHorizon * 100,
-  r.metrics.fuelPerScu.diesel,
-  r.metrics.fuelPerScu.hydrogen,
+  r.metrics.mission ? r.metrics.mission.fuelPerDeliveredScu.diesel : r.metrics.fuelPerScu.diesel,
+  r.metrics.mission ? r.metrics.mission.fuelPerDeliveredScu.hydrogen : r.metrics.fuelPerScu.hydrogen,
   r.metrics.forcedDowntimeSeconds,
   r.metrics.recovery.firstSeconds,
 ];
 export const compareLabels = [
-  "Добыча · SCU",
+  "Доставка (рейс) / добыча (старый цикл) · SCU",
   "SCU/ч",
   "K_use · %",
   "Дизель · кг/SCU",
@@ -27,7 +28,7 @@ export function frozenCompare(w: FittingWorkspace, view: AbView = "both") {
     b = w.getSelected().result;
   if (!a)
     return "<p>Снимок теста A ещё не зафиксирован. Это отдельная сущность от варианта A.</p>";
-  const check = b ? compareMiningConditions(a.spec, b.spec) : undefined,
+  const check = b ? compareMissionConditions(a.spec, b.spec) : undefined,
     aa = compareFields(a),
     bb = b ? compareFields(b) : undefined;
   return `<p>Неизменяемый снимок теста A · run ${esc(a.runId)} · ревизия ${a.spec.resolvedShip.fit.fitRevision}.</p><p>${measuredIdentity(a)}</p><p>${b ? measuredIdentity(b) : ""} ${b ? (w.isPreviousResult() ? "Предыдущий тест B · " : "Текущий результат B · ") + esc(b.runId) + " · " + (b.status === "complete" ? "завершён" : b.status === "cancelled" ? "отменён · частичный интервал" : "предварительно") + " · " + num(b.metrics.durationSeconds, "с") : "B ещё не запускался"}</p>${b ? conditionDifferences(a.spec, b.spec) : "<p>Ждёт тест B</p>"}<div class="ab-comparison" data-view="${view}"><div class="ab-view-controls segments" role="group" aria-label="Вид сравнения A и B">${[
@@ -41,7 +42,7 @@ export function frozenCompare(w: FittingWorkspace, view: AbView = "both") {
     )
     .join(
       "",
-    )}</div><div class="ab-desktop ui-table-scroll" tabindex="0" aria-label="Сравнение снимка A и результата B"><table><thead><tr><th>Метрика</th><th>Снимок A</th><th>Результат B</th><th>Δ B−A</th></tr></thead><tbody>${compareLabels.map((label, i) => `<tr><th>${label}</th><td>${num(aa[i])}</td><td>${num(bb?.[i])}</td><td>${num(aa[i] != null && bb?.[i] != null ? bb[i]! - aa[i]! : null)}</td></tr>`).join("")}</tbody></table></div><div class="ab-rows"><section class="ab-side-a"><h3>Снимок A · ${esc(a.runId)} · ревизия ${a.spec.resolvedShip.fit.fitRevision}</h3><dl>${compareLabels.map((label, i) => `<div><dt>${label}</dt><dd>${num(aa[i])}</dd></div>`).join("")}</dl></section><section class="ab-side-b"><h3>Результат B · ${esc(b?.runId ?? "не измерено")}</h3><dl>${compareLabels.map((label, i) => `<div><dt>${label}</dt><dd>${num(bb?.[i])}<small>Δ B−A ${num(aa[i] != null && bb?.[i] != null ? bb[i]! - aa[i]! : null)}</small></dd></div>`).join("")}</dl></section></div><figure><svg class="ab-plot" viewBox="0 0 650 140" role="img" aria-label="SCU/ч: те же значения, что в таблице"><g class="ab-plot-a"><text x="0" y="25">A ${num(a.metrics.scuPerHour, "SCU/ч")}</text><rect y="35" width="${((a.metrics.scuPerHour ?? 0) / Math.max(1, a.metrics.scuPerHour ?? 0, b?.metrics.scuPerHour ?? 0)) * 600}" height="20" fill="#FFAA33"/></g><g class="ab-plot-b"><text x="0" y="85">B ${num(b?.metrics.scuPerHour, "SCU/ч")}</text><rect y="95" width="${((b?.metrics.scuPerHour ?? 0) / Math.max(1, a.metrics.scuPerHour ?? 0, b?.metrics.scuPerHour ?? 0)) * 600}" height="20" fill="#4DA6FF"/></g></svg><figcaption>SCU/ч из той же таблицы; общий рейтинг не рассчитывается.</figcaption></figure></div>`;
+    )}</div><div class="ab-desktop ui-table-scroll" tabindex="0" aria-label="Сравнение снимка A и результата B"><table><thead><tr><th>Метрика</th><th>Снимок A</th><th>Результат B</th><th>Δ B−A</th></tr></thead><tbody>${compareLabels.map((label, i) => `<tr><th>${label}</th><td>${num(aa[i])}</td><td>${num(bb?.[i])}</td><td>${num(aa[i] != null && bb?.[i] != null ? bb[i]! - aa[i]! : null)}</td></tr>`).join("")}</tbody></table></div><div class="ab-rows"><section class="ab-side-a"><h3>Снимок A · ${esc(a.runId)} · ревизия ${a.spec.resolvedShip.fit.fitRevision}</h3><dl>${compareLabels.map((label, i) => `<div><dt>${label}</dt><dd>${num(aa[i])}</dd></div>`).join("")}</dl></section><section class="ab-side-b"><h3>Результат B · ${esc(b?.runId ?? "не измерено")}</h3><dl>${compareLabels.map((label, i) => `<div><dt>${label}</dt><dd>${num(bb?.[i])}<small>Δ B−A ${num(aa[i] != null && bb?.[i] != null ? bb[i]! - aa[i]! : null)}</small></dd></div>`).join("")}</dl></section></div><figure><svg class="ab-plot" viewBox="0 0 650 140" role="img" aria-label="SCU/ч: те же значения, что в таблице"><g class="ab-plot-a"><text x="0" y="25">A ${num((a.metrics.mission ? a.metrics.mission.deliveredScuPerHour : a.metrics.scuPerHour), "SCU/ч")}</text><rect y="35" width="${(((a.metrics.mission ? a.metrics.mission.deliveredScuPerHour : a.metrics.scuPerHour) ?? 0) / Math.max(1, (a.metrics.mission ? a.metrics.mission.deliveredScuPerHour : a.metrics.scuPerHour) ?? 0, (b?.metrics.mission ? b.metrics.mission.deliveredScuPerHour : b?.metrics.scuPerHour) ?? 0)) * 600}" height="20" fill="#FFAA33"/></g><g class="ab-plot-b"><text x="0" y="85">B ${num((b?.metrics.mission ? b.metrics.mission.deliveredScuPerHour : b?.metrics.scuPerHour), "SCU/ч")}</text><rect y="95" width="${(((b?.metrics.mission ? b.metrics.mission.deliveredScuPerHour : b?.metrics.scuPerHour) ?? 0) / Math.max(1, (a.metrics.mission ? a.metrics.mission.deliveredScuPerHour : a.metrics.scuPerHour) ?? 0, (b?.metrics.mission ? b.metrics.mission.deliveredScuPerHour : b?.metrics.scuPerHour) ?? 0)) * 600}" height="20" fill="#4DA6FF"/></g></svg><figcaption>SCU/ч из той же таблицы; общий рейтинг не рассчитывается.</figcaption></figure></div>`;
 }
 export function sortVariants(variants: Variant[], sort: string) {
   const [field, direction] = sort.split("-");
@@ -49,8 +50,8 @@ export function sortVariants(variants: Variant[], sort: string) {
     field === "k"
       ? v.result?.metrics.kUseHorizon
       : field === "diesel"
-        ? v.result?.metrics.fuelPerScu.diesel
-        : v.result?.metrics.scuPerHour;
+        ? v.result?.metrics.mission ? v.result.metrics.mission.fuelPerDeliveredScu.diesel : v.result?.metrics.fuelPerScu.diesel
+        : v.result?.metrics.mission ? v.result.metrics.mission.deliveredScuPerHour : v.result?.metrics.scuPerHour;
   return [...variants].sort((a, b) => {
     if (field === "name")
       return (
@@ -80,29 +81,25 @@ export function compareView(
     metric === "k"
       ? v.result?.metrics.kUseHorizon
       : metric === "diesel"
-        ? v.result?.metrics.fuelPerScu.diesel
-        : v.result?.metrics.scuPerHour;
+        ? v.result?.metrics.mission ? v.result.metrics.mission.fuelPerDeliveredScu.diesel : v.result?.metrics.fuelPerScu.diesel
+        : v.result?.metrics.mission ? v.result.metrics.mission.deliveredScuPerHour : v.result?.metrics.scuPerHour;
   const max = Math.max(0, ...variants.map((v) => barValue(v) ?? 0));
   const rows = variants.map((v) => {
     const r = v.result,
-      c = base && r ? compareMiningConditions(base.spec, r.spec) : undefined;
+      c = base && r ? compareMissionConditions(base.spec, r.spec) : undefined;
     return {
       v,
       r,
       values: [
-        num(r?.metrics.usefulWork),
+        num(r?.metrics.mission ? r.metrics.mission.deliveredM3 : r?.metrics.usefulWork),
         num(r?.metrics.completedCycles.scu),
-        num(r?.metrics.scuPerHour),
+        num(r?.metrics.mission ? r.metrics.mission.deliveredScuPerHour : r?.metrics.scuPerHour),
         num(
           r?.metrics.kUseHorizon == null ? null : r.metrics.kUseHorizon * 100,
         ),
-        num(r?.metrics.fuelPerScu.diesel),
-        num(r?.metrics.fuelPerScu.hydrogen),
-        r?.metrics.firstLimiter
-          ? esc(r.metrics.firstLimiter.causes.join(" + ")) +
-            " · " +
-            num(r.metrics.firstLimiter.timeSeconds, "с")
-          : "не выявлено / нет теста",
+        num(r?.metrics.mission ? r.metrics.mission.fuelPerDeliveredScu.diesel : r?.metrics.fuelPerScu.diesel),
+        num(r?.metrics.mission ? r.metrics.mission.fuelPerDeliveredScu.hydrogen : r?.metrics.fuelPerScu.hydrogen),
+        firstLimiter(r),
         r
           ? (w.isPreviousResult(v)
               ? "предыдущий тест · run " + esc(r.runId) + " · "
@@ -124,7 +121,7 @@ export function compareView(
     };
   });
   const labels = [
-    "Добыча · SCU",
+    "Доставка (рейс) / добыча (старый цикл) · SCU",
     "Полные циклы · SCU",
     "SCU/ч",
     "K_use · %",

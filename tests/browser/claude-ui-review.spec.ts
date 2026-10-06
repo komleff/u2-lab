@@ -1,3 +1,4 @@
+import { openTimedDraft } from "./timed-draft";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
@@ -30,7 +31,7 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
       }
     };
   });
-  await page.goto("/");
+  await page.goto("/"); await openTimedDraft(page);
   await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("20");
   await page.locator("#fit-start").click();
@@ -71,7 +72,7 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   await page.locator("#fit-preset").selectOption("pony:1");
   await page.getByRole("link", { name: "Условия", exact: true }).click();
   await expect(page.locator("#fit-start")).toBeDisabled();
-  await expect(page.locator("#fit-duration")).toHaveValue("600");
+  await expect(page.locator("#fit-duration")).toHaveValue("3600");
   await expect(page.locator(".lab-context")).toContainText("Активный тест: вариант A");
   await expect(page.locator(".lab-side")).toContainText("Следующий черновик");
   await expect(page.locator("#fit-time")).toHaveText("0 с / 20 с");

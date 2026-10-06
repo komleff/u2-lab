@@ -3,7 +3,8 @@ import type {
   CandidateCatalog,
   FitValidation,
 } from "../fitting/types";
-import type { MiningConditions } from "../scenarios/fitting";
+import { makeMissionRun, type WorkspaceConditions } from "../scenarios/mission";
+import { MODEL_MISSION } from "../model/v2/types";
 import { makeMiningRun } from "../scenarios/fitting";
 import { validateFit } from "../fitting/validate";
 import type { RunResultV2 } from "../runner/run";
@@ -24,8 +25,8 @@ export class FittingSession {
       };
     return validation;
   }
-  prepareRun(conditions: MiningConditions = {}) {
-    return makeMiningRun(this.fit, this.catalog, conditions);
+  prepareRun(conditions: WorkspaceConditions = {}) {
+    return conditions.modelVersion === MODEL_MISSION ? makeMissionRun(this.fit, this.catalog, conditions) : makeMiningRun(this.fit, this.catalog, conditions);
   }
   getFit() {
     return structuredClone(this.fit);

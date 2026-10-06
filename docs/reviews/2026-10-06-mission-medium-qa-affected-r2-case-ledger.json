@@ -1,0 +1,82 @@
+{
+  "role": "independent QA",
+  "sourceSha": "d57ad5bc75c77954e7eefe63fbe5630ca4529c62",
+  "scope": "five affected-risk rows, not fifteen whole acceptance methods replayed",
+  "rows": [
+    {
+      "case": "B1-positive",
+      "sourceAC": "M02/M04; CR-MISSION-B1; affected-contract B1-positive",
+      "method": "CivilianM:1/.3 Q0/fuel0, H5/dt.1/D0/approach0/service0/target.01/full-hold; authored solar4e6 W/m², T600 vs300; actual kernel/runner plus external100MW and finite fueled generator controls",
+      "result": "PASS",
+      "actual": "Hot t5/T598.825502K/Q0/delivered0/cycles0, stage mining, terminalReason null. Cold solar100m²×.25×4e6=100MW; .01SCU delivered at .0399920016s. External .01; fueled approximately .01.",
+      "evidence": [
+        "B1-hot-actual.json",
+        "B1-hot-actual-firstdt-kernel.json",
+        "B1-cold-first-kernel.json",
+        "B1-cold-actual.json",
+        "B1-external-actual.json",
+        "B1-fueled-actual.json",
+        "api-corrected.json"
+      ]
+    },
+    {
+      "case": "B1-negative",
+      "sourceAC": "M02/M04; typed resources; affected-contract B1-negative",
+      "method": "Same empty-charge family, dark solar/disabled solar/source absent/empty finite diesel generator; first actual kernel output and terminal cargo/typed resource balances",
+      "result": "PASS",
+      "actual": "All four first kernels: source solar0, Q0, work0. Bounded lawful D0 return/service single-voyage at .0399920016s, no delivered ore. Empty-generator actual station refill6000kg is recorded receivedFuel, not earlier generation or battery reset.",
+      "evidence": [
+        "B1-dark-actual.json",
+        "B1-disabled-actual.json",
+        "B1-absent-actual.json",
+        "B1-emptygen-first-kernel.json",
+        "B1-emptygen-actual.json",
+        "api-corrected.json"
+      ]
+    },
+    {
+      "case": "B2-zero",
+      "sourceAC": "M01/M02/M04; CR-MISSION-B2; affected-contract B2-zero",
+      "method": "Exact Pony:1/.3,T600,H5/dt.1,first-stop/repeat,D/approach/service0. maxSteps1/wall20ms, isolated default Infinity chunk with5s watchdog after READY, then bounded H; single-voyage and service.2 controls. First passive kernel Q/T/fuel match.",
+      "result": "PASS",
+      "actual": "First .1s/tick1 equals direct idle kernel; final t5/duration5/ticks51, cycles0/events13, T598.630551K. Default invocation returned, not timeout. Single-voyage finite terminal t0/ticks0, zero-duration K null; service.2 reachesH5 with24 finite physically timed cycles,207events.",
+      "evidence": [
+        "B2-zero-actual.json",
+        "B2-default-actual.json",
+        "B2-watchdog.json",
+        "B2-single-actual.json",
+        "B2-service-actual.json",
+        "api-corrected.json"
+      ]
+    },
+    {
+      "case": "Worker-native",
+      "sourceAC": "M08; affected-contract Worker/native",
+      "method": "Actual plain LAN4193 true isMobile+hasTouch390. Import legal B2 spec; H→180 and first coordinate Start without Tab; genuine Worker Pause/FreezeA/native active-run and paused-result export/Step/Resume/Cancel.",
+      "result": "PASS",
+      "actual": "secure=false; actual Start retains T600/D0/first-stop/repeat and H180. Pause1.4s, Step1.5, Cancel2.8; cycles0/events13; active exported spec equals Start payload; frozen A identity/interval1.4/metrics unchanged. Zero page exceptions/request failures.",
+      "evidence": [
+        "native-start-command.json",
+        "native-touch390.json",
+        "native-corrected.json",
+        "native-paused-result.json",
+        "native-active-run.json",
+        "native-cancelled-result.json",
+        "native-paused.png",
+        "native-cancelled.png"
+      ]
+    },
+    {
+      "case": "Repeat-regression",
+      "sourceAC": "M03/M05/M09; explicit operator Sputnik; affected-contract Repeat regression",
+      "method": "Own sealed Sputnik fit: CivilianS mining+bulkS+2activeS radiators+Sbattery, retained presetPower assumption; H3600/dt.1/D100km/full-hold/repeat. One fresh actual runner, station arrival times/service/ore and both typed fuel ledgers.",
+      "result": "PASS",
+      "actual": "t3600/duration3600/ticks42056,3station arrivals/services; delivered89.99999999998SCU, aboard29.99999999998; stage inbound, no terminal. Diesel6000+1074.937718154 received−1329.359665487 consumed=5745.578052668 remaining; H2 all0. Actual service time30s; T520.085990K/Q10.506350330GJ. Wall12.096s includes this QA host.",
+      "evidence": [
+        "Sputnik-regression-spec.json",
+        "Sputnik-regression-actual.json",
+        "api-corrected.json"
+      ]
+    }
+  ]
+}

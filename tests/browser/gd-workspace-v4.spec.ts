@@ -1,7 +1,8 @@
+import { openTimedDraft } from "./timed-draft";
 import { test, expect } from "@playwright/test";
 import { getPresetFit } from "../../src/fitting/catalog";
 test("v4 continuous research page keeps sections and navigation reachable during an advancing test", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/"); await openTimedDraft(page);
   await expect(page.locator("#fit-preset")).toBeVisible();
   await expect(page.locator("#fit-duration")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Сравнение вариантов", exact: true })).toBeVisible();
@@ -17,7 +18,7 @@ test("v4 continuous research page keeps sections and navigation reachable during
   await page.locator("#fit-pause").click();
   await expect(page.locator("#fit-status")).toContainText("Пауза");
   await expect(page.getByRole("link", { name: "Оснастка", exact: true })).toBeInViewport();
-  await expect(page.locator("footer")).toContainText("интерфейс v4.0");
+  await expect(page.locator("footer")).toContainText("интерфейс v4");
 });
 
 import { readFile } from "node:fs/promises";
@@ -51,7 +52,7 @@ for (const width of [1440, 820, 390]) test(`v4 whole native research chain at ${
     return readFile((await file.path())!, "utf8");
   };
   const importText = async (text: string) => page.locator("#fit-import").setInputFiles({ name: "research.json", mimeType: "application/json", buffer: Buffer.from(text) });
-  await page.goto("/");
+  await page.goto("/"); await openTimedDraft(page);
   await expect(page.locator("#fit-preset")).toBeVisible();
   expect(await page.evaluate(() => ({ html: getComputedStyle(document.documentElement).overscrollBehaviorY, body: getComputedStyle(document.body).overscrollBehaviorY }))).toEqual({ html: "none", body: "none" });
   await page.mouse.wheel(0, 600);
@@ -83,7 +84,7 @@ for (const width of [1440, 820, 390]) test(`v4 whole native research chain at ${
   await expect(page.locator("#fit-status")).toContainText("Отменён");
   expect(await page.locator(".ab-side-a").innerHTML()).toBe(frozen);
   await page.getByRole("button", { name: /Вариант B ·/ }).click();
-  await page.locator("#fit-preset").selectOption("civilian-M:2");
+  await page.locator("#fit-preset").selectOption("civilian-M:2"); await openTimedDraft(page,getPresetFit("civilian-M:2"));
   await action('button.module-card[data-slot="payload-1"]'); await page.keyboard.press("Escape");
   await page.locator("#fit-variant-field").selectOption("efficiency");
   await page.locator("#fit-variant-value").fill("0.4"); await action("#fit-variant-numeric");
@@ -129,11 +130,11 @@ for (const width of [1440, 820, 390]) test(`v4 whole native research chain at ${
   expect(JSON.parse(await exported("#fit-export-result"))).toEqual(native);
   await expect(page.locator("#fit-duration")).toHaveValue("20.25");
   await expect(page.locator("#fit-temperature")).toHaveValue("320");
-  await expect(page.locator("footer")).toContainText("интерфейс v4.0");
+  await expect(page.locator("footer")).toContainText("интерфейс v4");
   expect(errors).toEqual([]); await context.close();
 });
 test("operator slot groups each occupy a separately findable full-width row at desktop/tablet/phone", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/"); await openTimedDraft(page);
   await expect(page.locator("#fit-slots")).toBeVisible();
   for (const width of [1440, 820, 390]) {
     await page.setViewportSize({ width, height: 1000 });
@@ -150,7 +151,7 @@ test("operator slot groups each occupy a separately findable full-width row at d
 });
 
 test("WF04/06 genuine 90ms desktop payload click survives advancing Worker renders", async ({ page }, testInfo) => {
-  await page.goto("/");
+  await page.goto("/"); await openTimedDraft(page);
   await expect(page.locator("#fit-preset")).toBeVisible();
   await page.locator("#fit-preset").selectOption("pony:2");
   await page.locator("#fit-duration").fill("180");
@@ -187,7 +188,7 @@ test("WF04/06 genuine 90ms desktop payload click survives advancing Worker rende
 });
 
 test("WF04/06 all slot groups, optional ring and builtin controls retain nodes and actions during a live test", async ({ page }) => {
-  await page.goto("/"); await expect(page.locator("#fit-preset")).toBeVisible();
+  await page.goto("/"); await openTimedDraft(page); await expect(page.locator("#fit-preset")).toBeVisible();
   await page.locator("#fit-preset").selectOption("pony:2"); await page.locator("#fit-duration").fill("180");
   await page.locator("#fit-speed").selectOption("1"); await page.locator("#fit-start").click();
   await expect(page.locator("#fit-time")).not.toHaveText("0 с / 180 с");
@@ -232,7 +233,7 @@ for (const edition of ["ship-fitting-0.2.0", "ship-fitting-0.2.1"] as const)
       const wait = page.waitForEvent("download"); await action("#fit-save"); await action("#fit-save-confirm");
       return JSON.parse(await readFile((await (await wait).path())!, "utf8"));
     };
-    await page.goto("/"); await expect(page.locator("#fit-preset")).toBeVisible();
+    await page.goto("/"); await openTimedDraft(page); await expect(page.locator("#fit-preset")).toBeVisible();
     const fit = getPresetFit(hull + ":2", edition);
     await page.locator("#fit-import").setInputFiles({ name: "old-or-new-fit.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(fit)) });
     const power = page.locator('[data-group="power"]'); if (await power.getAttribute("aria-expanded") === "false") await action('[data-group="power"]');

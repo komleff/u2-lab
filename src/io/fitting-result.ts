@@ -4,7 +4,7 @@ import type { RunResultV2 } from "../runner/run";
 import { parseExperimentJson } from "./fitting-json";
 import { initialMiningMetrics } from "../runner/mining-metrics";
 import { allocateCargo } from "../fitting/cargo";
-import { CAUSES } from "../model/v2/types";
+import { CAUSES, MODEL_MISSION } from "../model/v2/types";
 const object = (v: unknown): v is Record<string, any> => !!v && typeof v === "object" && !Array.isArray(v);
 const finite = (v: unknown): v is number => typeof v === "number" && Number.isFinite(v);
 const nonnegative = (v: unknown): v is number => finite(v) && v >= 0;
@@ -32,7 +32,7 @@ export function parseResultJson(text: string): ValidationResult<RunResultV2> {
     for (const key of ["timeSeconds", "chargeJ", "temperatureK", "cargo", "usefulWork", "currentMassKg", "cyclesCompleted"])
       if (!nonnegative(state[key])) bad("state." + key, "Нужно конечное неотрицательное число");
     if (state.schemaVersion !== "u2-lab/2" || typeof state.phaseKey !== "string") bad("state", "Нужны схема и фаза измеренного состояния");
-    if (state.timeSeconds > spec.durationSeconds || (r.status === "complete" && !close(state.timeSeconds, spec.durationSeconds))) bad("state.timeSeconds", "Интервал не соответствует горизонту опыта");
+    if (state.timeSeconds > spec.durationSeconds || (spec.modelVersion!==MODEL_MISSION && r.status === "complete" && !close(state.timeSeconds, spec.durationSeconds))) bad("state.timeSeconds", "Интервал не соответствует горизонту опыта");
     if (state.chargeJ > ship.batteryCapacityJ * (1 + 1e-8)) bad("state.chargeJ", "Заряд превышает ёмкость");
     const map = (v: any, path: string, allowed?: Set<string>, nullable = false) => {
       if (!object(v)) { bad(path, "Нужна карта значений"); return; }
@@ -84,7 +84,38 @@ export function parseResultJson(text: string): ValidationResult<RunResultV2> {
     }
     if (!close(m.durationSeconds, state.timeSeconds) || !close(m.usefulWork, state.usefulWork)) bad("metrics", "Измерения не соответствуют состоянию своего интервала");
     for (const key of ["ticks", "cyclesCompleted"]) if (!integer(m[key])) bad("metrics." + key, "Нужен целый счётчик");
+    if(spec.modelVersion===MODEL_MISSION){
+      const ms=state.mission,mm=m.mission,cfg=spec.mission!;
+      if(!object(ms)||!object(mm)||!object(ms.elapsed))throw Error("Нужны measured mission state/metrics");
+      const stages=["outbound","approach","mining","inbound","service","done","stranded"];
+      if(!stages.includes(ms.stage)||!["acceleration","coast","braking"].includes(ms.flightMode))bad("state.mission.stage","Неизвестный участок рейса");
+      for(const k of ["stageStartedSeconds","tripStartedSeconds","outboundMassKg","peakVelocityMS","deliveredM3"])if(!nonnegative(ms[k]))bad("state.mission."+k,"Нужно конечное SI значение");
+      for(const k of ["positionM","velocityMS"])if(!finite(ms[k]))bad("state.mission."+k,"Нужно конечное знаковое SI значение");
+      if(ms.inboundMassKg!==null&&!nonnegative(ms.inboundMassKg))bad("state.mission.inboundMassKg","Нужна масса или null");
+      if(ms.stageStartedSeconds>state.timeSeconds||ms.tripStartedSeconds>state.timeSeconds||Math.abs(ms.velocityMS)>=3000||ms.peakVelocityMS>=3000||ms.peakVelocityMS<Math.abs(ms.velocityMS))bad("state.mission","Неверные время/скорость рейса");
+      for(const k of ["flight","approach","mining","service","recovery"])if(!nonnegative(ms.elapsed[k]))bad("state.mission.elapsed."+k,"Нужно измеренное время");
+      if(!close(ms.elapsed.flight+ms.elapsed.approach+ms.elapsed.mining+ms.elapsed.service,state.timeSeconds)||ms.elapsed.recovery>ms.elapsed.mining+1e-8)bad("state.mission.elapsed","Времена фаз не согласованы с измеренным интервалом");
+      if(!close(state.usefulWork,ms.deliveredM3+state.cargo))bad("state.mission.deliveredM3","Добыто должно равняться сдано + на борту");
+      map(ms.receivedFuelKg,"state.mission.receivedFuelKg",new Set(["diesel","hydrogen"]));
+      for(const sp of ["diesel","hydrogen"]){
+        if(!nonnegative(ms.receivedFuelKg?.[sp])||!close(spec.initial.fuelKg[sp]+ms.receivedFuelKg[sp]-m.fuelSpeciesKg[sp],state.fuelKg[sp]))bad("state.mission.receivedFuelKg."+sp,"Нарушен initial + received − consumed = remaining");
+        const expected=ms.deliveredM3>0?m.fuelSpeciesKg[sp]/ms.deliveredM3:null;
+        if(expected===null?mm.fuelPerDeliveredScu?.[sp]!==null:!nonnegative(mm.fuelPerDeliveredScu?.[sp])||!close(mm.fuelPerDeliveredScu[sp],expected))bad("metrics.mission.fuelPerDeliveredScu."+sp,"Расход относится только к сданной руде");
+      }
+      for(const [k,expected] of Object.entries({deliveredM3:ms.deliveredM3,flightSeconds:ms.elapsed.flight,approachSeconds:ms.elapsed.approach,miningSeconds:ms.elapsed.mining,serviceSeconds:ms.elapsed.service,recoverySeconds:ms.elapsed.recovery,peakVelocityMS:ms.peakVelocityMS}))if(!nonnegative(mm[k])||!close(mm[k],expected as number))bad("metrics.mission."+k,"Метрика не соответствует измеренному состоянию");
+      const rate=state.timeSeconds>0?ms.deliveredM3*3600/state.timeSeconds:null;
+      if(rate===null?mm.deliveredScuPerHour!==null:!nonnegative(mm.deliveredScuPerHour)||!close(mm.deliveredScuPerHour,rate))bad("metrics.mission.deliveredScuPerHour","Неверная доставка на наблюдаемом интервале");
+      const mass=ship.dryMassKg+state.fuelKg.diesel+state.fuelKg.hydrogen+state.cargo*spec.process.densityKgM3;
+      if(!close(state.currentMassKg,mass))bad("state.currentMassKg","Масса рейса должна включать фактический груз и запасы");
+      if(["approach","mining","service","done"].includes(ms.stage)&&(ms.velocityMS!==0||!close(ms.positionM,cfg.distanceM)))bad("state.mission","Местная операция возможна только после физического прибытия");
+      if(ms.firstLimiter!==null){const l=ms.firstLimiter;if(!object(l)||!nonnegative(l.timeSeconds)||l.timeSeconds>state.timeSeconds||!stages.includes(l.phase)||!Array.isArray(l.instanceIds)||l.instanceIds.some((id:any)=>!ids.has(id))||!Array.isArray(l.causes)||!l.causes.length||l.causes.some((c:any)=>!CAUSES.includes(c))||typeof l.message!=="string")bad("state.mission.firstLimiter","Нужен реальный диагноз с ID и временем");}
+      if(ms.terminalReason!==null&&typeof ms.terminalReason!=="string")bad("state.mission.terminalReason","Нужна причина завершения или null");
+      if(ms.stage==="done"&&(state.cargo!==0||!integer(state.cyclesCompleted)||state.cyclesCompleted<1||!(ms.terminalReason==="delivered-target"&&ms.deliveredM3>=spec.scenario.targetM3-1e-8||ms.terminalReason==="single-voyage"&&!spec.scenario.repeat)))bad("state.mission","Неверное завершение до горизонта");
+      if(ms.stage==="stranded"&&(!ms.terminalReason||ms.deliveredM3!==0&&state.cyclesCompleted===0))bad("state.mission","Нужна причина невозможного рейса");
+      if(r.status==="complete"&&!close(state.timeSeconds,spec.durationSeconds)&&!["done","stranded"].includes(ms.stage))bad("state.mission.stage","Завершение раньше H требует терминального события миссии");
+    }
     const aggregate = new Set("requestedW deliveredW activeRequestedW activeW protectedW backgroundRequestedW backgroundW generatorW solarW externalElectricW generatorHostW pathLossW batteryLossW propulsionHostW loadHostW solarHostW directHeatW exhaustW beamW returnHeatW externalBeamW engineUsefulW thrustN h2CoolingW h2AuxRejectW radiatorHostW tiCoolingW tiRejectW bufferAbsorbW bufferReleaseW radiationOutW radiationInW radiationNetW heatInW heatOutW workRate chemicalW energyResidualJ timeSeconds chargeJ soc temperatureK usefulWork cargo currentMassKg cargoM3 miningRateM3S".split(" "));
+    if(spec.modelVersion===MODEL_MISSION)for(const channel of ["positionM","velocityMS","deliveredM3"])aggregate.add(channel);
     for (const sp of ["diesel", "hydrogen"]) aggregate.add("fuelKg:" + sp);
     for (const i of ship.instances) {
       aggregate.add("installedMassKg:" + i.id);
