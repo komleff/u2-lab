@@ -100,10 +100,29 @@ aggregate corridor and numeric perturbation. Advisory does not expand scope.
 
 U2 docs in separate `gd/thermal-derating-wear-20261007` PR; Lab stacked draft
 `feat/thermal-diagnostics` from e4d3926 against `feat/ship-fitting-mission-medium`.
-U2 doc-only canon sync reviewed with this plan; no runtime game claim.
+U2 canon sync и узкая test-fixture isolation reviewed with this plan;
+Unity/server runtime не изменяется.
 One Plan Reviewer gets both exact packages; QA/scoped Code Reviewer get AC and
 changed runtime paths. Reviewed blob binding + explicit NOT RUN suffice; no
 repeated giant provenance artifacts. Self-audit every 3 review/QA+triage/fix cycles.
 Owned4189 remains current until candidate verified; rollback immutable station86,
 old4183/4186/4188 kept. Revert observer/UI changes restores pre-feature behavior.
 Operator merge; base PRs remain open, no auto-merge/main mutations.
+
+## Обязательная совместимость проверки U2 — уточнение до DEV
+
+Штатный U2 dispatcher экспортирует суженный budget в дочерний npm test.
+`scripts/tests/commit-gate-timeout.test.sh` ошибочно принимает этот inherited
+крючок за default собственного sandbox и краснеет (568 вместо570), даже когда
+parent limiter работает правильно. Блокер commit необходимо устранить в fixture:
+снять **только унаследованный** U2_COMMIT_GATE_TEST_MAX_SECONDS внутри этой
+тестовой единицы до её sandbox probes. Её явные 1/99999/invalid override cases
+остаются, все assertions и parent hook/timeouts неизменны. Это test isolation,
+не bypass и не увеличение лимита. Один Developer, отдельный малый commit в U2
+пакете; doc-only означает отсутствие Unity/server runtime, test fixture указать
+явно. Proof: RED existing unit при inherited568 → GREEN corrected unit при
+inherited568 и обычном environment; после этого normal dispatcher/full suite.
+Для macOS Bash3.2 использовать LC_ALL=C/LANG=C для verification: это устраняет
+неверный разбор UTF-8 пунктуации без изменения hook. Installer/guard overrides
+не нужны. Scope review включает только этот test-isolation delta и неизменность
+внешней защиты; не общий pipeline redesign.

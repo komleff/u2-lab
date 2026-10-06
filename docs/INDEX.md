@@ -219,4 +219,13 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 ## Температурная диагностика 2026-10-07
 
 - [Принятое WHAT](product/thermal-derating-diagnostics.md) — ADR-0068 U2, одно hot/cold правило плюс wear; Lab wear не рассчитывает.
-- [План и TD01–06](plans/2026-10-07-thermal-diagnostics.md) — proposed, PRODUCT Plan Review до DEV_RELEASE.
+- [План и TD01–06](plans/2026-10-07-thermal-diagnostics.md) — PLAN_READY, PRODUCT; независимые QA и scoped Review после реализации.
+- [Plan Review](reviews/2026-10-07-thermal-diagnostics-plan-review.md) и [fixture addendum](reviews/2026-10-07-thermal-diagnostics-plan-review-fixture-addendum.md) — sealed, PLAN_READY; опубликованы в PR10.
+- [Контракт scoped Review](reviews/2026-10-07-thermal-diagnostics-review-contract.md) — наблюдение, график, экспорты и принятый U2 canon; физика/TTX/wear runtime вне scope.
+- [Самоаудит PM](reviews/2026-10-07-pm-self-audit.md) — возвращение к результату и повтор после каждых3 итераций.
+- [Первичная QA](reviews/2026-10-07-thermal-diagnostics-qa.md) — sealed FAIL history на ecf: TD05 наложение подписей; остальные5TD PASS. Закрытие класса — QA48f ниже.
+- [Affected QA c10](reviews/2026-10-07-thermal-diagnostics-qa-label-fix.md) — sealed FAIL history: обычные подписи исправлены, empty-axis fallback ещё обрезался. Исходный отчёт сохранён.
+- [Affected QA48f](reviews/2026-10-07-thermal-diagnostics-qa-axis-fix.md) — PASS/TD05-B1 CLOSED:18 styled samples и2 native LAN starts; остальные5TD наследовались по неизменности кода. Code Review затем выявил Legacy transition regression ниже.
+- [Code Review48f](reviews/2026-10-07-thermal-diagnostics-code-review.md) — CHANGES_REQUESTED/1BLOCKER/0ADVISORY: CR-TD-B1, Legacy Active laser теряет реальное thermal-stop/restart событие. Численный kernel корректен, минимальный observer fix в работе. PRODUCTbudget5/5; дополнительная независимая проверка требует явного решения оператора.
+- [Developer Legacy fix a6](reviews/2026-10-07-thermal-diagnostics-legacy-fix.md) — детерминированный FIX VERIFICATION/489unit/49browser+1SKIP/26cloud PASS; exact ID/stop/restart и aggregate-not-hardware. Независимое postfix закрытие CR-TD-B1 ещё PENDING; запрошены две дополнительные проверки.
+- Текущий стенд: [thermala6, порт4196](http://192.168.68.65:4196/?v=thermal-a6c7430); HTTP17assets и Start/advance/Pause PASS. Прежняя [station86, порт4189](http://192.168.68.65:4189/?v=station-86dee5d) сохранена.

@@ -1,23 +1,23 @@
-# Прогресс — 2026-10-06
+# Прогресс — 2026-10-07
 
-На порту4189 доступна проверенная локальная v2.2 d57: повторяемые физические рейсы,
-событийная добыча,50 SKU с M-модулями, разрешённые power hybrids. Исходные mission
-B1/B2 CLOSED affectedQA/scopedReview; root447unit/46browser+1SKIP PASS,3ced pushed
-в DraftPR9. Первые интерфейсы4183/4186 и промежуточный Pony4188 сохранены.
-Список источников, неизменные отчёты и прежние FAIL — docs/INDEX.md.
+U2 DraftPR842/775ea принятую горячую/холодную кривую и wear синхронизирует в
+каноне; игра Unity/server не менялась. Lab DraftPR10/runtimea6 добавляет
+причинные sparse diagnostics, первый ограничитель, сообщения о торможении,
+экспорт событий и обе температурные полосы. Рабочая QA-версия LIVE4196,
+старый station86 LIVE4189 сохранён. Источники и отчёты — docs/INDEX.md.
 
-ulab-558: freshON полное stationfuel+charge, OFF только разгрузка, старое absence
-fuel-only. PlanREADY; initialQA ST01–06 PASS. ReviewCR-ST-B1 исправлен классом
-обоих fuels одной IO line. AffectedQA4B1-01–04PASS13API/7native; scopedReview5
-APPROVED0B0A. Exact86 immutable ужеLIVE4189, прежнийd57 rollback и версиисохранены.
-Developer457unit/47browser+SKIPPASS; обязательный finalrootguard перед commit,
-его outcome/rootSHA вFINAL ACCEPTANCE PR9 и station-service-root-commit-guard-final.txt.
+PlanReview READY; исходные QA FAIL сохранены. QA4 закрывает TD05-B1:
+18styled cases и2nativeLANstarts PASS; пять других TD перенесены по
+неизменности кода. CodeReview5 CHANGES_REQUESTED: CR-TD-B1 lost Legacy transition. Fix a6 observer/tests
+детерминированно проверен, независимое закрытие PENDING; budget5/5.
+Оператору задан вопрос о двух дополнительных адресованных проверках.
+489unit/49browser+1SKIP/26cloud Developer normalguard PASS; PM finalcommit
+требует свежий обычный guard. Численное ядро/TTX/H₂governor неизменны,
+wear simulation NOT RUN. Главный rollback — прежние immutable builds.
 
-Срочный самоаудит PM_ERR1.2/DOC_PR выполнен; признана процессная задержка доставки.
-Правило каждые3 review/QA+триаж/фиксы. IO fix+QA4+Review5=3/3 audited/reset0.
-Новых verifierlaunches нет; PRODUCTbudget5/5 завершён.
+Самоаудит PM_ERR/DOC_PR после3циклов выполнен/reset0; Review5 завершён/counter1/3.
+Beads canonical ulab-6ty через root API; закрытие только после текущей приёмки.
+Все base/public/native/main/operator merge остаются отдельно; PRDraft.
 
-Beads — sole task tracker, только root API; ulab-w6w/ulab-dwi.1/.2 CLOSEDlocal,
-ulab-dwi closure blocked open ulab-zk2 безforce, ulab-558 localaccepted, currentstatus поbd API. Один trusted
-export после текущего milestone. Draft base/bootstrap/native/physical/public/main/
-operator merge открыты отдельно. Никакого main/auto-merge.
+Предыдущая v2.2: physical missions/M/HY/station charge, missionB1/B2 и
+stationCR-ST-B1 локально закрыты; PR9Draft, previous reports immutable.
