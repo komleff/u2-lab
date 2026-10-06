@@ -123,6 +123,10 @@ export function parseResultJson(text: string): ValidationResult<RunResultV2> {
     for (const sp of ["diesel", "hydrogen"]) aggregate.add("fuelKg:" + sp);
     for (const i of ship.instances) {
       aggregate.add("installedMassKg:" + i.id);
+      if (["h2","thermoinverter"].includes(i.item.family) || i.item.family === "radiator" && i.item.numerics.auxW > 0)
+        for (const prefix of ["coolingAuxRequestedW:","coolingAuxW:","coolingW:"]) aggregate.add(prefix + i.id);
+      if (i.item.family === "h2" || i.item.family === "radiator" && i.item.numerics.auxW > 0)
+        for (const prefix of ["coolingRequested:","coolingOffFloor:","coolingOffDemand:","coolingClosed:"]) aggregate.add(prefix + i.id);
       if (i.item.family === "battery") aggregate.add("storedJ:" + i.id);
       else if (i.item.family === "tank") aggregate.add("fuelKg:" + i.id);
       else if (i.item.family === "buffer") aggregate.add("bufferJ:" + i.id);

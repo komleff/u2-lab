@@ -9,7 +9,9 @@ it("SF19 maximum curated dynamic channels at full adaptive retention include onl
   const row = JSON.parse(
     output.split("\n").find((line) => line.startsWith('{"fittingMemory":'))!,
   ).fittingMemory;
-  expect(row.channels).toBe(118);
+  // Три actual cooling ledgers и две автоматики добавляют17 instance channels;
+  // полный адаптивный trace,20000events и online state всё ещё входят в128MiB.
+  expect(row.channels).toBe(118 + 17);
   expect(row.buckets).toBe(row.maxBuckets);
   expect(row.actualBytes).toBeLessThanOrEqual(128 * 1048576);
   expect(row.eventCount).toBe(20000);

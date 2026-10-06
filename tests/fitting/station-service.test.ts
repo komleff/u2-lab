@@ -1,6 +1,8 @@
 import { it, expect } from 'vitest';
 import { createHash } from 'node:crypto';
 import old from './fixtures/station-service-old.json';
+import coolingOracle from './fixtures/cooling-station-old-digest.json';
+import { physicalResult } from './physical-result';
 import { getPresetFit, loadCandidateCatalog } from '../../src/fitting/catalog';
 import { makeMissionRun, compareMissionConditions } from '../../src/scenarios/mission';
 import { createRun, runChunk, result } from '../../src/runner/run';
@@ -45,7 +47,9 @@ it('ST03 full Q/no tanks gives no negative refill; batteryless control remains r
 });
 it('ST05 captured pre-code legacy spec/result exactly replay and import without new keys',()=>{
  const s=old.spec as unknown as RunSpecV2;expect(hash(s)).toBe(old.digests.spec);const r=createRun('station-old-oracle',s);while(!r.done)runChunk(r,100);
- expect(hash(result(r))).toBe(old.digests.result);expect((r.state.mission as any).receivedChargeJ).toBeUndefined();expect((r.metrics.mission as any).receivedChargeJ).toBeUndefined();
+ const measured=result(r);expect(coolingOracle.originalFullResultSHA256).toBe(old.digests.result);expect(hash(physicalResult(measured))).toBe(coolingOracle.physicalResultSHA256);
+ expect(measured.events.filter(e=>e.kind!=='cooling-controls-version')).toEqual(coolingOracle.originalEvents);expect(measured.retention.totalEvents).toBe(coolingOracle.originalEventRetention.totalEvents+1);expect(measured.retention.droppedEvents).toBe(coolingOracle.originalEventRetention.droppedEvents);
+ expect(measured.events.filter(e=>e.kind==='cooling-controls-version')).toHaveLength(1);expect((r.state.mission as any).receivedChargeJ).toBeUndefined();expect((r.metrics.mission as any).receivedChargeJ).toBeUndefined();
  parsed(result(r));const w=new FittingWorkspace(getPresetFit('pony:2'),c);expect(w.importDocument(json(result(r))).ok).toBe(true);expect(w.prepare()).toEqual({ok:true,value:s});
  const conditions=w.getSelected().conditions;expect((conditions as any).stationReplenish).toBeUndefined();expect(w.setConditions({...conditions,durationSeconds:10})).toBe(true);const next=w.prepare();if(!next.ok)throw Error(json(next));expect((next.value.mission as any).stationReplenish).toBe(false);
 });

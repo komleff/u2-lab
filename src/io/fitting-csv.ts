@@ -21,6 +21,7 @@ export function fittingChannelUnit(channel: string): string {
   if (
     channel.startsWith("deliveredW:") ||
     channel.startsWith("beamW:") ||
+    ["coolingAuxRequestedW:","coolingAuxW:","coolingW:"].some(prefix => channel.startsWith(prefix)) ||
     channel.endsWith("W")
   )
     return "W";

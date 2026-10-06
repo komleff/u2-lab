@@ -86,48 +86,8 @@ export function stepPhysicsV2(
         (!state.gates[m.id] || (m.kind === "radiator" && m.auxW === 0)),
     );
     const req = new Map(requests.map((r) => [r.moduleId, r.duty]));
-    const flows: Record<string, number> = {};
-    const consumerFlows: Record<string, number> = {};
     const targetReached = state.usefulWork >= ship.targetLimitM3 - 1e-9;
     const cargoFull = state.cargo >= ship.cargoLimitM3 - 1e-9;
-    let chemical = 0,
-      genHeat = 0,
-      exhaust = 0,
-      pathLoss = 0,
-      engineHeat = 0,
-      thrust = 0,
-      engineUseful = 0,
-      solarHeat = 0,
-      solar = 0;
-    const tankLive = (m: Module) =>
-      !!m.tankId &&
-      (state.fuelKg[m.tankId] ?? 0) > eps &&
-      !state.gates[`tank:${m.tankId}`];
-    const fuelFlow = (m: Module, flow: number) => {
-      flows[m.tankId!] = (flows[m.tankId!] ?? 0) + flow;
-      consumerFlows[
-        m.species +
-          ":" +
-          (m.kind === "h2"
-            ? "cooler"
-            : m.kind === "engine"
-              ? "propulsion"
-              : "generator") +
-          ":" +
-          m.id
-      ] =
-        (consumerFlows[
-          m.species +
-            ":" +
-            (m.kind === "h2"
-              ? "cooler"
-              : m.kind === "engine"
-                ? "propulsion"
-                : "generator") +
-            ":" +
-            m.id
-        ] ?? 0) + flow;
-    };
     const rawLoads = ship.modules
       .filter((m) => m.enabled && m.kind === "load")
       .map((m) => ({
@@ -153,254 +113,340 @@ export function stepPhysicsV2(
             ? 0
             : 1),
       }));
-    let activeRequest = requestedLoads
+    const activeRequest = requestedLoads
         .filter((x) => x.m.policy !== "Background")
         .reduce((s, x) => s + x.p, 0),
       bgRequest = requestedLoads
         .filter((x) => x.m.policy === "Background")
         .reduce((s, x) => s + x.p, 0);
-    const coolers = live.filter((m) =>
-      ["h2", "thermoinverter", "radiator"].includes(m.kind),
-    );
-    const coolingRequests = coolers.map((m) => {
-      let q = 0,
-        work = m.auxW;
-      if (m.kind === "h2" && tankLive(m)) q = m.coolingW * allowed(m);
-      if (m.kind === "h2" && !tankLive(m)) work = 0;
-      if (m.kind === "thermoinverter" && m.hotK > state.temperatureK) {
-        const cop =
-          (m.copEfficiency * state.temperatureK) /
-          (m.hotK - state.temperatureK);
-        const rejection =
-          m.areaM2 *
-          SIGMA *
-          Math.max(0, m.hotK ** 4 - env.effectiveBackgroundK ** 4);
-        q = Math.min(m.coolingW, rejection / (1 + 1 / cop)) * allowed(m);
-        work = q / cop;
-      }
-      if (m.kind === "radiator") work = m.auxW * allowed(m);
-      return { m, q, work };
-    });
-    const coolingRequest = coolingRequests.reduce((s, x) => s + x.work, 0);
-    const demand = ship.hullPowerW + activeRequest + coolingRequest;
-    for (const m of live.filter((m) => m.kind === "solar")) {
-      const absorbed = m.areaM2 * env.solarFluxWm2;
-      solar += absorbed * m.efficiency;
-      solarHeat += absorbed * (1 - m.efficiency);
-    }
-    const generators = live.filter(
-      (m) => m.kind === "generator" && tankLive(m),
-    );
-    const genCap = generators.reduce(
-      (s, m) => s + m.powerW * m.pathEfficiency * allowed(m),
-      0,
-    );
-    const fraction = backgroundFraction(ship, state);
-    if (state.chargeJ <= 0.9 * qmax) state.sourceRecovery = true;
-    if (state.chargeJ >= qmax - eps) state.sourceRecovery = false;
+    const tankLive = (m: Module) =>
+      !!m.tankId &&
+      (state.fuelKg[m.tankId] ?? 0) > eps &&
+      !state.gates[`tank:${m.tankId}`];
     const external = env.energyInputs
       .filter((x) => x.representation === "electric")
       .reduce((n, x) => n + x.powerW, 0);
-    const recharge =
-      state.sourceRecovery && state.chargeJ < qmax - eps ? genCap : 0;
-    let genBus = Math.min(
-      genCap,
-      Math.max(
+    // Минимальная рабочая верхняя граница действующих операций, в том числе
+    // остановленных защитой. Floor принадлежит только H₂, не всему корпусу.
+    const coolingTarget = Math.max(300, Math.min(Infinity,
+      ...ship.modules.filter(m => m.enabled && (m.kind !== "radiator" || m.auxW > 0)
+        && m.kind !== "buffer").map(m => state.gates[m.id] ? m.gate.restartHigh : m.gate.workHigh),
+      ...ship.tanks.filter(t => t.gate && ship.modules.some(m => m.enabled && m.tankId === t.id))
+        .map(t => state.gates["tank:" + t.id] ? t.gate!.restartHigh : t.gate!.workHigh)));
+    if (state.chargeJ <= 0.9 * qmax) state.sourceRecovery = true;
+    if (state.chargeJ >= qmax - eps) state.sourceRecovery = false;
+    const evaluate = (coolingDuty: number) => {
+      const flows: Record<string, number> = {}, consumerFlows: Record<string, number> = {};
+      let chemical = 0,
+        genHeat = 0,
+        exhaust = 0,
+        pathLoss = 0,
+        engineHeat = 0,
+        thrust = 0,
+        engineUseful = 0,
+        solarHeat = 0,
+        solar = 0;
+      const fuelFlow = (m: Module, flow: number) => {
+        flows[m.tankId!] = (flows[m.tankId!] ?? 0) + flow;
+        consumerFlows[
+          m.species +
+            ":" +
+            (m.kind === "h2"
+              ? "cooler"
+              : m.kind === "engine"
+                ? "propulsion"
+                : "generator") +
+            ":" +
+            m.id
+        ] =
+          (consumerFlows[
+            m.species +
+              ":" +
+              (m.kind === "h2"
+                ? "cooler"
+                : m.kind === "engine"
+                  ? "propulsion"
+                  : "generator") +
+              ":" +
+              m.id
+          ] ?? 0) + flow;
+      };
+      const coolers = live.filter((m) =>
+        ["h2", "thermoinverter", "radiator"].includes(m.kind),
+      );
+      const coolingRequests = coolers.map((m) => {
+        let q = 0,
+          work = m.auxW;
+        if (m.kind === "h2") {
+          q = tankLive(m) ? m.coolingW * allowed(m) * coolingDuty : 0;
+          work = q > 0 ? m.auxW * allowed(m) * coolingDuty : 0;
+        }
+        if (m.kind === "thermoinverter" && m.hotK > state.temperatureK) {
+          const cop =
+            (m.copEfficiency * state.temperatureK) /
+            (m.hotK - state.temperatureK);
+          const rejection =
+            m.areaM2 *
+            SIGMA *
+            Math.max(0, m.hotK ** 4 - env.effectiveBackgroundK ** 4);
+          q = Math.min(m.coolingW, rejection / (1 + 1 / cop)) * allowed(m);
+          work = q / cop;
+        }
+        const deployed = m.kind !== "radiator" || m.auxW === 0 ||
+          state.temperatureK > env.effectiveBackgroundK + eps;
+        if (m.kind === "radiator") work = deployed ? m.auxW * allowed(m) : 0;
+        return { m, q, work, deployed };
+      });
+      const coolingRequest = coolingRequests.reduce((s, x) => s + x.work, 0);
+      const demand = ship.hullPowerW + activeRequest + coolingRequest;
+      for (const m of live.filter((m) => m.kind === "solar")) {
+        const absorbed = m.areaM2 * env.solarFluxWm2;
+        solar += absorbed * m.efficiency;
+        solarHeat += absorbed * (1 - m.efficiency);
+      }
+      const generators = live.filter(
+        (m) => m.kind === "generator" && tankLive(m),
+      );
+      const genCap = generators.reduce(
+        (s, m) => s + m.powerW * m.pathEfficiency * allowed(m),
         0,
-        (demand + (recharge ? 0 : bgRequest * fraction)) /
-          ship.dischargeEfficiency /
-          ship.chargeEfficiency +
-          recharge -
-          solar -
-          external,
-      ),
-    );
-    if (state.chargeJ >= qmax - eps)
-      genBus = Math.min(
-        genBus,
+      );
+      const fraction = backgroundFraction(ship, state);
+      const recharge =
+        state.sourceRecovery && state.chargeJ < qmax - eps ? genCap : 0;
+      let genBus = Math.min(
+        genCap,
         Math.max(
           0,
-          (demand + bgRequest * fraction) /
+          (demand + (recharge ? 0 : bgRequest * fraction)) /
             ship.dischargeEfficiency /
-            ship.chargeEfficiency -
+            ship.chargeEfficiency +
+            recharge -
             solar -
             external,
         ),
       );
-    const sourceBus = genBus + solar + external;
-    const available =
-      state.chargeJ > eps
-        ? Infinity
-        : sourceBus * ship.chargeEfficiency * ship.dischargeEfficiency;
-    const hull = Math.min(ship.hullPowerW, available);
-    const activeRatio = Math.min(
-      1,
-      Math.max(0, (available - hull) / (activeRequest + coolingRequest || 1)),
-    );
-    const active = activeRequest * activeRatio;
-    const coolingBus = coolingRequest * activeRatio;
-    const bg = Math.min(
-      bgRequest * fraction,
-      Math.max(
-        0,
-        sourceBus * ship.chargeEfficiency * ship.dischargeEfficiency -
-          hull -
-          active -
-          coolingBus -
-          recharge * ship.chargeEfficiency * ship.dischargeEfficiency,
-      ),
-    );
-    const delivered = hull + active + coolingBus + bg;
-    const withdraw = delivered / ship.dischargeEfficiency;
-    // Общий аккумулятор: вход источников и фактический выход всех нагрузок, потери видимы.
-    const storedIn = Math.min(
-      sourceBus * ship.chargeEfficiency,
-      state.chargeJ >= qmax - eps ? withdraw : Infinity,
-    );
-    const curtailed = sourceBus - storedIn / ship.chargeEfficiency;
-    const chargeLoss = storedIn * (1 / ship.chargeEfficiency - 1),
-      dischargeLoss = withdraw - delivered;
-    let batteryRate = storedIn - withdraw;
-    for (const m of generators) {
-      const electric =
-        genCap > 0
-          ? (genBus * ((m.powerW * m.pathEfficiency * allowed(m)) / genCap)) /
-            m.pathEfficiency
-          : 0;
-      const fuel = electric / m.efficiency;
-      const tank = ship.tanks.find((t) => t.id === m.tankId)!;
-      fuelFlow(m, fuel / tank.energyJKg);
-      chemical += fuel;
-      const waste = fuel - electric;
-      genHeat += waste * (1 - m.exportFraction);
-      exhaust += waste * m.exportFraction;
-      pathLoss += electric * (1 - m.pathEfficiency);
-    }
-    for (const m of live.filter((m) => m.kind === "engine" && tankLive(m))) {
-      const f = m.forceN * (req.get(m.id) ?? 0) * allowed(m),
-        flow = f * m.alpha,
-        tank = ship.tanks.find((t) => t.id === m.tankId)!;
-      fuelFlow(m, flow);
-      const power = flow * tank.energyJKg;
-      chemical += power;
-      engineUseful += power * m.efficiency;
-      engineHeat += power * (1 - m.efficiency) * m.hostFraction;
-      exhaust += power * (1 - m.efficiency) * (1 - m.hostFraction);
-      thrust += f;
-    }
-    let loadHeat = 0,
-      beam = 0,
-      workRate = 0,
-      returnHeat = 0,
-      electricUseful = 0;
-    const instanceActual: Record<string, number> = {},
-      instanceBeam: Record<string, number> = {},
-      instanceForce: Record<string, number> = {},
-      instanceWork: Record<string, number> = {};
-    for (const { m, p } of requestedLoads) {
-      const actual =
-        p *
-        (m.policy === "Background"
-          ? bgRequest
-            ? bg / bgRequest
-            : 0
-          : activeRatio);
-      instanceActual[m.id] = actual;
-      loadHeat += actual * (1 - m.efficiency);
-      if ((m as PhysicsModule).output === "mining") {
-        const emitted = actual * m.efficiency;
-        instanceBeam[m.id] = emitted;
-        beam += emitted;
-        const work = emitted * m.workPerJ;
-        instanceWork[m.id] = work;
-        workRate += work;
-        returnHeat += emitted * ship.returnFraction;
-      } else if ((m as PhysicsModule).output === "drive") {
-        const useful = actual * m.efficiency;
-        electricUseful += useful;
-        const force = m.powerW > 0 ? (m.forceN * actual) / m.powerW : 0;
-        instanceForce[m.id] = force;
-        thrust += force;
-        if (force < m.forceN * (req.get(m.id) ?? 0) - 1e-6)
-          mining.propulsionShortfall = true;
-      }
-    }
-    for (const m of ship.modules.filter((m) => m.kind === "engine")) {
-      const force =
-        live.includes(m) && tankLive(m)
-          ? m.forceN * (req.get(m.id) ?? 0) * allowed(m)
-          : 0;
-      instanceForce[m.id] = force;
-      if (force < m.forceN * (req.get(m.id) ?? 0) - 1e-6)
-        mining.propulsionShortfall = true;
-    }
-    let coolantFlowKgS = 0;
-    let h2 = 0,
-      ti = 0,
-      tiReject = 0,
-      h2AuxHeat = 0,
-      radiatorHostHeat = 0,
-      radiatorArea = ship.hullRadiationM2;
-    for (const x of coolingRequests) {
-      const ratio = x.work > 0 ? activeRatio : 1;
-      if (x.m.kind === "h2" && tankLive(x.m)) {
-        const q = x.q * ratio,
-          aux = x.work * ratio;
-        h2 += q;
-        h2AuxHeat += aux;
-        const flow = (q + aux) / x.m.qJKg;
-        fuelFlow(x.m, flow);
-        coolantFlowKgS += flow;
-      }
-      if (x.m.kind === "thermoinverter") {
-        ti += x.q * ratio;
-        tiReject += (x.q + x.work) * ratio;
-      }
-      if (x.m.kind === "radiator") {
-        radiatorArea += x.m.areaM2 * (x.m.auxW > 0 ? ratio : 1);
-        radiatorHostHeat += x.work * ratio;
-      }
-    }
-    let bufferAbsorb = 0,
-      bufferRelease = 0;
-    const bufferRates: Record<string, number> = {};
-    for (const m of live.filter((m) => m.kind === "buffer")) {
-      const q = state.buffersJ[m.id] ?? 0;
-      let rate =
-        state.temperatureK > m.absorbAboveK + 1e-9 && q < m.capacityJ - eps
-          ? m.coolingW
-          : state.temperatureK < m.releaseBelowK - 1e-9 && q > eps
-            ? -m.coolingW
+      if (state.chargeJ >= qmax - eps)
+        genBus = Math.min(
+          genBus,
+          Math.max(
+            0,
+            (demand + bgRequest * fraction) /
+              ship.dischargeEfficiency /
+              ship.chargeEfficiency -
+              solar -
+              external,
+          ),
+        );
+      const sourceBus = genBus + solar + external;
+      const available =
+        state.chargeJ > eps
+          ? Infinity
+          : sourceBus * ship.chargeEfficiency * ship.dischargeEfficiency;
+      const hull = Math.min(ship.hullPowerW, available);
+      const activeRatio = Math.min(
+        1,
+        Math.max(0, (available - hull) / (activeRequest + coolingRequest || 1)),
+      );
+      const active = activeRequest * activeRatio;
+      const coolingBus = coolingRequest * activeRatio;
+      const bg = Math.min(
+        bgRequest * fraction,
+        Math.max(
+          0,
+          sourceBus * ship.chargeEfficiency * ship.dischargeEfficiency -
+            hull -
+            active -
+            coolingBus -
+            recharge * ship.chargeEfficiency * ship.dischargeEfficiency,
+        ),
+      );
+      const delivered = hull + active + coolingBus + bg;
+      const withdraw = delivered / ship.dischargeEfficiency;
+      // Общий аккумулятор: вход источников и фактический выход всех нагрузок, потери видимы.
+      const storedIn = Math.min(
+        sourceBus * ship.chargeEfficiency,
+        state.chargeJ >= qmax - eps ? withdraw : Infinity,
+      );
+      const curtailed = sourceBus - storedIn / ship.chargeEfficiency;
+      const chargeLoss = storedIn * (1 / ship.chargeEfficiency - 1),
+        dischargeLoss = withdraw - delivered;
+      let batteryRate = storedIn - withdraw;
+      for (const m of generators) {
+        const electric =
+          genCap > 0
+            ? (genBus * ((m.powerW * m.pathEfficiency * allowed(m)) / genCap)) /
+              m.pathEfficiency
             : 0;
-      bufferRates[m.id] = rate;
-      if (rate > 0) bufferAbsorb += rate;
-      else bufferRelease -= rate;
+        const fuel = electric / m.efficiency;
+        const tank = ship.tanks.find((t) => t.id === m.tankId)!;
+        fuelFlow(m, fuel / tank.energyJKg);
+        chemical += fuel;
+        const waste = fuel - electric;
+        genHeat += waste * (1 - m.exportFraction);
+        exhaust += waste * m.exportFraction;
+        pathLoss += electric * (1 - m.pathEfficiency);
+      }
+      for (const m of live.filter((m) => m.kind === "engine" && tankLive(m))) {
+        const f = m.forceN * (req.get(m.id) ?? 0) * allowed(m),
+          flow = f * m.alpha,
+          tank = ship.tanks.find((t) => t.id === m.tankId)!;
+        fuelFlow(m, flow);
+        const power = flow * tank.energyJKg;
+        chemical += power;
+        engineUseful += power * m.efficiency;
+        engineHeat += power * (1 - m.efficiency) * m.hostFraction;
+        exhaust += power * (1 - m.efficiency) * (1 - m.hostFraction);
+        thrust += f;
+      }
+      let propulsionShortfall = false;
+      let loadHeat = 0,
+        beam = 0,
+        workRate = 0,
+        returnHeat = 0,
+        electricUseful = 0;
+      const instanceActual: Record<string, number> = {},
+        instanceBeam: Record<string, number> = {},
+        instanceForce: Record<string, number> = {},
+        instanceWork: Record<string, number> = {};
+      for (const { m, p } of requestedLoads) {
+        const actual =
+          p *
+          (m.policy === "Background"
+            ? bgRequest
+              ? bg / bgRequest
+              : 0
+            : activeRatio);
+        instanceActual[m.id] = actual;
+        loadHeat += actual * (1 - m.efficiency);
+        if ((m as PhysicsModule).output === "mining") {
+          const emitted = actual * m.efficiency;
+          instanceBeam[m.id] = emitted;
+          beam += emitted;
+          const work = emitted * m.workPerJ;
+          instanceWork[m.id] = work;
+          workRate += work;
+          returnHeat += emitted * ship.returnFraction;
+        } else if ((m as PhysicsModule).output === "drive") {
+          const useful = actual * m.efficiency;
+          electricUseful += useful;
+          const force = m.powerW > 0 ? (m.forceN * actual) / m.powerW : 0;
+          instanceForce[m.id] = force;
+          thrust += force;
+          if (force < m.forceN * (req.get(m.id) ?? 0) - 1e-6)
+            propulsionShortfall = true;
+        }
+      }
+      for (const m of ship.modules.filter((m) => m.kind === "engine")) {
+        const force =
+          live.includes(m) && tankLive(m)
+            ? m.forceN * (req.get(m.id) ?? 0) * allowed(m)
+            : 0;
+        instanceForce[m.id] = force;
+        if (force < m.forceN * (req.get(m.id) ?? 0) - 1e-6)
+          propulsionShortfall = true;
+      }
+      let coolantFlowKgS = 0;
+      let h2 = 0,
+        ti = 0,
+        tiReject = 0,
+        h2AuxHeat = 0,
+        radiatorHostHeat = 0,
+        radiatorArea = ship.hullRadiationM2;
+      for (const x of coolingRequests) {
+        const ratio = x.work > 0 ? activeRatio : 1;
+        if (x.m.kind === "h2" && tankLive(x.m)) {
+          const q = x.q * ratio,
+            aux = x.work * ratio;
+          h2 += q;
+          h2AuxHeat += aux;
+          const flow = (q + aux) / x.m.qJKg;
+          fuelFlow(x.m, flow);
+          coolantFlowKgS += flow;
+        }
+        if (x.m.kind === "thermoinverter") {
+          ti += x.q * ratio;
+          tiReject += (x.q + x.work) * ratio;
+        }
+        if (x.m.kind === "radiator") {
+          radiatorArea += x.deployed ? x.m.areaM2 * (x.m.auxW > 0 ? ratio : 1) : 0;
+          radiatorHostHeat += x.work * ratio;
+        }
+      }
+      let bufferAbsorb = 0,
+        bufferRelease = 0;
+      const bufferRates: Record<string, number> = {};
+      for (const m of live.filter((m) => m.kind === "buffer")) {
+        const q = state.buffersJ[m.id] ?? 0;
+        let rate =
+          state.temperatureK > m.absorbAboveK + 1e-9 && q < m.capacityJ - eps
+            ? m.coolingW
+            : state.temperatureK < m.releaseBelowK - 1e-9 && q > eps
+              ? -m.coolingW
+              : 0;
+        bufferRates[m.id] = rate;
+        if (rate > 0) bufferAbsorb += rate;
+        else bufferRelease -= rate;
+      }
+      const direct =
+        env.directHeat.reduce((s, x) => s + x.powerW, 0) +
+        env.energyInputs
+          .filter((x) => x.representation === "heat")
+          .reduce((n, x) => n + x.powerW, 0);
+      const constantHeat =
+        hull +
+        genHeat +
+        pathLoss +
+        engineHeat +
+        loadHeat +
+        returnHeat +
+        solarHeat +
+        chargeLoss +
+        dischargeLoss +
+        radiatorHostHeat +
+        direct -
+        h2 -
+        ti -
+        bufferAbsorb +
+        bufferRelease;
+      const net = (t: number) =>
+        env.law === "radiative"
+          ? radiatorArea * SIGMA * (t ** 4 - env.effectiveBackgroundK ** 4)
+          : env.linearWK * (t - env.effectiveBackgroundK);
+      return { flows, consumerFlows, chemical, genHeat, exhaust, pathLoss, engineHeat, thrust, engineUseful, solarHeat, solar, coolingRequests, coolingRequest, fraction, genBus, sourceBus, recharge, activeRatio, active, hull, coolingBus, bg, delivered, curtailed, chargeLoss, dischargeLoss, batteryRate, loadHeat, beam, workRate, returnHeat, electricUseful, instanceActual, instanceBeam, instanceForce, instanceWork, coolantFlowKgS, h2, ti, tiReject, h2AuxHeat, radiatorHostHeat, radiatorArea, bufferAbsorb, bufferRelease, bufferRates, direct, constantHeat, net, propulsionShortfall };
+    };
+    let ledger = evaluate(0), coolingDuty = 0;
+    // Сначала обычные signed paths и actual bus/генератор/потери. Stored excess
+    // требует восстановления и после STOP; left ограничивает только скорость
+    // удаления этого запаса, не добавляет новый температурный target.
+    const excessRate = Number.isFinite(coolingTarget)
+      ? Math.max(0, state.temperatureK - coolingTarget) * ship.heatCapacityJK / left : 0;
+    const demandWithoutH2 = ledger.constantHeat - ledger.net(state.temperatureK) + excessRate;
+    const coolingWanted = state.temperatureK > 300 + eps && state.temperatureK >= coolingTarget - eps && demandWithoutH2 > 0;
+    if (coolingWanted && live.some(m => m.kind === "h2" && tankLive(m))) {
+      const full = evaluate(1);
+      if (full.constantHeat - full.net(state.temperatureK) + excessRate > 0) {
+        coolingDuty = 1; ledger = full;
+      } else {
+        // Auxiliary draw меняет actual generator/path/battery heat. Решаем
+        // этот общий ledger, не вычитаем оценочную rated мощность генератора.
+        let lo = 0, hi = 1, loHeat = demandWithoutH2,
+          hiHeat = full.constantHeat - full.net(state.temperatureK) + excessRate;
+        for (let i = 0; i < 32; i++) {
+          // В обычном режиме ledger аффинен по aux duty; секущая получает
+          // точный баланс сразу. При source saturation сохраняем bracket.
+          const estimate = lo + (hi - lo) * loHeat / (loHeat - hiHeat);
+          const mid = estimate > lo && estimate < hi ? estimate : (lo + hi) / 2;
+          const trial = evaluate(mid), heat = trial.constantHeat - trial.net(state.temperatureK) + excessRate;
+          if (heat >= 0) { lo = mid; loHeat = heat; }
+          else { hi = mid; hiHeat = heat; }
+          if (Math.abs(heat) <= 1e-8) { coolingDuty = mid; ledger = trial; break; }
+          coolingDuty = lo; ledger = evaluate(lo);
+        }
+      }
     }
-    const direct =
-      env.directHeat.reduce((s, x) => s + x.powerW, 0) +
-      env.energyInputs
-        .filter((x) => x.representation === "heat")
-        .reduce((n, x) => n + x.powerW, 0);
-    const constantHeat =
-      hull +
-      genHeat +
-      pathLoss +
-      engineHeat +
-      loadHeat +
-      returnHeat +
-      solarHeat +
-      chargeLoss +
-      dischargeLoss +
-      radiatorHostHeat +
-      direct -
-      h2 -
-      ti -
-      bufferAbsorb +
-      bufferRelease;
-    const net = (t: number) =>
-      env.law === "radiative"
-        ? radiatorArea * SIGMA * (t ** 4 - env.effectiveBackgroundK ** 4)
-        : env.linearWK * (t - env.effectiveBackgroundK);
+    const { flows, consumerFlows, chemical, genHeat, exhaust, pathLoss, engineHeat, thrust, engineUseful, solarHeat, solar, coolingRequests, coolingRequest, fraction, genBus, sourceBus, recharge, activeRatio, active, hull, coolingBus, bg, delivered, curtailed, chargeLoss, dischargeLoss, batteryRate, loadHeat, beam, workRate, returnHeat, electricUseful, instanceActual, instanceBeam, instanceForce, instanceWork, coolantFlowKgS, h2, ti, tiReject, h2AuxHeat, radiatorHostHeat, radiatorArea, bufferAbsorb, bufferRelease, bufferRates, direct, constantHeat, net, propulsionShortfall } = ledger;
+    mining.propulsionShortfall ||= propulsionShortfall;
     const temperatureAfter = (h: number) => {
       const f = (t: number) => (constantHeat - net(t)) / ship.heatCapacityJK;
       const t = state.temperatureK,
@@ -482,9 +528,18 @@ export function stepPhysicsV2(
       boundary((ship.cargoLimitM3 - state.cargo) / workRate);
       boundary((ship.targetLimitM3 - state.usefulWork) / workRate);
     }
+    // На самой границе закрытая операция сначала проходит положительный
+    // физический интервал; затем запрос пересчитывается в полезной области.
+    if (thermalRate > 0 && ship.modules.some(m => m.enabled &&
+      (m.kind === "h2" && Math.abs(state.temperatureK - 300) <= eps ||
+       m.kind === "radiator" && m.auxW > 0 && Math.abs(state.temperatureK - env.effectiveBackgroundK) <= eps)))
+      boundary(Math.max(1e-8, 2 * eps / thermalRate));
     const startT = state.temperatureK;
     const endT = temperatureAfter(h);
     const thresholds = [
+      ...(ship.modules.some(m => m.enabled && m.kind === "h2") ? [300, coolingTarget] : []),
+      ...(ship.modules.some(m => m.enabled && m.kind === "radiator" && m.auxW > 0)
+        ? [env.effectiveBackgroundK] : []),
       ...ship.tanks
         .filter((t) => t.gate)
         .flatMap((t) =>
@@ -505,7 +560,7 @@ export function stepPhysicsV2(
             ],
       ),
     ];
-    for (const t of thresholds) {
+    for (const t of thresholds.filter(Number.isFinite)) {
       // При охлаждении точный порог ещё закрыт строгим margin>10 K:
       // короткий интервал переводит состояние внутрь разрешённой области.
       if (
@@ -561,7 +616,7 @@ export function stepPhysicsV2(
           )) ||
           (causes.includes("thermal") &&
             ship.modules.some(
-              (m) => m.kind === "h2" && m.enabled && !tankLive(m),
+              (m) => m.kind === "h2" && m.enabled && coolingWanted && !tankLive(m),
             )))
       )
         causes.push("resource");
@@ -608,6 +663,21 @@ export function stepPhysicsV2(
       add("deliveredW:" + m.id, instanceActual[m.id] ?? 0, h);
       add("beamW:" + m.id, instanceBeam[m.id] ?? 0, h);
       add("forceN:" + m.id, instanceForce[m.id] ?? 0, h);
+    }
+    for (const x of coolingRequests.filter(x => x.m.kind !== "radiator" || x.m.auxW > 0)) {
+      const ratio = x.work > 0 ? activeRatio : 1;
+      add("coolingAuxRequestedW:" + x.m.id, x.work, h);
+      add("coolingAuxW:" + x.m.id, x.work * ratio, h);
+      add("coolingW:" + x.m.id, x.q * ratio, h);
+    }
+    for (const m of ship.modules.filter(m => m.enabled && (m.kind === "h2" || m.kind === "radiator" && m.auxW > 0))) {
+      const floor = m.kind === "h2" && state.temperatureK <= 300 + eps;
+      const closed = m.kind === "radiator" && state.temperatureK <= env.effectiveBackgroundK + eps;
+      const wanted = m.kind === "h2" ? coolingWanted : !closed;
+      add("coolingRequested:" + m.id, wanted ? 1 : 0, h);
+      add("coolingOffFloor:" + m.id, floor ? 1 : 0, h);
+      add("coolingOffDemand:" + m.id, m.kind === "h2" && !floor && !wanted ? 1 : 0, h);
+      add("coolingClosed:" + m.id, closed ? 1 : 0, h);
     }
     coolantConsumedKg += coolantFlowKgS * h;
     const tNext = Math.max(0, temperatureAfter(h));

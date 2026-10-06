@@ -22,7 +22,7 @@ export function channelUnit(id: string) {
 }
 export function channelGroup(id: string) {
   if (
-    /heat|Heat|Host|Cooling|Reject|radiation|bufferAbsorb|bufferRelease|temperature|LossW/.test(
+    /heat|Heat|Host|Cooling|cooling|Reject|radiation|bufferAbsorb|bufferRelease|temperature|LossW/.test(
       id,
     )
   )
@@ -55,7 +55,7 @@ export function eventMatches(kind: string, filter: string) {
   return (
     filter === "all" ||
     (filter === "thrust" && /propulsion-shortfall|diagnostic-thrust/.test(kind)) ||
-    (filter === "thermal" && /thermal|diagnostic-wear/.test(kind)) ||
+    (filter === "thermal" && /thermal|cooling-control|diagnostic-wear/.test(kind)) ||
     (filter === "resource" && /resource|battery|cargo|buffer/.test(kind)) ||
     (filter === "phase" && kind === "phase") ||
     (filter === "environment" && kind.startsWith("environment")) ||
@@ -64,6 +64,8 @@ export function eventMatches(kind: string, filter: string) {
   );
 }
 export function eventLabel(kind:string) {
+ if(kind==='cooling-control')return 'Автоматика охлаждения';
+ if(kind==='cooling-controls-version')return 'Правила нового расчёта';
  if(kind==='diagnostic-wear')return 'Температура и износ';
  if(kind==='diagnostic-recovered')return 'Выдача восстановлена';
  if(kind.startsWith('diagnostic'))return 'Диагностика операции';

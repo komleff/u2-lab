@@ -1,0 +1,72 @@
+{
+  "baselineCommit": "c85047899a067c90e4c8f96224cbe8671ec54b76",
+  "originalSpecSHA256": "a296026c77cc907950c48445f8cac7ef9d3127cb71c4babc368826d8a77fa222",
+  "originalFullResultSHA256": "f0931be5f1cb584fa7a73d8a4129551ca289d6a423db9ecc86c66e0a5c56a8d3",
+  "physicalResultSHA256": "41b0949bf04314f990c57661044a2d4fd54be4660200f3baadf03a4a42e80c12",
+  "method": "Frozen Git baseline load of all src dependencies; original full digest verified first. Existing physicalResult omits only events and retention totalEvents/droppedEvents; every other field exact. Current difference: one cooling-controls-version event and totalEvents +1.",
+  "originalEvents": [
+    {
+      "timeSeconds": 0,
+      "kind": "phase",
+      "message": "Миссия: вылет от станции; местный подход strafe/turn по laboratory duty"
+    },
+    {
+      "timeSeconds": 0,
+      "kind": "mission-arrival",
+      "message": "перелёт к полю: нулевая дистанция, перелёт пропущен; x=0 m, v=0 m/s"
+    },
+    {
+      "timeSeconds": 0,
+      "kind": "phase",
+      "message": "Поле: местный подход"
+    },
+    {
+      "timeSeconds": 0,
+      "kind": "phase",
+      "message": "Добыча до события, без заданной рабочей длительности"
+    },
+    {
+      "timeSeconds": 0.34285714285714286,
+      "kind": "cargo-full",
+      "message": "Трюм заполнен или добыт остаток цели → возврат; штатное событие цикла"
+    },
+    {
+      "timeSeconds": 0.34285714285714286,
+      "kind": "phase",
+      "message": "Возврат с добытым грузом"
+    },
+    {
+      "timeSeconds": 0.34285714285714286,
+      "kind": "mission-arrival",
+      "message": "перелёт к станции: нулевая дистанция, перелёт пропущен; x=0 m, v=0 m/s"
+    },
+    {
+      "timeSeconds": 0.34285714285714286,
+      "kind": "phase",
+      "message": "Станция: обслуживание, груз и топливо изменятся в конце"
+    },
+    {
+      "timeSeconds": 0.5428571428571429,
+      "kind": "service",
+      "message": "Сдано 0.01 SCU; заправлены только установленные контуры, температура/заряд продолжаются"
+    },
+    {
+      "timeSeconds": 0.5428571428571429,
+      "kind": "phase",
+      "message": "Миссия завершена после обслуживания"
+    }
+  ],
+  "originalEventRetention": {
+    "totalEvents": 10,
+    "droppedEvents": 0
+  },
+  "currentDelta": {
+    "addedKind": "cooling-controls-version",
+    "count": 1
+  },
+  "baselineBlobs": {
+    "src/model/v2/physics.ts": "ab8a765826db1f035769327ee3a0a526d5ff73af",
+    "src/runner/diagnostics.ts": "795ec085faa0ee7a578ca8ba31c43e7e35ea2917",
+    "src/runner/run.ts": "894c317717a31a3e01e586aac4cf62c9bfaf062e"
+  }
+}

@@ -46,7 +46,7 @@ for(const generator of ['diesel','hydrogen'] as const)it(`HY02 E+${generator} ge
  const c=loadCandidateCatalog(version),f=mounts(getPresetFit('civilian-M:1',version),{'power-1':`generator-${generator}-M`,'power-2':`tank-${generator}-M`,'power-3':'tank-hydrogen-M','signature-1':'h2-cooler-M'});
  if(generator==='hydrogen'){delete f.instances[f.assignments['power-3']];delete f.assignments['power-3'];}
  f.initial.fuelFraction.hydrogen=.000001;
- const s=makeMiningRun(f,c,{durationSeconds:10,stepSeconds:1,temperatureK:400});if(!s.ok)throw Error(JSON.stringify(s));
+ const s=makeMiningRun(f,c,{durationSeconds:10,stepSeconds:1,temperatureK:510});if(!s.ok)throw Error(JSON.stringify(s));
  const start=initialStateV2(s.value),step=stepV2(s.value,start,1,{march:1,[s.value.selectedWorkGroup[0]]:1});
  expect(step.telemetry.h2CoolingW).toBeGreaterThan(0);expect(step.state.fuelKg.hydrogen).toBe(0);expect(step.state.consumptionKg['hydrogen:cooler:fit:signature-1']).toBeGreaterThan(0);expect(step.state.consumptionKg[`${generator}:generator:fit:power-1`]).toBeGreaterThan(0);
  expect(Object.keys(step.state.consumptionKg).some(k=>k.includes(':propulsion:'))).toBe(false);
@@ -57,13 +57,13 @@ for(const generator of ['diesel','hydrogen'] as const)it(`HY02 E+${generator} ge
 it('HY02 D propulsion keeps separate auxiliary H₂ circuit; without cryotank readiness remains incomplete',()=>{
  const c=loadCandidateCatalog(version),f=mounts(getPresetFit('pony:1',version),{'signature-1':'h2-cooler-S'});
  expect(validateFit(f,c).readiness.canRun).toBe(false);mounts(f,{'power-3':'tank-hydrogen-S'});expect(validateFit(f,c).readiness.canRun).toBe(true);
- const s=makeMiningRun(f,c,{durationSeconds:1,stepSeconds:1,temperatureK:400});if(!s.ok)throw Error(JSON.stringify(s));
+ const s=makeMiningRun(f,c,{durationSeconds:1,stepSeconds:1,temperatureK:510});if(!s.ok)throw Error(JSON.stringify(s));
  const p=stepV2(s.value,initialStateV2(s.value),1,{march:1});expect(p.state.consumptionKg['diesel:propulsion:fit:march']).toBeGreaterThan(0);expect(p.state.consumptionKg['hydrogen:cooler:fit:signature-1']).toBeGreaterThan(0);expect(p.state.consumptionKg['hydrogen:propulsion:fit:march']).toBeUndefined();
 });
 it('MF04/HY02 compound M mining/cooling/hybrid mission exports its exhausted shared H2 stock without normalization',async()=>{
  const {makeMissionRun}=await import('../../src/scenarios/mission');const {createRun,runChunk,result}=await import('../../src/runner/run');const {parseResultJson}=await import('../../src/io/fitting-result');
  const c=loadCandidateCatalog(version),f=mounts(getPresetFit('civilian-M:2',version),{'power-1':'battery-M','power-2':'generator-hydrogen-M','power-3':'tank-hydrogen-M','signature-1':'h2-cooler-M','signature-2':'radiator-active-M','signature-3':'thermoinverter-M'});f.initial.fuelFraction.hydrogen=.000001;
- const s=makeMissionRun(f,c,{durationSeconds:2,stepSeconds:.1,distanceM:0,approachSeconds:0,serviceSeconds:10,targetM3:.01,repeat:false,temperatureK:400});if(!s.ok)throw Error(JSON.stringify(s));const r=createRun('Mcompound',s.value);while(!r.done)runChunk(r,100);const native=result(r);
+ const s=makeMissionRun(f,c,{durationSeconds:2,stepSeconds:.1,distanceM:0,approachSeconds:0,serviceSeconds:10,targetM3:.01,repeat:false,temperatureK:510});if(!s.ok)throw Error(JSON.stringify(s));const r=createRun('Mcompound',s.value);while(!r.done)runChunk(r,100);const native=result(r);
  expect(native.state.usefulWork).toBeGreaterThan(0);expect(native.state.fuelKg.hydrogen).toBe(0);expect(native.metrics.h2CoolerKg).toBeGreaterThan(0);expect(native.metrics.fuelPurposeKg['hydrogen:generator']).toBeGreaterThan(0);expect(native.metrics.fuelPurposeKg['hydrogen:propulsion']).toBe(0);
  const text=JSON.stringify(native,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as any):v),p=parseResultJson(text);expect(p.ok,p.ok?'':JSON.stringify(p.errors)).toBe(true);if(p.ok)expect(JSON.stringify(p.value,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as any):v)).toBe(text);
 });
