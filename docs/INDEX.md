@@ -28,7 +28,10 @@
 
 - [Пони: один слот контроля сигнатур](plans/2026-10-06-pony-signature-slot.md) — принятое изменение баланса, план/VC P01–P05; новый каталог0.2.2, исторические0.2.0/0.2.1 сохраняются.
 
-- [Задание v2.2: событийная добыча и рейс](product/ship-fitting-v2.2-mission-brief.md) — принятое поручение возобновить `ulab-dwi`; параметры оператора и рекомендации разделены. Открыты смысл первой остановки и значения V_FA; runtime v2.2 ещё не реализован.
+- [Задание v2.2: событийная добыча и рейс](product/ship-fitting-v2.2-mission-brief.md) — accepted v0.3; основной рейс до полного трюма не блокируется optional уточнением. Лабораторные опоры явно подписаны; runtime пока не реализован.
+- [M-модули и гибридные сборки](product/ship-fitting-medium-modules.md) — MF01–04/HY01–02, независимый PLAN_READY;50 SKU планируются, в live каталоге пока45.
+- [План рейса и M-поставки](plans/2026-10-06-mission-medium-delivery.md) — PRODUCT HOW/VC M01–09 + medium contract, новый Plan Review до кода.
+- [Plan Review M/HY](reviews/2026-10-06-medium-hybrid-plan-review.md) — READY0BLOCKER/0ADVISORY; exact whole contract e6088c0a… .
 
 Оператор отклонил UX v3 и поручил адверсальное ревью GD, UX/UI и пользовательских
 сценариев. Claude Design теперь рассматривается как ассеты и предложение макета.
