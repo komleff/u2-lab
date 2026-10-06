@@ -267,7 +267,7 @@ export function mountFitting(
           returnId: b.id,
         };
         render();
-        el("swap-search")?.focus();
+        el("swap-close")?.focus({ preventScroll: true });
       };
     }
     for (const b of root.querySelectorAll<HTMLButtonElement>("[data-instance]"))

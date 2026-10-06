@@ -1,3 +1,16 @@
+# Operator focus-fix каталога, 2026-10-07
+
+ulab-p2w/MC03, existing Developer fix-turn; fix/catalog-dialog-focus от4339eca2.
+WHAT v0.4: каталог открывается с фокусом Close, manual search/Tab/caret сохраняются.
+ROOT reproducedLAN1024: nativeClose→explicitsearch, keyboard trigger confirmed.
+Цель — genuine open/reopen без любого editablefocus; OSkeyboard физически NOT RUN.
+Developer RED/GREEN и normalguard → experimentalLAN/Pages, no new physics/hour.
+Independent UI budget5/5 прежний, final+1 ожидаетоператора, не брать cooling budget.
+Самоаудит после QA4+Review5+operatorfix3/3, counter0/3; PR Draft/merge-ineligible.
+Существующие публичная cooling версия и архивы/старый4189 сохраняются до нового build.
+
+## Предыдущий checkpoint
+
 # Автоматика охлаждения — поставлен, 2026-10-07
 
 Beads ulab-6xr; PRODUCT5/5: QA4 PASS, Review5 APPROVED/0B0A, CR-CC-B1 CLOSED. Accepted WHAT:

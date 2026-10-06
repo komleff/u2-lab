@@ -259,3 +259,10 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [Текущий LAN4196](http://192.168.68.65:4196/?v=cooling-c9e09b2) — c9e09b2,17HTTPassets и actualStart1.5s/Pause/iClose/errors0 PASS. Старый4189 сохранён.
 
 - [Публичная cooling-поставка](https://komleff.github.io/u2-lab/?v=cooling-c9e09b2) — exactc9/Pagesc13791a,17assets и actualStart/Pause/iClose/errors0 PASS; [архив thermal](https://komleff.github.io/u2-lab/thermal-v0.1/)17exact/Start/Pause и [первая Lab](https://komleff.github.io/u2-lab/legacy-v1/)4+root3 exact сохранены. Публикация не заменяет operator merge.
+
+
+## Каталог: исправление начального фокуса
+
+- [Accepted WHAT v0.4](product/ship-fitting-gd-workspace-v4.md#начальный-фокус-каталога-решение-оператора-2026-10-07) — direct operator MC03 clarification: начальный Close, поиск по намеренному нажатию/Tab, повторное открытие без автоклавиатуры.
+- Один Developer fix-turn ulab-p2w, ветка fix/catalog-dialog-focus от4339eca2; никакого нового verifier budget. Старые QA/Review source bindings остаются историческими; formal UI closure после budget5/5 ждёт явного+1.
+- [Самоаудит](reviews/2026-10-07-pm-self-audit.md#каталог-возврат-к-результату-после-qa4--review5--операторского-focus-fix-33) — минимальный путь, корректность genuine focusin trace и граница OS keyboard, counter0/3 после fix-turn.
