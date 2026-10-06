@@ -1,3 +1,18 @@
+# Текущий приоритет: автоматика охлаждения, 2026-10-07
+
+Beads ulab-6xr, PRODUCT5: PlanReview1 PLAN_READY0B0A. Exact HOW/CC01–05 —
+docs/plans/2026-10-07-cooling-control.md, source authority через INDEX.
+U2 DraftPR843/18d2c82: Efficient Auto demand + H₂<=300K OFF; Active закрывает
+площадь/насос при Tenv>=Tship, hull/Passive signed law сохраняется.
+Новая изолированная feat/cooling-control от UI721e815; protected numerical
+owners baselineebd unchanged. Сейчас docs-only checkpoint: никакой новой
+физики/DEV_RELEASE ещё нет. Реальный Draft PR предшествует implementation.
+UI PR11: QA3 закрыла colon-ID, Review4 нашёл empty-invoker CR-MC-B1;
+Developer721e815 исправил общую строку, guard489/52+SKIP/26 PASS, affectedQA5
+в работе, finalscopedclosure потребует +1 operator call. Это отдельный budget.
+Старые LAN4196/4189 и public thermal/legacy-v1 сохранены. PM sole Beads writer
+rootprimary. Следующие coolingQA2 и scopedReview3 только CC01–05, no81/12h.
+
 # В работе: чистка карточек модулей, 2026-10-07
 
 Прямое поручение оператора: собственные профильные ТТХ, без неприменимых полей,
