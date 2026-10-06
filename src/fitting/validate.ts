@@ -1,4 +1,4 @@
-import { fitItem, isKnownCatalogVersion } from "./editions";
+import { fitItem, fitHull, isKnownCatalogVersion } from "./editions";
 import type {
   ShipFit,
   CandidateCatalog,
@@ -12,7 +12,7 @@ export function installedInstances(
   f: ShipFit,
   c: CandidateCatalog,
 ): ResolvedInstance[] {
-  const h = c.hulls.find((h) => h.id === f.hullId);
+  const h = fitHull(f, c);
   if (!h) return [];
   return [
     ...h.builtins.map((b) => ({
@@ -215,7 +215,7 @@ export function validateFit(f: ShipFit, c: CandidateCatalog): FitValidation {
   }
   if (!Number.isInteger(f.fitRevision) || f.fitRevision < 1)
     bad("fitRevision", "REVISION", "Нужна положительная ревизия");
-  const h = c.hulls.find((h) => h.id === f.hullId);
+  const h = fitHull(f, c);
   if (!h) {
     bad("hullId", "HULL", "Неизвестный корпус");
     return finish();

@@ -1,5 +1,6 @@
 import type { FittingWorkspace } from "../fitting-workspace";
 import { validateFit } from "../../fitting/validate";
+import { fitHull } from "../../fitting/editions";
 import {
   esc,
   num,
@@ -25,7 +26,7 @@ export type SwapState = {
 };
 export function swapDialog(w: FittingWorkspace, s: SwapState) {
   const f = w.getFit(),
-    h = w.catalog.hulls.find((x) => x.id === f.hullId)!,
+    h = fitHull(f, w.catalog)!,
     slot = h.slots.find((x) => x.id === s.slotId)!,
     installed = f.instances[f.assignments[s.slotId]]?.itemId;
   const items = Object.values({ ...w.catalog.items, ...f.localVariants });

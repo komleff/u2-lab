@@ -1,5 +1,13 @@
 # Ship Fitting v4 + каталог 0.2.1 — 2026-10-06
 
+## Текущая правка: Пони
+
+Оператор уменьшил signature slots Pony2→1. Принятое WHAT/короткий HOW/P01–P05:
+docs/plans/2026-10-06-pony-signature-slot.md. New catalog0.2.2 overlay, old0.2.0/0.2.1
+fit/run/result preserve2-slot hull and stamps. Остальные hulls/SKUs неизменны.
+PRODUCT; existing Developer read-only discovery done, no runtime edits. Один Plan
+Review до кода; текущий counter1/3. Добывающая миссия ниже остаётся отдельной задачей.
+
 ## Новое поручение v2.2
 
 Оператор возобновил ulab-dwi: событийная добыча до полного трюма/первой остановки,

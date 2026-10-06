@@ -1,0 +1,39 @@
+{
+  "sourceSha": "03826203eb5cef1d0102f71a98b07ec469fab1cb",
+  "runtimeBaseline": "15f5d90e97b696b8738a204953af852942bec704",
+  "version": "ship-fitting-0.2.1",
+  "method": "SHA256 of native JSON.stringify, typed arrays converted to arrays; captured before production changes",
+  "conditions": {
+    "durationSeconds": 25.25,
+    "stepSeconds": 1,
+    "approachSeconds": 1,
+    "workSeconds": 10,
+    "brakingSeconds": 1,
+    "serviceSeconds": 1,
+    "idleSeconds": 1
+  },
+  "catalog": "fe6b176ed7a64ce29e1f12a6e176c79198c811b28aeb4c1de6d53dff1217f42f",
+  "rows": {
+    "pony:1": {
+      "fit": "4d4579cf6fec1ca47672c6a8d744c0476153c2bc95ed802f187f40de8967a43d",
+      "spec": "04a3ab880d0eee92dafdd65d4d21ef41fa8616fe56c4ae787cd34b41266c7f14",
+      "zero": "c58b877e4271c48cd876210d651c401a6cf2af13c7e4dd8fd4ff3458e8ba1b0a",
+      "partial": "701f50bbd662864506cdc00f107101d4d66eb68a871ca76b37d1e231f49cd491",
+      "complete": "47cb38dab334ae55c598f1d00105cfe177e73bcda504712ab30a7e62836b5c30"
+    },
+    "pony:2": {
+      "fit": "c232d5374d8f8f222114e2c9561e8856b1a9d2e92cc18c1c2eac4851ebbf8107",
+      "spec": "c36df01d308920535762005ba558ad0ecfed65840599608d4ad1a1abcdee4aa5",
+      "zero": "1850e07c7ae97c13a0f06fc039d81158d867ff613cc240305dc53c0f68a9d85e",
+      "partial": "959542ce95457cabbd439da6702941726feed84fd0af62eb8dbcae88012a5d0f",
+      "complete": "fbf59d62df9c38cd3327ba64f6ab40d5ae35dce78585eaf08eec8e55dc8d6231"
+    },
+    "pony:3": {
+      "fit": "818dc1e6cd7c1546512fde95143061813c113668e288689e3faf46483d1fc99b",
+      "spec": "9621d388c3b8ffae98df9288b9fccc7308a8a231c76d0c51e2627cf77a7ee442",
+      "zero": "af7bce265d185a7cf8846512745ffcffcef20e20a16bae0a8b76d9a36b4bfd57",
+      "partial": "cd55cf1bd62bb353b2a36b60cd44420c0f3c4e61bbbe8df926231af91d653079",
+      "complete": "be89556772d31a1997282d0a526edbfb1b46a20c1db8edfec555d402de9a1293"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import { FittingWorkspace } from "../fitting-workspace";
 import { installedInstances, validateFit } from "../../fitting/validate";
+import { fitHull } from "../../fitting/editions";
 import {
   esc,
   num,
@@ -21,7 +22,7 @@ export function shipView(
   collapsed: Set<string>,
 ) {
   const fit = w.getFit(),
-    h = w.catalog.hulls.find((x) => x.id === fit.hullId)!,
+    h = fitHull(fit, w.catalog)!,
     v = validateFit(fit, w.catalog),
     p = passport(fit, w.catalog),
     roster = installedInstances(fit, w.catalog),
@@ -44,7 +45,7 @@ export function shipView(
     ],
     layout = slotLayout(all, width);
   const numberMarkup = `<dl class="passport-numbers"><div><dt>Сухая масса</dt><dd>${num(p.dryMassKg / 1000, "т")}</dd></div><div><dt>Теплоёмкость C</dt><dd>${num(p.heatCapacityJK / 1000, "кДж/K")}</dd></div><div><dt>Универсальный трюм</dt><dd>${num(p.cargo.universal, "SCU")}</dd></div><div><dt>Навалочный / жидкий</dt><dd>${num(p.cargo.bulk)} / ${num(p.cargo.liquid, "SCU")}</dd></div></dl>`;
-  const hero = `<div class="ship-passport">${h.id === "industrial-M" ? `<img class="ship-art" src="${import.meta.env.BASE_URL}assets/titan-640.webp" alt="Титан — визуальная иллюстрация лабораторного профиля"><span class="muted">лабораторный профиль Industrial M · экспериментальный</span>` : ""}<span class="muted">производитель не указан</span><h1>${esc(h.id === "industrial-M" ? "Титан" : h.label)}</h1><div class="chips"><span>${h.size}</span><span>${esc(h.class)}</span><span>G${h.generation}</span><span>Архитектура ${h.architecture}</span></div>${numberMarkup}<p class="muted">${p.complete ? "Текущая сборка" : "Текущая неполная сборка"} · SCU = м³ · содержимое меняет массу, а не C.</p><label>Применить целый пресет — заменяет монтаж выбранного черновика<select id="fit-preset">${w.catalog.hulls.flatMap((x) => Array.from({ length: Math.min(3, x.slots.filter((s) => s.category === "payload").length + (x.id === "pony" ? 1 : 0)) }, (_, i) => `<option value="${x.id}:${i + 1}" ${x.id === fit.hullId && i + 1 === roster.filter((i) => i.item.family === "mining").length ? "selected" : ""}>${esc(x.label)} · ${i + 1} лазер${i ? "а" : ""}</option>`)).join("")}</select></label></div>`;
+  const hero = `<div class="ship-passport">${h.id === "industrial-M" ? `<img class="ship-art" src="${import.meta.env.BASE_URL}assets/titan-640.webp" alt="Титан — визуальная иллюстрация лабораторного профиля"><span class="muted">лабораторный профиль Industrial M · экспериментальный</span>` : ""}<span class="muted">производитель не указан</span><p class="muted" id="fit-edition">Редакция каталога: ${esc(fit.catalogVersion)}</p><h1>${esc(h.id === "industrial-M" ? "Титан" : h.label)}</h1><div class="chips"><span>${h.size}</span><span>${esc(h.class)}</span><span>G${h.generation}</span><span>Архитектура ${h.architecture}</span></div>${numberMarkup}<p class="muted">${p.complete ? "Текущая сборка" : "Текущая неполная сборка"} · SCU = м³ · содержимое меняет массу, а не C.</p><label>Применить целый пресет — заменяет монтаж выбранного черновика<select id="fit-preset">${w.catalog.hulls.flatMap((x) => Array.from({ length: Math.min(3, x.slots.filter((s) => s.category === "payload").length + (x.id === "pony" ? 1 : 0)) }, (_, i) => `<option value="${x.id}:${i + 1}" ${x.id === fit.hullId && i + 1 === roster.filter((i) => i.item.family === "mining").length ? "selected" : ""}>${esc(x.label)} · ${i + 1} лазер${i ? "а" : ""}</option>`)).join("")}</select></label></div>`;
   const ring = layout.ring
     ? `<div class="slot-ring" aria-label="Обзор слотов"><div class="ring-center"><h2>${esc(h.label)}</h2><p>${h.size} · схема слотов</p></div><svg class="ring-sector" viewBox="0 0 440 440" aria-hidden="true">${layout.sectors
         .map((s) => {

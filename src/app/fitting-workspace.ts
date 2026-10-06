@@ -8,7 +8,7 @@ import { parseResultJson } from "../io/fitting-result";
 import { makeMiningRun } from "../scenarios/fitting";
 import { validateFit } from "../fitting/validate";
 import { getPresetFit } from "../fitting/catalog";
-import { fitItem, isKnownCatalogVersion } from "../fitting/editions";
+import { fitItem, fitHull, isKnownCatalogVersion } from "../fitting/editions";
 import { conditionsFromSpec } from "./fitting-ui/conditions";
 export type Variant = {
   id: string;
@@ -131,7 +131,7 @@ export class FittingWorkspace {
       // Опора проверяет только условия. Реальные payload ID и изделия сохраняют смысл группы;
       // её готовность никогда не переносится на неполный пользовательский черновик.
       validationFit = getPresetFit(fit.hullId + ":1", fit.catalogVersion);
-      const hull = this.catalog.hulls.find(h => h.id === fit.hullId)!;
+      const hull = fitHull(fit, this.catalog)!;
       const reserved = new Set([...Object.keys(fit.instances), ...hull.builtins.map(b => b.id)]);
       const unique = (base: string) => {
         let id = base;
