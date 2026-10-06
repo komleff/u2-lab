@@ -1,0 +1,212 @@
+{
+  "role": "Developer",
+  "sourceSha": "131570d8f018d3617067bb558099f68aff7c9a53",
+  "fileCount": 41,
+  "files": [
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/.overgate-runtime/catalog-0.2.1-evidence/native-LAN.json",
+      "bytes": 1474032,
+      "sha256": "dd41a1d461b52a9153db24dc0d092a7bada65a659b77e0aeb0d2bc35095c809f"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/.overgate-runtime/catalog-0.2.1-evidence/native-TLS-prefix.json",
+      "bytes": 1474046,
+      "sha256": "5d1a9e6c2d9ab2a617fdc1dcc838bedb180c9fabdfe417f75cc0775afcf94af3"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/.overgate-runtime/catalog-0.2.1-evidence/native-localhost.json",
+      "bytes": 1474053,
+      "sha256": "450b695094f0e0e3e0a3cde8213ca5a8d9ff86bf52b49a302837357150486ec9"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/artifact-bodies.json",
+      "bytes": 15354,
+      "sha256": "71a2fc83a9040c85d14ce0f31ab7eda7d6e850df6bbd21f8692f3d98134d4415"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/artifact-bodies.mjs",
+      "bytes": 1186,
+      "sha256": "8a742bb16ca2212a981b313c349bda090646cb33c238dc7dd61b6defbd576fba"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/artifact-bodies.txt",
+      "bytes": 188,
+      "sha256": "9d4b5b8ec51f6f274d85d5c76a91b7d8f085b9bc1a3af5da4a0173051355719f"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/artifact-summary.txt",
+      "bytes": 518,
+      "sha256": "03f9a2e11c92e80a9918e91e465247535224e996c2f6255cfc136b0f899b1263"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/browser-new-final.txt",
+      "bytes": 842,
+      "sha256": "17604bb02b75faf26348d4417a3e5a5841122075e1693e5c800a8f0a538c4cd4"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/browser-new-first.txt",
+      "bytes": 5460,
+      "sha256": "652185fd464041660db7ff07ee13d5b34f7ca34c882122bd2647141dc8855ffb"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/browser-new-second.txt",
+      "bytes": 5348,
+      "sha256": "bfb4c63e1da9c385789f52506b7161b9408198065c69d3d15f66ec884ba1c739"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/browser-old-dist-interrupted.txt",
+      "bytes": 2681,
+      "sha256": "a8a7b91aa152ef77d37d0ddc3ad3e99ef0f639cb793a850f25e04749274bcb32"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/browser-old-dist-partial-red.txt",
+      "bytes": 4781,
+      "sha256": "955ea589b8446e2d1d389747f2ff9d78d9c70d286f9a5481d5130a45f8c67184"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/browser-old-dist-red.txt",
+      "bytes": 2562,
+      "sha256": "fe0f54bf930634d9596f548984104612c510b7016f90786dace868c8601ca381"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/build-first.txt",
+      "bytes": 930,
+      "sha256": "0c6fbbc1ed5890fde7c803323d42529b1f7e288e4ea187e044dbb7b7dc48ddd3"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/capture-baseline.mjs",
+      "bytes": 1542,
+      "sha256": "c56880cba0872e8cbdc3d277b29b2138c21e54b029ada451e23b7e501f11397c"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/catalog-native-smoke.spec.ts",
+      "bytes": 6569,
+      "sha256": "3c32cb5de0d4cd6482983839d54e6e936c23c39c1f5b388e314903dd35985d97"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/commit.txt",
+      "bytes": 497,
+      "sha256": "410da4fdfe2fea3677201f1b12af4047c24a8f433f62fa068a27465c96110d8a"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/complete-compiled-proof.py",
+      "bytes": 2169,
+      "sha256": "0e7c989fd1bbc7266b2980720d4585a638975477806845a8f7357a5c0bffab88"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/data-green-final.txt",
+      "bytes": 329,
+      "sha256": "dec070c6a7edc85f4f90267a6e74f962b0cb92db6f185b089ee20c1db6078e3e"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/data-green.txt",
+      "bytes": 1314,
+      "sha256": "da7c2e99a75fe5267e7275fb79201dd46bf6ee2a1869d8ae8f3ea8a289d5fa22"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/data-red.txt",
+      "bytes": 9316,
+      "sha256": "a40bca062e90e49474fa803ff0c2580da48a111d7dab76da2911488aee748fb5"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/edition-loader-red.txt",
+      "bytes": 1292,
+      "sha256": "cc821781418c04f4b449bd64517e945743a0b9037f4bcc2270b54b9e0cd90e3e"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/editions-green.txt",
+      "bytes": 356,
+      "sha256": "bbe6b8483e415c58867f48f7eca23e54ec1da907fe40cf2fcad2c79cd68762d6"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/editions-red.txt",
+      "bytes": 285459,
+      "sha256": "7cec63825cd84f25ae8138a901b9834bd2090d9a3154173de55a75c692e989e6"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/full-guard.txt",
+      "bytes": 11532,
+      "sha256": "ef0f8cbdf0ff7da8180ed38e1e39b8d04d74d6cfd2ecf98d00110a034e2308e8"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/full-unit-first.txt",
+      "bytes": 3716,
+      "sha256": "6b36558b193fcd90601e22b30ab9d99e90aacc988d8c0b12324525e0c188c2da"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/guard-payload.json",
+      "bytes": 116,
+      "sha256": "9350d9e8ee1e298863355dd45971e93c8b4868a9228a9dafe1f4bc0ae7fbbecd"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/historical-fixtures-green.txt",
+      "bytes": 406,
+      "sha256": "97f846f233f65c9983a06e99dc2ee51412d73f4e1371c6ee30eab5072339e63d"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/ledger.json",
+      "bytes": 4193,
+      "sha256": "293543aa4653d06d5af5b1e0a42ff7dc3c508f7ef323f310b4a9f10d4635a251"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/native-LAN.txt",
+      "bytes": 627,
+      "sha256": "70d4d4d4876dddcb84c8b4725ae53d3b4ed937325d62a59fb54ab7c82cc579d7"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/native-TLS-prefix.txt",
+      "bytes": 627,
+      "sha256": "541467a8aa71860164354d6e7306273c64ba30961bb9e44656d9f99c79ac8081"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/native-localhost.txt",
+      "bytes": 627,
+      "sha256": "3c69693a11a766c8058b513c4da5e4d3f09a12e96f76a5d5ae7164c81fee9f83"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/native-smoke-results/LAN/.last-run.json",
+      "bytes": 45,
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/native-smoke-results/TLS-prefix/.last-run.json",
+      "bytes": 45,
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/native-smoke-results/localhost/.last-run.json",
+      "bytes": 45,
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/native-summary.json",
+      "bytes": 1183,
+      "sha256": "481050b4ff62d64ea316f81bba1ddbaca5906b227cb6062cca74bf710e318f25"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/package-candidate.py",
+      "bytes": 6820,
+      "sha256": "1b1337b9806036df32f613931ff96404454c2235a0f0787100db4376ae9b9924"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/playwright-smoke.config.ts",
+      "bytes": 570,
+      "sha256": "9afaad6be1f808424ef29bda454dadaef995b2b37eee8f35fdba3b9bfd3d0fc1"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/prior-artifacts-preserved.json",
+      "bytes": 516,
+      "sha256": "a562d8cc962ab54ff7e075059248a44717c8de578ee58c9cd25baa575085d62c"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/target-final-green.txt",
+      "bytes": 356,
+      "sha256": "ded60d2cafe64655dd66b31982c7838aec0d161f88e17183c1851b1cdc6cb563"
+    },
+    {
+      "path": ".overgate-runtime/catalog-0.2.1-evidence/type-first.txt",
+      "bytes": 53,
+      "sha256": "e41f4a2cbe48379fcc638282c486af741a1bcad94e6e5804dc2eda590c474460"
+    }
+  ]
+}

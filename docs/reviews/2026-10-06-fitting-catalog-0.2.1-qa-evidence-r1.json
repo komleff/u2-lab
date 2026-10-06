@@ -1,0 +1,1316 @@
+{
+  "role": "independent QA",
+  "model": "Codex; exact provider model ID unavailable",
+  "candidate": "131570d8f018d3617067bb558099f68aff7c9a53",
+  "baseline": "ff8f3e8500a54b485dec507882f88820d0c2d304",
+  "result": "PASS",
+  "scope": "C01-C08 affected only",
+  "freshAcceptanceAddresses": 8,
+  "wholeChainProfiles": [
+    "ordinary LAN1440 mouse",
+    "ordinary LAN390 isMobile+hasTouch"
+  ],
+  "fullOldV4Replay": false,
+  "newLongOrMatrix": false,
+  "physicalClaims": false,
+  "productFailures": [],
+  "harnessHistory": {
+    "completedOriginalRecords": {
+      "LAN-1440.json": "35 PASS / 3 false harness FAIL retained",
+      "LAN-390.json": "35 PASS / 3 false harness FAIL retained"
+    },
+    "correctedRequiredSlices": {
+      "1440": "14 PASS",
+      "390": "14 PASS"
+    },
+    "initialStoppedAdapterAttempts": "preserved as stopped/harness history, not product failures or inherited PASS"
+  },
+  "sourceFingerprint": "37b05e2e0da57b82231c0f632d56cc7bb092c3364ea124bfe183f4b2977fd42c",
+  "sourceEntries": 149,
+  "acceptanceFingerprint": "55562f6af68289e893a9170617255a2dc5d1fb5fadb835449230fd3761381e05",
+  "relevantEntries": 137,
+  "literalWholeContracts": [
+    {
+      "path": "docs/plans/2026-10-06-fitting-catalog-0.2.1.md",
+      "gitBlob": "3fa8a97f554b2457f48a7f2eba0fe4121fc01f5e",
+      "workingBlob": "3fa8a97f554b2457f48a7f2eba0fe4121fc01f5e",
+      "bytes": 5481,
+      "sha256": "297f091c3b3c001a6c37f9a44b985b4f2a45b15fedc8f78c7c1a6136d3276b6a"
+    },
+    {
+      "path": "docs/plans/2026-10-06-gd-workspace-v4.md",
+      "gitBlob": "2f93b80e7b2b86906cc4cf021d39eade5459a4c6",
+      "workingBlob": "2f93b80e7b2b86906cc4cf021d39eade5459a4c6",
+      "bytes": 12832,
+      "sha256": "15a814280f18df460e530bb5cf8bcbc9235ceb98d5eeb2f0ce9b76bd7905060f"
+    },
+    {
+      "path": "docs/product/ship-fitting-catalog-0.2.1.md",
+      "gitBlob": "c7ffd66bb9db25c052015d125ac530bc7342a58f",
+      "workingBlob": "c7ffd66bb9db25c052015d125ac530bc7342a58f",
+      "bytes": 7363,
+      "sha256": "a5c55604317116c29734c4f4775d541d3109879d918f63df857281bcc8aa89a7"
+    },
+    {
+      "path": "docs/product/ship-fitting-gd-workspace-v4.md",
+      "gitBlob": "1881e6d09c8d551eb2d2a6f07fa99f16a59495cc",
+      "workingBlob": "1881e6d09c8d551eb2d2a6f07fa99f16a59495cc",
+      "bytes": 10312,
+      "sha256": "747e3494bb22d1f1f42922c4d08da4777d7d61ec9099b3bd9b6baec14d1bafdb"
+    },
+    {
+      "path": "docs/verification/claude-design-ui-v0.2-contract.md",
+      "gitBlob": "04a9714111f9c2cb6ab2e94da7f6fda7232d125f",
+      "workingBlob": "04a9714111f9c2cb6ab2e94da7f6fda7232d125f",
+      "bytes": 7495,
+      "sha256": "03912849841e9f6939282b73e6def4dd746892e15b0fb717b070fbfefff8f2f2"
+    },
+    {
+      "path": "docs/verification/gd-workspace-v4-contract.md",
+      "gitBlob": "f71682ad5a7a6820d5a6b1c8eb9c0963da9ba853",
+      "workingBlob": "f71682ad5a7a6820d5a6b1c8eb9c0963da9ba853",
+      "bytes": 7970,
+      "sha256": "f50fca6976ac2f73daf4e4cc5653b6aabf23b7071e83e34f2febdf2c0a9160e5"
+    },
+    {
+      "path": "docs/verification/ship-fitting-v0.2-contract.md",
+      "gitBlob": "314d1770363d642df4c2dec069a308b715911c58",
+      "workingBlob": "314d1770363d642df4c2dec069a308b715911c58",
+      "bytes": 12857,
+      "sha256": "024d9e086cf6d14629c8c438f1939593c12b8e576b657b258121eaafcea22115"
+    }
+  ],
+  "acceptedOperatorNotes": [
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-operator-layout-note.md",
+      "bytes": 4115,
+      "sha256": "b5fa2801eda3f90c9115f0ca607a36f15f336ffdfac4f46b4ad0fcc6d675bcf5"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-operator-defects-note.md",
+      "bytes": 2891,
+      "sha256": "06e97a564451629d91b36bfa73fb4da44900b46976745e351d0ae428ddfd219b"
+    }
+  ],
+  "protectedUnchanged": 74,
+  "known11ProtectedChanges": [
+    "src/fitting/catalog.ts",
+    "src/fitting/types.ts",
+    "src/fitting/validate.ts",
+    "src/io/fitting-json.ts",
+    "src/scenarios/fitting.ts",
+    "tests/fitting/bill.test.ts",
+    "tests/fitting/catalog.test.ts",
+    "tests/fitting/matrix.test.ts",
+    "tests/fitting/source-fidelity.test.ts",
+    "tests/fitting/test-spec.ts",
+    "tests/fitting/worst-fit.ts"
+  ],
+  "artifact": {
+    "sourceManifestSHA": "91ce2b132eeb154175bee4a0af5071b83bc1004788fb818019ec265daaeea633",
+    "buildManifestSHA": "23403c0dd7656c14b2557ac33adf01948950c6f56ff13f53ed260a8ef29d21b1",
+    "zipSha256": "643fab21d1d7b3fc13c43c5c5a7e08e1c1cacef41f3cc7558d45173bcf3790db",
+    "distDigestSha256": "d13b6049b49c557358ca0ccb8cc56f11ac780194de6a07a7d0db05b27485c254",
+    "distFileCount": 18,
+    "ownServedBodies": 36
+  },
+  "oldNumericalCarryover": "Own old20s/local25s spec,state,metrics,trace replay hashes equal; excludes runId/events/partition metadata; no new12h claim",
+  "oldReferencedReadOnlySealFilesVerified": 315,
+  "sealedAtUtc": "2026-10-06T05:39:20.037412+00:00",
+  "rawFileCount": 189,
+  "rawFiles": [
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-STOP.png",
+      "bytes": 234313,
+      "sha256": "0a6e3130e3cfed1cd21b467847adc54bfe252fbaeb2a65ea32fd2281e3446064",
+      "relativePath": "1440-STOP.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-active-after-edit.json",
+      "bytes": 365633,
+      "sha256": "6adba5202ca5dc6a1cfa2fafc6b42bd59ac0807db8a4cb4bddec9c095e8cc0e7",
+      "relativePath": "1440-active-after-edit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-active-before.json",
+      "bytes": 365633,
+      "sha256": "6adba5202ca5dc6a1cfa2fafc6b42bd59ac0807db8a4cb4bddec9c095e8cc0e7",
+      "relativePath": "1440-active-before.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-active-foreign.json",
+      "bytes": 365633,
+      "sha256": "6adba5202ca5dc6a1cfa2fafc6b42bd59ac0807db8a4cb4bddec9c095e8cc0e7",
+      "relativePath": "1440-active-foreign.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-active-next.png",
+      "bytes": 152884,
+      "sha256": "8e41a6a11fcfc1ec0a2d933a69e738ca95dcb28ef3b5f4afce8d1ace8851a357",
+      "relativePath": "1440-active-next.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-after-bad-fit.json",
+      "bytes": 8690,
+      "sha256": "b70da82d61d58f86afafb64bfd6786052ee3f48d9f6675186d0a4dad8f7f5d71",
+      "relativePath": "1440-after-bad-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-after-bad-interval-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "1440-after-bad-interval-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-after-malformed-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "1440-after-malformed-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-after-missing-path-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "1440-after-missing-path-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-after-nonfinite-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "1440-after-nonfinite-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-after-old-global-alias-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "1440-after-old-global-alias-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-after-unknown-fit-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "1440-after-unknown-fit-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-after-unknown-run-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "1440-after-unknown-run-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-analysis.png",
+      "bytes": 153979,
+      "sha256": "528322a83a2c23913714f911cef9a5003bc80f31ca47f1fbb3b76512c57d5e20",
+      "relativePath": "1440-analysis.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-atomic-errors.png",
+      "bytes": 105517,
+      "sha256": "1cc5d82378e136c74dd350a7adbab74a31386cc947e37645e390945599372d8e",
+      "relativePath": "1440-atomic-errors.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-bad-bad-interval.json",
+      "bytes": 278483,
+      "sha256": "40305350764d4283f2df787009856d179d82c1f51bd7b75bfaa4ff8867d283b5",
+      "relativePath": "1440-bad-bad-interval.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-bad-malformed.json",
+      "bytes": 1,
+      "sha256": "021fb596db81e6d02bf3d2586ee3981fe519f275c0ac9ca76bbcf2ebb4097d96",
+      "relativePath": "1440-bad-malformed.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-bad-missing-path.json",
+      "bytes": 6167,
+      "sha256": "eba9772a929fbcec4474ec97d9d2bac74ad3654856816ddfc6af6dc316eb8637",
+      "relativePath": "1440-bad-missing-path.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-bad-nonfinite.json",
+      "bytes": 435042,
+      "sha256": "4d708c47a093ce45a218e4c56aba29e349d9f8a35ecd70383ed8d2aa3c7d05a9",
+      "relativePath": "1440-bad-nonfinite.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-bad-old-global-alias.json",
+      "bytes": 1876,
+      "sha256": "71273cef0ca1d17cb14f77090d0fea856753fca71877cd3eeba5858a52e5f430",
+      "relativePath": "1440-bad-old-global-alias.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-bad-unknown-fit.json",
+      "bytes": 1876,
+      "sha256": "47fff9a0a7e6bfd47abc622d74160430ceb499d968af3bb3901b608aeb90ff8f",
+      "relativePath": "1440-bad-unknown-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-bad-unknown-run.json",
+      "bytes": 264455,
+      "sha256": "7c056fa3e77e155e9cca6e484efc4bfa7f8d811131123064a199867847f92d84",
+      "relativePath": "1440-bad-unknown-run.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-before-bad-fit.json",
+      "bytes": 9799,
+      "sha256": "1fba595e18b65b79dc01cabd3d81dd2e66e0ad22f7cd79df42c77065a6263e0d",
+      "relativePath": "1440-before-bad-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-before-bad-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "1440-before-bad-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-compare.png",
+      "bytes": 298383,
+      "sha256": "5b5ea21dfc36cf7a7e012ef72e3a141d363b9cb68136eb5fc31966a6ffde53e4",
+      "relativePath": "1440-compare.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-broken-result-interval-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "1440-corrected-after-broken-result-interval-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-broken-result-interval-result.json",
+      "bytes": 557718,
+      "sha256": "c831553d075d987eb6981193899869b6150a37c6124387f3569171afe4c9f7e4",
+      "relativePath": "1440-corrected-after-broken-result-interval-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-malformed-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "1440-corrected-after-malformed-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-malformed-result.json",
+      "bytes": 557718,
+      "sha256": "c831553d075d987eb6981193899869b6150a37c6124387f3569171afe4c9f7e4",
+      "relativePath": "1440-corrected-after-malformed-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-missing-required-engine-origin-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "1440-corrected-after-missing-required-engine-origin-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-missing-required-engine-origin-result.json",
+      "bytes": 557718,
+      "sha256": "c831553d075d987eb6981193899869b6150a37c6124387f3569171afe4c9f7e4",
+      "relativePath": "1440-corrected-after-missing-required-engine-origin-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-missing-required-generator-path-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "1440-corrected-after-missing-required-generator-path-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-missing-required-generator-path-result.json",
+      "bytes": 557718,
+      "sha256": "c831553d075d987eb6981193899869b6150a37c6124387f3569171afe4c9f7e4",
+      "relativePath": "1440-corrected-after-missing-required-generator-path-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-nonfinite-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "1440-corrected-after-nonfinite-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-nonfinite-result.json",
+      "bytes": 557718,
+      "sha256": "c831553d075d987eb6981193899869b6150a37c6124387f3569171afe4c9f7e4",
+      "relativePath": "1440-corrected-after-nonfinite-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-old-global-alias-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "1440-corrected-after-old-global-alias-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-old-global-alias-result.json",
+      "bytes": 557718,
+      "sha256": "c831553d075d987eb6981193899869b6150a37c6124387f3569171afe4c9f7e4",
+      "relativePath": "1440-corrected-after-old-global-alias-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-unknown-fit-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "1440-corrected-after-unknown-fit-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-unknown-fit-result.json",
+      "bytes": 557718,
+      "sha256": "c831553d075d987eb6981193899869b6150a37c6124387f3569171afe4c9f7e4",
+      "relativePath": "1440-corrected-after-unknown-fit-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-unknown-run-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "1440-corrected-after-unknown-run-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-after-unknown-run-result.json",
+      "bytes": 557718,
+      "sha256": "c831553d075d987eb6981193899869b6150a37c6124387f3569171afe4c9f7e4",
+      "relativePath": "1440-corrected-after-unknown-run-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-atomic-error.png",
+      "bytes": 157699,
+      "sha256": "b43f282120480adfbd4c9a80e1bada9095e2754c5a8ea24b8c606d81b5f129fc",
+      "relativePath": "1440-corrected-atomic-error.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-bad-broken-result-interval.json",
+      "bytes": 349629,
+      "sha256": "8f3a21d6b0d58736a8af775dee5b023a38396cd1de72d4320da85e3c4d3c171d",
+      "relativePath": "1440-corrected-bad-broken-result-interval.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-bad-malformed.json",
+      "bytes": 1,
+      "sha256": "021fb596db81e6d02bf3d2586ee3981fe519f275c0ac9ca76bbcf2ebb4097d96",
+      "relativePath": "1440-corrected-bad-malformed.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-bad-missing-required-engine-origin.json",
+      "bytes": 6165,
+      "sha256": "a2e0ac663fadb948d642d7bf2196f331a8551cf2e1ad37c44bbe307c10fbe41b",
+      "relativePath": "1440-corrected-bad-missing-required-engine-origin.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-bad-missing-required-generator-path.json",
+      "bytes": 5006,
+      "sha256": "89a63b6be9af70e22fc119076564cb308688924a25b375a847c3dc8cfdfb9ad5",
+      "relativePath": "1440-corrected-bad-missing-required-generator-path.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-bad-nonfinite.json",
+      "bytes": 557705,
+      "sha256": "81f5500e7fe28355d91735f375815e6ef47b422fd5af9c05d077b27ec8f34685",
+      "relativePath": "1440-corrected-bad-nonfinite.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-bad-old-global-alias.json",
+      "bytes": 1876,
+      "sha256": "71273cef0ca1d17cb14f77090d0fea856753fca71877cd3eeba5858a52e5f430",
+      "relativePath": "1440-corrected-bad-old-global-alias.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-bad-unknown-fit.json",
+      "bytes": 1876,
+      "sha256": "47fff9a0a7e6bfd47abc622d74160430ceb499d968af3bb3901b608aeb90ff8f",
+      "relativePath": "1440-corrected-bad-unknown-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-bad-unknown-run.json",
+      "bytes": 264455,
+      "sha256": "7c056fa3e77e155e9cca6e484efc4bfa7f8d811131123064a199867847f92d84",
+      "relativePath": "1440-corrected-bad-unknown-run.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-before-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "1440-corrected-before-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-corrected-before-result.json",
+      "bytes": 557718,
+      "sha256": "c831553d075d987eb6981193899869b6150a37c6124387f3569171afe4c9f7e4",
+      "relativePath": "1440-corrected-before-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-fresh-fit-export.json",
+      "bytes": 2565,
+      "sha256": "4a7e43a7d54a4f1b2903f96730d706ccc0c5280339521cb0a17f029f902f3903",
+      "relativePath": "1440-fresh-fit-export.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-fresh-result-analysis.png",
+      "bytes": 152480,
+      "sha256": "c5de556353af275ad84cbdce1b8ad14e0b32e44aa70b0eae474c3fd35f14a25c",
+      "relativePath": "1440-fresh-result-analysis.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-fresh-result-export.json",
+      "bytes": 557718,
+      "sha256": "c831553d075d987eb6981193899869b6150a37c6124387f3569171afe4c9f7e4",
+      "relativePath": "1440-fresh-result-export.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-fresh-run-export.json",
+      "bytes": 365632,
+      "sha256": "c08debdf866181ffcc6cbc3ae8591ef214501f38dda939203da8489436f2144f",
+      "relativePath": "1440-fresh-run-export.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-held-march.png",
+      "bytes": 151251,
+      "sha256": "24c3711b0568f74f431ddf393ce785f9694d4901bcbc2875f2b20dbeeca03f77",
+      "relativePath": "1440-held-march.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-held-payload-1.png",
+      "bytes": 118855,
+      "sha256": "5f3e0cabe1ffcdde02bc6dbdff476887d3168c99bfe2b8c4b802de53ffda2be5",
+      "relativePath": "1440-held-payload-1.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-limiter-absent.png",
+      "bytes": 6062,
+      "sha256": "18dba4bfd5fe7fd7008dc68daf586866fadcdd80ee91328c93b7126d18bde1df",
+      "relativePath": "1440-limiter-absent.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-limiter-power.png",
+      "bytes": 15848,
+      "sha256": "002fb175fb691eb06125119173155eea9a32bb9ed01ac79eebeb4fdfc8e38160",
+      "relativePath": "1440-limiter-power.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-low-charge-result.json",
+      "bytes": 437156,
+      "sha256": "26c93158be1abb26e9e8cf99dcf62d2527e2408d8580d4afe039de03dc9d1318",
+      "relativePath": "1440-low-charge-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-native-initial-fit.json",
+      "bytes": 1951,
+      "sha256": "4b78b465ad7c47cabedc783f9d4ecae6cb340639da6e145a3e9f72fd8b5556ca",
+      "relativePath": "1440-native-initial-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-new-engine.png",
+      "bytes": 169450,
+      "sha256": "57ff8b285090e5908cfa9b37bef5a670c67e84a95ec70081fa7d1c4c8e145ceb",
+      "relativePath": "1440-new-engine.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-new-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "1440-new-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-new-result.json",
+      "bytes": 557718,
+      "sha256": "c831553d075d987eb6981193899869b6150a37c6124387f3569171afe4c9f7e4",
+      "relativePath": "1440-new-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-new-run.json",
+      "bytes": 365632,
+      "sha256": "c08debdf866181ffcc6cbc3ae8591ef214501f38dda939203da8489436f2144f",
+      "relativePath": "1440-new-run.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-old-B-result.json",
+      "bytes": 361612,
+      "sha256": "31b430ed7a3205a5ef7b439b729153cdbaa23443839c96a4eaf9f564ae545c08",
+      "relativePath": "1440-old-B-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-opened-old-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "1440-opened-old-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-opened-old-run.json",
+      "bytes": 314863,
+      "sha256": "32659958d8b359deecbc7c5b6f5590de895c115c98910689bf2813b25e4a51b1",
+      "relativePath": "1440-opened-old-run.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/1440-selected-interval.png",
+      "bytes": 229945,
+      "sha256": "98534e89733133fda73a216f205e8a60a2467cb118a13ad3afdfc10f3346adb3",
+      "relativePath": "1440-selected-interval.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-STOP.png",
+      "bytes": 72677,
+      "sha256": "2a4bde03a72b8a385965df6499d3f6296c7762d93b345a80a4e01ffc113cf2e7",
+      "relativePath": "390-STOP.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-active-after-edit.json",
+      "bytes": 365633,
+      "sha256": "6adba5202ca5dc6a1cfa2fafc6b42bd59ac0807db8a4cb4bddec9c095e8cc0e7",
+      "relativePath": "390-active-after-edit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-active-before.json",
+      "bytes": 365633,
+      "sha256": "6adba5202ca5dc6a1cfa2fafc6b42bd59ac0807db8a4cb4bddec9c095e8cc0e7",
+      "relativePath": "390-active-before.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-active-foreign.json",
+      "bytes": 365633,
+      "sha256": "6adba5202ca5dc6a1cfa2fafc6b42bd59ac0807db8a4cb4bddec9c095e8cc0e7",
+      "relativePath": "390-active-foreign.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-active-next.png",
+      "bytes": 94394,
+      "sha256": "f4484f72815e7a237427e096119f72c798c9b0fdf6471f744d66e9d68221812b",
+      "relativePath": "390-active-next.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-after-bad-fit.json",
+      "bytes": 8690,
+      "sha256": "b70da82d61d58f86afafb64bfd6786052ee3f48d9f6675186d0a4dad8f7f5d71",
+      "relativePath": "390-after-bad-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-after-bad-interval-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "390-after-bad-interval-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-after-malformed-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "390-after-malformed-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-after-missing-path-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "390-after-missing-path-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-after-nonfinite-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "390-after-nonfinite-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-after-old-global-alias-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "390-after-old-global-alias-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-after-unknown-fit-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "390-after-unknown-fit-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-after-unknown-run-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "390-after-unknown-run-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-analysis.png",
+      "bytes": 103121,
+      "sha256": "165b53d27cda9d514f4a21b6c6a606732461c25cf1b8987e6c466795996c874c",
+      "relativePath": "390-analysis.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-atomic-errors.png",
+      "bytes": 77257,
+      "sha256": "73ab38ff01b60eddf121fd0e466ebcf91d385de1d3ca7fe7ff53eefcf96a967d",
+      "relativePath": "390-atomic-errors.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-bad-bad-interval.json",
+      "bytes": 278483,
+      "sha256": "40305350764d4283f2df787009856d179d82c1f51bd7b75bfaa4ff8867d283b5",
+      "relativePath": "390-bad-bad-interval.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-bad-malformed.json",
+      "bytes": 1,
+      "sha256": "021fb596db81e6d02bf3d2586ee3981fe519f275c0ac9ca76bbcf2ebb4097d96",
+      "relativePath": "390-bad-malformed.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-bad-missing-path.json",
+      "bytes": 6167,
+      "sha256": "eba9772a929fbcec4474ec97d9d2bac74ad3654856816ddfc6af6dc316eb8637",
+      "relativePath": "390-bad-missing-path.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-bad-nonfinite.json",
+      "bytes": 435042,
+      "sha256": "4d708c47a093ce45a218e4c56aba29e349d9f8a35ecd70383ed8d2aa3c7d05a9",
+      "relativePath": "390-bad-nonfinite.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-bad-old-global-alias.json",
+      "bytes": 1876,
+      "sha256": "71273cef0ca1d17cb14f77090d0fea856753fca71877cd3eeba5858a52e5f430",
+      "relativePath": "390-bad-old-global-alias.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-bad-unknown-fit.json",
+      "bytes": 1876,
+      "sha256": "47fff9a0a7e6bfd47abc622d74160430ceb499d968af3bb3901b608aeb90ff8f",
+      "relativePath": "390-bad-unknown-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-bad-unknown-run.json",
+      "bytes": 264455,
+      "sha256": "7c056fa3e77e155e9cca6e484efc4bfa7f8d811131123064a199867847f92d84",
+      "relativePath": "390-bad-unknown-run.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-before-bad-fit.json",
+      "bytes": 9799,
+      "sha256": "1fba595e18b65b79dc01cabd3d81dd2e66e0ad22f7cd79df42c77065a6263e0d",
+      "relativePath": "390-before-bad-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-before-bad-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "390-before-bad-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-compare.png",
+      "bytes": 373958,
+      "sha256": "1886490aa1abe14dc0865d238af7fc5741c6a364c045758ce8627245781e6351",
+      "relativePath": "390-compare.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-broken-result-interval-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "390-corrected-after-broken-result-interval-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-broken-result-interval-result.json",
+      "bytes": 557718,
+      "sha256": "a95f5aa881d9270a53ea4d319a9122b265e7c6e78360b3afbec0bbcbb4bf75b3",
+      "relativePath": "390-corrected-after-broken-result-interval-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-malformed-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "390-corrected-after-malformed-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-malformed-result.json",
+      "bytes": 557718,
+      "sha256": "a95f5aa881d9270a53ea4d319a9122b265e7c6e78360b3afbec0bbcbb4bf75b3",
+      "relativePath": "390-corrected-after-malformed-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-missing-required-engine-origin-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "390-corrected-after-missing-required-engine-origin-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-missing-required-engine-origin-result.json",
+      "bytes": 557718,
+      "sha256": "a95f5aa881d9270a53ea4d319a9122b265e7c6e78360b3afbec0bbcbb4bf75b3",
+      "relativePath": "390-corrected-after-missing-required-engine-origin-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-missing-required-generator-path-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "390-corrected-after-missing-required-generator-path-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-missing-required-generator-path-result.json",
+      "bytes": 557718,
+      "sha256": "a95f5aa881d9270a53ea4d319a9122b265e7c6e78360b3afbec0bbcbb4bf75b3",
+      "relativePath": "390-corrected-after-missing-required-generator-path-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-nonfinite-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "390-corrected-after-nonfinite-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-nonfinite-result.json",
+      "bytes": 557718,
+      "sha256": "a95f5aa881d9270a53ea4d319a9122b265e7c6e78360b3afbec0bbcbb4bf75b3",
+      "relativePath": "390-corrected-after-nonfinite-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-old-global-alias-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "390-corrected-after-old-global-alias-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-old-global-alias-result.json",
+      "bytes": 557718,
+      "sha256": "a95f5aa881d9270a53ea4d319a9122b265e7c6e78360b3afbec0bbcbb4bf75b3",
+      "relativePath": "390-corrected-after-old-global-alias-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-unknown-fit-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "390-corrected-after-unknown-fit-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-unknown-fit-result.json",
+      "bytes": 557718,
+      "sha256": "a95f5aa881d9270a53ea4d319a9122b265e7c6e78360b3afbec0bbcbb4bf75b3",
+      "relativePath": "390-corrected-after-unknown-fit-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-unknown-run-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "390-corrected-after-unknown-run-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-after-unknown-run-result.json",
+      "bytes": 557718,
+      "sha256": "a95f5aa881d9270a53ea4d319a9122b265e7c6e78360b3afbec0bbcbb4bf75b3",
+      "relativePath": "390-corrected-after-unknown-run-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-atomic-error.png",
+      "bytes": 99274,
+      "sha256": "3e931b84c1bba582f6fc22f436a96e5a18a39218e96bd930a14f166881e5d090",
+      "relativePath": "390-corrected-atomic-error.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-bad-broken-result-interval.json",
+      "bytes": 349629,
+      "sha256": "d2cc4868183ff7b8e4577441b89432a1bdb9a5c0b843857ea121f16044bce2a9",
+      "relativePath": "390-corrected-bad-broken-result-interval.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-bad-malformed.json",
+      "bytes": 1,
+      "sha256": "021fb596db81e6d02bf3d2586ee3981fe519f275c0ac9ca76bbcf2ebb4097d96",
+      "relativePath": "390-corrected-bad-malformed.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-bad-missing-required-engine-origin.json",
+      "bytes": 6165,
+      "sha256": "a2e0ac663fadb948d642d7bf2196f331a8551cf2e1ad37c44bbe307c10fbe41b",
+      "relativePath": "390-corrected-bad-missing-required-engine-origin.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-bad-missing-required-generator-path.json",
+      "bytes": 5006,
+      "sha256": "89a63b6be9af70e22fc119076564cb308688924a25b375a847c3dc8cfdfb9ad5",
+      "relativePath": "390-corrected-bad-missing-required-generator-path.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-bad-nonfinite.json",
+      "bytes": 557705,
+      "sha256": "0abada0dad70d001e904d13b68dadffb4d28781461c03620d82e011a07e9141f",
+      "relativePath": "390-corrected-bad-nonfinite.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-bad-old-global-alias.json",
+      "bytes": 1876,
+      "sha256": "71273cef0ca1d17cb14f77090d0fea856753fca71877cd3eeba5858a52e5f430",
+      "relativePath": "390-corrected-bad-old-global-alias.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-bad-unknown-fit.json",
+      "bytes": 1876,
+      "sha256": "47fff9a0a7e6bfd47abc622d74160430ceb499d968af3bb3901b608aeb90ff8f",
+      "relativePath": "390-corrected-bad-unknown-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-bad-unknown-run.json",
+      "bytes": 264455,
+      "sha256": "7c056fa3e77e155e9cca6e484efc4bfa7f8d811131123064a199867847f92d84",
+      "relativePath": "390-corrected-bad-unknown-run.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-before-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "390-corrected-before-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-corrected-before-result.json",
+      "bytes": 557718,
+      "sha256": "a95f5aa881d9270a53ea4d319a9122b265e7c6e78360b3afbec0bbcbb4bf75b3",
+      "relativePath": "390-corrected-before-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-fresh-fit-export.json",
+      "bytes": 2565,
+      "sha256": "4a7e43a7d54a4f1b2903f96730d706ccc0c5280339521cb0a17f029f902f3903",
+      "relativePath": "390-fresh-fit-export.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-fresh-result-analysis.png",
+      "bytes": 103144,
+      "sha256": "a1efda7d54cc9aca16bc91db13c9314bb3f6474db6826941c018767e2de803c1",
+      "relativePath": "390-fresh-result-analysis.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-fresh-result-export.json",
+      "bytes": 557718,
+      "sha256": "a95f5aa881d9270a53ea4d319a9122b265e7c6e78360b3afbec0bbcbb4bf75b3",
+      "relativePath": "390-fresh-result-export.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-fresh-run-export.json",
+      "bytes": 365632,
+      "sha256": "c08debdf866181ffcc6cbc3ae8591ef214501f38dda939203da8489436f2144f",
+      "relativePath": "390-fresh-run-export.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-held-march.png",
+      "bytes": 72055,
+      "sha256": "0102af1ae3a8f9471274c325139ff5593bdb13e8abf18dcb5ccfb52041317f7b",
+      "relativePath": "390-held-march.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-held-payload-1.png",
+      "bytes": 66041,
+      "sha256": "82c880ac22376ebbae6f947642e6ec2a6c25029717c24ede2159f1793cfe830d",
+      "relativePath": "390-held-payload-1.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-limiter-absent.png",
+      "bytes": 5946,
+      "sha256": "a15763fd1f42579b318e0fc231cb3ae6c4429795d52be59f840a70449c2f9940",
+      "relativePath": "390-limiter-absent.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-limiter-power.png",
+      "bytes": 16145,
+      "sha256": "4cabf56ade65854ba5224ef4b0dc891e04ace57d60767c7b07a1d18d919458c3",
+      "relativePath": "390-limiter-power.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-low-charge-result.json",
+      "bytes": 437156,
+      "sha256": "26bfda62dc2b22b8af33dbffdd3127b9f1bf1e3d91dba0506e40b00e727874a2",
+      "relativePath": "390-low-charge-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-native-initial-fit.json",
+      "bytes": 1951,
+      "sha256": "4b78b465ad7c47cabedc783f9d4ecae6cb340639da6e145a3e9f72fd8b5556ca",
+      "relativePath": "390-native-initial-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-new-engine.png",
+      "bytes": 98994,
+      "sha256": "23744b8fd7b1b1235abce3226409f9fa982b5c425d37ed43571bd5d686d1ab76",
+      "relativePath": "390-new-engine.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-new-fit.json",
+      "bytes": 2566,
+      "sha256": "b286e45eea21cf41bf99875aa6292a274094019c2b493b1afad91d4b009b70be",
+      "relativePath": "390-new-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-new-result.json",
+      "bytes": 557718,
+      "sha256": "a95f5aa881d9270a53ea4d319a9122b265e7c6e78360b3afbec0bbcbb4bf75b3",
+      "relativePath": "390-new-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-new-run.json",
+      "bytes": 365632,
+      "sha256": "c08debdf866181ffcc6cbc3ae8591ef214501f38dda939203da8489436f2144f",
+      "relativePath": "390-new-run.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-old-B-result.json",
+      "bytes": 361612,
+      "sha256": "31e970b47e12183e453d555f3c45e27068c705c982bc7d529935e830527cb535",
+      "relativePath": "390-old-B-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-opened-old-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3",
+      "relativePath": "390-opened-old-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-opened-old-run.json",
+      "bytes": 314863,
+      "sha256": "32659958d8b359deecbc7c5b6f5590de895c115c98910689bf2813b25e4a51b1",
+      "relativePath": "390-opened-old-run.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/390-selected-interval.png",
+      "bytes": 151492,
+      "sha256": "1dd405ed5a910d08f49e6f1e8f8ec4ee9c68adaaa529184f7ecf3945d309ea5a",
+      "relativePath": "390-selected-interval.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/LAN-1440.json",
+      "bytes": 356028,
+      "sha256": "4e7cbafa8f4b9cd5ce6a7da66d7896b66adb7f19af04a086a808bd5086245115",
+      "relativePath": "LAN-1440.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/LAN-390.json",
+      "bytes": 356821,
+      "sha256": "de67afdfe087c633e4708c840e99da27d54ec11fb244f6703b552d03b5f4e4d2",
+      "relativePath": "LAN-390.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/binding.json",
+      "bytes": 99408,
+      "sha256": "e728a1ce19b21bc3c4057cbeea61b651026807908d5e4a61894cb3727d75ee8d",
+      "relativePath": "binding.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/browser-chains.log",
+      "bytes": 2353,
+      "sha256": "07b6f90d96c1ded551e0bafaeaa6fd72ad9ae1dc0f83ffaa1f1f3e314a9e21cf",
+      "relativePath": "browser-chains.log"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/browser-chains.mjs",
+      "bytes": 14564,
+      "sha256": "8e7ae709c89ad69212c6d6b902bb152e03fcb621afb3296081c353609d6b8b5c",
+      "relativePath": "browser-chains.mjs"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/case-results.json",
+      "bytes": 4174,
+      "sha256": "547f09a0e7f9124b676635ff0e3ef9ae6e939a83c065919f9709c2265f846e1d",
+      "relativePath": "case-results.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/corrected-slices-1440.json",
+      "bytes": 169802,
+      "sha256": "879be98b0236af3686b68f57655829d39004feda81aa01445d4294ba7f7adbc6",
+      "relativePath": "corrected-slices-1440.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/corrected-slices-390.json",
+      "bytes": 151838,
+      "sha256": "359f66b46b88a0cb7f9aa42702604e44923c2a45907c48dc143363b97e987479",
+      "relativePath": "corrected-slices-390.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/corrected-slices.log",
+      "bytes": 79,
+      "sha256": "8b2a4b9118c503fd679e958fa9e02da23ed8b0866b62528460f07583af8fad24",
+      "relativePath": "corrected-slices.log"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/corrected-slices.mjs",
+      "bytes": 5704,
+      "sha256": "a17e5d49d021429c4cb389f7db15bc9e192b0e46ad15aabc33f8ead7d996cf03",
+      "relativePath": "corrected-slices.mjs"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/custom-compiled.json",
+      "bytes": 157637,
+      "sha256": "13c6231937b8f54ee0990165cbc7c96e10ce91f2a6716d8827b4af189695aeeb",
+      "relativePath": "custom-compiled.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/custom-fit.json",
+      "bytes": 2565,
+      "sha256": "12167a417ada4831142d7d9b0d040a5e81c8dd2339b4bc6d84cdcfeb23e570e0",
+      "relativePath": "custom-fit.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/custom-private-result.json",
+      "bytes": 557714,
+      "sha256": "d4904ebc566511f462b7d4f0c808a0b2bba91a48cfdc020e4460ddf68f8118cd",
+      "relativePath": "custom-private-result.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/custom-run.json",
+      "bytes": 365637,
+      "sha256": "d37164b0e038b28928cfebe053490a6fc0b08b27f6afd7bca731cfb1ac59e23d",
+      "relativePath": "custom-run.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/fresh-fit-1440.json",
+      "bytes": 85359,
+      "sha256": "23f818bac7a6f41ab0b42db18c4dda51a05904c26f0c3e01579787d59b0569ec",
+      "relativePath": "fresh-fit-1440.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/fresh-fit-390.json",
+      "bytes": 62287,
+      "sha256": "d71ec9c375f3567196c2a8a3877d21094bacbb4178c572c6db69b0a2912a5537",
+      "relativePath": "fresh-fit-390.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/fresh-result-1440.json",
+      "bytes": 145466,
+      "sha256": "061d4a3ecf124374b75dd0249a3b954a15da2e7512ffc61b97c2818ae3283221",
+      "relativePath": "fresh-result-1440.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/fresh-result-390.json",
+      "bytes": 124166,
+      "sha256": "cdf2afa8ef353798d344c2ddfd86d7e2f125d728f2e47bf291a500c057d1c4c4",
+      "relativePath": "fresh-result-390.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/fresh-run-1440.json",
+      "bytes": 103996,
+      "sha256": "f438feae6409ea12bfbfcd83b2ec034dd13b82d069cb1eca674ae7032467c001",
+      "relativePath": "fresh-run-1440.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/fresh-run-390.json",
+      "bytes": 80933,
+      "sha256": "739c7eacf8072da46fad4e013a70c72cbf413d9c959d8bb922d981800c587ec4",
+      "relativePath": "fresh-run-390.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/initial-browser-adapter-history/1440-STOP.png",
+      "bytes": 234313,
+      "sha256": "0a6e3130e3cfed1cd21b467847adc54bfe252fbaeb2a65ea32fd2281e3446064",
+      "relativePath": "initial-browser-adapter-history/1440-STOP.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/initial-browser-adapter-history/1440-new-engine.png",
+      "bytes": 169450,
+      "sha256": "57ff8b285090e5908cfa9b37bef5a670c67e84a95ec70081fa7d1c4c8e145ceb",
+      "relativePath": "initial-browser-adapter-history/1440-new-engine.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/initial-browser-adapter-history/390-STOP.png",
+      "bytes": 72677,
+      "sha256": "2a4bde03a72b8a385965df6499d3f6296c7762d93b345a80a4e01ffc113cf2e7",
+      "relativePath": "initial-browser-adapter-history/390-STOP.png"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/initial-browser-adapter-history/LAN-1440.json",
+      "bytes": 171468,
+      "sha256": "3267e4c76d1ad6372cc5fad896dc923d4025c93245a2ae3d8ea32f133aded78c",
+      "relativePath": "initial-browser-adapter-history/LAN-1440.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/initial-browser-adapter-history/LAN-390.json",
+      "bytes": 65320,
+      "sha256": "93812b8e87ff38de7e83434d0bd3aa8e87e5b32ea57a2665103ea7b816eeb58a",
+      "relativePath": "initial-browser-adapter-history/LAN-390.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/initial-browser-adapter-history/browser-chains.log",
+      "bytes": 446,
+      "sha256": "04337abd850301a5b5929bcf0596bc8e64b0ca46ce068086ba965dfd22f5e397",
+      "relativePath": "initial-browser-adapter-history/browser-chains.log"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/initial-browser-adapter-history/browser-chains.mjs",
+      "bytes": 14047,
+      "sha256": "c4b5e6314c6f576b0fccaafd5b119dde2b0e5581400092c9f35b05b28b2825bc",
+      "relativePath": "initial-browser-adapter-history/browser-chains.mjs"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/isolated-engine-ledger.json",
+      "bytes": 6863,
+      "sha256": "3b1e5058503b9c99d741fa94820068408a2471b4c64be4b56105199c232b1197",
+      "relativePath": "isolated-engine-ledger.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/new-inventory.json",
+      "bytes": 27070,
+      "sha256": "e5ba0241407c0aa632492c502e49aa66f608382b3069236ddb9b67093359969c",
+      "relativePath": "new-inventory.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/numeric-harness-error.txt",
+      "bytes": 311,
+      "sha256": "cf1a04034576928a4f79ab6451ff02d0af60b48aa5b8606ed3482d01f9ba79e7",
+      "relativePath": "numeric-harness-error.txt"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/numeric-harness-original.log",
+      "bytes": 2278,
+      "sha256": "f84f4f3296d6c9381bb8532155b8fdf174a4cc6169f50a5ee3fc623b50216785",
+      "relativePath": "numeric-harness-original.log"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/numeric-harness-original.mjs",
+      "bytes": 12930,
+      "sha256": "08efbff49110d7a2685527f5a01d0483f488720640bfb073226de1ba0e550cad",
+      "relativePath": "numeric-harness-original.mjs"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/numeric-results.json",
+      "bytes": 42870,
+      "sha256": "f8453b239852b8455b65ee0f045dae7af444aa328b731f0aa7849a5d6671f1b9",
+      "relativePath": "numeric-results.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/numeric.log",
+      "bytes": 18,
+      "sha256": "91824add6adc88003a0f5a35707fde75cbbca466fddd199f242f20d8231e3925",
+      "relativePath": "numeric.log"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/numeric.mjs",
+      "bytes": 12974,
+      "sha256": "c8c6e76ab64f478bfcfca78f182ba673ed7ee2e305f75a04add621a001542536",
+      "relativePath": "numeric.mjs"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/old-replay-cache/deps/_metadata.json",
+      "bytes": 146,
+      "sha256": "997ff61b38dc4086a66c7f37d0274049465fdcd59f01440e7a6f6b8af67eedab",
+      "relativePath": "old-replay-cache/deps/_metadata.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/old-replay-cache/deps/package.json",
+      "bytes": 23,
+      "sha256": "3ca9d4afd21425087cf31893b8f9f63c81b0b8408db5e343ca76e5f8aa26ab9a",
+      "relativePath": "old-replay-cache/deps/package.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/old-replay-proof.json",
+      "bytes": 2552,
+      "sha256": "124878f9ce4d57207a3aade7a70ac0a1bc6fd3c303baf55f0cbd314d3971c03d",
+      "relativePath": "old-replay-proof.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/old-replay.log",
+      "bytes": 1640,
+      "sha256": "007e62f7b2df71359076e5ca48e3bc81f30d7b3930ce09d622ecad2e88d9e7f2",
+      "relativePath": "old-replay.log"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/old-replay.mjs",
+      "bytes": 2141,
+      "sha256": "6e16801640c88388bc0879ce5aacb01f5b74412ee779a467644035117875a4c3",
+      "relativePath": "old-replay.mjs"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/preset-inventory.json",
+      "bytes": 153685,
+      "sha256": "85a57efe1c4527d56644b8f0b37dde409abeb745addeb332e5b993b94a2d852e",
+      "relativePath": "preset-inventory.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/util.mjs",
+      "bytes": 8096,
+      "sha256": "97a225668ce853418c82f925041a19cfa385c948b0d84430e3feb340bec8e459",
+      "relativePath": "util.mjs"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/version-edge-cache/deps/_metadata.json",
+      "bytes": 146,
+      "sha256": "997ff61b38dc4086a66c7f37d0274049465fdcd59f01440e7a6f6b8af67eedab",
+      "relativePath": "version-edge-cache/deps/_metadata.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/version-edge-cache/deps/package.json",
+      "bytes": 23,
+      "sha256": "3ca9d4afd21425087cf31893b8f9f63c81b0b8408db5e343ca76e5f8aa26ab9a",
+      "relativePath": "version-edge-cache/deps/package.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/version-result-edges.json",
+      "bytes": 1349,
+      "sha256": "ad0bf10fae43de2246e7acf806364d8056cd7b32e003b36a904823d19abe9574",
+      "relativePath": "version-result-edges.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/version-result-edges.log",
+      "bytes": 1094,
+      "sha256": "064d270e9b038aacc65b403dcd80d9dadb26920754dc5ffad1cdb684ee78cada",
+      "relativePath": "version-result-edges.log"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/version-result-edges.mjs",
+      "bytes": 1524,
+      "sha256": "c178333a65d0ffc18b4f75260c0d1955af1655b0f7217575a71b72130ad9e370",
+      "relativePath": "version-result-edges.mjs"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/vite-cache/deps/_metadata.json",
+      "bytes": 146,
+      "sha256": "997ff61b38dc4086a66c7f37d0274049465fdcd59f01440e7a6f6b8af67eedab",
+      "relativePath": "vite-cache/deps/_metadata.json"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/execution-r1/vite-cache/deps/package.json",
+      "bytes": 23,
+      "sha256": "3ca9d4afd21425087cf31893b8f9f63c81b0b8408db5e343ca76e5f8aa26ab9a",
+      "relativePath": "vite-cache/deps/package.json"
+    }
+  ],
+  "rawFingerprintMethod": "SHA256 UTF8 sorted relativePath + NUL + fileSHA256 + LF",
+  "rawFingerprint": "b9eef4b91319f8b4c640873ce0b56dc7b4dfcf170faabd85c7badd43004a5875",
+  "report": {
+    "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/catalog-0.2.1-qa-execution-r1.md",
+    "bytes": 13070,
+    "sha256": "7ac6919f42eaf2baeaf72d104035ce55bd4c825d9ba2c56d465ffea323dbcde0"
+  },
+  "preparation": [
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/catalog-0.2.1-qa-case-plan.md",
+      "bytes": 11920,
+      "sha256": "e098423dba2d107f55384dc4f4e6292718cb6bf6b17138a33333cf48cbb2c680"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/source-first-expected.json",
+      "bytes": 3729,
+      "sha256": "b5740ea8a88f2652ecb9394f0761491886d4306884c3ca55957c74434366ad35"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/source-first-binding.json",
+      "bytes": 4046,
+      "sha256": "e17a44fd20f0d8525aee43611b6cdc9893019a368595e38f07c468009341e618"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/catalog-0.2.1-qa/preparation-manifest.json",
+      "bytes": 2203,
+      "sha256": "6dda583bce49844cfc783aa850203b693019a6742efdeaa98cec378404dc69fd"
+    }
+  ],
+  "oldSealedReportsAndManifests": [
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/gd-workspace-v4-qa-execution-r1.md",
+      "bytes": 16179,
+      "sha256": "af5d438223641fedb6ad6de65509324ae6c21a044f63b7bcac1b5a108014c05f"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/gd-workspace-v4-qa-evidence-r1.json",
+      "bytes": 60141,
+      "sha256": "080591b3f8e9256bfc40eaac64d24a50ccb4c7d3bad5fbb627865e9ee31e235d"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/affected-fix-r1/gd-workspace-v4-qa-affected-fix-r1.md",
+      "bytes": 8967,
+      "sha256": "e8e2d7b2f7a39001c1f71fb333285065c2479846d685df82faebeae1e8588c1b"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/affected-fix-r1/gd-workspace-v4-qa-affected-fix-r1-evidence.json",
+      "bytes": 16535,
+      "sha256": "43b1d8a5eb27b310389123f615bf2d58d127b08ec1124b9518553aea7f8e92af"
+    }
+  ],
+  "notRun": [
+    "physical second device/native OS gestures/public Pages/base/merge",
+    "full old7/72 replay",
+    "H3600/12h/numeric matrix",
+    "own full guard/CI",
+    "flight/full-hold/refuel/ROI/production BOM/National tuning"
+  ],
+  "sourceFreezeRelease": true
+}

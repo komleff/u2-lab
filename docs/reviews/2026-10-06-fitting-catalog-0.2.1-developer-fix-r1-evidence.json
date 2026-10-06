@@ -1,0 +1,152 @@
+{
+  "role": "Developer",
+  "sourceSha": "15f5d90e97b696b8738a204953af852942bec704",
+  "root": "/Users/komleff/Documents/GitHub/u2-lab-claude-ui/.overgate-runtime/catalog-0.2.1-fix-r1-evidence",
+  "files": [
+    {
+      "path": "artifact-bodies.json",
+      "bytes": 15354,
+      "sha256": "3502bb77171b892d622f153c49d96a0b5ade9bb05391f9f3621ac90bf7857f2c"
+    },
+    {
+      "path": "artifact-bodies.mjs",
+      "bytes": 1193,
+      "sha256": "f2b0a309c57908218df55d5956cf0589fc30acc640c6b6a6efdc2a9a067eefe2"
+    },
+    {
+      "path": "artifact-bodies.txt",
+      "bytes": 188,
+      "sha256": "6b07affaa5619c87c431002cb09d8709b93fc143062b122e6e40301e4493db15"
+    },
+    {
+      "path": "artifact-summary.json",
+      "bytes": 1654,
+      "sha256": "3dea285c97dcfa6cd703074788f162d2ddfaf28bc43f7fcfb2186035bf088cf6"
+    },
+    {
+      "path": "browser-green.txt",
+      "bytes": 1042,
+      "sha256": "07d34e17184c609226db6490724c44c28546262048263cbff320ba23a24bc706"
+    },
+    {
+      "path": "browser-red.txt",
+      "bytes": 2260,
+      "sha256": "fcb04dcf29239a09d77a625e0d854084249003a578a5a3fe716a8f97c7fafa8f"
+    },
+    {
+      "path": "commit.txt",
+      "bytes": 150,
+      "sha256": "fd987c13ff0aefd09996115bef0acac00c40f705ad34f84ce069180afe6727a6"
+    },
+    {
+      "path": "full-guard.txt",
+      "bytes": 12164,
+      "sha256": "56e8bd0b25833bd703a3e3c30bad4a7adfdf1622770e2472db9885d3107cac12"
+    },
+    {
+      "path": "ledger.json",
+      "bytes": 3312,
+      "sha256": "0bd24289052d35d9e4b8591c6731623bd9cf4c05c44434b2d43fdeaa47719432"
+    },
+    {
+      "path": "native-LAN.json",
+      "bytes": 46464,
+      "sha256": "b938116a0de035fa24902f9fbba0f9f1f4e57a6bf824efe83e1d55606cca38f9"
+    },
+    {
+      "path": "native-LAN.txt",
+      "bytes": 970,
+      "sha256": "de1214fea9c6a9b5277a356faa3bbd8478d11253de648c127f0b5bba8a24b660"
+    },
+    {
+      "path": "native-TLS-prefix.json",
+      "bytes": 46478,
+      "sha256": "338370ffd3ae67d27add9c5b8bd4dcdbfdb9e206426b36a759ea7287a88aca9c"
+    },
+    {
+      "path": "native-TLS-prefix.txt",
+      "bytes": 970,
+      "sha256": "bea578dcafb6ca2e607bcbc29688552bb9d7c1c23f2a8bce90830cce2f075a08"
+    },
+    {
+      "path": "native-localhost.json",
+      "bytes": 46476,
+      "sha256": "8eae058df2ee93019033662faf546f23cbe664ef29a703e3143a80fd0a485598"
+    },
+    {
+      "path": "native-localhost.txt",
+      "bytes": 970,
+      "sha256": "36ea0d8b05a65006567544956ee47ce73327773ac91c6fc2e81f516301804264"
+    },
+    {
+      "path": "native-results/LAN/.last-run.json",
+      "bytes": 45,
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "native-results/TLS-prefix/.last-run.json",
+      "bytes": 45,
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "native-results/localhost/.last-run.json",
+      "bytes": 45,
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "native-smoke.spec.ts",
+      "bytes": 3393,
+      "sha256": "3f8c04e5f3d9ba05c498cfcd491f58719fe55a35d2af81982fb6571d3291882a"
+    },
+    {
+      "path": "native-summary.json",
+      "bytes": 139743,
+      "sha256": "0234f256c98b2b80ed35c99a8ce0f4d2daa6fae8341152150afc9dcb4def1995"
+    },
+    {
+      "path": "no-mining-payload-probe.json",
+      "bytes": 5568,
+      "sha256": "41b8db6af971292c8a17ef0b94dce3627d030c88e44e4ef95f463975c5b1aef3"
+    },
+    {
+      "path": "no-mining-payload-probe.txt",
+      "bytes": 5654,
+      "sha256": "50cfad19e87f5b2e39806ed725759ed3ca24003745c318d8d269c7b197c7c673"
+    },
+    {
+      "path": "package-candidate.py",
+      "bytes": 6710,
+      "sha256": "a0daf2e45986d873ea995a91c353e7872a37e09ab528ad4ef55d2a1d67f2dd57"
+    },
+    {
+      "path": "playwright-smoke.config.ts",
+      "bytes": 615,
+      "sha256": "5526956785e216b8ac4f120b58d34013f21cfd5b1a48bb99ba3532968ca564ec"
+    },
+    {
+      "path": "prior-artifact-preserved.json",
+      "bytes": 1290,
+      "sha256": "7afa90b08b2c9eb8d5378f518d9157fe8fbddbdf15987a9b7fa6a412a5dd423c"
+    },
+    {
+      "path": "targeted-build.txt",
+      "bytes": 930,
+      "sha256": "30422e4dfd0d37201e9667f2242c10406e1020ea5fa6c88d5fb47e7223f2f312"
+    },
+    {
+      "path": "typecheck.txt",
+      "bytes": 53,
+      "sha256": "e41f4a2cbe48379fcc638282c486af741a1bcad94e6e5804dc2eda590c474460"
+    },
+    {
+      "path": "unit-green.txt",
+      "bytes": 13545,
+      "sha256": "37dc577102a7f6f8de67089e1cef1a326db1ca16afecf9712d4c622a9efca00c"
+    },
+    {
+      "path": "unit-red.txt",
+      "bytes": 19945,
+      "sha256": "7ea314c6d153e597d4bfb17a0b7d397bc17cec009cf0670f4c934ab1c21ecd40"
+    }
+  ]
+}

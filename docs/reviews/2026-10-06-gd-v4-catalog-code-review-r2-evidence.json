@@ -1,0 +1,196 @@
+{
+  "role": "Independent Reviewer / Codex",
+  "mode": "CODE_REVIEW",
+  "model": "Exact provider/model/deployment ID unavailable",
+  "commit": "15f5d90e97b696b8738a204953af852942bec704",
+  "baseline": "131570d8f018d3617067bb558099f68aff7c9a53",
+  "reviewedChangedPaths": [
+    {
+      "path": "src/app/fitting-workspace.ts",
+      "baselineBlob": "d589d2e13bfe4601121c334d27f98038b2d18a4a",
+      "gitBlob": "9eeb774ab637b0545f339005c0df6aa73ad45696",
+      "bytes": 11139,
+      "sha256": "3456d195dcb6d8887b7135cf71b30f7ada63135ad40943e2f7022b9c091792bd"
+    },
+    {
+      "path": "tests/ui/gd-workspace-v4.test.ts",
+      "baselineBlob": "8c3397441d4a98ef5dc4319f9c58f3f835723b66",
+      "gitBlob": "c8263bc5ae5c5b9239163cb2370f77878a6d2b3f",
+      "bytes": 17737,
+      "sha256": "3e75d937526ea00ad010e9277ff103335407ab10452bde3d7f5973a0fd7aac87"
+    },
+    {
+      "path": "tests/browser/gd-workspace-v4.spec.ts",
+      "baselineBlob": "3b8e9e40f9ff37d243441f1ad934234e3895b94b",
+      "gitBlob": "c526f2385d915c3bf52e3e611c14e15e977c4736",
+      "bytes": 19313,
+      "sha256": "ba6024e600b2e0fa30cc18371cf0ed72c7154c232e2b818218a2d7819c11078d"
+    }
+  ],
+  "carryoverIdenticalPaths": [
+    "docs/user/ship-fitting-ui.md",
+    "src/app/fitting-ui/compare-view.ts",
+    "src/app/fitting-ui/conditions.ts",
+    "src/app/fitting-ui/lab-channels.ts",
+    "src/app/fitting-ui/lab-view.ts",
+    "src/app/fitting-ui/local-variant.ts",
+    "src/app/fitting-ui/presentation.ts",
+    "src/app/fitting-ui/result-context.ts",
+    "src/app/fitting-ui/ship-view.ts",
+    "src/app/fitting-ui/trace-chart.ts",
+    "src/app/fitting.css",
+    "src/app/fitting.ts",
+    "src/fitting/catalog.ts",
+    "src/fitting/data/modules-0.2.1.json",
+    "src/fitting/editions.ts",
+    "src/fitting/types.ts",
+    "src/fitting/validate.ts",
+    "src/io/fitting-json.ts",
+    "src/io/fitting-result.ts",
+    "src/scenarios/fitting.ts",
+    "tests/browser/catalog-0.2.1.spec.ts",
+    "tests/browser/claude-ui-fixes.spec.ts",
+    "tests/browser/claude-ui-review.spec.ts",
+    "tests/browser/claude-ui.spec.ts",
+    "tests/browser/fitting.spec.ts",
+    "tests/fitting/bill.test.ts",
+    "tests/fitting/catalog-0.2.1.test.ts",
+    "tests/fitting/catalog-editions.test.ts",
+    "tests/fitting/catalog.test.ts",
+    "tests/fitting/fixtures/catalog-0.2.0-digests.json",
+    "tests/fitting/matrix.test.ts",
+    "tests/fitting/source-fidelity.test.ts",
+    "tests/fitting/test-spec.ts",
+    "tests/fitting/worst-fit.ts",
+    "tests/ui/code-review.test.ts",
+    "tests/ui/qa-fixes.test.ts"
+  ],
+  "carryoverCount": 36,
+  "binding": {
+    "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/fitting-catalog-0.2.1-fix-runtime-binding.json",
+    "bytes": 42775,
+    "sha256": "6dac0b7f08e93c163bded9875440d001a8f6a37803e10cd1ac995bcf7b25dbbc",
+    "actual137HeadAndWorkingMatch": true,
+    "wholeContracts": [
+      {
+        "path": "docs/plans/2026-10-06-fitting-catalog-0.2.1.md",
+        "gitBlob": "3fa8a97f554b2457f48a7f2eba0fe4121fc01f5e",
+        "workingBlob": "3fa8a97f554b2457f48a7f2eba0fe4121fc01f5e",
+        "bytes": 5481,
+        "sha256": "297f091c3b3c001a6c37f9a44b985b4f2a45b15fedc8f78c7c1a6136d3276b6a"
+      },
+      {
+        "path": "docs/plans/2026-10-06-gd-workspace-v4.md",
+        "gitBlob": "2f93b80e7b2b86906cc4cf021d39eade5459a4c6",
+        "workingBlob": "2f93b80e7b2b86906cc4cf021d39eade5459a4c6",
+        "bytes": 12832,
+        "sha256": "15a814280f18df460e530bb5cf8bcbc9235ceb98d5eeb2f0ce9b76bd7905060f"
+      },
+      {
+        "path": "docs/product/ship-fitting-catalog-0.2.1.md",
+        "gitBlob": "c7ffd66bb9db25c052015d125ac530bc7342a58f",
+        "workingBlob": "c7ffd66bb9db25c052015d125ac530bc7342a58f",
+        "bytes": 7363,
+        "sha256": "a5c55604317116c29734c4f4775d541d3109879d918f63df857281bcc8aa89a7"
+      },
+      {
+        "path": "docs/product/ship-fitting-gd-workspace-v4.md",
+        "gitBlob": "1881e6d09c8d551eb2d2a6f07fa99f16a59495cc",
+        "workingBlob": "1881e6d09c8d551eb2d2a6f07fa99f16a59495cc",
+        "bytes": 10312,
+        "sha256": "747e3494bb22d1f1f42922c4d08da4777d7d61ec9099b3bd9b6baec14d1bafdb"
+      },
+      {
+        "path": "docs/verification/claude-design-ui-v0.2-contract.md",
+        "gitBlob": "04a9714111f9c2cb6ab2e94da7f6fda7232d125f",
+        "workingBlob": "04a9714111f9c2cb6ab2e94da7f6fda7232d125f",
+        "bytes": 7495,
+        "sha256": "03912849841e9f6939282b73e6def4dd746892e15b0fb717b070fbfefff8f2f2"
+      },
+      {
+        "path": "docs/verification/gd-workspace-v4-contract.md",
+        "gitBlob": "f71682ad5a7a6820d5a6b1c8eb9c0963da9ba853",
+        "workingBlob": "f71682ad5a7a6820d5a6b1c8eb9c0963da9ba853",
+        "bytes": 7970,
+        "sha256": "f50fca6976ac2f73daf4e4cc5653b6aabf23b7071e83e34f2febdf2c0a9160e5"
+      },
+      {
+        "path": "docs/verification/ship-fitting-v0.2-contract.md",
+        "gitBlob": "314d1770363d642df4c2dec069a308b715911c58",
+        "workingBlob": "314d1770363d642df4c2dec069a308b715911c58",
+        "bytes": 12857,
+        "sha256": "024d9e086cf6d14629c8c438f1939593c12b8e576b657b258121eaafcea22115"
+      }
+    ],
+    "operatorNotes": [
+      {
+        "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-operator-layout-note.md",
+        "bytes": 4115,
+        "sha256": "b5fa2801eda3f90c9115f0ca607a36f15f336ffdfac4f46b4ad0fcc6d675bcf5"
+      },
+      {
+        "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-operator-defects-note.md",
+        "bytes": 2891,
+        "sha256": "06e97a564451629d91b36bfa73fb4da44900b46976745e351d0ae428ddfd219b"
+      }
+    ],
+    "method": "SHA256 UTF8 sorted relevant path NUL gitBlob LF, then literal seven full contracts sorted by path, then layout note bytes, then defects note bytes; no separators between appended literal files",
+    "acceptanceFingerprint": "9458f05433fb89123d514d00aadb82a46daf48d3528dde054ca5c22e3f1d5988",
+    "errors": []
+  },
+  "evidence": [
+    {
+      "path": ".overgate-runtime/gd-v4-catalog-scoped-review-contract-r2.md",
+      "bytes": 3797,
+      "sha256": "80c1d7dfdc636f2943af98d25ed4a63f44fde8fee5d77450f72f6b378565f20c"
+    },
+    {
+      "path": "docs/reviews/2026-10-06-fitting-catalog-0.2.1-qa-affected-r1.md",
+      "bytes": 9281,
+      "sha256": "4c2f822f9be19e2859a738b08651ff98bb2d3edcfddd18a14de8e4f4ac7ab750"
+    },
+    {
+      "path": "docs/reviews/2026-10-06-fitting-catalog-0.2.1-qa-affected-r1-evidence.json",
+      "bytes": 19789,
+      "sha256": "f08c0eb5386c4ebb3deb6a67301efca4050f580e7e5af10c1970f1853ae32679"
+    },
+    {
+      "path": ".overgate-runtime/2026-10-06-gd-v4-catalog-code-review-r1.md",
+      "bytes": 17308,
+      "sha256": "430ae60211cad25f2ff5f70022e42df92226db6be527e9768464a1001d854953"
+    },
+    {
+      "path": ".overgate-runtime/2026-10-06-gd-v4-catalog-code-review-r1-reviewed-paths.json",
+      "bytes": 19346,
+      "sha256": "8799d98d08fe545f386f4fb95a6ae52b8dee4d1f975bf1077a2051dc6f577412"
+    }
+  ],
+  "ownProbeResults": [
+    {
+      "probe": "original CR-V4-B1",
+      "validConditions": true,
+      "repeat": false,
+      "fitUnchanged": true,
+      "startBlocked": true,
+      "invalidAtomic": true
+    },
+    {
+      "probe": "imported IDs, local item, service/default collision",
+      "group": [
+        "fit:march",
+        "conditions:march"
+      ],
+      "edition": "ship-fitting-0.2.0",
+      "temperatureK": 315,
+      "repeat": false,
+      "invalidGroupAtomic": true
+    }
+  ],
+  "trackedStatus": "",
+  "verdict": "APPROVED",
+  "closedFindings": [
+    "CR-V4-B1"
+  ],
+  "blockers": [],
+  "advisories": []
+}

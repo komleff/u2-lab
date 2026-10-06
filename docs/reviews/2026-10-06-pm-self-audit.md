@@ -89,3 +89,37 @@ Memory Bank сокращён до текущего статуса и ссыло�
 не переписываются. Один planning checkpoint перед новым runtime amendment,
 один итоговый metadata checkpoint после QA/review, вместо commits на каждый
 счётчик. Оператору сообщены результат самоаудита и изменение тактики.
+
+# Самоаудит после catalog QA, combined Review и affected QA
+
+Завершены три прохода с триажем: C01–08 QA, combined Code Review r1 и affected
+CR-V4-B1 QA. Counter3/3; после этого аудита reset0/3 через Beads API. Повторно
+прочитаны PM_ERR.md и DOC_PR.md внешнего U2main0fe06927…, действующая роль —
+локальный PM_ROLE3.0. Самоаудит не новый независимый verifier.
+
+Цель — удобный инструмент ГД v4 с обновлёнными ТТХ и штатными лазерами, доступный
+на LAN. Source15f5 уже работает4188; старые4183/4186 сохранены. C01–08 PASS;
+Review выявил одно настоящее нарушение WF02/06 — редактирование условий неполного
+small-hull draft через недопустимый:3 reference. Исправление не меняет слоты,
+фактическую сборку, численное ядро или ТТХ; affected QA PASS. Scoped re-review остаётся.
+
+Моя ошибка: при исходной QA готовых пресетов я не выделил отдельно редактируемый
+неполный черновик. Это «чинить экземпляр вместо класса»/узкая техническая приёмка:
+реальный ГД часто сначала снимает модуль, затем меняет условия. Developer проверил
+весь текущий класс incomplete drafts, обе editions, custom payload IDs и коллизии,
+Industrial L4, empty payload. QA независимо прошла репрезентативные цепочки с
+реальными controls/Worker, invalid atomic отказом и разделением activeA/nextB.
+
+Тактика: закрыть только подтверждённый blocker, не расширять WHAT и не повторять
+весь39-path review/матрицы/часовые runs. Следующий шаг — scoped review3changedpaths,
+затем один metadata/Beads checkpoint и feature push. Временный model-capacity retry
+QA не считался завершённым циклом; false harness errors и historical FAIL сохраняются.
+Повторилась моя ошибка в обвязке: я предположил integer для failure count, хотя
+actual manifest содержит список. Inventory подтвердил пустые списки; поправлена
+только PM-сверка, без изменения signed QA и нового product execution.
+Memory Bank сокращён до текущего состояния; hashes/raw telemetry в манифестах.
+Пользовательская оценка удобства и physical Xiaomi остаются отдельными: viewport
+PASS не даёт физическую приёмку. Mission/flight/refuel по прежнему deferred.
+
+После scoped Review r2 APPROVED и триажа counter1/3. Локальная v4+catalog поставка
+проверена; final metadata/feature push не новый review cycle.
