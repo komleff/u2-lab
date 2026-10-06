@@ -1,3 +1,4 @@
+import { catalogHasItem, isKnownCatalogVersion } from "../fitting/editions";
 import { validateRunSpec, type ValidationResult } from "../catalog/schema";
 import { validateFit } from "../fitting/validate";
 import { validateRunSpecV2 } from "../model/v2/step";
@@ -39,7 +40,13 @@ export function parseExperimentJson(
       return invalid("SCHEMA", "Неподдерживаемая схема опыта");
     const validated = validateRunSpecV2(spec);
     if (!validated.ok) return validated;
-    if (spec.catalogVersion !== "ship-fitting-0.2.0") {
+    if (isKnownCatalogVersion(spec.catalogVersion)) {
+      const fit = validated.value.resolvedShip.fit;
+      if (fit.catalogVersion !== spec.catalogVersion ||
+          Object.values(fit.instances).some(i => !fit.localVariants[i.itemId] && !catalogHasItem(spec.catalogVersion, i.itemId)) ||
+          validated.value.resolvedShip.instances.some(i => !i.builtin && !fit.localVariants[i.item.id] && !catalogHasItem(spec.catalogVersion, i.item.id)))
+        return invalid("CATALOG_INVENTORY", "Изделие или version stamp не принадлежит объявленному каталогу");
+    } else {
       if (!options.allowSnapshotReplay)
         return invalid(
           "SNAPSHOT_REPLAY_REQUIRED",

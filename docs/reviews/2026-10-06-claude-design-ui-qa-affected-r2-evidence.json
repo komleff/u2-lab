@@ -1,0 +1,307 @@
+{
+  "role": "independent QA, QA_ROLE v2.1",
+  "model": "Codex; exact provider model ID unavailable",
+  "head": "ddd06148108462cb97c656efd6f266442ccdba9c",
+  "signedAtUTC": "2026-10-05T21:46:33.483779+00:00",
+  "verdict": "FAIL",
+  "fileCount": 55,
+  "files": [
+    {
+      "path": ".overgate-runtime/claude-design-ui-qa-affected-plan-r2.json",
+      "bytes": 38279,
+      "sha256": "61914fe49bfce6e27cf073e21e8f6ef9d1c5ecaa99eb5c6dc86dd5a056718266"
+    },
+    {
+      "path": ".overgate-runtime/claude-design-ui-qa-affected-plan-r2.md",
+      "bytes": 11172,
+      "sha256": "85a1e1cc06ddff138cf2fad11664198b149b9a843eeef4351a060b65e65ee1df"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-all8negative-phone-r2.json",
+      "bytes": 2815,
+      "sha256": "1a80f768f5b3688ccfb349429b8c4d81221ee21c298a94d34b43a047744a1e9b"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-assemble-r2.py",
+      "bytes": 31525,
+      "sha256": "672b33ca19659187df67d7ddffd7924b3d3cd42a40c25432db98a663996e8dd7"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-binding-r2-final.log",
+      "bytes": 654,
+      "sha256": "7e7f07b85a8e6e0e1b027db8bc53820c2a960492a4492ae35627e68773d7ebba"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-binding-r2-initial.py",
+      "bytes": 7826,
+      "sha256": "43b4d04b119cb3ec7dc62a6b5361566ecfe2ba1bcd62b1160e1146861015eae3"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-binding-r2-second.py",
+      "bytes": 7891,
+      "sha256": "cb01675230a869ab9cdc09389bddbba1afdc42b9e827f56a94a5904a99c56ab6"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-binding-r2.json",
+      "bytes": 71523,
+      "sha256": "1b7fcbc0b2a3d61272537c0876c6e0d6ea2bc321f453256c24b6c70c0f2ec0fb"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-binding-r2.py",
+      "bytes": 7891,
+      "sha256": "a98a44d191a36ad3ea3ceb13bc028c789c2b3134a76973f03bae302a663d8ac9"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-browser-r2.json",
+      "bytes": 49732,
+      "sha256": "6d651c2667ee255b85a0c0265fb153b933fb71758712cb9635de0e42a895f73f"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-browser-r2.log",
+      "bytes": 15171,
+      "sha256": "8430f108290969af92062d52b9c927adbcbc4415b9af7b14678d280f9d966dfb"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-browser-r2.mjs",
+      "bytes": 27153,
+      "sha256": "df53ed6345096bb1899fed19054f24871f507705499179a2c20aca7a5974aa33"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-case-results-r2.json",
+      "bytes": 97771,
+      "sha256": "34fd61127615cd6c7fd0a6c855651e7c563c4d97a5d5f700405ef2fd1a667a08"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-channel-controls-r2.json",
+      "bytes": 2258,
+      "sha256": "853ebced58477c77d5809d1f2e01c7e4197fb83204d74ca2c09e6b470b4d0cc3"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-channel-controls-r2.log",
+      "bytes": 2112,
+      "sha256": "b67f7c889c6076cb2dc346bc569f4ecb4eb7a260c5f77ca81e07a394ba2d720b"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-channel-controls-r2.mjs",
+      "bytes": 5922,
+      "sha256": "434d21e24ff04bf5f49a5da660810ce10da578754e4ac3a6d9536c93ba8c5f17"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-delta-r2.txt",
+      "bytes": 808,
+      "sha256": "c7fbe543fba11506900b05df972235fde651abff878e4ef309a9ef34e49dccc4"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-export-diagnostic-r2.json",
+      "bytes": 2567,
+      "sha256": "7a7cdb2ce048b4d0ca448a5687edae5fb80c4bbf026e33939ca6918e5631da59"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-export-diagnostic-r2.log",
+      "bytes": 2287,
+      "sha256": "e6e9e33d68dc99bc4b2c899cf0a9d1f87c6cc3641bfb1cb335d09a4f803f0449"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-export-diagnostic-r2.mjs",
+      "bytes": 6561,
+      "sha256": "b0180eddb4c1cb1b5f34676e8a100d7d67b832b6aba480ae20f9f9904c1cc618"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-export-hit-r2.json",
+      "bytes": 1741,
+      "sha256": "50c3c199fb9afabc03de15410badd718b565d32264f223fba94e4767598962d7"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-export-sequence-hit-r2.json",
+      "bytes": 1741,
+      "sha256": "1c1e982845719c3eeb8c393bc377bcd30ecc52604b2aba7245ac5295f1dc3e1a"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-export-sequence-r2.json",
+      "bytes": 2567,
+      "sha256": "b7f4cd54550c0265dd1a87a96a2b9c12c1d394f078db99837c0210116af63d6e"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-export-sequence-r2.log",
+      "bytes": 2287,
+      "sha256": "716b4e02def85399cf52597f90d77115dfc9a3ed9b1d7eb89656f188278a7771"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-export-sequence-r2.mjs",
+      "bytes": 6589,
+      "sha256": "80d90e66c524c3563c5b963f34012bc9e9941f1e3aeb08635f92e46007512170"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-final-corrected-r2.json",
+      "bytes": 44370,
+      "sha256": "14d2d88d9a07f4431a71b78b86b52ef8ad9b43be440c1ee78e660cbcbcf99252"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-final-corrected-r2.log",
+      "bytes": 14598,
+      "sha256": "4939a1ce6947cbcb77192784cdeb5524f3e1697327aaf62312ae3461c8e0221c"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-final-corrected-r2.mjs",
+      "bytes": 14130,
+      "sha256": "80fc61918f00ea6c23bc3b3e29282e9a76967eb7bd5d3eef44975fc08fe19f47"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-final-r2.json",
+      "bytes": 43110,
+      "sha256": "1358ab9e2297b9fedd48f8257bdf85a948966f62896659298d1d2703b238655c"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-final-r2.log",
+      "bytes": 17764,
+      "sha256": "248cb7f66898f2a5af0cf176a63ba9f53286fbd86156ec088b075dbc00029e08"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-final-r2.mjs",
+      "bytes": 13968,
+      "sha256": "baad684b78dbc6d64d2cf55c0fca69debeeafbf34e5de204410247cd938e8b4f"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-final-source-build-r2.json",
+      "bytes": 2926,
+      "sha256": "cc5629c648c5509ce9553311e1fbd795235e1639c2c142feae0694fd60df6151"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-fixtures-r2.json",
+      "bytes": 3409127,
+      "sha256": "ac9e09b0758bc545db4a86b21e71272c9c9bc1fd35791de82daf965d510eb65c"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-followup-r2.json",
+      "bytes": 4901,
+      "sha256": "981bc2420269b10ec6ec14fc30554e3600236082e5e3375c57bb81df50720e4d"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-followup-r2.log",
+      "bytes": 411,
+      "sha256": "5517b54e9e2ea0ae886b02ad47a1c948214d0778412d9f09226922484dbde438"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-followup-r2.mjs",
+      "bytes": 14012,
+      "sha256": "eab8b3352332019c0e7f97d5c272081fb8e69799f9009fad905578efb8adefc5"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-followup-reset-repro.json",
+      "bytes": 1297,
+      "sha256": "494efe5bedc4f5b1273f76e37eb40b15d30e14054a77677a1d19d3f100894e26"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-followup-stale-bar-repro.json",
+      "bytes": 574,
+      "sha256": "4f799c19e194aa41f70bd05a079eb7277222efcfeaf186506d82372df50ff87c"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-functional-r2.json",
+      "bytes": 25273,
+      "sha256": "a98460ec44f43881b6501bc8eab74542ba8a5a1f6ba30557196b91ea1acffe8d"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-functional-r2.log",
+      "bytes": 1287,
+      "sha256": "9d5d67ea15773de88daf7b30db4274fd7a845d1c34322f220b4d86ae656a3e21"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-functional-r2.mjs",
+      "bytes": 31529,
+      "sha256": "90ce4dff4a115986a7a22b90124cadaa5412ba39e4398d5b1b742b87bdeee89c"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-guard-r2.log",
+      "bytes": 9211,
+      "sha256": "2c9021df933c9df95af43efdd33dbdf90597f007e0cc543290ecaebf0b4a84e5"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-harness-corrections-r2.json",
+      "bytes": 2224,
+      "sha256": "c947338bdc1ccd068dd9795dad1114edfb7d11d061feeabba1d765b50e2e57f0"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-import-geometry-observations-r2.json",
+      "bytes": 7804,
+      "sha256": "e5f9b931213b4dc257a45ddb98f8e982158e1a9d57ccf3ebbd4e09ce0ab74610"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-import-geometry-r2.json",
+      "bytes": 979,
+      "sha256": "1b589cb63dd650c02c6f902bb78f9cef9cf2a62ceba692824227bcb12e2e0337"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-import-geometry-r2.log",
+      "bytes": 877,
+      "sha256": "3fbdc3ff560915affb711569c12a9a6886d4c055b26fd6ec85803bd6b6a71870"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-import-geometry-r2.mjs",
+      "bytes": 6003,
+      "sha256": "f0cf647b44dcf2e914120946d55014cc0441e8928e7d6bfc4138772dcef56626"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-negative-final-r2.json",
+      "bytes": 10855,
+      "sha256": "06c614e0de00b3f3d0bac569bd0f5ec96e3ec45d1b5edd828913291861139c72"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-negative-final-r2.log",
+      "bytes": 594,
+      "sha256": "f6f8b6299bfbc9c6806f6cb090a3303c16dc9562d1ec02b5ff88f2d3e87ba49c"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-negative-final-r2.mjs",
+      "bytes": 7547,
+      "sha256": "c61d8876c0290acb0226dbf04f4440ff60fcacafa72c857ae722da784e1fef48"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-runtime-delta-r2.diff",
+      "bytes": 76344,
+      "sha256": "6e08beeb678aae9851c9fb6ef50c1ec0e6199055fee0ff60378dbd09e4c3c55c"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-supplement-r2.json",
+      "bytes": 6346,
+      "sha256": "377b641f64980f6738bcfdb0479cb00feef5120b6951402d63cb9fb68c4cf8c3"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-supplement-r2.log",
+      "bytes": 258,
+      "sha256": "999880b38454e0ea0ad1b67a9b46cc76b9aebcbf2d50b8c847244ee5f533d6d3"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-supplement-r2.mjs",
+      "bytes": 6688,
+      "sha256": "7a5c84e63591a52c877280f107672e85c55a9b5959a710e5b15f647254c41f04"
+    },
+    {
+      "path": ".overgate-runtime/qa-affected-ui-three-origin-overflow-r2.json",
+      "bytes": 3601,
+      "sha256": "2bb6115d65ff1ba350f7298eace121f7833a2cc14139cf699ff7acb239af5c08"
+    }
+  ],
+  "initialImmutable": {
+    "report": {
+      "path": ".overgate-runtime/claude-design-ui-qa-execution-r1.md",
+      "sha256": "d0492e963e0bf74d1b1ecb2513ea8391aab474d2e278f4abf3606208b931b571"
+    },
+    "manifest": {
+      "path": ".overgate-runtime/claude-design-ui-qa-r1-evidence.json",
+      "sha256": "0188258dbb55681569aa3c89df5cba13796c36547cb74a7b5cfd7ca7d5ab51dc"
+    },
+    "files": 52,
+    "unchanged": true
+  },
+  "artifact": {
+    "directory": ".overgate-runtime/claude-design-ui-v0.2-candidate-fix-r1",
+    "manifestSHA256": "ef224a0588381c48f8bf70852bf57e59739acaf80b24fec9e6b8e54716ea4c3f",
+    "archiveSHA256": "6d55860893fe0cccc63242df33aacc37d69fc7bd2f5afe875ac1311894508ab5",
+    "distDigest": "55ee3288d859bff990b40cbc91a269d744655086465b183cea365cb1058b2d55",
+    "source66Fingerprint": "cd53343b38ccdf9d938a0c88d40bcfe7141058c6298d71dacc50efb306d4d1f0"
+  },
+  "bindingSHA256": "1b7fcbc0b2a3d61272537c0876c6e0d6ea2bc321f453256c24b6c70c0f2ec0fb",
+  "ledgerSHA256": "34fd61127615cd6c7fd0a6c855651e7c563c4d97a5d5f700405ef2fd1a667a08",
+  "scope": "42 original source-first IDs; full initial history preserved; physical/native/public/base gates NOT RUN; no runtime or source fixes"
+}

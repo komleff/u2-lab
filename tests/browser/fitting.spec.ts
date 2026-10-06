@@ -45,6 +45,7 @@ test("CR-B1/B2 failed fit and numerical snapshot imports preserve last valid fit
     [tinyHorizon, "durationSeconds"],
   ] as const;
   await page.goto("/");
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("12");
   await page.locator("#fit-start").click();
   await expect(page.locator("#fit-status")).toContainText("Завершён");
@@ -55,13 +56,11 @@ test("CR-B1/B2 failed fit and numerical snapshot imports preserve last valid fit
     a = await page.locator("#fit-comparison").textContent(),
     time = await page.locator("#fit-time").textContent();
   for (const [document, path] of cases) {
-    await page
-      .locator("#fit-import")
-      .setInputFiles({
-        name: "invalid.json",
-        mimeType: "application/json",
-        buffer: Buffer.from(JSON.stringify(document)),
-      });
+    await page.locator("#fit-import").setInputFiles({
+      name: "invalid.json",
+      mimeType: "application/json",
+      buffer: Buffer.from(JSON.stringify(document)),
+    });
     await expect(page.locator("#fit-error")).toContainText(path);
     await expect(page.locator("#fit-result")).toHaveText(result!);
     await expect(page.locator("#fit-next-revision")).toHaveText(revision!);
@@ -76,10 +75,13 @@ test("reference retro local variant TTX and provenance are explicit in preview a
 }) => {
   await page.goto("/");
   await page.locator("#fit-preset").selectOption("pony:1");
-  await page.locator("#fit-slot").selectOption("retro");
-  await expect(page.locator("#fit-preview")).toContainText("Референсный ретро");
-  await expect(page.locator("#fit-preview")).toContainText("Локальный вариант");
+  await page.locator('[data-slot="retro"]').last().click();
+  await page.locator('[data-candidate="pony-engine-retro"]').click();
+  await expect(page.locator("#fit-preview")).toContainText(
+    /локальный вариант/i,
+  );
   await expect(page.locator("#fit-preview")).toContainText("1180000");
+  await page.keyboard.press("Escape");
   await page.locator("#fit-f3").click();
   await expect(page.locator("#fit-sources")).toContainText("0.4");
   await expect(page.locator("#fit-sources")).toContainText("§8.2");
@@ -87,6 +89,7 @@ test("reference retro local variant TTX and provenance are explicit in preview a
   for (const button of ["#fit-save", "#fit-export-run"]) {
     const downloaded = page.waitForEvent("download");
     await page.locator(button).click();
+    if (button === "#fit-save") await page.locator("#fit-save-confirm").click();
     const download = await downloaded,
       path = await download.path();
     if (!path) throw Error("download missing");
@@ -103,19 +106,16 @@ test("reference retro local variant TTX and provenance are explicit in preview a
           .item,
       ).toEqual(variant);
   }
-  await page.locator("#fit-item").selectOption("engine-diesel-S-single");
+  await page.locator('[data-slot="retro"]').last().click();
+  await page.locator('[data-candidate="engine-diesel-S-single"]').click();
   await expect(page.locator("#fit-preview")).toContainText("2950000");
-  await expect(page.locator("#fit-preview")).toContainText("1590 kg");
-  const sources = JSON.parse(
+  await expect(page.locator("#fit-preview")).toContainText(/1\s*590/);
+  await page.locator("#fit-apply").click();
+  const source = JSON.parse(
     (await page.locator("#fit-sources").textContent())!,
   );
-  expect(sources.installedItem.id).toBe("pony-engine-retro");
-  expect(sources.installedItem.materials[0].massKg).toBe(1060);
-  expect(sources.selectedItem.materials[0].massKg).toBe(2650);
-  expect(sources.installedLocalVariant).toBe(true);
-  expect(sources.selectedLocalVariant).toBe(false);
-  await page.locator("#fit-apply").click();
-  await expect(page.locator("#fit-preview")).toContainText("2950000");
+  expect(source.installedItem.numerics.forceN).toBe(2950000);
+  expect(source.installedLocalVariant).toBe(false);
 });
 test("v2 real Worker withholds one telemetry chunk, controls ACK below500ms and ignores old-run ACK", async ({
   page,
@@ -269,31 +269,31 @@ test("preset slot filtered catalog delta swap run comparison at390px", async ({
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
-  await expect(
-    page.getByRole("heading", { name: "U2 Ship Fitting" }),
-  ).toBeVisible();
   await page.locator("#fit-preset").selectOption("industrial-M:3");
-  await page.locator("#fit-slot").selectOption("payload-3");
-  await page.locator("#fit-item").selectOption("cargo-bulk-S");
-  await expect(page.locator("#fit-preview")).toContainText("После замены");
-  await expect(page.locator("#fit-preview")).toContainText("-400");
+  await page.locator('[data-slot="payload-3"]').last().click();
+  await page.locator('[data-candidate="cargo-bulk-S"]').click();
+  await expect(page.locator("#fit-preview")).toContainText("после");
+  await expect(page.locator("#fit-preview")).toContainText(/-10\s*200/);
   await page.locator("#fit-apply").click();
   await expect(page.locator("#fit-slots")).toContainText("навалочный");
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("12");
   await page.locator("#fit-start").click();
   await expect(page.locator("#fit-status")).toContainText("Завершён");
-  await expect(page.locator("#fit-result")).toContainText("SCU/h");
+  await expect(page.locator("#fit-result")).toContainText("SCU/ч");
   await expect(page.locator("#fit-result")).toContainText(
-    "Использование добывающей оснастки",
+    "Использование оснастки",
   );
   await page.locator("#fit-freeze").click();
-  await expect(page.locator("#fit-comparison")).toContainText("A сохранён");
+  await expect(page.locator("#fit-comparison")).toContainText(
+    "Неизменяемый снимок",
+  );
+  await page.getByRole("link", { name: "Оснастка", exact: true }).click();
   await page.locator("#fit-preset").selectOption("industrial-M:1");
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-start").click();
   await expect(page.locator("#fit-status")).toContainText("Завершён");
-  await expect(page.locator("#fit-comparison")).toContainText(
-    "Одинаковые условия",
-  );
+  await expect(page.locator("#fit-comparison")).toContainText("Одинаковые");
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth),
   ).toBeLessThanOrEqual(390);
@@ -302,17 +302,18 @@ test("incomplete fit and incompatible preview explain refusal; builtin and F3 so
   page,
 }) => {
   await page.goto("/");
-  await expect(page.locator("#fit-builtins")).toContainText(
-    "Встроено: заменить нельзя",
+  await expect(page.locator(".system-payload .builtin")).toContainText(
+    "заменить нельзя",
   );
-  await page.locator("#fit-slot").selectOption("march");
-  await page.locator("#fit-all-items").check();
-  await page.locator("#fit-item").selectOption("cargo-bulk-S");
+  await page.locator('[data-slot="march"]').last().click();
+  await page.locator('[data-candidate="cargo-bulk-S"]').click();
   await expect(page.locator("#fit-preview")).toContainText("Семейство");
   await expect(page.locator("#fit-apply")).toBeDisabled();
   await page.locator("#fit-remove").click();
   await expect(page.locator("#fit-start")).toBeDisabled();
   await expect(page.locator("#fit-readiness")).toContainText("march");
+  await page.locator('[data-slot="power-1"]').last().click();
+  await page.keyboard.press("Escape");
   await page.locator("#fit-f3").click();
   await expect(page.locator("#fit-sources")).toContainText("J/(kg");
   await expect(page.locator("#fit-sources")).toContainText("sourceRef");
@@ -321,22 +322,26 @@ test("edit during run retains running revision and reset rejects late results; z
   page,
 }) => {
   await page.goto("/");
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("43200");
   await page.locator("#fit-speed").selectOption("1");
   await page.locator("#fit-start").click();
   await page.locator("#fit-pause").click();
   await expect(page.locator("#fit-status")).toContainText("Пауза");
   const revision = await page.locator("#fit-running-revision").textContent();
-  await page.locator("#fit-slot").selectOption("payload-1");
-  await page.locator("#fit-item").selectOption("mining-industrial-S");
+  await page.getByRole("link", { name: "Оснастка", exact: true }).click();
+  await page.locator('[data-slot="payload-1"]').last().click();
+  await page.locator('[data-candidate="mining-industrial-S"]').click();
   await page.locator("#fit-apply").click();
   await expect(page.locator("#fit-running-revision")).toHaveText(revision!);
   await expect(page.locator("#fit-next-revision")).toContainText("2");
   await page.locator("#fit-reset").click();
   await page.waitForTimeout(100);
-  await expect(page.locator("#fit-time")).toHaveText("0 s");
+  await expect(page.locator("#fit-time")).toContainText("0 с");
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-charge-fraction").fill("0");
   await page.locator("#fit-fuel-fraction").fill("0");
+  await page.keyboard.press("Tab");
   await expect(page.locator("#fit-readiness")).toContainText("пуст");
   await expect(page.locator("#fit-start")).toBeEnabled();
 });
@@ -348,6 +353,7 @@ test("failed import keeps fit and result; HTML label is literal; unknown catalog
   );
   const { makeMiningRun } = await import("../../src/scenarios/fitting");
   await page.goto("/");
+  await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("12");
   await page.locator("#fit-start").click();
   await expect(page.locator("#fit-status")).toContainText("Завершён");
@@ -391,7 +397,7 @@ test("failed import keeps fit and result; HTML label is literal; unknown catalog
   await page.locator("#fit-allow-snapshot").check();
   await page.locator("#fit-import").setInputFiles(input);
   await expect(page.locator("#fit-replay-note")).toContainText(
-    "совместимость слотов не проверена",
+    "Совместимость слотов не проверена",
   );
   await page.locator("#fit-start").click();
   await expect(page.locator("#fit-status")).toContainText("Завершён");

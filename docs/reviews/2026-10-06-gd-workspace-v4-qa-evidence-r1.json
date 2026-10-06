@@ -1,0 +1,1271 @@
+{
+  "role": "independent QA",
+  "model": "Codex; exact provider model ID unavailable",
+  "candidate": "17bb6b66e6384ee53ee1250e8dc2399ef4a2256f",
+  "result": "FAIL",
+  "mainCaseRows": 7,
+  "passRows": 6,
+  "failRows": 1,
+  "fullRepresentativeChains": 3,
+  "physicalClaims": false,
+  "sealedAtUtc": "2026-10-06T04:38:48.574449+00:00",
+  "rawFileCount": 245,
+  "rawFiles": [
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-A-partial-result.json",
+      "bytes": 435002,
+      "sha256": "89d1648a16b642038697a2cd4e80f00642cd241fb353bf061188cabcdeb7aa56"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-B-fit.json",
+      "bytes": 9799,
+      "sha256": "1fba595e18b65b79dc01cabd3d81dd2e66e0ad22f7cd79df42c77065a6263e0d"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-B-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-B-run.json",
+      "bytes": 314863,
+      "sha256": "32659958d8b359deecbc7c5b6f5590de895c115c98910689bf2813b25e4a51b1"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-B.csv",
+      "bytes": 50388,
+      "sha256": "891b9a55abf99b802763612c388cbed54382a6f272f0d26a8f0758a971afe07d"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-STOP.png",
+      "bytes": 201604,
+      "sha256": "453e81002e63592b98ec5427e720151099dda764b253198f5e6f1d66de7714a3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-active-run.json",
+      "bytes": 397731,
+      "sha256": "29c83521953c58247aa805ea577380e99096abc908e18b90ce95dbe63368d2a9"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-after-bad-fit.json",
+      "bytes": 9802,
+      "sha256": "0a682cabf5b8a34d125323649c74c2dea747df76393564b77255e3f137c41031"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-after-catalog-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-after-count-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-after-dimension-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-after-interval-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-after-malformed-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-after-minmax-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-after-missing-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-after-model-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-after-nonfinite-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-after-ownership-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-bad-catalog.json",
+      "bytes": 278478,
+      "sha256": "e5b1a330cad8593c81a9daa1d7554884e4f76794255df22f9b28de482fedf4ea"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-bad-count.json",
+      "bytes": 278480,
+      "sha256": "b1372f144b74df040a7e1e3bfc06bb32e3515ae6fdaf5be2fbc7b4bd5bd1e8bf"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-bad-dimension.json",
+      "bytes": 278480,
+      "sha256": "9ce2dc1b1d271a3ad13497d222b3590491fead091d560462390a3cf32a9cc67c"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-bad-interval.json",
+      "bytes": 278483,
+      "sha256": "40305350764d4283f2df787009856d179d82c1f51bd7b75bfaa4ff8867d283b5"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-bad-malformed.json",
+      "bytes": 1,
+      "sha256": "021fb596db81e6d02bf3d2586ee3981fe519f275c0ac9ca76bbcf2ebb4097d96"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-bad-minmax.json",
+      "bytes": 278482,
+      "sha256": "5ad6f9d88a7ed69415c4a4313830d6aa6aad94e978f9eb7859ae439fae92f149"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-bad-missing.json",
+      "bytes": 276963,
+      "sha256": "9f1baaafe2951a30232d25d29b46a9bed3d3cbaab259b0480850268536d8da1d"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-bad-model.json",
+      "bytes": 278473,
+      "sha256": "1b308d635ecfc7c1711f1cb4e021548fe72dda2000425274cd594c41ccdbfa68"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-bad-nonfinite.json",
+      "bytes": 435042,
+      "sha256": "4d708c47a093ce45a218e4c56aba29e349d9f8a35ecd70383ed8d2aa3c7d05a9"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-bad-ownership.json",
+      "bytes": 278482,
+      "sha256": "a59ffdf62278607d4b436e4ff791bc71392ee0c0f680a2bd9c66b270e138b39b"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-before-bad-fit.json",
+      "bytes": 9802,
+      "sha256": "0a682cabf5b8a34d125323649c74c2dea747df76393564b77255e3f137c41031"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-before-bad-result.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-catalog-preview.png",
+      "bytes": 131902,
+      "sha256": "76e285884dc8662c7bd994db69d509eed814b3fd0dfbef69f0d37bbe6b1e92ea"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-color-hidden.png",
+      "bytes": 185228,
+      "sha256": "654506306d734f6c6a2a55968011f34cba7dbf31cfdb45c7b6bfee0305ea9794"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-compare-stale.png",
+      "bytes": 306062,
+      "sha256": "851fe92d632eda6c4f43006659e2dcf3bfd47bb9a26d4f2a884f61912cad4355"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-footer.png",
+      "bytes": 127479,
+      "sha256": "bf5e9c7fae4b00bbfe6ac7ebc0a1df72fc5b869b4337fb26d870128c35110353"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-import-error.png",
+      "bytes": 160292,
+      "sha256": "9c3e8ad2e1de552a3fb119a09a007103b0df7f100822cfd4ad74e8a661f8e0f6"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-initial-fit.json",
+      "bytes": 36260,
+      "sha256": "695d23d58add3a0b455dfd818680aca77a70489f914be99f5521c1155661ee23"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-layout.json",
+      "bytes": 1345,
+      "sha256": "35011c852a74de7edf629b0d3de8896aec982944d7c15c068d6c34c133ab83f0"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-opened-result-export.json",
+      "bytes": 435054,
+      "sha256": "a87bb321d144017998dd1ef9db91fd25d864b57fdbbfb5081ddf8edc62aca5e3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-opened-result.png",
+      "bytes": 147139,
+      "sha256": "f026941373a8a27df72875c285f683fbf8ae602036a6d822ecd58af07004eefb"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-overview.png",
+      "bytes": 148789,
+      "sha256": "814354ee09ed973512ea27740e825499a283271e669a6249d4c09ba03537f4f5"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-paused-freeze.png",
+      "bytes": 211481,
+      "sha256": "c0f3762f271871e3ba3404f6e3bff2963470d34bd5176f3c5d79099fdfd57e55"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-preview-cancel-fit.json",
+      "bytes": 36260,
+      "sha256": "695d23d58add3a0b455dfd818680aca77a70489f914be99f5521c1155661ee23"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-running-context.png",
+      "bytes": 171843,
+      "sha256": "c2e957409d613419bf4df47b089f4196b4defe52c20647b800940af0f645e090"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-selected-time.png",
+      "bytes": 237552,
+      "sha256": "6de6111fea33033438c78aa0c8b4ac73193b0aa84bc5f05616bc6565002e2a8a"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/1440-signature.png",
+      "bytes": 45380,
+      "sha256": "0a7703deb74c8c52952c858993ebd43ab649b3265f9e174dbb8cbbea42bdd1aa"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-A-partial-result.json",
+      "bytes": 434998,
+      "sha256": "0ad9df697b95e52ea1a648e12cfc993a17df200137c19a17d6384c7fe3541b3e"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-B-fit.json",
+      "bytes": 9799,
+      "sha256": "1fba595e18b65b79dc01cabd3d81dd2e66e0ad22f7cd79df42c77065a6263e0d"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-B-result.json",
+      "bytes": 435054,
+      "sha256": "63281516c985c38854c84e1f0aec4562673c9eee320ab3f04172e8e3c8e5f425"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-B-run.json",
+      "bytes": 314863,
+      "sha256": "32659958d8b359deecbc7c5b6f5590de895c115c98910689bf2813b25e4a51b1"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-B.csv",
+      "bytes": 50388,
+      "sha256": "891b9a55abf99b802763612c388cbed54382a6f272f0d26a8f0758a971afe07d"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-STOP.png",
+      "bytes": 86617,
+      "sha256": "4a126de7c93ee1a75111570fb6a98b9ce388ed834f1e527120b9c635423244f1"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-active-run.json",
+      "bytes": 397731,
+      "sha256": "29c83521953c58247aa805ea577380e99096abc908e18b90ce95dbe63368d2a9"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-after-bad-fit.json",
+      "bytes": 9802,
+      "sha256": "0a682cabf5b8a34d125323649c74c2dea747df76393564b77255e3f137c41031"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-after-catalog-result.json",
+      "bytes": 435054,
+      "sha256": "63281516c985c38854c84e1f0aec4562673c9eee320ab3f04172e8e3c8e5f425"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-after-count-result.json",
+      "bytes": 435054,
+      "sha256": "63281516c985c38854c84e1f0aec4562673c9eee320ab3f04172e8e3c8e5f425"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-after-dimension-result.json",
+      "bytes": 435054,
+      "sha256": "63281516c985c38854c84e1f0aec4562673c9eee320ab3f04172e8e3c8e5f425"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-after-interval-result.json",
+      "bytes": 435054,
+      "sha256": "63281516c985c38854c84e1f0aec4562673c9eee320ab3f04172e8e3c8e5f425"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-after-malformed-result.json",
+      "bytes": 435054,
+      "sha256": "63281516c985c38854c84e1f0aec4562673c9eee320ab3f04172e8e3c8e5f425"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-after-minmax-result.json",
+      "bytes": 435054,
+      "sha256": "63281516c985c38854c84e1f0aec4562673c9eee320ab3f04172e8e3c8e5f425"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-after-missing-result.json",
+      "bytes": 435054,
+      "sha256": "63281516c985c38854c84e1f0aec4562673c9eee320ab3f04172e8e3c8e5f425"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-after-model-result.json",
+      "bytes": 435054,
+      "sha256": "63281516c985c38854c84e1f0aec4562673c9eee320ab3f04172e8e3c8e5f425"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-after-nonfinite-result.json",
+      "bytes": 435054,
+      "sha256": "63281516c985c38854c84e1f0aec4562673c9eee320ab3f04172e8e3c8e5f425"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-after-ownership-result.json",
+      "bytes": 435054,
+      "sha256": "63281516c985c38854c84e1f0aec4562673c9eee320ab3f04172e8e3c8e5f425"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-bad-catalog.json",
+      "bytes": 278478,
+      "sha256": "9ac5710c8dd050873b5ba3da4a8dac15383ae79704dbb3fb3779b6ed00998ea7"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-bad-count.json",
+      "bytes": 278480,
+      "sha256": "7fa761ba3956dc1fb683052e4bcde806289eac9c211098368c5916e817327e5e"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-bad-dimension.json",
+      "bytes": 278480,
+      "sha256": "566c003b84186d24526973b0ff472c5c121cd055a6803816639f75ec42543ad5"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-bad-interval.json",
+      "bytes": 278483,
+      "sha256": "18c21b3d38db102f36e6b37994b9365422a789d2dea4413f2bb19e98222f0e63"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-bad-malformed.json",
+      "bytes": 1,
+      "sha256": "021fb596db81e6d02bf3d2586ee3981fe519f275c0ac9ca76bbcf2ebb4097d96"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-bad-minmax.json",
+      "bytes": 278482,
+      "sha256": "7ccf0e16e283219c2fa616ac0acf1c3614b069529c9483afcee5197685807297"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-bad-missing.json",
+      "bytes": 276963,
+      "sha256": "4f823e9d78c01d566c982dd0532f794225f063b679cb193f0886c19671b2cc4f"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-bad-model.json",
+      "bytes": 278473,
+      "sha256": "f903094957fb9e045cc345b204f8c2fb40bada5907c49a09d7427b55acc09f73"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-bad-nonfinite.json",
+      "bytes": 435042,
+      "sha256": "257c8e7d8450cfbe409c2fd8575146faa3795424eccad349552ad44a4b489eaa"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-bad-ownership.json",
+      "bytes": 278482,
+      "sha256": "33adebe411adca1cb5bbdf7e752de0430bec3e5577d297b2d5be22bee8e71145"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-before-bad-fit.json",
+      "bytes": 9802,
+      "sha256": "0a682cabf5b8a34d125323649c74c2dea747df76393564b77255e3f137c41031"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-before-bad-result.json",
+      "bytes": 435054,
+      "sha256": "63281516c985c38854c84e1f0aec4562673c9eee320ab3f04172e8e3c8e5f425"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-catalog-preview.png",
+      "bytes": 86198,
+      "sha256": "7569faeb9ccfdd417c49302f99dd1d455bd6f21353eef1a1656a3364aef65712"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-color-hidden.png",
+      "bytes": 119969,
+      "sha256": "b6b40b28256e3020846790e843fd0e29f1711331aff41661576efb4003b256cc"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-compare-stale.png",
+      "bytes": 377468,
+      "sha256": "e58f7141acc7a21a458a2592f0c4ec9e756cefc3f3e25ca4a6adc037743168c3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-footer.png",
+      "bytes": 85251,
+      "sha256": "472848230aba60ec5cd08923d473fa7703359aba55172371ff7e1ae590a784e0"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-import-error.png",
+      "bytes": 99953,
+      "sha256": "d0bfa994ce68822bb280daff76de9d245647ac943ac70aed115ce17422d389e4"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-initial-fit.json",
+      "bytes": 36260,
+      "sha256": "695d23d58add3a0b455dfd818680aca77a70489f914be99f5521c1155661ee23"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-layout.json",
+      "bytes": 1331,
+      "sha256": "e5d9cd1e4d1cac3c526768b492e6a1ccf2d9b278618c79d8373ed02667c7bef5"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-opened-result-export.json",
+      "bytes": 435054,
+      "sha256": "63281516c985c38854c84e1f0aec4562673c9eee320ab3f04172e8e3c8e5f425"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-opened-result.png",
+      "bytes": 101527,
+      "sha256": "6dcdc083e7b80a0846cde0e7ff1d6b58c1cba14cf8093c3dae7fe274f73b220c"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-overview.png",
+      "bytes": 116051,
+      "sha256": "213f17c019e7b9e7f20a5e8e47fa244433a0a42ad4e3be1237565a0a3cfa2e24"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-paused-freeze.png",
+      "bytes": 228024,
+      "sha256": "3537446b682c9fb2b1b036a72e888288f0337bbf774f8a4ee5366d3d04b555c6"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-preview-cancel-fit.json",
+      "bytes": 36260,
+      "sha256": "695d23d58add3a0b455dfd818680aca77a70489f914be99f5521c1155661ee23"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-running-context.png",
+      "bytes": 93873,
+      "sha256": "d902baf383dc6d3a8051a8516b2a527d412a81ce8a91ad428ac080969b3ea57b"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-selected-time.png",
+      "bytes": 167467,
+      "sha256": "286e8fe3c5efc318f7e4337196e6d3ab88c6c8b0d97cded94bef7ad170410537"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/390-signature.png",
+      "bytes": 47774,
+      "sha256": "8f05eaa2e799a295ca8ec3f780a6f2e67ead4197d1e0e46324c152440bb22df9"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-A-partial-result.json",
+      "bytes": 435001,
+      "sha256": "a45c3d44203add4c886fc8fa68e9126f1e9cc51a284833193e0571f1ecde2830"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-B-fit.json",
+      "bytes": 9799,
+      "sha256": "1fba595e18b65b79dc01cabd3d81dd2e66e0ad22f7cd79df42c77065a6263e0d"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-B-result.json",
+      "bytes": 435054,
+      "sha256": "60ce6384704522b3404577cd65fa20f937c8ebdeb9ee78d72b05b6b1f116eeae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-B-run.json",
+      "bytes": 314863,
+      "sha256": "32659958d8b359deecbc7c5b6f5590de895c115c98910689bf2813b25e4a51b1"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-B.csv",
+      "bytes": 50388,
+      "sha256": "891b9a55abf99b802763612c388cbed54382a6f272f0d26a8f0758a971afe07d"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-STOP.png",
+      "bytes": 158119,
+      "sha256": "792107d50b3d281ef6ae7ca5a6fad6d6d57e34d411a3af0f77183a0df3bb112f"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-active-run.json",
+      "bytes": 397731,
+      "sha256": "29c83521953c58247aa805ea577380e99096abc908e18b90ce95dbe63368d2a9"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-after-bad-fit.json",
+      "bytes": 9802,
+      "sha256": "0a682cabf5b8a34d125323649c74c2dea747df76393564b77255e3f137c41031"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-after-catalog-result.json",
+      "bytes": 435054,
+      "sha256": "60ce6384704522b3404577cd65fa20f937c8ebdeb9ee78d72b05b6b1f116eeae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-after-count-result.json",
+      "bytes": 435054,
+      "sha256": "60ce6384704522b3404577cd65fa20f937c8ebdeb9ee78d72b05b6b1f116eeae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-after-dimension-result.json",
+      "bytes": 435054,
+      "sha256": "60ce6384704522b3404577cd65fa20f937c8ebdeb9ee78d72b05b6b1f116eeae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-after-interval-result.json",
+      "bytes": 435054,
+      "sha256": "60ce6384704522b3404577cd65fa20f937c8ebdeb9ee78d72b05b6b1f116eeae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-after-malformed-result.json",
+      "bytes": 435054,
+      "sha256": "60ce6384704522b3404577cd65fa20f937c8ebdeb9ee78d72b05b6b1f116eeae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-after-minmax-result.json",
+      "bytes": 435054,
+      "sha256": "60ce6384704522b3404577cd65fa20f937c8ebdeb9ee78d72b05b6b1f116eeae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-after-missing-result.json",
+      "bytes": 435054,
+      "sha256": "60ce6384704522b3404577cd65fa20f937c8ebdeb9ee78d72b05b6b1f116eeae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-after-model-result.json",
+      "bytes": 435054,
+      "sha256": "60ce6384704522b3404577cd65fa20f937c8ebdeb9ee78d72b05b6b1f116eeae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-after-nonfinite-result.json",
+      "bytes": 435054,
+      "sha256": "60ce6384704522b3404577cd65fa20f937c8ebdeb9ee78d72b05b6b1f116eeae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-after-ownership-result.json",
+      "bytes": 435054,
+      "sha256": "60ce6384704522b3404577cd65fa20f937c8ebdeb9ee78d72b05b6b1f116eeae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-bad-catalog.json",
+      "bytes": 278478,
+      "sha256": "5f87d93f148a368189418e1cefc54eda33851c8f41a254c1bfb40b102e822a53"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-bad-count.json",
+      "bytes": 278480,
+      "sha256": "22992d01139acfccce1946e7145fe3dea8592075c1533bb8966e415ed201e00e"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-bad-dimension.json",
+      "bytes": 278480,
+      "sha256": "17c05c821671cac141768446f392ee9d748851c77c67e74723b18115448bc4ad"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-bad-interval.json",
+      "bytes": 278483,
+      "sha256": "d7eb927866a794166d7252be190861a7c1741d99401ba7ab9f6b05eb2e211510"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-bad-malformed.json",
+      "bytes": 1,
+      "sha256": "021fb596db81e6d02bf3d2586ee3981fe519f275c0ac9ca76bbcf2ebb4097d96"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-bad-minmax.json",
+      "bytes": 278482,
+      "sha256": "53d87bcf281f46c14ec8b30487535cbbc45665c38bb3f45cb1a1688a5a064991"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-bad-missing.json",
+      "bytes": 276963,
+      "sha256": "59171a6340b375dbb56999b9d9a05765b60e159e8d5d69228720b0298f887d3c"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-bad-model.json",
+      "bytes": 278473,
+      "sha256": "7ad28de055dac3af4b1846b6760d5f6255488264675a9447be35f9c5c961dc93"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-bad-nonfinite.json",
+      "bytes": 435042,
+      "sha256": "21b46cd39936b977cd94e61fd43f3e235280f9f0972b45b889ea95c4d59f6923"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-bad-ownership.json",
+      "bytes": 278482,
+      "sha256": "0dfac3fa4cd94680473ccf99d83e5a7da6cc4428cc55f18e3a5d88cf01bf85f2"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-before-bad-fit.json",
+      "bytes": 9802,
+      "sha256": "0a682cabf5b8a34d125323649c74c2dea747df76393564b77255e3f137c41031"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-before-bad-result.json",
+      "bytes": 435054,
+      "sha256": "60ce6384704522b3404577cd65fa20f937c8ebdeb9ee78d72b05b6b1f116eeae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-catalog-preview.png",
+      "bytes": 117690,
+      "sha256": "79022f1263513b6a3b95019ba6d5d789fdb4f009ffa237b03c37e2a690b56298"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-color-hidden.png",
+      "bytes": 153010,
+      "sha256": "07c1817276eaf3dd3ad4249c4ca3af6b014254146ee1036c2e5993332c507d4f"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-compare-stale.png",
+      "bytes": 281912,
+      "sha256": "69dcdcdabd1b085e48286de833362ef833bc05074d99f29537a5592b4b546296"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-footer.png",
+      "bytes": 121803,
+      "sha256": "80c2426ea710d8da555bcebc243a27cd7cd9940c58f2041bd1fad8f8bd282b78"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-import-error.png",
+      "bytes": 146624,
+      "sha256": "a77daec7880702f746ff0dbba71d66b044621b7e6d10d89769c5c3b05ced3438"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-initial-fit.json",
+      "bytes": 36260,
+      "sha256": "695d23d58add3a0b455dfd818680aca77a70489f914be99f5521c1155661ee23"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-layout.json",
+      "bytes": 1340,
+      "sha256": "926fab1cd39cf09ace6df1be854e514ec8508ce88ea427e9de59f989bd91cf69"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-opened-result-export.json",
+      "bytes": 435054,
+      "sha256": "60ce6384704522b3404577cd65fa20f937c8ebdeb9ee78d72b05b6b1f116eeae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-opened-result.png",
+      "bytes": 136182,
+      "sha256": "c86fa9b50d91ad93c5d9daca10d244d9e5fdf85d12acbab1251177c24fc275ff"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-overview.png",
+      "bytes": 163315,
+      "sha256": "6d51ad8c01ee5b9831ad5b9f071a1b3a251c30bf94c30cf8618cbf257ea57d91"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-paused-freeze.png",
+      "bytes": 153208,
+      "sha256": "0e05e4272ded098c79bce3f70228a211559389f563439896425a464fab019ed6"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-preview-cancel-fit.json",
+      "bytes": 36260,
+      "sha256": "695d23d58add3a0b455dfd818680aca77a70489f914be99f5521c1155661ee23"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-running-context.png",
+      "bytes": 148781,
+      "sha256": "f4bcfd5a696648e3ca1350933e991f7d269063925649716cb8ab595fecf88386"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-selected-time.png",
+      "bytes": 237959,
+      "sha256": "24dd28d181f23bb234a15cbc02efa1bc1ee82d8ce1ccc8fcf291c77c8251d577"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/820-signature.png",
+      "bytes": 35685,
+      "sha256": "c862dac74278954a0316d82b04c1b7dfad39cd8ac4c9ed2fb8aa23f5be1582d3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/H3600-comparison.json",
+      "bytes": 2717,
+      "sha256": "0b8c0bbf5592478dacb6f38a3fb3a2809e563ba09de67bc93356056a396cc58e"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/H3600-v3-result.json",
+      "bytes": 18405114,
+      "sha256": "5ab4999e97eb31996138e050b9f5dc9ae216342d52a6d6ee6a52ebdd6acb752c"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/H3600-v3-timing.json",
+      "bytes": 24605,
+      "sha256": "3ed4f9de50026d45f5c132d24c53db7c7b1d4a30e47585901476cb38221d9448"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/H3600-v3.json",
+      "bytes": 83201,
+      "sha256": "ed4d40c96ca7655286eef6d4e80f1ed22b9fee5b518b7db3d7f4239d5a17f56c"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/H3600-v4-overview-summary.png",
+      "bytes": 104275,
+      "sha256": "723f512444105840b9bb45a3b3139a11509467fd1fd5d8dd5bb514e33a25733e"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/H3600-v4-result.json",
+      "bytes": 18405114,
+      "sha256": "6eb95515c843714f1c87dc3b0777b46e5c5b46f4c9dfc8f08c63bcb2f7633f4c"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/H3600-v4-timing.json",
+      "bytes": 23620,
+      "sha256": "5512c2ff5eb94d3ec389347262068b539e7a17a80d158eb0659eda2dd2eaeb75"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/H3600-v4.json",
+      "bytes": 130588,
+      "sha256": "a8b9d2d623d7143c36bc216348edfadbdea22105b73b27924533099fd422d2bc"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/RUNNING-native-1440.json",
+      "bytes": 126981,
+      "sha256": "b08a88d2834cd22880b705827ec52352496078a866890011d9f59d1d610c3971"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/RUNNING-native-390.json",
+      "bytes": 108161,
+      "sha256": "b5e2d58b7bf30825443463ce23c1c48895bd78e941fd8e170e063fa2500613ea"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/V4-01-addressed-completion.json",
+      "bytes": 65894,
+      "sha256": "b2ce9594e5c758f9793d94c5f9c51b6c3cbe45a1594639690d0c5c6c20f8d770"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/V4-01-desktop-STOP.png",
+      "bytes": 195168,
+      "sha256": "f5697f7261642dbf8ad05fcfa2405e6d9622cce2c14c7872e68c3af4ce2d6e49"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/V4-01-desktop.json",
+      "bytes": 135550,
+      "sha256": "e82cb1ed0664c2ebe53ca73f527974c11a70e40c408b753d9dcd4833c71eb243"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/V4-02-boundary.json",
+      "bytes": 345487,
+      "sha256": "03b8ea457cfd055b2b481c5aa829ba45e0caa7d151a3d973774009e0d71e2402"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/V4-05-hypothesis.json",
+      "bytes": 107903,
+      "sha256": "6fbf5899101a4c353166d3cb6dda7cc2a350330d96d23fc8a4d7c70611d6b01c"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/V4-06-fit.json",
+      "bytes": 80649,
+      "sha256": "f056884a3434ddf2258bac560eec0c53cea365fde25db6e554c08d2507000dc9"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/V4-06-result-1440.json",
+      "bytes": 138096,
+      "sha256": "fd1c484c201b02f2e321fb22320640f304fca3b9d332a385fabd7d992be4eacc"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/V4-06-result-390.json",
+      "bytes": 118944,
+      "sha256": "950f05e5fee1bc296d53888be7f32736818ce3a8e289bc38f3984a5fd7c39840"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/V4-06-result-820.json",
+      "bytes": 138074,
+      "sha256": "535240c063385464fea2258023913b350c7fa8141f31038b528432ea3da4321f"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/V4-06-run.json",
+      "bytes": 189057,
+      "sha256": "385219cbbff781ef28c6c4b6861ffe9154df98e60861d4d49abd32644560a910"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/V4-07-1440.json",
+      "bytes": 414611,
+      "sha256": "7a4c47e1b138d5c8d4e90072d4ab12e846be2408fba8abd1397fef1a1b986eeb"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/V4-07-390.json",
+      "bytes": 528276,
+      "sha256": "4da2f42a63ec539ac0ac6cb66b01d62aa5c556b1620c4446845ede0328065030"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/V4-07-820.json",
+      "bytes": 560635,
+      "sha256": "d4f8ea096e657c3e8456cc74d192705614ec020cf3ecd692ea4d1e11b959b66a"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/advanced.log",
+      "bytes": 279,
+      "sha256": "aa8b2fd38eb3a11acf0f3ae8cbb68f63c4ffcfc6e47795a82f90cd04ff338f2d"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/advanced.mjs",
+      "bytes": 8813,
+      "sha256": "f753eead1738e5e668af08ae4e12f2da58dc742abc7e4971f6c94ca95b17ebf2"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/binding.json",
+      "bytes": 48606,
+      "sha256": "d26da010a44fdc948c58fbe85855d8939128ff61be04f9c8b6ba839b3608f504"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/boundary-before-first.png",
+      "bytes": 162168,
+      "sha256": "78d0c46527967fbcb314a6b9cdefb2a14b27fa2760d52214093b2deed130a51b"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/boundary-first-queue.json",
+      "bytes": 266,
+      "sha256": "4fb612b62e67c381aea7bd0070c73b2854d7a50e2a1b2f6ee91dad82f76c5762"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/boundary-late-genuine-A-frames.json",
+      "bytes": 365,
+      "sha256": "1c07178b04d8d7323a632e56d40503b7a37dac401505284420d722520a87a142"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/boundary-new-B-queue.json",
+      "bytes": 275,
+      "sha256": "f7c97cd99495abfcd3c0da8eff62e5f1bc6feef5dbd8271e54986143d805982b"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/boundary-new-B-result.json",
+      "bytes": 325880,
+      "sha256": "644c6a5d761ed172f43747e2709b660220c06ae3d7711789d06ca9aaca1fd6bd"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/boundary-old-result.json",
+      "bytes": 448196,
+      "sha256": "13365baa2f872c6066343b07dc36e525fe6b1ad4fda674213da59ca23d289c38"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/boundary-prior-export.json",
+      "bytes": 448196,
+      "sha256": "13365baa2f872c6066343b07dc36e525fe6b1ad4fda674213da59ca23d289c38"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/boundary-terminal-B.png",
+      "bytes": 155210,
+      "sha256": "353a8fb0facb0ab9221f4dcf47025d5fbb2a4e66aa6e118761baa7295b873aae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/builtin-details.png",
+      "bytes": 87499,
+      "sha256": "6f5422893ad5be80bc9d9460e07f5a24064784fb5d5fb431438b1fcfcf31ad7b"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/chains-point.log",
+      "bytes": 188,
+      "sha256": "2fc578ebb901b6cd65124ed679b4a1c00cb2cef6ed905d316c7d456aa76d58f0"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/chains-pre-run-syntaxerror.log",
+      "bytes": 2394,
+      "sha256": "c64434b73665f61682b13f51e1e49f49f5f577c06bfd8e052954edb516db8958"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/chains-pre-run-syntaxerror.mjs",
+      "bytes": 16460,
+      "sha256": "5dfdf879c4d9abeeb5ae814a2064a8f1d25ececce56e872faf09279ab6cd1a73"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/chains-summary.json",
+      "bytes": 147,
+      "sha256": "77217e806661209f4a1e0e9143bc36a57a49c0c87aa06154570113bf082a036d"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/chains.log",
+      "bytes": 1666,
+      "sha256": "34da0efaee8ed0ca9fdfc2a9261f41b70dca1c71bba4f25444d1f481d0aa00de"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/chains.mjs",
+      "bytes": 16459,
+      "sha256": "9fa8f79d8c20295e775e9080f1a51f0a6586ef28aa063e1d9aa9169c8377eeec"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/completions.log",
+      "bytes": 76,
+      "sha256": "dea42b0b751193a137c81aacbee6db372b4d7c0f3743c54fe948c59ce5cc88f0"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/completions.mjs",
+      "bytes": 6245,
+      "sha256": "76a698390851d6ce0912e0e4c0315827767300d8f9c52016c598d08183130c48"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/fresh-fit-opened.png",
+      "bytes": 185699,
+      "sha256": "6c7e4a2f658f9865ced850b88d7b4aa9c0c6c31bfce18becffea9df3a7604ec0"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/fresh-hypothesis-fit-export.json",
+      "bytes": 40496,
+      "sha256": "db83f09245aaacbcecde89d13e1901f0962eea2cf002615d9c7172744c2576dd"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/fresh-hypothesis-run-export.json",
+      "bytes": 408948,
+      "sha256": "002c73460a4f6bb24765c9bbf8187d019737a008b2fdebcdbdb25070ec0bafae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/fresh-replay-own-context.png",
+      "bytes": 167320,
+      "sha256": "b6a8f7fe5f17c364114757bd59fd9042790882cd5d443aff73639a85e864ed0c"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/fresh-run-opened.png",
+      "bytes": 167320,
+      "sha256": "b6a8f7fe5f17c364114757bd59fd9042790882cd5d443aff73639a85e864ed0c"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/gd-v4-operator-defects-note.md",
+      "bytes": 2891,
+      "sha256": "06e97a564451629d91b36bfa73fb4da44900b46976745e351d0ae428ddfd219b"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/gd-v4-operator-layout-note.md",
+      "bytes": 4115,
+      "sha256": "b5fa2801eda3f90c9115f0ca607a36f15f336ffdfac4f46b4ad0fcc6d675bcf5"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/hypothesis-active-after-invalid.json",
+      "bytes": 408949,
+      "sha256": "a7ff171463706a5797bbe0e196db91b6f3ba2aeb929d970dbfb50d8ae7db56c4"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/hypothesis-active-before-invalid.json",
+      "bytes": 408949,
+      "sha256": "a7ff171463706a5797bbe0e196db91b6f3ba2aeb929d970dbfb50d8ae7db56c4"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/hypothesis-after-invalid-fit.json",
+      "bytes": 40496,
+      "sha256": "4858571b1175b5a4508e7d51985fcb28fd16f546e4469f272a0133d5d730de1a"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/hypothesis-after-invalid-phase-run.json",
+      "bytes": 408948,
+      "sha256": "839fc6cfd989e0944f44ebf324fd85c18c84218f26da94df146a5675f6252f4a"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/hypothesis-before-invalid-fit.json",
+      "bytes": 40496,
+      "sha256": "4858571b1175b5a4508e7d51985fcb28fd16f546e4469f272a0133d5d730de1a"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/hypothesis-before-run.json",
+      "bytes": 408948,
+      "sha256": "002c73460a4f6bb24765c9bbf8187d019737a008b2fdebcdbdb25070ec0bafae"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/hypothesis-fit.json",
+      "bytes": 40496,
+      "sha256": "4858571b1175b5a4508e7d51985fcb28fd16f546e4469f272a0133d5d730de1a"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/hypothesis-invalid.png",
+      "bytes": 161224,
+      "sha256": "241e36803ac8a15d06f6ebb17540f7db37c0439db3dbe8483c764cf4c2be762c"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/hypothesis-no-repeat-result.json",
+      "bytes": 494336,
+      "sha256": "adf0fce681e01d2b42cd6919894df5d41aa0c3926a09957686f7b5aa05c906d5"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/hypothesis-result.json",
+      "bytes": 556379,
+      "sha256": "941d295b74e41540957e132e6ad1d620aab42848d2436ee5345fe0de71135e51"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/initial-1440.png",
+      "bytes": 176860,
+      "sha256": "413ef4b67f7d3bba48343d948913bce5efb0700f4c805512edb8b4414cc25312"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/initial-390.png",
+      "bytes": 83684,
+      "sha256": "1eb22bd0268f811a8ae9a86a031db7f2668b3214909dbf24dc860b354727d63b"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/initial-820.png",
+      "bytes": 135402,
+      "sha256": "2e4d37e13bf14bd9f07277f5946ed335f160e2b2d2cc971c404bc0edbcc1c8a6"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/inventory-1440.json",
+      "bytes": 71947,
+      "sha256": "12d7ae05d43e1d0423f886ae0c27e7e98dbf8ee83f001925eb41208cc84e59e8"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/inventory-390.json",
+      "bytes": 55346,
+      "sha256": "7d0465cc7d3bc70a5530c81237d5eb92e2b6b3894189732f2bb00165c8f1d96e"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/inventory-820.json",
+      "bytes": 71936,
+      "sha256": "11dc9ee5241765757fc45b93cb52b341730b8b36f8738001ebbc962bc7825a0f"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/inventory.mjs",
+      "bytes": 356,
+      "sha256": "ae11597d4426cf6ee3d2c768b22d79c83313ce21c11b960910a1d211c4216808"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/locator-stopped-history/1440-STOP.png",
+      "bytes": 201604,
+      "sha256": "453e81002e63592b98ec5427e720151099dda764b253198f5e6f1d66de7714a3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/locator-stopped-history/390-STOP.png",
+      "bytes": 86617,
+      "sha256": "4a126de7c93ee1a75111570fb6a98b9ce388ed834f1e527120b9c635423244f1"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/locator-stopped-history/820-STOP.png",
+      "bytes": 158119,
+      "sha256": "792107d50b3d281ef6ae7ca5a6fad6d6d57e34d411a3af0f77183a0df3bb112f"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/locator-stopped-history/V4-07-1440.json",
+      "bytes": 197019,
+      "sha256": "9441b8f8ba3146e10d3b3268a25d48d6ede86f5aa4985952966c8df4a47a6cfd"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/locator-stopped-history/V4-07-390.json",
+      "bytes": 180008,
+      "sha256": "bd998b0e0e2118623ba20d2e0daa4e65356561f3b66a483054543e4215e55214"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/locator-stopped-history/V4-07-820.json",
+      "bytes": 192976,
+      "sha256": "679cb588041619eea953686f8796d4d95f3314cdfd0500bf20a66a4de465e738"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/locator-stopped-history/chains-summary.json",
+      "bytes": 1937,
+      "sha256": "d1125b85c4c15d517129abb6f666ff4327c8f4278f4c651a52c8d143e4d6b77c"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/locator-stopped-history/chains.log",
+      "bytes": 1666,
+      "sha256": "34da0efaee8ed0ca9fdfc2a9261f41b70dca1c71bba4f25444d1f481d0aa00de"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/locator-stopped-history/chains.mjs",
+      "bytes": 16459,
+      "sha256": "9fa8f79d8c20295e775e9080f1a51f0a6586ef28aa063e1d9aa9169c8377eeec"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/performance.log",
+      "bytes": 1988,
+      "sha256": "8ac67aa40fb498e7c194b6cf30d1516d90dd42714b68bca4bad4daa805415735"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/performance.mjs",
+      "bytes": 4549,
+      "sha256": "68ad4bfe88aeaca6430e9842f906af5901ac53577b4f1dd4c1de37ce8044ba67"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pointer-boundary-1440-input.json",
+      "bytes": 668,
+      "sha256": "9c98759170b65e1a2cfdd7186167ec191af2949a7baaaae61d1d629ee376dc32"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pointer-boundary-1440.json",
+      "bytes": 166920,
+      "sha256": "a64da9c0f6b214e361caaa31d0ea203544746b4896e706fb3ced517ecf6220c1"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pointer-boundary-1440.png",
+      "bytes": 175852,
+      "sha256": "ea6075e54d7afe37bceb03b0be5da828ad9d6c9985a9fbe5f90affceab09d7d8"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pointer-boundary-390-input.json",
+      "bytes": 894,
+      "sha256": "10d672265db831b691f735f276eec7a3d275eabef15fbe95c6cff2429c0fffdd"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pointer-boundary-390.json",
+      "bytes": 193105,
+      "sha256": "fd162a93842a3406c1963704b287aa4176d3e7e346ee9eabb54106d1f1a4be27"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pointer-boundary-390.png",
+      "bytes": 71178,
+      "sha256": "fb74b7299510b5e8ea2795a8472bae4e09b9950f70cea0163a52bca61f3c2b89"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pointer-boundary.log",
+      "bytes": 502,
+      "sha256": "25e6f7f450a2bcb5c85d699f8cd78a521317e53c5c100c69058a4b43bcebf724"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pointer-boundary.mjs",
+      "bytes": 2548,
+      "sha256": "e289856fcffe51fcb8e8eba7ca2ee1407bcacd94ea3be884d62f4f130a685243"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pony-original-after-clone.json",
+      "bytes": 36412,
+      "sha256": "bb1366fff93b917707ebf56ef8514542801158fdde7e9197761c1719e09336eb"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pony1-fit.json",
+      "bytes": 36111,
+      "sha256": "d09b8623e118053aabcb38180097bd9ada965f7cf71880baffaadf7de84ffa3c"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pony1-run.json",
+      "bytes": 378742,
+      "sha256": "44480a5276450105a3963b705661e287ebf6b8ad1e5e4210c6a841528081b5d3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pony2-fit.json",
+      "bytes": 36260,
+      "sha256": "8cfddc5a72a412b189b5f13c0f4bb8117e329e83eabd6c4c92f3ed9212987fc5"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pony2-run.json",
+      "bytes": 397731,
+      "sha256": "1d7829fe39cf930273347d2afcfb0c7f1c073718d1520b61141edde3aa6f06c4"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pony3-cargo-fit.json",
+      "bytes": 36412,
+      "sha256": "bb1366fff93b917707ebf56ef8514542801158fdde7e9197761c1719e09336eb"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pony3-cargo-run.json",
+      "bytes": 414814,
+      "sha256": "c7d7cedc9281db2d918c549b22171b495ffbc7b5d1f914db420a3744ab2074b7"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pony3-fit.json",
+      "bytes": 36409,
+      "sha256": "bd5b2210f4fbebf75a1a1c73ae7e41030107ff043b92c23d77113109480f2dde"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pony3-restored-layout.png",
+      "bytes": 168080,
+      "sha256": "c7a9721d2b645f885a659ad0ccad7c4846dfb9a4604bf48a9878359d0b8b40b7"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pony3-restored-run.json",
+      "bytes": 416720,
+      "sha256": "d09c82f37a728d8c47c79a2a51543ddeeea15c068d0b65358e621be9800a5f97"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/pony3-run.json",
+      "bytes": 416720,
+      "sha256": "67e3c40e790f05f405ae8133358644e907c09495b2403f4d251c73c3728cae6f"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/reviewed-source/src/app/fitting-ui/dom.ts",
+      "bytes": 2183,
+      "sha256": "ce62b506f348a36368edfc95ff3860038bf5b3e2b6101b1192ad8701597eec72"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/reviewed-source/src/app/fitting.ts",
+      "bytes": 35500,
+      "sha256": "fcf5ef1f385e5c72cdefd65bbd8131b0ce0d55df61cda92b80b70314721215ba"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/running-native-1440-pointer.json",
+      "bytes": 447,
+      "sha256": "349b528676cd74f076364c997b7052364435def0b38f9c9d464e0b31eab6b6b4"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/running-native-1440.png",
+      "bytes": 146318,
+      "sha256": "eda180f54d09e69bc4998d00d5ef501cb9675d6bfdcac85af23a2fec95fa4133"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/running-native-390-pointer.json",
+      "bytes": 333,
+      "sha256": "786e3b7890276d5f48d00a3aef0521ad8f410d0a0c377596cc584f2d3327315f"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/running-native-390.png",
+      "bytes": 79336,
+      "sha256": "c8f3109899a934c94043555fa768f122b36fd2a17479c1f07ed2c7f47a7c414c"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/running-native-probe-boundingBox-null.mjs",
+      "bytes": 1757,
+      "sha256": "2466e7c5ffc59af0cbb9215c353f24e0100c52ef0249a3229dd74cfcc9bb637b"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/running-native-probe.log",
+      "bytes": 746,
+      "sha256": "64ab49a22f864c3736fc14d57a0af3198866a75783856219e82c438f6cc2004b"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/running-native-probe.mjs",
+      "bytes": 1860,
+      "sha256": "fcc718c260ab4e2abcfed1f3a2134eeba4a4c3d167f2a3dc5e1556db65805542"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/saved-evidence-check.json",
+      "bytes": 1018,
+      "sha256": "c1654a7fc9b82441ca16ecb3dd28af68577e2a54bf5efbc0af147360d5263a36"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/util-locator-original.mjs",
+      "bytes": 7576,
+      "sha256": "42f15c2f2317a8ebb87a43d15151aa4211539265269239917d24dd4396974e1c"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/util-point-before-boundary-ref.mjs",
+      "bytes": 8041,
+      "sha256": "b6f006f422ff94290fa7ff2951154e412fa93392da1ae20a774ed5f8ba836d5e"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/execution-r1/util.mjs",
+      "bytes": 8088,
+      "sha256": "55dbfb3f3d1f437921484e6f8be71b0b6e7ea792d6953a828ac78cfc16a83616"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/gd-workspace-v4-qa-execution-r1.md",
+      "bytes": 16179,
+      "sha256": "af5d438223641fedb6ad6de65509324ae6c21a044f63b7bcac1b5a108014c05f"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/gd-workspace-v4-qa-case-results-r1.md",
+      "bytes": 3495,
+      "sha256": "959046e82cb3fc60608e6e584dddaabe20c89991bcd38da14a9d140b2d4dc225"
+    }
+  ],
+  "preparation": [
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/gd-workspace-v4-qa-case-plan.md",
+      "bytes": 39783,
+      "sha256": "03ea16a455ef1f4d093c21d5a203bb727c0dff4aeeaa0a6d5994016c280c62f6"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/gd-workspace-v4-qa-cases.json",
+      "bytes": 36284,
+      "sha256": "f0d88bab3646586a5cb6629a90a64f9e7681f60970c4c80e41f7a746e7dfad6b"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-qa/gd-workspace-v4-qa-preparation-manifest.json",
+      "bytes": 8603,
+      "sha256": "a875324dd99ee822e4835597de25b74fa9399bc45a104361477e69318ce89cc0"
+    }
+  ],
+  "rawFingerprintMethod": "SHA256 UTF8 sorted relative path + NUL + file sha256 + LF",
+  "rawFingerprint": "492591c73504ccd61f035edc10fd5e476ac40c2afa7a9592a31fd0d1d7921b6d"
+}

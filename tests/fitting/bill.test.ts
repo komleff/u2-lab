@@ -1,9 +1,9 @@
 import { it, expect } from "vitest";
 import { getPresetFit, loadCandidateCatalog } from "../../src/fitting/catalog";
 import { compileFit } from "../../src/fitting/compile";
-const c = loadCandidateCatalog();
+const c = loadCandidateCatalog("ship-fitting-0.2.0");
 it("swap rebuilds dry mass and C once, contents add neither dry mass nor C", () => {
-  const f = getPresetFit("industrial-M:2");
+  const f = getPresetFit("industrial-M:2", "ship-fitting-0.2.0");
   const a = compileFit(f, c);
   expect(a.ok).toBe(true);
   if (!a.ok) return;
@@ -22,8 +22,8 @@ it("swap rebuilds dry mass and C once, contents add neither dry mass nor C", () 
   if (d.ok) expect(d.value.heatCapacityJK).toBe(b.value.heatCapacityJK);
 });
 it("builtin cargo contributes distinct nonzero bill; duplicate laser instances independently counted", () => {
-  const a = compileFit(getPresetFit("pony:1"), c),
-    b = compileFit(getPresetFit("pony:3"), c);
+  const a = compileFit(getPresetFit("pony:1", "ship-fitting-0.2.0"), c),
+    b = compileFit(getPresetFit("pony:3", "ship-fitting-0.2.0"), c);
   if (!a.ok || !b.ok) throw Error("not ready");
   expect(b.value.dryMassKg - a.value.dryMassKg).toBe(4400);
   expect(

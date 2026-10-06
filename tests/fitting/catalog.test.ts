@@ -13,7 +13,7 @@ describe("curated catalog", () => {
     );
   });
   it("six_presets_and_40_items", () => {
-    const c = loadCandidateCatalog();
+    const c = loadCandidateCatalog("ship-fitting-0.2.0");
     expect(c.hulls).toHaveLength(6);
     expect(Object.keys(c.items)).toHaveLength(40);
     for (const h of c.hulls) {

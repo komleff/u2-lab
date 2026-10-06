@@ -1,0 +1,448 @@
+{
+  "role": "Independent Reviewer / Codex",
+  "mode": "CODE_REVIEW",
+  "model": "Exact provider/model/deployment ID is not exposed in this session",
+  "commit": "131570d8f018d3617067bb558099f68aff7c9a53",
+  "baseline": "f52fa386a71183267e75d9b03def8dfa579d6af3",
+  "changedReviewedPaths": [
+    {
+      "path": "docs/user/ship-fitting-ui.md",
+      "gitBlob": "f6842dff129cd779bd394b8c13f4eaa6a832b59b",
+      "baselineBlob": "0f8d1f4e659d60061d4f5c32569918d7e18367da",
+      "bytes": 9335,
+      "sha256": "ebe852285390641bd80c0d279cafba78bfa140c3258d7db54d09f91a3294b184",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/app/fitting-ui/compare-view.ts",
+      "gitBlob": "c6c74427feed5582444f4edbf9fd33fe914a7278",
+      "baselineBlob": "145ccfffb5801d02f0992bd955dd7dbf5aa0e7bd",
+      "bytes": 11015,
+      "sha256": "823937bdb7359632d13e4f931d31b7494077e090252e643bf04711233dccae25",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/app/fitting-ui/conditions.ts",
+      "gitBlob": "a5cb4750f08fa593781806f72fd712f48fbe7ba7",
+      "baselineBlob": null,
+      "bytes": 1026,
+      "sha256": "02fe7473f0242bdb9f800697d563fdf978ce84e354b4bd23103f6f8187f2b53d",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/app/fitting-ui/lab-channels.ts",
+      "gitBlob": "e1309c468dab24db894a243322587cd84e837b8c",
+      "baselineBlob": "95719d313f676dd84cd1a9afd638bf82334d173b",
+      "bytes": 5123,
+      "sha256": "7b53abda05c0d9bba8780038f025c4040d66bacfaa315db3e4262a5e0552a1dc",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/app/fitting-ui/lab-view.ts",
+      "gitBlob": "cb340450af75ab1644e2530583d723165d90cac9",
+      "baselineBlob": "7c2afd89f908a1a834d65d187931ef8a95bbc56f",
+      "bytes": 15053,
+      "sha256": "4340deed34ebbb70506ffdf8daa3ad39d31ebb39f3ab727286700c4fae761b39",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/app/fitting-ui/local-variant.ts",
+      "gitBlob": "42d9349000b196663ecead45e5e98b258b9cf11d",
+      "baselineBlob": null,
+      "bytes": 1123,
+      "sha256": "f09f72b4fa43cedc8972db105de2676a9e37fac7ffc513d40b7cd56bf284dfa0",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/app/fitting-ui/presentation.ts",
+      "gitBlob": "135df79f9cf9040e685f7bd62d4638f7cf33de04",
+      "baselineBlob": "44030c7fb716a3f4b057ded2afb24a985cc07a6a",
+      "bytes": 7768,
+      "sha256": "322b18f31d84722cb0491a39eb6b94e9c827f26f9f95af402671e1270d4aa5ca",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/app/fitting-ui/result-context.ts",
+      "gitBlob": "58807abd708eb00fec96b03a60a74fa5ee383867",
+      "baselineBlob": null,
+      "bytes": 1690,
+      "sha256": "cedc2f110082eb345cf25b47d626565a7719ad94aad892aafa49fa736158a516",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/app/fitting-ui/ship-view.ts",
+      "gitBlob": "42810a2924473f77c27cfc33427a760c1a6c012b",
+      "baselineBlob": "d356059caa5a2161c167cf74810fba1f23eb014a",
+      "bytes": 11282,
+      "sha256": "36b07d0afe70be592512d2a6fbd99f69356d14a98737c3761dc5f0ea4d0cd448",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/app/fitting-ui/trace-chart.ts",
+      "gitBlob": "25b64fdd78a0248b1a63ec39293e8fb9bdeddb8d",
+      "baselineBlob": null,
+      "bytes": 4411,
+      "sha256": "753b790c203e3995b22d8b6a23b880632b69afc7898fbaea105b3666acc61677",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/app/fitting-workspace.ts",
+      "gitBlob": "d589d2e13bfe4601121c334d27f98038b2d18a4a",
+      "baselineBlob": "6abda3960cfae3e6b18eb0e72a8692695bba0d3d",
+      "bytes": 9133,
+      "sha256": "a47c3ce2fed9bd17fbea782ed2bf2b23e50b8746cc3a8698053555ac48c508cc",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/app/fitting.css",
+      "gitBlob": "a5170feecea57e92bd8ae88a86fec92f5e45af93",
+      "baselineBlob": "7a3925472c0f64309c6f261468d3030048e2290c",
+      "bytes": 27481,
+      "sha256": "b586320f3cb7b82f41b7cee4de139aaa66afb5b79251206c4a6eefcf74007910",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/app/fitting.ts",
+      "gitBlob": "cdcfd0ed4de378d39cd6b8ab500283ca2093d5c2",
+      "baselineBlob": "9cf02266db9649886302e27fec30477598178505",
+      "bytes": 35410,
+      "sha256": "b1fdc28fe6f2525c6aa3ac598e5d68482cb7ca6e094636fff80f31ae3309df9f",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/fitting/catalog.ts",
+      "gitBlob": "68b536ad21b7c586f98709fc20de6af3e4c5392d",
+      "baselineBlob": "57cd8b5deaa723e30736c1a5f9a9d70871c60a61",
+      "bytes": 7679,
+      "sha256": "fdb7ca85037abfbf96317496ded89d4381716cec139266fcc4d87e336138b6e9",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/fitting/data/modules-0.2.1.json",
+      "gitBlob": "30b6827955012cda639114a661698417b14fafa5",
+      "baselineBlob": null,
+      "bytes": 27232,
+      "sha256": "1f5d5e490d45b9cb7ef70f9cbdb4ae6fa56accc0accf8b66aef50e84e213df95",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/fitting/editions.ts",
+      "gitBlob": "ca40baa0e05c2b84224edca1e32efd54e0e50ae2",
+      "baselineBlob": null,
+      "bytes": 974,
+      "sha256": "584da3685a99d88bcb2d24922b76a8d5dfd8d46b99f3452c91a517c80f2b25f1",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/fitting/types.ts",
+      "gitBlob": "4168d43c6d02a44c7f93cd0f71cc89c3a42a6a12",
+      "baselineBlob": "3d424945b306c669b6216bc56d1b00be6ee606d6",
+      "bytes": 3416,
+      "sha256": "3a6f56f27b8a60fc49bdd047fffeceef834c7aadaa5220f5e7098d16fe5dc9a8",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/fitting/validate.ts",
+      "gitBlob": "4dfb91f5265823da6ba09c84ab916f05d13e628b",
+      "baselineBlob": "8b49296c785a5fa75edfd840ddf2c784ff93f74c",
+      "bytes": 12212,
+      "sha256": "697f2074f062aa53d1a7803704354e6930ccec2a0beb345b256afc115769a928",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/io/fitting-json.ts",
+      "gitBlob": "32dcea33a86e2575d0dbc5be8abcb383fd9820fc",
+      "baselineBlob": "f77387afd849d765ad24e8b2ba973637e6ad92a5",
+      "bytes": 2902,
+      "sha256": "f9f29afeaf5ba940f71275372dc82d8e231ba06a3b0da9bffa3c9ba720f59c00",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/io/fitting-result.ts",
+      "gitBlob": "a7fabca6dbdf6d414c2665a38c2e3d024b5815fa",
+      "baselineBlob": null,
+      "bytes": 13327,
+      "sha256": "a74a6e6ef00f2cf3caad221f11facc93b07d880bf8eab0b123f7966c5bf3d38c",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "src/scenarios/fitting.ts",
+      "gitBlob": "090591f787693d6c894ba718bcfae999dc074901",
+      "baselineBlob": "92042fa5db627550c9c0fe824cd75d3c5a38ba58",
+      "bytes": 5022,
+      "sha256": "0314034856f465db41f783023fa21dae8206b514317b834f877fc1039f368ab3",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/browser/catalog-0.2.1.spec.ts",
+      "gitBlob": "158ad6bdc8cc2edb078080ea95f25a550b72d787",
+      "baselineBlob": null,
+      "bytes": 6539,
+      "sha256": "7e41869ce0751d5625b3ef95e5ded74682a7d2d7a8470afd6e4d7df13d0d545c",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/browser/claude-ui-fixes.spec.ts",
+      "gitBlob": "40320fa6b8355770fa8b3a208e156367fb9f7d3b",
+      "baselineBlob": "fe9512b555dbb744d9c1187289d2d78e427bb501",
+      "bytes": 12426,
+      "sha256": "e74221800523066a2b71730bc994ebbf22559ac86c420b512415ddab3f7a5816",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/browser/claude-ui-review.spec.ts",
+      "gitBlob": "1b75dd10c90375c100ed13c2c3ac7535a7925a3d",
+      "baselineBlob": "5bc81ac7edfa156fa7b266f892042861ac3d83ec",
+      "bytes": 5663,
+      "sha256": "e518f0e1e9805eff0c710fbfc4c9006495e9f674cf686b94bf92710528d934bd",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/browser/claude-ui.spec.ts",
+      "gitBlob": "43ebb87bfddc5553e8129ad12d28a5eb83c1dece",
+      "baselineBlob": "6d7c2f6703c61614e5626626f9b98579d6bf6996",
+      "bytes": 8220,
+      "sha256": "91fd34cbd9477b74c0db5b0b03463a0745ee33c6827c745ed1b2471185912a77",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/browser/fitting.spec.ts",
+      "gitBlob": "92db19fe409bc781971d5e742c8bf7654ca7d36d",
+      "baselineBlob": "18750d36b5909551cafee900a4639a39076b9fee",
+      "bytes": 17331,
+      "sha256": "d8c8ceea6cb711b81d77adf45160af58ce26272422c932a38a1ffd82fbab08ba",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/browser/gd-workspace-v4.spec.ts",
+      "gitBlob": "3b8e9e40f9ff37d243441f1ad934234e3895b94b",
+      "baselineBlob": null,
+      "bytes": 16014,
+      "sha256": "43391aff55ad63b593be17cf2b4926595d0997be004a6e142c8a39ea7fe8584f",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/fitting/bill.test.ts",
+      "gitBlob": "e671ac5394048d6dd1b3b6b43d25488d49f6b16c",
+      "baselineBlob": "7724b9de8980a9fedb2ace73bc9b90be3b1aed8c",
+      "bytes": 1544,
+      "sha256": "06db717ca064a7cacbe9e041cc8f549f60c89adc8079669dca2d78a84ee31fe4",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/fitting/catalog-0.2.1.test.ts",
+      "gitBlob": "24afe3db313871785f4537be933ec937e226bced",
+      "baselineBlob": null,
+      "bytes": 7586,
+      "sha256": "b810a1db005dabf2cd01e9664f949715b00fd2975bd9bf199039a58423863f5d",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/fitting/catalog-editions.test.ts",
+      "gitBlob": "45be1a51a5b6585c933f9d5d852f76128f268abd",
+      "baselineBlob": null,
+      "bytes": 5453,
+      "sha256": "ac9ec7c87e21935a5df0690da0b94f426a245cbcd697c756e696a89ba406a3db",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/fitting/catalog.test.ts",
+      "gitBlob": "30daa8a8cb1bb95d5c0e1a886cef943814c2c534",
+      "baselineBlob": "a817a29b7ef712bd5c8a20eeb3c12aa0da3e1986",
+      "bytes": 2968,
+      "sha256": "3ae9b32a9bf7710aa7f03b6e02fc2f51dca785504d80f7475e905e9effd5e013",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/fitting/fixtures/catalog-0.2.0-digests.json",
+      "gitBlob": "2882c9021ac924f94d742b04eb84ba4398d00b80",
+      "baselineBlob": null,
+      "bytes": 7254,
+      "sha256": "cc937f04385c6cf462232d531fe786971f17da93205316e775ffd989e28ec16c",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/fitting/matrix.test.ts",
+      "gitBlob": "3f948b7d1d2643b60a9ba5a2d9db206129ef70b6",
+      "baselineBlob": "3fa7e51e8a2d839b2437df72fdda5d25f1f15bd1",
+      "bytes": 9808,
+      "sha256": "e938cb54a316c62c2b0572d6d0b18f7bb876da429df8a64d1cb573a2144c8385",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/fitting/source-fidelity.test.ts",
+      "gitBlob": "24f04ff18f663221f06db760cb554d6851c0f7c6",
+      "baselineBlob": "6c2f162d5c35c13a260342ed0e6ad349d68bd5a4",
+      "bytes": 10235,
+      "sha256": "dedfd2448c5044d02ae44c8edd20bbc152047d35595ec31016d622a50f17908d",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/fitting/test-spec.ts",
+      "gitBlob": "b8c293828a9006d09d0521a5806a457bdd3000d6",
+      "baselineBlob": "5ef1e0f932818a3f0275575a365c96f9f2976bcc",
+      "bytes": 1947,
+      "sha256": "c27dc1b2f2659dc474c87c70419d7d2192436b538bd9105bd1e959fcb6b95300",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/fitting/worst-fit.ts",
+      "gitBlob": "4e4e148bb29621d20c094e07758993bd9573ee5a",
+      "baselineBlob": "70e48b70c0af9762eb1c1b345dde95f7032371f0",
+      "bytes": 1382,
+      "sha256": "44c7443a0fff4ec6a6959445f8aa03f9752f1b68ac99773854306b8e6ef0a74b",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/ui/code-review.test.ts",
+      "gitBlob": "2183fe335ea1d0125241be4fd76642dc68a8d66d",
+      "baselineBlob": "c611d460d70449996266fb9d78798b75bd69f5b1",
+      "bytes": 6383,
+      "sha256": "b0ac46c9d8921954ce541c9d73e4544fd8d8de49b0bc18666702c274444799e1",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/ui/gd-workspace-v4.test.ts",
+      "gitBlob": "8c3397441d4a98ef5dc4319f9c58f3f835723b66",
+      "baselineBlob": null,
+      "bytes": 12657,
+      "sha256": "3e87a71c31d9fb2dc56c8a80e91642f787805eee92662603b5cf17d4162f86ea",
+      "review": "cumulative diff and relevant current context"
+    },
+    {
+      "path": "tests/ui/qa-fixes.test.ts",
+      "gitBlob": "0e6fe5f4036459fea11fab0086114c795a90343b",
+      "baselineBlob": "be1342cb7575d0c3dd4973fe6dada06a307d7095",
+      "bytes": 7888,
+      "sha256": "8aa05ea03a82d2242d54693c40e30888747fb660a76b8feeaf6b0d2ea654aaad",
+      "review": "cumulative diff and relevant current context"
+    }
+  ],
+  "readOwnerContext": [
+    {
+      "path": "src/app/fitting-session.ts",
+      "gitBlob": "79d13341654ba9f4ae32f77dfbd82940df5e2d32",
+      "review": "necessary owner context; not a broad unchanged-core review",
+      "bytes": 1011,
+      "sha256": "f60147d19c3ab8e0194db8824976f075111cd5ce91c6c56428390ec64f8717e1"
+    },
+    {
+      "path": "src/app/fitting-ui/telemetry.ts",
+      "gitBlob": "59b3b6800147714f07963730be7b6b8b90100020",
+      "review": "necessary owner context; not a broad unchanged-core review",
+      "bytes": 3273,
+      "sha256": "f05d05ae17505ef1a033e22426a43a729746302d8e577019591306b4aa83ef29"
+    },
+    {
+      "path": "src/fitting/compile.ts",
+      "gitBlob": "15c08bbd71eac42ce05ed92e6c382cd93f4bf6b4",
+      "review": "necessary owner context; not a broad unchanged-core review",
+      "bytes": 2219,
+      "sha256": "2fe90f95006c858730a947601434a6bcda54ad8804e9227024fd35afa4d8eff6"
+    },
+    {
+      "path": "src/runner/mining-metrics.ts",
+      "gitBlob": "dd3125d63322cc07cbaef504bcad1933be6debc7",
+      "review": "necessary owner context; not a broad unchanged-core review",
+      "bytes": 8651,
+      "sha256": "2b1b4436c31744ed09f7a10e679b27b9f70bee632ee6833f1ea0febd4aa4c73d"
+    }
+  ],
+  "reviewContract": {
+    "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-catalog-code-review-contract.md",
+    "bytes": 6912,
+    "sha256": "cec7df4acd3b3c2002595bf5614dc3c09c1ac635e779c2bd3015d040ec05f08e"
+  },
+  "binding": {
+    "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/fitting-catalog-0.2.1-runtime-binding.json",
+    "bytes": 47295,
+    "sha256": "83b90b145e5a3fe75d70c2d3ef8239ba7fb190d7f41c34dc48ae404cd04e835a"
+  },
+  "independentBindingVerification": {
+    "relevantPaths": 137,
+    "workingBytesAndHeadBlobsEqual": true,
+    "mismatches": [],
+    "acceptanceFingerprint": "55562f6af68289e893a9170617255a2dc5d1fb5fadb835449230fd3761381e05",
+    "method": "SHA256 UTF8 sorted relevant path NUL gitBlob LF + literal seven whole contracts sorted by path + layout note + defects note; excludes PM memory/INDEX/reports only",
+    "wholeContracts": [
+      {
+        "path": "docs/plans/2026-10-06-fitting-catalog-0.2.1.md",
+        "gitBlob": "3fa8a97f554b2457f48a7f2eba0fe4121fc01f5e",
+        "workingBlob": "3fa8a97f554b2457f48a7f2eba0fe4121fc01f5e",
+        "bytes": 5481,
+        "sha256": "297f091c3b3c001a6c37f9a44b985b4f2a45b15fedc8f78c7c1a6136d3276b6a"
+      },
+      {
+        "path": "docs/plans/2026-10-06-gd-workspace-v4.md",
+        "gitBlob": "2f93b80e7b2b86906cc4cf021d39eade5459a4c6",
+        "workingBlob": "2f93b80e7b2b86906cc4cf021d39eade5459a4c6",
+        "bytes": 12832,
+        "sha256": "15a814280f18df460e530bb5cf8bcbc9235ceb98d5eeb2f0ce9b76bd7905060f"
+      },
+      {
+        "path": "docs/product/ship-fitting-catalog-0.2.1.md",
+        "gitBlob": "c7ffd66bb9db25c052015d125ac530bc7342a58f",
+        "workingBlob": "c7ffd66bb9db25c052015d125ac530bc7342a58f",
+        "bytes": 7363,
+        "sha256": "a5c55604317116c29734c4f4775d541d3109879d918f63df857281bcc8aa89a7"
+      },
+      {
+        "path": "docs/product/ship-fitting-gd-workspace-v4.md",
+        "gitBlob": "1881e6d09c8d551eb2d2a6f07fa99f16a59495cc",
+        "workingBlob": "1881e6d09c8d551eb2d2a6f07fa99f16a59495cc",
+        "bytes": 10312,
+        "sha256": "747e3494bb22d1f1f42922c4d08da4777d7d61ec9099b3bd9b6baec14d1bafdb"
+      },
+      {
+        "path": "docs/verification/claude-design-ui-v0.2-contract.md",
+        "gitBlob": "04a9714111f9c2cb6ab2e94da7f6fda7232d125f",
+        "workingBlob": "04a9714111f9c2cb6ab2e94da7f6fda7232d125f",
+        "bytes": 7495,
+        "sha256": "03912849841e9f6939282b73e6def4dd746892e15b0fb717b070fbfefff8f2f2"
+      },
+      {
+        "path": "docs/verification/gd-workspace-v4-contract.md",
+        "gitBlob": "f71682ad5a7a6820d5a6b1c8eb9c0963da9ba853",
+        "workingBlob": "f71682ad5a7a6820d5a6b1c8eb9c0963da9ba853",
+        "bytes": 7970,
+        "sha256": "f50fca6976ac2f73daf4e4cc5653b6aabf23b7071e83e34f2febdf2c0a9160e5"
+      },
+      {
+        "path": "docs/verification/ship-fitting-v0.2-contract.md",
+        "gitBlob": "314d1770363d642df4c2dec069a308b715911c58",
+        "workingBlob": "314d1770363d642df4c2dec069a308b715911c58",
+        "bytes": 12857,
+        "sha256": "024d9e086cf6d14629c8c438f1939593c12b8e576b657b258121eaafcea22115"
+      }
+    ],
+    "operatorNotes": [
+      {
+        "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-operator-layout-note.md",
+        "bytes": 4115,
+        "sha256": "b5fa2801eda3f90c9115f0ca607a36f15f336ffdfac4f46b4ad0fcc6d675bcf5"
+      },
+      {
+        "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/gd-v4-operator-defects-note.md",
+        "bytes": 2891,
+        "sha256": "06e97a564451629d91b36bfa73fb4da44900b46976745e351d0ae428ddfd219b"
+      }
+    ]
+  },
+  "sourceFingerprint": "37b05e2e0da57b82231c0f632d56cc7bb092c3364ea124bfe183f4b2977fd42c",
+  "artifactIdentityFromVerifiedPMAndQA": {
+    "archiveSha256": "643fab21d1d7b3fc13c43c5c5a7e08e1c1cacef41f3cc7558d45173bcf3790db",
+    "distDigestSha256": "d13b6049b49c557358ca0ccb8cc56f11ac780194de6a07a7d0db05b27485c254",
+    "archiveBytes": 525540,
+    "sourceSha": "131570d8f018d3617067bb558099f68aff7c9a53"
+  },
+  "ownExecution": "One bounded Node 24.21.0 WF02/WF06 incomplete-Sputnik conditions counterexample, recorded in main report; no new full guard/browser/long QA",
+  "verdict": "CHANGES_REQUESTED",
+  "blockers": [
+    "CR-V4-B1"
+  ],
+  "advisories": [],
+  "finalSourceCheck": {
+    "HEAD": "131570d8f018d3617067bb558099f68aff7c9a53",
+    "trackedStatus": ""
+  }
+}

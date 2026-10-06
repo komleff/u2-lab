@@ -24,6 +24,33 @@
 
 Утверждённые правила и параметры остаются в U2. Search result — candidate, не authority.
 
+## Текущий приоритет — рабочий процесс ГД
+
+Оператор отклонил UX v3 и поручил адверсальное ревью GD, UX/UI и пользовательских
+сценариев. Claude Design теперь рассматривается как ассеты и предложение макета.
+Прежние технические QA/review не являются пользовательской приёмкой удобства.
+
+- [Рабочий процесс и критерии v4](product/ship-fitting-gd-workspace-v4.md) — accepted0.2/WF01–15, оператор одобрил выполнение и footer version.
+- [Инвентаризация v1/v2/v3](research/2026-10-06-ui-capability-inventory.md) — 22 рабочих сценария, сохранённые/потерянные/скрытые возможности и source anchors; read-only Developer, не runtime QA.
+- [План восстановления v4](plans/2026-10-06-gd-workspace-v4.md) и [сценарная приёмка](verification/gd-workspace-v4-contract.md) — frozenf52 sources; signed PLAN_READY ниже; initial candidate17bb6b6 сохранён; текущий runtime15f5d90e LIVE4188 с каталогом0.2.1 и исправлением условий неполных сборок; история ниже.
+- [Независимый Plan Review v4](reviews/2026-10-06-gd-workspace-v4-plan-review.md) — PLAN_READY,0BLOCKER/1ADVISORY; три exact docs+wholeVC fingerprint19d33e57… . Один Developer, один Worker, сохранённые стенды.
+- [Developer v4](reviews/2026-10-06-gd-workspace-v4-developer.md) — DONE_WITH_CONCERNS/IDLE,21paths/17bb6b6,231unit/33browserPASS+1SKIP; immutable standalone4188, numerical source85+2 unchanged, compiled4/6 exact. Physical latency/gesture отдельно NOTRUN.
+- [Developer: исправление slot identity](reviews/2026-10-06-gd-workspace-v4-developer-fix-r1.md) — ff8f3e8, стабильные DOM targets при RUNNING,231unit/35browserPASS+1SKIP; отдельный immutable candidate4188.
+- [QA1 v4](reviews/2026-10-06-gd-workspace-v4-qa-r1.md), [семь адресов](verification/2026-10-06-gd-workspace-v4-qa-cases-r1.md), [sealed evidence](reviews/2026-10-06-gd-workspace-v4-qa-evidence-r1.json) — historical FAIL,6PASS/1FAIL, три representative whole chains;245raw files, один desktop pointer blocker. Closure — affected QA ниже.
+- [Affected QA v4 slot fix](reviews/2026-10-06-gd-workspace-v4-qa-affected-fix-r1.md), [sealed evidence](reviews/2026-10-06-gd-workspace-v4-qa-affected-fix-r1-evidence.json) — PASS, V4-B1 CLOSED,4affected risk rows1440/820/LAN390;60new rawfiles, без full7/H3600 replay.
+- [Каталог0.2.1: принятое уточнение](product/ship-fitting-catalog-0.2.1.md) и [план/C01–08](plans/2026-10-06-fitting-catalog-0.2.1.md) — прямое поручение оператора: Industrial diesel M и штатные lasers размера/класса; PLAN_READY; реализовано15f5d90e, C01–08 и affected QA PASS. Сохранённые0.2.0 объекты не переоснащаются автоматически.
+- [Plan Review catalog0.2.1](reviews/2026-10-06-fitting-catalog-0.2.1-plan-review.md) — PLAN_READY0BLOCKER/1ADVISORY, exact whole WHAT+HOW/C01–08; combined Review r1 и closure ниже.
+- [Developer каталога0.2.1](reviews/2026-10-06-fitting-catalog-0.2.1-developer.md), [evidence](reviews/2026-10-06-fitting-catalog-0.2.1-developer-evidence.json) — source131570d8,45SKU/совместимость/defaults, обязательные проверки PASS.
+- [Независимая QA C01–08](reviews/2026-10-06-fitting-catalog-0.2.1-qa-r1.md), [evidence](reviews/2026-10-06-fitting-catalog-0.2.1-qa-evidence-r1.json) — PASS131570d8, две LAN-цепочки1440/touch390, fresh opens/limiter/ownership;189rawfiles — доказательства, не189tests.
+- [Combined Code Review r1](reviews/2026-10-06-gd-v4-catalog-code-review-r1.md), [39-path binding](reviews/2026-10-06-gd-v4-catalog-code-review-r1-reviewed-paths.json) — historical CHANGES_REQUESTED, один CR-V4-B1 в редактировании условий неполного черновика.
+- [Developer: CR-V4-B1](reviews/2026-10-06-fitting-catalog-0.2.1-developer-fix-r1.md), [evidence](reviews/2026-10-06-fitting-catalog-0.2.1-developer-fix-r1-evidence.json) —15f5d90e, три owner/test paths;313unit/41browserPASS+1inheritedSKIP, actualfit/Start сохраняются.
+- [Affected QA: CR-V4-B1](reviews/2026-10-06-fitting-catalog-0.2.1-qa-affected-r1.md), [evidence](reviews/2026-10-06-fitting-catalog-0.2.1-qa-affected-r1-evidence.json) — PASS, четыре risk rows, две LAN-цепочки1440/touch390;49rawfiles. Без повторной полной WF/C/long кампании.
+- [Scoped Code Review r2](reviews/2026-10-06-gd-v4-catalog-code-review-r2.md), [evidence](reviews/2026-10-06-gd-v4-catalog-code-review-r2-evidence.json) — APPROVED15f5d90e, CR-V4-B1 CLOSED,0BLOCKER/0ADVISORY;3fixpaths/36unchangedcarryover.
+- [Адверсальное ревью GD / UX/UI / пользователя](reviews/2026-10-06-gd-ux-user-adversarial-review.md) — NEEDS_REVISION, 12 групп проблем; факты, потери и новые предложения разделены.
+- [Уточнение навигации во время расчёта](reviews/2026-10-06-gd-ux-user-adversarial-review-running-addendum.md) — отдельное неизменяемое приложение: RUNNING ×1 на desktop и LAN390; MAX и физический планшет не проверены.
+- [Сценарная QA](reviews/2026-10-06-gd-workflow-qa.md) и [матрица 24 адресов](verification/2026-10-06-gd-workflow-cases.md) — GD/UX FAIL; шесть сквозных цепочек исполнены и два RUNNING-среза; не 24 новых полных теста.
+- [Манифест QA evidence](reviews/2026-10-06-gd-workflow-evidence.json) — hashes 141 локального файла доказательств, не количество тестов.
+
 ## Power & Heat runtime v0.1
 
 - [LAN / standalone запуск](user/local-network.md)
@@ -84,13 +111,13 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [Принятие дизайна и запуск реализации](product/ship-fitting-v0.2-acceptance.md) — current operator authority поверх frozen GDD/плана.
 - [ТЗ UX/UI для Claude Design](ux/ship-fitting-v0.2-claude-design-brief.md) — самодостаточный brief для HTML/SVG desktop/mobile макетов.
 
-## Ship Fitting0.2.0 — Developer candidate
+## Ship Fitting0.2.0 — история candidate до interval closure
 
 - [Работа с оснасткой и экспортом](user/ship-fitting.md) — функциональный workflow и границы лаборатории.
 - [Контролируемая серия Pony/IndustrialM1/2/3 и L3+hold](experiments/ship-fitting-matrix.json) — полные условия, численные snapshots и фактические незавершённые исходы.
 - [Чувствительность и ограничивающие сценарии](experiments/ship-fitting-sensitivity.json) — экспериментальные крайние условия, не вероятности.
 
-Независимый QA r2: 99 PASS / 1 external NOT RUN; три прежних дефекта закрыты. Code Review r1 выявил CR-B1/CR-B2, исправленные Developer r2; их affected QA/scoped Review предстоят. Public Pages, физическое второе
+Исторический QA r2: 99 PASS / 1 external NOT RUN; Code Review r1 выявил CR-B1/CR-B2. Их окончательное закрытие — QA r4 / Review r3, зарегистрированные ниже. Public Pages, физическое второе
 устройство, native/bootstrap/operator acceptance и merge остаются отдельными gates.
 
 - [Power & Heat Lab — UX/UI ТЗ для Claude Design](ux/power-heat-lab-claude-design-brief.md).
@@ -102,9 +129,58 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [Developer fix r2](reviews/2026-10-06-ship-fitting-developer-fix-r2.md) — input guards, boundary/atomic-import regression.
 - [Runtime binding](verification/ship-fitting-v0.2-runtime-binding.json) — explicit paths and entire VC; no verdict.
 
-## Ship Fitting — interval fix, проверка ещё открыта
+## Ship Fitting — история interval fix до QA r4 / Review r3
 
-- [2026-10-06-ship-fitting-qa-r3.md](reviews/2026-10-06-ship-fitting-qa-r3.md) — immutable history; current CR-B2 affected QA/review pending.
-- [2026-10-06-ship-fitting-code-review-r2.md](reviews/2026-10-06-ship-fitting-code-review-r2.md) — immutable history; current CR-B2 affected QA/review pending.
-- [2026-10-06-ship-fitting-developer-fix-r3.md](reviews/2026-10-06-ship-fitting-developer-fix-r3.md) — immutable history; current CR-B2 affected QA/review pending.
-- [2026-10-06-ship-fitting-developer-fix-r3-tablet-addendum.md](reviews/2026-10-06-ship-fitting-developer-fix-r3-tablet-addendum.md) — immutable history; current CR-B2 affected QA/review pending.
+- [2026-10-06-ship-fitting-qa-r3.md](reviews/2026-10-06-ship-fitting-qa-r3.md) — immutable history; closure — QA r4 / scoped Review r3 ниже.
+- [2026-10-06-ship-fitting-code-review-r2.md](reviews/2026-10-06-ship-fitting-code-review-r2.md) — immutable history; closure — QA r4 / scoped Review r3 ниже.
+- [2026-10-06-ship-fitting-developer-fix-r3.md](reviews/2026-10-06-ship-fitting-developer-fix-r3.md) — immutable history; closure — QA r4 / scoped Review r3 ниже.
+- [2026-10-06-ship-fitting-developer-fix-r3-tablet-addendum.md](reviews/2026-10-06-ship-fitting-developer-fix-r3-tablet-addendum.md) — immutable history; closure — QA r4 / scoped Review r3 ниже.
+
+## Claude Design v2.1 — прежняя область переноса интерфейса
+
+- [Передача Claude](ux/claude-design/README.md) и [обоснование v2.1](ux/claude-design/ship-fitting-power-heat-ux-v2.1.md) — exact PR5abbd2943 source; 22артборда, canvas/tokens.
+- [Принятая UI-область и решения переноса](product/claude-design-ui-v0.2-acceptance.md) — поручение оператора; новые шахтёрские миссии/багфиксы отложены.
+- [План интерфейса](plans/2026-10-06-claude-design-ui.md) — U1–U6; PLAN_READY; итог локальной QA/review зарегистрирован ниже.
+- [Приёмка UI01–18](verification/claude-design-ui-v0.2-contract.md) — функции/данные/mobile/LAN и сохранение модели.
+
+## Claude Design UI — проверка и локальный запуск
+
+- [Независимый Plan Review: PLAN_READY](reviews/2026-10-06-claude-design-ui-plan-review-r1.md) — exact9aa, историческая связка плана,0blockers.
+- [72 source-first QA cases](verification/claude-design-ui-v0.2-qa-cases.md) — методы приёмки UI01–18; подготовка не runtime verdict.
+- [Локальный интерфейс и варианты](user/ship-fitting-ui.md) — текущее v4 на4188 и сохранённые4183/4186, сборки/снимок A.
+- [Численный QA r4](reviews/2026-10-06-ship-fitting-qa-affected-r4.md) и [scoped Code Review r3](reviews/2026-10-06-ship-fitting-code-review-r3.md) — immutable закрытие прежних interval/source дефектов на903; UI туда не входит.
+
+- [Scoped Code Review Contract](verification/claude-design-ui-code-review-contract.md) и [полный runtime/source binding](verification/claude-design-ui-runtime-binding.json) — affected UI scope, не verdict.
+
+## Claude Design UI — история initial QA и промежуточных исправлений
+
+- [Developer r1](reviews/2026-10-06-claude-design-ui-developer-r1.md) — исходный перенос на ab8353d; immutable history.
+- [Независимая QA r1](reviews/2026-10-06-claude-design-ui-qa-execution-r1.md) — 54 PASS / 17 FAIL / 1 deferred NOT RUN, 11 групп UI-дефектов; исходный FAIL сохранён.
+- [Sealed QA evidence manifest](reviews/2026-10-06-claude-design-ui-qa-r1-evidence.json) — hashes 52 файлов локальных доказательств.
+- [Developer fix r1](reviews/2026-10-06-claude-design-ui-developer-fix-r1.md) — ff01dfa, D01–D11 исправлены; исторический guard 185 unit / 26 browser PASS + 1 inherited SKIP.
+- Промежуточный стенд — 4183; прежний Ship Fitting и первая Лаба Legacy — 4186. Ссылки и сохранение вариантов в [руководстве](user/ship-fitting-ui.md).
+
+## Claude Design UI — история D12 mobile error fix
+
+- [Affected QA r2](reviews/2026-10-06-claude-design-ui-qa-affected-r2.md) — immutable FAIL: 39 PASS / 3 FAIL из 42 исходных ID; D01–D11 закрыты, один новый D12 на трёх адресах.
+- [Sealed affected evidence](reviews/2026-10-06-claude-design-ui-qa-affected-r2-evidence.json) — hashes 55 read-only files.
+- [Developer fix r2](reviews/2026-10-06-claude-design-ui-developer-fix-r2.md) — c8f8b36, один CSS-перенос длинной ошибки и true-mobile регрессия; 185 unit / 27 browser PASS + 1 inherited SKIP.
+- Исторический D12 checkpoint: source c8f8b36. Итоговая сборка и closure — ниже; model/mission остаются за рамками.
+
+## Claude Design UI — исправления первого Code Review
+
+- [Targeted QA r3](reviews/2026-10-06-claude-design-ui-qa-affected-r3.md) — D12 CLOSED,4 собственных PASS; исходная72-case mapping71PASS/1deferred включает historical carryover, не71 новый прогон.
+- [QA r3 evidence manifest](reviews/2026-10-06-claude-design-ui-qa-affected-r3-evidence.json) — 20 sealed files.
+- [Первое scoped UI Code Review](reviews/2026-10-06-claude-design-ui-code-review-r1.md) — immutable CHANGES_REQUESTED: CR-UI-B1 длинный trace/RangeError и CR-UI-B2 wrong-run projection;2BLOCKER/0ADVISORY.
+- [Developer fix r3](reviews/2026-10-06-claude-design-ui-developer-fix-r3.md) — final source30a1c9b,9UI/test paths;189unit/28browserPASS+1inheritedSKIP. Only final artifact candidate-fix-r3-final3 is current; BF/589/33f superseded snapshots сохранены.
+- Итоговая [сборка4183](http://192.168.68.65:4183/?v=claude-ui-30a1c9b): affected QA r4 и scoped re-review r2 — ниже.
+
+## Claude Design UI — итоговая локальная QA и scoped closure
+
+- [Targeted QA r4](reviews/2026-10-06-claude-design-ui-qa-affected-r4.md) — scoped PASS: CR-UI-B1/B2 и linked D12 CLOSED; 10 адресованных affected slices с явно указанными historical portions, не новый полный 72-case прогон.
+- [QA r4 evidence manifest](reviews/2026-10-06-claude-design-ui-qa-affected-r4-evidence.json) — 27 новых sealed evidence files; 127 прежних seals сохранены.
+- [Scoped Code Review r2](reviews/2026-10-06-claude-design-ui-code-review-r2.md) — APPROVED, 0 BLOCKER / 0 ADVISORY; 9 изменённых UI/test paths, 19 прежних paths перенесены по actual byte equality.
+- [Новый локальный UI](http://192.168.68.65:4183/?v=claude-ui-30a1c9b), [прежний Ship Fitting](http://192.168.68.65:4186/) и [Legacy Power & Heat](http://192.168.68.65:4186/?mode=legacy) доступны параллельно.
+- Численное ядро сохранено; full mining mission/refuel и UI13-02 attribution deferred. Physical/native/public/base/main gates остаются отдельными, PR #6 Draft.
+
+- [Самоаудит PM по сигналу оператора](reviews/2026-10-06-pm-self-audit.md) — ошибки организации, сокращение Memory Bank и правило повторения после каждых3 QA/Review+триаж итераций; не новый verifier launch.
