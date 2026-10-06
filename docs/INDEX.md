@@ -215,3 +215,8 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - Численное ядро сохранено; full mining mission/refuel и UI13-02 attribution deferred. Physical/native/public/base/main gates остаются отдельными, PR #6 Draft.
 
 - [Самоаудит PM по сигналу оператора](reviews/2026-10-06-pm-self-audit.md) — ошибки организации, сокращение Memory Bank и правило повторения после каждых3 review/QA+триаж/фикс итераций; не новый verifier launch.
+
+## Температурная диагностика 2026-10-07
+
+- [Принятое WHAT](product/thermal-derating-diagnostics.md) — ADR-0068 U2, одно hot/cold правило плюс wear; Lab wear не рассчитывает.
+- [План и TD01–06](plans/2026-10-07-thermal-diagnostics.md) — proposed, PRODUCT Plan Review до DEV_RELEASE.
