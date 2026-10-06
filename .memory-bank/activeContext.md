@@ -12,6 +12,10 @@ Brief docs/product/ship-fitting-v2.2-mission-brief.md: accepted inputs и пре
 hullPower200/800/3200kW; предложены manual300K и step.01 в advanced, без temperature
 reset между рейсами. Подготовка не новый verifier cycle, counter остаётся1/3.
 Runtime v2.2 NOTSTARTED; после согласования WHAT — HOW/VC/PlanReview до Developer.
+Draft PR7 / feat/ship-fitting-v2.2: brief v0.2 включает прямое уточнение оператора:
+разгон и торможение расходуют топливо/энергию двигателей и дают тепло по ТТХ;
+непрерывные fuel/energy/heat balances, защита ограничивает фактическую тягу.
+M03 требует отдельных проверок обоих участков для fuel/electric drives.
 Старый DEFERRED revoke новым поручением; ниже сохранён проверенный baseline.
 
 Локальная поставка, PRODUCT/PM_ROLE3.0. Один Developer, QA, Reviewer;
