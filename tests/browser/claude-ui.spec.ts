@@ -1,3 +1,4 @@
+import { openTimedDraft } from "./timed-draft";
 import { test, expect } from "@playwright/test";
 test("UI01/08/09 navigation and variant selection preserve one real Worker test owner", async ({
   page,
@@ -22,7 +23,7 @@ test("UI01/08/09 navigation and variant selection preserve one real Worker test 
       }
     };
   });
-  await page.goto("/");
+  await page.goto("/"); await openTimedDraft(page);
   await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("3600");
   await page.locator("#fit-speed").selectOption("1");
@@ -43,7 +44,7 @@ test("UI01/08/09 navigation and variant selection preserve one real Worker test 
 test("UI06/07 modal cancel and payload batch are atomic, builtins remain read only", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/"); await openTimedDraft(page);
   await page.locator("#fit-preset").selectOption("pony:1");
   const revision = await page.locator("#fit-next-revision").textContent();
   await page.locator('[data-slot="payload-1"]').last().click();
@@ -65,7 +66,7 @@ test("UI16 mobile actions are reachable, groups expose state and page does not o
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
+  await page.goto("/"); await openTimedDraft(page);
   await expect(page.locator(".ship-hero")).toHaveAttribute(
     "data-layout",
     "flat",
@@ -90,7 +91,7 @@ test("UI16 mobile actions are reachable, groups expose state and page does not o
 test("UI09/12/14 real pause/step/cancel interval and snapshot A survive reset", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/"); await openTimedDraft(page);
   await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("3600");
   await page.locator("#fit-speed").selectOption("1");
@@ -129,7 +130,7 @@ test("UI03/17 six hulls update actual passport; local assets and tablet fallback
   page.on("request", (r) => {
     if (!r.url().startsWith("http://127.0.0.1:4173")) remote.push(r.url());
   });
-  await page.goto("/");
+  await page.goto("/"); await openTimedDraft(page);
   const { loadCandidateCatalog, getPresetFit } = await import(
     "../../src/fitting/catalog"
   );
@@ -163,7 +164,7 @@ test("UI03/17 six hulls update actual passport; local assets and tablet fallback
 test("UI04/16 passport data do not overlap ring targets and mobile catalog rows do not clip text", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/"); await openTimedDraft(page);
   await page.locator("#fit-preset").selectOption("industrial-M:3");
   await page.evaluate(() => document.fonts.ready);
   const overlap = await page.evaluate(() => {

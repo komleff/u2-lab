@@ -1,7 +1,8 @@
 import type { ShipFit, CandidateCatalog } from "../fitting/types";
 import type { RunSpecV2 } from "../model/v2/types";
 import type { RunResultV2 } from "../runner/run";
-import type { MiningConditions } from "../scenarios/fitting";
+import { validMissionConditions, type WorkspaceConditions } from "../scenarios/mission";
+import { MODEL_MISSION } from "../model/v2/types";
 import { FittingSession } from "./fitting-session";
 import { parseFitJson, parseExperimentJson } from "../io/fitting-json";
 import { parseResultJson } from "../io/fitting-result";
@@ -14,7 +15,7 @@ export type Variant = {
   id: string;
   name: string;
   fit: ShipFit;
-  conditions: MiningConditions;
+  conditions: WorkspaceConditions;
   result?: RunResultV2;
   replaySpec?: RunSpecV2;
   opened?: "fit" | "run" | "result";
@@ -36,12 +37,13 @@ export class FittingWorkspace {
   constructor(
     fit: ShipFit,
     readonly catalog: CandidateCatalog,
+    initialConditions?: WorkspaceConditions,
   ) {
     this.variants = ["A", "B", "C"].map((id) => ({
       id,
       name: id,
       fit: structuredClone(fit),
-      conditions: {
+      conditions: initialConditions ? structuredClone(initialConditions) : {
         durationSeconds: 600,
         workSeconds: 120,
         effectiveBackgroundK: 100,
@@ -122,7 +124,7 @@ export class FittingWorkspace {
     }
     return v;
   }
-  setConditions(conditions: MiningConditions) {
+  setConditions(conditions: WorkspaceConditions) {
     const fit = this.selected().fit;
     const validation = validateFit(fit, this.catalog);
     if (!validation.valid || !isKnownCatalogVersion(fit.catalogVersion)) return false;
@@ -158,7 +160,10 @@ export class FittingWorkspace {
       }
       validationFit.builtinModes = structuredClone(fit.builtinModes);
     }
-    const checked = makeMiningRun(validationFit, this.catalog, conditions);
+    const mission = conditions.modelVersion === MODEL_MISSION;
+    if (mission && !validMissionConditions(conditions)) return false;
+    if (mission) conditions = { ...conditions, stationReplenish: conditions.stationReplenish === undefined ? false : conditions.stationReplenish };
+    const checked = makeMiningRun(validationFit, this.catalog, mission ? {...conditions,workSeconds:1,approachSeconds:1,brakingSeconds:1,serviceSeconds:1,idleSeconds:1} : conditions);
     if (!checked.ok) return false;
     this.selected().conditions = structuredClone(conditions);
     this.selected().replaySpec = undefined;

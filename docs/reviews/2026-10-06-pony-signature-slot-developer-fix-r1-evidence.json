@@ -1,0 +1,93 @@
+{
+  "role": "Developer",
+  "sourceSha": "bbe3fc9914109dfa2b671666fb0585bdcb38337c",
+  "method": "Raw RED/GREEN, full normal commit guard, actual extracted LAN native desktop/mobile and 34 HTTP body checks; own 4191 server stopped; no inheritance represented as own execution",
+  "fileCount": 17,
+  "files": [
+    {
+      "path": "evidence/browser-green-first.txt",
+      "bytes": 668,
+      "sha256": "851066bfd94476e7ad5406f7221a2427971124e3f6fa8d35122e79145c3e7345"
+    },
+    {
+      "path": "evidence/browser-red.txt",
+      "bytes": 1995,
+      "sha256": "eb6be71f2a9059cbc9f645b990b7b3ef1d0913e809c367bdd075ae29eb9b3f8b"
+    },
+    {
+      "path": "evidence/build.txt",
+      "bytes": 863,
+      "sha256": "d7336c1f1899849be334957268bb8bca65d3ebd67bd2c8b19ac25276f907911e"
+    },
+    {
+      "path": "evidence/extracted-lan-native.txt",
+      "bytes": 462,
+      "sha256": "15df55684abb6a8b10fcfb680625b455b218b389f7ad1aef678c6faadedbbb01"
+    },
+    {
+      "path": "evidence/full-guard-first.txt",
+      "bytes": 12371,
+      "sha256": "a4a19b2cf3e8de97cfd7383b27bcdee40a13f8631b7e2fefbb627a51d5486827"
+    },
+    {
+      "path": "evidence/http-exact.json",
+      "bytes": 8257,
+      "sha256": "dd6444cd670cbe90be1eb160669ea48048f44ea446e247ac2f81a68bc91b2050"
+    },
+    {
+      "path": "evidence/http-server.txt",
+      "bytes": 6050,
+      "sha256": "af8509039096e6ed5ab67edf87d05550ad2899a8d9ddd35bcb84a9d5047d0cc7"
+    },
+    {
+      "path": "evidence/native-cases.json",
+      "bytes": 4106208,
+      "sha256": "5429aaf12805f66db187459d98e58b82c03144329f362d7edf033cdbabf6491b"
+    },
+    {
+      "path": "evidence/native-results/.last-run.json",
+      "bytes": 45,
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "evidence/native-summary.json",
+      "bytes": 5956,
+      "sha256": "82da804bfe7fd01835b07ecccc347704b9cf00a7f91534ebd41cadcfc31f2c46"
+    },
+    {
+      "path": "evidence/package-candidate.py",
+      "bytes": 6134,
+      "sha256": "dbd3122ea32da48ef876aa707f479c7506d0402fb6ef12a8e89173d70169b017"
+    },
+    {
+      "path": "evidence/packaging.txt",
+      "bytes": 629,
+      "sha256": "88e4fd56764c138ea07207e2ac38b75017089ef0aa4376a3940dd02be9e86974"
+    },
+    {
+      "path": "evidence/standalone.config.ts",
+      "bytes": 535,
+      "sha256": "366a50b137bb6b7a5ee63a7f83067ad7a4064d8f22d477105a86c2c3c1f482d4"
+    },
+    {
+      "path": "evidence/typecheck.txt",
+      "bytes": 53,
+      "sha256": "e41f4a2cbe48379fcc638282c486af741a1bcad94e6e5804dc2eda590c474460"
+    },
+    {
+      "path": "evidence/unit-green-first.txt",
+      "bytes": 201,
+      "sha256": "85cf7c17eee531ef5a218224b27688ffa1b5f4d6122b1fd9a1a7787b09662196"
+    },
+    {
+      "path": "evidence/unit-id-red.txt",
+      "bytes": 1838,
+      "sha256": "633ee4d1800b9ec6406765bc3c98d3baea625be14fbec79b6db1d230e301aa89"
+    },
+    {
+      "path": "evidence/unit-red.txt",
+      "bytes": 9249,
+      "sha256": "655cfd7cc00467bc247f2229fb0ddeca832480d62857d492c7da4d06f2d945f0"
+    }
+  ]
+}

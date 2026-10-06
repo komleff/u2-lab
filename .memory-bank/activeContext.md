@@ -1,80 +1,59 @@
-# Ship Fitting v4 + каталог 0.2.1 — 2026-10-06
+# Текущий результат: v2.2, рейсы/M/HY и станционное обслуживание
 
-## Текущая правка: Пони
+Рабочий стенд: http://192.168.68.65:4189/?v=station-86dee5d
+localhost4189; owned PID93528, .overgate-runtime/mission-medium-preview-server.json.
+Immutable source86dee5da9e8a9c45723b7e9a476b8b16bfb98f2b;
+source3FP76bfc9aa33ca24f79697b50a368822f7f731b419752963c2cd80fe0a0112b8eb;
+build17FPcd7c227ad4150f707b6b1d2e79d71e9bc54dd3db1f33db33c3d5b5b2798a9ba4.
+Exact station-service-v2.2-candidate-fix-r1/extracted/dist на linkedcheckout.
+Прежние4183/4186+Legacy/4188 и d57 QA4193 сохранены; rollbackrecord
+.overgate-runtime/mission-medium-preview-server-d57-before-station.json.
 
-Оператор уменьшил signature slots Pony2→1. Принятое WHAT/короткий HOW/P01–P05:
-docs/plans/2026-10-06-pony-signature-slot.md. New catalog0.2.2 overlay, old0.2.0/0.2.1
-fit/run/result preserve2-slot hull and stamps. Остальные hulls/SKUs неизменны.
-PRODUCT; existing Developer read-only discovery done, no runtime edits. Один Plan
-Review до кода; текущий counter1/3. Добывающая миссия ниже остаётся отдельной задачей.
+PR9 https://github.com/komleff/u2-lab/pull/9 Draft: feat/ship-fitting-mission-medium
+base feat/pony-signature-slot/PR8Draft. Runtime/test root byte-equivalent86;
+finalrootSHA и свежий normalguard — в FINAL ACCEPTANCE PR9 и
+.overgate-runtime/station-service-root-commit-guard-final.txt. Guard выполняется
+перед finalcommit; нельзя подменять его Developer evidence. Main/base/bootstrap/
+native/physical/public/operator merge остаются отдельными OPEN.
 
-## Новое поручение v2.2
+WHAT: missionbriefv0.3 + mediumcontract; HOWv1.2 M01–09/MF01–04/HY01–02;
+все whole contracts через docs/INDEX.md.50SKU/пять M, однородный propulsion,
+разрешённые auxiliaryPower hybrids. DefaultsH3600/bg100/rho1500/return.35/
+target10000SCU/distance100km/Max/fullhold/repeat. Событийная добыча, физические
+порожний/загруженный перелёты, разгрузка после actual stationarrival.
 
-Оператор возобновил ulab-dwi: событийная добыча до полного трюма/первой остановки,
-рейс100км туда порожняком/обратно с добытым грузом, V_FA×1/2/3/4/Max(default),
-H3600/background100K/rho1500/return.35/target10000SCU/approach10/unload10/repeattrue.
-Brief docs/product/ship-fitting-v2.2-mission-brief.md: accepted inputs и предложения
-разделены. PRODUCT GAP: первая остановка — первое ограничение либо полная остановка
-всей mining group; async вопрос оператору pending. V_FA отсутствует в labcatalog;
-нужен source либо честно согласованная lab reference. InitialT idle≠background:
-hullPower200/800/3200kW; предложены manual300K и step.01 в advanced, без temperature
-reset между рейсами. Подготовка не новый verifier cycle, counter остаётся1/3.
-Runtime v2.2 NOTSTARTED; после согласования WHAT — HOW/VC/PlanReview до Developer.
-Draft PR7 / feat/ship-fitting-v2.2: brief v0.2 включает прямое уточнение оператора:
-разгон и торможение расходуют топливо/энергию двигателей и дают тепло по ТТХ;
-непрерывные fuel/energy/heat balances, защита ограничивает фактическую тягу.
-M03 требует отдельных проверок обоих участков для fuel/electric drives.
-Старый DEFERRED revoke новым поручением; ниже сохранён проверенный baseline.
+MissionB1/B2 CLOSED: d57 affectedQA5PASS/scopedReview2APPROVED, root447unit/
+46browser+1SKIP PASS, root3ced pushed. OldSputnikH3600:3services/90сдано/30наборту
+на legacyfuel-only; эти числа НЕ свежий опыт с новой зарядкой. CivilianM безgen
+тогда разряжался; сH₂gen работал час при power bottleneck. Operatorfits, где Power
+не указан, assumed. Старые reports/FAIL сохраняются immutable вINDEX.
 
-Локальная поставка, PRODUCT/PM_ROLE3.0. Один Developer, QA, Reviewer;
-PM — sole publisher/Beads writer. Draft PR6, base feat/ship-fitting-v0.2 (PR4 Draft).
-main/merge — оператору. Canonical sources и signed reports: docs/INDEX.md.
+ulab-558 — прямое поручение «Заправлять и заряжать», принято отдельно.
+Wholeplan docs/plans/2026-10-06-station-service.md7955/05f63be7 frozen.
+FreshON: actual completedservice пополняет каждый установленный fuelконтур и
+суммарную battery доcapacity; OFF только разгрузка. Температура/buffer/consumption
+не сбрасываются; stationenergyJ/GJ явная. Это endpoint abstraction внутри заданной
+servicephase, не новая shorepower/chargeheat/price model. Отсутствие flag в старых
+mission1/.3 означает fuel-only/noCharge; редактируемые условия задают явныйboolean.
 
-## Текущий результат
+PlanReview1 PLAN_READY0B/1A; noBatteryadvisory rejectedwithrationale, validfit
+batteryrequired unchanged. Dev a625455unit/47browser+SKIP, initialQA2ST01–06
+PASS59API/16nativeactualLANtouch390. Review3 CR-ST-B1: explicitOFF принимал
+positivefuel import. Fix86: одна IO line +два durable isolatedD/H₂ cases;457unit/
+47browser+1SKIP Developer normalguardPASS. AffectedQA4B1-01–04PASS13API/7native
+import-only; scopedReview5APPROVED0B0A/B1CLOSED; exactreports опубликованы PR9
+6017499964/6017529185. Sourcefreeze RELEASED. Budget5/5; новыхlaunches нет.
+Current root source/wholeplan fingerprints независимо сверены; numericalbody
+step.ts отinitialStateV2 SHA d0c35a12ecfa8e4c8a3c39b1c916aad872f68d555741674631ac7b8ee5c18a08
+unchanged baseline3ced. Не повторять QA6ST/QA15/52review/ZIP/H3600/full155proof.
 
-Runtime source15f5d90e97b696b8738a204953af852942bec704. Непрерывная страница,
-навигация во время расчёта, отдельно active/next/result/reference, шесть обзорных
-графиков, таблица/журнал, фиксированный эталон сравнения и открытие результата
-без нового запуска. Группы слотов отдельными строками; первый ограничитель до
-графиков; Unicode filename/cancel; viewport overscroll boundary. Footer v4.0,
-численная модель отдельно. Стабильные DOM targets закрыли прежний lost-click.
+Beads solecanonicaltracker/rootAPIwriter. ulab-w6w/ulab-dwi.1/.2 CLOSEDlocal;
+ulab-dwi ordinaryclose blocked openulab-zk2, noforce. ulab-558 localQA/reviewaccepted;
+канонический текущий статус черезbdshow, финальный trustedexport после milestone.
+ulab-w7j oldreplay-durationblur OUT/unfixed. Исходные9IDs сохраняются; user
+docs/.DS_Store НЕstage. U2currentowner0fe06927 дляreferencePM_ERR1.2/DOC_PR.
 
-Catalog0.2.1: Industrial diesel M16.2288MN/160t, retro3/7,pair9/35;
-новые пресеты получают лазеры размера/класса корпуса. Civilian M/Industrial L
-добавлены, Pony UNKNOWN/G0 local anchor. Все40 oldSKU сохранены, total45;
-known0.2.0 fit/run/result сохраняют edition/snapshot без скрытого remount.
-η.40/turn/material — explicit lab hypotheses. Industrial M fixture2Mlasers/
-2Mbatteries/240SCU/4passive: dry412.24555t, full796.24555t при rho1500.
-
-LIVE http://192.168.68.65:4188/?v=cat021-15f5d90e (localhost4188), ownedPID18113.
-Immutable linked u2-lab-claude-ui/.overgate-runtime/fitting-catalog-0.2.1-candidate-fix-r1/extracted/dist.
-Old v3/4183,v2+Legacy/4186,TLS4184 сохранены; user tabs не reload автоматически.
-Binding .overgate-runtime/fitting-catalog-0.2.1-fix-runtime-binding.json:
-137 relevant blob rows + literal7wholecontracts +2notes, fp9458f05433fb89123d514d00aadb82a46daf48d3528dde054ca5c22e3f1d5988.
-PM149sources/149tar/18dist×3copies/ZIP/36HTTP bodies exact.
-85prior protected+2experiments и6compiled unchanged versus1315, не versus f52.
-
-## Приёмка и следующие действия
-
-Mandatory guard313unit/41browserPASS+1inherited screenshotSKIP, type/build/
-reference/bootstrap/cloud26PASS. v4 QA1 historicalFAIL17bb; slotfix affectedQA2PASSff8.
-Catalog QA C01–08PASS1315. CombinedReview1 CHANGES_REQUESTED/CR-V4-B1:
-условия неполных small-hull drafts бросали исключение через illegal:3 reference.
-Fix15f5 uses legal same-edition temporary reference/actual payload IDs, actualfit
-unchanged/Start disabled. Affected QA PASS4risk rows/49raw, scoped Review r2 APPROVED/0BLOCKER0ADVISORY.
-CR-V4-B1 CLOSED; three reviewedfixblobs/36 unchangedcarryover paths. Reports exact
-published PR6#6010610636/#6010687917. Signed historical FAIL не переписаны.
-
-ulab-bn1/ulab-agx CLOSED: scoped local delivery complete, closure через bd API.
-Trusted export remote beads-backup/aafe392,30canonical IDs/original9 preserved;
-mission ulab-dwi возобновлена, IN_PROGRESS (продуктовое уточнение v2.2).
-Feature metadata/checkpoint/guard/push не меняют reviewed runtime. Selfaudit после
-catalogQA/Review1/affectedQA выполнен3/3, reset0; после Review2 triage counter1/3. PM_ERR/DOC_PR externalU2main0fe06927… read; не новые verifier launches.
-No full39/7chains/matrix/H3600/12h replay без нового FAIL/AC/named risk.
-
-Mining-until-fullhold/flight/refuel ulab-dwi возобновлена новым заданием v2.2;
-прошлая отсрочка больше не действует. Current4188 остаётся прежним runtime.
-Physical Xiaomi/gesture/performance/native/public/bootstrap/base/fullproduct/main
-acceptance отдельно OPEN. No numeric kernel/Worker/scenario algorithm change.
-Beads API primary only; trusted export helper OverGate63393725…; no JSONL hand edits.
-User docs/.DS_Store6148B/3cd7c2cc… preserve; explicit stage/normal guards only.
+По срочному поручению самоаудит выполнен; признана задержка доставки из-за proof
+bookkeeping. Каждые3 завершённые review/QA+триаж/фикс итерации обязателен аудит.
+IO fix +affectedQA4 +scopedReview5 =3/3 → selfaudit done/reset0/3 доfinalrootguard.
+Следующая такая итерация станет1/3. Ручной аудит не новыйverifier или новыйgate.

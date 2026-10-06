@@ -1,0 +1,38 @@
+{
+  "schema": "u2-independent-qa-seal/1",
+  "signedBy": "/root/ship_fitting_qa",
+  "role": "independent QA",
+  "model": "Codex; exact provider model ID unavailable",
+  "sealedAtUTC": "2026-10-06T13:18:05.428380+00:00",
+  "sourceSha": "a625c79c5fbc8cfc706c87d0631fc0204c1689fb",
+  "verdict": "PASS ST01–06; no product FAIL",
+  "artifacts": [
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/execution-r1/report.md",
+      "bytes": 8019,
+      "sha256": "8be3d53d0d975d34c6d5f52f7cfdf29aca856ce6b1804e7581a988ad47a31c14"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/execution-r1/case-ledger.json",
+      "bytes": 8338,
+      "sha256": "b11fd1054221dfe12451b3ec0f927e53326f78cff76672339a0268e15712e90b"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/execution-r1/source-binding.json",
+      "bytes": 9251,
+      "sha256": "96f4c72f78c60b6281f1dc0093987f42fb5404585c1a1a464b873190f8ab0923"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/execution-r1/evidence-manifest.json",
+      "bytes": 11462,
+      "sha256": "088383e92effdb604b8a326b722d97a58510d13ebc7bfc27ed78552cba5d62b5"
+    }
+  ],
+  "rawFingerprintSha256": "80ff3094df4e7ce495e7c6be2025090feade678e9a0f2996dc0323d195a3e237",
+  "rawFileCount": 53,
+  "evidenceFileCountIncludingReportManifestReceipt": 56,
+  "ownFreshClaim": "Six AC addresses, one native workflow; 59 API and16 native overlapping assertions, not75 independent cases. Native original harness FAIL preserved.",
+  "readback": "Every manifest raw file, report, six PASS rows, assertion outcomes and prior prepared/oracle hashes verified from disk. No additional runtime execution.",
+  "sourceFreeze": "RELEASED after this seal; QA IDLE",
+  "exceptions": "Disposable vite-cache excluded; all sealed evidence files chmod0444; previous histories untouched."
+}

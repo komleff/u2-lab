@@ -1,3 +1,4 @@
+import { openTimedDraft } from "./timed-draft";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { getPresetFit, loadCandidateCatalog } from "../../src/fitting/catalog";
@@ -31,12 +32,12 @@ for (const width of [1440, 390]) test(`P05 native Pony new/old edition mounting,
     return { fit, spec, result };
   };
   await page.goto("/"); await expect(page.locator("#fit-preset")).toBeVisible(); await page.locator("#fit-preset").selectOption("pony:2"); await expand();
-  await expect(page.locator("#slot-signature-2")).toHaveCount(0); await expect(page.locator("#fit-edition")).toContainText("0.2.2");
-  await replace("signature-1", "radiator-active-S"); const current = await shortRun(); expect(current.fit.catalogVersion).toBe("ship-fitting-0.2.2");
-  for (const doc of [current.fit, current.spec, current.result]) { await page.reload(); await open(doc); await expand(); await expect(page.locator("#slot-signature-2")).toHaveCount(0); await expect(page.locator("#fit-edition")).toContainText("0.2.2"); }
+  await expect(page.locator("#slot-signature-2")).toHaveCount(0); await expect(page.locator("#fit-edition")).toContainText("0.2.3"); await openTimedDraft(page,getPresetFit("pony:2"));
+  await replace("signature-1", "radiator-active-S"); const current = await shortRun(); expect(current.fit.catalogVersion).toBe("ship-fitting-0.2.3");
+  for (const doc of [current.fit, current.spec, current.result]) { await page.reload(); await open(doc); await expand(); await expect(page.locator("#slot-signature-2")).toHaveCount(0); await expect(page.locator("#fit-edition")).toContainText("0.2.3"); }
   await details(); expect(await exported("#fit-export-result")).toEqual(current.result);
   await open(getPresetFit("pony:2", "ship-fitting-0.2.1")); await expand(); await expect(page.locator("#slot-signature-2")).toBeVisible(); await expect(page.locator("#fit-edition")).toContainText("0.2.1");
-  await replace("signature-2", "radiator-passive-S"); const previous = await shortRun(); expect(previous.fit.catalogVersion).toBe("ship-fitting-0.2.1");
+  await replace("signature-2", "radiator-passive-S"); await openTimedDraft(page,await exported("#fit-save")); const previous = await shortRun(); expect(previous.fit.catalogVersion).toBe("ship-fitting-0.2.1");
   expect(previous.spec.resolvedShip.hull.slots.filter((s: any) => s.category === "signature")).toHaveLength(2);
   for (const doc of [previous.fit, previous.spec, previous.result]) { await page.reload(); await open(doc); await expand(); await expect(page.locator("#slot-signature-2")).toBeVisible(); }
   await details(); expect(await exported("#fit-export-result")).toEqual(previous.result);

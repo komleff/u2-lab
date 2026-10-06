@@ -1,0 +1,302 @@
+{
+  "role": "independent QA",
+  "model": "Codex; exact provider model ID unavailable",
+  "testedSourceSha": "d57ad5bc75c77954e7eefe63fbe5630ca4529c62",
+  "baselineSourceSha": "ac4d01ac96e495a8db63cc85c6b7716358b3bfbe",
+  "actualHead": "d57ad5bc75c77954e7eefe63fbe5630ca4529c62",
+  "ownScope": "27 explicitly bound historical/current runtime owners; one changed owner and 26 equal original ec259 blobs; not a full source audit",
+  "owners": [
+    {
+      "path": "src/app/fitting-session.ts",
+      "gitBlob": "25ecc128e00f18bdb6072e50b9b73cb965b6bbc7",
+      "bytes": 1181,
+      "sha256": "6094eedaac324c72072d39e95aecf67d66e0fadbb8a4c42f888524dba3f92829",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "25ecc128e00f18bdb6072e50b9b73cb965b6bbc7",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/app/fitting-ui/compare-view.ts",
+      "gitBlob": "ba0328613cd7f59e64f70ddfb909988dba363e59",
+      "bytes": 12279,
+      "sha256": "2867c22c83f117479fdb74a791c6ca93b5d6383a0755f7341a6f0dacc6f32e79",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "ba0328613cd7f59e64f70ddfb909988dba363e59",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/app/fitting-ui/conditions.ts",
+      "gitBlob": "1c1441c112e44afc7d827b287516883e41428525",
+      "bytes": 1134,
+      "sha256": "d2544a0a093e451333630578274230f953b274917afb797fca5250f15b3ab128",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "1c1441c112e44afc7d827b287516883e41428525",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/app/fitting-ui/lab-channels.ts",
+      "gitBlob": "e1309c468dab24db894a243322587cd84e837b8c",
+      "bytes": 5123,
+      "sha256": "7b53abda05c0d9bba8780038f025c4040d66bacfaa315db3e4262a5e0552a1dc",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "e1309c468dab24db894a243322587cd84e837b8c",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/app/fitting-ui/lab-view.ts",
+      "gitBlob": "640b9b2c80bcb783498b5a17ad6b4fa32f37dbc3",
+      "bytes": 20790,
+      "sha256": "8b178eda95bcc8ce6e46ff1610c4e9a12b51da067d7afa3b7f1112a10cda6018",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "640b9b2c80bcb783498b5a17ad6b4fa32f37dbc3",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/app/fitting-ui/result-context.ts",
+      "gitBlob": "1c8b5f496f05a4a13c22a51522672c8f584af326",
+      "bytes": 2305,
+      "sha256": "1aa453226408c36e3213037d2e91e4aa60dd5d94329fca68b5fd6bfeac86e44c",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "1c8b5f496f05a4a13c22a51522672c8f584af326",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/app/fitting-ui/ship-view.ts",
+      "gitBlob": "7ffd0043441ed3b3901824fc61d8a1f273149ba0",
+      "bytes": 11901,
+      "sha256": "d27f738718b1e1809167c2baee1df8436ff17bd268f379bd1fb8de1e287e1d05",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "7ffd0043441ed3b3901824fc61d8a1f273149ba0",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/app/fitting-ui/swap-dialog.ts",
+      "gitBlob": "007d2c3459fb6d3265ee344946f6d002e51c22bd",
+      "bytes": 13109,
+      "sha256": "273b79a4f5f2e1bec60fa3faf4af9dcf38b1fc945a5930ae78989ff4beb94cb7",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "007d2c3459fb6d3265ee344946f6d002e51c22bd",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/app/fitting-workspace.ts",
+      "gitBlob": "a4af25f45febd1f411bd393b33f2cf08844b70f8",
+      "bytes": 11552,
+      "sha256": "5ee72d17945db57b5004c5ca764bad51ad3ab3297c2f1d4ed5df1be6b6047d99",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "a4af25f45febd1f411bd393b33f2cf08844b70f8",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/app/fitting.ts",
+      "gitBlob": "5f660f219e170964cdd5852c576bf1feb6f3aa4e",
+      "bytes": 36529,
+      "sha256": "5f9391820ad65754cdb7ecc15f24381a7992835417761ebd95bc02909ddcf3ae",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "5f660f219e170964cdd5852c576bf1feb6f3aa4e",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/fitting/catalog.ts",
+      "gitBlob": "fa81e316f44cfd566daf1d77d10e4ac2e649b41c",
+      "bytes": 7796,
+      "sha256": "0513d8e98906025dd962d6e8ee0e60869df3e769d76a3cccd3d8604cb26268f5",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "fa81e316f44cfd566daf1d77d10e4ac2e649b41c",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/fitting/compile.ts",
+      "gitBlob": "04775389b8d37311eac2c4aec03202de1aa554cf",
+      "bytes": 2232,
+      "sha256": "9fb88bf4f64ea98b952f437f9c17360f5688fc885efd7bad20c987ab21e22048",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "04775389b8d37311eac2c4aec03202de1aa554cf",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/fitting/data/modules-0.2.3.json",
+      "gitBlob": "ace19995aafc18b9df177f2976f0207a11b40e02",
+      "bytes": 26895,
+      "sha256": "7fb46f47018a8af5f8bbf2bf22fb4cc13ce61e472e4df35d89cdbe845b032832",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "ace19995aafc18b9df177f2976f0207a11b40e02",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/fitting/editions.ts",
+      "gitBlob": "e373cab37124f3d8299d901aa508c53b20708869",
+      "bytes": 2994,
+      "sha256": "08bd17ee76753a1509368c4f01dab56ecfba4c44a27f93b4df0f4238f6cc22bd",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "e373cab37124f3d8299d901aa508c53b20708869",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/fitting/validate.ts",
+      "gitBlob": "000958a724d7bd95beea15edcaeab546b304fbaa",
+      "bytes": 12239,
+      "sha256": "3a5c208d2885b3b539f276772d819c71af67498fbe37199cc4a2767b6541b1e3",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "000958a724d7bd95beea15edcaeab546b304fbaa",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/io/fitting-json.ts",
+      "gitBlob": "ef679f906db0d7a090919f872aaa15f59e0c0f0d",
+      "bytes": 5884,
+      "sha256": "671df84ffcf47ba8344a50b186b85440441cfce39017cdaa7831197bab4e4346",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "ef679f906db0d7a090919f872aaa15f59e0c0f0d",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/io/fitting-result.ts",
+      "gitBlob": "0b379d110ec715a2b9d85152fc96df3ea8ff9c28",
+      "bytes": 18892,
+      "sha256": "af685d4269268483668708944ff93f5043a96bcaf1dc882b89b9588737c01913",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "0b379d110ec715a2b9d85152fc96df3ea8ff9c28",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/model/v2/flight.ts",
+      "gitBlob": "cccf715b9d01b4de661ff9c63c85ec082aa0c722",
+      "bytes": 1890,
+      "sha256": "48d52527867ebd18edf6ffb64eef5a645befd092b8f27b0dc2ab6a3af8c92e5f",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "cccf715b9d01b4de661ff9c63c85ec082aa0c722",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/model/v2/physics.ts",
+      "gitBlob": "ab8a765826db1f035769327ee3a0a526d5ff73af",
+      "bytes": 27065,
+      "sha256": "d300e9d643126b60b3e3bd6892ccd42bce7ecf4c3f7f30f50c264388a9d0fbf5",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "ab8a765826db1f035769327ee3a0a526d5ff73af",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/model/v2/step.ts",
+      "gitBlob": "994ae16fc5fdf4b37418090eebeabd30ee92fc02",
+      "bytes": 19167,
+      "sha256": "87b37381f18f75fa10328a25ebad1ae44523dc6daed15a7321a5d04445930efa",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "994ae16fc5fdf4b37418090eebeabd30ee92fc02",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/model/v2/types.ts",
+      "gitBlob": "19a05b116ffcf07e9fa64330210a1498dceee712",
+      "bytes": 3822,
+      "sha256": "a7cad08cc4a26ec5a510c9b368687f97a0e125cfc57b6ff24b8da679fd220baa",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "19a05b116ffcf07e9fa64330210a1498dceee712",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/runner/fitting-run.ts",
+      "gitBlob": "8cda108e5bae4bdc1346a6848202e395b988fe05",
+      "bytes": 6500,
+      "sha256": "873cc1eb47f61ac3a80cdcf70a122295258b7287802fe6232e67e6f623107089",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "8cda108e5bae4bdc1346a6848202e395b988fe05",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/runner/mining-metrics.ts",
+      "gitBlob": "00f3bb2a2a05c380049bc80e32934da80df76fbd",
+      "bytes": 8981,
+      "sha256": "edec3faf9440a5d6a8b69f34c5ec31da5c51f6646984433cd8a0c7a16cb724f3",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "00f3bb2a2a05c380049bc80e32934da80df76fbd",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/runner/mission.ts",
+      "gitBlob": "47d18e841160df86e905621fed85c46ce6b7794a",
+      "bytes": 22873,
+      "sha256": "cb83fbf0d5070cce73c1804041c03d7a1a94a5b85fb9cf94c3410d8cc4d4a87c",
+      "equalOriginalRuntimeBlob": false,
+      "originalBlob": "90a4e29d02e6506908df41ca8b68dbede2af4513",
+      "scope": "changed owner actually exercised"
+    },
+    {
+      "path": "src/runner/worker.ts",
+      "gitBlob": "7a74cd0f2a16999ff195aee1c24fc095d948a447",
+      "bytes": 257,
+      "sha256": "9d48e345cceedb6ade2f73766341e751714f84fcb6d93fbffda100c7bf8347be",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "7a74cd0f2a16999ff195aee1c24fc095d948a447",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/scenarios/fitting.ts",
+      "gitBlob": "090591f787693d6c894ba718bcfae999dc074901",
+      "bytes": 5022,
+      "sha256": "0314034856f465db41f783023fa21dae8206b514317b834f877fc1039f368ab3",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "090591f787693d6c894ba718bcfae999dc074901",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    },
+    {
+      "path": "src/scenarios/mission.ts",
+      "gitBlob": "74477c64f762000b4ba9bbecb416a46c4215f4e3",
+      "bytes": 4219,
+      "sha256": "4826e4ef557cc40b9b9496be752c3dc48a036782d7087f9b7f1042f24e16a862",
+      "equalOriginalRuntimeBlob": true,
+      "originalBlob": "74477c64f762000b4ba9bbecb416a46c4215f4e3",
+      "scope": "unchanged owner; prior scoped evidence eligible, current five risk rows exercise relevant paths"
+    }
+  ],
+  "wholeAcceptedContractsAndAffectedAddress": [
+    {
+      "path": "docs/product/ship-fitting-v2.2-mission-brief.md",
+      "bytes": 22131,
+      "sha256": "e0d414eb48be123902fb05af3078e58d87d4c540c54f6bf4892af67da93fd5f4"
+    },
+    {
+      "path": "docs/product/ship-fitting-medium-modules.md",
+      "bytes": 13078,
+      "sha256": "e6088c0a48434674634d6c0f5c7a57347b6c33245ad66c5d5a15ecb8bce91b70"
+    },
+    {
+      "path": "docs/plans/2026-10-06-mission-medium-delivery.md",
+      "bytes": 15024,
+      "sha256": "dd585d3d481312c7b4286cedef80127ed0d864b4f35b7eaacfc4205c41e1bc53"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/mission-medium-code-review-contract.md",
+      "bytes": 10132,
+      "sha256": "7a23c35ed111b930e36909be8cec71b5564da096107186964c94c620b7926d58"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/mission-medium-affected-qa-contract.md",
+      "bytes": 3662,
+      "sha256": "b42611eb4a60d3ffd4e0f74e12511105632a1816299484abbf144b6c0750dc67"
+    }
+  ],
+  "ownContentFingerprint": "09369dc5795b5601e91f8eb491b99eda8a0869be38000008b133e6bafa31a636",
+  "method": "SHA256 UTF8 sorted27 path NUL gitBlob LF + literal whole brief + medium + HOW + whole Review Contract + whole affected address contract, in that order",
+  "exactDelta": [
+    "src/runner/mission.ts",
+    "tests/fitting/mission-review-blockers.test.ts"
+  ],
+  "newDurableTest": "Changed and PM-guarded; not run/read as own oracle",
+  "inheritedReport": {
+    "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/mission-medium-qa/execution-r1/report.md",
+    "bytes": 19335,
+    "sha256": "01a0bb6e9885c0f3bb7ac77095585465ad21b1c0582240fe235c9246a983cd69",
+    "meaning": "15 original AC scoped execution only; new B1/B2 counterexamples were absent; unchanged observations are historical carryover, not fifteen new runs"
+  },
+  "PMInheritedPackaging": {
+    "sourceManifestSha256": "824d745fa34e33b979c62a970336bc442d18d8783a0347d25941981e48065613",
+    "bounded5SourceFingerprint": "103f9dd52637b7ec8316bc275c2c1db4ee413b92df4d12c0edf28bd8a687eb05",
+    "buildManifestSha256": "4d8ac94d9e783bc768f4d9dcfecaea26d88f717a0111b96e95934faf18f95b22",
+    "buildFingerprint": "f9800bf4c01633a1a31c81f5cd22ac3ff6c5558f964f069b663815ac4d6342d1",
+    "ZIPBytes": 537639,
+    "ZIPsha256": "f0bbe5446a209f7e7b8d9c3da737dc3c2cc2657192286ea665beeb4a3ac293fc",
+    "ownBulkProofRepeated": false
+  }
+}

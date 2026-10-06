@@ -1,6 +1,7 @@
 import { isKnownCatalogVersion, hullsForEdition } from "./editions";
 import itemData from "./data/modules.json" with { type: "json" };
 import additions from "./data/modules-0.2.1.json" with { type: "json" };
+import medium from "./data/modules-0.2.3.json" with { type: "json" };
 import type {
   CandidateCatalog,
   FieldOrigin,
@@ -8,18 +9,18 @@ import type {
   ShipFit,
 } from "./types";
 export function loadCandidateCatalog(
-  version: CandidateCatalog["version"] = "ship-fitting-0.2.2",
+  version: CandidateCatalog["version"] = "ship-fitting-0.2.3",
 ): CandidateCatalog {
   if (!isKnownCatalogVersion(version)) throw new Error("Неизвестная версия каталога: " + version);
   return structuredClone({
     version,
     hulls: hullsForEdition(version),
-    items: version === "ship-fitting-0.2.0" ? itemData : { ...itemData, ...additions },
+    items: version === "ship-fitting-0.2.0" ? itemData : version === "ship-fitting-0.2.3" ? { ...itemData, ...additions, ...medium } : { ...itemData, ...additions },
   }) as unknown as CandidateCatalog;
 }
 export function getPresetFit(
   id: string,
-  version: CandidateCatalog["version"] = "ship-fitting-0.2.2",
+  version: CandidateCatalog["version"] = "ship-fitting-0.2.3",
 ): ShipFit {
   const c = loadCandidateCatalog(version);
   const current = version !== "ship-fitting-0.2.0";

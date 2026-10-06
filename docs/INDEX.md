@@ -27,8 +27,35 @@
 ## Текущий приоритет — рабочий процесс ГД
 
 - [Пони: один слот контроля сигнатур](plans/2026-10-06-pony-signature-slot.md) — принятое изменение баланса, план/VC P01–P05; новый каталог0.2.2, исторические0.2.0/0.2.1 сохраняются.
+- [Pony Plan Review](reviews/2026-10-06-pony-signature-slot-plan-review.md), [Developer](reviews/2026-10-06-pony-signature-slot-developer.md), [QA](reviews/2026-10-06-pony-signature-slot-qa.md), [Review1](reviews/2026-10-06-pony-slot-code-review-r1.md) — history: known resolved ghost buffer B1.
+- [Pony B1 fix](reviews/2026-10-06-pony-signature-slot-developer-fix-r1.md), [affected QA](reviews/2026-10-06-pony-signature-slot-qa-affected-r1.md), [scoped Review2](reviews/2026-10-06-pony-slot-code-review-r2.md) — local PASS/APPROVED bbe3fc; old numeric snapshots unchanged; live4188. Не M/mission acceptance.
 
-- [Задание v2.2: событийная добыча и рейс](product/ship-fitting-v2.2-mission-brief.md) — принятое поручение возобновить `ulab-dwi`; параметры оператора и рекомендации разделены. Открыты смысл первой остановки и значения V_FA; runtime v2.2 ещё не реализован.
+- [Задание v2.2: событийная добыча и рейс](product/ship-fitting-v2.2-mission-brief.md) — accepted v0.3; основной рейс до полного трюма реализован в локальном кандидате4189. Лабораторные опоры явно подписаны; QA PASS и scoped review APPROVED в local scope d57; rootguard перед commit, base/native/main отдельно открыты.
+- [M-модули и гибридные сборки](product/ship-fitting-medium-modules.md) — MF01–04/HY01–02, независимый PLAN_READY;50 SKU доступны в исправленном черновике4189 (d57); независимая QA PASS и scoped review APPROVED local scope; rootguard перед commit, base/main отдельно открыты.
+- [План рейса и M-поставки](plans/2026-10-06-mission-medium-delivery.md) — PRODUCT HOW/VC v1.2 M01–09 + medium contract, PLAN_READY; DEV_RELEASE одному исполнителю.
+- [Plan Review M/HY](reviews/2026-10-06-medium-hybrid-plan-review.md) — READY0BLOCKER/0ADVISORY; exact whole contract e6088c0a… .
+- [Plan Review рейса/M integration](reviews/2026-10-06-mission-medium-plan-review.md) — PLAN_READY0B/0A; M09 fixture B1 закрыт v1.2, три whole contracts/24owner paths, fingerprint fef78c6c… .
+- [Developer: восстановление и повтор рейсов](reviews/2026-10-06-mission-medium-developer-fix-r1.md) — ec259, 427unit/46browser+1SKIP; operator FAIL исправлен и независимо проверен; immutable история первого fix; последующее закрытие B1/B2 ниже.
+- [Независимая QA рейса/M/HY](reviews/2026-10-06-mission-medium-qa.md), [15 AC](reviews/2026-10-06-mission-medium-qa-case-ledger.json), [source binding](reviews/2026-10-06-mission-medium-qa-source-binding.json), [evidence manifest](reviews/2026-10-06-mission-medium-qa-evidence.json) — PASS в адресованном local PRODUCT scope ec259; две сквозные LAN цепочки и реальные часовые рейсы. Исторический PASS; последующее affected закрытие ниже, native/base/main gates отдельно.
+- [Code Review рейса/M/HY r1](reviews/2026-10-06-mission-medium-code-review-r1.md), [52-path binding](reviews/2026-10-06-mission-medium-code-review-r1-reviewed-paths.json) — CHANGES_REQUESTED: CR-MISSION-B1 renewable recovery и CR-MISSION-B2 zero-time repeat,2BLOCKER/0ADVISORY; один Developer fix, affected QA/scoped re-review. Immutable CHANGES_REQUESTED history; B1/B2 CLOSED scoped r2 ниже.
+- [Developer fix-r2](reviews/2026-10-06-mission-medium-developer-fix-r2.md) — d57ad5bc, только mission owner +20 durable tests;447unit/46browser+1SKIP PASS. Immutable d57 LIVE4189: affectedQA5PASS, scopedReview2APPROVED;20 tests добавлены.
+
+- [Affected QA B1/B2](reviews/2026-10-06-mission-medium-qa-affected-r2.md), [source binding](reviews/2026-10-06-mission-medium-qa-affected-r2-source-binding.json), [case ledger](reviews/2026-10-06-mission-medium-qa-affected-r2-case-ledger.json), [evidence](reviews/2026-10-06-mission-medium-qa-affected-r2-evidence.json) —5 адресованных PASS/0productFAIL на d57; один Sputnik H3600/3service/90SCU, один LANtouch390 Worker workflow. Не повторный QA15.
+
+- [Scoped Code Review r2](reviews/2026-10-06-mission-medium-code-review-r2.md), [2 delta/51 carryover binding](reviews/2026-10-06-mission-medium-code-review-r2-reviewed-paths.json) — APPROVED, CR-MISSION-B1/B2 CLOSED,0BLOCKER/0ADVISORY; source d57, fullguard/base/main отдельно.
+- [Следующее дополнение: «Заправлять и заряжать»](plans/2026-10-06-station-service.md) — прямое поручение оператора, PLAN_READY HOW/AC ST01–06; stationcharge локально поставлена на4189/86; отдельнаяQA иscopedclosure ниже.
+
+- [Plan Review станции](reviews/2026-10-06-station-service-plan-review.md), [binding](reviews/2026-10-06-station-service-plan-review-binding.json) — PLAN_READY0BLOCKER/1ADVISORY; noBatterycontrol остаётсяsynthetic/refusal, не новоеvalidmission разрешение.
+
+- [Developer станции](reviews/2026-10-06-station-service-developer.md) — a625c79c,455unit/47browser+1SKIP PASS; галочка и station GJ реализованы; historical QA ST01–06 PASS, Review1B требует IO fix; последующийfix86 LIVE4189; initialreport preserved.
+
+
+- [QA станции ST01–06](reviews/station-service-qa/execution-r1/report.md), [binding](reviews/station-service-qa/execution-r1/source-binding.json) — PASS методов59API/16native наa625; независимый Review выявил неохваченный OFF/fuel import ниже.
+- [Code Review станции r1](reviews/2026-10-06-station-service-code-review-r1.md), [binding](reviews/2026-10-06-station-service-code-review-r1-binding.json) — CHANGES_REQUESTED1BLOCKER/0ADVISORY: CR-ST-B1, positivefuel при explicitOFF; history; CLOSED вaffectedQA/scopedclosure ниже.
+
+- [Developer station fix](reviews/2026-10-06-station-service-developer-fix-r1.md) —86dee5d: oneIOguard/twoisolatedtests,457unit47browser+SKIPPASS; oldabsence preserved.
+- [Affected QA station B1](reviews/station-service-qa/affected-b1/execution-r1/report.md), [binding](reviews/station-service-qa/affected-b1/execution-r1/source-binding.json) — B1-01–04PASS13API/7native import-only; обаspecies/atomicA/ON/OFF/absence.
+- [Scoped Review station r2](reviews/2026-10-06-station-service-code-review-r2.md), [binding](reviews/2026-10-06-station-service-code-review-r2-binding.json) — APPROVED0BLOCKER0ADVISORY; CR-ST-B1 CLOSED; exact86 LIVE4189, rootnormalguard передfinalcommit/PR9.
 
 Оператор отклонил UX v3 и поручил адверсальное ревью GD, UX/UI и пользовательских
 сценариев. Claude Design теперь рассматривается как ассеты и предложение макета.
@@ -187,4 +214,4 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [Новый локальный UI](http://192.168.68.65:4183/?v=claude-ui-30a1c9b), [прежний Ship Fitting](http://192.168.68.65:4186/) и [Legacy Power & Heat](http://192.168.68.65:4186/?mode=legacy) доступны параллельно.
 - Численное ядро сохранено; full mining mission/refuel и UI13-02 attribution deferred. Physical/native/public/base/main gates остаются отдельными, PR #6 Draft.
 
-- [Самоаудит PM по сигналу оператора](reviews/2026-10-06-pm-self-audit.md) — ошибки организации, сокращение Memory Bank и правило повторения после каждых3 QA/Review+триаж итераций; не новый verifier launch.
+- [Самоаудит PM по сигналу оператора](reviews/2026-10-06-pm-self-audit.md) — ошибки организации, сокращение Memory Bank и правило повторения после каждых3 review/QA+триаж/фикс итераций; не новый verifier launch.

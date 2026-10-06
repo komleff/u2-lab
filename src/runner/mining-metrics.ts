@@ -4,7 +4,7 @@ import type {
   StepResultV2,
   Cause,
 } from "../model/v2/types";
-import { CAUSES } from "../model/v2/types";
+import { CAUSES, MODEL_MISSION } from "../model/v2/types";
 export type RecoverySummary = {
   firstSeconds: number | null;
   count: number;
@@ -14,6 +14,7 @@ export type RecoverySummary = {
   pendingStopSeconds: number | null;
 };
 export type MiningMetrics = {
+  mission?: { deliveredM3: number; deliveredScuPerHour: number | null; fuelPerDeliveredScu: Record<string, number | null>; flightSeconds: number; approachSeconds: number; miningSeconds: number; serviceSeconds: number; recoverySeconds: number; peakVelocityMS: number; receivedChargeJ?: number };
   ticks: number;
   usefulWork: number;
   selectedWorkM3: number;
@@ -224,6 +225,7 @@ export function updateMiningMetrics(
     step.state.usefulWork >= s.scenario.targetM3 - 1e-9
   )
     m.firstTargetSeconds = step.state.timeSeconds;
+  if (s.modelVersion !== MODEL_MISSION) {
   const cycleDuration = s.scenario.phases.reduce(
     (n, p) => n + p.durationSeconds,
     0,
@@ -257,6 +259,7 @@ export function updateMiningMetrics(
     m.currentCycleSeconds > 1e-8
       ? "наблюдаемый горизонт / неполный цикл"
       : "завершённые циклы";
+  }
   m.maxTemperatureK = Math.max(m.maxTemperatureK, step.maxTemperatureK);
   m.energyResidualJ += v("energyResidualJ");
   m.sourceEnergyJ +=
