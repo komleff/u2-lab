@@ -1,13 +1,13 @@
-import { catalogHasItem, isKnownCatalogVersion } from "../fitting/editions";
+import { catalogHasItem, fitHull, isKnownCatalogVersion } from "../fitting/editions";
 import { validateRunSpec, type ValidationResult } from "../catalog/schema";
-import { validateFit } from "../fitting/validate";
+import { validateFit, installedInstances } from "../fitting/validate";
 import { loadCandidateCatalog } from "../fitting/catalog";
 import { validateRunSpecV2 } from "../model/v2/step";
-import type { ShipFit, CandidateCatalog } from "../fitting/types";
+import type { ShipFit, CandidateCatalog, ModuleItem, Slot } from "../fitting/types";
 import type { AnyRunSpec } from "../model/v2/types";
-const invalid = <T>(code: string, message: string): ValidationResult<T> => ({
+const invalid = <T>(code: string, message: string, path = "$"): ValidationResult<T> => ({
   ok: false,
-  errors: [{ path: "$", code, message }],
+  errors: [{ path, code, message }],
 });
 export function parseFitJson(
   text: string,
@@ -47,9 +47,35 @@ export function parseExperimentJson(
           Object.values(fit.instances).some(i => !fit.localVariants[i.itemId] && !catalogHasItem(spec.catalogVersion, i.itemId)) ||
           validated.value.resolvedShip.instances.some(i => !i.builtin && !fit.localVariants[i.item.id] && !catalogHasItem(spec.catalogVersion, i.item.id)))
         return invalid("CATALOG_INVENTORY", "Изделие или version stamp не принадлежит объявленному каталогу");
-      const mounting = validateFit(fit, loadCandidateCatalog(spec.catalogVersion));
+      const catalog = loadCandidateCatalog(spec.catalogVersion);
+      const mounting = validateFit(fit, catalog);
       if (!mounting.valid)
         return { ok: false, errors: mounting.issues.filter(i => i.severity === "error") };
+      // Законный вложенный fit не разрешает скрытые изделия в численном roster.
+      // Сверяем только монтажную идентичность; авторские ТТХ, bill и измерения не пересчитываем.
+      const declared = fitHull(fit, catalog)!, resolved = validated.value.resolvedShip;
+      const sameItem = (a: ModuleItem, b: ModuleItem) =>
+        (["id", "family", "category", "size", "formFactor", "species", "propulsionType"] as const)
+          .every(key => a[key] === b[key]);
+      const sameSlot = (a: Slot, b: Slot) =>
+        (["id", "category", "size", "formFactor", "mandatory", "role"] as const)
+          .every(key => a[key] === b[key]) &&
+        Array.isArray(b.families) && JSON.stringify([...a.families].sort()) === JSON.stringify([...b.families].sort());
+      if (resolved.hull.id !== declared.id || resolved.hull.architecture !== declared.architecture || resolved.hull.size !== declared.size ||
+          !Array.isArray(resolved.hull.slots) || resolved.hull.slots.length !== declared.slots.length ||
+          declared.slots.some(s => { const actual = resolved.hull.slots.find(x => x.id === s.id); return !actual || !sameSlot(s, actual); }) ||
+          !Array.isArray(resolved.hull.builtins) || resolved.hull.builtins.length !== declared.builtins.length ||
+          declared.builtins.some(b => { const actual = resolved.hull.builtins.find(x => x.id === b.id); return !actual || actual.role !== b.role || !sameItem(b.item, actual.item); }))
+        return invalid("RESOLVED_MOUNT", "Монтажный профиль корпуса не соответствует объявленной редакции fitting", "resolvedShip.hull");
+      const expected = installedInstances(fit, catalog);
+      if (resolved.instances.length !== expected.length)
+        return invalid("RESOLVED_MOUNT", "Численный roster содержит лишние или пропущенные установленные экземпляры", "resolvedShip.instances");
+      for (const wanted of expected) {
+        const actual = resolved.instances.find(i => i.id === wanted.id);
+        if (!actual || actual.slotId !== wanted.slotId || actual.role !== wanted.role ||
+            actual.enabled !== wanted.enabled || actual.builtin !== wanted.builtin || !sameItem(actual.item, wanted.item))
+          return invalid("RESOLVED_MOUNT", "ID, слот, изделие или режим экземпляра не соответствует объявленному fitting", "resolvedShip.instances." + wanted.id);
+      }
     } else {
       if (!options.allowSnapshotReplay)
         return invalid(

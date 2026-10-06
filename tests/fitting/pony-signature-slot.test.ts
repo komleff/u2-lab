@@ -13,6 +13,8 @@ import { FittingWorkspace } from "../../src/app/fitting-workspace";
 import { replacement, passport } from "../../src/app/fitting-ui/presentation";
 import { shipView } from "../../src/app/fitting-ui/ship-view";
 import { swapDialog } from "../../src/app/fitting-ui/swap-dialog";
+import { validateRunSpecV2 } from "../../src/model/v2/step";
+import type { RunSpecV2 } from "../../src/model/v2/types";
 const old = "ship-fitting-0.2.1", next = "ship-fitting-0.2.2";
 const wire = (x: unknown) => JSON.stringify(x, (_, v) => ArrayBuffer.isView(v) ? Array.from(v as any) : v);
 const digest = (x: unknown) => createHash("sha256").update(wire(x)).digest("hex");
@@ -96,5 +98,89 @@ describe("P01–P04 edition-specific Pony signature mount", () => {
     const start = w.start("old-active"); if (!start.ok) throw Error("start fixture"); const run = createRun("old-active", start.value.spec); runChunk(run, 3);
     w.acceptResult(result(run)); w.setStatus("old-active", "paused"); expect(w.freeze()).toBe(true); const before = w.snapshot(); w.select("B"); w.applyFit(getPresetFit("pony:3"));
     expect(w.getFit().catalogVersion).toBe(next); expect(w.getActive()).toEqual(before.active); expect(w.getFrozen()).toEqual(before.frozen); expect(w.getVariants()[0]).toEqual(before.variants[0]);
+  });
+});
+
+describe("CR-PONY-B1 known snapshot mounting identity", () => {
+  const versions = ["ship-fitting-0.2.0", old, next] as const;
+  const prepared = (version: typeof versions[number], edit?: (fit: ReturnType<typeof getPresetFit>) => void) => {
+    const fit = getPresetFit("pony:2", version); edit?.(fit);
+    const s = makeMiningRun(fit, loadCandidateCatalog(version), { durationSeconds: 1, stepSeconds: 1 });
+    if (!s.ok) throw Error(wire(s)); return s.value;
+  };
+  const completed = (s: RunSpecV2) => { const run = createRun("mount-proof", s); while (!run.done) runChunk(run, 100); return result(run); };
+  const keeper = () => {
+    const w = new FittingWorkspace(getPresetFit("pony:1"), loadCandidateCatalog());
+    const s = makeMiningRun(w.getFit(), w.catalog, { durationSeconds: 1, stepSeconds: 1 });
+    if (!s.ok) throw Error("keeper fixture"); w.showRun(completed(s.value)); expect(w.freeze()).toBe(true); return w;
+  };
+  it("rejects the independently reproduced hidden20MJ buffer experiment/result atomically", () => {
+    const s = prepared(old); s.catalogVersion = s.resolvedShip.fit.catalogVersion = next;
+    const id = s.resolvedShip.fit.assignments["signature-2"];
+    delete s.resolvedShip.fit.assignments["signature-2"]; delete s.resolvedShip.fit.instances[id];
+    expect(validateFit(s.resolvedShip.fit, loadCandidateCatalog()).valid).toBe(true);
+    expect(validateRunSpecV2(s).ok).toBe(true);
+    const native = completed(s), w = keeper(), before = w.snapshot();
+    const experiment = parseExperimentJson(wire(s)), parsedResult = parseResultJson(wire(native));
+    const admission = w.importDocument(wire(native));
+    console.log(JSON.stringify({ address: "CR-PONY-B1", experiment: experiment.ok, result: parsedResult.ok, workspace: admission.ok, changed: wire(before) !== wire(w.snapshot()), timeSeconds: native.state.timeSeconds, hiddenBufferJ: native.state.buffersJ[id] }));
+    expect(native.state.buffersJ[id]).toBeCloseTo(20e6, 5); expect(experiment.ok).toBe(false); expect(parsedResult.ok).toBe(false); expect(admission.ok).toBe(false); expect(w.snapshot()).toEqual(before);
+  });
+  const mismatches = ["extra", "missing", "id", "item", "family disguise", "enabled", "slot/role", "builtin flag", "builtin owner", "extra hull slot"] as const;
+  for (const version of versions) for (const kind of mismatches) it(`${version}: refuses internally numeric-valid ${kind} mounting mismatch`, () => {
+    const original = prepared(version), fit = original.resolvedShip.fit;
+    let s = structuredClone(original);
+    if (kind === "extra") {
+      const id = s.resolvedShip.fit.assignments["signature-1"];
+      delete s.resolvedShip.fit.assignments["signature-1"]; delete s.resolvedShip.fit.instances[id];
+    } else if (kind === "missing") {
+      s = prepared(version, f => { const id = f.assignments["signature-1"]; delete f.assignments["signature-1"]; delete f.instances[id]; });
+      s.resolvedShip.fit = structuredClone(fit);
+    } else if (kind === "id") {
+      s = prepared(version, f => { const id = f.assignments["signature-1"]; f.instances["hidden:radiator"] = { ...f.instances[id], id: "hidden:radiator" }; delete f.instances[id]; f.assignments["signature-1"] = "hidden:radiator"; });
+      s.resolvedShip.fit = structuredClone(fit);
+    } else if (kind === "item" || kind === "family disguise") {
+      s = prepared(version, f => { f.instances[f.assignments["signature-1"]].itemId = "buffer-S"; });
+      if (kind === "family disguise") s.resolvedShip.instances.find(i => i.slotId === "signature-1")!.item.id = "radiator-passive-S";
+      s.resolvedShip.fit = structuredClone(fit);
+    } else if (kind === "enabled") {
+      s = prepared(version, f => { f.instances[f.assignments["signature-1"]].enabled = false; }); s.resolvedShip.fit = structuredClone(fit);
+    } else if (kind === "slot/role") {
+      for (const i of s.resolvedShip.instances.filter(i => i.role === "strafe" || i.role === "turn")) i.slotId = i.role = i.role === "strafe" ? "turn" : "strafe";
+    } else if (kind === "builtin flag") {
+      const i = s.resolvedShip.instances.find(i => i.builtin)!; i.builtin = false;
+      s.resolvedShip.fit.localVariants[i.item.id] = structuredClone(i.item);
+    } else if (kind === "builtin owner") {
+      s.resolvedShip.hull.builtins[0].id = "builtin:hidden-owner";
+    } else s.resolvedShip.hull.slots.push({ ...structuredClone(s.resolvedShip.hull.slots.find(x => x.id === "signature-1")!), id: "signature-hidden" });
+    expect(validateFit(s.resolvedShip.fit, loadCandidateCatalog()).valid).toBe(true); expect(validateRunSpecV2(s).ok).toBe(true);
+    const native = completed(s), w = keeper(), before = w.snapshot();
+    for (const doc of [s, native]) {
+      expect(parseExperimentJson(wire(doc), { allowSnapshotReplay: true }).ok).toBe(false);
+      expect(w.importDocument(wire(doc), true).ok).toBe(false); expect(w.snapshot()).toEqual(before);
+    }
+    expect(parseResultJson(wire(native)).ok).toBe(false);
+  });
+  for (const version of versions) it(`${version}: keeps authored numeric hull/builtin/local-variant snapshots byte-exact`, () => {
+    const c = loadCandidateCatalog(version), h = c.hulls.find(x => x.id === "pony")!, f = getPresetFit("pony:2", version);
+    h.hullPowerW = 123; h.hullRadiationM2 *= 0.8; h.materials[0].massKg *= 1.05; h.materials[0].cpJKgK *= 1.1;
+    h.builtins[0].item.materials[0].massKg *= 1.1;
+    const variant = structuredClone(c.items["radiator-passive-S"]); variant.id = "authored:radiator"; variant.numerics.areaM2 *= 0.75; variant.materials[0].cpJKgK = 510;
+    variant.origins["numerics.areaM2"] = { kind: "experimental", unit: "m²", sourceRef: "lab:authored-mount-proof" };
+    f.localVariants[variant.id] = variant; f.instances[f.assignments["signature-1"]].itemId = variant.id;
+    f.builtinModes = { "builtin:laser": { enabled: false } };
+    const s = makeMiningRun(f, c, { durationSeconds: 1, stepSeconds: 1 }); if (!s.ok) throw Error(wire(s));
+    expect(parseExperimentJson(wire(s.value))).toEqual(s);
+    const native = completed(s.value); expect(parseResultJson(wire(native))).toEqual({ ok: true, value: native });
+    const w = keeper(); expect(w.importDocument(wire(native)).ok).toBe(true); expect(w.getCurrentResult()).toEqual(native); expect(w.prepare()).toEqual(s);
+  });
+  it("retains explicit unknown numerical replay without claiming known hull compatibility", () => {
+    const s = prepared(old), id = s.resolvedShip.fit.assignments["signature-2"];
+    delete s.resolvedShip.fit.assignments["signature-2"]; delete s.resolvedShip.fit.instances[id];
+    s.catalogVersion = s.resolvedShip.fit.catalogVersion = "ship-fitting-unregistered";
+    expect(parseExperimentJson(wire(s)).ok).toBe(false);
+    const replay = parseExperimentJson(wire(s), { allowSnapshotReplay: true });
+    expect(replay).toEqual({ ok: true, value: { ...s, snapshotReplayOnly: true } });
+    const w = keeper(), fit = w.getFit(); expect(w.importDocument(wire(s), true).ok).toBe(true); expect(w.getFit()).toEqual(fit); expect(w.prepare()).toEqual(replay);
   });
 });

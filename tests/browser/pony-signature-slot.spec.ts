@@ -1,6 +1,8 @@
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
-import { getPresetFit } from "../../src/fitting/catalog";
+import { getPresetFit, loadCandidateCatalog } from "../../src/fitting/catalog";
+import { makeMiningRun } from "../../src/scenarios/fitting";
+import { createRun, runChunk, result } from "../../src/runner/run";
 for (const width of [1440, 390]) test(`P05 native Pony new/old edition mounting, Worker and JSON at ${width}`, async ({ browser }, info) => {
   test.setTimeout(90000);
   const context = await browser.newContext({ viewport: { width, height: 1000 }, isMobile: width === 390, hasTouch: width === 390, acceptDownloads: true });
@@ -49,6 +51,21 @@ for (const width of [1440, 390]) test(`P05 native Pony new/old edition mounting,
   await action("#fit-cancel"); await action("#cancel-yes"); await expect(page.locator("#fit-active-owner")).toContainText("активного теста нет");
   const before = await exported("#fit-save"), falseClaim = structuredClone(previous.fit); falseClaim.catalogVersion = "ship-fitting-0.2.2"; await open(falseClaim);
   await expect(page.locator("#fit-error")).not.toBeEmpty(); expect(await exported("#fit-save")).toEqual(before); expect(await page.locator(".ab-side-a").innerHTML()).toBe(frozen);
+  await action('[data-variant="A"][aria-pressed]'); await details();
+  const keepFit = await exported("#fit-save"), keepRun = await exported("#fit-export-run"), keepResult = await exported("#fit-export-result");
+  const hidden = makeMiningRun(getPresetFit("pony:2", "ship-fitting-0.2.1"), loadCandidateCatalog("ship-fitting-0.2.1"), { durationSeconds: 1, stepSeconds: 1 });
+  if (!hidden.ok) throw Error("counterexample fixture");
+  hidden.value.catalogVersion = hidden.value.resolvedShip.fit.catalogVersion = "ship-fitting-0.2.2";
+  const hiddenId = hidden.value.resolvedShip.fit.assignments["signature-2"];
+  delete hidden.value.resolvedShip.fit.assignments["signature-2"]; delete hidden.value.resolvedShip.fit.instances[hiddenId];
+  const hiddenRun = createRun("hidden-mount", hidden.value); runChunk(hiddenRun, 10);
+  const hiddenResult = JSON.parse(JSON.stringify(result(hiddenRun), (_, v) => ArrayBuffer.isView(v) ? Array.from(v as any) : v));
+  expect(hiddenResult.state.buffersJ[hiddenId]).toBeCloseTo(20e6, 5);
+  for (const doc of [hidden.value, hiddenResult]) {
+    await open(doc); await expect(page.locator("#fit-error")).not.toBeEmpty();
+    expect(await exported("#fit-save")).toEqual(keepFit); expect(await exported("#fit-export-run")).toEqual(keepRun); expect(await exported("#fit-export-result")).toEqual(keepResult);
+    expect(await page.locator(".ab-side-a").innerHTML()).toBe(frozen);
+  }
   const geometry = await page.evaluate(() => ({ inner: innerWidth, document: document.documentElement.scrollWidth, visual: visualViewport!.width })); expect(geometry).toEqual({ inner: width, document: width, visual: width }); expect(errors).toEqual([]);
   await info.attach("pony-native-editions", { body: JSON.stringify({ width, current, previous, active, geometry, errors }), contentType: "application/json" }); await context.close();
 });
