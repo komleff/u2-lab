@@ -1,0 +1,20 @@
+import { test, expect } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
+import old from '../fitting/fixtures/station-service-old.json' with { type:'json' };
+
+for(const width of [1440,390])test(`TD01–06 ${width} actual Worker cold explanation, graph, pause/step/A and atomic replay`,async({browser},info)=>{
+ const context=await browser.newContext({viewport:{width,height:1000},isMobile:width===390,hasTouch:width===390,acceptDownloads:true}),page=await context.newPage(),errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+ const action=async(id:string)=>{const l=page.locator(id);await l.evaluate(n=>n.scrollIntoView({block:'center'}));if(width===390)await l.tap();else await l.click();};
+ const detail=async()=>{if(!await page.locator('#fit-more').evaluate(n=>(n as HTMLDetailsElement).open))await action('#fit-f3');};
+ const exported=async(id:string)=>{await detail();const wait=page.waitForEvent('download');await action(id);return JSON.parse(await readFile((await(await wait).path())!,'utf8'));};
+ const opened=async(x:unknown)=>page.locator('#fit-import').setInputFiles({name:'thermal.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(x))});
+ await page.goto('/');await page.locator('#fit-preset').selectOption('pony:2');await page.locator('#fit-distance').fill('0');await page.locator('#fit-approach').fill('0');await page.locator('#fit-service').fill('0');await page.locator('#fit-temperature').fill('225');await page.locator('#fit-duration').fill('50');await page.locator('#fit-speed').selectOption('1');await action('#fit-start');
+ await expect(page.locator('#fit-events')).toContainText('переохлаждение');await action('#fit-pause');await expect(page.locator('#fit-status')).toContainText('Пауза');await expect(page.locator('#fit-first')).toContainText('переохлаждение');
+ await expect(page.locator('footer')).toContainText('thermal diagnostics v0.1');await expect(page.locator('[data-thermal-band="cold"]')).toHaveCount(1);await expect(page.locator('[data-thermal-band="hot"]')).toHaveCount(1);await expect(page.locator('[data-boundary="work-low"]')).toHaveCount(1);
+ const labels=await page.locator('text[fill]').evaluateAll(ns=>ns.map(n=>({text:n.textContent,y:Number(n.getAttribute('y'))})));expect(labels.length).toBe(4);const hot=labels.filter(l=>l.text?.includes('Жар'));expect(Math.abs(hot[0].y-hot[1].y)).toBeGreaterThanOrEqual(18);
+ const before=await exported('#fit-export-result');expect(before.events.some((e:any)=>e.message.includes('Добыча')&&e.message.includes('переохлаждение'))).toBe(true);await action('#fit-step');const stepped=await exported('#fit-export-result');expect(stepped.state.timeSeconds).toBeGreaterThan(before.state.timeSeconds);await action('#fit-freeze');const a=await page.locator('.ab-side-a').innerHTML(),lastValid=await exported('#fit-export-result');
+ const bad=structuredClone(lastValid);bad.events.push({timeSeconds:-1,kind:'diagnostic',message:'invalid'});await opened(bad);await expect(page.locator('#fit-error')).toContainText('events');expect(await exported('#fit-export-result')).toEqual(lastValid);expect(await page.locator('.ab-side-a').innerHTML()).toBe(a);
+ await action('#fit-cancel');await action('#cancel-yes');await expect(page.locator('#fit-active-owner')).toContainText('активного теста нет');await opened(lastValid);await expect(page.locator('#fit-error')).toHaveText('');expect(await exported('#fit-export-result')).toEqual(lastValid);await expect(page.locator('[data-thermal-band="cold"]')).toHaveCount(1);
+ await opened(old.spec);await expect(page.locator('#fit-error')).toHaveText('');expect(await exported('#fit-export-run')).toEqual(old.spec);expect(await page.locator('.ab-side-a').innerHTML()).toBe(a);
+ const geometry=await page.evaluate(()=>({inner:innerWidth,doc:document.documentElement.scrollWidth,visual:visualViewport!.width}));expect(geometry).toEqual({inner:width,doc:width,visual:width});expect(errors).toEqual([]);await info.attach('thermal-worker',{body:JSON.stringify({before,stepped,geometry,labels,errors}),contentType:'application/json'});await context.close();
+});

@@ -1,6 +1,8 @@
 import { it, expect } from "vitest";
 import { createHash } from "node:crypto";
 import baseline from "./fixtures/catalog-0.2.0-digests.json";
+import physical from "./fixtures/thermal-old-result-digests.json";
+import { physicalResult } from './physical-result';
 import { getPresetFit as editionPreset, loadCandidateCatalog } from "../../src/fitting/catalog";
 import type { CandidateCatalog } from "../../src/fitting/types";
 import { makeMiningRun } from "../../src/scenarios/fitting";
@@ -22,7 +24,7 @@ for(const [id,oracle] of Object.entries(baseline.rows)) it(`old ${id} retains ex
  const run=createRun("old:"+id,s.value);
  for(const key of ["zero","partial","complete"] as const){
   if(key==="partial")runChunk(run,1);if(key==="complete")while(!run.done)runChunk(run,100);
-  const native=result(run);expect(digest(native)).toBe(oracle[key]);
+  const native=result(run);if(key==='zero')expect(digest(native)).toBe(oracle[key]);expect(digest(physicalResult(native))).toBe(physical.rows[old][id as keyof typeof physical.rows[typeof old]][key]);
   const opened=parseResultJson(json(native));expect(opened).toEqual({ok:true,value:native});
   const fresh=new FittingWorkspace(getPresetFit("sputnik"),current);
   expect(fresh.importDocument(json(native)).ok).toBe(true);expect(fresh.getCurrentResult()).toEqual(native);expect(fresh.prepare()).toEqual(s);

@@ -6,6 +6,7 @@ import type {
 } from "../model/types";
 import { capacity, initialState } from "../model/types";
 import { stepModel } from "../model/step";
+import { DiagnosticObserver, replacedDiagnosticEvent } from './diagnostics';
 import { validateRunSpec } from "../catalog/schema";
 import { phaseAt } from "../scenarios/schema";
 import { Retention, EventRetention, type Bucket } from "./retention";
@@ -24,6 +25,7 @@ export type RunContext = {
   events: EventRetention;
   done: boolean;
   last: TickTelemetry;
+  diagnostics: DiagnosticObserver;
 };
 export type RunResult = {
   runId: string;
@@ -54,6 +56,7 @@ function createLegacyRun(runId: string, spec: RunSpec): RunContext {
     events: new EventRetention(),
     done: false,
     last: {},
+    diagnostics: new DiagnosticObserver(),
   };
 }
 function runLegacyChunk(
@@ -158,7 +161,8 @@ function runLegacyChunk(
     );
     run.state = r.state;
     run.last = r.telemetry;
-    for (const e of r.events) run.events.add(e);
+    const events=[...r.events.filter(e=>!replacedDiagnosticEvent(e.kind)),...run.diagnostics.observeLegacy(run.spec.ship,previousState,r,requests,phase.id)];
+    for (const e of events.sort((a,b)=>a.timeSeconds-b.timeSeconds))run.events.add(e);
     if (run.state.cargo >= run.spec.ship.cargoCapacity - 1e-8 && work) {
       run.events.add({
         timeSeconds: run.state.timeSeconds,

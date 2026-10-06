@@ -54,14 +54,20 @@ export function channelRows(
 export function eventMatches(kind: string, filter: string) {
   return (
     filter === "all" ||
-    (filter === "thrust" && kind === "propulsion-shortfall") ||
-    (filter === "thermal" && kind.startsWith("thermal")) ||
+    (filter === "thrust" && /propulsion-shortfall|diagnostic-thrust/.test(kind)) ||
+    (filter === "thermal" && /thermal|diagnostic-wear/.test(kind)) ||
     (filter === "resource" && /resource|battery|cargo|buffer/.test(kind)) ||
     (filter === "phase" && kind === "phase") ||
     (filter === "environment" && kind.startsWith("environment")) ||
     (filter === "service" && /service|unload/.test(kind)) ||
-    (filter === "limit" && /limit|constraint/.test(kind))
+    (filter === "limit" && /limit|constraint|diagnostic/.test(kind))
   );
+}
+export function eventLabel(kind:string) {
+ if(kind==='diagnostic-wear')return 'Температура и износ';
+ if(kind==='diagnostic-recovered')return 'Выдача восстановлена';
+ if(kind.startsWith('diagnostic'))return 'Диагностика операции';
+ return ({'thermal-stop':'Температурная защита','thermal-restart':'Температурный запрет снят'} as Record<string,string>)[kind]??kind;
 }
 export const channelNames: Record<string, string> = {
   requestedW: "Запрошено",
