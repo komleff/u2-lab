@@ -1,6 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { createHash } from "node:crypto";
 import baseline from "./fixtures/catalog-0.2.1-pony-digests.json";
+import physical from "./fixtures/thermal-old-result-digests.json";
+import { physicalResult } from './physical-result';
 import { getPresetFit as editionPreset, loadCandidateCatalog as editionCatalog } from "../../src/fitting/catalog";
 import * as editions from "../../src/fitting/editions";
 import { validateFit } from "../../src/fitting/validate";
@@ -56,7 +58,7 @@ describe("P01–P04 edition-specific Pony signature mount", () => {
     const run = createRun("old021:" + id, spec.value);
     for (const key of ["zero", "partial", "complete"] as const) {
       if (key === "partial") runChunk(run, 3); if (key === "complete") while (!run.done) runChunk(run, 100);
-      const native = result(run); expect(digest(native)).toBe(oracle[key]); expect(parseResultJson(wire(native))).toEqual({ ok: true, value: native });
+      const native = result(run); if(key==='zero')expect(digest(native)).toBe(oracle[key]); expect(digest(physicalResult(native))).toBe(physical.rows[old][id as keyof typeof physical.rows[typeof old]][key]); expect(parseResultJson(wire(native))).toEqual({ ok: true, value: native });
       const w = new FittingWorkspace(getPresetFit("sputnik"), c); expect(w.importDocument(wire(native)).ok).toBe(true); expect(w.prepare()).toEqual(spec); expect(w.getCurrentResult()).toEqual(native);
     }
   });

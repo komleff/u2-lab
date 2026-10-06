@@ -1,23 +1,22 @@
-# Прогресс — 2026-10-06
+# Прогресс — 2026-10-07
 
-На порту4189 доступна проверенная локальная v2.2 d57: повторяемые физические рейсы,
-событийная добыча,50 SKU с M-модулями, разрешённые power hybrids. Исходные mission
-B1/B2 CLOSED affectedQA/scopedReview; root447unit/46browser+1SKIP PASS,3ced pushed
-в DraftPR9. Первые интерфейсы4183/4186 и промежуточный Pony4188 сохранены.
-Список источников, неизменные отчёты и прежние FAIL — docs/INDEX.md.
+PUBLIC https://komleff.github.io/u2-lab/?v=thermal-a6c7430: v2.2/UI4/catalog0.2.3/
+thermal diagnostics0.1. Exact17assets и настоящий WorkerStart/advance/Pause/
+bands/errors0 PASS. Первая Lab /legacy-v1/4files exact/Start/Pause/errors0 PASS.
+LAN4196/latest и4189/previous сохранены; source a6, gh-pages b2842bc.
 
-ulab-558: freshON полное stationfuel+charge, OFF только разгрузка, старое absence
-fuel-only. PlanREADY; initialQA ST01–06 PASS. ReviewCR-ST-B1 исправлен классом
-обоих fuels одной IO line. AffectedQA4B1-01–04PASS13API/7native; scopedReview5
-APPROVED0B0A. Exact86 immutable ужеLIVE4189, прежнийd57 rollback и версиисохранены.
-Developer457unit/47browser+SKIPPASS; обязательный finalrootguard перед commit,
-его outcome/rootSHA вFINAL ACCEPTANCE PR9 и station-service-root-commit-guard-final.txt.
+PR10 thermal diagnostics: QA6 PASS/CR-TD-B1 CLOSED, Review7 APPROVED/0B0A.
+5affectedriskrows/26API+7native assertions, один LegacyWorker; reviewer2bounded
+controls. Старые FAIL/CHANGES_REQUESTED сохранены. TD05 classQA4 и неизменные
+AC/численные доказательства перенесены, без новой полной кампании.
+Normalguard489unit/49browser+1SKIP/26cloud PASS; финальный metadata commit
+проходит обычный guard, currentHEAD/result — FINAL ACCEPTANCE в PR10.
 
-Срочный самоаудит PM_ERR1.2/DOC_PR выполнен; признана процессная задержка доставки.
-Правило каждые3 review/QA+триаж/фиксы. IO fix+QA4+Review5=3/3 audited/reset0.
-Новых verifierlaunches нет; PRODUCTbudget5/5 завершён.
+U2 canon DraftPR842/775ea: единая thermal curve+wear; Unity/server не менялись.
+H₂governor/численный wear OUT. Stacked bases/bootstrap/native/main/merge OPEN,
+обеPR Draft; operator merge отдельно. Beads ulab-6ty/rootprimary solewriter.
+Оператор дал +5, использовано7/10, reserve3; два самоаудита PM_ERR1.3/DOC_PR,
+второй при3/3, counter0/3. Новых verifier launches без namedFAIL не нужно.
 
-Beads — sole task tracker, только root API; ulab-w6w/ulab-dwi.1/.2 CLOSEDlocal,
-ulab-dwi closure blocked open ulab-zk2 безforce, ulab-558 localaccepted, currentstatus поbd API. Один trusted
-export после текущего milestone. Draft base/bootstrap/native/physical/public/main/
-operator merge открыты отдельно. Никакого main/auto-merge.
+Прежняя v2.2: physical missions/M/HY/station service, PR9Draft; миссионные и
+станционные blockers локально закрыты. Полная неизменная история — docs/INDEX.md.

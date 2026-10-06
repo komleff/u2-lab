@@ -1,6 +1,8 @@
 import { it, expect } from "vitest";
 import { createHash } from "node:crypto";
 import oracle from "./fixtures/catalog-0.2.2-digests.json";
+import physical from "./fixtures/thermal-old-result-digests.json";
+import { physicalResult } from './physical-result';
 import { getPresetFit,loadCandidateCatalog } from "../../src/fitting/catalog";
 import { makeMissionRun,compareMissionConditions } from "../../src/scenarios/mission";
 import { makeMiningRun } from "../../src/scenarios/fitting";
@@ -36,5 +38,5 @@ it('M06 mission comparisons permit hull/hold/laser/capacity changes but compare 
 for(const [id,expected] of Object.entries(oracle.rows))it(`M07 pre-code .2 exact native oracle ${id} survives mission additions`,()=>{
  const fit=getPresetFit(id,c.version),s=makeMiningRun(fit,c,{durationSeconds:2,stepSeconds:1});if(!s.ok)throw Error(json(s));
  expect(digest(c)).toBe(oracle.catalog);expect(digest(fit)).toBe(expected.fit);expect(digest(s.value)).toBe(expected.spec);
- const run=createRun('old022:'+id,s.value);expect(digest(result(run))).toBe(expected.zero);runChunk(run,1);expect(digest(result(run))).toBe(expected.partial);while(!run.done)runChunk(run,100);expect(digest(result(run))).toBe(expected.complete);
+ const run=createRun('old022:'+id,s.value),numeric=physical.rows['ship-fitting-0.2.2'][id as keyof typeof physical.rows['ship-fitting-0.2.2']];expect(digest(result(run))).toBe(expected.zero);expect(digest(physicalResult(result(run)))).toBe(numeric.zero);runChunk(run,1);expect(digest(physicalResult(result(run)))).toBe(numeric.partial);while(!run.done)runChunk(run,100);expect(digest(physicalResult(result(run)))).toBe(numeric.complete);
 });

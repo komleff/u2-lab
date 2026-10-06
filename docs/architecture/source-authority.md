@@ -26,6 +26,16 @@ Blob IDs/версии: `u2-source-inventory.json`. Полный private GDD в p
 ADR paths находятся в U2 `docs/architecture/`. Все owner версии в inventory active, несмотря
 на исторический суффикс draft в части filenames. Old energy mastery — reference, не баланс.
 
+## Температурный амендмент 2026-10-07
+
+Оператор принял единую linear hot/cold деградацию мощности плюс повышенный износ.
+Отдельный behavioural owner — ADR-0068 и его diagnostic contract; прямые ссылки
+записаны в [product contract](../product/thermal-derating-diagnostics.md).
+Источник: [U2 PR842](https://github.com/komleff/u2/pull/842), exact commit
+`775ea56309c5036cee091068123140014625874d`, active решение независимо от Draft.
+Это отдельный амендмент, а не owner в frozen inventory: TTX и физические источники
+чисел сохраняются. Lab wear не рассчитывает.
+
 ## Formula boundary и lab variants
 
 Hot-environment owner §10 уже допускает отдельный H_env для вклада, не вошедшего в T_env,eff.

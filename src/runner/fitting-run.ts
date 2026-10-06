@@ -3,6 +3,7 @@ import { validateRunSpecV2, initialStateV2, stepV2 } from "../model/v2/step";
 import { MODEL_MISSION } from "../model/v2/types";
 import { initializeMission, runMissionChunk } from "./mission";
 import type { TickTelemetry } from "../model/types";
+import { DiagnosticObserver, replacedDiagnosticEvent } from './diagnostics';
 import { Retention, EventRetention, type Bucket } from "./retention";
 import {
   initialMiningMetrics,
@@ -19,6 +20,7 @@ export type RunContextV2 = {
   events: EventRetention;
   done: boolean;
   last: TickTelemetry;
+  diagnostics: DiagnosticObserver;
 };
 export type RunResultV2 = {
   runId: string;
@@ -76,6 +78,7 @@ export function createFittingRun(runId: string, spec: RunSpecV2): RunContextV2 {
     events: new EventRetention(),
     done: false,
     last: {},
+    diagnostics: new DiagnosticObserver(),
   };
   if(v.value.modelVersion===MODEL_MISSION)initializeMission(run);
   return run;
@@ -132,7 +135,8 @@ export function runFittingChunk(
     run.state = step.state;
     run.last = step.telemetry;
     updateMiningMetrics(run.metrics, previous, step, dt, run.spec);
-    for (const e of step.events) run.events.add(e);
+    const events=[...step.events.filter(e=>!replacedDiagnosticEvent(e.kind)),...run.diagnostics.observeV2(s,previous,step,phase.requests,phase.id)];
+    for (const e of events.sort((a,b)=>a.timeSeconds-b.timeSeconds))run.events.add(e);
     for (const i of run.spec.resolvedShip.instances) {
       run.last["installedMassKg:" + i.id] = i.item.materials.reduce(
         (n, m) => n + m.massKg,

@@ -5,6 +5,7 @@ import { stepV2, physicsShip } from "../model/v2/step";
 import { advanceFlight, momentum, stoppingDistance } from "../model/v2/flight";
 import { updateMiningMetrics } from "./mining-metrics";
 import { Retention } from "./retention";
+import { replacedDiagnosticEvent } from './diagnostics';
 
 export function initializeMission(run:RunContextV2) {
   run.state.mission={stage:"outbound",flightMode:"acceleration",positionM:0,velocityMS:0,stageStartedSeconds:0,tripStartedSeconds:0,outboundMassKg:run.state.currentMassKg,inboundMassKg:null,peakVelocityMS:0,deliveredM3:0,receivedFuelKg:{diesel:0,hydrogen:0},...(run.spec.mission!.stationReplenish===undefined?{}:{receivedChargeJ:0}),elapsed:{flight:0,approach:0,mining:0,service:0,recovery:0},firstLimiter:null,terminalReason:null};
@@ -81,8 +82,8 @@ function recordStep(run:RunContextV2,previous:StateV2,step:StepResultV2,dt:numbe
   mining.causeSeconds.cargo=0;
   run.state.constraints=diagnosis.message?[diagnosis.message]:[];
   run.last=step.telemetry;updateMiningMetrics(run.metrics,previous,{...step,mining},dt,run.spec);
-  for(const e of step.events)if(e.kind!=='constraint'&&e.kind!=='recovered')run.events.add(e);
-  if(previous.constraints.join('|')!==run.state.constraints.join('|'))event(run,diagnosis.message?'constraint':'recovered',diagnosis.message||'Запрошенная выдача восстановлена');
+  const events=[...step.events.filter(e=>!replacedDiagnosticEvent(e.kind)),...run.diagnostics.observeV2(run.spec,previous,step,requests,stageNames[before.stage]??before.stage)];
+  for(const e of events.sort((a,b)=>a.timeSeconds-b.timeSeconds))run.events.add(e);
   firstLimitation(run,previous,step,requests);
   run.metrics.firstLimiter=m.firstLimiter?{timeSeconds:m.firstLimiter.timeSeconds,causes:m.firstLimiter.causes}:null;
 }

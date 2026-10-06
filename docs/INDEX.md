@@ -215,3 +215,20 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - Численное ядро сохранено; full mining mission/refuel и UI13-02 attribution deferred. Physical/native/public/base/main gates остаются отдельными, PR #6 Draft.
 
 - [Самоаудит PM по сигналу оператора](reviews/2026-10-06-pm-self-audit.md) — ошибки организации, сокращение Memory Bank и правило повторения после каждых3 review/QA+триаж/фикс итераций; не новый verifier launch.
+
+## Температурная диагностика 2026-10-07
+
+- [Принятое WHAT](product/thermal-derating-diagnostics.md) — ADR-0068 U2, одно hot/cold правило плюс wear; Lab wear не рассчитывает.
+- [План и TD01–06](plans/2026-10-07-thermal-diagnostics.md) — PLAN_READY, PRODUCT; независимые QA и scoped Review после реализации.
+- [Plan Review](reviews/2026-10-07-thermal-diagnostics-plan-review.md) и [fixture addendum](reviews/2026-10-07-thermal-diagnostics-plan-review-fixture-addendum.md) — sealed, PLAN_READY; опубликованы в PR10.
+- [Контракт scoped Review](reviews/2026-10-07-thermal-diagnostics-review-contract.md) — наблюдение, график, экспорты и принятый U2 canon; физика/TTX/wear runtime вне scope.
+- [Самоаудит PM](reviews/2026-10-07-pm-self-audit.md) — возвращение к результату и повтор после каждых3 итераций.
+- [Первичная QA](reviews/2026-10-07-thermal-diagnostics-qa.md) — sealed FAIL history на ecf: TD05 наложение подписей; остальные5TD PASS. Закрытие класса — QA48f ниже.
+- [Affected QA c10](reviews/2026-10-07-thermal-diagnostics-qa-label-fix.md) — sealed FAIL history: обычные подписи исправлены, empty-axis fallback ещё обрезался. Исходный отчёт сохранён.
+- [Affected QA48f](reviews/2026-10-07-thermal-diagnostics-qa-axis-fix.md) — PASS/TD05-B1 CLOSED:18 styled samples и2 native LAN starts; остальные5TD наследовались по неизменности кода. Code Review затем выявил Legacy transition regression ниже.
+- [Code Review48f](reviews/2026-10-07-thermal-diagnostics-code-review.md) — сохранённый CHANGES_REQUESTED/1BLOCKER/0ADVISORY: CR-TD-B1, Legacy Active laser теряет реальное thermal-stop/restart событие. Оператор предоставил ещё5 проверок после самоаудита PM_ERR/DOC_PR; общий предел10.
+- [Developer Legacy fix a6](reviews/2026-10-07-thermal-diagnostics-legacy-fix.md) — детерминированный FIX VERIFICATION/489unit/49browser+1SKIP/26cloud PASS; exact ID/stop/restart и aggregate-not-hardware. Независимое закрытие подтверждено последующими QA6 и Review7.
+- [Affected QA a6](reviews/2026-10-07-thermal-diagnostics-qa-legacy-fix.md) — sealed PASS/CR-TD-B1 CLOSED:5 affected risk rows,26API+7native assertions, один настоящий Legacy Worker запуск/пауза/продолжение/JSON/CSV; прежняя матрица не повторялась.
+- [Scoped Review a6](reviews/2026-10-07-thermal-diagnostics-code-review-legacy-fix.md) — sealed APPROVED/CR-TD-B1 CLOSED/0BLOCKER/0ADVISORY; два изменённых файла и необходимые callers, без новой полной кампании. Budget7/10, reserve3; самоаудит повторён при3/3.
+- [Публичный стенд](https://komleff.github.io/u2-lab/?v=thermal-a6c7430) — exact a6,17public assets/Start/Pause/bands/errors0 PASS; [первая Lab](https://komleff.github.io/u2-lab/legacy-v1/) сохранена и проверена. Публикация не означает merge Draft PR.
+- Текущий стенд: [thermala6, порт4196](http://192.168.68.65:4196/?v=thermal-a6c7430); HTTP17assets и Start/advance/Pause PASS. Прежняя [station86, порт4189](http://192.168.68.65:4189/?v=station-86dee5d) сохранена.

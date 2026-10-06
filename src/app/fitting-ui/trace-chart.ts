@@ -1,6 +1,7 @@
 import type { RunResultV2 } from "../../runner/run";
 import { esc, num } from "./presentation";
 import { channelNames, channelUnit } from "./telemetry";
+import { gatedOperations } from '../../runner/diagnostics';
 const semanticColors: Record<string, string> = {
   requestedW: "#FFAA33", deliveredW: "#2EC4D9", generatorW: "#4DA6FF",
   temperatureK: "#EC8B66", soc: "#E5C23A", chargeJ: "#E5C23A",
@@ -13,7 +14,8 @@ export function channelStyle(id: string) {
   const palette = ["#2EC4D9", "#A3906F", "#FFAA33", "#E5C23A", "#5F9E4E", "#4DA6FF", "#EC8B66"];
   return { color: semanticColors[id] ?? palette[hash % palette.length], dashed: /Requested|requested/.test(id) };
 }
-export function traceChart(r: RunResultV2, ids: string[], time?: number, limits: { value: number; label: string }[] = [], meanAsPath = false) {
+type Boundary={value:number;label:string;id?:string;color?:string;instance?:string};
+export function traceChart(r: RunResultV2, ids: string[], time?: number, limits: Boundary[] = [], meanAsPath = false, bands:{side:string;from:number;to:number;color:string}[] = []) {
   const present = ids.filter(id => r.channels.includes(id));
   let low = 0, high = 1;
   for (const b of r.buckets) for (const id of present) {
@@ -26,27 +28,39 @@ export function traceChart(r: RunResultV2, ids: string[], time?: number, limits:
   const start = r.buckets[0]?.startSeconds ?? 0, end = r.buckets.at(-1)?.endSeconds ?? 1;
   const x = (t: number) => 40 + (t - start) / Math.max(1e-12, end - start) * 620;
   const y = (v: number) => 170 - (v - low) / (high - low) * 150;
-  const unit = present.length ? channelUnit(present[0]) : "W";
-  return `<svg viewBox="0 0 700 205" role="img" aria-label="Измеренные каналы: ${esc(unit)}"><path d="M40 20V170H660M40 95H660" stroke="#3a3226" fill="none"/><text x="40" y="195">${num(start, "с")}</text><text x="660" y="195" text-anchor="end">${num(end, "с")}</text><text x="42" y="16">${num(high, unit)}</text>${present.map(id => {
+  const unit = channelUnit(present[0]??ids[0]??'requestedW');
+  // В SVG размеры шрифта — user units: читаемые 28 дают glyph box около 36, а не 18.
+  const labels=[...limits].filter(l=>l.label).sort((a,b)=>b.value-a.value),labelPositions=new Map<Boundary,number>();let nextY=35;
+  for(const l of labels){const yy=Math.max(nextY,y(l.value)-3);labelPositions.set(l,yy);nextY=yy+40;}
+  // Обратный проход удерживает все четыре подписи внутри графика, выше оси времени.
+  let lastY=158;for(const l of [...labels].reverse()){const yy=Math.min(lastY,labelPositions.get(l)!);labelPositions.set(l,yy);lastY=yy-40;}
+  // Верхняя отметка имеет тот же безопасный отступ и без порогов, включая пустой replay.
+  const highLabel=`<text x="660" y="35" text-anchor="end">${num(high,unit)}</text>`;
+  return `<svg viewBox="0 0 700 205" role="img" aria-label="Измеренные каналы: ${esc(unit)}">${bands.filter(b=>b.to>=b.from).map(b=>`<rect data-thermal-band="${b.side}" x="40" y="${y(b.to)}" width="620" height="${y(b.from)-y(b.to)}" fill="${b.color}" opacity=".14"/>`).join('')}<path d="M40 20V170H660M40 95H660" stroke="#3a3226" fill="none"/><text x="40" y="195">${num(start, "с")}</text><text x="660" y="195" text-anchor="end">${num(end, "с")}</text>${highLabel}${present.map(id => {
     const i = r.channels.indexOf(id), style = channelStyle(id);
     const points = r.buckets.map(b => `${x(b.endSeconds)},${y(b.sum[i] / b.count)}`).join(" ");
     return `<g stroke="${style.color}" data-channel="${esc(id)}" fill="none">${r.buckets.map(b => `<path opacity=".3" d="M${x(b.endSeconds)} ${y(b.min[i])}V${y(b.max[i])}"/>`).join("")}${meanAsPath ? `<path stroke-width="2" ${style.dashed ? 'stroke-dasharray="6 4"' : ""} d="${points.split(" ").map((p, n) => (n ? "L" : "M") + p).join(" ")}"/>` : `<polyline stroke-width="2" ${style.dashed ? 'stroke-dasharray="6 4"' : ""} points="${points}"/>`}</g>`;
-  }).join("")}${limits.map(l => `<path d="M40 ${y(l.value)}H660" stroke="#D2B47C" stroke-dasharray="3 5"/><text x="80" y="${Math.max(25, y(l.value) - 3)}">${esc(l.label)} ${num(l.value, "K")}</text>`).join("")}${time !== undefined ? `<path d="M${x(time)} 20V170" stroke="#E8DCC6" data-time="${time}"/>` : ""}</svg>`;
+  }).join("")}${limits.map(l => `<path data-boundary="${esc(l.id??'')}" ${l.instance?'data-instance="'+esc(l.instance)+'" opacity=".5"':''} d="M40 ${y(l.value)}H660" stroke="${l.color??'#D2B47C'}" stroke-dasharray="3 5"/>${l.label?`<text fill="${l.color??'#D2B47C'}" x="80" y="${labelPositions.get(l)}" style="font-size:28px">${esc(l.label)} ${num(l.value, "K")}</text>`:''}`).join("")}${time !== undefined ? `<path d="M${x(time)} 20V170" stroke="#E8DCC6" data-time="${time}"/>` : ""}</svg>`;
+}
+export function thermalFrontiers(r:RunResultV2) {
+ const ops=gatedOperations(r.spec),gates=ops.map(i=>i.item.gate),cold='#6AAEE8',hot='#E58B87';
+ const criticalLow=Math.max(...gates.map(g=>g.low)),workLow=Math.max(...gates.flatMap(g=>g.workLow===undefined?[]:[g.workLow])),workHigh=Math.min(...gates.map(g=>g.workHigh)),criticalHigh=Math.min(...gates.map(g=>g.high));
+ const limits:Boundary[]=[{id:'critical-low',label:'Холод: отключение',value:criticalLow,color:cold},{id:'work-low',label:'Холод: рабочая от',value:workLow,color:cold},{id:'work-high',label:'Жар: рабочая до',value:workHigh,color:hot},{id:'critical-high',label:'Жар: отключение',value:criticalHigh,color:hot}].filter(l=>Number.isFinite(l.value));
+ const disjoint=ops.length>0&&(workLow>workHigh||criticalLow>=criticalHigh);
+ const bands=disjoint?[]:[{side:'cold',from:criticalLow,to:workLow,color:cold},{side:'hot',from:workHigh,to:criticalHigh,color:hot}].filter(b=>Number.isFinite(b.from)&&Number.isFinite(b.to));
+ const note=!ops.length?'Нет включённых операций с температурными порогами':disjoint?'Нет общего рабочего температурного диапазона; индивидуальные границы ниже':'Сводные границы чувствительных включённых операций: max нижних / min верхних; защита каждого модуля индивидуальна';
+ const markers:Boundary[]=disjoint?ops.flatMap(i=>[{value:i.item.gate.low,color:cold},{value:i.item.gate.workLow!,color:cold},{value:i.item.gate.workHigh,color:hot},{value:i.item.gate.high,color:hot}].filter(l=>Number.isFinite(l.value)).map(l=>({...l,label:'',id:'individual',instance:i.id}))):[];
+ return {limits:[...limits,...markers],bands,note,individual:disjoint?ops.map(i=>`${i.item.label} [${i.id}]: ${i.item.gate.low} / ${i.item.gate.workLow??'не записано'} / ${i.item.gate.workHigh} / ${i.item.gate.high} K`).join(' · '):''};
 }
 export function overview(r: RunResultV2, time?: number) {
-  let work = Infinity, critical = Infinity;
-  for (const i of r.spec.resolvedShip.instances) {
-    work = Math.min(work, i.item.gate.workHigh);
-    critical = Math.min(critical, i.item.gate.high);
-  }
-  const limits = [{ value: work, label: "min workHigh" }, { value: critical, label: "min critical" }].filter(l => Number.isFinite(l.value));
+  const thermal=thermalFrontiers(r),limits=thermal.limits;
   const panels = [
     { label: "Электричество · запрос / выдача / источник", ids: ["requestedW", "deliveredW", "generatorW"] },
-    { label: "Температура · минимальные пороги установленных модулей", ids: ["temperatureK"], limits },
+    { label: "Температура · холодная и горячая зоны", ids: ["temperatureK"], limits,thermal:true },
     { label: "Запасы · доля заряда", ids: ["soc"] },
     { label: "Запасы · топливо, кг", ids: ["fuelKg:diesel", "fuelKg:hydrogen"] },
     { label: "Добыча · темп SCU/с", ids: ["miningRateM3S"] },
     { label: "Добыча и груз на борту · SCU", ids: ["usefulWork", "cargoM3"] },
   ];
-  return `<div class="overview-charts">${panels.map(p => `<figure><h3>${p.label}</h3>${traceChart(r, p.ids, time, p.limits, true)}<figcaption>${p.ids.filter(id => r.channels.includes(id)).map(id => `<span style="color:${channelStyle(id).color}">${esc(channelNames[id] ?? id)}${channelStyle(id).dashed ? " · пунктир" : ""}</span>`).join(" · ")}</figcaption></figure>`).join("")}</div>`;
+  return `<div class="overview-charts">${panels.map(p => `<figure><h3>${p.label}</h3>${traceChart(r, p.ids, time, p.limits, true,p.thermal?thermal.bands:[])}<figcaption>${p.ids.filter(id => r.channels.includes(id)).map(id => `<span style="color:${channelStyle(id).color}">${esc(channelNames[id] ?? id)}${channelStyle(id).dashed ? " · пунктир" : ""}</span>`).join(" · ")}${p.thermal?' · '+esc(thermal.note)+' '+esc(thermal.individual):''}</figcaption></figure>`).join("")}</div>`;
 }

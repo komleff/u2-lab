@@ -39,6 +39,7 @@ export function exportFittingTelemetryCsv(r: RunResultV2): string {
     physicsDtSeconds: r.spec.stepSeconds,
     retention: r.retention,
     metrics: r.metrics,
+    events: r.events,
     instances: r.spec.resolvedShip.instances.map((i) => ({
       id: i.id,
       role: i.role,
