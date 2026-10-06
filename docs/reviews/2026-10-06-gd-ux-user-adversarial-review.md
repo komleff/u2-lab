@@ -1,0 +1,111 @@
+---
+title: "Независимое adversarial review U2 Lab v1/v2/v3: GD, UX/UI и опыт пользователя"
+status: NEEDS_REVISION
+version: "1.0"
+date: "2026-10-06"
+related:
+  - docs/product/power-heat-lab-v0.1.md
+  - docs/gdd/gdd_u2_ship_fitting_v0.2.md
+  - docs/user/ship-fitting.md
+  - docs/product/claude-design-ui-v0.2-acceptance.md
+  - docs/ux/claude-design/ship-fitting-power-heat-ux-v2.1.md
+  - docs/product/ship-fitting-gd-workspace-v4.md
+---
+
+# Вердикт
+
+**NEEDS_REVISION по рабочему процессу инструмента ГД.** В v3 сохранены расчёт и значительная часть функций, но монтаж, проведение опыта и объяснение результата разорваны на скрывающие друг друга области. Несколько действий дают вводящее в заблуждение представление измерений. Прохождение прежних узких correctness-проверок не доказывает удобство всего исследовательского процесса.
+
+Утверждение «после запуска блокируются кнопки перехода» **не воспроизведено**: навигация работает в активном/приостановленном опыте, включая обычный LAN HTTP на ширине 390. Реально блокируются изменение условий, второй Start, часть действий для чужого активного варианта и фиксация приостановленного A. Шапка с переходами уезжает при прокрутке, а переход скрывает прежнюю область и возвращает scroll к началу. Это объясняет ощущение недоступности и потери контекста, но не доказывает отключение navigation buttons.
+
+Три главных результата: (1) исследовательский процесс требует переключений и удержания контекста в памяти; (2) скрытие кривой нарушает соответствие цвета графика легенде; (3) сравнение и открытие сохранённого результата не дают надёжного ответа «какой корабль, какая ревизия и какие условия были измерены». Нужен новый WHAT для v4, а не косметический перенос макета.
+
+# Авторитет, роль и границы
+
+Подпись: **независимый Reviewer**, существующая session `/root/fitting_adversarial_review`; исполнитель Codex. Точный provider/model ID среда не сообщила; конкретное название модели не заявляется. Дата 2026-10-06, Asia/Novosibirsk. Это один новый комплексный аудит GD/UX/User Experience, а не запуск прежнего scoped Code Review. PM/Developer/QA-роли не присваиваются.
+
+Высший авторитет — последнее прямое решение оператора: лаборатория является инструментом ГД; Claude Design — графические ассеты и предложение макета, не обязательная конечная структура. Численные правила GDD/SF01–20 действуют. Старое принятие Claude-overlay и старые signed QA/Review сохраняются как история и доказательства своих узких областей. Этот отчёт не объявляет все прежние принятые решения задним числом нарушениями AC.
+
+Применены `.agents/GD_ROLE.md` v1.4, `.claude/skills/game-designer/SKILL.md` и `references/heuristics.md` из frozen U2 `3d92caddfa425cf76fe18fb76eaebab01e9c1f2a`. Линзы адаптированы для лаборатории: цель исследования, контроль переменных, честность данных, обнаружимость, сравнимость и стоимость действий/внимания. Монетизация, удержание и игровое «веселье» не навязывались. Источники выбирались через INDEX/ADR-INDEX и прямые owner-пути; keyword search, архивы и внешние поисковые публикации не использовались.
+
+Область: открытие/редактирование корабля, пресеты/каталог/JSON, корпуса и варианты, запуск/пауза/навигация, графики/единицы/идентичность данных, A/B и несколько кораблей, экспорт/повторное открытие, desktop и touch-layout. Runtime, тесты, требования, серверы, Git/PR/Beads не изменялись; написан только этот ignored report.
+
+# Версии и evidence
+
+- Primary `/Users/komleff/Documents/GitHub/u2-lab`, HEAD `131015414b12995af355de42f25d019862413c83`; runtime v3 `30a1c9b0953bf61723cd8a9deb570044e1f26862`, HTTP 4183. Проверено совпадение ключевых runtime-blobs primary и этой версии. Полная чистота primary не заявляется: PM обновляет Memory Bank отдельно от аудита.
+- v2 `/Users/komleff/Documents/GitHub/u2-lab-ship-fitting-v0.2`, `903d36b2ac4a2bfa90997803770ace13d520fbe9`, HTTP 4186. v1 — сохранённый Legacy 4186 `/?mode=legacy`, не альтернативный новый численный канон.
+- Claude source proposal `abbd2943d51bb2a063b056f38033aca5f03b064f`: DEMO-числа не использованы как runtime-oracle. v4 draft0.1 — контекст следующего решения, не утверждённый план.
+
+**Own Reviewer:** прямое чтение owners и кода, сравнение старых интерфейсов, просмотр QA screenshots, четыре ограниченных source/runner-пробы на настоящих результатах. `/tmp/gd-ux-static-probes.mjs` (3255B, SHA256 `01e8e1098792295ebbcc236cb35637acaba3dd438f361e5283f2a3ce698d8840`) и `/tmp/gd-ux-static-probes.log` (739B, SHA256 `96a22f6ed5542ca603b7c03b82a4ba21b823dc9677a62456369b42910b9e3262`): цвет после hide; открытие результата Industrial M 31s; freeze при pause 1s; поиск малых положительных величин в выбранном результате. Последняя гипотеза не подтвердилась (samples=[]), finding не заявлен.
+
+**Browser execution — независимая QA, не Reviewer:** private contexts без пользовательских tabs и изменений серверов. Desktop 1440 и true 390 ordinary LAN HTTP: непрерывная цепочка run/pause/navigation/foreign variant/edit/analysis/cancel/distinct hull A/B/export/reopen/replay. Каждый v3 workflow содержит 64 actions/26 states, pageerrors=[] и requestfailed=[]; mobile secure=false, Worker продвигал расчёт. Это не64 независимых AC и не новый72-case sweep. QA также закончила репрезентативные v1/v2 цепочки desktop/390. Own source-пробы подтверждают ряд browser observations независимо.
+
+Raw evidence в primary `.overgate-runtime/`:
+
+- `gd-workflow-inventory.json`, `gd-workflow-provenance.json`, `gd-v1-initial-1440.png`, `gd-v2-initial-1440.png`, `gd-v3-initial-1440.png` — исходная доступность и рабочее пространство.
+- `gd-v3-1440-workflow.json` (SHA256 `20ba1f40f8d05e0e53a154f2f834f0224213f860683b2f91d98737b9262ccf20`), `gd-v3-390-workflow.json` (`341166aee0a10280b45e15dd4b6de31a0343a1746d5987036cfa1d31335d6f70`); `gd-v1-1440-workflow.json`, `gd-v1-390-workflow.json`, `gd-v2-1440-workflow.json`, `gd-v2-390-workflow.json`, `gd-workflow-old.json` — фактические состояния/действия всех трёх версий.
+- `gd-v3-1440-paused-editing.png`, `gd-v3-1440-catalog.png`, `gd-v3-1440-crosshull-compare.png`, `gd-v3-1440-stale-compare.png`, `gd-v3-1440-paused-freeze.png`, `gd-v3-390-stale-compare.png` — editing/ownership. Old freeze: `gd-v1-1440-paused-editing.png`, `gd-v1-390-paused-editing.png`, `gd-v2-1440-paused-compare.png`, `gd-v2-390-paused-compare.png` и raw states.
+- `gd-v3-1440-graph-colors.json` (`8fbe1c0b0ee3540bd21b64f240ccc844ee7bcc195b3cb893fd265b0d8f45fe80`), `gd-v3-1440-energy-before.png`, `gd-v3-1440-energy-hidden.png`, `gd-v3-390-energy-hidden.png` — stroke/legend и читаемость.
+- `gd-v3-1440-recovery.json` (`d078df8bddfd578b4818a5ca44dcad71519242e53eaf3938aaa942100c17b313`); `gd-v3-1440-result-open.png`, `gd-v3-1440-replay-context.png`, `gd-v3-1440-replay-fitted-hull.png`; соответствующие `gd-v3-390-result-open.png`, `gd-v3-390-replay-context.png`, `gd-v3-390-replay-fitted-hull.png` — result/replay/recovery/reload.
+
+Developer `.overgate-runtime/2026-10-06-ui-capability-inventory.md` — вспомогательное source evidence, не независимый oracle. Собственные PM CUA-наблюдения согласуются с QA, но не считаются own Reviewer browser cases.
+
+# Findings: подтверждённое поведение и последствия
+
+P1 существенно мешает исследованию либо допускает неверное чтение измерения; P2 увеличивает стоимость/неясность работы. Это приоритеты нового GD/UX triage, не автоматические BLOCKER старого Code Review. Minimal fix — предложение после принятия нового WHAT. Факт ограничения подтверждён; желаемая политика отдельно оговорена ниже. Пути без префикса в таблице находятся в `src/app/fitting-ui/`.
+
+| ID / severity | Lens | Сценарий | Evidence: source и browser | Current vs old | Последствие | Minimal fix / ожидаемое поведение |
+|---|---|---|---|---|---|---|
+| GD-UX01 / P1 | Workflow, внимание | Изменить модуль, увидеть график и сопоставить A/B | `src/app/fitting.ts:199,227,243–250`; `src/app/fitting.css:44–46,171–179,227–246`; initial screenshots, оба v3 workflow | v1/v2 — конфигурация и анализ на большой странице, v2 с anchors. v3 скрывает три области и сбрасывает scroll. Nav enabled: lock не подтверждён | Монтаж, наблюдение и сравнение приходится соединять в памяти; шапка уезжает, F1 остаётся без маршрута к областям | Единая рабочая страница с anchors и постоянным контекстом; сворачивать детали, сохранять позицию; навигация/наблюдение доступны при run/pause |
+| GD-UX02 / P1 | Честность графика | Скрыть первую энергетическую кривую | `lab-channels.ts:51–54,71–75`; colors JSON, hidden images desktop/mobile, own probe | v3 graph нумерует filtered curves, legend — все rows. После hide `activeRequestedW` график `activeW` cyan `#2EC4D9`, его legend beige `#a3906f` | Кривая выглядит как другой канал; hide меняет смысл цвета | Цвет/тип линии по стабильному channel ID; graph, legend и table совпадают после hide/group/unit |
+| GD-UX03 / P1 | GD-анализ, читаемость | Найти недоставку питания/тепловую причину потери добычи | `lab-channels.ts:24–55,71–79`, `telemetry.ts`; energy1440/390; old `src/app/charts.ts` | v1: четыре curated plots с Y-ticks/тепловыми порогами; v2: два power/T plots. v3 расширила каналы, но default energy/W смешивает21 канал,6 цветов, chemical до72.3757MW и electrical около0.2–3MW | Desktop legend около6 строк, на390 — большая часть страницы; низкий plot и общий масштаб скрывают электрическую динамику. Данные доступны, причинный вопрос не решён | Default request/delivery, T+пороги, stocks/work с общей осью времени; все каналы — дополнительный режим. Развести смысловые масштабы, добавить единицы/деления |
+| GD-UX04 / P1 | Контроль опыта | Pause A → freeze → подготовить/сравнить B | `src/app/fitting-workspace.ts:175–179`; `src/app/fitting.ts:424–428`; `lab-view.ts:185`; **`docs/user/ship-fitting.md:37`**; paused evidence всех версий | v1 native freeze сохраняет `A … paused`; v2 native после Pause отказывает «Сначала завершите опыт или нажмите Отмена…»; v3 disabled. Потеря v1→v2/v3 | Обычный checkpoint требует отменить/дождаться опыта; guide обещает недоступное. Freeze глубоко в Lab, не возле Compare | Неизменяемый A из supported paused partial snapshot с интервалом; freeze возле сравнения; общие controls доступны без отмены single Worker |
+| GD-UX05 / P1 | Открытие, идентичность | Открыть собственный JSON результата Industrial M | `src/io/fitting-json.ts:30–50`; `src/app/fitting-workspace.ts:181–208`; `lab-view.ts:111`; recovery, own M 31s probe | v2 уже имела replaySpec без visible fit recovery. v3 принимает result через `document.spec`, но не восстанавливает measurements/frozen. Fresh UI Sputnik600s; replay действительно M 31s. v1 result отказан, supported Run replay работает | «Открыть результат» становится повторным расчётом, паспорт не представляет измеренный корабль. Численный replay верен, контекст неполон/неверен | Различить fit, snapshot и result. Result opening показывает trace/метрики/read-only паспорт; replay — отдельное действие. Unsupported format честно отказать |
+| GD-UX06 / P1 | Сравнимость, ownership | Измерить B, изменить fit и сортировать Compare | `compare-view.ts:24–43,70–87,135–136`; `src/app/fitting-workspace.ts:114–122`; stale/crosshull evidence | v3 больше вариантов/sort, но row identity draft rev4 при measured rev3, stale tag отдельно. Нет hull/fit summary; baseline — первый result после sort, diff — только keys. v1 имела hull/model, actual diff values, task/sortie/checkpoints | Неясно «что с чем сравниваю»; sort меняет смысл different-conditions warnings. Stale tag помогает, но не исправляет подпись | Hull/fit summary, tested rev/run/interval отдельно от draft; явный фиксированный reference, actual A/B diff values, полезные режимы на текущих метриках |
+| GD-UX07 / P1 | Контроль переменных ГД | Изолировать влияние η/возврата/материала/охладителя | `src/app/fitting.ts:429–452`, F3:227; v1 `src/app/legacy.ts:92–191`; v2 fitting720–744 at903 | v1 широкий numerical editor; v2 сузила UI до fitting/условий/local powerW; v3 сохраняет это. Часть существующих параметров — только внешний JSON | Для чувствительности нужны schema и ручной JSON вместо быстрого controlled experiment. Это UX-потеря, не неверная новая физика | Inspector существующих supported fields с units/validation/experimental provenance. Derived C через dry bill/material/cp; не возвращать старый physics canon. Состав полей согласовать |
+| GD-UX08 / P1 | Повторяемость, сохранение | Несколько опытов одного варианта, save/reload/Legacy | `src/app/fitting-workspace.ts:32–44,156–163`; `src/app/fitting.ts:354–386`; `src/app/main.ts:9`; recovery/reload | Все версии имели memory limits. v3 workspace даёт один result на variant; matching first chunk заменяет прежний. «Сохранить сборку» скачивает fit, не workspace/history/frozen A | Работу нельзя надёжно продолжить после reload; предыдущий опыт исчезает. Само название save не обещает workspace save, но соответствующего workflow нет | Простой архив/save workspace в файл или local storage; явные fit/run/result/reference, предупреждение несохранённого. Backend/accounts/новая БД не нужны |
+| GD-UX09 / P2 | Подготовка опыта | Пока A работает, подготовить условия B | `src/app/fitting-workspace.ts:108–112`; `lab-view.ts:47–106`; foreign workflow1440/390 | Next fit editing разрешён, setConditions отказывает при любом active. Второй Start законно locked. Policy принята старым overlay — это не старый AC FAIL | Модуль B готовить можно, полный опыт — нельзя; lock draft похож на lock приложения | Новый WHAT: immutable active.spec отделить от next conditions; один Worker сохранить, second Start locked с именем владельца |
+| GD-UX10 / P2 | Смена корабля | Сменить hull, сохранив исходную конфигурацию | `src/app/fitting.ts:309–310`; `src/app/fitting-workspace.ts:99–106`; presets/catalog workflow | «Готовая конфигурация» v2/v3 применяет весь preset, не один hull; v1 preset тоже reset. Clone есть, hull-transform workflow нет | Требуется знать clone/preset и вручную восстановить fit; легко изменить несколько переменных сразу | Различить new preset и hull change в clone; preview что остаётся/исчезает/несовместимо. Полную preset replacement оставить явно подписанной |
+| GD-UX11 / P2 | UX/UI, внимание, touch | Узнать корабль/монтаж и перейти к графику | `ship-view.ts:23–71`; `src/app/fitting.css:365–397,871–1039`; `lab-view.ts:111`; initial/mobile images | v3 хорошие cards/catalog/assets, но ring440×510 повторяет список, engine glyph одинаковы, группового legend нет. Lab context без hull name. На390 header/F1/footer/21 legend вытесняют chart | Много пространства на обзор/дубли, мало на анализ. Controls доступны, page overflow не установлен: usability finding, не touch runtime FAIL | Компактный постоянный hull/fit/run/tested context; ring optional/folded с group labels; смысловые русские labels/удобные units, raw/provenance по запросу |
+| GD-UX12 / P2 | Причинность во времени | Событие ограничения → запасы/выдача модулей | `lab-channels.ts:18–23`; `lab-view.ts:122–169`; table0–1 vs final19–20 images | v3 event-based bucket table default eventIndex0 ранняя; state/stocks/instances — final/last bucket. Подписи различаются честно, но общего выбранного момента нет. Full time cursor раньше тоже не было | Рядом разные моменты опыта; причинный анализ требует помнить соответствие. Не доказательство неверных метрик | Явно разделить итог и selected interval; общий time focus для event/graph/table/details; mean/min/max/count не выдавать за мгновенное |
+
+# Confirmed, proposal и справедливая версия истории
+
+Переходы, editing next fit, каталог, atomic batch preview/apply, один Worker, раздельные варианты и immutable active.spec работают в проверенной цепочке. v3 добавила groups/unit/all-channel telemetry и более богатую multi-variant таблицу; «сравнение полностью удалено» неверно. Деградировали идентификация, контролируемость, восстановление и доступность сравнения в рабочем потоке. Старые версии тоже не во всём лучше: QA обнаружила, что v1 при paused S экспортирует edited next M через «JSON опыта», тогда как current v3 exportRun берёт active.spec (`src/app/fitting.ts:137–150`). Это не новый current finding.
+
+**A/B time-series overlay, hover, ручные оси/zoom и произвольный time-window не были доступной функцией v1/v2.** Delivery overlay и общая временная ось есть в дизайнерском предложении, но это не старая runtime-регрессия. Для v4 они требуют принятия конкретного сценария. Общий time focus предлагается устранить GD-UX12, а не дорисовывать отсутствующие физические шаги.
+
+GD-UX09 (next conditions при чужом run), GD-UX10 (hull-change), состав inspector GD-UX07, archive GD-UX08 и структура единой страницы требуют нового WHAT/минимального HOW. Факт ограничения проверен; решения не становятся обязательными только из-за severity. Pixel-perfect перенос старого Claude-layout не является целью нового оператора. Цветовое несовпадение GD-UX02, misleading tested identity GD-UX06, result opening GD-UX05 и guide/paused mismatch GD-UX04 — конкретные воспроизводимые нарушения понятности/согласованности; остальные priority judgments обоснованы фактической стоимостью целевого workflow.
+
+# Причина на уровне WHAT/PM — вывод, не доказанная мотивация
+
+Старый acceptance owner `claude-design-ui-v0.2-acceptance.md:19–32` сделал принятую раскладку самостоятельным WHAT и закрепил отдельные представления. UX owner `ship-fitting-power-heat-ux-v2.1.md:62–79` ориентировал порядок на игрока/жанровые калькуляторы и «один экран — один вопрос». Для ГД вопрос проходит через **переменная → опыт → причина → сравнение**. Main осталась преимущественно оснасткой, без обещанной богатой PH-сводки; открытие результатов и цепочка восстановления не были общим критерием удобства.
+
+Вывод Reviewer: PM/WHAT ошибочно сделали перенос визуальной структуры достаточным критерием поставки, не проверив сохранение исследовательского рабочего процесса. Independent views превратились во взаимное скрытие областей. Так локально корректные controls/state machines могли пройти проверки, а целевой инструмент стал хуже. Это не исключительно ошибка Developer/QA: старые проверки полезны и действительны, но coverage не заменяло operator acceptance сквозных GD-сценариев. Последнее решение оператора устраняет неоднозначность: workflow должен владеть UI, assets — служить ему.
+
+# Лаконичная структура v4 и workflow acceptance
+
+Предложение: единый рабочий лист **паспорт/варианты → оснастка и условия → графики/события/данные → сравнение и архив**, anchors и сворачиваемые детали. На 390 секции могут складываться, но результаты и идентичность не пропадают. Компактная общая строка показывает selected draft, active owner и measured run; controls управляют своим опытом. Curated graphs отвечают на вопрос ГД до полного channel explorer. Reference A — выбранный неизменяемый опыт, независимый от сортировки/следующей правки.
+
+Приёмка должна проходить короткие **непрерывные** цепочки с ожидаемыми состояниями:
+
+1. Open fit/preset → clone → изменить лазеры/hull: preview объясняет изменения, builtin сохранён, исходный вариант доступен.
+2. Start A → график → Pause → fit/другой вариант → подготовить B: active snapshot/результат A неизменны, locked actions имеют ясного владельца/причину.
+3. Freeze partial/complete A → B с теми же/иными условиями → sort/hide: comparison показывает hull/tested revision/interval/actual differences, reference и цвета не меняют смысл.
+4. Event → graph/table/details: виден один selected interval, units/aggregation ясны, mean не изображается instantaneous; итоги явно отделены.
+5. Export/open fit, run, result → reload/return: тот же корабль/измерение или supported-format refusal; сохранённая работа не исчезает молча.
+6. Representative цепочка на 1440/820 и 390 ordinary LAN HTTP касанием: проверить рабочую площадь/читаемость вместе с reachability, без hover.
+
+Draft `docs/product/ship-fitting-gd-workspace-v4.md` WF01–14 — подходящая заготовка согласования, не готовый oracle. **PLAN_READY не выдаётся**: конкретные PM-план, ownership, minimal scope, AC и rollback требуют отдельного Plan Review. Отчёт не предписывает немедленно делать все proposals и не санкционирует новое numerical feature-work.
+
+# Explicit reviewed surface и ограничения доказательств
+
+Прочитаны relevant owners: Memory Bank/INDEX; `docs/product/power-heat-lab-v0.1.md`, `docs/gdd/gdd_u2_ship_fitting_v0.2.md`, `docs/user/ship-fitting.md`, `docs/product/claude-design-ui-v0.2-acceptance.md`, `docs/ux/claude-design/ship-fitting-power-heat-ux-v2.1.md`, v4 draft. U2: INDEX/ADR registry, overview §16, GD_ROLE/skill/heuristics, relevant brand owner. Это выборочное прямое чтение, не полный audit каждого документа.
+
+Runtime/UI: `src/app/fitting.ts`, `src/app/fitting-workspace.ts`, `src/app/fitting.css`; `src/app/fitting-ui/{ship-view,lab-view,lab-channels,compare-view,swap-dialog,instance-details,presentation,telemetry}.ts`; `src/io/fitting-json.ts`, `src/scenarios/fitting.ts`, `src/app/main.ts`; старый v2 `src/app/fitting.ts` at903; v1 `src/app/{legacy,compare,charts}.ts`. Проверены связанные snippets и owners; неизменённые physics/catalog/protocol не переаудированы широко. Key blob equality primary/runtime дополнительно проверена для fitting.ts, fitting-workspace.ts, lab-channels.ts и legacy.ts. Полный148-path/wholeVC fingerprint старого Code Review сюда не перенесён: область нового аудита задаёт latest operator, не прежний runtime closure ledger.
+
+Deferred: реальная mining mission/flight/ETA/refuel/Aurora route, production recipes, цены/ROI, detection, новый численный канон (включая operator-deferred ulab-dwi). Отсутствующая event instance/cause attribution сейчас честно disclosed; её добавление — отдельный domain/protocol scope. Inspector не разрешает придумывать ТТХ или считать v1 каноном v2.
+
+Не выполнялись новый full72/100 sweep, matrix, 12h/GC, full build/CI, все protected core paths, physical second-device/native/public Pages/main/bootstrap, screen-reader audit. True390 — браузерный touch viewport на LAN, не физический телефон. Все import schemas/формулы заново не переаттестованы. Из visual judgment не следует недоступность всех controls: actual execution прошла; конкретный color identity bug проверен отдельно. Ни один старый signed report не изменён.
+
+**Аудит завершён.** Дополнительных probes/исправлений Reviewer не запускает. Root получает immutable report для exact-byte публикации и triage, не runtime approval и не разрешение merge.

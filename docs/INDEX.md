@@ -24,6 +24,20 @@
 
 Утверждённые правила и параметры остаются в U2. Search result — candidate, не authority.
 
+## Текущий приоритет — рабочий процесс ГД
+
+Оператор отклонил UX v3 и поручил адверсальное ревью GD, UX/UI и пользовательских
+сценариев. Claude Design теперь рассматривается как ассеты и предложение макета.
+Прежние технические QA/review не являются пользовательской приёмкой удобства.
+
+- [Рабочий процесс и критерии v4](product/ship-fitting-gd-workspace-v4.md) — поручение оператора и предложение структуры; не PLAN_READY и не готовая реализация.
+- [Инвентаризация v1/v2/v3](research/2026-10-06-ui-capability-inventory.md) — 22 рабочих сценария, сохранённые/потерянные/скрытые возможности и source anchors; read-only Developer, не runtime QA.
+- [План восстановления v4](plans/2026-10-06-gd-workspace-v4.md) — три этапа, адресные проверки и сохранение прежних стендов; proposed, PLAN_READY pending.
+- [Адверсальное ревью GD / UX/UI / пользователя](reviews/2026-10-06-gd-ux-user-adversarial-review.md) — NEEDS_REVISION, 12 групп проблем; факты, потери и новые предложения разделены.
+- [Уточнение навигации во время расчёта](reviews/2026-10-06-gd-ux-user-adversarial-review-running-addendum.md) — отдельное неизменяемое приложение: RUNNING ×1 на desktop и LAN390; MAX и физический планшет не проверены.
+- [Сценарная QA](reviews/2026-10-06-gd-workflow-qa.md) и [матрица 24 адресов](verification/2026-10-06-gd-workflow-cases.md) — GD/UX FAIL; шесть сквозных цепочек исполнены и два RUNNING-среза; не 24 новых полных теста.
+- [Манифест QA evidence](reviews/2026-10-06-gd-workflow-evidence.json) — hashes 141 локального файла доказательств, не количество тестов.
+
 ## Power & Heat runtime v0.1
 
 - [LAN / standalone запуск](user/local-network.md)
@@ -109,7 +123,7 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [2026-10-06-ship-fitting-developer-fix-r3.md](reviews/2026-10-06-ship-fitting-developer-fix-r3.md) — immutable history; closure — QA r4 / scoped Review r3 ниже.
 - [2026-10-06-ship-fitting-developer-fix-r3-tablet-addendum.md](reviews/2026-10-06-ship-fitting-developer-fix-r3-tablet-addendum.md) — immutable history; closure — QA r4 / scoped Review r3 ниже.
 
-## Claude Design v2.1 — текущий приоритет интерфейса
+## Claude Design v2.1 — прежняя область переноса интерфейса
 
 - [Передача Claude](ux/claude-design/README.md) и [обоснование v2.1](ux/claude-design/ship-fitting-power-heat-ux-v2.1.md) — exact PR5abbd2943 source; 22артборда, canvas/tokens.
 - [Принятая UI-область и решения переноса](product/claude-design-ui-v0.2-acceptance.md) — поручение оператора; новые шахтёрские миссии/багфиксы отложены.

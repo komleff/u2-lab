@@ -1,0 +1,724 @@
+{
+  "role": "independentQA, QA_ROLEv2.1",
+  "model": "Codex; exactprovider modelID unavailable",
+  "signedAtUTC": "2026-10-06T00:49:12.923922+00:00",
+  "primaryHEAD": "131015414b12995af355de42f25d019862413c83",
+  "runtimeSource": "30a1c9b0953bf61723cd8a9deb570044e1f26862",
+  "v2HEAD": "903d36b2ac4a2bfa90997803770ace13d520fbe9",
+  "contentFingerprint": "f3c824596bfbbf26b1ec96c0c67296f244b3de19522e22437b296bd2b4e7e515",
+  "latestPOWorkingSourceSHA": "ebc0a99a8ffe967f8119a4a5dae7ff30cd3761b6838626fb61c6b8b96c11592a",
+  "fileCount": 141,
+  "files": [
+    {
+      "path": ".overgate-runtime/2026-10-06-gd-workflow-cases.md",
+      "bytes": 20191,
+      "sha256": "3ce1c73a4ba6559752503a75d538f477ac6ae45a7c8d9323f5e0d553b3c2cda3"
+    },
+    {
+      "path": ".overgate-runtime/gd-running-navigation.json",
+      "bytes": 2469,
+      "sha256": "c08d7361b3afb219c9729e09f9665c468f6c0d78e13274ad4b8bf3e91c0f1aa1"
+    },
+    {
+      "path": ".overgate-runtime/gd-running-navigation.log",
+      "bytes": 1768,
+      "sha256": "a0a00081c572c9dcdc8e96d93f190594aedd4ff522542e9d7f8fe11da7ba2bea"
+    },
+    {
+      "path": ".overgate-runtime/gd-running-navigation.mjs",
+      "bytes": 7904,
+      "sha256": "96fc50b391ad944ea9e7c54b5896989c17f08246fd5c51bb9e2d1347cfc7ba40"
+    },
+    {
+      "path": ".overgate-runtime/gd-ux-work-item.json",
+      "bytes": 1547,
+      "sha256": "8105dae0fa1f2bed6af63dcfc0b4c715ff8bd8a9cb5076c8950b17c1288095d5"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-1440-A-result.json",
+      "bytes": 83388,
+      "sha256": "b94696ce0f712f6547d33e2597d222ee703c4f681096f95025b208827593523a"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-1440-B-result.json",
+      "bytes": 83823,
+      "sha256": "bee39fdc5928ae02e9ea98582ea2f282304c76f5667c404a91bd978e5c24af5d"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-1440-B-run.json",
+      "bytes": 29132,
+      "sha256": "88eaf243585e313cd17fe51f0dc945ef0b55d7839cd4cb7f21ddfc2a6407c4d7"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-1440-B.csv",
+      "bytes": 27523,
+      "sha256": "fd60c628b117e7fda92ede99f88c8a96075a15993ea7891a01a5d93acb7cc670"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-1440-active-export.json",
+      "bytes": 29090,
+      "sha256": "9dc9aca7d88cd34f4ec01157e0fa5d8c0cab55ee85a1eb6a54379a184f7e7f55"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-1440-analysis.png",
+      "bytes": 41951,
+      "sha256": "3d274d7fb7170d54fb097b91161a435d936b2c54d6efa11807e5cb4b6c181468"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-1440-configuration.png",
+      "bytes": 180045,
+      "sha256": "6c8ab5c06f371b042499942eb27c9abc6ee4b9ad6c47225dd2a250f3b3de7ec5"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-1440-crosshull-compare.png",
+      "bytes": 30159,
+      "sha256": "fe87fc31f66c5393fdf0458d25d21c15cd1de65561005cc159bd260d0d8b0e31"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-1440-events.csv",
+      "bytes": 177,
+      "sha256": "2eeae06d9f6decd1e7b570116e858e50b02e8ceb1bef4066a75cdc37cf20324e"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-1440-paused-editing.png",
+      "bytes": 171508,
+      "sha256": "252e1ba5236302beb8246b9a10f64684276a962cb8eaefd739d90bbb1c9fe937"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-1440-recovery.json",
+      "bytes": 65322,
+      "sha256": "ae9d3ef32825a217359515a7e3684eef6019c5bb264c973ef3131021f7b4aa05"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-1440-replay-result.json",
+      "bytes": 83823,
+      "sha256": "b15b50c0e1264997cef730956201b498b00965f2bde70668d0776c95db3491fd"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-1440-result-open.png",
+      "bytes": 180045,
+      "sha256": "6c8ab5c06f371b042499942eb27c9abc6ee4b9ad6c47225dd2a250f3b3de7ec5"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-1440-workflow.json",
+      "bytes": 132378,
+      "sha256": "336377224025bcff3102ff65ee46e05e0eb19843e5351f82ce6a91b06ced3faa"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-390-A-result.json",
+      "bytes": 83388,
+      "sha256": "1c60d2bcf4cc3a2733b9541492455ed3c2383061e9bdd649fd34dcca8c0963be"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-390-B-result.json",
+      "bytes": 83823,
+      "sha256": "6cfa12b86b9a686c11f64868240c0132bc133a82cda51d50cd22e91b3e6e6ee8"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-390-B-run.json",
+      "bytes": 29132,
+      "sha256": "88eaf243585e313cd17fe51f0dc945ef0b55d7839cd4cb7f21ddfc2a6407c4d7"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-390-B.csv",
+      "bytes": 27523,
+      "sha256": "fd60c628b117e7fda92ede99f88c8a96075a15993ea7891a01a5d93acb7cc670"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-390-active-export.json",
+      "bytes": 29090,
+      "sha256": "9dc9aca7d88cd34f4ec01157e0fa5d8c0cab55ee85a1eb6a54379a184f7e7f55"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-390-analysis.png",
+      "bytes": 43983,
+      "sha256": "d6318f765067998f3dcad6d20d6feccfe4edcdff50dbe5048749a294ef69e8cd"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-390-configuration.png",
+      "bytes": 82486,
+      "sha256": "1efbfd1c9e8f82ef9505c05cccff26da8bde1f5552e3e9fb505a7226bcb21157"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-390-crosshull-compare.png",
+      "bytes": 28192,
+      "sha256": "346740351ba932dbe057dc1d6bfadd1508677208f7c2f9fb2a3b9af0dd9745c3"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-390-events.csv",
+      "bytes": 177,
+      "sha256": "2eeae06d9f6decd1e7b570116e858e50b02e8ceb1bef4066a75cdc37cf20324e"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-390-paused-editing.png",
+      "bytes": 85429,
+      "sha256": "1e3cf834933e730acae193e58fecbc8a2cf43f373e4d1a009cdcfb99830ff0b9"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-390-recovery.json",
+      "bytes": 65299,
+      "sha256": "47bdda379fa96be0f8aa1bfed8bcf3a79225bd53e1b2d7013019528255ceee2f"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-390-replay-result.json",
+      "bytes": 83823,
+      "sha256": "6f04ffa5f287991260cadafe7aaca769b934a9b133b36e556fcd9464ac8c1bcd"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-390-result-open.png",
+      "bytes": 82486,
+      "sha256": "1efbfd1c9e8f82ef9505c05cccff26da8bde1f5552e3e9fb505a7226bcb21157"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-390-workflow.json",
+      "bytes": 139088,
+      "sha256": "f92d036c29f029abfec3aa939ebdb7bf7815ec097987603c41e23070b63e66ee"
+    },
+    {
+      "path": ".overgate-runtime/gd-v1-initial-1440.png",
+      "bytes": 180045,
+      "sha256": "6c8ab5c06f371b042499942eb27c9abc6ee4b9ad6c47225dd2a250f3b3de7ec5"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-1440-A-result.json",
+      "bytes": 406421,
+      "sha256": "939d704367599f3bdad7ee1dee0024f4afad58860f9b82d0e2f4ae322dd6c797"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-1440-B-fit.json",
+      "bytes": 9799,
+      "sha256": "8410d5d455114e24d9d90524a09b1305936c0cc2a182267d483d204092a40b9a"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-1440-B-result.json",
+      "bytes": 431661,
+      "sha256": "fbe82fc363f412c57ee3dbad0135b16066be77b6ac1b61ed3d08c533c746d09c"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-1440-B-run.json",
+      "bytes": 314867,
+      "sha256": "7fb64535bebfb5a2f615d14570baac0e7a8bbd162ee380a9dcc57d1693bc7a25"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-1440-B.csv",
+      "bytes": 48060,
+      "sha256": "ebed593d1d0d6b70b9d0cebf56d5b8f46c2f358ab0b26565672d28780469819d"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-1440-analysis.png",
+      "bytes": 124106,
+      "sha256": "62b5aa0d7c6fc15817c3aa4d44c55c019c985c3529f7e98afb0f6981057ba213"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-1440-catalog.png",
+      "bytes": 147824,
+      "sha256": "f22634d05f27c0129d70d6bd99139e62c9a4d9aee4b3d708b2f31792cc020b18"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-1440-crosshull-compare.png",
+      "bytes": 26535,
+      "sha256": "f8e12d99bbf2c41ef65977ea535462c08427b184686c154a1edee5ad9aec1e98"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-1440-fitting.png",
+      "bytes": 160835,
+      "sha256": "77c83fe08fcc5557f52b550575c6296087dcd24d4c18415125567c84dd940993"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-1440-paused-compare.png",
+      "bytes": 5045,
+      "sha256": "6feb1c043b5189f4bda5697b9fda4f8e0613d32a9bda7958b405b5dfe96b3d79"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-1440-recovery.json",
+      "bytes": 47391,
+      "sha256": "848bf5e4a2651b6a493c1f93658e6423b0dcc6af940cf9e489d7651176b6eee8"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-1440-replay-context.png",
+      "bytes": 126100,
+      "sha256": "2a05c752f3dcc3293800c61d6b508d9346eb3a9ebfb54662e7eb9a42f30854c1"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-1440-replay-result.json",
+      "bytes": 431661,
+      "sha256": "75caef9f1fe5bcdbf2b88564a17fc5ca03510110a0342aa3f84475ada6b1e3a2"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-1440-result-open.png",
+      "bytes": 164264,
+      "sha256": "96e7fbd0bb80e1daadfd51d6bbad31e2c6c64bb08fb866bfcd892d18eff9a62c"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-1440-workflow.json",
+      "bytes": 185779,
+      "sha256": "7717385a0f36371f4998abff7fecba1f4a7398f2ed687db19cce85c0f170efa3"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-390-A-result.json",
+      "bytes": 406421,
+      "sha256": "dab69b663b9162b2396adc305b1b5dbd0888478688b8693d8e92dedceda51f8b"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-390-B-fit.json",
+      "bytes": 9799,
+      "sha256": "8410d5d455114e24d9d90524a09b1305936c0cc2a182267d483d204092a40b9a"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-390-B-result.json",
+      "bytes": 431661,
+      "sha256": "bb8a2759f80a2d9ef6e35d33f099b8162f2daf6cf2baf2d48e5974901bcdaa41"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-390-B-run.json",
+      "bytes": 314867,
+      "sha256": "7fb64535bebfb5a2f615d14570baac0e7a8bbd162ee380a9dcc57d1693bc7a25"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-390-B.csv",
+      "bytes": 48060,
+      "sha256": "ebed593d1d0d6b70b9d0cebf56d5b8f46c2f358ab0b26565672d28780469819d"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-390-analysis.png",
+      "bytes": 133733,
+      "sha256": "bd72a4ecbdc29ea526c92c1421922643a9b7d9fe91a4ac8624802fcafb25fcc8"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-390-catalog.png",
+      "bytes": 58771,
+      "sha256": "086025b14d593c3cbaad69d9cf403ee17b258781c3db06a582c36d15a389b0b5"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-390-crosshull-compare.png",
+      "bytes": 24421,
+      "sha256": "15e747a06401afe71cc54643329f2c10435e17f55f45200473bb57fa0774a1de"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-390-fitting.png",
+      "bytes": 67407,
+      "sha256": "79e433119ed46d9b25af2a021d85d68d540aecc1e409fd58dd470bd9baf26a0c"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-390-paused-compare.png",
+      "bytes": 4703,
+      "sha256": "22e7ebdd6e115b9bb35a4139ff66f83ba88214795ab14851c6e5fdd60fe3260e"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-390-recovery.json",
+      "bytes": 47047,
+      "sha256": "5f2e7d5a67a9fdc8f4dc2d1880ac0680d6085926394249c0e539055b8630591c"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-390-replay-context.png",
+      "bytes": 98163,
+      "sha256": "d7ffdeaf34f5626019c0a043e591cd9f60eb087cc88ecfa5d5fa33b561d15f56"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-390-replay-result.json",
+      "bytes": 431661,
+      "sha256": "826e0e8ee4b3644d327d4bf7a60b18ab8ebe3e0a1b1252cdc22333eca6f1d191"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-390-result-open.png",
+      "bytes": 68387,
+      "sha256": "d1a821cce32f0a2fc2c6547a5255c707d3af0682bf48b13b68c962e4b175588c"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-390-workflow.json",
+      "bytes": 188931,
+      "sha256": "84cc897bbeeaebe715c925d50ab07e8f7ff970a4a4628af1b9c3cf415e426cc9"
+    },
+    {
+      "path": ".overgate-runtime/gd-v2-initial-1440.png",
+      "bytes": 160835,
+      "sha256": "77c83fe08fcc5557f52b550575c6296087dcd24d4c18415125567c84dd940993"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-A-fit.json",
+      "bytes": 9641,
+      "sha256": "8314470bb149bdd9d63eafd498e7f84ef066691fe292100f5eee4ce0a5c47c69"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-A-result.json",
+      "bytes": 406421,
+      "sha256": "d664b3f3dce3762380d8c5d14e51ce8b24f6b50fbf3ea551cc5c63710b00f89a"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-B-fit.json",
+      "bytes": 9799,
+      "sha256": "015c2ab96c712f208f8aceed20f151764818e4b7dcab7ac004ee6c174bd6680e"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-B-result.json",
+      "bytes": 431770,
+      "sha256": "89586f5ec581f42f8be6ec146fad71c384a606ff39b90169f043ff7cbcdab884"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-B-run.json",
+      "bytes": 314867,
+      "sha256": "95905c38f1dd2415d7f6bb53b3790e876e98500194cf8e7ed38a2fd5f56ccf23"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-B.csv",
+      "bytes": 48183,
+      "sha256": "5e7d6def53eb0a4b8fbbd109309cd857c57b97111c4034734f621bb28a89edd9"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-catalog.png",
+      "bytes": 179658,
+      "sha256": "3d88eea02a166c3f8d64dcba1e605f60af1aeb2342315073e6d398f1adfadb05"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-crosshull-compare.png",
+      "bytes": 135578,
+      "sha256": "a0728d3e9af534707e572e3a2f5e6f99e33b047a5c965351dddb238ac92ff49c"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-energy-before.png",
+      "bytes": 130650,
+      "sha256": "84b42ddd5a8c5d2774960e83e835caa14c8355c79fa5fbcf361722230ebc46b4"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-energy-hidden.png",
+      "bytes": 131365,
+      "sha256": "ec918090af2564949e33f706e8921adc07e37a50e61669d5c6680bc15b2e8ca7"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-fitting.png",
+      "bytes": 153171,
+      "sha256": "66e786e4dfe4ab5e2b7d2df335db5fdc63ae8b12ee9341f781c8481b9b138fc3"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-graph-colors.json",
+      "bytes": 9979,
+      "sha256": "8fbe1c0b0ee3540bd21b64f240ccc844ee7bcc195b3cb893fd265b0d8f45fe80"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-paused-editing.png",
+      "bytes": 159778,
+      "sha256": "efcb84a2a238f07eb42a8077585ad47216194e17097767cbea1b21b2c49a7b6c"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-paused-freeze.png",
+      "bytes": 6542,
+      "sha256": "a9324a6eb80af4f8167e9260811e854913d37203ef44c5a81f8d964d2c5f8dec"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-recovery.json",
+      "bytes": 215075,
+      "sha256": "d078df8bddfd578b4818a5ca44dcad71519242e53eaf3938aaa942100c17b313"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-replay-context.png",
+      "bytes": 129432,
+      "sha256": "34b1a2103030d0af971723c7ca2d828c02a2d14eccd41dd25c364edf1cd76c40"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-replay-fitted-hull.png",
+      "bytes": 148971,
+      "sha256": "4894eeac3f82067b304568b8b729bc12a67057b809b94c8ac9c3c74e1ec0eaf7"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-replay-result.json",
+      "bytes": 431770,
+      "sha256": "28792b9ae7504b5a16eb0e21ca8526be40663017dc3b88c27412c31e199f8240"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-result-open.png",
+      "bytes": 157859,
+      "sha256": "019d6968bfae48b35dd353fdea68d4edb04578234db57bb48a345e3181fe6f91"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-roundtrip-inputs.json",
+      "bytes": 1275178,
+      "sha256": "65fbbda432ccacce0656d14d69e868b03e380f1154b4e9ee238257eb615739bc"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-running-compare.png",
+      "bytes": 117670,
+      "sha256": "93fc751e62e5584b81e20986531a19a996e2dcafcb5445e7dc04de448702f4e2"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-running-lab.png",
+      "bytes": 207491,
+      "sha256": "cedeaee8db088f802bc4b7142a8da90f064f74a06951bcbd53804645c7fe7618"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-running-navigation.json",
+      "bytes": 235224,
+      "sha256": "1e5187490c4fa1a75f7aac195495df0e54bb12402dada5408bd74683ecf6f286"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-sorted-compare.png",
+      "bytes": 137239,
+      "sha256": "7bd588be539c7d5a1a6d7678e1f27fc0cfca709c1a42ad2ffb88b39c68a51cbb"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-stale-compare.png",
+      "bytes": 137018,
+      "sha256": "d8eb945e791b0c98fbf7758332a3cf3c4c95e33603aca481ba2b5beeef4d47c2"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-stop.png",
+      "bytes": 206412,
+      "sha256": "27e27fc6e4b3476488bf678080c85ca3695535d20f7d90c93cb9f268436f7590"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-workflow-initial.json",
+      "bytes": 110816,
+      "sha256": "cb861b25b57fdc235b66d7ff44cb1713bc032b522315bd8b24c57a754e2bf78e"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-1440-workflow.json",
+      "bytes": 943097,
+      "sha256": "20ba1f40f8d05e0e53a154f2f834f0224213f860683b2f91d98737b9262ccf20"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-A-fit.json",
+      "bytes": 9641,
+      "sha256": "8314470bb149bdd9d63eafd498e7f84ef066691fe292100f5eee4ce0a5c47c69"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-A-result.json",
+      "bytes": 406421,
+      "sha256": "f33597a34264eefa32a4cf1277198a128f09caa1ebbe18a728cf0465232eb178"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-B-fit.json",
+      "bytes": 9799,
+      "sha256": "015c2ab96c712f208f8aceed20f151764818e4b7dcab7ac004ee6c174bd6680e"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-B-result.json",
+      "bytes": 431770,
+      "sha256": "cc8797f445972fb91518af17b90f63d2e486ac036d013ce8e9d508493be9dffe"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-B-run.json",
+      "bytes": 314867,
+      "sha256": "95905c38f1dd2415d7f6bb53b3790e876e98500194cf8e7ed38a2fd5f56ccf23"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-B.csv",
+      "bytes": 48183,
+      "sha256": "5e7d6def53eb0a4b8fbbd109309cd857c57b97111c4034734f621bb28a89edd9"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-catalog.png",
+      "bytes": 81037,
+      "sha256": "860bf93477da80bb738b9942a5332fe72a37f2b2b2fb36d65da2f7267b592898"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-crosshull-compare.png",
+      "bytes": 66800,
+      "sha256": "2c100a381dfd9f00ec200c16783388841a4ecc014cf3a4f5ba0a8ed8f94c3d09"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-energy-before.png",
+      "bytes": 111027,
+      "sha256": "3b80e1d9e387290ba4b105ec7d42f89f31e290a42a95aee85d4b4962497427f1"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-energy-hidden.png",
+      "bytes": 110702,
+      "sha256": "d01b9c565593c0356445a2ef891103a875e1d582b56b618fd387d83019e7f63d"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-fitting.png",
+      "bytes": 76532,
+      "sha256": "525aebbd2ab099e7872ba1f22738c0d650ab8a8f80a53ecce58d2bcb63107f75"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-graph-colors.json",
+      "bytes": 9979,
+      "sha256": "8fbe1c0b0ee3540bd21b64f240ccc844ee7bcc195b3cb893fd265b0d8f45fe80"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-paused-editing.png",
+      "bytes": 72765,
+      "sha256": "b67933145c64c8d2c0892241a316adb5f4df8f311444869a20ceff9410b6f5dc"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-paused-freeze.png",
+      "bytes": 6680,
+      "sha256": "0af082f1ebece6fec7885ee1bdac38bff52588857d94d47a5ae08986a4e2750a"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-recovery.json",
+      "bytes": 180138,
+      "sha256": "4b8deda84d5348f26f61b326a2ca4bbf802dd1b412a2ff951b81009656c7e1a4"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-replay-context.png",
+      "bytes": 84539,
+      "sha256": "976c83c19889a14a379f6fa00b0ed8c16845aa38e9bb97ddc316a862f1cfb79e"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-replay-fitted-hull.png",
+      "bytes": 79996,
+      "sha256": "f76d453c725d2663a04b9903827cdfb1198fb20f81298eb067967cb2dfb6017e"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-replay-result.json",
+      "bytes": 431770,
+      "sha256": "ca332530a2ee0d4ba69d15bba617aed0583d36a906587b60e7c489635b150579"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-result-open.png",
+      "bytes": 72871,
+      "sha256": "c9f099653fa36b6d902c82d3c3640f5a6181efc9587d55ee741224899ec8aff4"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-roundtrip-inputs.json",
+      "bytes": 1275530,
+      "sha256": "df01d1736cc8ea72c3def8b2956ceb7c46d5c23466dd6c0df55ed168b00d82c1"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-running-compare.png",
+      "bytes": 63781,
+      "sha256": "40ea73c48816a979f4e25de9140845a6e14725f3c10d33c4a68917d1968c84ec"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-running-lab.png",
+      "bytes": 83249,
+      "sha256": "0ff94ebeb3b2e3e314b8becdcad8f89ee063114a45b4e7529598a3b74ca353df"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-running-navigation.json",
+      "bytes": 225737,
+      "sha256": "946731ff11ac967b9d741dce30709074cebb1bb71e5b75fbc72c7d26c3f747f1"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-sorted-compare.png",
+      "bytes": 67593,
+      "sha256": "4833d9a641d5907c3c5394c41391d7544f9999e362f3cf5e079cd5132707a46c"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-stale-compare.png",
+      "bytes": 66913,
+      "sha256": "a4fe950b9d829846378a0c8656c3dd3dbd6a209346564658ce568cd119320da3"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-stop.png",
+      "bytes": 55827,
+      "sha256": "ad28942181585fd88430a02d6237dcd57f9d5804bff1a70811c3685c94b253cc"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-workflow-initial.json",
+      "bytes": 93413,
+      "sha256": "2e214a23d2c85463154fe4605b24628be2841f2e38f3a86193ad09cb14c43661"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-390-workflow.json",
+      "bytes": 898102,
+      "sha256": "341166aee0a10280b45e15dd4b6de31a0343a1746d5987036cfa1d31335d6f70"
+    },
+    {
+      "path": ".overgate-runtime/gd-v3-initial-1440.png",
+      "bytes": 153171,
+      "sha256": "66e786e4dfe4ab5e2b7d2df335db5fdc63ae8b12ee9341f781c8481b9b138fc3"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-assemble.py",
+      "bytes": 22889,
+      "sha256": "a508a3c96deea1f3db999547ec54518b374479d79bf2a4b1f319cdd63849b145"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-browser-initial.json",
+      "bytes": 1874,
+      "sha256": "f8ea2713bf6e3e41c89873264c9e3c638e5e48e3085a242d93e55671fc9b112c"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-browser-initial.log",
+      "bytes": 168,
+      "sha256": "e3ff8d865f0f3453a72a28de15e0b6688bfa99619e4bdb500cef0f2353fca2a7"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-browser-initial.mjs",
+      "bytes": 14080,
+      "sha256": "b2a85313be62247efa9d57373a973be2c7e80c26bdf6148b002f76d00fefb24b"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-browser.json",
+      "bytes": 13278,
+      "sha256": "6978d9a989cde3030438494ef8b331ea2429988de695c6e3b0a5f4c00deb899a"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-browser.log",
+      "bytes": 1268,
+      "sha256": "dc6044199fe4c5528cc2903542efa4d29fad7bb68d22e85286032269ffdeae5f"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-browser.mjs",
+      "bytes": 14137,
+      "sha256": "40c41a1ea0d989b4a196d4b3e4a74744b4ca3234c762d15579bbebf161e1d047"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-finalize.py",
+      "bytes": 28581,
+      "sha256": "2b18ffecc6f24781813ac2a7653043b195f233e2a174a81b32e83ae6817fd1c2"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-inventory.json",
+      "bytes": 70384,
+      "sha256": "51efebb49ad197b32edabac750ebfac2ce6103575b656c4d25833de8455f53b1"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-inventory.mjs",
+      "bytes": 1415,
+      "sha256": "ec6ac773b7c2656ab04547c14957a69515ce91db040a7d84dc144861d2b74cef"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-old.json",
+      "bytes": 417191,
+      "sha256": "10d4298c5c848b883e84cf4dea1e620a1840b544d78b6a16a5f43eba156d2e3a"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-old.log",
+      "bytes": 1138,
+      "sha256": "6d10db5f3a6983a3248195fde8a4e209ea318bee5ea770820677c26c4ddb7d56"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-old.mjs",
+      "bytes": 14292,
+      "sha256": "742c6481867cd35a11a9dd12d6ec164561f1571de3e9db339edee8bf4d04595b"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-prepare.py",
+      "bytes": 10719,
+      "sha256": "6c53e0eb841af508435062e22b7adf4846e083f9191bb3544e5822ba17bd9452"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-provenance.json",
+      "bytes": 36538,
+      "sha256": "d2aab5559f1f7404b8c6eb1176f0292d3b37159f12f1c786c6f6ba5697b8247c"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-provenance.py",
+      "bytes": 3297,
+      "sha256": "4b6eb06a6fb666751da1a71b6bb8b6929b148ba19958de361b7d2847ef769b59"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-results.json",
+      "bytes": 38199,
+      "sha256": "3394187f6976a4b27b9c828f6dd15615aba61ca0ec6e1c6ad6ca301eeb6a6d21"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-source-cases.json",
+      "bytes": 12903,
+      "sha256": "a6e93806cf38554f93ff80729629e5e96c62294e1411b9f8dbf856e7997d7af5"
+    },
+    {
+      "path": ".overgate-runtime/gd-workflow-source-cases.md",
+      "bytes": 10279,
+      "sha256": "021924b17d91d695140594efc8090db633d32235cdc4b7dde80585967f71bef1"
+    }
+  ],
+  "excludedSelfHash": [
+    "2026-10-06-gd-workflow-qa.md",
+    "2026-10-06-gd-workflow-evidence.json"
+  ],
+  "noProductWrites": true,
+  "noUserTabReloadOrServerWrites": true
+}

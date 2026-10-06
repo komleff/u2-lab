@@ -1,14 +1,19 @@
-# Claude Design UI — текущее состояние, 2026-10-06
+# Ship Fitting — адверсальное ревью рабочего процесса, 2026-10-06
 
-Оператор запросил промежуточный интерфейс, продолжение функциональной QA, затем
-самоаудит по PM_ERR.md/DOC_PR.md. Локальная UI-доставка завершена, QA/review blockers закрыты.
+Оператор отклонил удобство v3: потеря сценариев сравнения и анализа, изолированные
+разделы, неполное сохранение возможностей v1/v2. Текущий приоритет — тщательное
+адверсальное ревью GD, UX/UI и пользовательских сценариев, затем полезная v4.
+Claude Design — графические ассеты и предложение раскладки, не конечный обязательный
+макет. Последнее решение оператора главнее прежнего UI acceptance overlay.
+Прежние технические QA/review закрывают только свой scope; пользовательская
+приёмка рабочего процесса OPEN. Все три стенда сохраняются.
 
 ## Правило оператора: повторный самоаудит
 
 После каждого третьего завершённого прохода QA/Review с триажем провести короткий
 PM-самоаудит: исходный пользовательский результат; actual состояние; повторяющийся
 класс ошибки/дрейф; самый короткий полезный следующий шаг. Политика принята2026-10-06.
-После текущего аудита счётчик0/3. Отметки итераций — через Beads API; внутренние tests,
+После GD/UX Review+triage и сценарной QA+triage счётчик2/3. Отметки итераций — через Beads API; внутренние tests,
 ожидания и написание отчётов не отдельные циклы. Audit не новый independent verifier.
 Ссылки и диагноз: docs/reviews/2026-10-06-pm-self-audit.md. Reference PM_ERR/DOC_PR
 прочитаны в основном U2main@0fe06927…; текущие нормы — .agents/PM_ROLE.md3.0/ADR3.29.
@@ -34,7 +39,29 @@ Artifacts/raw evidence/предыдущие seals сохраняются. Fresh 
 final mandatory guard189unit/28browserPASS+1inherited screenshot SKIP; type/build/
 reference/bootstrap26PASS. Source68/protected85+2/compiled6/primary17/served51 проверены.
 
-## Приёмка и продолжение
+## Текущий аудит и продолжение
+
+Beads ulab-bn1 IN_PROGRESS: независимый GD/UX/User Review NEEDS_REVISION,12 findings;
+QA GD/UX FAIL. Шесть v1/v2/v3×1440/390 whole chains дошли до конца, но это не UX PASS.
+Матрица24адресов:9PASS/9FAIL/4user-taskBLOCKED/2NOTRUN, с непроверенными ветвями.
+RUNNING native navigation на v3×1 desktop/LAN390 отдельно PASS; MAX/physical/tablet820
+NOTRUN. Оригинальный Review и factual addendum публикуются вместе, без переписывания.
+Все141rawQAhash проверены PM; signed canonical reports — docs/INDEX.md.
+
+Главные факты: color/legend mismatch, draftrev вместо measuredrev в Compare,
+result opening принимает толькоspec и показывает чужой паспорт, pausedFreeze v1YES/
+v2refusal/v3disabled. Скрытые секции/scroll reset и21Wканал затрудняют workflow.
+V3 comparison data и immutableactive ownership сохранены; не заявлять полную потерю.
+Legacy paused export выдаёт nextdraft; отдельный обнаруженный дефект, не новаяv3регрессия.
+Overlay/zoom/persistence раньше не было: новые proposals не делать автоматически.
+
+WHAT draft WF01–14 и HOW proposed — docs/product/ship-fitting-gd-workspace-v4.md,
+docs/plans/2026-10-06-gd-workspace-v4.md. Минимальное продолжение: один Plan Review
+до PLAN_READY, затем единственный Developer; PM не кодит. Следующий завершённый
+verifier+triage доведёт счётчик до3/3 и требует короткого самоаудита. Runtime и все
+стенды пока прежние; v4/порт4188 не подняты. Миссия/refuel остаётся deferred.
+
+## Прежняя техническая приёмка
 
 QA r4: scopedPASS, CR-UI-B1/B2 и linkedD12 CLOSED;10 addressed affected slices,
 не10 полных новых methods. Original72 mapping71PASS/1deferred включает historical
