@@ -29,13 +29,17 @@ export function traceChart(r: RunResultV2, ids: string[], time?: number, limits:
   const x = (t: number) => 40 + (t - start) / Math.max(1e-12, end - start) * 620;
   const y = (v: number) => 170 - (v - low) / (high - low) * 150;
   const unit = channelUnit(present[0]??ids[0]??'requestedW');
-  const labelPositions=new Map<Boundary,number>();let nextY=25;
-  for(const l of [...limits].filter(l=>l.label).sort((a,b)=>b.value-a.value)){const yy=Math.max(nextY,y(l.value)-3);labelPositions.set(l,yy);nextY=yy+18;}
-  return `<svg viewBox="0 0 700 205" role="img" aria-label="Измеренные каналы: ${esc(unit)}">${bands.filter(b=>b.to>=b.from).map(b=>`<rect data-thermal-band="${b.side}" x="40" y="${y(b.to)}" width="620" height="${y(b.from)-y(b.to)}" fill="${b.color}" opacity=".14"/>`).join('')}<path d="M40 20V170H660M40 95H660" stroke="#3a3226" fill="none"/><text x="40" y="195">${num(start, "с")}</text><text x="660" y="195" text-anchor="end">${num(end, "с")}</text><text x="42" y="16">${num(high, unit)}</text>${present.map(id => {
+  // В SVG размеры шрифта — user units: читаемые 28 дают glyph box около 36, а не 18.
+  const labels=[...limits].filter(l=>l.label).sort((a,b)=>b.value-a.value),labelPositions=new Map<Boundary,number>();let nextY=35;
+  for(const l of labels){const yy=Math.max(nextY,y(l.value)-3);labelPositions.set(l,yy);nextY=yy+40;}
+  // Обратный проход удерживает все четыре подписи внутри графика, выше оси времени.
+  let lastY=158;for(const l of [...labels].reverse()){const yy=Math.min(lastY,labelPositions.get(l)!);labelPositions.set(l,yy);lastY=yy-40;}
+  const highLabel=labels.length?`<text x="660" y="35" text-anchor="end">${num(high,unit)}</text>`:`<text x="42" y="16">${num(high,unit)}</text>`;
+  return `<svg viewBox="0 0 700 205" role="img" aria-label="Измеренные каналы: ${esc(unit)}">${bands.filter(b=>b.to>=b.from).map(b=>`<rect data-thermal-band="${b.side}" x="40" y="${y(b.to)}" width="620" height="${y(b.from)-y(b.to)}" fill="${b.color}" opacity=".14"/>`).join('')}<path d="M40 20V170H660M40 95H660" stroke="#3a3226" fill="none"/><text x="40" y="195">${num(start, "с")}</text><text x="660" y="195" text-anchor="end">${num(end, "с")}</text>${highLabel}${present.map(id => {
     const i = r.channels.indexOf(id), style = channelStyle(id);
     const points = r.buckets.map(b => `${x(b.endSeconds)},${y(b.sum[i] / b.count)}`).join(" ");
     return `<g stroke="${style.color}" data-channel="${esc(id)}" fill="none">${r.buckets.map(b => `<path opacity=".3" d="M${x(b.endSeconds)} ${y(b.min[i])}V${y(b.max[i])}"/>`).join("")}${meanAsPath ? `<path stroke-width="2" ${style.dashed ? 'stroke-dasharray="6 4"' : ""} d="${points.split(" ").map((p, n) => (n ? "L" : "M") + p).join(" ")}"/>` : `<polyline stroke-width="2" ${style.dashed ? 'stroke-dasharray="6 4"' : ""} points="${points}"/>`}</g>`;
-  }).join("")}${limits.map(l => `<path data-boundary="${esc(l.id??'')}" ${l.instance?'data-instance="'+esc(l.instance)+'" opacity=".5"':''} d="M40 ${y(l.value)}H660" stroke="${l.color??'#D2B47C'}" stroke-dasharray="3 5"/>${l.label?`<text fill="${l.color??'#D2B47C'}" x="80" y="${labelPositions.get(l)}">${esc(l.label)} ${num(l.value, "K")}</text>`:''}`).join("")}${time !== undefined ? `<path d="M${x(time)} 20V170" stroke="#E8DCC6" data-time="${time}"/>` : ""}</svg>`;
+  }).join("")}${limits.map(l => `<path data-boundary="${esc(l.id??'')}" ${l.instance?'data-instance="'+esc(l.instance)+'" opacity=".5"':''} d="M40 ${y(l.value)}H660" stroke="${l.color??'#D2B47C'}" stroke-dasharray="3 5"/>${l.label?`<text fill="${l.color??'#D2B47C'}" x="80" y="${labelPositions.get(l)}" style="font-size:28px">${esc(l.label)} ${num(l.value, "K")}</text>`:''}`).join("")}${time !== undefined ? `<path d="M${x(time)} 20V170" stroke="#E8DCC6" data-time="${time}"/>` : ""}</svg>`;
 }
 export function thermalFrontiers(r:RunResultV2) {
  const ops=gatedOperations(r.spec),gates=ops.map(i=>i.item.gate),cold='#6AAEE8',hot='#E58B87';
