@@ -155,3 +155,5 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [Scoped Code Review r2](reviews/2026-10-06-claude-design-ui-code-review-r2.md) — APPROVED, 0 BLOCKER / 0 ADVISORY; 9 изменённых UI/test paths, 19 прежних paths перенесены по actual byte equality.
 - [Новый локальный UI](http://192.168.68.65:4183/?v=claude-ui-30a1c9b), [прежний Ship Fitting](http://192.168.68.65:4186/) и [Legacy Power & Heat](http://192.168.68.65:4186/?mode=legacy) доступны параллельно.
 - Численное ядро сохранено; full mining mission/refuel и UI13-02 attribution deferred. Physical/native/public/base/main gates остаются отдельными, PR #6 Draft.
+
+- [Самоаудит PM по сигналу оператора](reviews/2026-10-06-pm-self-audit.md) — ошибки организации, сокращение Memory Bank и правило повторения после каждых3 QA/Review+триаж итераций; не новый verifier launch.
