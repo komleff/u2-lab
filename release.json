@@ -4,11 +4,12 @@
   "thermalDiagnostics": "0.1",
   "thermalControls": "0.1",
   "status": "experimental",
-  "runtimeCommit": "2ede52950432d0af5ae676cac032dddb1dd893ce",
-  "sourceCommit": "2ede52950432d0af5ae676cac032dddb1dd893ce",
-  "sourceFingerprint": "b8e5bd4de6a9c1b8e63a71de2e1e88d93d9f2f17ab95892b225845ddca4b98cf",
-  "buildFingerprint": "08cbce492e1fa64c9fc017c7a45b4866f883f9e57df2021c52aaea3dbfd68c07",
+  "runtimeCommit": "55279fdde407431959463df5371aabea83cfa944",
+  "sourceCommit": "55279fdde407431959463df5371aabea83cfa944",
+  "sourceFingerprint": "4619efbe7bb4ee492798358c299f01ac28018e88097eeb97b6d9d0937da7bb4b",
+  "buildFingerprint": "fc08622db00f1c3df7752a6c508ad91a3e9c55a4342de5ce839d4844f11cf319",
   "legacyV1": "./legacy-v1/",
   "previousThermal": "./thermal-v0.1/",
-  "catalogFocus": "manual-search"
+  "catalogFocus": "manual-search",
+  "catalogFamilies": "selected-slot"
 }
