@@ -1,7 +1,7 @@
 ---
 title: "v2.2 — основной шахтёрский рейс и M-модули"
 status: proposed
-version: "1.1"
+version: "1.2"
 date: 2026-10-06
 related:
   - docs/product/ship-fitting-v2.2-mission-brief.md
@@ -38,7 +38,7 @@ M/HY — второй в том же кандидате, без отдельно
   валидация двух известных численных моделей, конечные SI inputs, atomic refusal.
 - `src/runner/mining-metrics.ts`: дополнительные mission metrics; старые сохранены.
   `src/app/fitting-ui/conditions.ts`, `src/app/fitting-workspace.ts`,
-  `src/fitting/session.ts`: новый default/экспорт/условия/воспроизводимость/сравнение.
+  `src/app/fitting-session.ts`: новый default/экспорт/условия/воспроизводимость/сравнение.
   `src/app/fitting-ui/lab-view.ts`, `src/app/fitting.ts`: поля и видимые результаты,
   без удаления шести графиков, таблицы, журнала, фиксированного сравнения и файлов.
 - M/HY owners и точные значения — неизменный medium contract; новая edition0.2.3,
@@ -128,7 +128,7 @@ Repeat=false завершает один рейс; repeat=true — horizon/до�
 | M06 | Export/import numeric mission snapshots reproduces state/metrics; false-known roster B1 and invalid model/fields atomically refused; no current numeric recompilation. |
 | M07 | Старые versioned fit/run/result legal/numerically unchanged, old timed mode clearly labelled; golden oracle/digests, fresh browser import. |
 | M08 | LAN desktop1440 и touch390: edit M fit→first-click Start→pause/step/resume/cancel→restart→graphs/table/events→freeze A→edit B→compare→export→fresh open result без run. Navigation accessible while running; original continuous layout. No UI asset redesign. |
-| M09 | Pony A/B/C H3600, лазеры `mining-industrial-S`, трюмы `cargo-bulk-S`24SCU: A1laser+2bulkS+builtin12=60SCU, B2laser+1bulkS+builtin12=36SCU, C3laser+builtin12=12SCU; one passive sig; near0/100km/far1000km results+timings recorded. No predetermined winning fit. Convergence default dt.1 vs.05/.025 on representative completed voyage and near limiter: delivered/mined/fuel within1%, arrival/mining events within0.5с and no different final stop outcome; choose smaller dt if fail. H3600 wall/steps + short baseline recorded, no unjustified12h matrix. |
+| M09 | Pony A/B/C H3600: существующие presets1/2/3 сохраняют enabled builtin:laser UNKNOWN/G0(1MW,η.35) +0/1/2 removable `pony-removable-laser-S-G0` с теми же ТТХ; workGroup включает builtin и эти removable IDs. Всего2 payload slots. A2×`cargo-bulk-S`24 +builtin hold12=60SCU, B1×bulkS24+builtin12=36SCU, C0bulkS+builtin12=12SCU; one passive sig. Не mixed Industrial/G2 и не3 removable; near0/100km/far1000km results+timings recorded. No predetermined winning fit. Convergence default dt.1 vs.05/.025 on representative completed voyage and near limiter: delivered/mined/fuel within1%, arrival/mining events within0.5с and no different final stop outcome; choose smaller dt if fail. H3600 wall/steps + short baseline recorded, no unjustified12h matrix. |
 | MF01–04/HY01–02 | Exact medium contract values/50SKU/provenance/versioned compatibility, compound CivilianM fixtures full mining+hydrogen cooling/hybrid, shared finite H₂ ledger, negative old E/size/class, native catalog M filter/install/run/export. |
 
 Review Focus: arrival without retro; horizon during unload; no thrust mass loss;
