@@ -1,4 +1,31 @@
-# Текущий приоритет: автоматика охлаждения, 2026-10-07
+# Автоматика охлаждения — поставлен, 2026-10-07
+
+Beads ulab-6xr; PRODUCT5/5: QA4 PASS, Review5 APPROVED/0B0A, CR-CC-B1 CLOSED. Accepted WHAT:
+H₂ Efficient Auto по потребности;≤300K own heat/aux/H₂0. Active закрывает
+площадь/насос при Tenv≥Tship. Signed hull/Passive и TI сохраняются; generator
+независим. U2 current INDEX→palette0.4/doctrine0.2.8, DraftPR843/18d2c82.
+HOW/CC01–05: docs/plans/2026-10-07-cooling-control.md, весь контракт неизменен.
+
+Runtime c9e09b2: исходная физика a3 + observer/test fix CR-CC-B1,2paths;
+57other src exacta3. Guard520unit/54browser+1SKIP/26cloud/type/build PASS.
+Plan1 READY; QA2 PASS; Review3 historical CHANGES_REQUESTED1B0A. QA4 PASS, Review5 APPROVED/0B0A, обе независимые проверки sealed. Selfaudit PM_ERR/DOC_PR выполнен3/3, counter2/3 после QA4+Review5.
+Immutable release .overgate-runtime/cooling-control-interval-fix-release/.
+LAN4196 c9e09b2/PID13066,17HTTPassets exact, Start1.5s/Pause/iClose/errors0.
+http://192.168.68.65:4196/?v=cooling-c9e09b2
+PUBLIC https://komleff.github.io/u2-lab/?v=cooling-c9e09b2
+Pages c13791a built/error=null;41HTTPSfiles exact, actualStart1.5/Pause/iClose/errors0.
+Archive thermal-v0.1/17 exact/Start1.8/Pause/errors0; legacy-v1/4+root3 unchanged.
+Metadata-only normalguard commit и reviewed-content equivalence — финальный checkpoint PR12.
+
+UI4.1 PR11 base a97262b: QA5 PASS/CR-MC-B1 closed по QA, numerical unchanged.
+Его budget5/5 отдельный, +1 final closure ожидает оператора. Не объявлять UI
+review APPROVED и не заимствовать budget thermal/cooling. PR12/PR843 Draft,
+main/bootstrap/native/physicalXiaomi/operator merge отдельно OPEN.
+Sole Beads writer rootprimary bd API; старый4189 и Legacy-v1 сохранить.
+
+## История checkpoint ниже; ссылки/процессы могут быть прежними
+
+# Исторический checkpoint: автоматика охлаждения, 2026-10-07
 
 Beads ulab-6xr, PRODUCT5: PlanReview1 PLAN_READY0B0A. Exact HOW/CC01–05 —
 docs/plans/2026-10-07-cooling-control.md, source authority через INDEX.
@@ -13,7 +40,7 @@ Developer721e815 исправил общую строку, guard489/52+SKIP/26 P
 Старые LAN4196/4189 и public thermal/legacy-v1 сохранены. PM sole Beads writer
 rootprimary. Следующие coolingQA2 и scopedReview3 только CC01–05, no81/12h.
 
-# В работе: чистка карточек модулей, 2026-10-07
+# Исторический checkpoint: чистка карточек модулей, 2026-10-07
 
 Прямое поручение оператора: собственные профильные ТТХ, без неприменимых полей,
 итогов всей сборки и неизвестного объёма; служебные данные под компактной i.
@@ -25,7 +52,7 @@ product code до PLAN_READY и Draft PR не начинать. Никакой �
 Новый screenshot/layout QA только по module UI; не повторять thermal кампанию.
 Review/QA+triage counter1/3; следующий аудит после QA2 и scopedReview3.
 
-# Текущий пакет: температурная диагностика, 2026-10-07
+# Исторический checkpoint: температурная диагностика, 2026-10-07
 
 Принято оператором: единая линейная hot/cold кривая с индивидуальными ТТХ,
 износом вне рабочего диапазона и критической защитой. Канон — U2 Draft PR842,
@@ -52,7 +79,7 @@ numeric/TTX owners неизменны. Normalguard489unit/49browser+1SKIP/26clou
 последний metadata commit проходит обычный guard, его SHA/result фиксируется в PR.
 
 Оператор дал +5 verifier calls; использовано7/10, reserve3. Аудит PM_ERR1.3/
-DOC_PR сделан передQA6 и повторён при Review5+QA6+Review7=3/3; counter0/3.
+DOC_PR сделан передQA6 и повторён при Review5+QA6+Review7=3/3; counter2/3 после QA4+Review5.
 Не повторять всю кампанию по metadataHEAD; новый verifier только по namedFAIL.
 Wear численно не рассчитывается; H₂ always-on governor отдельный knowndefect.
 Физический планшет/native adapters/fullbootstrap/base/main/operator merge

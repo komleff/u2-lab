@@ -151,3 +151,81 @@ Pages уже опубликована: exact17files, настоящий Start/Pa
 Использовано7/10, reserve3; новых verifier launches не нужно. Следующее — один
 обычный финальный commit guard, sync PR/Memory Bank/Beads. Counter reset0/3;
 следующая review/QA+triage/fix итерация станет1/3. Merge/base/native остаются отдельно.
+
+
+## Чистка карточек: Plan Review → QA/фикс → affected QA, 3/3
+
+Цель оператора — компактные собственные ТТХ и доступная кнопка i без потери
+фиттинга. QA2 действительно обнаружила MC-UI-B1: colon-ID ломал render/Close.
+Общий CSS.escape lookup исправлен85fee8c; QA3 закрыла installed/builtin класс
+на1440/touch390,8 native cycles/errors0 и exact fit bytes/revision. MC01/03/05
+перенесены по неизменности, не представлены новым полным прогоном. PR11 Draft.
+
+Перечитаны current U2 PM_ERR1.3/DOC_PR. Ошибки: устаревшие presentation assertions
+задержали guard; focus-only oracle не замечал исключение благодаря браузеру;
+PM опять угадывал пути и перегружал чтения. Диагноз — неполный class sweep и
+избыточный учёт evidence. Теперь проверяется один scoped ID lookup, native
+Close/Escape/render/focus с pageerror oracle; numeric/action invariants сохранены.
+Не добавлены защитные подсистемы, новый контракт или повторная часовая кампания.
+
+Counter reset0/3; следующий один scoped Review4/5. После него один metadata
+checkpoint/обычный guard и поставка того же immutable UI. H₂/Active — отдельное
+ulab-6xr с готовым планом и U2 PR843; runtime этой задачи ещё не исправлен.
+Новые проверки адресованы только CC01–05, источник выбирается через INDEX.
+
+
+## Review4 → class fix → QA5: повторный аудит 3/3
+
+Настоящий CR-MC-B1 найден у соседних idless ring/table callers. Прежний аудит
+сырого colon-ID был неполным: исправленная общая функция всё ещё получала
+пустую строку. 721e815 восстановил общий baseline fallback без новых IDs/state.
+QA5:6idless+2named cycles/errors0, exact fit/result/revision; чужие GUI/native
+или часовые результаты не присвоены. Новый Review closure требует1extra call;
+запрошен явно по PM_ROLE§4, самостоятельного превышения5/5 нет.
+
+PM_ERR1.3/DOC_PR применены: не менять контракт ради зелёного статуса, проверять
+всех actual callers/пустой input, не превращать stateful focus в новую подсистему.
+Диагноз — «чинить экземпляр вместо класса» и задержка поставки учётом evidence.
+Counter reset0/3. Тот же QA-tested immutable preview можно дать оператору как
+экспериментальный; финальный reviewer verdict не заявлен. Отдельная H₂ задача
+имеет PLAN_READY и изолированный docs-only checkout; никаких cooling edits
+под UI frozen candidate. Новый scope и budget отделены, прежние FAIL сохранены.
+
+
+## Автоматика охлаждения: Plan → Developer → guard-триаж, 3/3
+
+Перечитаны current U2 PM_ERR1.3/DOC_PR и Lab PM_ROLE3.0. Цель оператора —
+работающий охладитель без собственного переохлаждения и закрытый Active при
+горячем фоне, с ясным журналом. WHAT закреплён в U2 cooling palette0.4/PR843,
+HOW/CC01–05 неизменен. Один Developer; QA2 уже подготовлена, execution NOT RUN.
+
+Фактический черновик: точный PonyDH без генератора, fresh DEFAULT с зарядкой
+станции ON, H3600: Auto4 разгрузки/144SCU доставлено, OFF2/72. Численные данные
+сохранились после исправления observer. Всего225/67 событий, dropped0, вместо
+тысяч повторений тяги. Targeted65 PASS. Первый ordinary guard FAIL: фиксированное
+число retention channels и полный ST05 result digest с новой version event;
+commit ещё не выполнен, independent acceptance не заявлена.
+
+Диагноз: «продолжать по старым фактам» — сначала legacy fuel-only назван
+стандартными условиями. Root сверил реальный DEFAULT owner, обе роли используют
+stationReplenish=true. «Чинить экземпляр вместо класса» — sparse cooling rows
+не гарантировали sparse thrust episodes; проверяется весь журнал по kind,
+реальные stop/restart сохраняются. «Защита растёт быстрее результата» — Root
+снова сделал слишком большой cat raw JSON и угадывал paths; далее rg--files,
+ключи и компактные численные проекции. Beads notes с английскими shell-подобными
+словами отклонены opaque classifier; безопасная краткая формулировка прошла
+обычный guard, hooks не менялись и не обходились.
+
+Минимальный следующий шаг: адресно подтвердить bounded retention и отличие
+новых metadata/observer rows от численных данных, один обычный guard, sealed
+release → текущая QA2 → один scoped Review3. Не создавать новые schemas,
+матрицы/81digests/12h или защитную инфраструктуру. UI PR11 остаётся отдельным
+5/5 budget с ожидаемым явным extra1; его gate не закрывается cooling review.
+LAN4196 пока UI721 со старым охлаждением; Pages/Legacy/4189 сохранены.
+Counter reset0/3; QA2-triage станет1/3. Cooling budget2/5, reserve3.
+
+## Cooling: самоаудит после QA2 → Review3/триаж → исправление CR-CC-B1 (3/3)
+
+Цель — рабочая автоматика охлаждения и доступная сборка для ГД. На LAN4196 уже показан физический фикс; независимая QA2 подтвердила CC01–05. Review3 обнаружило один содержательный дефект CC04: усреднённый режим выдавался за мгновенное состояние, запрос — за фактическую работу. По PM_ERR1.3/DOC_PR исправлен весь класс для H₂ и Active, а не только первый пример. Меняются только observer и его тесты; физика, условия, IO, UI и whole HOW прежние. RED6→GREEN48, normal guard520/54+SKIP/26; кандидат c9e09b2 sealed.
+
+Антипаттерны: риск защиты, растущей быстрее результата, и неверная точность текста. Тактика: только affected QA4 и scoped Review5; без новой часовой матрицы, новой схемы или инфраструктуры. Сразу после закрытия — заменить LAN сборку, опубликовать Pages и сохранить предыдущую версию. Budget cooling4/5 после подготовки QA4, последний вызов — Review5; UI budget5/5 отдельно, дополнительный вызов не получен. Счётчик самоаудита сброшен0/3.

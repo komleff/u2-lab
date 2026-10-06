@@ -27,7 +27,13 @@
 ## Текущий приоритет — рабочий процесс ГД
 
 - [Чистка карточек модулей](plans/2026-10-07-module-card-cleanup.md) — прямое поручение оператора: профильные ТТХ без чужих показателей и итогов сборки; служебные подробности под «i», MC01–05; небольшая UI-задача, расчёт неизменен.
-- [Plan Review чистки карточек](reviews/2026-10-07-module-card-cleanup-plan-review.md) — PLAN_READY/0BLOCKER/0ADVISORY; MC01–05,6 UI owners, без runtime проверок; PRODUCTbudget1/5.
+- [Plan Review чистки карточек](reviews/2026-10-07-module-card-cleanup-plan-review.md) — PLAN_READY/0BLOCKER/0ADVISORY; MC01–05,6 UI owners.
+- [Developer](reviews/2026-10-07-module-card-cleanup-developer.md) и [исправление i](reviews/2026-10-07-module-card-cleanup-developer-fix-r1.md) —85fee8c, общий scoped ID lookup; guard489unit/51browser+1SKIP/26cloud PASS, численные52owners неизменны.
+- [Первичная QA](reviews/2026-10-07-module-card-cleanup-qa-r1.md) — исторический FAIL: MC-UI-B1, colon-ID ломал render/Close.
+- [Affected QA](reviews/2026-10-07-module-card-cleanup-qa-affected-r1.md) — PASS/MC-UI-B1 CLOSED;8 native cycles1440/touch390/errors0, exact fit bytes/revision; остальное покрытие перенесено по неизменности, не полный повтор.
+- [Code Review r1](reviews/2026-10-07-module-card-cleanup-code-review-r1.md) — CHANGES_REQUESTED/CR-MC-B1: пустой ID существующего ring/table invoker; отдельное минимальное исправление, не повтор colon-ID QA.
+- [Developer idless fix](reviews/2026-10-07-module-card-cleanup-developer-idless-fix.md) и [QA5](reviews/2026-10-07-module-card-cleanup-qa-idless-fix.md) —721e815/CR-MC-B1 CLOSED по QA,6idless+2named cycles/errors0, прежние bytes. Verifierbudget5/5, финальная scoped closure требует явного +1 оператора.
+- Исторический UI721e815 preview4196:17exactassets, Start1.7s/Pause/iClose/errors0; физика тогда неизменна. Текущая поставка охлаждения ниже сохраняет эти UI blobs, отдельная финальная UI closure по budget остаётся открыта.
 
 - [Пони: один слот контроля сигнатур](plans/2026-10-06-pony-signature-slot.md) — принятое изменение баланса, план/VC P01–P05; новый каталог0.2.2, исторические0.2.0/0.2.1 сохраняются.
 - [Pony Plan Review](reviews/2026-10-06-pony-signature-slot-plan-review.md), [Developer](reviews/2026-10-06-pony-signature-slot-developer.md), [QA](reviews/2026-10-06-pony-signature-slot-qa.md), [Review1](reviews/2026-10-06-pony-slot-code-review-r1.md) — history: known resolved ghost buffer B1.
@@ -233,12 +239,23 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [Developer Legacy fix a6](reviews/2026-10-07-thermal-diagnostics-legacy-fix.md) — детерминированный FIX VERIFICATION/489unit/49browser+1SKIP/26cloud PASS; exact ID/stop/restart и aggregate-not-hardware. Независимое закрытие подтверждено последующими QA6 и Review7.
 - [Affected QA a6](reviews/2026-10-07-thermal-diagnostics-qa-legacy-fix.md) — sealed PASS/CR-TD-B1 CLOSED:5 affected risk rows,26API+7native assertions, один настоящий Legacy Worker запуск/пауза/продолжение/JSON/CSV; прежняя матрица не повторялась.
 - [Scoped Review a6](reviews/2026-10-07-thermal-diagnostics-code-review-legacy-fix.md) — sealed APPROVED/CR-TD-B1 CLOSED/0BLOCKER/0ADVISORY; два изменённых файла и необходимые callers, без новой полной кампании. Budget7/10, reserve3; самоаудит повторён при3/3.
-- [Публичный стенд](https://komleff.github.io/u2-lab/?v=thermal-a6c7430) — exact a6,17public assets/Start/Pause/bands/errors0 PASS; [первая Lab](https://komleff.github.io/u2-lab/legacy-v1/) сохранена и проверена. Публикация не означает merge Draft PR.
-- Текущий стенд: [thermala6, порт4196](http://192.168.68.65:4196/?v=thermal-a6c7430); HTTP17assets и Start/advance/Pause PASS. Прежняя [station86, порт4189](http://192.168.68.65:4189/?v=station-86dee5d) сохранена.
-
+- [Предыдущий thermal-стенд](https://komleff.github.io/u2-lab/thermal-v0.1/) — exact a6,17public assets/Start/Pause/bands/errors0 PASS; [первая Lab](https://komleff.github.io/u2-lab/legacy-v1/) сохранена и проверена. Публикация не означает merge Draft PR.
+- Историческая LAN-проверка thermala6 на4196: HTTP17assets и Start/advance/Pause PASS; порт теперь обслуживает текущую cooling-поставку ниже. Прежняя [station86, порт4189](http://192.168.68.65:4189/?v=station-86dee5d) сохранена.
 
 ## Автоматическое охлаждение — CC01–05
 
-- [План H₂/Active](plans/2026-10-07-cooling-control.md) — direct operator WHAT и existing Efficient Auto; PRODUCT, runtime ещё NOT RUN.
+- [План H₂/Active](plans/2026-10-07-cooling-control.md) — direct operator WHAT и existing Efficient Auto; PRODUCT; выполнены Developer и QA2, один blocker журнала закрыт QA4 и Review5; local acceptance PASS/APPROVED.
 - [Plan Review](reviews/2026-10-07-cooling-control-plan-review.md) — PLAN_READY/0BLOCKER/0ADVISORY, whole HOW; budget1/5.
 - [Current source authority](architecture/source-authority.md#автоматика-охлаждения-уточнение-2026-10-07) — U2 palette0.4/PR843, floor именно H₂, signed hull/Passive сохранён.
+
+- [Developer a3](reviews/2026-10-07-cooling-control-developer.md) — исходный физический фикс и normal guard514unit/54browser+SKIP/26cloud; default Pony3600 и H₂-OFF контроль.
+- [Независимая QA2](reviews/2026-10-07-cooling-control-qa.md) — PASS CC01–05: S/M ledger/transitions, actual default-hour pair, touch390/LAN, old/new export. Историческое evidence a3, numerical carryover по точным blobs.
+- [Code Review3](reviews/2026-10-07-cooling-control-code-review-r1.md) — CHANGES_REQUESTED/1BLOCKER/0ADVISORY; CR-CC-B1: усреднённое управление ошибочно подписано мгновенным состоянием/фактическим открытием.
+- [Developer FIX c9](reviews/2026-10-07-cooling-control-developer-fix.md) — весь класс H₂/Active: принятому интервалу соответствуют доли режимов и реальное питание, запрос не обещает открытие. RED6→GREEN48; guard520/54+SKIP/26,2delta/57unchangedsrc/wholecontracts exact; QA4 PASS/Review5 APPROVED ниже.
+
+- [Affected QA4](reviews/2026-10-07-cooling-control-qa-interval-fix.md) — PASS/CR-CC-B1 CLOSED:4riskrows/12APIassertions и один bounded nativeLAN390 DOM proof; observer counts прежней QA2 не объявлены новыми.
+- [Scoped Review5](reviews/2026-10-07-cooling-control-code-review-interval-fix.md) — APPROVED/0BLOCKER/0ADVISORY/CR-CC-B1 CLOSED;2delta/whole2/57protected exact, UI closure OUT. Budget5/5; PM audit3/3 ранее выполнен, counter2/3.
+- [PM Final Acceptance](reviews/2026-10-07-cooling-control-final-acceptance.md) — local scope accepted; independent verdict/evidence, live delivery/limitations. PR12/PR843 остаются Draft, operator merge отдельно.
+- [Текущий LAN4196](http://192.168.68.65:4196/?v=cooling-c9e09b2) — c9e09b2,17HTTPassets и actualStart1.5s/Pause/iClose/errors0 PASS. Старый4189 сохранён.
+
+- [Публичная cooling-поставка](https://komleff.github.io/u2-lab/?v=cooling-c9e09b2) — exactc9/Pagesc13791a,17assets и actualStart/Pause/iClose/errors0 PASS; [архив thermal](https://komleff.github.io/u2-lab/thermal-v0.1/)17exact/Start/Pause и [первая Lab](https://komleff.github.io/u2-lab/legacy-v1/)4+root3 exact сохранены. Публикация не заменяет operator merge.
