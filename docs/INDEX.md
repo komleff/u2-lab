@@ -26,6 +26,9 @@
 
 ## Текущий приоритет — рабочий процесс ГД
 
+- [Чистка карточек модулей](plans/2026-10-07-module-card-cleanup.md) — прямое поручение оператора: профильные ТТХ без чужих показателей и итогов сборки; служебные подробности под «i», MC01–05; небольшая UI-задача, расчёт неизменен.
+- [Plan Review чистки карточек](reviews/2026-10-07-module-card-cleanup-plan-review.md) — PLAN_READY/0BLOCKER/0ADVISORY; MC01–05,6 UI owners, без runtime проверок; PRODUCTbudget1/5.
+
 - [Пони: один слот контроля сигнатур](plans/2026-10-06-pony-signature-slot.md) — принятое изменение баланса, план/VC P01–P05; новый каталог0.2.2, исторические0.2.0/0.2.1 сохраняются.
 - [Pony Plan Review](reviews/2026-10-06-pony-signature-slot-plan-review.md), [Developer](reviews/2026-10-06-pony-signature-slot-developer.md), [QA](reviews/2026-10-06-pony-signature-slot-qa.md), [Review1](reviews/2026-10-06-pony-slot-code-review-r1.md) — history: known resolved ghost buffer B1.
 - [Pony B1 fix](reviews/2026-10-06-pony-signature-slot-developer-fix-r1.md), [affected QA](reviews/2026-10-06-pony-signature-slot-qa-affected-r1.md), [scoped Review2](reviews/2026-10-06-pony-slot-code-review-r2.md) — local PASS/APPROVED bbe3fc; old numeric snapshots unchanged; live4188. Не M/mission acceptance.

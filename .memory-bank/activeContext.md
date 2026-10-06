@@ -1,3 +1,15 @@
+# В работе: чистка карточек модулей, 2026-10-07
+
+Прямое поручение оператора: собственные профильные ТТХ, без неприменимых полей,
+итогов всей сборки и неизвестного объёма; служебные данные под компактной i.
+Beads ulab-p2w; PRODUCT default5, PlanReview1 PLAN_READY/0B0A, затем один Developer,
+QA2 и scopedReview3. HOW/MC01-05: docs/plans/2026-10-07-module-card-cleanup.md.
+Ветка feat/module-card-cleanup от ebd4814 в existing isolated thermal checkout;
+product code до PLAN_READY и Draft PR не начинать. Никакой новой физики/TTX/IO.
+Существующая acceptedthermalPages/LAN4196 и первая Lab остаются доступны.
+Новый screenshot/layout QA только по module UI; не повторять thermal кампанию.
+Review/QA+triage counter1/3; следующий аудит после QA2 и scopedReview3.
+
 # Текущий пакет: температурная диагностика, 2026-10-07
 
 Принято оператором: единая линейная hot/cold кривая с индивидуальными ТТХ,
