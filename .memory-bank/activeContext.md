@@ -1,5 +1,19 @@
 # Ship Fitting v4 + каталог 0.2.1 — 2026-10-06
 
+## Новое поручение v2.2
+
+Оператор возобновил ulab-dwi: событийная добыча до полного трюма/первой остановки,
+рейс100км туда порожняком/обратно с добытым грузом, V_FA×1/2/3/4/Max(default),
+H3600/background100K/rho1500/return.35/target10000SCU/approach10/unload10/repeattrue.
+Brief docs/product/ship-fitting-v2.2-mission-brief.md: accepted inputs и предложения
+разделены. PRODUCT GAP: первая остановка — первое ограничение либо полная остановка
+всей mining group; async вопрос оператору pending. V_FA отсутствует в labcatalog;
+нужен source либо честно согласованная lab reference. InitialT idle≠background:
+hullPower200/800/3200kW; предложены manual300K и step.01 в advanced, без temperature
+reset между рейсами. Подготовка не новый verifier cycle, counter остаётся1/3.
+Runtime v2.2 NOTSTARTED; после согласования WHAT — HOW/VC/PlanReview до Developer.
+Старый DEFERRED revoke новым поручением; ниже сохранён проверенный baseline.
+
 Локальная поставка, PRODUCT/PM_ROLE3.0. Один Developer, QA, Reviewer;
 PM — sole publisher/Beads writer. Draft PR6, base feat/ship-fitting-v0.2 (PR4 Draft).
 main/merge — оператору. Canonical sources и signed reports: docs/INDEX.md.
@@ -41,12 +55,13 @@ published PR6#6010610636/#6010687917. Signed historical FAIL не перепис
 
 ulab-bn1/ulab-agx CLOSED: scoped local delivery complete, closure через bd API.
 Trusted export remote beads-backup/aafe392,30canonical IDs/original9 preserved;
-mission ulab-dwi remains OPEN/DEFERRED.
+mission ulab-dwi возобновлена, IN_PROGRESS (продуктовое уточнение v2.2).
 Feature metadata/checkpoint/guard/push не меняют reviewed runtime. Selfaudit после
 catalogQA/Review1/affectedQA выполнен3/3, reset0; после Review2 triage counter1/3. PM_ERR/DOC_PR externalU2main0fe06927… read; не новые verifier launches.
 No full39/7chains/matrix/H3600/12h replay без нового FAIL/AC/named risk.
 
-Mining-until-fullhold/flight/Aurora↔центр Северного/refuel ulab-dwi DEFERRED оператором.
+Mining-until-fullhold/flight/refuel ulab-dwi возобновлена новым заданием v2.2;
+прошлая отсрочка больше не действует. Current4188 остаётся прежним runtime.
 Physical Xiaomi/gesture/performance/native/public/bootstrap/base/fullproduct/main
 acceptance отдельно OPEN. No numeric kernel/Worker/scenario algorithm change.
 Beads API primary only; trusted export helper OverGate63393725…; no JSONL hand edits.

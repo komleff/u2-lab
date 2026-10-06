@@ -1,5 +1,8 @@
 # Прогресс — 2026-10-06
 
+- Новое задание v2.2 возобновляет ulab-dwi; product brief в INDEX. Acceptedinput
+  defaults записаны, firststop/V_FA требуют уточнения; implementation NOTSTARTED.
+
 - Source15f5d90e LIVE4188: v4 + catalog0.2.1, прежние4183/4186 сохранены.
 - Восстановлены continuous opening/editing/analysis/comparison/fresh result workflows,
   отдельные slot rows, limiter, filename, footer4.0. Численные algorithms unchanged.
@@ -10,5 +13,5 @@
   incomplete conditions CR-V4-B1, исправлен15f5. Affected QA PASS, scoped Review2 APPROVED/0BLOCKER0ADVISORY; CR-V4-B1 CLOSED.
 - Самоаудит3/3 выполнен после catalogQA/Review1/affectedQA, reset0.
   ScopedReview2+triage — counter1/3; следующие два завершённых цикла требуют аудита.
-- Mining mission/refuel deferred; physical/native/public/base/main gates open отдельно.
+- Mining mission/refuel теперь планируются дляv2.2; physical/native/public/base/main gates open отдельно.
   Exact source/contracts/reports/evidence — docs/INDEX.md/activeContext.
