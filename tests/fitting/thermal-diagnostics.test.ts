@@ -14,6 +14,55 @@ import { presets } from '../../src/catalog/presets';
 import { createRun, runChunk, result } from '../../src/runner/run';
 import { exportFittingTelemetryCsv } from '../../src/io/fitting-csv';
 import { exportEventsCsv } from '../../src/io/json';
+import { stepModel } from '../../src/model/step';
+
+function legacyTransition(kind:'cold-stop'|'cold-restart'|'hot-stop'|'hot-restart'='cold-stop'){
+ const s=structuredClone(presets[0]);
+ s.ship.modules.find(m=>m.id==='laser')!.gate={low:225,workLow:250,restartLow:260,workHigh:510,restartHigh:550,high:570};
+ s.initial.temperatureK=kind==='cold-stop'?225.0000001:kind==='cold-restart'?259.9999999:kind==='hot-stop'?569.99999:550.0000001;
+ s.ship.modules.find(m=>m.id==='passive')!.areaM2=1e6;
+ if(kind==='cold-restart'||kind==='hot-stop'){s.environment.directHeat=[{sourceId:'controlled-transition',powerW:kind==='hot-stop'?1e10:1e9}];s.origins['environment.directHeat.0.powerW']={kind:'experimental',sourceRef:'test:CR-TD-B1 controlled warming'};}
+ s.stepSeconds=.02;s.durationSeconds=.02;s.scenario.phases=[{id:'accepted-'+kind,action:'work',duty:1,durationSeconds:.02}];
+ return s;
+}
+
+describe('CR-TD-B1 Legacy native protection transitions',()=>{
+ it.each(['cold-stop','cold-restart','hot-stop','hot-restart'] as const)('retains the accepted %s edge, module identity and safe bounds without individual useful output',kind=>{
+  const s=legacyTransition(kind),r=createRun('legacy-native',s);if(kind.endsWith('restart'))r.state.gates.laser=true;
+  if(kind==='cold-restart')r.state.cargo=.25;
+  const before=structuredClone(r.state);before.phaseKey='0:0';
+  const native=stepModel(s.ship,before,s.environment,[{moduleId:'laser',duty:1}],.02),eventKind=kind.endsWith('stop')?'thermal-stop':'thermal-restart';
+  const edge=native.events.find(e=>e.kind===eventKind&&e.message.startsWith('laser: '))!;expect(edge).toBeDefined();
+  runChunk(r,1);expect(r.state).toEqual(native.state);expect(r.last).toEqual(native.telemetry);
+  const edges=result(r).events.filter(e=>e.kind===eventKind&&e.message.includes('[laser]'));expect(edges).toHaveLength(1);
+  expect(edges[0].timeSeconds).toBe(edge.timeSeconds);expect(edges[0].message).toContain('accepted-'+kind);expect(edges[0].message).toContain('260');expect(edges[0].message).toContain('550');
+  if(kind.endsWith('stop'))expect(edges[0].message).toContain(kind.startsWith('cold')?'переохлаждение':'перегрев');
+  else expect(edges[0].message).toContain('зависит от запроса, питания и ресурса');
+  expect(edges[0].message).not.toMatch(/фактический выход|полезных W|%/);
+  expect(result(r).events.filter(e=>['thermal-stop','thermal-restart'].includes(e.kind)&&e.message.includes('[mining-group]'))).toEqual([]);
+  const csv=exportEventsCsv(result(r));expect(csv).toContain(edges[0].message.replaceAll('"','""'));
+  if(kind==='cold-stop'){expect(edge.timeSeconds).toBe(2.5523750082356862e-8);expect(r.state.temperatureK).toBe(224.9216984542996);}
+  if(kind==='cold-restart')expect(r.state.cargo).toBeGreaterThanOrEqual(.25);
+ });
+ it('keeps distinct requested Active identities and each edge once across two real chunks',()=>{
+  const s=legacyTransition(),laser=s.ship.modules.find(m=>m.id==='laser')!;
+  s.ship.modules.push({...structuredClone(laser),id:'laser: secondary',efficiency:.25});s.durationSeconds=.04;s.scenario.phases[0].durationSeconds=.04;
+  for(const path of Object.keys(s.origins).filter(p=>p.startsWith('ship.modules.2.')))s.origins[path.replace('ship.modules.2.','ship.modules.4.')]={kind:'experimental',sourceRef:'test:CR-TD-B1 second Active load'};
+  const r=createRun('legacy-two-loads',s);r.state.cargo=.25;runChunk(r,1);runChunk(r,1);
+  const events=result(r).events.filter(e=>e.kind==='thermal-stop');
+  for(const id of ['laser','laser: secondary']){const own=events.filter(e=>e.message.includes('['+id+']'));expect(own).toHaveLength(1);expect(own[0].timeSeconds).toBeGreaterThan(0);expect(own[0].timeSeconds).toBeLessThan(.02);}
+  expect(events.filter(e=>e.message.includes('[mining-group]'))).toEqual([]);expect(r.state.cargo).toBeGreaterThanOrEqual(.25);
+  const off=structuredClone(s);off.ship.modules.at(-1)!.enabled=false;const offRun=createRun('legacy-disabled-peer',off);runChunk(offRun,1);
+  expect(result(offRun).events.filter(e=>e.kind==='thermal-stop'&&e.message.includes('[laser]'))).toHaveLength(1);
+  expect(result(offRun).events.filter(e=>e.message.includes('[laser: secondary]'))).toEqual([]);
+ });
+ it.each(['idle','cargo-full','disabled'] as const)('does not turn a real but unrequested load gate into a mining warning during %s',mode=>{
+  const s=legacyTransition();if(mode==='idle')s.scenario.phases[0].action='idle';if(mode==='disabled')s.ship.modules.find(m=>m.id==='laser')!.enabled=false;
+  const r=createRun('legacy-unrequested',s);if(mode==='cargo-full')r.state.cargo=s.ship.cargoCapacity;
+  runChunk(r,1);expect(r.state.gates.laser).toBe(true);
+  expect(result(r).events.filter(e=>e.message.includes('[laser]')||e.message.includes('[mining-group]'))).toEqual([]);
+ });
+});
 
 function observed(T=225,action:'work'|'idle'='work') {
  const s=fixture('pony:2');s.initial.temperatureK=T;s.initial.chargeJ=s.resolvedShip.batteryCapacityJ;

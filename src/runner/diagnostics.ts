@@ -5,7 +5,7 @@ import { physicsShip } from '../model/v2/step';
 import { thermalDuty } from '../model/scheduler';
 import { stoppingDistance } from '../model/v2/flight';
 
-type Operation = { id:string; label:string; gate:Gate; causeGate?:Gate; requested:boolean; thermal:number; nominal:number; actual:number; unit:string; species?:string; role?:string; capacity?:boolean; powerLimited?:boolean; resourceLimited?:string[]; detail?:string };
+type Operation = { id:string; label:string; gate:Gate; causeGate?:Gate; requested:boolean; thermal:number; nominal:number; actual:number; unit:string; species?:string; role?:string; capacity?:boolean; aggregate?:boolean; powerLimited?:boolean; resourceLimited?:string[]; detail?:string };
 type Episode = { identity:string; bucket:number; thermal:boolean };
 const n=(x:number)=>Number.isFinite(x)?x.toFixed(3):'не записано';
 const side=(g:Gate,T:number)=>T<=g.low?'cold':T>=g.high?'hot':g.workLow!==undefined&&T<g.workLow?'cold':T>g.workHigh?'hot':'';
@@ -28,11 +28,13 @@ export class DiagnosticObserver {
   const emit=(kind:string,message:string,t=time)=>events.push({timeSeconds:t,kind,message:`${phase} · ${message}`});
   const active=new Set(operations.filter(o=>o.requested).map(o=>o.id));
   for(const [id] of this.episodes)if(!active.has(id))this.episodes.delete(id);
+  // Native формат «ID: переход»: последний разделитель сохраняет ID с двоеточием.
+  const transitionOperation=(e:LabEvent)=>operations.find(o=>!o.aggregate&&o.requested&&o.id===e.message.slice(0,e.message.lastIndexOf(': ')));
   for(const e of native.filter(e=>e.kind==='thermal-stop'||e.kind==='thermal-restart')) {
-   const o=operations.find(o=>o.requested&&e.message.startsWith(o.id+':'));
+   const o=transitionOperation(e);
    if(!o)continue;
    const match=e.message.match(/при ([\d.]+) K/),at=match?Number(match[1]):T,g=o.gate;
-   emit(e.kind,`${o.label} [${o.id}]: ${e.kind==='thermal-stop'?`температурный запрет (${side(g,at)==='cold'?'переохлаждение':'перегрев'}); T ${n(at)} K; безопасный диапазон повторного включения ${g.restartLow}–${g.restartHigh} K`:'Температурный запрет снят; фактическое возобновление зависит от запроса, питания и ресурса'}`,e.timeSeconds);
+   emit(e.kind,`${o.label} [${o.id}]: ${e.kind==='thermal-stop'?`температурный запрет (${side(g,at)==='cold'?'переохлаждение':'перегрев'})`:'Температурный запрет снят; фактическое возобновление зависит от запроса, питания и ресурса'}; T ${n(at)} K; безопасный диапазон повторного включения ${g.restartLow}–${g.restartHigh} K`,e.timeSeconds);
   }
   let hasThermal=false;
   for(const o of operations) {
@@ -44,7 +46,7 @@ export class DiagnosticObserver {
    for(const sp of o.resourceLimited??[])if(!causes.includes('resource:'+sp))causes.push('resource:'+sp);
    if(o.powerLimited)causes.push('power');
    const identity=causes.join('|'),old=this.episodes.get(o.id);
-   if(!old&&o.thermal===0&&(previous.gates[o.id]||T<=o.gate.low||T>=o.gate.high)&&!native.some(e=>e.kind==='thermal-stop'&&e.message.startsWith(o.id+':')))
+   if(!o.aggregate&&!old&&o.thermal===0&&(previous.gates[o.id]||T<=o.gate.low||T>=o.gate.high)&&!native.some(e=>e.kind==='thermal-stop'&&transitionOperation(e)===o))
     emit('thermal-stop',`${o.label} [${o.id}]: температурный запрет уже активен; ${thermalText(o.causeGate??o.gate,T)}; безопасный диапазон повторного включения ${o.gate.restartLow}–${o.gate.restartHigh} K`,previous.timeSeconds);
    if(!identity){if(old)emit('diagnostic-recovered',`${o.label} [${o.id}]: ${old.thermal?'Температурное ограничение снято / ':''}выдача восстановлена; ${pct.toFixed(1)}%${o.detail??''}`);this.episodes.delete(o.id);continue;}
    let bucket=Math.floor(pct/10);
@@ -101,7 +103,7 @@ export class DiagnosticObserver {
   }
   if(miningRequested&&nominalMining>0&&operations.some(o=>s.selectedWorkGroup.includes(o.id))) {
    const lasers=operations.filter(o=>o.id!=='mining-group'&&s.selectedWorkGroup.includes(o.id)),g=lasers.find(o=>o.thermal<1)?.gate??lasers[0].gate;
-   operations.unshift({id:'mining-group',label:'Добыча',gate:g,requested:true,thermal:thermalMining/nominalMining,nominal:nominalMining,actual:actualMining,unit:'полезных W',powerLimited:step.mining.causeSeconds.power>0,resourceLimited:step.mining.causeSeconds.resource>0?missingSpecies:[],detail:'выбранные лазеры '+lasers.map(o=>o.id).join(', ')});
+   operations.unshift({id:'mining-group',label:'Добыча',gate:g,requested:true,aggregate:true,thermal:thermalMining/nominalMining,nominal:nominalMining,actual:actualMining,unit:'полезных W',powerLimited:step.mining.causeSeconds.power>0,resourceLimited:step.mining.causeSeconds.resource>0?missingSpecies:[],detail:'выбранные лазеры '+lasers.map(o=>o.id).join(', ')});
   }
   for(const tank of ship.tanks) {
    const providers=s.resolvedShip.instances.filter(i=>i.enabled&&i.item.species===tank.species&&i.item.family!=='tank');
@@ -117,11 +119,15 @@ export class DiagnosticObserver {
   const operations:Operation[]=[],loads=ship.modules.filter(m=>m.enabled&&m.kind==='load'&&m.policy==='Active'),nominal=loads.reduce((sum,m)=>sum+m.powerW*m.efficiency*m.workPerJ*(requests.find(r=>r.moduleId===m.id)?.duty??0),0);
   for(const m of ship.modules.filter(m=>m.enabled&&m.kind!=='buffer'&&(m.kind!=='radiator'||m.auxW>0))) {
    const duty=requests.find(r=>r.moduleId===m.id)?.duty??0,thermal=thermalDuty(ship,previous,m.id);
-   if(m.kind==='load'&&m.policy==='Active')continue;
+   if(m.kind==='load'&&m.policy==='Active'){
+    // В Legacy известны реальные gate edges, но индивидуальный useful output не записан.
+    operations.push({id:m.id,label:'Активная нагрузка '+m.id,gate:m.gate,requested:duty>0&&previous.cargo<ship.cargoCapacity-1e-8,thermal,nominal:0,actual:0,unit:''});
+    continue;
+   }
    const capacity=m.kind!=='engine';
    operations.push({id:m.id,label:m.kind+' '+m.id,gate:m.gate,requested:capacity||duty>0,thermal,nominal:1,actual:thermal,unit:'доля доступной операции',capacity,detail:' · Legacy: индивидуальный фактический выход не записан'});
   }
-  if(nominal>0&&previous.cargo<ship.cargoCapacity-1e-8)operations.unshift({id:'mining-group',label:'Добыча',gate:loads.find(m=>thermalDuty(ship,previous,m.id)<1)?.gate??loads[0].gate,requested:true,thermal:loads.reduce((sum,m)=>sum+m.powerW*m.efficiency*m.workPerJ*(requests.find(r=>r.moduleId===m.id)?.duty??0)*thermalDuty(ship,previous,m.id),0)/nominal,nominal,actual:step.telemetry.workRate,unit:'SCU/s'});
+  if(nominal>0&&previous.cargo<ship.cargoCapacity-1e-8)operations.unshift({id:'mining-group',label:'Добыча',gate:loads.find(m=>thermalDuty(ship,previous,m.id)<1)?.gate??loads[0].gate,requested:true,aggregate:true,thermal:loads.reduce((sum,m)=>sum+m.powerW*m.efficiency*m.workPerJ*(requests.find(r=>r.moduleId===m.id)?.duty??0)*thermalDuty(ship,previous,m.id),0)/nominal,nominal,actual:step.telemetry.workRate,unit:'SCU/s'});
   return this.observe(phase,previous,step,operations);
  }
 }
