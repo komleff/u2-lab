@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { getPresetFit } from "../../src/fitting/catalog";
 test("v4 continuous research page keeps sections and navigation reachable during an advancing test", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("#fit-preset")).toBeVisible();
@@ -216,3 +217,41 @@ test("WF04/06 all slot groups, optional ring and builtin controls retain nodes a
   await expect(page.locator("#fit-running-revision")).toContainText("Тест использует сборку: 2");
   await expect(page.locator("#fit-status")).toContainText("Выполняется");
 });
+
+for (const edition of ["ship-fitting-0.2.0", "ship-fitting-0.2.1"] as const)
+  for (const hull of ["sputnik", "industrial-S"]) test(`CR-V4-B1 ${edition} ${hull}: native incomplete draft conditions and atomic refusal`, async ({ browser }, info) => {
+    const width = edition === "ship-fitting-0.2.0" ? 1440 : 390;
+    const context = await browser.newContext({ viewport: { width, height: 1000 }, isMobile: width === 390, hasTouch: width === 390, acceptDownloads: true });
+    const page = await context.newPage(), errors: string[] = [];
+    page.on("pageerror", e => errors.push(e.message));
+    const action = async (selector: string) => {
+      const b = page.locator(selector); await b.evaluate(n => n.scrollIntoView({ block: "center" }));
+      if (width === 390) await b.tap(); else await b.click();
+    };
+    const exportFit = async () => {
+      const wait = page.waitForEvent("download"); await action("#fit-save"); await action("#fit-save-confirm");
+      return JSON.parse(await readFile((await (await wait).path())!, "utf8"));
+    };
+    await page.goto("/"); await expect(page.locator("#fit-preset")).toBeVisible();
+    const fit = getPresetFit(hull + ":2", edition);
+    await page.locator("#fit-import").setInputFiles({ name: "old-or-new-fit.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(fit)) });
+    const power = page.locator('[data-group="power"]'); if (await power.getAttribute("aria-expanded") === "false") await action('[data-group="power"]');
+    await action("#slot-power-1"); await action("#fit-remove");
+    await expect(page.getByRole("dialog")).not.toBeVisible(); await expect(page.locator("#fit-start")).toBeDisabled();
+    const incomplete = await exportFit();
+    await page.locator("#fit-temperature").fill("310"); await page.locator("#fit-dt").fill("0.005");
+    await action("#fit-repeat"); await page.locator("#fit-work-seconds").fill("90");
+    // Перерисовка после blur должна читать принятые условия, а не оставшийся DOM input.
+    await action("#fit-f3");
+    await expect(page.locator("#fit-temperature")).toHaveValue("310"); await expect(page.locator("#fit-dt")).toHaveValue("0.005");
+    await expect(page.locator("#fit-work-seconds")).toHaveValue("90"); await expect(page.locator("#fit-repeat")).not.toBeChecked();
+    await expect(page.locator("#fit-error")).toBeEmpty();
+    expect(errors).toEqual([]); expect(await exportFit()).toEqual(incomplete);
+    await page.locator("#fit-dt").fill("0"); await expect(page.locator("#fit-error")).toContainText("Условия отклонены");
+    await action("#fit-f3"); await expect(page.locator("#fit-dt")).toHaveValue("0.005");
+    expect(await exportFit()).toEqual(incomplete); await expect(page.locator("#fit-start")).toBeDisabled();
+    const geometry = await page.evaluate(() => ({ inner: innerWidth, document: document.documentElement.scrollWidth, visual: visualViewport!.width }));
+    expect(geometry).toEqual({ inner: width, document: width, visual: width });
+    await info.attach("incomplete-conditions", { body: JSON.stringify({ hull, edition, width, incomplete, geometry, errors }), contentType: "application/json" });
+    await context.close();
+  });

@@ -8,6 +8,7 @@ import { parseResultJson } from "../io/fitting-result";
 import { makeMiningRun } from "../scenarios/fitting";
 import { validateFit } from "../fitting/validate";
 import { getPresetFit } from "../fitting/catalog";
+import { fitItem, isKnownCatalogVersion } from "../fitting/editions";
 import { conditionsFromSpec } from "./fitting-ui/conditions";
 export type Variant = {
   id: string;
@@ -123,8 +124,41 @@ export class FittingWorkspace {
   }
   setConditions(conditions: MiningConditions) {
     const fit = this.selected().fit;
-    const ready = validateFit(fit, this.catalog).readiness.canRun;
-    const checked = makeMiningRun(ready ? fit : getPresetFit(fit.hullId + ":3"), this.catalog, conditions);
+    const validation = validateFit(fit, this.catalog);
+    if (!validation.valid || !isKnownCatalogVersion(fit.catalogVersion)) return false;
+    let validationFit = fit;
+    if (!validation.readiness.canRun) {
+      // Опора проверяет только условия. Реальные payload ID и изделия сохраняют смысл группы;
+      // её готовность никогда не переносится на неполный пользовательский черновик.
+      validationFit = getPresetFit(fit.hullId + ":1", fit.catalogVersion);
+      const hull = this.catalog.hulls.find(h => h.id === fit.hullId)!;
+      const reserved = new Set([...Object.keys(fit.instances), ...hull.builtins.map(b => b.id)]);
+      const unique = (base: string) => {
+        let id = base;
+        while (reserved.has(id) || validationFit.localVariants[id]) id += ":";
+        reserved.add(id); return id;
+      };
+      for (const [slot, id] of Object.entries(validationFit.assignments)) {
+        const instance = validationFit.instances[id];
+        delete validationFit.instances[id]; delete validationFit.assignments[slot];
+        if (hull.slots.find(s => s.id === slot)!.category !== "payload") {
+          const renamed = unique("conditions:" + slot);
+          validationFit.assignments[slot] = renamed;
+          validationFit.instances[renamed] = { ...instance, id: renamed };
+        }
+      }
+      for (const slot of hull.slots.filter(s => s.category === "payload")) {
+        const id = fit.assignments[slot.id];
+        if (!id) continue;
+        const instance = fit.instances[id], item = fitItem(fit, this.catalog, instance.itemId)!;
+        const itemId = unique("conditions:item:" + slot.id);
+        validationFit.localVariants[itemId] = { ...structuredClone(item), id: itemId };
+        validationFit.assignments[slot.id] = id;
+        validationFit.instances[id] = { ...instance, itemId };
+      }
+      validationFit.builtinModes = structuredClone(fit.builtinModes);
+    }
+    const checked = makeMiningRun(validationFit, this.catalog, conditions);
     if (!checked.ok) return false;
     this.selected().conditions = structuredClone(conditions);
     this.selected().replaySpec = undefined;

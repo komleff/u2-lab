@@ -7,6 +7,8 @@ import { channelsView } from "../../src/app/fitting-ui/lab-channels";
 import { compareView } from "../../src/app/fitting-ui/compare-view";
 import { channelGroup, channelUnit } from "../../src/app/fitting-ui/telemetry";
 import { numericalVariant } from "../../src/app/fitting-ui/local-variant";
+import { validateFit } from "../../src/fitting/validate";
+import { makeMiningRun } from "../../src/scenarios/fitting";
 const catalog = loadCandidateCatalog();
 const workspace = () => new FittingWorkspace(getPresetFit("pony:1"), catalog);
 const channel = () => ({ group: "energy", unit: "W", hidden: new Set<string>(), eventIndex: 0 });
@@ -196,4 +198,76 @@ it("keeps overview and full data/table while avoiding a closed optional SVG", ()
   const expanded = channelsView(r, c);
   expect((expanded.match(/<polyline /g) ?? []).length).toBeGreaterThan(2);
   expect(r.buckets).toHaveLength(20);
+});
+
+describe("CR-V4-B1 editable conditions of a valid incomplete fit", () => {
+  for (const edition of ["ship-fitting-0.2.0", "ship-fitting-0.2.1"] as const)
+    for (const hull of catalog.hulls)
+      for (const missing of ["removed march", "disabled march", "removed battery"] as const) {
+        if (hull.id === "civilian-M" && missing === "removed battery") continue;
+        it(`${edition} ${hull.id}: ${missing} preserves draft and refuses invalid conditions atomically`, () => {
+          const fit = getPresetFit(hull.id + ":1", edition);
+          const slot = missing === "removed battery" ? (hull.id === "sputnik" ? undefined : "power-1") : "march";
+          // У Sputnik батарея встроена; неполноту создаёт обязательный источник питания.
+          const id = fit.assignments[slot ?? "power-1"];
+          if (missing === "disabled march") fit.instances[id].enabled = false;
+          else { delete fit.assignments[slot ?? "power-1"]; delete fit.instances[id]; }
+          const w = new FittingWorkspace(fit, catalog), beforeFit = w.getFit();
+          expect(validateFit(fit, catalog)).toMatchObject({ valid: true, readiness: { canRun: false } });
+          const conditions = { ...w.getSelected().conditions, temperatureK: 310, repeat: false, stepSeconds: .005 };
+          expect(w.setConditions(conditions)).toBe(true);
+          expect(w.getSelected().conditions).toEqual(conditions);
+          expect(w.getFit()).toEqual(beforeFit);
+          expect(w.prepare().ok).toBe(false);
+          expect(w.start("incomplete").ok).toBe(false);
+          const before = w.snapshot();
+          expect(w.setConditions({ ...conditions, stepSeconds: 0 })).toBe(false);
+          expect(w.snapshot()).toEqual(before);
+        });
+      }
+  for (const edition of ["ship-fitting-0.2.0", "ship-fitting-0.2.1"] as const)
+    for (const hullId of ["sputnik", "industrial-S"]) it(`${edition} ${hullId}: imported multi-laser IDs survive incomplete-fit edits`, () => {
+      const fit = getPresetFit(hullId + ":2", edition);
+      const march = fit.assignments.march;
+      fit.instances["imported:march"] = { ...fit.instances[march], id: "imported:march" };
+      fit.assignments.march = "imported:march"; delete fit.instances[march];
+      for (const [slot, id] of Object.entries(fit.assignments).filter(([slot]) => slot.startsWith("payload-"))) {
+        const renamed = slot === "payload-1" ? march : "imported:beam:" + slot;
+        fit.instances[renamed] = { ...fit.instances[id], id: renamed };
+        fit.assignments[slot] = renamed; delete fit.instances[id];
+      }
+      const spec = makeMiningRun(fit, catalog, { durationSeconds: 20, stepSeconds: 1 });
+      if (!spec.ok) throw Error("valid imported fixture");
+      const w = workspace(); expect(w.importDocument(JSON.stringify(spec.value)).ok).toBe(true);
+      const incomplete = w.getFit(), battery = incomplete.assignments["power-1"];
+      delete incomplete.assignments["power-1"]; delete incomplete.instances[battery];
+      expect(w.applyFit(incomplete).valid).toBe(true);
+      const group = w.getSelected().conditions.selectedWorkGroup;
+      expect(group).toHaveLength(2);
+      expect(w.setConditions({ ...w.getSelected().conditions, temperatureK: 310, repeat: false })).toBe(true);
+      expect(w.getSelected().conditions.selectedWorkGroup).toEqual(group);
+      expect(w.getFit().catalogVersion).toBe(edition);
+      const before = w.snapshot();
+      expect(w.setConditions({ ...w.getSelected().conditions, selectedWorkGroup: ["not-installed"] })).toBe(false);
+      expect(w.snapshot()).toEqual(before);
+      expect(w.prepare().ok).toBe(false);
+    });
+  it("keeps all four supported Industrial L mining addresses and an active measured reference separate", () => {
+    const w = workspace(), original = measured(w, "reference"); w.freeze();
+    const started = w.start("active"); if (!started.ok) throw Error("active fixture");
+    const active = w.getActive(), frozen = w.getFrozen(); w.select("B");
+    const complete = getPresetFit("industrial-L:4"), spec = makeMiningRun(complete, catalog);
+    if (!spec.ok) throw Error("four legal payload slots");
+    const fit = structuredClone(complete), id = fit.assignments.march;
+    delete fit.assignments.march; delete fit.instances[id];
+    expect(w.applyFit(fit).valid).toBe(true);
+    expect(w.setConditions({ temperatureK: 310, selectedWorkGroup: spec.value.selectedWorkGroup })).toBe(true);
+    expect(w.getSelected().conditions.selectedWorkGroup).toHaveLength(4);
+    expect(w.getActive()).toEqual(active); expect(w.getFrozen()).toEqual(frozen);
+    expect(w.getVariants()[0].result).toEqual(original);
+    expect(w.applyFit(complete).valid).toBe(true);
+    const prepared = w.prepare(); expect(prepared.ok).toBe(true);
+    if (prepared.ok) expect(prepared.value.selectedWorkGroup).toEqual(spec.value.selectedWorkGroup);
+    expect(w.getActive()).toEqual(active);
+  });
 });
