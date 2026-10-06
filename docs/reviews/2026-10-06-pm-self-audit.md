@@ -52,3 +52,40 @@ GD/UX FAIL; две завершённые verifier+triage итерации, coun
 QA выполнила только недостающие RUNNING×1 срезы, Reviewer запечатал отдельное
 уточнение. MAX и физический планшет остаются NOT RUN. Урок: проверять конкретное
 действие пользователя в том же состоянии, а не соседний технический сценарий.
+
+# Третий проход: Plan Review v4 и самоаудит
+
+После GD/UX Review+triage, сценарной QA+triage и нового Plan Review+triage достигнут
+3/3. PLAN_READY0B1minor наf52fa386 получен; operator execute approval учтён, footer
+WF15 включён. Counter сброшен0/3 через Beads API. Это PM self-check, не новый verifier.
+
+Цель сейчас — полезная v4, доступная оператору, с восстановленными сценариями.
+Фактически код ещё не поставлен: единственный Developer получил release, QA готовит
+7целых цепочек. Корень прежней ошибки остаётся проверяемым: измерения/корабль/черновик
+во всех UI поверхностях, обзорные графики, сравнение и повторное открытие результата.
+
+Тактика по PM_ERR/DOC_PR: единый связанный scope и один Developer; не заводить
+per-task reviewer swarm/новую историю хранения; metadata собрать с итоговым evidence
+вместо коммита на каждое продвижение. Следующий полезный шаг — standalone preview
+на4188 сразу после coherent candidate, затем адресная QA7chains/Code Review.
+Mandatory guards остаются, широкие повторные matrix/12h/72case sweep не добавляются.
+PLAN_READY не будет назван UX PASS, physical device не подменяется viewport.
+
+# Следующие три прохода: QA1, affected QA2, catalog Plan Review
+
+QA1 выявила настоящий desktop held-pointer defect, fixff8 и affected QA2 закрыли
+его по всему классу flat/ring/builtin targets. Catalog Plan Review PLAN_READY
+добавил прямое поручение оператора без mission scope. После triage3/3 счётчик
+сброшен0/3 через Beads API. Это self-check PM, не новая verifier campaign.
+
+Урок предыдущего аудита сохраняется: работающий4188 доступен, old4183/4186
+не остановлены; после catalog DEV только C01–08 и один combined Code Review.
+Новые широкие matrix/12h/H3600 не нужны без нового FAIL/namedrisk.
+Повторившееся угадывание PM имён файлов и формы dataobject исправлено чтением
+actual inventory/manifest. QA adapter errors оставлены в raw history и проверены
+continuations; не объявлены productFAIL либо незаслуженнымPASS.
+
+Memory Bank сокращён до текущего статуса и ссылок; exact signed report/seals
+не переписываются. Один planning checkpoint перед новым runtime amendment,
+один итоговый metadata checkpoint после QA/review, вместо commits на каждый
+счётчик. Оператору сообщены результат самоаудита и изменение тактики.

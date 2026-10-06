@@ -30,9 +30,16 @@
 сценариев. Claude Design теперь рассматривается как ассеты и предложение макета.
 Прежние технические QA/review не являются пользовательской приёмкой удобства.
 
-- [Рабочий процесс и критерии v4](product/ship-fitting-gd-workspace-v4.md) — поручение оператора и предложение структуры; не PLAN_READY и не готовая реализация.
+- [Рабочий процесс и критерии v4](product/ship-fitting-gd-workspace-v4.md) — accepted0.2/WF01–15, оператор одобрил выполнение и footer version.
 - [Инвентаризация v1/v2/v3](research/2026-10-06-ui-capability-inventory.md) — 22 рабочих сценария, сохранённые/потерянные/скрытые возможности и source anchors; read-only Developer, не runtime QA.
-- [План восстановления v4](plans/2026-10-06-gd-workspace-v4.md) — три этапа, адресные проверки и сохранение прежних стендов; proposed, PLAN_READY pending.
+- [План восстановления v4](plans/2026-10-06-gd-workspace-v4.md) и [сценарная приёмка](verification/gd-workspace-v4-contract.md) — frozenf52 sources; signed PLAN_READY ниже; initial candidate17bb6b6 сохранён; fixff8f3e8 LIVE4188, адресная повторная QA PASS.
+- [Независимый Plan Review v4](reviews/2026-10-06-gd-workspace-v4-plan-review.md) — PLAN_READY,0BLOCKER/1ADVISORY; три exact docs+wholeVC fingerprint19d33e57… . Один Developer, один Worker, сохранённые стенды.
+- [Developer v4](reviews/2026-10-06-gd-workspace-v4-developer.md) — DONE_WITH_CONCERNS/IDLE,21paths/17bb6b6,231unit/33browserPASS+1SKIP; immutable standalone4188, numerical source85+2 unchanged, compiled4/6 exact. Physical latency/gesture отдельно NOTRUN.
+- [Developer: исправление slot identity](reviews/2026-10-06-gd-workspace-v4-developer-fix-r1.md) — ff8f3e8, стабильные DOM targets при RUNNING,231unit/35browserPASS+1SKIP; отдельный immutable candidate4188.
+- [QA1 v4](reviews/2026-10-06-gd-workspace-v4-qa-r1.md), [семь адресов](verification/2026-10-06-gd-workspace-v4-qa-cases-r1.md), [sealed evidence](reviews/2026-10-06-gd-workspace-v4-qa-evidence-r1.json) — historical FAIL,6PASS/1FAIL, три representative whole chains;245raw files, один desktop pointer blocker. Closure — affected QA ниже.
+- [Affected QA v4 slot fix](reviews/2026-10-06-gd-workspace-v4-qa-affected-fix-r1.md), [sealed evidence](reviews/2026-10-06-gd-workspace-v4-qa-affected-fix-r1-evidence.json) — PASS, V4-B1 CLOSED,4affected risk rows1440/820/LAN390;60new rawfiles, без full7/H3600 replay.
+- [Каталог0.2.1: принятое уточнение](product/ship-fitting-catalog-0.2.1.md) и [план/C01–08](plans/2026-10-06-fitting-catalog-0.2.1.md) — прямое поручение оператора: Industrial diesel M и штатные lasers размера/класса; PLAN_READY0BLOCKER/1ADVISORY; source ещё ff8 без catalog update.
+- [Plan Review catalog0.2.1](reviews/2026-10-06-fitting-catalog-0.2.1-plan-review.md) — PLAN_READY0BLOCKER/1ADVISORY, exact whole WHAT+HOW/C01–08; один финальный Code Review v4+catalog после affected QA.
 - [Адверсальное ревью GD / UX/UI / пользователя](reviews/2026-10-06-gd-ux-user-adversarial-review.md) — NEEDS_REVISION, 12 групп проблем; факты, потери и новые предложения разделены.
 - [Уточнение навигации во время расчёта](reviews/2026-10-06-gd-ux-user-adversarial-review-running-addendum.md) — отдельное неизменяемое приложение: RUNNING ×1 на desktop и LAN390; MAX и физический планшет не проверены.
 - [Сценарная QA](reviews/2026-10-06-gd-workflow-qa.md) и [матрица 24 адресов](verification/2026-10-06-gd-workflow-cases.md) — GD/UX FAIL; шесть сквозных цепочек исполнены и два RUNNING-среза; не 24 новых полных теста.
@@ -134,7 +141,7 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 
 - [Независимый Plan Review: PLAN_READY](reviews/2026-10-06-claude-design-ui-plan-review-r1.md) — exact9aa, историческая связка плана,0blockers.
 - [72 source-first QA cases](verification/claude-design-ui-v0.2-qa-cases.md) — методы приёмки UI01–18; подготовка не runtime verdict.
-- [Локальный интерфейс и варианты](user/ship-fitting-ui.md) — запуск4183, поведение сборок/снимка A.
+- [Локальный интерфейс и варианты](user/ship-fitting-ui.md) — текущее v4 на4188 и сохранённые4183/4186, сборки/снимок A.
 - [Численный QA r4](reviews/2026-10-06-ship-fitting-qa-affected-r4.md) и [scoped Code Review r3](reviews/2026-10-06-ship-fitting-code-review-r3.md) — immutable закрытие прежних interval/source дефектов на903; UI туда не входит.
 
 - [Scoped Code Review Contract](verification/claude-design-ui-code-review-contract.md) и [полный runtime/source binding](verification/claude-design-ui-runtime-binding.json) — affected UI scope, не verdict.
