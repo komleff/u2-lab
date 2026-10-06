@@ -1,14 +1,21 @@
-# В работе: чистка карточек модулей, 2026-10-07
+# Текущий приоритет — cooling, UI cleanup status
 
-Прямое поручение оператора: собственные профильные ТТХ, без неприменимых полей,
-итогов всей сборки и неизвестного объёма; служебные данные под компактной i.
-Beads ulab-p2w; PRODUCT default5, PlanReview1 PLAN_READY/0B0A, затем один Developer,
-QA2 и scopedReview3. HOW/MC01-05: docs/plans/2026-10-07-module-card-cleanup.md.
-Ветка feat/module-card-cleanup от ebd4814 в existing isolated thermal checkout;
-product code до PLAN_READY и Draft PR не начинать. Никакой новой физики/TTX/IO.
-Существующая acceptedthermalPages/LAN4196 и первая Lab остаются доступны.
-Новый screenshot/layout QA только по module UI; не повторять thermal кампанию.
-Review/QA+triage counter1/3; следующий аудит после QA2 и scopedReview3.
+Cooling Beads ulab-6xr/PR12: isolated /Users/komleff/Documents/GitHub/u2-lab-cooling-control,
+feat/cooling-control planHEADc850478 fromQA-testedUI721e815. PlanReview1READY,
+realDraftbeforecode, oneDeveloperreleasedCC01–05; physicsnotdelivered yet.
+U2normPR843/18d2c82 palette0.4; source viaINDEX, not archived search.
+
+UIcleanup ulab-p2w/PR11: wholeHOW/MC01–05 unchanged, productWHAT0.3 current.
+Source721e815, guard489unit/52browser+existingSKIP/26cloudPASS. QA2colonFAIL,
+QA3closurePASS, Review4emptyIDBLOCKER, one-lineclassfix thenQA5CLOSED.
+Both6idless and2named nativecycles/errors0, exactfit/result/revision. Reports
+literal inPR11/INDEX; historicalFAIL preserved. Budget5/5, requested+1scoped
+closureexplicitly, pendingoperator; no6thlaunch. FinalCodeReviewnotAPPROVED.
+SelfauditPM_ERR1.3/DOC_PRafterQA3 andReview4/fix/QA5, counterreset0/3.
+LAN http://192.168.68.65:4196/?v=module-721e815 ownedPID65511;
+module-cleanup-preview-server.json +rollback record. Exact17HTTPassets,
+actualWorkerStart1.7s/Pause/iClose/errors0. Cooling stilloldalgorithm.
+Old4189station86 andpublicthermal/v1 preserved; no operator/main merge.
 
 # Текущий пакет: температурная диагностика, 2026-10-07
 

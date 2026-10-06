@@ -151,3 +151,42 @@ Pages уже опубликована: exact17files, настоящий Start/Pa
 Использовано7/10, reserve3; новых verifier launches не нужно. Следующее — один
 обычный финальный commit guard, sync PR/Memory Bank/Beads. Counter reset0/3;
 следующая review/QA+triage/fix итерация станет1/3. Merge/base/native остаются отдельно.
+
+
+## Чистка карточек: Plan Review → QA/фикс → affected QA, 3/3
+
+Цель оператора — компактные собственные ТТХ и доступная кнопка i без потери
+фиттинга. QA2 действительно обнаружила MC-UI-B1: colon-ID ломал render/Close.
+Общий CSS.escape lookup исправлен85fee8c; QA3 закрыла installed/builtin класс
+на1440/touch390,8 native cycles/errors0 и exact fit bytes/revision. MC01/03/05
+перенесены по неизменности, не представлены новым полным прогоном. PR11 Draft.
+
+Перечитаны current U2 PM_ERR1.3/DOC_PR. Ошибки: устаревшие presentation assertions
+задержали guard; focus-only oracle не замечал исключение благодаря браузеру;
+PM опять угадывал пути и перегружал чтения. Диагноз — неполный class sweep и
+избыточный учёт evidence. Теперь проверяется один scoped ID lookup, native
+Close/Escape/render/focus с pageerror oracle; numeric/action invariants сохранены.
+Не добавлены защитные подсистемы, новый контракт или повторная часовая кампания.
+
+Counter reset0/3; следующий один scoped Review4/5. После него один metadata
+checkpoint/обычный guard и поставка того же immutable UI. H₂/Active — отдельное
+ulab-6xr с готовым планом и U2 PR843; runtime этой задачи ещё не исправлен.
+Новые проверки адресованы только CC01–05, источник выбирается через INDEX.
+
+
+## Review4 → class fix → QA5: повторный аудит 3/3
+
+Настоящий CR-MC-B1 найден у соседних idless ring/table callers. Прежний аудит
+сырого colon-ID был неполным: исправленная общая функция всё ещё получала
+пустую строку. 721e815 восстановил общий baseline fallback без новых IDs/state.
+QA5:6idless+2named cycles/errors0, exact fit/result/revision; чужие GUI/native
+или часовые результаты не присвоены. Новый Review closure требует1extra call;
+запрошен явно по PM_ROLE§4, самостоятельного превышения5/5 нет.
+
+PM_ERR1.3/DOC_PR применены: не менять контракт ради зелёного статуса, проверять
+всех actual callers/пустой input, не превращать stateful focus в новую подсистему.
+Диагноз — «чинить экземпляр вместо класса» и задержка поставки учётом evidence.
+Counter reset0/3. Тот же QA-tested immutable preview можно дать оператору как
+экспериментальный; финальный reviewer verdict не заявлен. Отдельная H₂ задача
+имеет PLAN_READY и изолированный docs-only checkout; никаких cooling edits
+под UI frozen candidate. Новый scope и budget отделены, прежние FAIL сохранены.
