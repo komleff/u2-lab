@@ -162,6 +162,7 @@ export class FittingWorkspace {
     }
     const mission = conditions.modelVersion === MODEL_MISSION;
     if (mission && !validMissionConditions(conditions)) return false;
+    if (mission) conditions = { ...conditions, stationReplenish: conditions.stationReplenish === undefined ? false : conditions.stationReplenish };
     const checked = makeMiningRun(validationFit, this.catalog, mission ? {...conditions,workSeconds:1,approachSeconds:1,brakingSeconds:1,serviceSeconds:1,idleSeconds:1} : conditions);
     if (!checked.ok) return false;
     this.selected().conditions = structuredClone(conditions);

@@ -7,13 +7,13 @@ import { updateMiningMetrics } from "./mining-metrics";
 import { Retention } from "./retention";
 
 export function initializeMission(run:RunContextV2) {
-  run.state.mission={stage:"outbound",flightMode:"acceleration",positionM:0,velocityMS:0,stageStartedSeconds:0,tripStartedSeconds:0,outboundMassKg:run.state.currentMassKg,inboundMassKg:null,peakVelocityMS:0,deliveredM3:0,receivedFuelKg:{diesel:0,hydrogen:0},elapsed:{flight:0,approach:0,mining:0,service:0,recovery:0},firstLimiter:null,terminalReason:null};
+  run.state.mission={stage:"outbound",flightMode:"acceleration",positionM:0,velocityMS:0,stageStartedSeconds:0,tripStartedSeconds:0,outboundMassKg:run.state.currentMassKg,inboundMassKg:null,peakVelocityMS:0,deliveredM3:0,receivedFuelKg:{diesel:0,hydrogen:0},...(run.spec.mission!.stationReplenish===undefined?{}:{receivedChargeJ:0}),elapsed:{flight:0,approach:0,mining:0,service:0,recovery:0},firstLimiter:null,terminalReason:null};
   syncMetrics(run);
   run.events.add({timeSeconds:0,kind:"phase",message:"Миссия: вылет от станции; местный подход strafe/turn по laboratory duty"});
 }
 function syncMetrics(run:RunContextV2) {
   const m=run.state.mission!,metrics=run.metrics,t=run.state.timeSeconds;
-  metrics.mission={deliveredM3:m.deliveredM3,deliveredScuPerHour:t>0?m.deliveredM3*3600/t:null,fuelPerDeliveredScu:Object.fromEntries(["diesel","hydrogen"].map(sp=>[sp,m.deliveredM3>0?metrics.fuelSpeciesKg[sp]/m.deliveredM3:null])),flightSeconds:m.elapsed.flight,approachSeconds:m.elapsed.approach,miningSeconds:m.elapsed.mining,serviceSeconds:m.elapsed.service,recoverySeconds:m.elapsed.recovery,peakVelocityMS:m.peakVelocityMS};
+  metrics.mission={deliveredM3:m.deliveredM3,deliveredScuPerHour:t>0?m.deliveredM3*3600/t:null,fuelPerDeliveredScu:Object.fromEntries(["diesel","hydrogen"].map(sp=>[sp,m.deliveredM3>0?metrics.fuelSpeciesKg[sp]/m.deliveredM3:null])),flightSeconds:m.elapsed.flight,approachSeconds:m.elapsed.approach,miningSeconds:m.elapsed.mining,serviceSeconds:m.elapsed.service,recoverySeconds:m.elapsed.recovery,peakVelocityMS:m.peakVelocityMS,...(m.receivedChargeJ===undefined?{}:{receivedChargeJ:m.receivedChargeJ})};
   metrics.firstTargetSeconds=m.deliveredM3>=run.spec.scenario.targetM3-1e-8?metrics.firstTargetSeconds??t:null;
   metrics.intervalLabel=m.stage==="done"?"завершённая миссия":m.stage==="stranded"?"невозможный / незавершённый рейс":"наблюдаемый горизонт / незавершённый рейс";
 }
@@ -172,14 +172,20 @@ function finishService(run:RunContextV2) {
   if(m.velocityMS!==0||m.positionM!==s.mission!.distanceM)throw Error("Обслуживание разрешено только в покое у станции");
   const delivered=run.state.cargo;m.deliveredM3+=delivered;
   run.state.cargo=0;run.state.cargoM3={};
-  for(const sp of ["diesel","hydrogen"] as const){const refill=s.resolvedShip.resources[sp].capacityKg-run.state.fuelKg[sp];m.receivedFuelKg[sp]+=refill;run.state.fuelKg[sp]+=refill;}
+  const fuelReceived={diesel:0,hydrogen:0};
+  if(s.mission!.stationReplenish!==false)for(const sp of ["diesel","hydrogen"] as const){const refill=Math.max(0,s.resolvedShip.resources[sp].capacityKg-run.state.fuelKg[sp]);fuelReceived[sp]=refill;m.receivedFuelKg[sp]+=refill;run.state.fuelKg[sp]+=refill;}
+  let chargeReceived=0;
+  if(s.mission!.stationReplenish===true){chargeReceived=Math.max(0,s.resolvedShip.batteryCapacityJ-run.state.chargeJ);m.receivedChargeJ=(m.receivedChargeJ??0)+chargeReceived;run.state.chargeJ=s.resolvedShip.batteryCapacityJ;}
+  // Endpoint-пополнение не является kernel source. Последний telemetry sample
+  // должен показывать реальные запасы перед новым вылетом, legacy bytes сохраняем.
+  if(s.mission!.stationReplenish!==undefined){run.last.chargeJ=run.state.chargeJ;run.last.soc=s.resolvedShip.batteryCapacityJ>0?run.state.chargeJ/s.resolvedShip.batteryCapacityJ:0;for(const sp of ["diesel","hydrogen"])run.last['fuelKg:'+sp]=run.state.fuelKg[sp];}
   run.state.currentMassKg=s.resolvedShip.dryMassKg+Object.values(run.state.fuelKg).reduce((n,v)=>n+v,0);
   run.state.cyclesCompleted++;run.metrics.cyclesCompleted=run.state.cyclesCompleted;
   const metrics=run.metrics;metrics.lastCycle={scu:delivered,durationSeconds:metrics.currentCycleSeconds,kUse:metrics.ratedSelectedM3S>0&&metrics.currentCycleSeconds>0?metrics.currentCycleScu/(metrics.ratedSelectedM3S*metrics.currentCycleSeconds):null};
   metrics.completedCycles.scu+=delivered;metrics.completedCycles.durationSeconds+=metrics.currentCycleSeconds;
   metrics.completedCycles.kUse=metrics.ratedSelectedM3S>0&&metrics.completedCycles.durationSeconds>0?metrics.completedCycles.scu/(metrics.ratedSelectedM3S*metrics.completedCycles.durationSeconds):null;
   metrics.currentCycleScu=0;metrics.currentCycleSeconds=0;
-  event(run,"service",`Сдано ${delivered} SCU; заправлены только установленные контуры, температура/заряд продолжаются`);
+  event(run,"service",s.mission!.stationReplenish===undefined?`Сдано ${delivered} SCU; заправлены только установленные контуры, температура/заряд продолжаются`:`Сдано ${delivered} SCU; получено дизеля ${fuelReceived.diesel} кг, водорода ${fuelReceived.hydrogen} кг, станционной энергии ${chargeReceived/1e9} GJ; температура/буферы продолжаются`);
   if(!s.scenario.repeat||m.deliveredM3>=s.scenario.targetM3-1e-8){transition(run,"done","Миссия завершена после обслуживания");run.state.mission!.terminalReason=m.deliveredM3>=s.scenario.targetM3-1e-8?"delivered-target":"single-voyage";run.done=true;}
   else {transition(run,"outbound","Новый порожний вылет");run.state.mission={...run.state.mission!,positionM:0,velocityMS:0,flightMode:"acceleration",outboundMassKg:run.state.currentMassKg,inboundMassKg:null,tripStartedSeconds:run.state.timeSeconds};}
   syncMetrics(run);

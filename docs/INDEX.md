@@ -43,7 +43,19 @@
 - [Affected QA B1/B2](reviews/2026-10-06-mission-medium-qa-affected-r2.md), [source binding](reviews/2026-10-06-mission-medium-qa-affected-r2-source-binding.json), [case ledger](reviews/2026-10-06-mission-medium-qa-affected-r2-case-ledger.json), [evidence](reviews/2026-10-06-mission-medium-qa-affected-r2-evidence.json) —5 адресованных PASS/0productFAIL на d57; один Sputnik H3600/3service/90SCU, один LANtouch390 Worker workflow. Не повторный QA15.
 
 - [Scoped Code Review r2](reviews/2026-10-06-mission-medium-code-review-r2.md), [2 delta/51 carryover binding](reviews/2026-10-06-mission-medium-code-review-r2-reviewed-paths.json) — APPROVED, CR-MISSION-B1/B2 CLOSED,0BLOCKER/0ADVISORY; source d57, fullguard/base/main отдельно.
-- [Следующее дополнение: «Заправлять и заряжать»](plans/2026-10-06-station-service.md) — прямое поручение оператора, proposed HOW/AC ST01–06; shore charge ещё не реализована и не включена в предыдущее review.
+- [Следующее дополнение: «Заправлять и заряжать»](plans/2026-10-06-station-service.md) — прямое поручение оператора, PLAN_READY HOW/AC ST01–06; stationcharge локально поставлена на4189/86; отдельнаяQA иscopedclosure ниже.
+
+- [Plan Review станции](reviews/2026-10-06-station-service-plan-review.md), [binding](reviews/2026-10-06-station-service-plan-review-binding.json) — PLAN_READY0BLOCKER/1ADVISORY; noBatterycontrol остаётсяsynthetic/refusal, не новоеvalidmission разрешение.
+
+- [Developer станции](reviews/2026-10-06-station-service-developer.md) — a625c79c,455unit/47browser+1SKIP PASS; галочка и station GJ реализованы; historical QA ST01–06 PASS, Review1B требует IO fix; последующийfix86 LIVE4189; initialreport preserved.
+
+
+- [QA станции ST01–06](reviews/station-service-qa/execution-r1/report.md), [binding](reviews/station-service-qa/execution-r1/source-binding.json) — PASS методов59API/16native наa625; независимый Review выявил неохваченный OFF/fuel import ниже.
+- [Code Review станции r1](reviews/2026-10-06-station-service-code-review-r1.md), [binding](reviews/2026-10-06-station-service-code-review-r1-binding.json) — CHANGES_REQUESTED1BLOCKER/0ADVISORY: CR-ST-B1, positivefuel при explicitOFF; history; CLOSED вaffectedQA/scopedclosure ниже.
+
+- [Developer station fix](reviews/2026-10-06-station-service-developer-fix-r1.md) —86dee5d: oneIOguard/twoisolatedtests,457unit47browser+SKIPPASS; oldabsence preserved.
+- [Affected QA station B1](reviews/station-service-qa/affected-b1/execution-r1/report.md), [binding](reviews/station-service-qa/affected-b1/execution-r1/source-binding.json) — B1-01–04PASS13API/7native import-only; обаspecies/atomicA/ON/OFF/absence.
+- [Scoped Review station r2](reviews/2026-10-06-station-service-code-review-r2.md), [binding](reviews/2026-10-06-station-service-code-review-r2-binding.json) — APPROVED0BLOCKER0ADVISORY; CR-ST-B1 CLOSED; exact86 LIVE4189, rootnormalguard передfinalcommit/PR9.
 
 Оператор отклонил UX v3 и поручил адверсальное ревью GD, UX/UI и пользовательских
 сценариев. Claude Design теперь рассматривается как ассеты и предложение макета.
@@ -202,4 +214,4 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 - [Новый локальный UI](http://192.168.68.65:4183/?v=claude-ui-30a1c9b), [прежний Ship Fitting](http://192.168.68.65:4186/) и [Legacy Power & Heat](http://192.168.68.65:4186/?mode=legacy) доступны параллельно.
 - Численное ядро сохранено; full mining mission/refuel и UI13-02 attribution deferred. Physical/native/public/base/main gates остаются отдельными, PR #6 Draft.
 
-- [Самоаудит PM по сигналу оператора](reviews/2026-10-06-pm-self-audit.md) — ошибки организации, сокращение Memory Bank и правило повторения после каждых3 QA/Review+триаж итераций; не новый verifier launch.
+- [Самоаудит PM по сигналу оператора](reviews/2026-10-06-pm-self-audit.md) — ошибки организации, сокращение Memory Bank и правило повторения после каждых3 review/QA+триаж/фикс итераций; не новый verifier launch.

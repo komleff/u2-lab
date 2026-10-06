@@ -13,7 +13,8 @@ const json = (x: unknown) => JSON.stringify(x, (_, value) => ArrayBuffer.isView(
 function spec(hull: string, conditions: MissionConditions = {}) {
   const fit = getPresetFit(hull);
   if (hull.startsWith('civilian-M')) fit.initial.chargeFraction = 0;
-  const prepared = makeMissionRun(fit, catalog, { durationSeconds: 5, stepSeconds: .1, distanceM: 0, approachSeconds: 0, serviceSeconds: 0, targetM3: .01, repeat: false, temperatureK: 600, ...conditions });
+  // Исходные blocker fixtures воспроизводят старый fuel-only station policy.
+  const prepared = makeMissionRun(fit, catalog, { stationReplenish: undefined, durationSeconds: 5, stepSeconds: .1, distanceM: 0, approachSeconds: 0, serviceSeconds: 0, targetM3: .01, repeat: false, temperatureK: 600, ...conditions });
   if (!prepared.ok) throw Error(JSON.stringify(prepared.errors));
   return prepared.value;
 }

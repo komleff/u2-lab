@@ -1,0 +1,210 @@
+{
+  "role": "independent QA",
+  "model": "Codex; exact provider model ID unavailable",
+  "testedSourceSha": "a625c79c5fbc8cfc706c87d0631fc0204c1689fb",
+  "baselineSha": "3ced4ba1fd69df6f7c03d298d340ee69593113dd",
+  "actualHead": "a625c79c5fbc8cfc706c87d0631fc0204c1689fb",
+  "scope": "18 necessary owners; 11 changed,7 unchanged. Not all17artifact-source rows or all project source/test files independently audited. Packaging/mandatory guard inherited PM/Developer.",
+  "owners": [
+    {
+      "path": "src/app/fitting-ui/conditions.ts",
+      "gitBlob": "7239338ea68548886b1760f6f1747e230de93e6a",
+      "bytes": 1434,
+      "sha256": "5d57fa07faacb96a8f0270013f4767f5960122bd83dd7d98f25c7e3363562714",
+      "equalBaseline": false,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/app/fitting-ui/lab-view.ts",
+      "gitBlob": "26e03e15d82a2228ab86a8409846557973e13368",
+      "bytes": 21729,
+      "sha256": "afffe15177ff9b3f7860f2f06fb8fd5bff6df7682093977915be96afcbb5655a",
+      "equalBaseline": false,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/app/fitting-ui/result-context.ts",
+      "gitBlob": "c77ba25c2c51c97cd6934df96bfebee0d198d98d",
+      "bytes": 2685,
+      "sha256": "6d3637b88e911940242588000d811021024950a0903091c6888895bbd2e546c5",
+      "equalBaseline": false,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/app/fitting-workspace.ts",
+      "gitBlob": "6e08be9485c931da6a51bbda35a965147a869d40",
+      "bytes": 11700,
+      "sha256": "75996f442e32df267db93d5baec7e72a0ef2a17ed960cbe7203d6d1e0c7482e3",
+      "equalBaseline": false,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/app/fitting.ts",
+      "gitBlob": "94eaefd164f91b40a623cb2c688b6aad5f39752f",
+      "bytes": 36740,
+      "sha256": "d50bb38a3b0cbc53a5c8c432f80367febfb4722bba15cfe515d0af4f6f801380",
+      "equalBaseline": false,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/fitting/catalog.ts",
+      "gitBlob": "fa81e316f44cfd566daf1d77d10e4ac2e649b41c",
+      "bytes": 7796,
+      "sha256": "0513d8e98906025dd962d6e8ee0e60869df3e769d76a3cccd3d8604cb26268f5",
+      "equalBaseline": true,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/fitting/data/modules.json",
+      "gitBlob": "8eeab46d4aea4b8bd665f5b1a9538cf3ff00547d",
+      "bytes": 184545,
+      "sha256": "de854469f7b71799dde7a1fdea4ca00aab8a704337b8255f257a03cb48feea70",
+      "equalBaseline": true,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/fitting/validate.ts",
+      "gitBlob": "000958a724d7bd95beea15edcaeab546b304fbaa",
+      "bytes": 12239,
+      "sha256": "3a5c208d2885b3b539f276772d819c71af67498fbe37199cc4a2767b6541b1e3",
+      "equalBaseline": true,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/io/fitting-json.ts",
+      "gitBlob": "ef679f906db0d7a090919f872aaa15f59e0c0f0d",
+      "bytes": 5884,
+      "sha256": "671df84ffcf47ba8344a50b186b85440441cfce39017cdaa7831197bab4e4346",
+      "equalBaseline": true,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/io/fitting-result.ts",
+      "gitBlob": "9a1396c9930e63df2fd8eec6cef2e31eeeee09ce",
+      "bytes": 19768,
+      "sha256": "54c8d7af143c81180aa9f836686aacb713a7867d4e9106d74c9c942799b6bc1c",
+      "equalBaseline": false,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/model/v2/flight.ts",
+      "gitBlob": "cccf715b9d01b4de661ff9c63c85ec082aa0c722",
+      "bytes": 1890,
+      "sha256": "48d52527867ebd18edf6ffb64eef5a645befd092b8f27b0dc2ab6a3af8c92e5f",
+      "equalBaseline": true,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/model/v2/physics.ts",
+      "gitBlob": "ab8a765826db1f035769327ee3a0a526d5ff73af",
+      "bytes": 27065,
+      "sha256": "d300e9d643126b60b3e3bd6892ccd42bce7ecf4c3f7f30f50c264388a9d0fbf5",
+      "equalBaseline": true,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/model/v2/step.ts",
+      "gitBlob": "6e20ef50d3f04cee61e40fe6714149a66892ba82",
+      "bytes": 19406,
+      "sha256": "0e58798a5714c5e853c8a49759e1f2bf809ea05125348b930ca8a02c4b8f8b12",
+      "equalBaseline": false,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/model/v2/types.ts",
+      "gitBlob": "8e59a3dc04e6bc7c78a877c44d1a038fd9c76899",
+      "bytes": 3880,
+      "sha256": "03b9143923cdb08204a977fe6c81e529cc4d2040b6bb2e1c87b8afc9fa1c15e2",
+      "equalBaseline": false,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/runner/fitting-run.ts",
+      "gitBlob": "8cda108e5bae4bdc1346a6848202e395b988fe05",
+      "bytes": 6500,
+      "sha256": "873cc1eb47f61ac3a80cdcf70a122295258b7287802fe6232e67e6f623107089",
+      "equalBaseline": true,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/runner/mining-metrics.ts",
+      "gitBlob": "659a3f598def1085736ba2b936b141042763b2cf",
+      "bytes": 9007,
+      "sha256": "de0d382578a9209e3065c518bed9257b0cec46d1fb5c200fad1852d20956e7c4",
+      "equalBaseline": false,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/runner/mission.ts",
+      "gitBlob": "f3ee60fe63befc1c7dd03abc80a7baad7685a4d5",
+      "bytes": 24206,
+      "sha256": "061d904dd00ea80781f403a5fe62338be7e2a20c59a81d3b69316ecc6aa6770c",
+      "equalBaseline": false,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    },
+    {
+      "path": "src/scenarios/mission.ts",
+      "gitBlob": "a07eddb9e18dacaf68e4badaa03e7aa19f5cab5f",
+      "bytes": 4957,
+      "sha256": "107566e6bfc81224f865691d92fa0c0f7deb8bddf9d341e24cee66c98b00ae42",
+      "equalBaseline": false,
+      "scope": "necessary owner actually exercised/inspected, not whole-source campaign"
+    }
+  ],
+  "wholeAcceptedPlan": {
+    "path": "docs/plans/2026-10-06-station-service.md",
+    "bytes": 7955,
+    "sha256": "05f63be7874e759af7b95f01c35de28692aad4922350562b509dd49e136b20aa"
+  },
+  "ownContentFingerprint": "6260f937663c34c5025834568d6ad17934628a1e03fca132c72194304cb84bad",
+  "method": "SHA256 UTF8 sorted18 path NUL gitBlob LF + literal whole station-service plan including all ST01–06",
+  "numericBody": {
+    "path": "src/model/v2/step.ts",
+    "boundary": "export function initialStateV2 throughEOF",
+    "equalBaseline": true,
+    "sha256": "d0c35a12ecfa8e4c8a3c39b1c916aad872f68d555741674631ac7b8ee5c18a08"
+  },
+  "runtimeDelta": [
+    "src/app/fitting-ui/conditions.ts",
+    "src/app/fitting-ui/lab-view.ts",
+    "src/app/fitting-ui/result-context.ts",
+    "src/app/fitting-workspace.ts",
+    "src/app/fitting.ts",
+    "src/io/fitting-result.ts",
+    "src/model/v2/step.ts",
+    "src/model/v2/types.ts",
+    "src/runner/mining-metrics.ts",
+    "src/runner/mission.ts",
+    "src/scenarios/mission.ts"
+  ],
+  "preparedExpected": {
+    "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/preparation/cases.md",
+    "bytes": 6004,
+    "sha256": "616f2b6b5c26f871798133586fb9b80a971a1e3386cb0f2346cc6753a8fef4d4"
+  },
+  "PMInheritedArtifact": {
+    "root": "/Users/komleff/Documents/GitHub/u2-lab-claude-ui/.overgate-runtime/station-service-v2.2-candidate",
+    "servedDist": "extracted/dist",
+    "sourceRows": 17,
+    "sourceFingerprint": "dcd2722277380407ef17621ec81897091f1f9b01ed685c8d0eb20a54b3f7c866",
+    "buildFiles": 17,
+    "buildFingerprint": "e5cd36e11972cbacdcbd9fbb7ad05849cc3613643ba16f1a839186d8e7dd8747",
+    "proofRepeatedByQA": false
+  },
+  "nativeURI": "http://192.168.68.65:4194/?v=station-a625c79",
+  "oldOracles": [
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/mission-medium-qa/affected-r2/B1-fueled-spec.json",
+      "bytes": 312900,
+      "sha256": "b702b2b4be8770f63f7a4cc480f6dfe1ef993090caa4e8f83a1aaef28ea484b0",
+      "purpose": "Own prior actual absent-policy snapshot/result; read-only old oracle, no new run in preparation"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/mission-medium-qa/affected-r2/native-paused-result.json",
+      "bytes": 398188,
+      "sha256": "817699e9e71559f9c6e5932d99aa80c36eddcd2b05fc53c2ca6a4c70efea7a00",
+      "purpose": "Own prior actual absent-policy snapshot/result; read-only old oracle, no new run in preparation"
+    }
+  ],
+  "otherAcceptance": "Prior mission/M scoped reports unchanged; no blanket fresh QA15 or old hour/golden claim"
+}

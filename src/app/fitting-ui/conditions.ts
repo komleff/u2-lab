@@ -13,6 +13,8 @@ export function conditionsFromSpec(s: RunSpecV2): WorkspaceConditions {
     duty: work && s.selectedWorkGroup.length ? work.requests[s.selectedWorkGroup[0]] : undefined,
     selectedWorkGroup: [...s.selectedWorkGroup], densityKgM3: s.process.densityKgM3,
     returnFraction: s.process.returnFraction, targetM3: s.scenario.targetM3,
-    ...(s.modelVersion===MODEL_MISSION?s.mission:{}),
+    // Собственный undefined отличает прочитанный legacy режим от свежего builder.
+    // В RunSpec/JSON он остаётся отсутствующим; правка условий задаёт boolean.
+    ...(s.modelVersion===MODEL_MISSION?{...s.mission,stationReplenish:s.mission?.stationReplenish}:{}),
   };
 }

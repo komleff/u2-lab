@@ -14,7 +14,7 @@ export type RecoverySummary = {
   pendingStopSeconds: number | null;
 };
 export type MiningMetrics = {
-  mission?: { deliveredM3: number; deliveredScuPerHour: number | null; fuelPerDeliveredScu: Record<string, number | null>; flightSeconds: number; approachSeconds: number; miningSeconds: number; serviceSeconds: number; recoverySeconds: number; peakVelocityMS: number };
+  mission?: { deliveredM3: number; deliveredScuPerHour: number | null; fuelPerDeliveredScu: Record<string, number | null>; flightSeconds: number; approachSeconds: number; miningSeconds: number; serviceSeconds: number; recoverySeconds: number; peakVelocityMS: number; receivedChargeJ?: number };
   ticks: number;
   usefulWork: number;
   selectedWorkM3: number;

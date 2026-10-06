@@ -97,8 +97,12 @@ export function parseResultJson(text: string): ValidationResult<RunResultV2> {
       if(!close(ms.elapsed.flight+ms.elapsed.approach+ms.elapsed.mining+ms.elapsed.service,state.timeSeconds)||ms.elapsed.recovery>ms.elapsed.mining+1e-8)bad("state.mission.elapsed","Времена фаз не согласованы с измеренным интервалом");
       if(!close(state.usefulWork,ms.deliveredM3+state.cargo))bad("state.mission.deliveredM3","Добыто должно равняться сдано + на борту");
       map(ms.receivedFuelKg,"state.mission.receivedFuelKg",new Set(["diesel","hydrogen"]));
+      for(const [path,value] of [["state.mission.receivedChargeJ",ms.receivedChargeJ],["metrics.mission.receivedChargeJ",mm.receivedChargeJ]] as const)if(value!==undefined&&!nonnegative(value))bad(path,"Нужна конечная неотрицательная станционная энергия");
+      if(cfg.stationReplenish!==undefined&&(ms.receivedChargeJ===undefined||mm.receivedChargeJ===undefined))bad("state.mission.receivedChargeJ","Новая политика требует явный учёт полученной энергии, включая ноль");
+      if(!close(ms.receivedChargeJ??0,mm.receivedChargeJ??0)||cfg.stationReplenish!==true&&(ms.receivedChargeJ??0)!==0)bad("metrics.mission.receivedChargeJ","Полученная энергия должна соответствовать state и включённой зарядке станции");
       for(const sp of ["diesel","hydrogen"]){
         if(!nonnegative(ms.receivedFuelKg?.[sp])||!close(spec.initial.fuelKg[sp]+ms.receivedFuelKg[sp]-m.fuelSpeciesKg[sp],state.fuelKg[sp]))bad("state.mission.receivedFuelKg."+sp,"Нарушен initial + received − consumed = remaining");
+        if(cfg.stationReplenish===false&&ms.receivedFuelKg?.[sp]>0)bad("state.mission.receivedFuelKg."+sp,"Выключенная заправка запрещает полученное станционное топливо");
         const expected=ms.deliveredM3>0?m.fuelSpeciesKg[sp]/ms.deliveredM3:null;
         if(expected===null?mm.fuelPerDeliveredScu?.[sp]!==null:!nonnegative(mm.fuelPerDeliveredScu?.[sp])||!close(mm.fuelPerDeliveredScu[sp],expected))bad("metrics.mission.fuelPerDeliveredScu."+sp,"Расход относится только к сданной руде");
       }

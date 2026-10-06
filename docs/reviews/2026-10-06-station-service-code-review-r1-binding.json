@@ -1,0 +1,197 @@
+{
+  "schema": "independent-code-review-binding-v1",
+  "mode": "CODE_REVIEW",
+  "role": "Independent Reviewer",
+  "session": "/root/fitting_adversarial_review",
+  "model": "Codex, GPT-6 family per environment; exact serving/deployment ID unavailable",
+  "work_item": "ulab-558",
+  "source_commit": "a625c79c5fbc8cfc706c87d0631fc0204c1689fb",
+  "baseline_commit": "3ced4ba1fd69df6f7c03d298d340ee69593113dd",
+  "root_bytes_match_source": "Independently verified for all 16 changed rows before seal; root staged candidate, baseline HEAD3ced",
+  "whole_contract": {
+    "path": "docs/plans/2026-10-06-station-service.md",
+    "bytes": 7955,
+    "sha256": "05f63be7874e759af7b95f01c35de28692aad4922350562b509dd49e136b20aa",
+    "coverage": "whole document/ST01–ST06"
+  },
+  "reviewed_paths": [
+    {
+      "path": "docs/plans/2026-10-06-station-service.md",
+      "kind": "whole-plan",
+      "gitBlobSha1": "6d183268888b1fe8a01f6c147c91a56220f84a78",
+      "sha256": "05f63be7874e759af7b95f01c35de28692aad4922350562b509dd49e136b20aa",
+      "bytes": 7955
+    },
+    {
+      "path": "src/app/fitting-ui/conditions.ts",
+      "kind": "changed-source",
+      "gitBlobSha1": "7239338ea68548886b1760f6f1747e230de93e6a",
+      "sha256": "5d57fa07faacb96a8f0270013f4767f5960122bd83dd7d98f25c7e3363562714",
+      "bytes": 1434
+    },
+    {
+      "path": "src/app/fitting-ui/lab-view.ts",
+      "kind": "changed-source",
+      "gitBlobSha1": "26e03e15d82a2228ab86a8409846557973e13368",
+      "sha256": "afffe15177ff9b3f7860f2f06fb8fd5bff6df7682093977915be96afcbb5655a",
+      "bytes": 21729
+    },
+    {
+      "path": "src/app/fitting-ui/result-context.ts",
+      "kind": "changed-source",
+      "gitBlobSha1": "c77ba25c2c51c97cd6934df96bfebee0d198d98d",
+      "sha256": "6d3637b88e911940242588000d811021024950a0903091c6888895bbd2e546c5",
+      "bytes": 2685
+    },
+    {
+      "path": "src/app/fitting-workspace.ts",
+      "kind": "changed-source",
+      "gitBlobSha1": "6e08be9485c931da6a51bbda35a965147a869d40",
+      "sha256": "75996f442e32df267db93d5baec7e72a0ef2a17ed960cbe7203d6d1e0c7482e3",
+      "bytes": 11700
+    },
+    {
+      "path": "src/app/fitting.ts",
+      "kind": "changed-source",
+      "gitBlobSha1": "94eaefd164f91b40a623cb2c688b6aad5f39752f",
+      "sha256": "d50bb38a3b0cbc53a5c8c432f80367febfb4722bba15cfe515d0af4f6f801380",
+      "bytes": 36740
+    },
+    {
+      "path": "src/io/fitting-result.ts",
+      "kind": "changed-source",
+      "gitBlobSha1": "9a1396c9930e63df2fd8eec6cef2e31eeeee09ce",
+      "sha256": "54c8d7af143c81180aa9f836686aacb713a7867d4e9106d74c9c942799b6bc1c",
+      "bytes": 19768
+    },
+    {
+      "path": "src/model/v2/step.ts",
+      "kind": "changed-source",
+      "gitBlobSha1": "6e20ef50d3f04cee61e40fe6714149a66892ba82",
+      "sha256": "0e58798a5714c5e853c8a49759e1f2bf809ea05125348b930ca8a02c4b8f8b12",
+      "bytes": 19406
+    },
+    {
+      "path": "src/model/v2/types.ts",
+      "kind": "changed-source",
+      "gitBlobSha1": "8e59a3dc04e6bc7c78a877c44d1a038fd9c76899",
+      "sha256": "03b9143923cdb08204a977fe6c81e529cc4d2040b6bb2e1c87b8afc9fa1c15e2",
+      "bytes": 3880
+    },
+    {
+      "path": "src/runner/mining-metrics.ts",
+      "kind": "changed-source",
+      "gitBlobSha1": "659a3f598def1085736ba2b936b141042763b2cf",
+      "sha256": "de0d382578a9209e3065c518bed9257b0cec46d1fb5c200fad1852d20956e7c4",
+      "bytes": 9007
+    },
+    {
+      "path": "src/runner/mission.ts",
+      "kind": "changed-source",
+      "gitBlobSha1": "f3ee60fe63befc1c7dd03abc80a7baad7685a4d5",
+      "sha256": "061d904dd00ea80781f403a5fe62338be7e2a20c59a81d3b69316ecc6aa6770c",
+      "bytes": 24206
+    },
+    {
+      "path": "src/scenarios/mission.ts",
+      "kind": "changed-source",
+      "gitBlobSha1": "a07eddb9e18dacaf68e4badaa03e7aa19f5cab5f",
+      "sha256": "107566e6bfc81224f865691d92fa0c0f7deb8bddf9d341e24cee66c98b00ae42",
+      "bytes": 4957
+    },
+    {
+      "path": "tests/browser/station-service.spec.ts",
+      "kind": "changed-source",
+      "gitBlobSha1": "77e59d4cf407cfd03c7c123858a9f60f61d24974",
+      "sha256": "a01efb29f2c64f9df1627cedefae003d8afecf39e41b73498b47011a54236f48",
+      "bytes": 5090
+    },
+    {
+      "path": "tests/fitting/fixtures/station-service-old.json",
+      "kind": "changed-source",
+      "gitBlobSha1": "86f60cd22f27d91ca51a50767da809da8d8e122d",
+      "sha256": "9a6402ac53efc5973b7655130431b231dd089ae58d98185e2c69231a3b1fa524",
+      "bytes": 286672
+    },
+    {
+      "path": "tests/fitting/mission-cycle.test.ts",
+      "kind": "changed-source",
+      "gitBlobSha1": "a33428c89ae8b6fa7ffb36cd84c47901570a53f2",
+      "sha256": "624966dd6499467d1ddecb5cb10a223288bc041e678a7e8435f5d4fb5a963b4c",
+      "bytes": 7550
+    },
+    {
+      "path": "tests/fitting/mission-review-blockers.test.ts",
+      "kind": "changed-source",
+      "gitBlobSha1": "2fc76430c59648154e08c10a36dcb9e809c8f723",
+      "sha256": "131db04f8339c3ec0aca76bfeea3bab6e31466dd560a1e1d3c665d764111e67b",
+      "bytes": 12971
+    },
+    {
+      "path": "tests/fitting/station-service.test.ts",
+      "kind": "changed-source",
+      "gitBlobSha1": "d6c40a2f98d26051261d39052bae0dfd16464015",
+      "sha256": "d91a68ee67b88b0456c0d8d603176a7d69f1e4e6a556676cdb5a300ba4809a04",
+      "bytes": 8223
+    }
+  ],
+  "review_scope": "11 runtime diffs plus necessary endpoint/parser/workspace callers; four test diffs/bodies and one fixture structure/captured digests, not full JSON dump",
+  "source_manifest_fp_independently_verified": "dcd2722277380407ef17621ec81897091f1f9b01ed685c8d0eb20a54b3f7c866",
+  "content_fingerprint": "bcec8fbfa56f1e605a710557a00317d117faf2159aa6f92f4b22df265201e5c2",
+  "canonical_bytes": 9474,
+  "fingerprint_recipe": "SHA256(UTF8 JSON ensure_ascii=false, sort_keys=true, separators=(comma,colon) of {paths:sorted [path,gitBlobSha1] for all 17 rows, whole_contracts:[{path,text:literal entire plan UTF8}]})",
+  "own_runtime_check": {
+    "method": "one bounded old-mission endpoint and policy/result import counterexample via Vite SSR; no HTTP/browser/build server",
+    "wall_seconds": 0.458106167,
+    "proof": {
+      "source": "a625c79c5fbc8cfc706c87d0631fc0204c1689fb",
+      "done": true,
+      "time": 0.5428571428571429,
+      "originalPolicy": "absent",
+      "falsePolicy": false,
+      "receivedFuelKg": {
+        "diesel": 6000.0180351210265,
+        "hydrogen": 0
+      },
+      "receivedChargeJ": 0,
+      "parserAccepted": true,
+      "errors": [],
+      "workspaceAccepted": true,
+      "workspaceChanged": true
+    },
+    "raw": [
+      {
+        "path": ".overgate-runtime/station-service-review-policy-probe.mjs",
+        "bytes": 1891,
+        "sha256": "84e2baa656f741b68ea4a4a421412c1504dfd1b1737d9c9bb00c1d26fcebea58"
+      },
+      {
+        "path": ".overgate-runtime/station-service-review-policy-probe.json",
+        "bytes": 451498,
+        "sha256": "2dc78a0b2771f7611cfbce964835815a960e0b8d9ebc9937df0aa8b55763fcce"
+      }
+    ]
+  },
+  "inherited_evidence": {
+    "qa_report": {
+      "path": ".overgate-runtime/station-service-qa/execution-r1/report.md",
+      "bytes": 8019,
+      "sha256": "8be3d53d0d975d34c6d5f52f7cfdf29aca856ce6b1804e7581a988ad47a31c14",
+      "result": "ST01–ST06 PASS on prepared methods; 59 API assertions and 16 native readbacks, not own Review tests"
+    },
+    "qa_binding": {
+      "path": ".overgate-runtime/station-service-qa/execution-r1/source-binding.json",
+      "bytes": 9251,
+      "sha256": "96f4c72f78c60b6281f1dc0093987f42fb5404585c1a1a464b873190f8ab0923",
+      "fp": "6260f937663c34c5025834568d6ad17934628a1e03fca132c72194304cb84bad"
+    },
+    "developer_guard": "455 unit/47 browser +1 inherited SKIP; external evidence only",
+    "build_fp": "e5cd36e11972cbacdcbd9fbb7ad05849cc3613643ba16f1a839186d8e7dd8747; inherited PM/QA, not independently rebuilt"
+  },
+  "verdict": "CHANGES_REQUESTED",
+  "blockers": [
+    "CR-ST-B1"
+  ],
+  "advisory": 0,
+  "source_freeze": "RELEASED after sealed readback"
+}

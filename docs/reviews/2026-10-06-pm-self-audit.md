@@ -254,3 +254,64 @@ immutable artifact. Не повторять QA15, ZIP/assets, девять ча�
 physical campaign. Не менять frozen WHAT. Новое прямое поручение о галочке
 «Заправлять и заряжать» учтено как ulab-558; это следующий небольшой change,
 а не основание заново открыть уже исправленный рейс. Старые версии сохраняются.
+
+
+# Самоаудит 3/3: scoped closure → station Plan Review → реализация
+
+Третья итерация по уточнённому правилу оператора: закрытие предыдущего review,
+PLAN_READY небольшого station дополнения и завершённый targeted RED→GREEN этап
+Developer. Он сообщил8unit/1touch390GREEN; обязательный normalguard ещё идёт,
+новую зарядку пока не выдаю за принятую. Counter3/3 → reset0/3 перед QAexecution.
+PM_ERR1.2/DOC_PR применены к текущему принятому WHAT, без нового стандарта.
+
+Фактический результат: старое исправление уже выдано на4189, root447/46checksPASS,
+3ced pushed. Пользователь не ждёт окончания нового изменения ради старого результата.
+Station delta32строки в11 existing owners плюс тесты, без нового subsystem/modeltag.
+Проверки адресованы fullcharge/OFF/legacyabsence/endpoint/activeA; QA подготовлена
+параллельно в одной session и ждёт exactcandidate. Прежнюю часовую матрицу/QA15
+не повторяем. No-battery advisory отклонён с обоснованием: validfit domain не меняем.
+
+Оставшийся антипаттерн — многословные reports/metadata и время на повторные ссылки.
+Один bdnote guard снова отверг длинную неоднозначную формулировку; короткий обычный
+API note прошёл, сам guard не менялся. Тактика: получить compact immutablecandidate,
+короткая QA ST01–06, один scoped Review, обычный rootguard и переключение того же4189.
+Никаких новых proof-frameworks, полныхsource/ZIP/native campaigns. Во время newwork
+предыдущий stand всегда доступен. QA и review будут первыми двумя новым counter.
+
+
+# Самоаудит 3/3: legacy fixture fix → station QA → Code Review
+
+Счётчик включает исправления: fixture correction, QA2+триаж, Review3+триаж.
+ST01–06 измерены PASS, но независимый Reviewer подтвердил CR-ST-B1: явный OFF
+принимает импорт с положительным receivedFuelKg. Это настоящий ST03/ST05 дефект,
+а не повод расширять интерфейс или физику. Обе разновидности топлива относятся
+к одному классу; отсутствие flag остаётся законным legacy fuel-only.
+Counter3/3 → reset0/3 перед единственным минимальным Developer fix.
+
+PM_ERR1.2/DOC_PR заново прочитаны. Цель — доступный GD стенд с управляемым
+пополнением станции. Старый исправленный4189 доступен; новая галочка проверена
+на QA4194, но ещё не принята. Избыточная проверка отчётов продолжает задерживать
+поставку; вдобавок PM повторил ошибку, выведя полный большой JSON вместо поля proof.
+Прекращаю повторные dumps/кампании: один IO-policy fix с durable обоими fuels
+negative controls, affected import QA4 и scoped closure5. Wholeplan/ТТХ/численная
+модель/старые отчёты не меняются. Нужны обычный finalrootguard и тот же4189.
+
+
+# Самоаудит 3/3: IO fix → affected QA → scoped closure
+
+Третий проход завершён: один IO guard исправил оба species; affected B1-01–04
+PASS13API/7native, scoped Review5 APPROVED0BLOCKER/0ADVISORY, CR-ST-B1 CLOSED.
+Counter3/3 → reset0/3 перед финальной поставкой/rootguard. Budget5/5 закрыт
+без новых launches. PM_ERR1.2/DOC_PR применены по тем же прочитанным references.
+
+Исходная цель — управляемая станционная заправка/полная зарядка в GD стенде.
+Она реализована: freshON, OFF только разгрузка, absence сохраняет fuel-only;
+станционная энергия отдельно. Проверены реальные endpoint и импорт/сравнение;
+физические часовые результаты под новой политикой не придуманы. Никакого нового
+UX/ТТХ/modeltag/framework и полной повторной QA6ST не добавлено.
+
+Организационный недостаток остаётся: ожидание seal и перенос evidence заняли
+дольше самого исправления. Теперь кратчайший путь — сразу выдать тот же immutable
+QA4195 snapshot на4189, один обязательный finalrootguard/commit/push и Beads export.
+Старый d57 rollback и большие версии сохраняются. Дальше каждый третий completed
+review/QA+триаж/фикс снова требует ручного аудита; не превращаем его в новый gate.

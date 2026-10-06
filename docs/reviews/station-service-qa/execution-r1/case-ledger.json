@@ -1,0 +1,188 @@
+{
+  "role": "independent QA",
+  "model": "Codex; exact provider model ID unavailable",
+  "sourceSha": "a625c79c5fbc8cfc706c87d0631fc0204c1689fb",
+  "ownSourceFingerprint": "6260f937663c34c5025834568d6ad17934628a1e03fca132c72194304cb84bad",
+  "scope": "Six ST01–06 source-first addresses; one native LAN touch390 chain. Assertions overlap AC and are not additional independent cases.",
+  "cases": [
+    {
+      "case": "ST01",
+      "sourceAC": "docs/plans/2026-10-06-station-service.md §ST01; current active/next ownership",
+      "method": "Fresh builder and actual checkbox default; API snapshot independence; native touch first Start after H edit without Tab; change next ON while active OFF, export active, pause/freeze/cancel.",
+      "expected": "Fresh ON; immutable started spec and frozen A retain OFF while next becomes ON.",
+      "result": "PASS",
+      "actual": {
+        "freshPolicy": true,
+        "activePolicy": false,
+        "nextPolicy": true,
+        "nativePauseSeconds": 1.396028734222429,
+        "firstTapStarts": true
+      },
+      "evidence": [
+        "api-final.json",
+        "native-ST.json",
+        "native-corrected.json",
+        "native-OFF-start.json",
+        "native-active-OFF.json",
+        "native-A-frozen.json"
+      ]
+    },
+    {
+      "case": "ST02",
+      "sourceAC": "docs/plans/2026-10-06-station-service.md §ST02; actual completed station endpoint",
+      "method": "Pony:1/.3 lawful D+auxiliary H2 tanks/generator and buffer; D1m, target.01SCU, H20/dt.1/service2, repeatfalse. Compare endpoint to independent direct stepV2 of saved predecessor and actual clipped dt; check cargo/fuel/mass/energy arithmetic.",
+      "expected": "Only after physical service: Q=C, each installed fuel capacity; received equals actual post-physics deficit; T/buffer/consumption remain physical.",
+      "result": "PASS",
+      "actual": {
+        "endpointSeconds": 3.4795608213925986,
+        "batteryJ": 10000000000,
+        "receivedChargeJ": 6998090375.286818,
+        "receivedDieselKg": 7200.756082486172,
+        "receivedHydrogenKg": 380.13254068035644,
+        "temperatureK": 298.2677575010513,
+        "bufferJ": 69591216.42785195,
+        "massKg": 73968.2130196608
+      },
+      "evidence": [
+        "ON-spec.json",
+        "ON-actual.json",
+        "api-final.json",
+        "endpoint-mass-readback.json",
+        "native-completed-ON.json"
+      ]
+    },
+    {
+      "case": "ST03",
+      "sourceAC": "docs/plans/2026-10-06-station-service.md §ST03; OFF and missing/full contour controls",
+      "method": "Same actual flight OFF; lawful no-tanks Civilian M; batteryless fit refusal; full stocks and private explicit external electric100MW endpoint control.",
+      "expected": "Unload/cycle still occurs; OFF station receipts zero, stocks/charge evolve with physical service; no installed contour/deficit produces no phantom or nonfinite receipt; battery requirement unchanged.",
+      "result": "PASS",
+      "actual": {
+        "offBatteryJ": 3001909624.713183,
+        "offChargeReceiptJ": 0,
+        "offFuelReceiptsKg": {
+          "diesel": 0,
+          "hydrogen": 0
+        },
+        "fullDeficitReceiptsZero": true,
+        "noTankReceiptsZero": true,
+        "noBatteryRefused": true
+      },
+      "evidence": [
+        "OFF-actual.json",
+        "full-stock-actual.json",
+        "no-tanks-actual.json",
+        "no-battery-refusal.json",
+        "endpoint-mass-readback.json",
+        "api-final.json"
+      ]
+    },
+    {
+      "case": "ST04",
+      "sourceAC": "docs/plans/2026-10-06-station-service.md §ST04; no refill before actual service and cumulative received energy",
+      "method": "Observed inbound/service/end times drive H clones inside inbound/service, at endpoint and after; next completed chunk; two physically timed .2s services at H.5; hot zero-phase passive recovery H5.",
+      "expected": "No partial-service receipts/unload; exact endpoint receipt once; cumulative equals sum of real endpoint deficits and can exceed capacity; no zero-time phantom service/charge.",
+      "result": "PASS",
+      "actual": {
+        "midInboundH": 1.281088274377336,
+        "midServiceH": 2.4795608213925986,
+        "endpointH": 3.4795608213925986,
+        "cumulativeEndpointTimes": [
+          0.2,
+          0.4
+        ],
+        "cumulativeReceivedJ": 10000044444.444443,
+        "capacityJ": 10000000000,
+        "zeroPhaseSeconds": 5,
+        "zeroPhaseCycles": 0,
+        "zeroPhaseReceivedJ": 0
+      },
+      "evidence": [
+        "mid-inbound-actual.json",
+        "mid-service-actual.json",
+        "exact-end-actual.json",
+        "after-end-actual.json",
+        "cumulative-short-services-actual.json",
+        "zero-service-recovery-actual.json",
+        "api-final.json"
+      ]
+    },
+    {
+      "case": "ST05",
+      "sourceAC": "docs/plans/2026-10-06-station-service.md §ST05; legacy policy and atomic import/export",
+      "method": "Absent-policy dual-stock run; own sealed prior .3 run/result oracle roundtrip; current ON/OFF run/result roundtrip; policy string/0/null, receipt negative/string/null and nonfinite JSON exponent1e309 refusals. One native negative receipt rejection, fit/result/A readback and legal result reopen without another Start.",
+      "expected": "Absence stays fuel-only with no new charge field; current fields roundtrip; invalid input rejected before state mutation; prior result/fit/A preserved and legacy shown explicitly.",
+      "result": "PASS",
+      "actual": {
+        "legacyBatteryJ": 3001909624.713183,
+        "legacyChargeFieldAbsent": true,
+        "oldOraclePreserved": true,
+        "allMalformedAtomic": true,
+        "nativeFitBytesSame": true,
+        "nativeResultBytesSame": true,
+        "nativeAUnchanged": true,
+        "reopenWithoutStart": true
+      },
+      "evidence": [
+        "legacy-absent-actual.json",
+        "api-final.json",
+        "native-corrected.json",
+        "native-negative-error.txt",
+        "native-fit-before-refusal.json",
+        "native-fit-after-refusal.json",
+        "native-result-after-refusal.json",
+        "native-reopened-ON.json",
+        "source-binding.json"
+      ]
+    },
+    {
+      "case": "ST06",
+      "sourceAC": "docs/plans/2026-10-06-station-service.md §ST06; honest receipt metrics/comparison/reference",
+      "method": "ON/OFF/absent same-condition pair comparison; endpoint physical source-energy ledger; native completed ON result/tile, paused OFF frozen A and policy comparison.",
+      "expected": "Station electric J cumulative is separate from kernel generation/consumption; UI GJ=receivedJ/1e9; differences name policy; immutable A identity and measurements survive B.",
+      "result": "PASS",
+      "actual": {
+        "nativeReceivedChargeJ": 6984270375.286835,
+        "nativeTileLiteral": "СТАНЦИОННАЯ ЭНЕРГИЯ\n6,98 GJ",
+        "nativeDisplayedGJ": 6.98,
+        "frozenAUnchanged": true,
+        "policyPairsNoncomparable": true,
+        "pageExceptions": 0,
+        "requestFailures": 0
+      },
+      "evidence": [
+        "api-final.json",
+        "native-station-tile.txt",
+        "native-policy-compare.txt",
+        "native-A-frozen.json",
+        "native-corrected.json",
+        "native-ST.json"
+      ]
+    }
+  ],
+  "harnessCorrection": {
+    "original": {
+      "id": "ST06 native station tile GJ independentunit",
+      "result": "FAIL",
+      "actual": {
+        "tile": "СТАНЦИОННАЯ ЭНЕРГИЯ\n6,98 GJ",
+        "parsedGJ": null,
+        "actualJ": 6984270375.286835
+      },
+      "expected": "station summary presents received joules/1e9 separately"
+    },
+    "corrected": {
+      "id": "ST06 native station tile GJ independentunit",
+      "result": "PASS",
+      "actual": {
+        "tile": "СТАНЦИОННАЯ ЭНЕРГИЯ\n6,98 GJ",
+        "parsedGJ": 6.98,
+        "actualJ": 6984270375.286835,
+        "differenceGJ": -0.0042703752868344935
+      },
+      "expected": "station summary presents received joules/1e9 separately"
+    },
+    "reason": "CSS uppercase affects innerText label; case-sensitive label removal yieldedNaN. Correct numeric value parsed from preserved literal GJ row. No runtime re-execution."
+  },
+  "historicalEvidence": "Prior mission reports remain unchanged; legacy oracles used only as documented in source-binding.json."
+}

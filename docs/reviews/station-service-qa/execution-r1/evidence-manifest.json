@@ -1,0 +1,334 @@
+{
+  "schema": "u2-independent-qa-evidence/1",
+  "role": "independent QA",
+  "model": "Codex; exact provider model ID unavailable",
+  "sourceSha": "a625c79c5fbc8cfc706c87d0631fc0204c1689fb",
+  "ownSourceFingerprint": "6260f937663c34c5025834568d6ad17934628a1e03fca132c72194304cb84bad",
+  "scope": "ST01–06 shorts + one genuine LAN touch390 Worker workflow; no full prior campaign",
+  "counts": {
+    "sourceACRows": 6,
+    "sourceAC_PASS": 6,
+    "sourceAC_FAIL": 0,
+    "apiAssertions_PASS": 59,
+    "apiAssertions_FAIL": 0,
+    "nativeWorkflowCount": 1,
+    "nativeAssertions_PASS_afterSavedTextCorrection": 16,
+    "nativeOriginalHarnessFAIL": 1,
+    "nativeRuntimeRepeatedForCorrection": false,
+    "countsAreNotAddedAsIndependentCases": true
+  },
+  "rawFiles": [
+    {
+      "path": "OFF-actual.json",
+      "bytes": 31463,
+      "sha256": "c1e9a22a50133dac6f2751b94d7c4f0f5bca24ac7ef4fc5e090fc0cfa7c50afb"
+    },
+    {
+      "path": "OFF-result.json",
+      "bytes": 432744,
+      "sha256": "ab5deaa4c584c5075efb57e9005950b703a2a1da839b9ad6fbb5421e81b937c9"
+    },
+    {
+      "path": "OFF-spec.json",
+      "bytes": 383986,
+      "sha256": "63ac64973bba575100c333e63dd4118761610313a8f9a5c00a5e813817b4ca18"
+    },
+    {
+      "path": "ON-actual.json",
+      "bytes": 31514,
+      "sha256": "7a7d8d14aced631322787ab71ba50ce0a1ed5c8f90b7e5aa569cac6a74a17783"
+    },
+    {
+      "path": "ON-result.json",
+      "bytes": 432754,
+      "sha256": "464661b0ebd1b90ca6e4903388421f2af57d04a8d3c66d49a3744dc6e2ee5ecd"
+    },
+    {
+      "path": "ON-spec.json",
+      "bytes": 383983,
+      "sha256": "a60a7030b1c0b9bb41a93f9e92d62531e0a63fb79ff3119aa008c11e743f5cf6"
+    },
+    {
+      "path": "after-end-actual.json",
+      "bytes": 31515,
+      "sha256": "c032a5e307d6019c9bf84a2273728737b17ba8e92fea036dc17eec1f17540bcb"
+    },
+    {
+      "path": "after-end-spec.json",
+      "bytes": 383999,
+      "sha256": "7d85da77b584a04ad6012493e0e49b614dee84677c2e4c85fed8cc87e87ed440"
+    },
+    {
+      "path": "api-checks.json",
+      "bytes": 23638,
+      "sha256": "4c0a33f9aad619ac8f360c0835d6eca703244aa6ee2d482ed0c7f6062cbb7d9c"
+    },
+    {
+      "path": "api-console.txt",
+      "bytes": 11625,
+      "sha256": "8ee185292a76f6967da9bc34581eafc22cc857f62e7353ac1e4b6f31ed1d2706"
+    },
+    {
+      "path": "api-final.json",
+      "bytes": 25549,
+      "sha256": "18b9f0f95e6f369d878832626f18919dd3b5e87c1e39f6c2bb73d31dbd5319fa"
+    },
+    {
+      "path": "api-utils.mjs",
+      "bytes": 3891,
+      "sha256": "0140f27ae978f4b4cb2c74b9b199985d0f2c93d7a1b04c4b7a812afa9753a3a2"
+    },
+    {
+      "path": "case-ledger.json",
+      "bytes": 8338,
+      "sha256": "b11fd1054221dfe12451b3ec0f927e53326f78cff76672339a0268e15712e90b"
+    },
+    {
+      "path": "cumulative-short-services-actual.json",
+      "bytes": 55090,
+      "sha256": "de9435b0698ab21fbd0a1eb8eed318d2de113b2cfeba0fbefdd871b22388c2f5"
+    },
+    {
+      "path": "cumulative-short-services-spec.json",
+      "bytes": 362652,
+      "sha256": "b9dd018f304da83e77e846bf70f76336012f5a98316ae87c61a0fbbd2176c8cb"
+    },
+    {
+      "path": "endpoint-mass-readback.json",
+      "bytes": 461,
+      "sha256": "0c9a289a279eab539fda31c747be1b4b6dd0d14b62d33062100da429bd5c1872"
+    },
+    {
+      "path": "exact-end-actual.json",
+      "bytes": 31515,
+      "sha256": "ce3209ad8afd4441af702f5fcfaeee502516d98e0b05d1fb8d02e65201939e91"
+    },
+    {
+      "path": "exact-end-spec.json",
+      "bytes": 383999,
+      "sha256": "548206ccd9280e8a15c681636fd87f5823930b7baa9234c07523f98eb4ef2683"
+    },
+    {
+      "path": "execute-api.mjs",
+      "bytes": 13975,
+      "sha256": "077b732536f7f232dccc950aeca79eaafb18792f685c7ed7dbe2b90c1422a18b"
+    },
+    {
+      "path": "execute-native.mjs",
+      "bytes": 8155,
+      "sha256": "16c2ad394e8c61c8d03e7f5517246fbfae908c3204abd65a5240f61bf6c9d5bc"
+    },
+    {
+      "path": "full-stock-actual.json",
+      "bytes": 29443,
+      "sha256": "5f86429854209380656031e851a42441983ea9d8947592edc5b031eeb199514c"
+    },
+    {
+      "path": "full-stock-spec.json",
+      "bytes": 380263,
+      "sha256": "88a9ad44da13866d233f4f852bef516e83f774de21aaaf7c7ee088a0454573e8"
+    },
+    {
+      "path": "legacy-absent-actual.json",
+      "bytes": 31217,
+      "sha256": "3752323cda4c48f71d0fcd6f00b77d13a15a4ea39972075f409e06d61668b1aa"
+    },
+    {
+      "path": "legacy-absent-spec.json",
+      "bytes": 383261,
+      "sha256": "5cdf69617217507e4e1879de6bd0b776b6389dae736850771560a6bde5df9ce3"
+    },
+    {
+      "path": "make-binding.py",
+      "bytes": 3300,
+      "sha256": "b7747dd57e193305cd0bee76ef7eb262e406709a9061e668035b631841b4d6f2"
+    },
+    {
+      "path": "mid-inbound-actual.json",
+      "bytes": 7499,
+      "sha256": "990d8148094c238721878f4d3216aa529df307860221e7633aa336dca08307ba"
+    },
+    {
+      "path": "mid-inbound-spec.json",
+      "bytes": 383998,
+      "sha256": "22741c78527b0200caf42b16f6936a53311d4cecc7e9dd98e667ad11e7c49586"
+    },
+    {
+      "path": "mid-service-actual.json",
+      "bytes": 8105,
+      "sha256": "383331e4a939dcb6ed61a54d2cf2fc4424a8cdb922128024c6044a5e5b9eaa4c"
+    },
+    {
+      "path": "mid-service-spec.json",
+      "bytes": 383999,
+      "sha256": "cf89ff1a19546b1aae0a3f6cab5be5259a02ad96b0757eb8289769c63f6c39a6"
+    },
+    {
+      "path": "native-A-frozen.json",
+      "bytes": 793,
+      "sha256": "f67d5559577e5a54f5b3df7a784200fde3bfc7f98ff81573d438c7b129062b32"
+    },
+    {
+      "path": "native-OFF-start.json",
+      "bytes": 424436,
+      "sha256": "4f20e0cf08324c05f536a0c437a9daf2cf2c2c66cd7fbd9b2d1c7e18b7a83664"
+    },
+    {
+      "path": "native-ON-start.json",
+      "bytes": 424437,
+      "sha256": "9c187c39286177996ac53fc19fd82fd6cebf4353f880957f9849a449ef737439"
+    },
+    {
+      "path": "native-ST.json",
+      "bytes": 240877,
+      "sha256": "d9e05bcb576458fb9f0fed9343ba2e4153b56426b805a9e507f9971dc4e388eb"
+    },
+    {
+      "path": "native-active-OFF.json",
+      "bytes": 383990,
+      "sha256": "e08f590d7ab31a4056420234b4c58741e44406f2c6e13dc6c47b3c75a862c256"
+    },
+    {
+      "path": "native-completed-ON.json",
+      "bytes": 512906,
+      "sha256": "ebf221bca21a3222e172661a3136f13b6c179b4e1ca45fff3c6833cadc4148f1"
+    },
+    {
+      "path": "native-console.txt",
+      "bytes": 198,
+      "sha256": "24842ffe4861a695ee87f67106105f13e46fd2b7b38a0f6127d1a2a37f9667d7"
+    },
+    {
+      "path": "native-corrected.json",
+      "bytes": 8160,
+      "sha256": "76ff63aeb8db5b342b82432aec53da2045bd8ed47135ac798318567a184f5efc"
+    },
+    {
+      "path": "native-fit-after-refusal.json",
+      "bytes": 36104,
+      "sha256": "0d9f1113315a26b489c155f1264ee2676c1c8b072ac85f959d56b35480840a89"
+    },
+    {
+      "path": "native-fit-before-refusal.json",
+      "bytes": 36104,
+      "sha256": "0d9f1113315a26b489c155f1264ee2676c1c8b072ac85f959d56b35480840a89"
+    },
+    {
+      "path": "native-fixture.json",
+      "bytes": 383987,
+      "sha256": "c5c28aa5131ebf474f33eb2d3e7a5b359715fcde6f3509d90cf7953ff6b70507"
+    },
+    {
+      "path": "native-negative-error.txt",
+      "bytes": 300,
+      "sha256": "a67ec28b85c3458c68a49d45b25229871302debe58e2d29b2ff941542e8af9aa"
+    },
+    {
+      "path": "native-paused-OFF.json",
+      "bytes": 423037,
+      "sha256": "8f63c0b153e23ae8b002861fd000a46badf414c2296a893fc6cbf83677ad0682"
+    },
+    {
+      "path": "native-policy-compare.txt",
+      "bytes": 2216,
+      "sha256": "7425c62428d746af9d3f2b79d65d950cd6b4a5f9389dc226f4eb8f9cfef940bc"
+    },
+    {
+      "path": "native-reopened-ON.json",
+      "bytes": 512906,
+      "sha256": "ebf221bca21a3222e172661a3136f13b6c179b4e1ca45fff3c6833cadc4148f1"
+    },
+    {
+      "path": "native-result-after-refusal.json",
+      "bytes": 512906,
+      "sha256": "ebf221bca21a3222e172661a3136f13b6c179b4e1ca45fff3c6833cadc4148f1"
+    },
+    {
+      "path": "native-station-tile.txt",
+      "bytes": 45,
+      "sha256": "de5b6e78d23baafe430b0378f80dc0be9088e4f9a475e78de25571066289c7a9"
+    },
+    {
+      "path": "native-util.mjs",
+      "bytes": 8241,
+      "sha256": "27c7bc89e0687b951d532480054b4db138a0cbf96ee322e73f0d7627ea635be0"
+    },
+    {
+      "path": "no-battery-refusal.json",
+      "bytes": 183,
+      "sha256": "9b5bfd442e6117d9f25a607f0514d68cb199e37ce3f2314a982e061eb3187f1b"
+    },
+    {
+      "path": "no-tanks-actual.json",
+      "bytes": 28517,
+      "sha256": "b7a12d91a8288828feed899340d0372249e41f2c4bc6ff45d1d7d2f351268441"
+    },
+    {
+      "path": "no-tanks-spec.json",
+      "bytes": 291432,
+      "sha256": "8fc3ae8f07089f6f28a02ac84e6bb78316d9e614f6e83b6c19690d2130565893"
+    },
+    {
+      "path": "source-binding.json",
+      "bytes": 9251,
+      "sha256": "96f4c72f78c60b6281f1dc0093987f42fb5404585c1a1a464b873190f8ab0923"
+    },
+    {
+      "path": "zero-service-recovery-actual.json",
+      "bytes": 8002,
+      "sha256": "1275d7bcb5b71990789b57de50f2c9f7cce636e06a38f7a31d5f190ca87bf2bf"
+    },
+    {
+      "path": "zero-service-recovery-spec.json",
+      "bytes": 362644,
+      "sha256": "f5257416f7f0a7542b395362779113385a90462fcb5e7c6a03140fc68d332388"
+    }
+  ],
+  "rawFileCount": 53,
+  "rawBytes": 9263603,
+  "rawFingerprintSha256": "80ff3094df4e7ce495e7c6be2025090feade678e9a0f2996dc0323d195a3e237",
+  "rawFingerprintMethod": "SHA256 UTF8 sorted relative filename NUL SHA256(file bytes) LF",
+  "excluded": "vite-cache/ is disposable Vite runtime cache, not evidence; report and this manifest separately hashed in seal receipt",
+  "report": {
+    "path": "report.md",
+    "bytes": 8019,
+    "sha256": "8be3d53d0d975d34c6d5f52f7cfdf29aca856ce6b1804e7581a988ad47a31c14"
+  },
+  "preparedEvidence": [
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/preparation/cases.md",
+      "bytes": 6004,
+      "sha256": "616f2b6b5c26f871798133586fb9b80a971a1e3386cb0f2346cc6753a8fef4d4"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/preparation/preparation-binding.json",
+      "bytes": 5301,
+      "sha256": "99849c22b592d7f6a509899dfa1cb2dcb8ad8587789d8127fb1039d1ae7a6b8e"
+    }
+  ],
+  "externalOldOracles": [
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/mission-medium-qa/affected-r2/B1-fueled-spec.json",
+      "bytes": 312900,
+      "sha256": "b702b2b4be8770f63f7a4cc480f6dfe1ef993090caa4e8f83a1aaef28ea484b0",
+      "purpose": "Own prior actual absent-policy snapshot/result; read-only old oracle, no new run in preparation"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/mission-medium-qa/affected-r2/native-paused-result.json",
+      "bytes": 398188,
+      "sha256": "817699e9e71559f9c6e5932d99aa80c36eddcd2b05fc53c2ca6a4c70efea7a00",
+      "purpose": "Own prior actual absent-policy snapshot/result; read-only old oracle, no new run in preparation"
+    }
+  ],
+  "PMArtifactProofInherited": {
+    "root": "/Users/komleff/Documents/GitHub/u2-lab-claude-ui/.overgate-runtime/station-service-v2.2-candidate",
+    "servedDist": "extracted/dist",
+    "sourceRows": 17,
+    "sourceFingerprint": "dcd2722277380407ef17621ec81897091f1f9b01ed685c8d0eb20a54b3f7c866",
+    "buildFiles": 17,
+    "buildFingerprint": "e5cd36e11972cbacdcbd9fbb7ad05849cc3613643ba16f1a839186d8e7dd8747",
+    "proofRepeatedByQA": false
+  },
+  "guard": "Inherited Developer/PM 455unit/47browser+1screenshotSKIP; not executed by QA",
+  "physicalNativePublicMerge": "NOT_RUN, separate external gates"
+}

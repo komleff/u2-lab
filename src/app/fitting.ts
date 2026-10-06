@@ -338,6 +338,8 @@ export function mountFitting(
     if (repeat) repeat.onchange = () => {
       w.setConditions({ ...w.getSelected().conditions, repeat: repeat.checked }); render();
     };
+    const station = el<HTMLInputElement>("fit-station-replenish");
+    if (station) station.onchange = () => { w.setConditions({ ...w.getSelected().conditions, stationReplenish: station.checked }); render(); };
     const numericPicker = el<HTMLSelectElement>("fit-variant-field");
     if (numericPicker) numericPicker.onchange = () => { numericalField = numericPicker.value; render(); };
     listen("fit-variant-numeric", () => {

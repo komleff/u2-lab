@@ -4,7 +4,8 @@ import { makeMissionRun } from "../../src/scenarios/mission";
 import { createRun, runChunk, result } from "../../src/runner/run";
 const catalog=loadCandidateCatalog("ship-fitting-0.2.2");
 function run(conditions:Parameters<typeof makeMissionRun>[2]={},count=1){
- const s=makeMissionRun(getPresetFit(`pony:${count}`,catalog.version),catalog,{durationSeconds:300,stepSeconds:.1,approachSeconds:0,serviceSeconds:2,distanceM:0,targetM3:.02,repeat:false,...conditions});if(!s.ok)throw Error(JSON.stringify(s));
+ // Исторические миссии этих контролей: топливо станции без зарядки батареи.
+ const s=makeMissionRun(getPresetFit(`pony:${count}`,catalog.version),catalog,{stationReplenish:undefined,durationSeconds:300,stepSeconds:.1,approachSeconds:0,serviceSeconds:2,distanceM:0,targetM3:.02,repeat:false,...conditions});if(!s.ok)throw Error(JSON.stringify(s));
  const r=createRun("mission",s.value);while(!r.done)runChunk(r,1000);return result(r);
 }
 it("M02/M05 event mining lasts actual selected power, stops at small delivery target, service commits only at endpoint",()=>{

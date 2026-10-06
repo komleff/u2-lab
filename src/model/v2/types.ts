@@ -16,6 +16,7 @@ export type MissionConfig = {
   approachSeconds: number;
   serviceSeconds: number;
   maneuverDuty: number;
+  stationReplenish?: boolean;
 };
 export type MissionState = {
   stage: "outbound" | "approach" | "mining" | "inbound" | "service" | "done" | "stranded";
@@ -29,6 +30,7 @@ export type MissionState = {
   peakVelocityMS: number;
   deliveredM3: number;
   receivedFuelKg: Record<string, number>;
+  receivedChargeJ?: number;
   elapsed: { flight: number; approach: number; mining: number; service: number; recovery: number };
   firstLimiter: { timeSeconds: number; phase: string; instanceIds: string[]; causes: Cause[]; message: string } | null;
   terminalReason: string | null;

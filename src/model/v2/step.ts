@@ -251,6 +251,7 @@ export function validateRunSpecV2(input: unknown): ValidationResult<RunSpecV2> {
         if (!(finite(m.referenceVfaMS)&&m.referenceVfaMS>0&&m.referenceVfaMS<3000)) bad("mission.referenceVfaMS","Лабораторная V_FA должна быть в (0,c′)");
         if (m.cruiseSpeedMS!==null && !(finite(m.cruiseSpeedMS)&&m.cruiseSpeedMS>0&&m.cruiseSpeedMS<3000)) bad("mission.cruiseSpeedMS","Лимит скорости должен быть в (0,c′), Max=null");
         if (!["full-hold","first-stop"].includes(m.stopPolicy)) bad("mission.stopPolicy","Неизвестное условие выхода из добычи");
+        if ("stationReplenish" in m && typeof m.stationReplenish!=="boolean") bad("mission.stationReplenish","Пополнение станции должно быть boolean; отсутствие — старый fuel-only режим");
         if (!(finite(m.maneuverDuty)&&m.maneuverDuty<=1)) bad("mission.maneuverDuty","Манёвровый запрос должен быть в [0,1]");
       }
       if (!(s.scenario.targetM3>0)) bad("scenario.targetM3","Цель сданной руды должна быть >0");

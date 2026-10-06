@@ -1,0 +1,200 @@
+{
+  "schema": "u2-independent-qa-evidence/1",
+  "role": "independent QA",
+  "model": "Codex; exact provider model ID unavailable",
+  "sourceSha": "86dee5da9e8a9c45723b7e9a476b8b16bfb98f2b",
+  "ownSourceFingerprint": "a3fa8ca109e15acb5f0110bd58d5ad5a769a6e2f17846a4e5fc4923025fb28d2",
+  "counts": {
+    "freshRiskRows": 4,
+    "PASS": 4,
+    "FAIL": 0,
+    "apiAssertions": 13,
+    "nativeAssertions": 7,
+    "nativeWorkflows": 1,
+    "runnerSteps": 0,
+    "WorkerStarts": 0,
+    "countsAreNotAddedAsIndependentCases": true
+  },
+  "rawFiles": [
+    {
+      "path": "api-checks.json",
+      "bytes": 5125,
+      "sha256": "184611a2d6d19dd51b8675a01f80ac03268848334f0da106ce3a15cbd0d5ea74"
+    },
+    {
+      "path": "api-console.txt",
+      "bytes": 2511,
+      "sha256": "e5c7436bc24c1794d44a12760dfee15afc5b5960c09fee31a026a34a2518896b"
+    },
+    {
+      "path": "api-final.json",
+      "bytes": 5649,
+      "sha256": "e8105cbdb447f5709933719c6bd255ddfef9bc7d8fdbc329099ebd5e295281e4"
+    },
+    {
+      "path": "case-ledger.json",
+      "bytes": 4262,
+      "sha256": "d5729503aa1d9ab7d1734218c44f46fb878a86b5650281ff0d393acc397c98eb"
+    },
+    {
+      "path": "execute-api.mjs",
+      "bytes": 4507,
+      "sha256": "145a1ad062f03ea2b7b2fb1e8579f70964567751aee4c5ee4853029f94c8ca0b"
+    },
+    {
+      "path": "execute-native.mjs",
+      "bytes": 3117,
+      "sha256": "990065853879dff1a8ea35a362b10317fbcde8daa4c313cfd4c61ea03483cc4c"
+    },
+    {
+      "path": "fixtures.mjs",
+      "bytes": 2123,
+      "sha256": "852048ef4df24179f00131c305648b63d13245619e3ad81e6a440df5e861436f"
+    },
+    {
+      "path": "legacy-construction.json",
+      "bytes": 427,
+      "sha256": "57c63b5aca6ba03a5acc61da5222cc7152886357431cad38bb9ff85fab832ee5"
+    },
+    {
+      "path": "native-B1.json",
+      "bytes": 77515,
+      "sha256": "7dfa0d7c64baa7222da076648720fc82ce28a90484303af781f9aadbf8ae82ff"
+    },
+    {
+      "path": "native-console.txt",
+      "bytes": 27,
+      "sha256": "5989701cd49ee34d4c642169490cce2968e0c62a861c88ad29e20e21171b11ac"
+    },
+    {
+      "path": "native-diesel-error.txt",
+      "bytes": 154,
+      "sha256": "03456b5bfcb0fd568bfab178d8d61b31a1c19343621db7a47dad797be9dae18f"
+    },
+    {
+      "path": "native-fit-after-diesel.json",
+      "bytes": 36104,
+      "sha256": "0d9f1113315a26b489c155f1264ee2676c1c8b072ac85f959d56b35480840a89"
+    },
+    {
+      "path": "native-fit-after-hydrogen.json",
+      "bytes": 36104,
+      "sha256": "0d9f1113315a26b489c155f1264ee2676c1c8b072ac85f959d56b35480840a89"
+    },
+    {
+      "path": "native-fit-before.json",
+      "bytes": 36104,
+      "sha256": "0d9f1113315a26b489c155f1264ee2676c1c8b072ac85f959d56b35480840a89"
+    },
+    {
+      "path": "native-frozen-A.json",
+      "bytes": 720,
+      "sha256": "326e61505d01339774c3a749d7bb4a901cff4eac005aaaf899d2e94a0212e405"
+    },
+    {
+      "path": "native-hydrogen-error.txt",
+      "bytes": 156,
+      "sha256": "68a00b51e781ded288963ad22911ee5e3401a1cc3f8eb0cda2c382f15ffb5992"
+    },
+    {
+      "path": "native-recovery-OFF.json",
+      "bytes": 432744,
+      "sha256": "ab5deaa4c584c5075efb57e9005950b703a2a1da839b9ad6fbb5421e81b937c9"
+    },
+    {
+      "path": "native-result-after-diesel.json",
+      "bytes": 432754,
+      "sha256": "464661b0ebd1b90ca6e4903388421f2af57d04a8d3c66d49a3744dc6e2ee5ecd"
+    },
+    {
+      "path": "native-result-after-hydrogen.json",
+      "bytes": 432754,
+      "sha256": "464661b0ebd1b90ca6e4903388421f2af57d04a8d3c66d49a3744dc6e2ee5ecd"
+    },
+    {
+      "path": "native-result-before.json",
+      "bytes": 432754,
+      "sha256": "464661b0ebd1b90ca6e4903388421f2af57d04a8d3c66d49a3744dc6e2ee5ecd"
+    },
+    {
+      "path": "native-util.mjs",
+      "bytes": 8257,
+      "sha256": "9d0819efa67e9a713c4da9ba5be740eb95d4b4cf426c98e53c1b933dc8d3a864"
+    },
+    {
+      "path": "negative-diesel-recipe.json",
+      "bytes": 458,
+      "sha256": "938ee3432819cb4b95d4628835301f791333cf2b9488df8562e9d17003bb144b"
+    },
+    {
+      "path": "negative-hydrogen-recipe.json",
+      "bytes": 476,
+      "sha256": "9275ef56b33b8179fe43d5b374e38787ea057ff9a459e4e452fe54821236dd30"
+    },
+    {
+      "path": "source-binding.json",
+      "bytes": 7078,
+      "sha256": "827285b9c4fed0f21d0d9f7e1135f4f2eda26d535081bf34db16254c7670e41c"
+    }
+  ],
+  "rawFileCount": 24,
+  "rawBytes": 1961880,
+  "rawFingerprintSha256": "a41de4fe35e6b01fd2f986a985308a92b4c174737cd777cf781b5a7584cddab7",
+  "method": "SHA256 UTF8 sorted relative filename NUL SHA256(file bytes) LF",
+  "report": {
+    "path": "report.md",
+    "bytes": 6601,
+    "sha256": "be6bff33f21d83ee4e293a9cf8fc184d51feb975c828b456a33b6a5cff2749d3"
+  },
+  "excluded": "vite-cache/ disposable compiler cache; report/manifest/receipt separate",
+  "oldFixturesReferencedNotCopied": [
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/execution-r1/OFF-result.json",
+      "bytes": 432744,
+      "sha256": "ab5deaa4c584c5075efb57e9005950b703a2a1da839b9ad6fbb5421e81b937c9"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/execution-r1/ON-result.json",
+      "bytes": 432754,
+      "sha256": "464661b0ebd1b90ca6e4903388421f2af57d04a8d3c66d49a3744dc6e2ee5ecd"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/execution-r1/legacy-absent-spec.json",
+      "bytes": 383261,
+      "sha256": "5cdf69617217507e4e1879de6bd0b776b6389dae736850771560a6bde5df9ce3"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/execution-r1/legacy-absent-actual.json",
+      "bytes": 31217,
+      "sha256": "3752323cda4c48f71d0fcd6f00b77d13a15a4ea39972075f409e06d61668b1aa"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/execution-r1/report.md",
+      "bytes": 8019,
+      "sha256": "8be3d53d0d975d34c6d5f52f7cfdf29aca856ce6b1804e7581a988ad47a31c14"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/execution-r1/source-binding.json",
+      "bytes": 9251,
+      "sha256": "96f4c72f78c60b6281f1dc0093987f42fb5404585c1a1a464b873190f8ab0923"
+    }
+  ],
+  "preparedFiles": [
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/affected-b1/preparation/cases.md",
+      "bytes": 2721,
+      "sha256": "ad93582e70b28d61cc75f11cdb9c4f006a7c50309b79e8d032bdfcb6ae27250b"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/affected-b1/preparation/fixture-recipes.json",
+      "bytes": 3803,
+      "sha256": "47850c22b864be9191cceced8817b26b829dcdb4efbe580c548ed780116d7d6b"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/affected-b1/preparation/preparation-binding.json",
+      "bytes": 1615,
+      "sha256": "868062735565d85fb2d544670bac4523c306f15682b06bdcf3e7f159e998e44e"
+    }
+  ],
+  "historicalEvidence": "Initial ST01–06 unchanged; not counted as fresh repeat. Legacy positive authored-control disclosure in report/fixtures/construction."
+}

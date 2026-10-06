@@ -1,0 +1,101 @@
+{
+  "role": "independent QA",
+  "model": "Codex; exact provider model ID unavailable",
+  "sourceSha": "86dee5da9e8a9c45723b7e9a476b8b16bfb98f2b",
+  "ownContentFingerprint": "a3fa8ca109e15acb5f0110bd58d5ad5a769a6e2f17846a4e5fc4923025fb28d2",
+  "scope": "Four affected risk addresses, not repeated six whole ST methods; assertions overlap and are not extra independent cases",
+  "cases": [
+    {
+      "case": "B1-01",
+      "sourceAC": "whole station-service plan ST03/ST05; CR-ST-B1 diesel class",
+      "method": "Own captured OFF result +1kg diesel received/remaining/mass; zero charge; independent initial+received−consumed and capacity/mass arithmetic; parser + seeded frozen workspace snapshot before/after",
+      "expected": "Policy refusal before mutation despite balanced positive fuel ledger",
+      "result": "PASS",
+      "actual": {
+        "deltaKg": 1,
+        "remainingKg": 4800.243917513828,
+        "parserErrorPath": "state.mission.receivedFuelKg.diesel",
+        "unrelatedParserErrors": 0,
+        "workspaceDeepEqual": true
+      },
+      "evidence": [
+        "api-final.json",
+        "negative-diesel-recipe.json",
+        "native-diesel-error.txt"
+      ]
+    },
+    {
+      "case": "B1-02",
+      "sourceAC": "whole plan ST03/ST05; CR-ST-B1 hydrogen class",
+      "method": "Independent own OFF result +.01kg H2 received/remaining/mass, diesel receipt0 and zero charge; balance/capacity/mass; parser + seeded frozen workspace snapshot",
+      "expected": "Same policy refusal for hydrogen, full workspace atomicity",
+      "result": "PASS",
+      "actual": {
+        "deltaKg": 0.01,
+        "remainingKg": 253.33503931964353,
+        "parserErrorPath": "state.mission.receivedFuelKg.hydrogen",
+        "unrelatedParserErrors": 0,
+        "workspaceDeepEqual": true
+      },
+      "evidence": [
+        "api-final.json",
+        "negative-hydrogen-recipe.json",
+        "native-hydrogen-error.txt"
+      ]
+    },
+    {
+      "case": "B1-03",
+      "sourceAC": "whole plan ST03/ST05; ON/OFF/legacy semantics",
+      "method": "Own measured OFF0 and ON positive full result controls; authored absent-policy full numerical control from captured legacy state/metrics/events/spec + matching OFF trace/ON fuel columns. Parser and workspace exact roundtrip; no runner",
+      "expected": "Legal OFF0/ON positive/absence fuel-only positive accepted with data/absence preserved",
+      "result": "PASS",
+      "actual": {
+        "OFF0AcceptedExact": true,
+        "ONPositiveAcceptedExact": true,
+        "absentPositiveAcceptedExact": true,
+        "legacyFuelReceiptKg": {
+          "diesel": 7200.756082486172,
+          "hydrogen": 380.13254068035644
+        },
+        "legacyChargeFieldAbsent": true,
+        "authoredControlNotFreshRun": true
+      },
+      "evidence": [
+        "api-final.json",
+        "legacy-construction.json",
+        "fixtures.mjs"
+      ]
+    },
+    {
+      "case": "B1-04",
+      "sourceAC": "whole plan ST05/ST06; native refusal/ownership/reference",
+      "method": "One genuine plain LANtouch390 import-only chain: legal ON→FreezeA→bad diesel + native fit/result downloads→bad H2 + downloads→legal OFF reopen. Native coordinate taps/file inputs, passive Worker monitoring",
+      "expected": "Visible specific refusals; unchanged fit/result download bytes and frozen A; valid recovery; no Start/horizon",
+      "result": "PASS",
+      "actual": {
+        "fitBytesUnchangedBoth": true,
+        "resultBytesUnchangedBoth": true,
+        "frozenAUnchangedBothAndRecovery": true,
+        "legalOFFRecoveryExact": true,
+        "secure": false,
+        "viewportWidth": 390,
+        "starts": 0,
+        "measurementFrames": 0,
+        "exceptions": 0,
+        "requestFailures": 0
+      },
+      "evidence": [
+        "native-B1.json",
+        "native-frozen-A.json",
+        "native-fit-before.json",
+        "native-result-before.json",
+        "native-fit-after-diesel.json",
+        "native-result-after-diesel.json",
+        "native-fit-after-hydrogen.json",
+        "native-result-after-hydrogen.json",
+        "native-recovery-OFF.json"
+      ]
+    }
+  ],
+  "historical": "Initial ST01–06 report remains sourcea625 scoped evidence; this fuel-policy counterexample was not covered then."
+}
