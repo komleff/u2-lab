@@ -1,80 +1,44 @@
-# Ship Fitting v4 + каталог 0.2.1 — 2026-10-06
+# Основной приоритет: рейс v2.2 и реальные M-модули — 2026-10-06
 
-## Текущая правка: Пони
+Оператор повторно потребовал настоящий цикл станция→поле→станция и указал, что M
+отсутствуют. В live4188 пока45 SKU/старый timed цикл. Нельзя считать готовый план
+реализацией. PM признал ошибку приоритетов/optional blocker; больше не блокируем
+принятый fullhold уточнением firststop. Приняты WHAT missionbrief v0.3 и medium
+contract; HOW/VC docs/plans/2026-10-06-mission-medium-delivery.md. DraftPR9 base
+feat/pony-signature-slot, root545c722. Одна следующая поставка, milestones: основной
+рейс первым, пять M/HY вторыми. MPlanREADY0B/0A; missionintegrationPlanReview идёт.
+RuntimeDEV_RELEASE после короткого PonyB1closure и missionPlanREADY.
 
-Оператор уменьшил signature slots Pony2→1. Принятое WHAT/короткий HOW/P01–P05:
-docs/plans/2026-10-06-pony-signature-slot.md. New catalog0.2.2 overlay, old0.2.0/0.2.1
-fit/run/result preserve2-slot hull and stamps. Остальные hulls/SKUs неизменны.
-PRODUCT; existing Developer read-only discovery done, no runtime edits. Один Plan
-Review до кода; текущий counter1/3. Добывающая миссия ниже остаётся отдельной задачей.
+PonyPR8Draft: new0.2.2 oneSig, old.0/.1 twoSig preserved. Review1 нашёл known
+resolved ghostbufferB1; fixbbe3fc (rootf3c8ed1) только3blobs. Affected QA4rowsPASS
+(81API/25browser internal assertions), scopedr2 APPROVED0B/B1CLOSED. Кандидатimmutable
+linked u2-lab-claude-ui/.overgate-runtime/pony-signature-slot-candidate-fix-r1,
+LAN4191 root-owned. Original3265artifact/reports/evidence остаются историей.
 
-## Новое поручение v2.2
+Новая миссия: H3600,bg100K,rho1500,return.35,target10000deliveredSCU,approach10,
+unload/refuel10,distance100km,Max/fullhold/repeat. Outboundempty/inboundactualcargo.
+March/retro работают поinstalledTTX: actualforce→relativisticp=γmv,c′3000; actual
+fuel/energy/heat continuous, no teleport/coastmass free acceleration. Tagged new
+model сохраняетold ship-fitting-ledger-0.2 replay. LabreferenceV_FA500 editable,
+Tfirst300,approachmaneuver .1strafe/.1turn explicit experimental. Candidate dt.1
+только приM09convergence, иначе smallerverified. Firststop=полная остановка группы;
+partialthrottling толькоlimiter. Optional clarification не блокируетdefault.
 
-Оператор возобновил ulab-dwi: событийная добыча до полного трюма/первой остановки,
-рейс100км туда порожняком/обратно с добытым грузом, V_FA×1/2/3/4/Max(default),
-H3600/background100K/rho1500/return.35/target10000SCU/approach10/unload10/repeattrue.
-Brief docs/product/ship-fitting-v2.2-mission-brief.md: accepted inputs и предложения
-разделены. PRODUCT GAP: первая остановка — первое ограничение либо полная остановка
-всей mining group; async вопрос оператору pending. V_FA отсутствует в labcatalog;
-нужен source либо честно согласованная lab reference. InitialT idle≠background:
-hullPower200/800/3200kW; предложены manual300K и step.01 в advanced, без temperature
-reset между рейсами. Подготовка не новый verifier cycle, counter остаётся1/3.
-Runtime v2.2 NOTSTARTED; после согласования WHAT — HOW/VC/PlanReview до Developer.
-Draft PR7 / feat/ship-fitting-v2.2: brief v0.2 включает прямое уточнение оператора:
-разгон и торможение расходуют топливо/энергию двигателей и дают тепло по ТТХ;
-непрерывные fuel/energy/heat balances, защита ограничивает фактическую тягу.
-M03 требует отдельных проверок обоих участков для fuel/electric drives.
-Старый DEFERRED revoke новым поручением; ниже сохранён проверенный baseline.
+M/HY WHAT13078B/e6088c0a unchangedREADY: пяти Mfamilies, total50/newcatalog.3,
+versionedEutilitytanks/solar/generator, allfour Electric propulsion; DauxH₂allowed.
+Cp470intensive, extensiveS×4; distinct diesel/H₂stocks/ledger, finite sharedH₂.
+No changescurrentdefaults besidesedition. Old.0/.1/.2/localvariants preserve.
 
-Локальная поставка, PRODUCT/PM_ROLE3.0. Один Developer, QA, Reviewer;
-PM — sole publisher/Beads writer. Draft PR6, base feat/ship-fitting-v0.2 (PR4 Draft).
-main/merge — оператору. Canonical sources и signed reports: docs/INDEX.md.
+Один существующий Developer/QA/Reviewer; PM soleBeads/publisher, normalguards.
+No mainmerge/force/skip/swarm. Reviewed runtime/wholecontracts frozen; metadata
+может изменяться. Selfaudit PM_ERR/DOC_PR послекаждых3QA/Review+triage: сейчас1/3
+послеPonyclosure;missionPlan станет2/3.
+Тройной packagingproof убран: PMmanifests/changedblobs, QAactualwholeworkflows.
 
-## Текущий результат
-
-Runtime source15f5d90e97b696b8738a204953af852942bec704. Непрерывная страница,
-навигация во время расчёта, отдельно active/next/result/reference, шесть обзорных
-графиков, таблица/журнал, фиксированный эталон сравнения и открытие результата
-без нового запуска. Группы слотов отдельными строками; первый ограничитель до
-графиков; Unicode filename/cancel; viewport overscroll boundary. Footer v4.0,
-численная модель отдельно. Стабильные DOM targets закрыли прежний lost-click.
-
-Catalog0.2.1: Industrial diesel M16.2288MN/160t, retro3/7,pair9/35;
-новые пресеты получают лазеры размера/класса корпуса. Civilian M/Industrial L
-добавлены, Pony UNKNOWN/G0 local anchor. Все40 oldSKU сохранены, total45;
-known0.2.0 fit/run/result сохраняют edition/snapshot без скрытого remount.
-η.40/turn/material — explicit lab hypotheses. Industrial M fixture2Mlasers/
-2Mbatteries/240SCU/4passive: dry412.24555t, full796.24555t при rho1500.
-
-LIVE http://192.168.68.65:4188/?v=cat021-15f5d90e (localhost4188), ownedPID18113.
-Immutable linked u2-lab-claude-ui/.overgate-runtime/fitting-catalog-0.2.1-candidate-fix-r1/extracted/dist.
-Old v3/4183,v2+Legacy/4186,TLS4184 сохранены; user tabs не reload автоматически.
-Binding .overgate-runtime/fitting-catalog-0.2.1-fix-runtime-binding.json:
-137 relevant blob rows + literal7wholecontracts +2notes, fp9458f05433fb89123d514d00aadb82a46daf48d3528dde054ca5c22e3f1d5988.
-PM149sources/149tar/18dist×3copies/ZIP/36HTTP bodies exact.
-85prior protected+2experiments и6compiled unchanged versus1315, не versus f52.
-
-## Приёмка и следующие действия
-
-Mandatory guard313unit/41browserPASS+1inherited screenshotSKIP, type/build/
-reference/bootstrap/cloud26PASS. v4 QA1 historicalFAIL17bb; slotfix affectedQA2PASSff8.
-Catalog QA C01–08PASS1315. CombinedReview1 CHANGES_REQUESTED/CR-V4-B1:
-условия неполных small-hull drafts бросали исключение через illegal:3 reference.
-Fix15f5 uses legal same-edition temporary reference/actual payload IDs, actualfit
-unchanged/Start disabled. Affected QA PASS4risk rows/49raw, scoped Review r2 APPROVED/0BLOCKER0ADVISORY.
-CR-V4-B1 CLOSED; three reviewedfixblobs/36 unchangedcarryover paths. Reports exact
-published PR6#6010610636/#6010687917. Signed historical FAIL не переписаны.
-
-ulab-bn1/ulab-agx CLOSED: scoped local delivery complete, closure через bd API.
-Trusted export remote beads-backup/aafe392,30canonical IDs/original9 preserved;
-mission ulab-dwi возобновлена, IN_PROGRESS (продуктовое уточнение v2.2).
-Feature metadata/checkpoint/guard/push не меняют reviewed runtime. Selfaudit после
-catalogQA/Review1/affectedQA выполнен3/3, reset0; после Review2 triage counter1/3. PM_ERR/DOC_PR externalU2main0fe06927… read; не новые verifier launches.
-No full39/7chains/matrix/H3600/12h replay без нового FAIL/AC/named risk.
-
-Mining-until-fullhold/flight/refuel ulab-dwi возобновлена новым заданием v2.2;
-прошлая отсрочка больше не действует. Current4188 остаётся прежним runtime.
-Physical Xiaomi/gesture/performance/native/public/bootstrap/base/fullproduct/main
-acceptance отдельно OPEN. No numeric kernel/Worker/scenario algorithm change.
-Beads API primary only; trusted export helper OverGate63393725…; no JSONL hand edits.
-User docs/.DS_Store6148B/3cd7c2cc… preserve; explicit stage/normal guards only.
+LIVE: http://192.168.68.65:4188/?v=cat022-bbe3fc — Pony0.2.2 с B1fix,
+not M/not mission. Oldv3/4183,TLS4184,v2+Legacy4186 preserved. Helper
+rootgd-v4-local-http/serve.py; immutableartifacts, notcwd mutablebuild. Physical
+Xiaomi/PublicPages/native/bootstrap/mainacceptance отдельноOPEN. ulab-w7j imported
+replaydurationblurfirstStart baselinebugOUTPony/M; newmissionnativefirstclick must
+work. Beads33tasks/original9; latestbackup e594aaa32tasks needs nexttrustedexport.
+User docs/.DS_Store6148B/3cd7c2cc… preserve. Current U2source0fe06927… viaINDEX only.

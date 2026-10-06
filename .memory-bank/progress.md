@@ -15,3 +15,7 @@
   ScopedReview2+triage — counter1/3; следующие два завершённых цикла требуют аудита.
 - Mining mission/refuel теперь планируются дляv2.2; physical/native/public/base/main gates open отдельно.
   Exact source/contracts/reports/evidence — docs/INDEX.md/activeContext.
+
+## 2026-10-06: Pony закрыт, основной рейс/M следующий
+
+Pony0.2.2 B1structuralimport fix bbe3fc/rootf3c8ed1: affectedQA4rowsPASS, scopedReview2APPROVED0B. Live4188 exactimmutablefix-r1, старыеверсиисохранены. ulab-yj7 локальнозакрываетсяAPI;ulab-w7jOUTunfixed. Counter1/3 послеPonyclosure, audit предыдущие3done. McontractREADYноruntimeнет;DraftPR9 HOWv1.1/missionbriefv0.3/MF-HYcontract, основнойрейсприоритетпервогомilestone;newPlanReviewpending. Optionalfirststop больше неblockerfullhold. Beadssoletracker, no mainmerge.

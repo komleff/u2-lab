@@ -123,3 +123,47 @@ PASS не даёт физическую приёмку. Mission/flight/refuel п
 
 После scoped Review r2 APPROVED и триажа counter1/3. Локальная v4+catalog поставка
 проверена; final metadata/feature push не новый review cycle.
+
+# Самоаудит после Review r2, Pony Plan Review и Pony QA
+
+После трёх завершённых проходов с триажем counter3/3: прошлый scoped Review r2,
+Pony PLAN_READY и independent P01–P05 QA. QA сообщила PASS всех пяти AC, двух
+LAN цепочек и12fresh openings; seal отчёта завершается. Product FAIL0. Счётчик
+после этого PM-аудита сбрасывается0/3 через Beads API; следующий scoped Code Review
+Пони станет1/3. PM_ERR/DOC_PR current U20fe06927… прочитаны; нормы локальной роли
+Delivery First сохраняются. Новые аналитики не запускались.
+
+Повторилась моя процессная ошибка: Developer, PM и QA независимо пересчитали весь
+пакет137source/ZIP/HTTP, хотя это не три пользовательских проверки. QA заняла
+заметное время до собственных функциональных сценариев. Также мои крупные батчи
+чтения обрезали вывод, а ошибочные контекстные строки patch потребовали повторов.
+Это издержки обвязки, без продуктовых edits; их нельзя выдавать за улучшение инструмента.
+
+Тактика для следующего M/hybrid шага: один Plan Review, один Developer, адресная QA
+MF/HY и один scoped Code Review. PM связывает exact reports/changed blobs/artifact;
+QA проверяет поведение и whole workflows, не повторяет полный packaging proof после
+PM. Чтения — ограниченные actual owners, патчи — только подтверждённые контексты.
+Нет дополнительных matrix/12h/H3600, reviewer swarm и исправлений advisory.
+
+Найден старый firstStart-after-imported-replay-blur defect, подтверждён на15f5 и3265;
+отдельный Beads bug ulab-w7j. Tab/blur workaround записан честно, UX-fix не заявлен.
+Он не расширяет Pony/M scope. Проверяемая текущая цель — один signature slot нового
+Пони без поломки старых файлов, затем пять M SKU и utility fuel электрических корпусов.
+
+# Самоаудит: Pony Review1 → M Plan Review → affected Pony QA
+
+Три завершённых прохода/триажа: Pony Review1 подтвердил CR-PONY-B1; M Plan Review
+READY0B/0A; affected B1-01–04 QA PASS. Counter3/3 → reset0. PM_ERR1.3/DOC_PR
+снова сверены с целью. Сейчас есть исправленный импорт и45 SKU; настоящего рейса
+и пяти новых M SKU пока нет. QA seal не означает поставку двух отсутствующих фич.
+
+Моя главная ошибка — подмена результата процессом и игнорирование исходного
+приоритета: optional уточнение first-stop стало блокером принятого fullhold,
+а Pony/catalog proof заняли место рейса. Я также снова сделал слишком большой
+read batch; ограниченный вывод был обрезан. Никаких дополнительных proof layers.
+Класс correction: убрать optional blocker из brief/INDEX/Beads/следующей передачи,
+объединить основной рейс и M в одну практическую поставку с двумя milestones.
+DraftPR9 уже открыт, следующий один Developer после короткого B1closure и mission
+Plan Review. M Plan Review повторять не надо; QA не пересчитывает packaging.
+Тесты касаются поступательного движения, топлива/тепла, доставки и реального M
+каталога. Самоаудит продолжается после каждых3 завершённых Review/QA+triage.

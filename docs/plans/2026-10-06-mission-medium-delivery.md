@@ -1,7 +1,7 @@
 ---
 title: "v2.2 — основной шахтёрский рейс и M-модули"
 status: proposed
-version: "1.0"
+version: "1.1"
 date: 2026-10-06
 related:
   - docs/product/ship-fitting-v2.2-mission-brief.md
@@ -128,7 +128,7 @@ Repeat=false завершает один рейс; repeat=true — horizon/до�
 | M06 | Export/import numeric mission snapshots reproduces state/metrics; false-known roster B1 and invalid model/fields atomically refused; no current numeric recompilation. |
 | M07 | Старые versioned fit/run/result legal/numerically unchanged, old timed mode clearly labelled; golden oracle/digests, fresh browser import. |
 | M08 | LAN desktop1440 и touch390: edit M fit→first-click Start→pause/step/resume/cancel→restart→graphs/table/events→freeze A→edit B→compare→export→fresh open result без run. Navigation accessible while running; original continuous layout. No UI asset redesign. |
-| M09 | Pony A/B/C H3600: A1laser+2cargo24, B2laser+1cargo24, C3laser+builtin12, one passive sig; near0/100km/far1000km results+timings recorded. No predetermined winning fit. Convergence default dt.1 vs.05/.025 on representative completed voyage and near limiter: delivered/mined/fuel within1%, arrival/mining events within0.5с and no different final stop outcome; choose smaller dt if fail. H3600 wall/steps + short baseline recorded, no unjustified12h matrix. |
+| M09 | Pony A/B/C H3600, лазеры `mining-industrial-S`, трюмы `cargo-bulk-S`24SCU: A1laser+2bulkS+builtin12=60SCU, B2laser+1bulkS+builtin12=36SCU, C3laser+builtin12=12SCU; one passive sig; near0/100km/far1000km results+timings recorded. No predetermined winning fit. Convergence default dt.1 vs.05/.025 on representative completed voyage and near limiter: delivered/mined/fuel within1%, arrival/mining events within0.5с and no different final stop outcome; choose smaller dt if fail. H3600 wall/steps + short baseline recorded, no unjustified12h matrix. |
 | MF01–04/HY01–02 | Exact medium contract values/50SKU/provenance/versioned compatibility, compound CivilianM fixtures full mining+hydrogen cooling/hybrid, shared finite H₂ ledger, negative old E/size/class, native catalog M filter/install/run/export. |
 
 Review Focus: arrival without retro; horizon during unload; no thrust mass loss;

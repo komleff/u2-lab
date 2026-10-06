@@ -27,6 +27,8 @@
 ## Текущий приоритет — рабочий процесс ГД
 
 - [Пони: один слот контроля сигнатур](plans/2026-10-06-pony-signature-slot.md) — принятое изменение баланса, план/VC P01–P05; новый каталог0.2.2, исторические0.2.0/0.2.1 сохраняются.
+- [Pony Plan Review](reviews/2026-10-06-pony-signature-slot-plan-review.md), [Developer](reviews/2026-10-06-pony-signature-slot-developer.md), [QA](reviews/2026-10-06-pony-signature-slot-qa.md), [Review1](reviews/2026-10-06-pony-slot-code-review-r1.md) — history: known resolved ghost buffer B1.
+- [Pony B1 fix](reviews/2026-10-06-pony-signature-slot-developer-fix-r1.md), [affected QA](reviews/2026-10-06-pony-signature-slot-qa-affected-r1.md), [scoped Review2](reviews/2026-10-06-pony-slot-code-review-r2.md) — local PASS/APPROVED bbe3fc; old numeric snapshots unchanged; live4188. Не M/mission acceptance.
 
 - [Задание v2.2: событийная добыча и рейс](product/ship-fitting-v2.2-mission-brief.md) — accepted v0.3; основной рейс до полного трюма не блокируется optional уточнением. Лабораторные опоры явно подписаны; runtime пока не реализован.
 - [M-модули и гибридные сборки](product/ship-fitting-medium-modules.md) — MF01–04/HY01–02, независимый PLAN_READY;50 SKU планируются, в live каталоге пока45.

@@ -1,0 +1,227 @@
+{
+  "title": "Pony scoped Code Review r1 — independent binding and counterexample",
+  "role": "Independent Reviewer / CODE_REVIEW",
+  "model": "Codex; exact provider/model ID unavailable",
+  "sourceSha": "0de894d67085dabe641488fd2a69ed964d8ccd9e",
+  "developerSha": "3265a6870578d409586b416eb0adfabff3b9a574",
+  "baseSha": "03826203eb5cef1d0102f71a98b07ec469fab1cb",
+  "binding": {
+    "path": ".overgate-runtime/pony-slot-code-review-binding.json",
+    "bytes": 21021,
+    "sha256": "158505de6b41431e2fc8646a8072415cac70af7c3dea5504f287e6a702250777",
+    "canonicalBytes": 19358,
+    "computedFingerprint": "e21ee3b95fe57b0c22721598bb87da95cd498089bf0858fcbcc592e89de5f698",
+    "declaredFingerprint": "e21ee3b95fe57b0c22721598bb87da95cd498089bf0858fcbcc592e89de5f698",
+    "algorithm": "SHA256 of UTF8 canonical JSON of contract, sorted keys, compact separators, unicode unescaped, no final LF"
+  },
+  "reviewedPaths": [
+    {
+      "path": "src/app/fitting-ui/presentation.ts",
+      "blob": "0eb0452ce8e5582102113555e85acfaf2d4e8323",
+      "bytes": 7763,
+      "sha256": "00fa1e89f007227336d50897dc4ea42ffc46da7655efa932a799d11d2b4ad771",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "src/app/fitting-ui/ship-view.ts",
+      "blob": "e56fd5c0df80ab29f11175fd90b98b17a025f21e",
+      "bytes": 11406,
+      "sha256": "911facabac0b19c66f15fac05e82ef82012008d9799228e8620049f1e5eead9e",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "src/app/fitting-ui/swap-dialog.ts",
+      "blob": "007d2c3459fb6d3265ee344946f6d002e51c22bd",
+      "bytes": 13109,
+      "sha256": "273b79a4f5f2e1bec60fa3faf4af9dcf38b1fc945a5930ae78989ff4beb94cb7",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "src/app/fitting-workspace.ts",
+      "blob": "ce856fbd54b73a0b01504b8d68f893ca774ec132",
+      "bytes": 11125,
+      "sha256": "c4aa7fca9818909dec710c021151f18db75332f8e901bc4cc38cf3308be612a5",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "src/app/fitting.ts",
+      "blob": "8162393a1ec9555523b0e27f4cec2ced65d3762d",
+      "bytes": 35432,
+      "sha256": "fac7438c980a558ab71b52656f0a82332cd6bb835de24fe201e360230e8e44bb",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "src/fitting/catalog.ts",
+      "blob": "dd42b8ef2d2b5a6d9511437e503ca178dedc3ad8",
+      "bytes": 7648,
+      "sha256": "2757cb0e7cece5c0d1ff1e8e18d49e8084a5cb18d88d65effdb1a03719ee869a",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "src/fitting/compile.ts",
+      "blob": "04775389b8d37311eac2c4aec03202de1aa554cf",
+      "bytes": 2232,
+      "sha256": "9fb88bf4f64ea98b952f437f9c17360f5688fc885efd7bad20c987ab21e22048",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "src/fitting/editions.ts",
+      "blob": "963b895e4af3bbd7bff7ee2bbf917d6684db0dcc",
+      "bytes": 2420,
+      "sha256": "789aa7d4b664cad9d98fc31ed4d1ade088a3afdab8cce92e14d332a8f83f452d",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "src/fitting/types.ts",
+      "blob": "52e087931186fd5911317459ace3ef62e0cc140d",
+      "bytes": 3439,
+      "sha256": "24c27c074d2ad84368e96c63f6f64f4eaf7d9a7e16fc6c525d72c9bc6e7da2b6",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "src/fitting/validate.ts",
+      "blob": "99945b6f72f97159af150f57a29d782f2d3a5240",
+      "bytes": 12171,
+      "sha256": "d5dac96f8ec94bf30827dd08d1833277ab29860f4800fc9806c3e715bf293ee6",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "src/io/fitting-json.ts",
+      "blob": "e094b6aedfe70a86000129ad25a002f4bb46959b",
+      "bytes": 3163,
+      "sha256": "2a4b2dd72fc81047b6fd45f8700f9fd5b791b7696eb5bf475182cbb3318fca94",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "tests/browser/catalog-0.2.1.spec.ts",
+      "blob": "dcd004617ef2e8bf60dd0f315b017e5ca01c4a55",
+      "bytes": 6539,
+      "sha256": "458fa7aa8471f05576fa0de7dbab73d12a09447b9d04217b00052ba59cbe6ba6",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "tests/browser/pony-signature-slot.spec.ts",
+      "blob": "61a500fa6ccf2ecff11fb8ef70760b3963ab3973",
+      "bytes": 6668,
+      "sha256": "0158e7a518e43c7ee25e2089a519d93f4d39868f03eaf5b62e046a77c2c32c16",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "tests/fitting/catalog-0.2.1.test.ts",
+      "blob": "465c776b3d214ef7e18efcebe53483c3ae35b9e8",
+      "bytes": 7854,
+      "sha256": "9e7a8be7b81bb8808cbb1d496f9fe64224c8df8f33709f3fcd31d0f048c357fe",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "tests/fitting/catalog-editions.test.ts",
+      "blob": "0a6ce7b1518930c52a35a43ecc87aadb5664b3f3",
+      "bytes": 5669,
+      "sha256": "8e89c4775de9ec8c675f5ee7f3cef9b451efd972530e63b04ccbc9e0f811ac8f",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "tests/fitting/fixtures/catalog-0.2.1-pony-digests.json",
+      "blob": "730f0cec1f612df2eb37be097e0658fad578eeb0",
+      "bytes": 1885,
+      "sha256": "472ce0482ab532366161289dbe8bc584c5b6fba96031893fdbaec9560e8d279b",
+      "workingEqualsHeadEqualsDeveloper": true
+    },
+    {
+      "path": "tests/fitting/pony-signature-slot.test.ts",
+      "blob": "b11bface0ed7c323b4f50c497f332f193fd67b30",
+      "bytes": 8834,
+      "sha256": "f0b77efd4de93d8659831a5807824cb6083b3f006d63490c97b3ddbe6e8402d9",
+      "workingEqualsHeadEqualsDeveloper": true
+    }
+  ],
+  "wholeContracts": [
+    {
+      "path": "docs/plans/2026-10-06-pony-signature-slot.md",
+      "blob": "47e8249b91cb82b09d3388495d29da4839e0b970",
+      "bytes": 7821,
+      "sha256": "36b0498e16b163a44b5fb843ea2cb814cc7f1a2fa654d77edef4a5be538e7319"
+    },
+    {
+      "path": "docs/product/ship-fitting-catalog-0.2.1.md",
+      "blob": "c7ffd66bb9db25c052015d125ac530bc7342a58f",
+      "bytes": 7363,
+      "sha256": "a5c55604317116c29734c4f4775d541d3109879d918f63df857281bcc8aa89a7"
+    }
+  ],
+  "directContextPaths": [
+    {
+      "path": "src/model/v2/step.ts",
+      "blob": "5b403a856c0c04869e2a511d797f94eef0fd1b50",
+      "bytes": 17210,
+      "sha256": "869b7218b68187c5bcac84a66603f8ad6053ff9de6bb81f97e1a8169d26db461"
+    },
+    {
+      "path": "src/io/fitting-result.ts",
+      "blob": "a7fabca6dbdf6d414c2665a38c2e3d024b5815fa",
+      "bytes": 13327,
+      "sha256": "a74a6e6ef00f2cf3caad221f11facc93b07d880bf8eab0b123f7966c5bf3d38c"
+    },
+    {
+      "path": "src/scenarios/fitting.ts",
+      "blob": "090591f787693d6c894ba718bcfae999dc074901",
+      "bytes": 5022,
+      "sha256": "0314034856f465db41f783023fa21dae8206b514317b834f877fc1039f368ab3"
+    },
+    {
+      "path": "src/runner/run.ts",
+      "blob": "8145e6149237b37148c37056d0c8966f8f918daf",
+      "bytes": 8166,
+      "sha256": "36aa3cdc9765899d375cf3f5c9e6a16b190079a778c48d790bbbb9fb9b33f859"
+    }
+  ],
+  "qaReadAndHashVerified": [
+    {
+      "path": ".overgate-runtime/pony-signature-slot-qa/qa-execution-r1.md",
+      "bytes": 14089,
+      "sha256": "c0ed14deaeb2c09d17c4c9f3cb51c6c81e4cd6fc308d87c13cb0899c89498e29"
+    },
+    {
+      "path": ".overgate-runtime/pony-signature-slot-qa/qa-evidence-r1.json",
+      "bytes": 50743,
+      "sha256": "ba5985660f8d93041176791cb51cedec145b83faa837ae7ee203c31c71b82c22"
+    }
+  ],
+  "ownCounterexample": {
+    "command": "source /Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/env.sh\nnode --experimental-transform-types --import /tmp/claude-ui-review-loader.mjs --input-type=module <<'JS'\nimport {loadCandidateCatalog,getPresetFit} from './src/fitting/catalog.ts';\nimport {makeMiningRun} from './src/scenarios/fitting.ts';\nimport {parseExperimentJson} from './src/io/fitting-json.ts';\nimport {parseResultJson} from './src/io/fitting-result.ts';\nimport {createRun,runChunk,result} from './src/runner/run.ts';\nimport {FittingWorkspace} from './src/app/fitting-workspace.ts';\nconst old='ship-fitting-0.2.1', next='ship-fitting-0.2.2';\nconst created=makeMiningRun(getPresetFit('pony:2',old),loadCandidateCatalog(old),{durationSeconds:1});\nif(!created.ok) throw Error(JSON.stringify(created));\nconst pristine=structuredClone(created.value);\nconst forged=structuredClone(pristine); forged.catalogVersion=forged.resolvedShip.fit.catalogVersion=next;\nconst removedId=forged.resolvedShip.fit.assignments['signature-2'];\ndelete forged.resolvedShip.fit.assignments['signature-2']; delete forged.resolvedShip.fit.instances[removedId];\nconst run=createRun('review-P04-extra-roster',forged); runChunk(run,20000); const measured=result(run);\nconst wire=JSON.stringify(measured,(_,v)=>ArrayBuffer.isView(v)?Array.from(v):v);\nconst workspace=new FittingWorkspace(getPresetFit('pony:1'),loadCandidateCatalog());\nconst before=JSON.stringify(workspace.snapshot());\nconst imported=workspace.importDocument(wire);\nconsole.log(JSON.stringify({oldLegalAccepted:parseExperimentJson(JSON.stringify(pristine)).ok,forgedExperimentAccepted:parseExperimentJson(JSON.stringify(forged)).ok,forgedResultAccepted:parseResultJson(wire).ok,forgedWorkspaceResultAccepted:imported.ok,workspaceChanged:before!==JSON.stringify(workspace.snapshot()),runCompleted:measured.status,time:measured.state.timeSeconds,bufferId:removedId,bufferStateJ:measured.state.buffersJ[removedId],retainedRuntimeBuffers:Object.keys(measured.spec.resolvedShip.bufferCapacityJ),fitHasExtraInstance:Object.hasOwn(measured.spec.resolvedShip.fit.instances,removedId),rosterHasExtraInstance:measured.spec.resolvedShip.instances.some(i=>i.id===removedId)},null,2));\nJS",
+    "result": {
+      "chunk_id": "66a097",
+      "wall_time_seconds": 0.125468875,
+      "exit_code": 0,
+      "original_token_count": 146,
+      "output": "{\n  \"oldLegalAccepted\": true,\n  \"forgedExperimentAccepted\": true,\n  \"forgedResultAccepted\": true,\n  \"forgedWorkspaceResultAccepted\": true,\n  \"workspaceChanged\": true,\n  \"runCompleted\": \"complete\",\n  \"time\": 1,\n  \"bufferId\": \"fit:signature-2\",\n  \"bufferStateJ\": 19999999.999999985,\n  \"retainedRuntimeBuffers\": [\n    \"fit:signature-2\"\n  ],\n  \"fitHasExtraInstance\": false,\n  \"rosterHasExtraInstance\": true\n}\n(node:95849) ExperimentalWarning: Transform Types is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    "initialMountProbe": {
+      "chunk_id": "f83e67",
+      "wall_time_seconds": 0.124083667,
+      "exit_code": 0,
+      "original_token_count": 1436,
+      "output": "{\n  \"removedId\": \"fit:signature-2\",\n  \"validFit\": true,\n  \"fitAssignments\": {\n    \"march\": \"fit:march\",\n    \"retro\": \"fit:retro\",\n    \"strafe\": \"fit:strafe\",\n    \"turn\": \"fit:turn\",\n    \"power-1\": \"fit:power-1\",\n    \"power-2\": \"fit:power-2\",\n    \"signature-1\": \"fit:signature-1\",\n    \"payload-1\": \"fit:payload-1\"\n  },\n  \"resolvedHullSlots\": [\n    \"signature-1\",\n    \"signature-2\"\n  ],\n  \"resolvedExtraInstance\": {\n    \"id\": \"fit:signature-2\",\n    \"item\": {\n      \"id\": \"buffer-S\",\n      \"label\": \"Тепловой буфер S\",\n      \"family\": \"buffer\",\n      \"category\": \"signature\",\n      \"size\": \"S\",\n      \"formFactor\": \"single\",\n      \"generation\": 1,\n      \"generationState\": \"authored\",\n      \"materials\": [\n        {\n          \"id\": \"LAB-STEEL-MIX\",\n          \"massKg\": 5000,\n          \"cpJKgK\": 470,\n          \"contents\": \"dry\",\n          \"origin\": {\n            \"kind\": \"experimental\",\n            \"sourceRef\": \"lab:LAB-STEEL-MIX-01\",\n            \"unit\": \"kg; J/(kg·K)\",\n            \"note\": \"LAB-STEEL-MIX / engineering candidate; не production proof\",\n            \"range\": [\n              350,\n              900\n            ]\n          }\n        }\n      ],\n      \"numerics\": {\n        \"capacityJ\": 2000000000,\n        \"coolingW\": 20000000,\n        \"absorbAboveK\": 290,\n        \"releaseBelowK\": 280\n      },\n      \"gate\": {\n        \"low\": 200,\n        \"workLow\": 250,\n        \"restartLow\": 260,\n        \"workHigh\": 500,\n        \"restartHigh\": 480,\n        \"high\": 550\n      },\n      \"origins\": {\n        \"numerics.capacityJ\": {\n          \"kind\": \"canonical\",\n          \"sourceRef\": \"U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5\",\n          \"unit\": \"J\",\n          \"note\": \"Явный authored reference; нет automatic Class/G multipliers\"\n        },\n        \"numerics.coolingW\": {\n          \"kind\": \"canonical\",\n          \"sourceRef\": \"U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5\",\n          \"unit\": \"W\",\n          \"note\": \"Явный authored reference; нет automatic Class/G multipliers\"\n        },\n        \"numerics.absorbAboveK\": {\n          \"kind\": \"derived\",\n          \"sourceRef\": \"U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5\",\n          \"unit\": \"K\",\n          \"note\": \"Явный authored reference; нет automatic Class/G multipliers\",\n          \"range\": [\n            217.5,\n            362.5\n          ]\n        },\n        \"numerics.releaseBelowK\": {\n          \"kind\": \"derived\",\n          \"sourceRef\": \"U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5\",\n          \"unit\": \"K\",\n          \"note\": \"Явный authored reference; нет automatic Class/G multipliers\",\n          \"range\": [\n            210,\n            350\n          ]\n        },\n        \"gate.low\": {\n          \"kind\": \"experimental\",\n          \"sourceRef\": \"lab:gate-candidate-01\",\n          \"unit\": \"K\",\n          \"note\": \"LAB-STEEL-MIX / engineering candidate; не production proof\",\n          \"range\": [\n            200,\n            570\n          ]\n        },\n        \"gate.workLow\": {\n          \"kind\": \"experimental\",\n          \"sourceRef\": \"lab:gate-candidate-01\",\n          \"unit\": \"K\",\n          \"note\": \"LAB-STEEL-MIX / engineering candidate; не production proof\",\n          \"range\": [\n            200,\n            570\n          ]\n        },\n        \"gate.restartLow\": {\n          \"kind\": \"experimental\",\n          \"sourceRef\": \"lab:gate-candidate-01\",\n          \"unit\": \"K\",\n          \"note\": \"LAB-STEEL-MIX / engineering candidate; не production proof\",\n          \"range\": [\n            200,\n            570\n          ]\n        },\n        \"gate.workHigh\": {\n          \"kind\": \"experimental\",\n          \"sourceRef\": \"lab:gate-candidate-01\",\n          \"unit\": \"K\",\n          \"note\": \"LAB-STEEL-MIX / engineering candidate; не production proof\",\n          \"range\": [\n            200,\n            570\n          ]\n        },\n        \"gate.restartHigh\": {\n          \"kind\": \"experimental\",\n          \"sourceRef\": \"lab:gate-candidate-01\",\n          \"unit\": \"K\",\n          \"note\": \"LAB-STEEL-MIX / engineering candidate; не production proof\",\n          \"range\": [\n            200,\n            570\n          ]\n        },\n        \"gate.high\": {\n          \"kind\": \"experimental\",\n          \"sourceRef\": \"lab:gate-candidate-01\",\n          \"unit\": \"K\",\n          \"note\": \"LAB-STEEL-MIX / engineering candidate; не production proof\",\n          \"range\": [\n            200,\n            570\n          ]\n        },\n        \"materials.0.massKg\": {\n          \"kind\": \"canonical\",\n          \"sourceRef\": \"U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5\",\n          \"unit\": \"kg\",\n          \"note\": \"LAB-STEEL-MIX / engineering candidate; не production proof\",\n          \"range\": [\n            3750,\n            6250\n          ]\n        },\n        \"materials.0.cpJKgK\": {\n          \"kind\": \"experimental\",\n          \"sourceRef\": \"lab:LAB-STEEL-MIX-01\",\n          \"unit\": \"J/(kg·K)\",\n          \"note\": \"LAB-STEEL-MIX / engineering candidate; не production proof\",\n          \"range\": [\n            350,\n            900\n          ]\n        }\n      },\n      \"class\": \"Civilian\"\n    },\n    \"enabled\": true,\n    \"builtin\": false,\n    \"slotId\": \"signature-2\"\n  },\n  \"resolvedBufferCapacityJ\": {\n    \"fit:signature-2\": 2000000000\n  },\n  \"parseOK\": true,\n  \"errors\": []\n}\n(node:95484) ExperimentalWarning: Transform Types is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    },
+    "harnessCorrections": [
+      {
+        "message": "Первый loader invocation передал getPresetFit неправильные positional arguments; version=2 дал expected unknown-version отказ. Исправлено на getPresetFit('pony:2',old).",
+        "classification": "Reviewer harness error; tool transcript retained"
+      },
+      {
+        "message": "Первая extended invocation вызвала createRun(spec, options) вместо createRun(runId, spec); получила legacy validation errors. Исправлена сигнатура, финальный exact-source proof exit0.",
+        "classification": "Reviewer harness error; tool transcript retained"
+      }
+    ],
+    "classification": "CR-PONY-B1 / BLOCKER: known .2 fit lacks signature-2 but resolved roster retains operational buffer; run/result imports accept and mutate workspace",
+    "environment": "Node24.21.0 via absolute ignored env.sh; direct TS transform loader /tmp/claude-ui-review-loader.mjs; no browser/server/source changes"
+  },
+  "notRun": [
+    "full guard/unit/browser campaigns",
+    "137-source/artifact/ZIP/HTTP repeat",
+    "physical/native/public/main",
+    "mission/M/hybrid/kernel review",
+    "12h/H3600/matrices"
+  ],
+  "finalHeadCheck": "0de894d67085dabe641488fd2a69ed964d8ccd9e"
+}
