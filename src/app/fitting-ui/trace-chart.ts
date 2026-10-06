@@ -34,7 +34,8 @@ export function traceChart(r: RunResultV2, ids: string[], time?: number, limits:
   for(const l of labels){const yy=Math.max(nextY,y(l.value)-3);labelPositions.set(l,yy);nextY=yy+40;}
   // Обратный проход удерживает все четыре подписи внутри графика, выше оси времени.
   let lastY=158;for(const l of [...labels].reverse()){const yy=Math.min(lastY,labelPositions.get(l)!);labelPositions.set(l,yy);lastY=yy-40;}
-  const highLabel=labels.length?`<text x="660" y="35" text-anchor="end">${num(high,unit)}</text>`:`<text x="42" y="16">${num(high,unit)}</text>`;
+  // Верхняя отметка имеет тот же безопасный отступ и без порогов, включая пустой replay.
+  const highLabel=`<text x="660" y="35" text-anchor="end">${num(high,unit)}</text>`;
   return `<svg viewBox="0 0 700 205" role="img" aria-label="Измеренные каналы: ${esc(unit)}">${bands.filter(b=>b.to>=b.from).map(b=>`<rect data-thermal-band="${b.side}" x="40" y="${y(b.to)}" width="620" height="${y(b.from)-y(b.to)}" fill="${b.color}" opacity=".14"/>`).join('')}<path d="M40 20V170H660M40 95H660" stroke="#3a3226" fill="none"/><text x="40" y="195">${num(start, "с")}</text><text x="660" y="195" text-anchor="end">${num(end, "с")}</text>${highLabel}${present.map(id => {
     const i = r.channels.indexOf(id), style = channelStyle(id);
     const points = r.buckets.map(b => `${x(b.endSeconds)},${y(b.sum[i] / b.count)}`).join(" ");
