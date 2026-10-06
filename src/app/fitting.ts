@@ -249,8 +249,6 @@ export function mountFitting(
       render();
     });
     for (const b of root.querySelectorAll<HTMLButtonElement>("[data-slot]")) {
-      b.id =
-        "slot-" + b.dataset.slot + (b.closest(".slot-ring") ? "-ring" : "");
       b.onclick = () => {
         selectedSlot = b.dataset.slot!;
         swap = {

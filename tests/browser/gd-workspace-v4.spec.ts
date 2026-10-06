@@ -147,3 +147,72 @@ test("operator slot groups each occupy a separately findable full-width row at d
     await expect(page.locator('.system-signature [data-group="signature"]')).toContainText("Контроль сигнатур");
   }
 });
+
+test("WF04/06 genuine 90ms desktop payload click survives advancing Worker renders", async ({ page }, testInfo) => {
+  await page.goto("/");
+  await expect(page.locator("#fit-preset")).toBeVisible();
+  await page.locator("#fit-preset").selectOption("pony:2");
+  await page.locator("#fit-duration").fill("180");
+  await page.locator("#fit-speed").selectOption("1");
+  const target = page.locator("#slot-payload-1");
+  await target.scrollIntoViewIfNeeded();
+  await page.locator("#fit-start").click();
+  await expect(page.locator("#fit-time")).not.toHaveText("0 с / 180 с");
+  await page.evaluate(() => {
+    (window as any).heldGestures = [];
+    let down: Element | null;
+    for (const type of ["pointerdown", "pointerup"]) document.addEventListener(type, e => {
+      const target = (e.target as Element).closest("[data-slot]");
+      if (!target) return;
+      if (type === "pointerdown") down = target;
+      (window as any).heldGestures.push({ type, id: target.id, connected: down?.isConnected, same: down === target, time: performance.now() });
+    }, true);
+  });
+  const before = await page.locator("#fit-time").textContent(), bounds = await page.evaluate(() => {
+    const r = document.getElementById("slot-payload-1")!.getBoundingClientRect();
+    return { x: r.x, y: r.y, width: r.width, height: r.height };
+  });
+  if (!bounds) throw Error("visible payload target");
+  await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+  await page.mouse.down(); await page.waitForTimeout(90); await page.mouse.up();
+  const gestures = await page.evaluate(() => (window as any).heldGestures);
+  await testInfo.attach("native-held-pointer", { body: JSON.stringify({ before, after: await page.locator("#fit-time").textContent(), gestures }), contentType: "application/json" });
+  console.log(JSON.stringify({ pointerBoundary: gestures }));
+  expect(gestures.map((g: any) => g.id)).toEqual(["slot-payload-1", "slot-payload-1"]);
+  expect(gestures[1].time - gestures[0].time).toBeGreaterThanOrEqual(90);
+  expect(gestures[1].connected).toBe(true); expect(gestures[1].same).toBe(true);
+  await expect(page.locator("#fit-time")).not.toHaveText(before!);
+  await expect(page.getByRole("dialog")).toBeVisible(); await expect(page.locator("#swap-title")).toContainText("payload-1");
+});
+
+test("WF04/06 all slot groups, optional ring and builtin controls retain nodes and actions during a live test", async ({ page }) => {
+  await page.goto("/"); await expect(page.locator("#fit-preset")).toBeVisible();
+  await page.locator("#fit-preset").selectOption("pony:2"); await page.locator("#fit-duration").fill("180");
+  await page.locator("#fit-speed").selectOption("1"); await page.locator("#fit-start").click();
+  await expect(page.locator("#fit-time")).not.toHaveText("0 с / 180 с");
+  await page.evaluate(() => { (window as any).slotOwners = [...document.querySelectorAll('#workspace-fitting button[data-slot], #workspace-fitting button[data-instance]')]; });
+  const before = await page.locator("#fit-time").textContent();
+  await expect(page.locator("#fit-time")).not.toHaveText(before!);
+  const nodes = await page.evaluate(() => (window as any).slotOwners.map((n: HTMLButtonElement) => ({ id: n.id, slot: n.dataset.slot, builtin: n.dataset.instance, connected: n.isConnected })));
+  expect(nodes.length).toBeGreaterThan(8); expect(nodes.every((n: any) => n.connected)).toBe(true);
+  const heldClick = async (selector: string, builtin = false) => {
+    const button = page.locator(selector).first(); await button.scrollIntoViewIfNeeded();
+    const node = await button.elementHandle(), bounds = await button.boundingBox();
+    if (!node || !bounds) throw Error("visible group target");
+    await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+    await page.mouse.down(); await page.waitForTimeout(90); await page.mouse.up();
+    expect(await node.evaluate(n => n.isConnected)).toBe(true);
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await expect(page.locator(builtin ? "#instance-sources" : "#swap-title")).toBeVisible();
+    await page.keyboard.press("Escape"); await expect(page.getByRole("dialog")).not.toBeVisible();
+  };
+  for (const group of ["propulsion", "payload", "power", "signature"]) {
+    const selector = `.system-${group} button[data-slot]`;
+    await expect(page.locator(selector).first()).toBeVisible(); await heldClick(selector);
+  }
+  await heldClick('.systems button[data-instance]', true);
+  await page.locator("#fit-ring summary").click();
+  await heldClick('#slot-payload-1-ring'); await heldClick('.slot-ring button[data-instance]', true);
+  await expect(page.locator("#fit-running-revision")).toContainText("Тест использует сборку: 2");
+  await expect(page.locator("#fit-status")).toContainText("Выполняется");
+});
