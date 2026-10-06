@@ -1,0 +1,10 @@
+{
+  "version": "2.2",
+  "uiVersion": "4",
+  "thermalDiagnostics": "0.1",
+  "status": "experimental",
+  "runtimeCommit": "a6c7430b795ca79377e210cfb032c53732d0654e",
+  "sourceCommit": "4975facb0d0dd14f2f8203a614f155f41d2493ef",
+  "buildFingerprint": "352a78bc10557fe76a08ffbda01c50e3bf7cc9943bb353b764146828ed013400",
+  "legacyV1": "./legacy-v1/"
+}
