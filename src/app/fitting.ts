@@ -156,7 +156,7 @@ export function mountFitting(
     return w.getCurrentResult();
   }
   function closeDialog() {
-    const returnId = savingFit?.returnId ?? swap?.returnId ?? (instance ? instanceReturnId : undefined) ?? "fit-start";
+    const returnId = savingFit?.returnId || swap?.returnId || (instance ? instanceReturnId : undefined) || "fit-start";
     savingFit = undefined;
     swap = undefined;
     instance = undefined;
