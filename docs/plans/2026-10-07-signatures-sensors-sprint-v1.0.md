@@ -1,10 +1,11 @@
 ---
 title: "Спринт S1 — сигнатуры и сенсоры, баланс пяти классов"
-status: proposed
-version: "1.0"
+status: "accepted / S0 in progress"
+version: "1.1"
 date: 2026-10-07
 tags: [sprint, pm, signatures, sensors, radar, class-balance, server-contract]
 related:
+  - docs/product/signatures-observer-v0.1.md
   - docs/plans/2026-10-07-lab-development-v1.0.md
   - docs/product/ship-fitting-gd-workspace-v4.md
   - docs/product/ship-fitting-catalog-0.2.5.md
@@ -25,6 +26,15 @@ WHAT: решение оператора от 2026-10-07 о следующем м
 документом; здесь объединены E1 и необходимые границы E0, без переноса всей архитектуры
 игры в Лабу. Планирование не является разрешением реализовывать новые правила игры.
 
+План утверждён оператором; выполнение начато с S0. Уточнение первой поставки:
+один текущий корабль и условный externally powered наблюдатель из sensor/radar presets.
+Корабль против корабля/станции — последующее расширение. Направленный IR обязателен
+уже здесь: четыре удобных ракурса, нормированная непрерывная проекция источников;
+EM всенаправленный. Исполнимые входы и актуальная область SS лежат в
+[пакете первого стенда](../product/signatures-observer-v0.1.md); spectral experiment
+пока ждёт отдельного решения оператора. Это уточнение заменяет прежнее требование
+двух полных ship state machine в первом срезе, не меняет цель баланса пяти классов.
+
 Режим будущей поставки — PRODUCT, один основной Developer, общий budget 5 независимых
 запусков: Plan Review, QA, scoped Code Review, резерв affected QA/re-review. Это новая
 работа, не продолжение исчерпанных бюджетов старых UI-задач. S0–S5 — последовательные
@@ -39,7 +49,7 @@ WHAT: решение оператора от 2026-10-07 о следующем м
 | UI 4.3, каталог 0.2.5, повторяемые шахтёрские рейсы, энергия/тепло/топливо, A/B и импорт | Нет IR/EM/CS и выбранного наблюдателя | Причинные сигнатуры своего корабля и результат конкретного наблюдения |
 | Есть фактические `exhaustW`, `radiationOutW/InW`, `loadHostW`, заряд и работа модулей | Энергетический экспорт ещё не описывает спектр/направленность сигнала | Явная карта источников → сигнатура, без повторного теплового расчёта |
 | `ModuleItem.class` ограничен Civilian/Industrial/UNKNOWN; остальных готовых физических сборок нет | Нельзя честно обещать пять серийных кораблей только сменой class label | Пять ролевых стендов; authored физические данные отдельно от сценария и статуса замыкания |
-| Текущий Worker ведёт один опыт и один ship ledger | Нет пары кораблей, событий распространения и observer view | Один Worker-опыт с двумя участниками, общей шкалой времени и ограниченным хранением |
+| Текущий Worker ведёт один опыт и один ship ledger | Нет событий распространения и observer view | Один Worker-опыт: текущий источник + пресет наблюдателя, общая шкала и ограниченное хранение |
 | U2 задаёт азимутальные контакты, radar first slice и рабочие сенсорные опоры | Не все параметры спектра, Quiet/восстановления и материалов замкнуты | S0 фиксирует достаточные входы; неполные наборы не запускаются как готовый баланс |
 
 Исходный runtime: `6238af3cea874bb8643a0c3545eb7e1e8755cc26` / PR #16;
@@ -53,11 +63,11 @@ WHAT: решение оператора от 2026-10-07 о следующем м
 
 - IR/EM/CS во время обычного рейса и отдельного парного опыта; мгновенное значение,
   min / среднее по времени / max, разрез по фазам и виновнику пика;
-- чистое пространство с заданным тепловым фоном, два корабля и аналитические fixtures
+- чистое пространство с заданным тепловым фоном, один корабль + приборный observer и аналитические fixtures
   с несколькими источниками для проверки слияния пятен;
 - выделенные IR/EM-приёмники, их matching «три в одном» и одиночный Active Radar ping;
   сопоставление размера S/M и поколения по принятому закону, без полного каталога XS–XL;
-- пять ролевых сценариев, графики, журнал причин, сравнение A/B, JSON/CSV и эталоны;
+- reference matrix пяти ролей, графики, журнал причин, сравнение A/B, JSON/CSV и эталоны;
 - фильтр наблюдателя и формат данных для обсуждения реализации на сервере.
 
 Вне среза: полная игра боя/оружия/урона, износ и ремонт E2, конфликты контрактов,
@@ -66,6 +76,11 @@ WHAT: решение оператора от 2026-10-07 о следующем м
 новые частоты snapshots и публичный игровой клиент. Контракты оставляют место для
 Photo/cooperative range sources; в этом срезе их отсутствие **не** подменяется бесплатной дальностью.
 Обнаружение входит только в новую SS-приёмку Лабы; прежняя приёмка P1–P14 не расширяется.
+
+Реальные ship-vs-ship/station, production class-specific hulls и runtime сценарии
+ухода/Combat/Quiet governor отложены после первого стенда. Ролевые намерения §4
+сохраняются как критерии развития; опубликованные diagnostic vectors не являются
+симуляцией новых корпусов и не получают ложный PASS полноценного классового баланса.
 
 ## 4. Классы: пять стратегий, а не пять множителей
 
@@ -116,9 +131,10 @@ plume, собственный экспорт генератора, H₂ coolant 
 отображение каждого потока фиксируется в S0. Нет отрицательной мощности излучения:
 standard IR видит положительный контраст, advanced IR — оба знака. Фон не вычитается дважды.
 
-Не замкнутые сегодня входы S0: отображение выхлопа и coolant plume в IR-диапазон;
-конкретная Quiet containment/source limit и условия восстановления; собственная геометрия
-и законченные C/T-параметры новых class-specific изделий. ГД/оператор согласуют
+Вход первого S0, который ещё требует решения: отображение engine/generator/H₂
+export в IR-диапазон. Геометрия первого стенда — явно reference overlay, не named hull
+TTX. Quiet containment/source limit/recovery и C/T новых class-specific изделий
+остаются входами последующего расширения, не блокерами приборного observer. ГД/оператор согласуют
 входной пакет либо явно маркированный измерительный эксперимент. Отсутствие числа
 не становится нулём, отсутствие рецепта — filler mass. Если пакет не принят,
 SS00 остаётся незакрытым и S1–S5 не получают DEV_RELEASE. Само исследование и
@@ -152,9 +168,11 @@ reference range 16 км. Pulse живёт отдельным событием: �
 расчёт распространения/наблюдений; отображение/экспорт. Конкретные серверные DTO и
 wire encoding выбираются в U2, а не закрепляются TypeScript-интерфейсами Лабы.
 
-Минимальные данные опыта: две фиксированные сборки, workload/траектория каждого,
-сенсорный пакет каждого, режимы/события по simulation time, фон, `c′`, версии модели
-и параметров. Две ship state machine живут в одном Worker с общей шкалой времени.
+Минимальные данные первого опыта: одна фиксированная сборка, её actual workload,
+пресет externally powered observer, constant измерительные R/ракурс и reference
+геометрия, режимы/события по simulation time, фон, `c′`, версии модели и параметров.
+Одна ship state machine и приборные state/queue живут в одном Worker с общей шкалой.
+Интерфейс траектории проверяется аналитически; реальный второй ship ledger отложен.
 Сценарий не мутирует каталог или активный снимок; его действия валидируются до Start.
 
 | Риск | Проверка в Лабе и выход для сервера |
@@ -178,10 +196,10 @@ wire encoding выбираются в U2, а не закрепляются TypeS
 
 | Шаг / Beads | Владелец и действия | Проверяемый выход / зависимость |
 |---|---|---|
-| S0 / `ulab-5vs.1` | PM + ГД: оформить входной signature contract; сверить источники и промежуточные статусы; определить карту IR, EM ledger, class benches и режимы; оператор принимает недостающие WHAT, Developer уточняет технические интерфейсы | SS00: достаточный versioned пакет, без скрытых defaults; до кода independent PLAN_READY этого пакета |
+| S0 / `ulab-5vs.1` | PM + ГД: входной signatures-observer-v0.1 contract; sources/status, IR spectrum/direction, EM ledger, preset observer и reference geometry; оператор решает missing WHAT, Developer уточняет interfaces | SS00: достаточный versioned пакет первого стенда, без скрытых defaults; до кода independent PLAN_READY этого пакета |
 | S1 / `ulab-5vs.2` | Developer: source ledger, causal IR/EM/CS, фиксируемые параметры, корректные countermeasures и потоковая статистика | SS01–04; компонентные unit/integration tests, no-double-count и legacy regression; после S0 |
-| S2 / `ulab-5vs.3` | Тот же Developer: observer/propagation/event queue, passive threshold/hold/merging, radar capacitor и echo lifecycle | SS05–08; аналитические fixtures и один парный headless опыт; после S1 |
-| S3 / `ulab-5vs.4` | ГД задаёт сценарии из §4; Developer добавляет пять стендов и парные серии с явной ценой тактики | SS09–11; не все корпуса серийные, статус данных виден; после S1/S2 |
+| S2 / `ulab-5vs.3` | Тот же Developer: preset observer/propagation/event queue, passive threshold/hold/merging, приборный radar capacitor и echo lifecycle | SS05–08; аналитические fixtures и headless source+instrument опыт; после S1 |
+| S3 / `ulab-5vs.4` | Developer: reference matrix пяти ролей и diagnostic source vectors из routed CSV; явно сохранить статус, не выдавать их за новые hull recipes/runtime | Документные/vector проверки SS09–11; полноценные runtime роль/Quiet/escape случаи отложены и NOT RUN; после S1/S2 |
 | S4 / `ulab-5vs.5` | Developer: встроить live/final signatures и observer controls в текущую длинную страницу, сравнение и IO; сохранить компактную адаптивную вёрстку | SS12–14; реальный browser Worker и round trip; после S2/S3 |
 | S5 / `ulab-5vs.6` | Developer: эталоны и server handoff; QA исполняет SS00–16; Reviewer проверяет только изменённые owners и named risks; PM публикует результат | SS15–16 и evidence; перенос в U2/его серверные tests — следующая отдельная работа |
 
@@ -215,18 +233,18 @@ catalog editions 0.2.0–0.2.5; миграция IO проверяется от�
 
 | AC | Expected / edge / ошибка | Метод и evidence |
 |---|---|---|
-| SS00 | Все обязательные источники/параметры имеют версии, единицы и статус; неготовая IR mapping или role construction блокирует готовый stand, а не становится 0/filler | Проверка входного пакета S0; operator decision для новых WHAT; independent PLAN_READY before DEV |
-| SS01 | IR отдельно объясняет hull/radiators/exhaust/coolant; закрытие радиатора меняет outward signal и накопленное тепло; energy export не становится IR 1:1 без принятого mapping | Source isolation fixtures: генератор OFF/ON, radiators open/closed, H₂ OFF/ON; energy accounting |
+| SS00 | Все обязательные входы первого стенда имеют версии, единицы и статус; неготовая IR mapping блокирует Start, не становится 0; reference geometry не named hull TTX; новые class construction вне первого gate | Проверка входного пакета S0; operator decision для новых WHAT; independent PLAN_READY before DEV |
+| SS01 | IR отдельно объясняет hull/radiators/exhaust/coolant и четыре ракурса; smooth Lambert projection сохраняет circular mean; hull floor не исчезает; EM изотропный; energy export не IR 1:1 без принятого mapping | Source isolation, φ0/90/180/270/360 и ±45° continuity, acceleration/braking, full-circle integral; energy accounting |
 | SS02 | EM учитывает actual stages; intentional RF не экранируется; выключенный источник не имеет активной утечки, charging/discharging даёт свой вклад | Изолированные stages, screen ON/OFF, radar pulse; residual energy не растёт из-за double count |
 | SS03 | CS зависит от geometry/aspect/deployment и RAM, не T_ship; одинаковый duplicate не даёт повторное подавление | Нос/борт 96/132 м² reference; RAM 0.25, radar reach ×0.7071; isolation не подавляет plume |
 | SS04 | Min/max ловят вычисленный экстремум, mean = integral/time отдельно по фазам; пустой интервал — «нет измерения», не 0; pulse peak не теряется в больших buckets | Один fixture с unequal dt и событием 5 мс, разные retention/chunk settings, точная статистика live/final/export |
 | SS05 | IR/EM spot появляется по detect и удерживается по hold, без free range/age/identity; близкие источники складываются; 359°/1° дают ~0°, не 180° | Headless passive fixtures, threshold crossings и schema allowlist observer export |
-| SS06 | 16 км radar reference даёт echo ~10.6667 с при c′=3000; одно echo без velocity; recharge не расходует pulse energy второй раз, пустой capacitor ждёт | Аналитический stationary target + resource ledger; на 16 км EM pulse слышен сопоставимым passive observer не позже self-disclosure criterion |
+| SS06 | 16 км radar reference даёт echo ~10.6667 с при c′=3000; одно echo без velocity; recharge не расходует pulse energy второй раз, пустой capacitor ждёт; RF self-reveal имеет отдельные energy/peak/flux | Stationary target + resource ledger; точная passive matched acquisition/range для 5 мс pulse отложена, steady Φ не подменяет её |
 | SS07 | При нескольких ping старое echo сохраняет исходный ID; signal in flight survives source OFF; для движущейся цели используется emission/reflection history | Queue fixture с interval 2 с / RTT>10 с, constant velocity и source OFF; deterministic checkpoint replay |
 | SS08 | Fresh 3 с → stale 10 с → забыто; отключение/потеря контакта не обновляет fresh; стандартный cold-negative IR не видит, advanced может видеть | Exact TTL boundary и signed contrast fixture; observer не получает true position через retained state |
-| SS09 | Industrial sustain демонстрирует реальную цену охлаждения; Civilian может сменить оснащение без получения specialist governor/скрытого range bonus | Pair within-class A/B и five-role ledger с generation/status provenance; нет заданного победителя |
-| SS10 | Sport уход оплачивается actual thrust/charge/fuel/heat; thermal derate ухудшает ускорение/торможение; Military normal→open workload не становится Quiet | Сценарий сближения и самостоятельное торможение; проверка role action/log и first limiter |
-| SS11 | Quiet имеет конечный heat/charge budget; critical safety не снимается; радиаторы не открываются молча; explicit exit запускает измеримый recovery debt | Quiet horizon, working/critical edge, explicit exit/recovery; peak+duration и причина ограничения |
+| SS09 | Первая поставка: reference matrix Industrial/Civilian и diagnostic vectors имеют исходные статусы; нет скрытого range bonus/заданного победителя | Проверка данных/provenance; полный class-specific sustained runtime баланс — последующее расширение, NOT RUN |
+| SS10 | Первая поставка: Sport/Military diagnostic references и интерпретация цены работы; не выдавать за вычисленный escape/бой или бесплатный Quiet | Vector/reference checks; actual Sport escape/Combat runtime — последующее расширение, NOT RUN |
+| SS11 | Первая поставка: Stealth diagnostic references сохраняют finite-window/долг как критерий; штатный G5 не получает позднее экранирование | Reference/status checks; новый Quiet containment/recovery runtime — последующее расширение, NOT RUN |
 | SS12 | Графики IR/EM/CS раздельны по единицам; observer и ракурс явно выбраны; события объясняют пик, acquisition/loss/stale, раскрытие и recovery | Реальный Worker Start/Pause/Step/Resume/Cancel/Reset, live/final и сохранённый результат |
 | SS13 | A/B фиксирует обе сборки, observer и model/data revisions; JSON/CSV возвращают те же метрики; неверный/unknown/partial импорт сохраняет текущий опыт | Round trip и atomic refusal; старые fitting/result fixtures открываются без пересчёта или restamp |
 | SS14 | Компактная длинная страница, навигация во время запуска, sticky результат/ограничитель; нет автоклавиатуры при slot dialog | Browser 360×780, 780×360, 820×1101, 1101×820 и 1440×900; прежние 11 responsive envelopes; LAN HTTP Start |
@@ -255,14 +273,14 @@ Role preset запускает осмысленный сценарий, а не 
 observer spot истинные значения в tooltip, CSV, DOM data attributes или журнале.
 
 Финальный пакет спринта: versioned parameter manifest, role scenario matrix,
-golden vectors (стационарная цель, движение, late echo, Quiet/recovery), causal source
+golden vectors (стационарная цель, аналитическое движение, late echo, role references), causal source
 breakdown, allowed observer payloads, persisted-state list, нерешённые численные/production
 вопросы и рекомендации ГД. Для U2 согласуются числа/спека; Lab CSV не становится вторым
 runtime SSoT — projection идёт через controlled validation ADR-0049.
 
 ## 10. Риски, сокращение, rollback и самоаудит
 
-Самый короткий полезный путь: causal signatures → passive/radar pair → пять role cases
+Самый короткий полезный путь: directional causal signatures → preset passive/radar observer → role references
 → текущий UI/экспорт. Полный каталог корпусов, Photo, поля и бой отложены. Если S0 не
 замыкается, публиковать конкретный missing-input record и варианты решения оператору;
 не заменять его недоказанными классами или очередным инфраструктурным проектом.
@@ -323,3 +341,4 @@ remote main при подготовке `9935d40c80b00992b5adcc57bf82380bc870e5b
 | Версия | Дата | Изменение |
 |---|---|---|
 | 1.0 | 2026-10-07 | План следующего модуля: пять ролевых стратегий, causal signature/sensor slice, входной data gate, SS00–16, ранние server/client границы |
+| 1.1 | 2026-10-07 | Оператор утвердил выполнение; первый стенд current ship + preset instrument, направленный IR; S0 package, production role runtime и корабль-vs-корабль позже |
