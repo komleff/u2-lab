@@ -1219,7 +1219,7 @@ body:has(.fitting-app) {
   .fitting-app .file-actions { width: auto; font-size: 10px; }
   .fitting-app .persistent-context { font-size: 10px; }
   .fitting-app .ui-controls .control-buttons { gap: 4px; }
-  .fitting-app .ui-controls .control-buttons button { padding: 6px; font-size: 11px; }
+  .fitting-app .ui-controls .control-buttons button { padding: 6px; }
 }
 
 /* Графики занимают рабочую ширину; боковые панели не уменьшают оси. */
