@@ -5,6 +5,7 @@ import { fitHull } from "../../fitting/editions";
 import {
   esc,
   num,
+  resultRate,
   groups,
   groupNames,
   roleNames,
@@ -66,7 +67,7 @@ export function shipView(
         })
         .join("")}</div>`
     : hero;
-  return `<section class="ship-hero" data-layout="flat">${hero}<aside class="hero-result"><span class="eyebrow">Добыча LAB-ORE-01</span><h2>Оснастка для следующего теста</h2><p>${selected.conditions.modelVersion===MODEL_MISSION?"Физический рейс до полного трюма: проверьте тягу, топливо, питание, охлаждение и грузовую ёмкость.":"Старый лабораторный сценарий с фиксированными фазами."}</p><p class="muted">Номинал не предсказывает фактическую добычу. ${selected.conditions.modelVersion===MODEL_MISSION?"Перелёт использует действительную тягу, массу, топливо и тепло; V_FA — лабораторная гипотеза.":"Заданные импульсы тяги не рассчитывают расстояние и ETA."}</p><div class="metric-focus">${num(r?.metrics.mission ? r.metrics.mission.deliveredScuPerHour : r?.metrics.scuPerHour, "SCU/ч")}</div><p>${r ? `${previous ? "Предыдущий тест · run " + esc(r.runId) + (stale ? " · устарело" : "") : stale ? "Устаревший результат" : "Результат"} · ревизия ${r.spec.resolvedShip.fit.fitRevision} · ${num(r.metrics.durationSeconds, "с")}` : "Измерения появятся после первого теста"}</p><p class="warning">${v.readiness.resourceWarnings.map((x) => esc(x.message)).join(" · ")}</p></aside></section><details class="ui-panel" id="fit-ring"><summary>Схема слотов · дополнительный обзор</summary>${layout.ring ? ring : "<p>Кольцо не помещается с безопасными интервалами. Все слоты доступны в списке ниже.</p>"}</details><div class="systems" id="fit-slots">${groups
+  return `<section class="ship-hero" data-layout="flat">${hero}<aside class="hero-result"><span class="eyebrow">Добыча LAB-ORE-01</span><h2>Оснастка для следующего теста</h2><p>${selected.conditions.modelVersion===MODEL_MISSION?"Физический рейс до полного трюма: проверьте тягу, топливо, питание, охлаждение и грузовую ёмкость.":"Старый лабораторный сценарий с фиксированными фазами."}</p><p class="muted">Номинал не предсказывает фактическую добычу. ${selected.conditions.modelVersion===MODEL_MISSION?"Перелёт использует действительную тягу, массу, топливо и тепло; V_FA — лабораторная гипотеза.":"Заданные импульсы тяги не рассчитывают расстояние и ETA."}</p><div class="metric-focus">${resultRate(r)}</div><p>${r ? `${previous ? "Предыдущий тест · run " + esc(r.runId) + (stale ? " · устарело" : "") : stale ? "Устаревший результат" : "Результат"} · ревизия ${r.spec.resolvedShip.fit.fitRevision} · ${num(r.metrics.durationSeconds, "с")}` : "Измерения появятся после первого теста"}</p><p class="warning">${v.readiness.resourceWarnings.map((x) => esc(x.message)).join(" · ")}</p></aside></section><details class="ui-panel" id="fit-ring"><summary>Схема слотов · дополнительный обзор</summary>${layout.ring ? ring : "<p>Кольцо не помещается с безопасными интервалами. Все слоты доступны в списке ниже.</p>"}</details><div class="systems" id="fit-slots">${groups
     .map((cat) => {
       const slots = h.slots.filter((x) => x.category === cat),
         builtins = h.builtins.filter((x) => x.item.category === cat);

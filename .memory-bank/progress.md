@@ -1,3 +1,14 @@
+# Operator result-dock fix, 2026-10-07
+
+ulab-p2w, PR13/fix/catalog-dialog-focus от7eef0c0. Accepted WHAT0.7:
+нижняя панель дублирует SCU/ч текущего опыта; paused/final/stale/import/reset
+и active-owner понятны, старое число не выдаётся за новый run. WF03–06/12–14,
+MC04; HOW0.1 прежний, no physics/runner/workspace/IO. Один existing Developer,
+короткий actual Worker lifecycle и нормальный guard, затем experimental4196/Pages.
+Семейства и menu-only уже LIVE7eef, сохраняются; старые архивы/4189 не трогать.
+PM_ERR/DOC_PR аудит после трёх operator UI-итераций выполнен, counter0/3;
+UI independent budget5/5/final+1 pending прежний, новых verifier нет.
+
 # Operator sort-menu fix каталога, 2026-10-07
 
 ulab-p2w/MC03, один прежний Developer, PR13/fix/catalog-dialog-focus от55279fd.

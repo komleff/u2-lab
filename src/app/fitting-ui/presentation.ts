@@ -43,6 +43,8 @@ export const num = (x: number | null | undefined, unit = "", digits = 2) =>
     ? "—"
     : x.toLocaleString("ru-RU", { maximumFractionDigits: digits }) +
       (unit ? " " + unit : "");
+export const resultRate = (r?: RunResultV2) =>
+  num(r?.metrics.mission ? r.metrics.mission.deliveredScuPerHour : r?.metrics.scuPerHour, "SCU/ч");
 export const mass = (m: ModuleItem) =>
   m.materials.reduce((n, b) => n + b.massKg, 0);
 export const heatCapacity = (m: ModuleItem) =>
