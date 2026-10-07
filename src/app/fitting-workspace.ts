@@ -131,12 +131,15 @@ export class FittingWorkspace {
   applyPreset(id:string) {
     const mode=this.selected().cruiseMultiplier;
     const validation=this.applyFit(getPresetFit(id,this.catalog.version));
-    if(validation.valid && (this.selected().conditions.modelVersion!==MODEL_MISSION || mode===undefined)) this.setConditions({...this.selected().conditions,selectedWorkGroup:undefined});
-    if(validation.valid && this.selected().conditions.modelVersion===MODEL_MISSION && mode!==undefined) {
-      const defaults=freshMissionConditions(this.selected().fit,this.catalog);
-      const multiplier=mode;
-      this.setConditions({...this.selected().conditions,selectedWorkGroup:undefined,referenceVfaMS:defaults.referenceVfaMS,cruiseSpeedMS:multiplier===null?null:multiplier*defaults.referenceVfaMS!});
-      this.selected().cruiseMultiplier=multiplier;
+    if(validation.valid) {
+      const conditions={...this.selected().conditions,selectedWorkGroup:undefined};
+      if(conditions.modelVersion===MODEL_MISSION && mode!==undefined) {
+        const defaults=freshMissionConditions(this.selected().fit,this.catalog);
+        conditions.referenceVfaMS=defaults.referenceVfaMS;
+        conditions.cruiseSpeedMS=mode===null?null:mode*defaults.referenceVfaMS!;
+      }
+      // Замена сборки не является правкой checkbox: imported fuel-only undefined сохраняется.
+      this.selected().conditions=structuredClone(conditions);
     }
     return validation;
   }
