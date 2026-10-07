@@ -177,7 +177,7 @@ describe('TD05 thermal graph',()=>{
   const f=thermalFrontiers(r);expect(f.limits.find(l=>l.id==='critical-low')?.value).toBe(210);expect(f.limits.find(l=>l.id==='work-low')?.value).toBe(275);expect(f.limits.find(l=>l.id==='work-high')?.value).toBe(500);expect(f.limits.find(l=>l.id==='critical-high')?.value).toBe(550);
  });
  it('empty old replay has no invented bands; measured 200K remains inside plot and 500/550 labels separate',()=>{
-  const r=fittingResult(observed(200));const svg=overview(r),ys=[...svg.matchAll(/<text fill="#[^"]+" x="80" y="([\d.]+)"/g)].map(m=>Number(m[1]));expect(ys.length).toBe(4);expect(Math.abs(ys[0]-ys[1])).toBeGreaterThanOrEqual(18);expect(svg).not.toMatch(/height="-/);
+  const r=fittingResult(observed(200));const svg=overview(r),ys=[...svg.matchAll(/data-boundary-label="[^"]+"[^>]+y="([\d.]+)"/g)].map(m=>Number(m[1]));expect(ys.length).toBe(4);expect(Math.abs(ys[0]-ys[1])).toBeGreaterThanOrEqual(18);expect(svg).not.toMatch(/height="-/);
   r.channels=[];r.buckets=[];expect(overview(r)).toContain('Холод: рабочая от');for(const i of r.spec.resolvedShip.instances)i.enabled=false;expect(overview(r)).toContain('Нет включённых операций');expect(overview(r)).not.toContain('data-thermal-band=');
  });
 });

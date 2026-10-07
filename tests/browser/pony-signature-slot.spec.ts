@@ -31,8 +31,8 @@ for (const width of [1440, 390]) test(`P05 native Pony new/old edition mounting,
     expect(result.spec).toEqual(spec); expect(spec.resolvedShip.fit).toEqual(fit); expect(result.state.timeSeconds).toBe(5.25); expect(result.metrics.usefulWork).toBeGreaterThan(0);
     return { fit, spec, result };
   };
-  await page.goto("/"); await expect(page.locator("#fit-preset")).toBeVisible(); await page.locator("#fit-preset").selectOption("pony:2"); await expand();
-  await expect(page.locator("#slot-signature-2")).toHaveCount(0); await expect(page.locator("#fit-edition")).toContainText("0.2.3"); await openTimedDraft(page,getPresetFit("pony:2"));
+  await page.goto("/"); await expect(page.locator("#fit-preset")).toBeVisible(); await page.locator("#fit-preset").selectOption("pony:1"); await expand();
+  await expect(page.locator("#slot-signature-2")).toHaveCount(0); await expect(page.locator("#fit-edition")).toContainText("0.2.4"); await openTimedDraft(page,getPresetFit("pony:2"));
   await replace("signature-1", "radiator-active-S"); const current = await shortRun(); expect(current.fit.catalogVersion).toBe("ship-fitting-0.2.3");
   for (const doc of [current.fit, current.spec, current.result]) { await page.reload(); await open(doc); await expand(); await expect(page.locator("#slot-signature-2")).toHaveCount(0); await expect(page.locator("#fit-edition")).toContainText("0.2.3"); }
   await details(); expect(await exported("#fit-export-result")).toEqual(current.result);
@@ -47,7 +47,7 @@ for (const width of [1440, 390]) test(`P05 native Pony new/old edition mounting,
   await expect(page.locator("#fit-pause")).toBeEnabled();
   await action("#fit-pause"); await expect(page.locator("#fit-status")).toContainText("Пауза"); await action("#fit-freeze"); await expect(page.locator(".ab-side-a")).toContainText("Снимок A");
   const frozen = await page.locator(".ab-side-a").innerHTML(), active = await exported("#fit-export-run");
-  await action('[data-variant="B"][aria-pressed]'); await page.locator("#fit-preset").selectOption("pony:3"); await expand(); await expect(page.locator("#slot-signature-2")).toHaveCount(0);
+  await action('[data-variant="B"][aria-pressed]'); await page.locator("#fit-preset").selectOption("pony:1"); await expand(); await expect(page.locator("#slot-signature-2")).toHaveCount(0);
   expect(await exported("#fit-export-run")).toEqual(active); expect(await page.locator(".ab-side-a").innerHTML()).toBe(frozen);
   await action("#fit-cancel"); await action("#cancel-yes"); await expect(page.locator("#fit-active-owner")).toContainText("активного теста нет");
   const before = await exported("#fit-save"), falseClaim = structuredClone(previous.fit); falseClaim.catalogVersion = "ship-fitting-0.2.2"; await open(falseClaim);

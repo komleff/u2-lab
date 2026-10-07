@@ -1,7 +1,7 @@
 ---
 title: "Поставка каталога 0.2.4 — план и приёмка"
 status: proposed / awaiting Plan Review
-version: "0.3"
+version: "0.4"
 date: 2026-10-07
 ---
 
@@ -47,7 +47,7 @@ presets, длинные подписи порогов. Нужна новая р�
 | CD02 | Малые меню дают по одному default, ручной multilaser остаётся; новым прочим presets не ставится buffer, file radiators сохранены | UI выбор + assignments, старые count APIs |
 | CD03 | Пять переименований + отдельный E/M Мир, численные параметры производного профиля совпадают; названия UI согласованы | Catalog data, реальное применение Мир/Титан |
 | CD04 | .4 наследует M items/Etypedutility/one-slotPony; cryotank+H₂gen+cooler на E valid/compile; топливные propulsion запреты прежние | Аffected validator/resolver tests и одна fitting цепочка |
-| CD05 | Fresh per-hull reference275/200/175/150/200/240/240 и ×2; V_FA edit сохраняет множитель; Max/custom literal понятны | UI свежий выбор/правка и compiled spec |
+| CD05 | Fresh per-hull reference250/225/200/175/225/225/225 и ×2; V_FA edit сохраняет множитель; Max/custom literal понятны | UI свежий выбор/правка и compiled spec |
 | CD06 | Старые .0–.3 fits/presets, imported custom/MAX conditions, активные/frozen/results не меняются; A/B ownership сохранён | Existing IO/workspace regression + bounded new cases; kernel blob equality |
 | CD07 | Пороговые числа K слева от оси без смысловых префиксов/обрезания/перекрытия, цвета/полосы/значения прежние | Styled actual glyph bounds1440/1024/390; overview/detail/empty/disjoint/replay |
 | CD08 | Header/footer текущей версии без Legacy-ссылки; короткий Worker run/results/dock и публичная версия доступны без query; старые owned servers остановлены после поставки | Native Start/Pause/final, HTTP asset hashes, process argv inventory |

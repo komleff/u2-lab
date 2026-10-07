@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
-import { loadCandidateCatalog } from '../../src/fitting/catalog';
+import { getPresetFit, loadCandidateCatalog } from '../../src/fitting/catalog';
 
 test('MC03 catalog opens without editable focus and intentional search preserves mounting and return focus', async ({ browser }) => {
   for (const width of [1440, 1024, 390]) {
@@ -23,7 +23,7 @@ test('MC03 catalog opens without editable focus and intentional search preserves
         return readFile((await (await download).path())!);
       };
       await p.goto('/');
-      await p.locator('#fit-preset').selectOption('pony:1');
+      await p.locator('#fit-import').setInputFiles({name:'manual-pony-two.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(getPresetFit('pony:2','ship-fitting-0.2.3')))});
       const before = await save(), revision = await p.locator('#fit-next-revision').textContent();
       await p.evaluate(() => {
         const page = window as typeof window & { catalogEditableFocus: string[] };
@@ -90,7 +90,7 @@ test('MC03 tablet catalog families follow the slot, retain real refusals and rep
     const act = async (selector: string) => { const x = p.locator(selector); await x.scrollIntoViewIfNeeded(); await x.tap(); };
     const save = async () => { await act('#fit-save'); const download = p.waitForEvent('download'); await act('#fit-save-confirm'); return readFile((await (await download).path())!); };
     await p.goto('/');
-    await p.locator('#fit-preset').selectOption('pony:2');
+    await p.locator('#fit-import').setInputFiles({name:'manual-pony-two.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(getPresetFit('pony:2','ship-fitting-0.2.3')))});
     const before = await save(), original = JSON.parse(before.toString()), revision = await p.locator('#fit-next-revision').textContent();
     const items = { ...loadCandidateCatalog().items, ...original.localVariants };
     const familyOptions = () => p.locator('#swap-family option').evaluateAll(ns => ns.map(n => (n as HTMLOptionElement).value).sort());

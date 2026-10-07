@@ -285,7 +285,7 @@ export function validateFit(f: ShipFit, c: CandidateCatalog): FitValidation {
       bad("assignments." + slotId, "INACTIVE_SIZE", "XXL — неактивный резерв");
     if (
       ["E", "A"].includes(h.architecture) &&
-      ((m.family === "tank" || m.family === "generator") && !(h.architecture === "E" && f.catalogVersion === "ship-fitting-0.2.3") ||
+      ((m.family === "tank" || m.family === "generator") && !(h.architecture === "E" && ["ship-fitting-0.2.3","ship-fitting-0.2.4"].includes(f.catalogVersion)) ||
         (m.propulsionType && m.propulsionType !== "electric"))
     )
       bad(

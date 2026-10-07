@@ -6,7 +6,7 @@ test("v4 continuous research page keeps sections and navigation reachable during
   await expect(page.locator("#fit-preset")).toBeVisible();
   await expect(page.locator("#fit-duration")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Сравнение вариантов", exact: true })).toBeVisible();
-  await page.locator("#fit-preset").selectOption("pony:2");
+  await page.locator("#fit-preset").selectOption("pony:1");
   await page.locator("#fit-duration").fill("180");
   await page.locator("#fit-speed").selectOption("1");
   await page.locator("#fit-start").click();
@@ -57,7 +57,7 @@ for (const width of [1440, 820, 390]) test(`v4 whole native research chain at ${
   expect(await page.evaluate(() => ({ html: getComputedStyle(document.documentElement).overscrollBehaviorY, body: getComputedStyle(document.body).overscrollBehaviorY }))).toEqual({ html: "none", body: "none" });
   await page.mouse.wheel(0, 600);
   await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(0);
-  await page.locator("#fit-preset").selectOption("pony:3");
+  await openTimedDraft(page,getPresetFit("pony:3"));
   const identityBeforeSave = await page.locator(".persistent-context").textContent();
   const downloads: string[] = []; page.on("download", d => downloads.push(d.suggestedFilename()));
   await action("#fit-save");
@@ -153,7 +153,7 @@ test("operator slot groups each occupy a separately findable full-width row at d
 test("WF04/06 genuine 90ms desktop payload click survives advancing Worker renders", async ({ page }, testInfo) => {
   await page.goto("/"); await openTimedDraft(page);
   await expect(page.locator("#fit-preset")).toBeVisible();
-  await page.locator("#fit-preset").selectOption("pony:2");
+  await page.locator("#fit-preset").selectOption("pony:1");
   await page.locator("#fit-duration").fill("180");
   await page.locator("#fit-speed").selectOption("1");
   const target = page.locator("#slot-payload-1");
@@ -189,7 +189,7 @@ test("WF04/06 genuine 90ms desktop payload click survives advancing Worker rende
 
 test("WF04/06 all slot groups, optional ring and builtin controls retain nodes and actions during a live test", async ({ page }) => {
   await page.goto("/"); await openTimedDraft(page); await expect(page.locator("#fit-preset")).toBeVisible();
-  await page.locator("#fit-preset").selectOption("pony:2"); await page.locator("#fit-duration").fill("180");
+  await page.locator("#fit-preset").selectOption("pony:1"); await page.locator("#fit-duration").fill("180");
   await page.locator("#fit-speed").selectOption("1"); await page.locator("#fit-start").click();
   await expect(page.locator("#fit-time")).not.toHaveText("0 с / 180 с");
   await page.evaluate(() => { (window as any).slotOwners = [...document.querySelectorAll('#workspace-fitting button[data-slot], #workspace-fitting button[data-instance]')]; });

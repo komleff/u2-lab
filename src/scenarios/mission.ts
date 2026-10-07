@@ -1,10 +1,16 @@
 import { makeMiningRun, compareMiningConditions, type MiningConditions } from "./fitting";
 import { validateRunSpecV2 } from "../model/v2/step";
 import { MODEL_MISSION, MODEL_V2, type RunSpecV2, type MissionConfig } from "../model/v2/types";
+import {fitHull} from "../fitting/editions";
 import type { ShipFit, CandidateCatalog } from "../fitting/types";
 export type MissionConditions = MiningConditions & Partial<Omit<MissionConfig,"cPrimeMS">>;
 export type WorkspaceConditions = MissionConditions & { modelVersion?: typeof MODEL_MISSION | typeof MODEL_V2 };
 export const DEFAULT_MISSION_CONDITIONS: WorkspaceConditions = {modelVersion:MODEL_MISSION,durationSeconds:3600,stepSeconds:.1,temperatureK:300,effectiveBackgroundK:100,distanceM:100000,cruiseSpeedMS:null,referenceVfaMS:500,stopPolicy:"full-hold",approachSeconds:10,serviceSeconds:10,maneuverDuty:.1,stationReplenish:true,duty:1,densityKgM3:1500,returnFraction:.35,targetM3:10000,repeat:true};
+// Свежая страница использует профиль корпуса; прежний API и literal replay не меняются.
+export function freshMissionConditions(fit:ShipFit,catalog:CandidateCatalog):WorkspaceConditions {
+ const referenceVfaMS=fitHull(fit,catalog)?.referenceVfaMS??DEFAULT_MISSION_CONDITIONS.referenceVfaMS!;
+ return {...structuredClone(DEFAULT_MISSION_CONDITIONS),referenceVfaMS,cruiseSpeedMS:2*referenceVfaMS};
+}
 // Readback сохраняет own undefined для старого fuel-only; свежий builder задаёт ON.
 export function missionConfig(x:MissionConditions):MissionConfig { return {distanceM:x.distanceM??100000,cruiseSpeedMS:x.cruiseSpeedMS===undefined?null:x.cruiseSpeedMS,referenceVfaMS:x.referenceVfaMS??500,cPrimeMS:3000,stopPolicy:x.stopPolicy??"full-hold",approachSeconds:x.approachSeconds??10,serviceSeconds:x.serviceSeconds??10,maneuverDuty:x.maneuverDuty??.1,...(Object.hasOwn(x,"stationReplenish")?(x.stationReplenish===undefined?{}:{stationReplenish:x.stationReplenish}):{stationReplenish:true})}; }
 // Условия редактируются и у неполного черновика; готовность проверяется отдельно перед запуском.

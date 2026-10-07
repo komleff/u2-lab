@@ -66,6 +66,7 @@ export type HullProfile = {
   slots: Slot[];
   builtins: Builtin[];
   materials: Material[];
+  referenceVfaMS?: number;
   hullPowerW: number;
   hullRadiationM2: number;
   origins: Record<string, FieldOrigin>;
@@ -131,7 +132,7 @@ export type FitValidation = {
   valid: boolean;
 };
 export type CandidateCatalog = {
-  version: "ship-fitting-0.2.0" | "ship-fitting-0.2.1" | "ship-fitting-0.2.2" | "ship-fitting-0.2.3";
+  version: "ship-fitting-0.2.0" | "ship-fitting-0.2.1" | "ship-fitting-0.2.2" | "ship-fitting-0.2.3" | "ship-fitting-0.2.4";
   hulls: HullProfile[];
   items: Record<string, ModuleItem>;
 };

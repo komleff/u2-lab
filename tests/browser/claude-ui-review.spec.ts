@@ -148,11 +148,11 @@ for (const width of [1440, 1024, 390]) test(`result dock real mission zero/live/
   };
   await page.goto("/");
   await expect(page.locator("#fit-dock-rate")).toHaveText("—");
-  await page.locator("#fit-duration").fill("6");
+  await page.locator("#fit-duration").fill("60");
   await page.locator("#fit-distance").fill("0"); await page.locator("#fit-approach").fill("0");
   await page.locator("#fit-service").fill("2"); await page.locator("#fit-target").fill(".001");
   await page.locator("#fit-stop-policy").selectOption("first-stop"); await page.locator("#fit-speed").selectOption("1");
-  await action("#fit-start"); await expect(page.locator("#fit-time")).not.toHaveText("0 с / 6 с");
+  await action("#fit-start"); await expect(page.locator("#fit-time")).not.toHaveText("0 с / 60 с");
   await expect(page.locator("#fit-dock-rate")).toHaveText("0 SCU/ч");
   await expect(page.locator("#fit-dock-result-context")).toContainText("Выполняется");
   await action("#fit-pause"); await expect(page.locator("#fit-status")).toContainText("Пауза");

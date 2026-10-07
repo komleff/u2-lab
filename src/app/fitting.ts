@@ -6,7 +6,7 @@ import type {
 } from "../fitting/types";
 import { MODEL_MISSION, type RunSpecV2 } from "../model/v2/types";
 import type { RunResultV2 } from "../runner/run";
-import { DEFAULT_MISSION_CONDITIONS } from "../scenarios/mission";
+import { freshMissionConditions } from "../scenarios/mission";
 import { getPresetFit } from "../fitting/catalog";
 import { fitHull } from "../fitting/editions";
 import { validateFit, installedInstances } from "../fitting/validate";
@@ -38,7 +38,7 @@ export function mountFitting(
   catalog: CandidateCatalog,
   onRun: (s: RunSpecV2) => void,
 ): FittingController {
-  const w = new FittingWorkspace(getPresetFit("sputnik"), catalog, DEFAULT_MISSION_CONDITIONS),
+  const w = new FittingWorkspace(getPresetFit("sputnik",catalog.version), catalog, freshMissionConditions(getPresetFit("sputnik",catalog.version),catalog),2),
     worker = new Worker(new URL("../runner/worker.ts", import.meta.url), {
       type: "module",
     });
@@ -198,7 +198,7 @@ export function mountFitting(
       numericalField = Object.keys(item.numerics).find(k => item.origins["numerics." + k]?.unit) ?? "";
     updateDom(
       root,
-      `<header class="ui-header"><div class="ui-brand"><span>U2</span><strong>Рабочее пространство ГД</strong></div><nav aria-label="Разделы"><a href="#workspace-fitting">Оснастка</a><a href="#workspace-conditions">Условия</a><a href="#workspace-charts">Графики</a><a href="#workspace-compare">Сравнение</a></nav><div class="file-actions"><button id="fit-save">Сохранить сборку</button><label class="ui-file">Импорт JSON<input id="fit-import" type="file" accept=".json"></label><a href="?mode=legacy">Legacy v1</a></div><p class="persistent-context">${esc(catalog.hulls.find(h => h.id === fit.hullId)?.label)} · вариант ${esc(sel.name)} · черновик ${fit.fitRevision}${active ? " · активный: " + esc(active.variantName) + " / " + esc(active.spec.resolvedShip.hull.label) + " / ревизия " + active.fitRevision : " · активного теста нет"}${r ? " · измерено: " + esc(r.spec.resolvedShip.hull.label) + " / ревизия " + r.spec.resolvedShip.fit.fitRevision : " · текущие измерения отсутствуют"}</p></header><section class="fit-f1" aria-label="Итог сборки"><div><span class="eyebrow">Комплектность</span><strong id="fit-readiness">${
+      `<header class="ui-header"><div class="ui-brand"><span>U2</span><strong>Рабочее пространство ГД</strong></div><nav aria-label="Разделы"><a href="#workspace-fitting">Оснастка</a><a href="#workspace-conditions">Условия</a><a href="#workspace-charts">Графики</a><a href="#workspace-compare">Сравнение</a></nav><div class="file-actions"><button id="fit-save">Сохранить сборку</button><label class="ui-file">Импорт JSON<input id="fit-import" type="file" accept=".json"></label><span class="muted">Ship Fitting v2.3 · UI v4.2</span></div><p class="persistent-context">${esc(fitHull(fit,catalog)?.label)} · вариант ${esc(sel.name)} · черновик ${fit.fitRevision}${active ? " · активный: " + esc(active.variantName) + " / " + esc(active.spec.resolvedShip.hull.label) + " / ревизия " + active.fitRevision : " · активного теста нет"}${r ? " · измерено: " + esc(r.spec.resolvedShip.hull.label) + " / ревизия " + r.spec.resolvedShip.fit.fitRevision : " · текущие измерения отсутствуют"}</p></header><section class="fit-f1" aria-label="Итог сборки"><div><span class="eyebrow">Комплектность</span><strong id="fit-readiness">${
         v.readiness.canRun
           ? "Готова · монтаж совместим" +
             (v.readiness.resourceWarnings.length
@@ -238,7 +238,7 @@ export function mountFitting(
         )
         .join(
           "",
-        )}</select></label></div><p class="control-reason"><span id="fit-dock-result-context" data-run-id="${esc(active?.runId ?? r?.runId ?? "")}">${esc(dockContext)}</span>${active ? "" : !v.readiness.canRun ? " · Запуск недоступен: " + esc(v.readiness.missing.join(", ")) : !nextRun.ok ? " · Запуск недоступен: " + esc(nextRun.errors.map(e=>e.path+": "+e.message).join(" · ")) : " · Следующий запуск: выбранный черновик."}</p></div><footer>U2 Ship Fitting v2.2 · интерфейс v4.1 · каталог ${esc(catalog.version.replace("ship-fitting-", ""))} · модель ${(active?.spec ?? r?.spec)?.modelVersion ?? sel.conditions.modelVersion ?? "ship-fitting-ledger-0.2"} · лабораторные ТТХ · thermal diagnostics v0.1 · новые расчёты: thermal controls v0.1, H₂ OFF ≤300 K</footer><dialog id="ui-dialog" aria-labelledby="${swap ? "swap-title" : "dialog-title"}"></dialog>`,
+        )}</select></label></div><p class="control-reason"><span id="fit-dock-result-context" data-run-id="${esc(active?.runId ?? r?.runId ?? "")}">${esc(dockContext)}</span>${active ? "" : !v.readiness.canRun ? " · Запуск недоступен: " + esc(v.readiness.missing.join(", ")) : !nextRun.ok ? " · Запуск недоступен: " + esc(nextRun.errors.map(e=>e.path+": "+e.message).join(" · ")) : " · Следующий запуск: выбранный черновик."}</p></div><footer>U2 Ship Fitting v2.3 · интерфейс v4.2 · каталог ${esc(catalog.version.replace("ship-fitting-", ""))} · модель ${(active?.spec ?? r?.spec)?.modelVersion ?? sel.conditions.modelVersion ?? "ship-fitting-ledger-0.2"} · лабораторные ТТХ · thermal diagnostics v0.1 · новые расчёты: thermal controls v0.1, H₂ OFF ≤300 K</footer><dialog id="ui-dialog" aria-labelledby="${swap ? "swap-title" : "dialog-title"}"></dialog>`,
     );
     for (const id of openDetails)
       el<HTMLDetailsElement>(id) && (el<HTMLDetailsElement>(id)!.open = true);
@@ -300,7 +300,7 @@ export function mountFitting(
         apply(next);
       };
     const preset = el<HTMLSelectElement>("fit-preset");
-    if (preset) preset.onchange = () => apply(getPresetFit(preset.value));
+    if (preset) preset.onchange = () => { const v=w.applyPreset(preset.value); error=v.valid?"":v.issues.map(i=>i.message).join("\n"); render(); };
     for (const x of root.querySelectorAll<HTMLInputElement>("[data-condition]"))
       x.oninput = () => {
         const valid = w.setConditions({ ...w.getSelected().conditions, [x.dataset.condition!]: x.valueAsNumber * Number(x.dataset.multiplier ?? 1) });
@@ -338,7 +338,7 @@ export function mountFitting(
     const stop = el<HTMLSelectElement>("fit-stop-policy");
     if (stop) stop.onchange = () => { w.setConditions({...w.getSelected().conditions,stopPolicy:stop.value as "full-hold"|"first-stop"}); render(); };
     const cruise = el<HTMLSelectElement>("fit-cruise");
-    if (cruise) cruise.onchange = () => { w.setConditions({...w.getSelected().conditions,cruiseSpeedMS:cruise.value==="max"?null:Number(cruise.value)}); render(); };
+    if (cruise) cruise.onchange = () => { w.setCruiseMultiplier(cruise.value==="max"?null:Number(cruise.value)/(w.getSelected().conditions.referenceVfaMS??500)); render(); };
     const repeat = el<HTMLInputElement>("fit-repeat");
     if (repeat) repeat.onchange = () => {
       w.setConditions({ ...w.getSelected().conditions, repeat: repeat.checked }); render();

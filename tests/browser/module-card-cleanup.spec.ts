@@ -10,7 +10,9 @@ for (const width of [1440,390]) test(`MC01–04 module information preserves sel
   const p=await context.newPage(),errors:string[]=[],act=async(selector:string)=>{const x=p.locator(selector);await x.scrollIntoViewIfNeeded();width===390?await x.tap():await x.click();};
   p.on('pageerror',e=>errors.push(e.message));
   const save=async()=>{const wait=p.waitForEvent('download');await act('#fit-save');await act('#fit-save-confirm');return readFile((await (await wait).path())!);};
-  await p.goto('/');await openTimedDraft(p);await p.locator('#fit-preset').selectOption('pony:1');
+  await p.goto('/');await openTimedDraft(p,getPresetFit('pony:1'));
+  const incomplete=getPresetFit('pony:1'),missing=incomplete.assignments.march;delete incomplete.assignments.march;delete incomplete.instances[missing];
+  await p.locator('#fit-import').setInputFiles({name:'incomplete-pony.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(incomplete))});
   const before=await save(),revision=await p.locator('#fit-next-revision').textContent(),refusal=await p.locator('.control-reason').textContent();
   await expect(p.locator('#fit-start')).toBeDisabled();
   await act('#slot-payload-1');await act('[data-candidate="cargo-bulk-S"]');
@@ -43,7 +45,7 @@ for (const width of [1440,390]) test(`MC01–04 module information preserves sel
    await p.locator(selector).focus();await act(selector);await p.keyboard.press('Escape');await expect(p.getByRole('dialog')).not.toBeVisible();await expect(p.locator(selector)).toBeFocused();expect(errors,`${selector}: render/Escape`).toEqual([]);expect(await save()).toEqual(afterBytes);
    await expect(p.locator('#fit-next-revision')).toHaveText(mountedRevision!);
   }
-  await expect(p.locator('footer')).toContainText('интерфейс v4.1');
+  await expect(p.locator('footer')).toContainText('интерфейс v4.2');
   expect(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   expect(errors).toEqual([]);
  }finally{await context.close();}
