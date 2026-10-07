@@ -4,10 +4,10 @@
   "thermalDiagnostics": "0.1",
   "thermalControls": "0.1",
   "status": "experimental",
-  "runtimeCommit": "61b009ba3694bc2e135857f9c8731b3346d45980",
-  "sourceCommit": "61b009ba3694bc2e135857f9c8731b3346d45980",
-  "sourceFingerprint": "b014fd81eabecf9a65441ef69a38fc2e3526c598bd8e687cf0aaf880966d1343",
-  "buildFingerprint": "bd38cf63d24561aa10fb82a0479dc2a4cf8fce04572f3b3ae166154d147b8ba0",
+  "runtimeCommit": "650007bcaf87df9fb3f74d0f71fb7f4bdf90af12",
+  "sourceCommit": "650007bcaf87df9fb3f74d0f71fb7f4bdf90af12",
+  "sourceFingerprint": "2e3246d28435e1b5bf23a60fb255fdc4b3a1639fe637bcd9d8096b6989bda61e",
+  "buildFingerprint": "3dca42807445315811fd40b731cce4d41c3f65ba04f166182dbbf16ae6f9a03d",
   "legacyV1": "./legacy-v1/",
   "previousThermal": "./thermal-v0.1/",
   "catalogFocus": "manual-search",
@@ -18,5 +18,6 @@
   "shipFittingVersion": "2.3",
   "interfaceVersion": "4.3",
   "defaultCruise": "2xV_FA",
-  "defaultFits": "operator-json-20261007"
+  "defaultFits": "operator-json-20261007",
+  "brandTitle": "GD LAB"
 }
