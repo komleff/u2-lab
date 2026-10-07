@@ -2,6 +2,8 @@
 
 | Документ | Статус | Область |
 |---|---|---|
+| [Каталог 0.2.5: средние сборки](product/ship-fitting-catalog-0.2.5.md) | accepted / implementation authorized | Мир U/H₂, Волна E/builtins, M 2 lasers + bulk192; historical .0–.4 unchanged |
+| [План каталога 0.2.5](plans/2026-10-07-fitting-catalog-0.2.5.md) | proposed / awaiting Plan Review | ulab-jc1, MD01–07, scoped PRODUCT |
 | [Каталог0.2.4 и базовые корабли](product/ship-fitting-catalog-0.2.4.md) | accepted / implementation authorized | JSON оператора, имена, Мир, V_FA, свежие ×2 условия; старые опыты сохраняются |
 | [План каталога0.2.4](plans/2026-10-07-fitting-catalog-0.2.4.md) | proposed / awaiting Plan Review | ulab-9kh, CD01–08, один Developer, scope отдельно от открытого UI closure |
 | [Продуктовый контракт](product/power-heat-lab-v0.1.md) | accepted scope / structured contract | WHAT из решений оператора |
