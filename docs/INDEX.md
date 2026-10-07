@@ -5,6 +5,7 @@
 | [План развития Лабы v1.0](plans/2026-10-07-lab-development-v1.0.md) | active / roadmap | Серверная спецификация и параметры: архитектурные границы, сигнатуры/сенсоры, износ, перевозки, поля, роли и размеры; эргономика и эталонные опыты |
 | [Спринт S1: сигнатуры и сенсоры](plans/2026-10-07-signatures-sensors-sprint-v1.0.md) | accepted / v1.1, S0 in progress | Current ship + preset observer, directional IR/isotropic EM; пять ролевых references; runtime ожидает spectral decision и executable PLAN_READY |
 | [Первый стенд: входной пакет](product/signatures-observer-v0.1.md) | proposed / spectral experiment pending | Preset S/M sensors/radar, reference geometry, actual-stage EM ledger, directional sources, IO/UI/SS; не канонизирует missing spectrum/новые class recipes |
+| [Задача ГД: IR выхлопа и H₂](handoffs/2026-10-07-ir-source-model-gd.md) | open / отдельная GD-сессия | PG-SS-IR, Beads ulab-5vs.7; правило, параметры, роль направления, численные случаи и возвращение принятого source в S0 |
 | [Каталог 0.2.5: средние сборки](product/ship-fitting-catalog-0.2.5.md) | accepted / implementation authorized | Волна H/builtin cryotank, Мир D/E, Ермак/Титан D/H/E, M 2 lasers + bulk192; old .0–.4 unchanged |
 | [План каталога 0.2.5](plans/2026-10-07-fitting-catalog-0.2.5.md) | proposed / awaiting Plan Review | ulab-jc1, MD01–07, scoped PRODUCT |
 | [Каталог0.2.4 и базовые корабли](product/ship-fitting-catalog-0.2.4.md) | accepted / implementation authorized | JSON оператора, имена, Мир, V_FA, свежие ×2 условия; старые опыты сохраняются |

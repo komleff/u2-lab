@@ -86,7 +86,9 @@ Absolute outward power ≥0 и signed thermal contrast — разные поля
 
 Plume engine, self-export generator и H₂+aux plume отделяются в physical substeps.
 Их exported heat не возвращается в host heat и не складывается дважды с поверхностями.
-**PG-SS-IR, решение ожидается:** для первого измерительного эксперимента предложены
+**PG-SS-IR, решение передано отдельной GD-сессии:**
+[постановка](../handoffs/2026-10-07-ir-source-model-gd.md), Beads ulab-5vs.7.
+Для первого измерительного эксперимента ранее предложены
 профили f_IR=0.10 / 0.50 / 1.00 для этих mass/export путей, с возможностью явно
 задать каждую долю отдельно в [0,1]. P_IR,path=f_IR,path·P_export,path.
 Это гипотеза спектральной видимости exported heat, не всего engine useful/chemical
