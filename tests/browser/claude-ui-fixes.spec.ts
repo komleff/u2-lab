@@ -19,6 +19,8 @@ test("D01/D02/D04/D10 source-derived preview, bidirectional catalogue and whole-
     ).toHaveCount(1);
   await page.locator("#fit-preset").selectOption("sputnik:1");
   await page.locator('button.module-card[data-slot="payload-1"]').click();
+  await expect.soft(page.locator('.catalog-head')).toHaveCount(0, { timeout: 500 });
+  const revision = await page.locator('#fit-next-revision').textContent();
   await page.locator('[data-candidate="cargo-universal-S"]').click();
   await expect(page.locator("[data-delta-power-w]")).toHaveAttribute(
     "data-delta-power-w",
@@ -38,8 +40,13 @@ test("D01/D02/D04/D10 source-derived preview, bidirectional catalogue and whole-
     .locator("[data-candidate]")
     .evaluateAll((ns) => ns.map((n) => (n as HTMLElement).dataset.candidate));
   expect(desc).not.toEqual(asc);
-  await page.locator('[data-catalog-sort="power-asc"]').click();
+  expect(asc).toEqual(['mining-civil-S', 'mining-industrial-S', 'mining-civil-M', 'mining-industrial-M', 'mining-industrial-L']);
+  expect(desc).toEqual(['mining-industrial-S', 'mining-civil-S', 'mining-industrial-L', 'mining-industrial-M', 'mining-civil-M']);
+  await page.locator('[data-candidate="mining-industrial-S"]').click();
+  await page.locator('#swap-sort').selectOption('power-asc');
   await expect(page.locator("#swap-sort")).toHaveValue("power-asc");
+  await expect(page.locator('[data-candidate="mining-industrial-S"]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#fit-next-revision')).toHaveText(revision!);
   await expect(
     page.locator('[data-candidate="mining-industrial-S"]'),
   ).toContainText("Номинал добычи");

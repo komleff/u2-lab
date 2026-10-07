@@ -1,3 +1,13 @@
+# Operator sort-menu fix каталога, 2026-10-07
+
+ulab-p2w/MC03, один прежний Developer, PR13/fix/catalog-dialog-focus от55279fd.
+WHAT0.6: удалить весь ряд duplicate сортировочных кнопок; правое dropdown меню
+и все его варианты/порядок/совместимые-first сохраняются. No physics/catalog/IO.
+HOW0.1/PLAN_READY прежний. Source/tests/обычный guard → experimental4196/Pages;
+старые архивы и hashed assets сохраняются. Бюджет independent5/5/final+1 pending
+прежний; no new verifier. Счётчик самоаудита1/3→после этогоfix-turn2/3.
+Текущая55279fd поставка доступна до нового проверенного build; history ниже.
+
 # Operator family-filter fix каталога, 2026-10-07
 
 ulab-p2w/MC03, один существующий Developer, PR13/fix/catalog-dialog-focus от2ede529.

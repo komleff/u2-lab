@@ -130,19 +130,7 @@ export function swapDialog(w: FittingWorkspace, s: SwapState) {
     )
     .join(
       "",
-    )}</select></label></div><p class="muted">${shown.filter((x) => x.v.valid).length} подходят · ${shown.filter((x) => !x.v.valid).length} с отказом · номинальные параметры</p><div class="catalog-head segments" role="group" aria-label="Сортировка по колонкам">${[
-    ["name", "Изделие"],
-    ["mass", "Масса"],
-    ...(s.family === "cargo" ? [["cargo", "Вместимость"]] : []),
-    ...(s.family === "mining" ? [["power", "Мощность"], ["mining", "Номинал добычи"]] : []),
-  ]
-    .map(
-      ([id, label]) =>
-        `<button data-catalog-sort="${id}-${field === id && direction !== "asc" ? "asc" : "desc"}" aria-pressed="${field === id}">${label}${field === id ? (direction === "asc" ? " ▲" : " ▼") : ""}</button>`,
-    )
-    .join(
-      "",
-    )}</div><div class="catalog-list" role="group" aria-label="Каталог изделий">${
+    )}</select></label></div><p class="muted">${shown.filter((x) => x.v.valid).length} подходят · ${shown.filter((x) => !x.v.valid).length} с отказом · номинальные параметры</p><div class="catalog-list" role="group" aria-label="Каталог изделий">${
     shown.map(({ m, v }) =>
       `<div class="catalog-entry"><button class="catalog-row ${m.id === s.candidate ? "selected" : ""} ${!v.valid ? "incompatible" : ""}" data-candidate="${esc(m.id)}" aria-pressed="${m.id === s.candidate}"><span class="calibre">${m.size}</span><span><strong>${esc(m.label)}</strong>${m.id === installed ? '<span class="muted">Установлено</span>' : ""}${!v.valid ? `<span class="warning">Не подходит: ${esc(v.issues.filter(x => x.severity === "error").map(x => x.message).join(" · "))}</span>` : ""}</span><span class="catalog-metrics module-profile">${moduleProfile(m, process)}</span></button>${technicalDetails(m, "candidate-info-" + m.id)}</div>`,
     )

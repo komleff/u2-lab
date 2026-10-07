@@ -575,13 +575,6 @@ export function mountFitting(
       });
       if (swap) {
         const s = swap;
-        for (const b of dialog.querySelectorAll<HTMLButtonElement>(
-          "[data-catalog-sort]",
-        ))
-          b.onclick = () => {
-            s.sort = b.dataset.catalogSort!;
-            render();
-          };
         for (const [id, key] of [
           ["swap-search", "query"],
           ["swap-family", "family"],

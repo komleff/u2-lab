@@ -94,6 +94,25 @@ test('MC03 tablet catalog families follow the slot, retain real refusals and rep
     const before = await save(), original = JSON.parse(before.toString()), revision = await p.locator('#fit-next-revision').textContent();
     const items = { ...loadCandidateCatalog().items, ...original.localVariants };
     const familyOptions = () => p.locator('#swap-family option').evaluateAll(ns => ns.map(n => (n as HTMLOptionElement).value).sort());
+    await act('#slot-payload-1');
+    await expect.soft(p.locator('[data-catalog-sort]')).toHaveCount(0, { timeout: 500 });
+    await p.locator('#swap-family').selectOption('cargo');
+    await act('[data-candidate="cargo-bulk-S"]');
+    const sortOptions = await p.locator('#swap-sort option').evaluateAll(ns => ns.map(n => (n as HTMLOptionElement).value));
+    expect(sortOptions).toEqual(['name', 'name-desc', 'mass-asc', 'mass-desc', 'cargo-asc', 'cargo-desc', 'power-asc', 'power-desc', 'mining-asc', 'mining-desc', 'source-asc', 'source-desc']);
+    for (const sort of sortOptions) {
+      await p.locator('#swap-sort').selectOption(sort);
+      await expect(p.locator('#swap-sort')).toHaveValue(sort);
+      await expect(p.locator('[data-candidate="cargo-bulk-S"]')).toHaveAttribute('aria-pressed', 'true');
+      await expect(p.locator('#fit-next-revision')).toHaveText(revision!);
+    }
+    await p.locator('#swap-sort').selectOption('cargo-asc');
+    expect(await p.locator('[data-candidate]').evaluateAll(ns => ns.map(n => (n as HTMLElement).dataset.candidate))).toEqual(['cargo-universal-S', 'cargo-bulk-S', 'cargo-universal-M', 'cargo-bulk-M']);
+    await p.locator('#swap-sort').selectOption('cargo-desc');
+    expect(await p.locator('[data-candidate]').evaluateAll(ns => ns.map(n => (n as HTMLElement).dataset.candidate))).toEqual(['cargo-bulk-S', 'cargo-universal-S', 'cargo-bulk-M', 'cargo-universal-M']);
+    await act('#swap-close');
+    await expect(p.locator('#slot-payload-1')).toBeFocused();
+    expect(await save()).toEqual(before);
     const groups = [
       ['payload-1', 'payload', ['cargo', 'mining']],
       ['power-3', 'power', ['battery', 'generator', 'solar', 'tank']],

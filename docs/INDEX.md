@@ -70,7 +70,7 @@
 сценариев. Claude Design теперь рассматривается как ассеты и предложение макета.
 Прежние технические QA/review не являются пользовательской приёмкой удобства.
 
-- [Рабочий процесс и критерии v4](product/ship-fitting-gd-workspace-v4.md) — accepted0.5/WF01–15, компактные собственные ТТХ/кнопка i, начальный Close и семейства по слоту; интерфейс v4.1.
+- [Рабочий процесс и критерии v4](product/ship-fitting-gd-workspace-v4.md) — accepted0.6/WF01–15, компактные собственные ТТХ/кнопка i, начальный Close, семейства по слоту и одно меню сортировки; интерфейс v4.1.
 - [Инвентаризация v1/v2/v3](research/2026-10-06-ui-capability-inventory.md) — 22 рабочих сценария, сохранённые/потерянные/скрытые возможности и source anchors; read-only Developer, не runtime QA.
 - [План восстановления v4](plans/2026-10-06-gd-workspace-v4.md) и [сценарная приёмка](verification/gd-workspace-v4-contract.md) — frozenf52 sources; signed PLAN_READY ниже; initial candidate17bb6b6 сохранён; текущий runtime15f5d90e LIVE4188 с каталогом0.2.1 и исправлением условий неполных сборок; история ниже.
 - [Независимый Plan Review v4](reviews/2026-10-06-gd-workspace-v4-plan-review.md) — PLAN_READY,0BLOCKER/1ADVISORY; три exact docs+wholeVC fingerprint19d33e57… . Один Developer, один Worker, сохранённые стенды.
@@ -271,3 +271,8 @@ LAN HTTP affected QA/scoped review закрыли отсутствие randomUUI
 
 - [Accepted WHAT v0.5](product/ship-fitting-gd-workspace-v4.md#семейства-каталога-по-слоту-решение-оператора-2026-10-07) — прямое уточнение MC03: семейства и «Все» ограничены категорией и разрешёнными семействами слота; поиск не меняет список семейств, объяснения отказов внутри семейства сохраняются.
 - Продолжение ulab-p2w/PR13 в fix/catalog-dialog-focus, один прежний Developer; HOW0.1/PLAN_READY сохраняется. Без нового независимого verifier и без обхода budget5/5: formal closure+1 ожидает оператора. Никакой новой численной поверхности.
+
+## Каталог: одно меню сортировки
+
+- [Accepted WHAT v0.6](product/ship-fitting-gd-workspace-v4.md#один-элемент-сортировки-решение-оператора-2026-10-07) — удалить дублирующий ряд кнопок; оставить правое меню со всеми прежними сортировками и приоритетом совместимых кандидатов.
+- Продолжение MC03/ulab-p2w/PR13, тот же Developer; HOW0.1 прежний. Только представление и удаление неиспользуемой привязки кнопок; новый независимый verifier не запускается, formal closure+1 после budget5/5 прежняя. Счётчик самоаудита после этого fix-turn2/3.
