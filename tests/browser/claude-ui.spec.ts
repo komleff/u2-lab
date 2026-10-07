@@ -123,7 +123,7 @@ test("UI09/12/14 real pause/step/cancel interval and snapshot A survive reset", 
   await expect(page.locator("#fit-comparison")).not.toHaveText(a!);
   await expect(page.locator("#fit-duration")).toBeEnabled();
 });
-test("UI03/17 six hulls update actual passport; local assets and tablet fallback stay bounded", async ({
+test("UI03/17 seven current hulls update actual passport; local assets and tablet fallback stay bounded", async ({
   page,
 }) => {
   const remote: string[] = [];
@@ -135,16 +135,19 @@ test("UI03/17 six hulls update actual passport; local assets and tablet fallback
     "../../src/fitting/catalog"
   );
   const { compileFit } = await import("../../src/fitting/compile");
-  const c = loadCandidateCatalog();
+  const c = loadCandidateCatalog("ship-fitting-0.2.4");
   for (const h of c.hulls) {
     await page.locator("#fit-preset").selectOption(h.id + ":1");
-    const oracle = compileFit(getPresetFit(h.id + ":1"), c);
+    const oracle = compileFit(getPresetFit(h.id + ":1",c.version), c);
     if (!oracle.ok) throw Error(h.id);
     await expect(page.locator(".ship-hero")).toContainText(
       (oracle.value.dryMassKg / 1000).toLocaleString("ru-RU", {
         maximumFractionDigits: 2,
       }),
     );
+    await expect(page.locator(".ship-passport h1")).toHaveText(h.label);
+    await expect(page.locator(".passport-numbers")).toContainText((oracle.value.heatCapacityJK/1000).toLocaleString("ru-RU",{maximumFractionDigits:2}));
+    await expect(page.locator(".passport-numbers")).toContainText(h.referenceVfaMS+" м/с");
     await expect(page.locator("#fit-slots")).not.toContainText(
       "производитель не указан",
     );

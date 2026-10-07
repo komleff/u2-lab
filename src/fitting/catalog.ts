@@ -1,4 +1,7 @@
 import { isKnownCatalogVersion, hullsForEdition } from "./editions";
+import defaultSputnik from "./data/default-sputnik-0.2.4.json" with { type:"json" };
+import defaultErmak from "./data/default-ermak-0.2.4.json" with { type:"json" };
+import defaultPony from "./data/default-diesel-pony-0.2.4.json" with { type:"json" };
 import itemData from "./data/modules.json" with { type: "json" };
 import additions from "./data/modules-0.2.1.json" with { type: "json" };
 import medium from "./data/modules-0.2.3.json" with { type: "json" };
@@ -15,7 +18,7 @@ export function loadCandidateCatalog(
   return structuredClone({
     version,
     hulls: hullsForEdition(version),
-    items: version === "ship-fitting-0.2.0" ? itemData : version === "ship-fitting-0.2.3" ? { ...itemData, ...additions, ...medium } : { ...itemData, ...additions },
+    items: version === "ship-fitting-0.2.0" ? itemData : ["ship-fitting-0.2.3","ship-fitting-0.2.4"].includes(version) ? { ...itemData, ...additions, ...medium } : { ...itemData, ...additions },
   }) as unknown as CandidateCatalog;
 }
 export function getPresetFit(
@@ -23,6 +26,18 @@ export function getPresetFit(
   version: CandidateCatalog["version"] = "ship-fitting-0.2.3",
 ): ShipFit {
   const c = loadCandidateCatalog(version);
+  if (version === "ship-fitting-0.2.4") {
+    const [hullId,count]=id.split(":");
+    const supplied: Record<string,unknown> = {sputnik:defaultSputnik,"industrial-S":defaultErmak,pony:defaultPony};
+    if (supplied[hullId] && (count===undefined || count==="1")) {
+      const fit=structuredClone(supplied[hullId]) as ShipFit;
+      fit.catalogVersion=version;fit.fitRevision=1;return fit;
+    }
+    const fit=getPresetFit((hullId==="severin-mir"?"civilian-M":hullId)+(count?":"+count:""),"ship-fitting-0.2.3");
+    fit.catalogVersion=version;fit.hullId=hullId;
+    for(const [slot,instanceId] of Object.entries(fit.assignments)) if(fit.instances[instanceId].itemId==="buffer-S") {delete fit.assignments[slot];delete fit.instances[instanceId];}
+    return fit;
+  }
   const current = version !== "ship-fitting-0.2.0";
   const [hullId, countText] = id.split(":");
   const h = c.hulls.find((h) => h.id === hullId);

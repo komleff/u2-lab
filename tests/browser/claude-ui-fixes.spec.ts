@@ -1,3 +1,4 @@
+import {getPresetFit} from "../../src/fitting/catalog";
 import { openTimedDraft } from "./timed-draft";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
@@ -10,7 +11,7 @@ test("D01/D02/D04/D10 source-derived preview, bidirectional catalogue and whole-
     "data-layout",
     "flat",
   );
-  await page.locator("#fit-preset").selectOption("pony:3");
+  await openTimedDraft(page,getPresetFit("pony:3"));
   for (const n of [1, 2, 3])
     await expect(
       page.locator("button.module-card").filter({
@@ -248,7 +249,7 @@ test("D12 true mobile long rejected import preserves viewport, literal errors an
         touch: navigator.maxTouchPoints > 0,
       }));
     await p.goto("/");
-    await p.locator("#fit-preset").selectOption("pony:3");
+    await openTimedDraft(p,getPresetFit("pony:3"));
     await p.getByRole("link", { name: "Условия", exact: true }).tap();
     await p.locator("#fit-duration").fill("3600");
     await p.locator("#fit-speed").selectOption("1");

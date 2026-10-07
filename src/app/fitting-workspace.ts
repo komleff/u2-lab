@@ -1,7 +1,7 @@
 import type { ShipFit, CandidateCatalog } from "../fitting/types";
 import type { RunSpecV2 } from "../model/v2/types";
 import type { RunResultV2 } from "../runner/run";
-import { validMissionConditions, type WorkspaceConditions } from "../scenarios/mission";
+import { freshMissionConditions, validMissionConditions, type WorkspaceConditions } from "../scenarios/mission";
 import { MODEL_MISSION } from "../model/v2/types";
 import { FittingSession } from "./fitting-session";
 import { parseFitJson, parseExperimentJson } from "../io/fitting-json";
@@ -19,6 +19,7 @@ export type Variant = {
   result?: RunResultV2;
   replaySpec?: RunSpecV2;
   opened?: "fit" | "run" | "result";
+  cruiseMultiplier?: number | null;
 };
 export type ActiveTest = {
   runId: string;
@@ -38,10 +39,12 @@ export class FittingWorkspace {
     fit: ShipFit,
     readonly catalog: CandidateCatalog,
     initialConditions?: WorkspaceConditions,
+    initialCruiseMultiplier?: number|null,
   ) {
     this.variants = ["A", "B", "C"].map((id) => ({
       id,
       name: id,
+      cruiseMultiplier: initialCruiseMultiplier,
       fit: structuredClone(fit),
       conditions: initialConditions ? structuredClone(initialConditions) : {
         durationSeconds: 600,
@@ -111,6 +114,7 @@ export class FittingWorkspace {
       name: "Вариант " + (this.variants.length + 1),
       fit: this.getFit(),
       conditions: structuredClone(this.selected().conditions),
+      cruiseMultiplier: this.selected().cruiseMultiplier,
     });
     this.selectedId = id;
     return id;
@@ -124,7 +128,30 @@ export class FittingWorkspace {
     }
     return v;
   }
+  applyPreset(id:string) {
+    const mode=this.selected().cruiseMultiplier;
+    const validation=this.applyFit(getPresetFit(id,this.catalog.version));
+    if(validation.valid) {
+      const conditions={...this.selected().conditions,selectedWorkGroup:undefined};
+      if(conditions.modelVersion===MODEL_MISSION && mode!==undefined) {
+        const defaults=freshMissionConditions(this.selected().fit,this.catalog);
+        conditions.referenceVfaMS=defaults.referenceVfaMS;
+        conditions.cruiseSpeedMS=mode===null?null:mode*defaults.referenceVfaMS!;
+      }
+      // Замена сборки не является правкой checkbox: imported fuel-only undefined сохраняется.
+      this.selected().conditions=structuredClone(conditions);
+    }
+    return validation;
+  }
+  setCruiseMultiplier(multiplier:number|null) {
+    const conditions=this.selected().conditions;
+    const valid=this.setConditions({...conditions,cruiseSpeedMS:multiplier===null?null:multiplier*(conditions.referenceVfaMS??500)});
+    if(valid)this.selected().cruiseMultiplier=multiplier;
+    return valid;
+  }
   setConditions(conditions: WorkspaceConditions) {
+    const multiplier=this.selected().cruiseMultiplier;
+    if(multiplier!==undefined && conditions.referenceVfaMS!==this.selected().conditions.referenceVfaMS) conditions={...conditions,cruiseSpeedMS:multiplier===null?null:multiplier*(conditions.referenceVfaMS??500)};
     const fit = this.selected().fit;
     const validation = validateFit(fit, this.catalog);
     if (!validation.valid || !isKnownCatalogVersion(fit.catalogVersion)) return false;
@@ -246,6 +273,7 @@ export class FittingWorkspace {
         const p = parseFitJson(source, this.catalog);
         if (!p.ok) return p;
         const v = this.applyFit(p.value);
+        if(v.valid)this.selected().cruiseMultiplier=undefined;
         if (v.valid) this.selected().opened = "fit";
         return v.valid
           ? { ok: true as const, value: "fit" as const }
@@ -260,6 +288,7 @@ export class FittingWorkspace {
         if (!fit.ok) return fit;
         this.selected().fit = structuredClone(fit.value);
         this.selected().conditions = conditionsFromSpec(p.value.spec);
+        this.selected().cruiseMultiplier=undefined;
         this.selected().replaySpec = structuredClone(p.value.spec);
         this.selected().opened = "result";
         this.showRun(p.value);
@@ -284,6 +313,7 @@ export class FittingWorkspace {
       const fit = parseFitJson(JSON.stringify(p.value.resolvedShip.fit), this.catalog);
       if (fit.ok) this.selected().fit = structuredClone(fit.value);
       this.selected().conditions = conditionsFromSpec(p.value);
+      this.selected().cruiseMultiplier=undefined;
       this.selected().opened = "run";
       return { ok: true as const, value: "replay" as const };
     } catch {

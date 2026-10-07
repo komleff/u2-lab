@@ -1,0 +1,447 @@
+{
+  "sourceCommit": "d4a5f6c9ab28cc685cf080d0396d1c42c75ab96f",
+  "runtimeCommit": "25c54421dcd1a44cd7cd66f8e2b0c640e5ef4d0b",
+  "recipe": "SHA256 UTF8 JSON.stringify; frozen pre-change catalog/fit/makeMiningRun",
+  "rows": [
+    {
+      "edition": "ship-fitting-0.2.0",
+      "catalog": "9c3e53c03947f70ee2517d9fdf01fad4b14fdeb9428657d58864471e5f3bae90"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "sputnik:1",
+      "fit": "3dd681d128255a3f4f1850faa844af37b233398837daa2e9cff41f9390054a82",
+      "spec": "78450c754d1949f2e03d57b5924b76ee0906fe8f94d88619e9b0b03a0114bcf8"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "sputnik:2",
+      "fit": "5a0305fce345d69b612cc32643706f16e004fecae2c0cd986c9efb6b9feddccd",
+      "spec": "312838221c610fc6313a456e27efa392fe8c9b04df9b6de54e705aef727ba1a5"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "sputnik:3",
+      "error": "Число лазеров превышает слоты"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "pony:1",
+      "fit": "8ed2863f58d3fcfb2f00c2c6d465e0c14fa63e44574d539efc1cb4a4686d1737",
+      "spec": "426ae8fd981bbd5d347e97e5ffd39c52870bb23b578ce26a06ec7611bb53bcaa"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "pony:2",
+      "fit": "a197db1acd4ae81f74c9ee30a1cb4f6079e623467e178c0ca58921c99e416a59",
+      "spec": "e0ac7fdd221568811ce16614c397e8069231628157375024552a0c54e587079a"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "pony:3",
+      "fit": "0ab24fe063d1ab8f33334225850aba832ecc87e374605a684af8f8c189d5d4d4",
+      "spec": "1a8ca5a2734cbef953814c02cf488d2fdf1aa04d445cdf08787a107ba39ac500"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "industrial-S:1",
+      "fit": "750628c076f60f838be8c3459639d985de0557613171c4e4de03a1ddf54ff71b",
+      "spec": "509d0b8201d75cd7b8f743e3cec3a1df8360c2f80659cb2eb1e9d33e240f2540"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "industrial-S:2",
+      "fit": "f42e55811e5776872cb9993966c68431ff26be706964c380ef60a119f419d92b",
+      "spec": "1929dfa8b82044f215c6330fbd6788fd63711a62512501e0d92bb421fb9ca098"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "industrial-S:3",
+      "error": "Число лазеров превышает слоты"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "civilian-M:1",
+      "fit": "911061b41a5deba3bf164512e3643e0121fd27c2b952aac3f3be0ab18588712e",
+      "spec": "b742e053dcb3adcdaa08bf8792e6e2cb8330f99f4ea52cca61652d321dc6b333"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "civilian-M:2",
+      "fit": "f89a212ef739ac344e8778ae1231c49a75918318f6c7febc4c623f101520c05f",
+      "spec": "f4fdc916c1ab0c4f1c8d9a9e2b394d1f42cc4d4fecb24a5f6dcef6a0bf5ef373"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "civilian-M:3",
+      "fit": "6700509c619993fc08d1eacc099d85175cf3d1b0c3a324432c70706c0979ebc2",
+      "spec": "d89f3f8f9903661bdd83c7bd2b910daa7d4bc18256d8f4e522b3bc5012d56f9a"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "industrial-M:1",
+      "fit": "aa86968696764bede5591601f7009d5160a87778b56919cd9ca2f0dd0e693138",
+      "spec": "608f8947a0bc8811df825f1dabc9d6df762fbb04417710eddf2231550fb2ab15"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "industrial-M:2",
+      "fit": "cfd8330ec4b1394c69726614ed4c9e855492f212e9099f33a66c45751c6967f7",
+      "spec": "caddff36e671610c4688b2f1e58b3ffdcc9f71e1cd64c87c10c4aded7ab0c520"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "industrial-M:3",
+      "fit": "d411e201717a6084ff5b0901d5ce1304fc1cb50915fa09c37369eed8c8295843",
+      "spec": "f0954d805c2aa9259c687aa044fa12bf7603053393b93150ea5a8b0884a4730f"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "industrial-L:1",
+      "fit": "cc04f862259f161bf7a61f30ac34aeef1a663447c66dd192f91a7e2e0c0b995d",
+      "spec": "e74c74f05fb3949056e4efe38a0710c3635af252056d1346940f247dac92e317"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "industrial-L:2",
+      "fit": "9f49547fb9def9f96b9edc9bccc7a056d436f1d53029003d8a5147427b9d8a0a",
+      "spec": "bc75ae4262820ed0b5b752210b8c80372cd176a29c1f7457e14347354f984c11"
+    },
+    {
+      "edition": "ship-fitting-0.2.0",
+      "preset": "industrial-L:3",
+      "fit": "a751c945e329ff69f8bbbde51307fa05c3d4d69bc717174135a691c97340b043",
+      "spec": "4a5ad70155a3fa85095d25a4a5c3ec00910a29f48180445989758258b41fed88"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "catalog": "fe6b176ed7a64ce29e1f12a6e176c79198c811b28aeb4c1de6d53dff1217f42f"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "sputnik:1",
+      "fit": "54d93961fd43796216e7b6392c718a43b657309a2855ef5a207baa21a276f650",
+      "spec": "425481e197a77ebaf20863fe22b7c5012ae4652189602f9408b48c1e2444fd76"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "sputnik:2",
+      "fit": "85403bcdffbcd5a7a1a48f3dfc9b43200671528366071ab4adbf4a0a7bba4ed5",
+      "spec": "da0e1dc0e99d4f9b8c7a513123641198eea510b4b42130f5eeceddfab5d7460a"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "sputnik:3",
+      "error": "Число лазеров превышает слоты"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "pony:1",
+      "fit": "4d4579cf6fec1ca47672c6a8d744c0476153c2bc95ed802f187f40de8967a43d",
+      "spec": "b213a26f712f5e41b1a7337275367b90fa052a4336469072681bf6ac969102a7"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "pony:2",
+      "fit": "c232d5374d8f8f222114e2c9561e8856b1a9d2e92cc18c1c2eac4851ebbf8107",
+      "spec": "10179fef128d237847b136ea3149f1160da58d0cb47b4f47220558b876a5afae"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "pony:3",
+      "fit": "818dc1e6cd7c1546512fde95143061813c113668e288689e3faf46483d1fc99b",
+      "spec": "282b9061030b2c2c50eb8148b2091ba999b7948afd4385b2f0561973cd12065f"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "industrial-S:1",
+      "fit": "374c0d60f24470af1ff09a3cbb295258ba2d9a997f916b85082f4ddee16fcb4f",
+      "spec": "20417a20c9822b8b0f4831f7a0c0b6b4b14964949078896597a38d9bc5fb8df1"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "industrial-S:2",
+      "fit": "cfd7897a22e75725a56fc60beb5a460118270a7f6ab0c7ba7ce74d8ced375656",
+      "spec": "4d1e21b4e94c9f418ac44339fe49df5abbbd36e902da226c4dc9be047e761e81"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "industrial-S:3",
+      "error": "Число лазеров превышает слоты"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "civilian-M:1",
+      "fit": "fc20891b281705ae1af294cc13ffeccae6e68e8736a7fd99762dbda2a71e86a4",
+      "spec": "4695328de06af2eeaf5bc46ede8d3cfa85f109907d03042e733c9394b29a38b2"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "civilian-M:2",
+      "fit": "7c8e3dac0f489d59c81fa0d189c91654f9400c93b75c71c599d404ecfb2e81dc",
+      "spec": "cdb33a5365a62c7a3dc7561e04bb408b7e59de0ce68b1142e80369ec6c6aff0e"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "civilian-M:3",
+      "fit": "3f49c38647b95fbd23db9b984e2dd02375c73cdc137fe66a5433b5977de117a5",
+      "spec": "10d619dfef6baf2c6f6e95ba6f3f093ac94f73c373c5a038301015be128c10cf"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "industrial-M:1",
+      "fit": "e9bdbd9fc294d6c5c0af428790a48bb651ce567dea20296bb859f1b10dc03686",
+      "spec": "94fd305b497644c1bbc00b76e94894d212a212cd4d159d856b6b9ce2959feb13"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "industrial-M:2",
+      "fit": "feb842386f793425a5c3282dc315bff0363c3047a85fabd6a2a8c9c28c1d3d53",
+      "spec": "49cd4224941d28b5d28ec1579cb112b472bb66147a056f07c379e59734567ac0"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "industrial-M:3",
+      "fit": "104a6df1ae168c5db6d7e26e00af6a14874a029a0d6ada5afc3b87aab9049b84",
+      "spec": "2f16f876a8b571f296fde2471e22f82dff6985e2b46e28563e9b68212b3125ed"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "industrial-L:1",
+      "fit": "ec1bbff2b1d17ea7aa02661f84bdd1c5e3fae59d708a1307ded61132e46867a1",
+      "spec": "b472916f542f17437ee8444b5a0bb4c75c7ca7a22f966b90f82b5bee614c5e16"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "industrial-L:2",
+      "fit": "c1ada72901e5e979188e8ad2bdaacd23bfd429b5b63466c4da3e443d281c341b",
+      "spec": "85df4713cbe4722e1075e349820b6ed4b962997ce55a5dc2c74585145064bcd6"
+    },
+    {
+      "edition": "ship-fitting-0.2.1",
+      "preset": "industrial-L:3",
+      "fit": "d25bc46bede996986574968e3535b253b49ccdef26f1dbbacd7036f7148d87d8",
+      "spec": "0279cc69995e593476e44d6f439ff795cc28f784b42c977c36cea5bce272a414"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "catalog": "74cb2f684f93ee82d27ee7f63e71bf8abfb4762c826f3aa8ca7591c2a8328ae4"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "sputnik:1",
+      "fit": "85a337faa4309951165c45682efb57e5e8f61743d72f521638dfa122ed37951d",
+      "spec": "f714dd5344b1bfb988c773cee84d3fcc6e09d814312404477ff3ce011d715371"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "sputnik:2",
+      "fit": "82f0472d44b22396f9ab8d231969136df47400dd4ed25e088df8d2f6138de253",
+      "spec": "bb1b77553baf11a21b91e3feb5dc03775b0ca99c20eba931fb5ba557fb03538e"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "sputnik:3",
+      "error": "Число лазеров превышает слоты"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "pony:1",
+      "fit": "2d4543d3c1f318b77a74b56414df94bcbe3e4d53343c55ff367133da336fdf6d",
+      "spec": "6a2a656c78a127b7246d35fd5c88cf00d949966709a610a3b6c9f921755271e0"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "pony:2",
+      "fit": "1eed7703682698bcdc0106c8cbdf83b2794ce9cba55c527b4464496ebb6c447f",
+      "spec": "07efaca92a005fe48ab5ef013a6d1131a0e955bd31b6039457e454a8587df793"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "pony:3",
+      "fit": "c4855afc1071143ea118649a8565d71f5b3106cf12eb02d96db7d7d0c088c581",
+      "spec": "883d2aabb07edd798f53bd8cd4a1fff0473a629c17ee81b0b4bd627828acd703"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "industrial-S:1",
+      "fit": "869487dd708917950c999301f53af98ad9aa8160ae0d92a042bfd97f79c07c36",
+      "spec": "ecc2de216da06b95b73779ff532081d148dbfea419a0e46b1d3b8f7e06d7eb9b"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "industrial-S:2",
+      "fit": "2020353852d568c6e7459b1c927d8b7fb77b5f6fc786604993402fc2db2d7388",
+      "spec": "4fe3d4b36500141a7b9af5674971092179f0fe722d30bb7503ac050e2f664ac2"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "industrial-S:3",
+      "error": "Число лазеров превышает слоты"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "civilian-M:1",
+      "fit": "78440cee54752b0e3b29c241d8a96a71f7b13bc757f67a07645046f839527628",
+      "spec": "67c1ba88755ec6703dbd8fc46faa6b1b35944ad79383674f03c58c6ff193bdad"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "civilian-M:2",
+      "fit": "13e299672f6d79753d3cb8d9374e5555367bcbb05c037d2e566a48176eea0319",
+      "spec": "dc923562911ee22a800d7d88b4d2339a996550ab122df9ef7992b5375e1db0f1"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "civilian-M:3",
+      "fit": "8afe6998b8cb066d2f5400bb71ecdc618b46ace0753a9f18e47c939e644d7535",
+      "spec": "7bd44d325adba7a4b35fb6d62e4b531b67e19f80039668a874de808c765634f1"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "industrial-M:1",
+      "fit": "c8d160c99696967df8fb934e8518313ec96f975baa9ace0d21fe955d419151f8",
+      "spec": "86ce0952a03d84aaf5b292ae0c854e16d674aae96c9c26490415380c904e83b6"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "industrial-M:2",
+      "fit": "31105b858d28cb132670bbaedb1244b2855b532ea124d5f6c78356e50fa3d5cc",
+      "spec": "52c7103dbdb82a623e55fd8d30222d93a6ea03ec61205376c65408bfdd9de5d1"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "industrial-M:3",
+      "fit": "08b495d098ca2950ba53c990238cabd74a3c061f3910f87111e9210cc29835d6",
+      "spec": "fcbc871c45c99c6905679391d99e77e50758578bdfe1fff0e8d0fb932227a3d0"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "industrial-L:1",
+      "fit": "709726080e5a46bef46d42f736e4a2d51397b1610619a53938b5b9bdecdd2829",
+      "spec": "555263d2e1cfd5ab1f91e5a465b0ecc72c324f878a5f47bbf305bf39523dc559"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "industrial-L:2",
+      "fit": "2b9f1f997316f524c1ed0600c1adf35790654959979fbc2e7fbbfba80f872376",
+      "spec": "022b1438d4e0c25fdce6ed2569182f5d94f44c1725e341c86970e8576c7621f9"
+    },
+    {
+      "edition": "ship-fitting-0.2.2",
+      "preset": "industrial-L:3",
+      "fit": "3c4729a9bff5c6f391ecdf8f32a1978e1cd43f3ef4367101cd5feae0106bbd97",
+      "spec": "2e66b72b76c84bfb027dc3321bd21c166d0e6d600874aa66c942d84df6687378"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "catalog": "f1265e6461da000073e669637e6501fb75ec2c0b2442886296f4390337ee777e"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "sputnik:1",
+      "fit": "0a232192cf0636080d0aadcf565460dee3d0938e0a02b3e2a04c49c4ddef010b",
+      "spec": "d93890515d2f883882457936029801ad184fe21b297747171df9b7ae868adce7"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "sputnik:2",
+      "fit": "607ff4a73d6d4a0bd6f63ba9da5e8ff46ffd9f37e888c6e3bb3b71bb2b3bfc99",
+      "spec": "a8c22370b3497c0b4edd421668e013376b24094ea9e8a0bb7c9b60bb7ba7af3d"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "sputnik:3",
+      "error": "Число лазеров превышает слоты"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "pony:1",
+      "fit": "5872ed0b1611b0f3ccc941367e043464b84358568c8dcaa5cca4505ceb8793e4",
+      "spec": "b1a05a4181da05e24fcd3bbaf281d30f1d7e37a01eb95cbd67b413d4ac3ee953"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "pony:2",
+      "fit": "9cfe20be86cf4fede6bf4eeab1d3c236cf13f9514fa6106a0819e69de449f86c",
+      "spec": "134bc1f246c8b9ddfaea02f47af1c581bb2ec8880cf32da8f4b565dbd1035b97"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "pony:3",
+      "fit": "4c24d02d40766e119a6cb9740f8c23dfae864718bb8c0f99bbdb4b4fb833c9ba",
+      "spec": "87140ec39202745986c88734ffea926ed8916597e658e0d5fa5ae7730e7cc758"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "industrial-S:1",
+      "fit": "50e19b73283cdd7bfb0353d264c6dcc1857e442bbf9f1606929a51c1c56917ba",
+      "spec": "0d980c8f303fd4455f689798449d6454e5daf473ec329cdd20c121273e9910b6"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "industrial-S:2",
+      "fit": "19533a097cdad337967a54c98687299e739c5268bd21e79662723236982015a6",
+      "spec": "554cdd7fd8f682ed5f203ee525f645ce2e6b137a9ad0aa56982a57a8d0524bdd"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "industrial-S:3",
+      "error": "Число лазеров превышает слоты"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "civilian-M:1",
+      "fit": "aa0ad281ca5661354a01bb77bf892e8492ab2ecf004716922e33108011ae7a91",
+      "spec": "123550b3944c5baffed818712b586ff7d48b4f42f5f86ce7616288e293b9ae14"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "civilian-M:2",
+      "fit": "ef14f8b0e8509ddff15e0cd5420f96a4dfcf92e923113073fab2954762420763",
+      "spec": "b8ed5f06edede16f435a2f77c2632bff4a1f334ea1e5dd46731224d678dfa834"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "civilian-M:3",
+      "fit": "a9084bfcaadee4c20b152668407753f98ce585016652f23c5161dffb84df02e3",
+      "spec": "8a45505dbd8758f7cdbfbe2a858b057382412518e44a0483e6403ab2833dca80"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "industrial-M:1",
+      "fit": "556d3f5811a02d1719ae3d813fbd936891ae5d7a78ce627e844ffe300c6c0108",
+      "spec": "74f5f4435b907df8a5bb6c11b85b34dc670aae64c763d44974cf6ffbd5f9456f"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "industrial-M:2",
+      "fit": "b03f433ce6abc036f581b040302357b7a89705028e422f5bce740d48d011de88",
+      "spec": "ec320b7daab0267b98b709ad22581b761e3217474199468d11c3eb9fbc266166"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "industrial-M:3",
+      "fit": "1181154666406f03e54b1b3fa6053cd897c17b9b340b8e6f0c3e170f74957d2b",
+      "spec": "d84afbc4685ab01276f633c30096ce9766a3f68029fe48553de559ade2c1512d"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "industrial-L:1",
+      "fit": "7e34e2c35ecf22ed346a9837f4c9feb161811d306705f4fad310355ff2755c7c",
+      "spec": "d04de4173ec69c10ef62ceef38200c4b1fb941f07daba197f94e01b2ee0f310f"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "industrial-L:2",
+      "fit": "9fd76233ce267cd359469353130770ae08f9a38dd1975d62268e0d3375d1ae37",
+      "spec": "ffcd6c94089499a42bb7a03d35d2688a68ed474afe09eb53577ad207e1c17853"
+    },
+    {
+      "edition": "ship-fitting-0.2.3",
+      "preset": "industrial-L:3",
+      "fit": "a8254f0b36045ea7874d10d955176b79b57aba108679150418eef05dc817da9f",
+      "spec": "24c4df1088cde2fc39918446bbe49709f30492e181b516f8aa40ea71e8993d3b"
+    }
+  ]
+}
