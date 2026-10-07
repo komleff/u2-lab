@@ -1,13 +1,13 @@
 {
   "version": "2.3",
-  "uiVersion": "4.2",
+  "uiVersion": "4.3",
   "thermalDiagnostics": "0.1",
   "thermalControls": "0.1",
   "status": "experimental",
-  "runtimeCommit": "ca0ae0f44b1d22c1b13b811c3f92ddc0549ad140",
-  "sourceCommit": "ca0ae0f44b1d22c1b13b811c3f92ddc0549ad140",
-  "sourceFingerprint": "9d9c280c11a473fcdb02715656a5e15c764a99c7468f026e1c194db333871f96",
-  "buildFingerprint": "e9485976c9cfba94e03b9a443950c4907d4ab80924265200b72a35150de441a1",
+  "runtimeCommit": "61b009ba3694bc2e135857f9c8731b3346d45980",
+  "sourceCommit": "61b009ba3694bc2e135857f9c8731b3346d45980",
+  "sourceFingerprint": "b014fd81eabecf9a65441ef69a38fc2e3526c598bd8e687cf0aaf880966d1343",
+  "buildFingerprint": "bd38cf63d24561aa10fb82a0479dc2a4cf8fce04572f3b3ae166154d147b8ba0",
   "legacyV1": "./legacy-v1/",
   "previousThermal": "./thermal-v0.1/",
   "catalogFocus": "manual-search",
@@ -16,7 +16,7 @@
   "resultDock": "live-and-final",
   "catalogVersion": "ship-fitting-0.2.4",
   "shipFittingVersion": "2.3",
-  "interfaceVersion": "4.2",
+  "interfaceVersion": "4.3",
   "defaultCruise": "2xV_FA",
   "defaultFits": "operator-json-20261007"
 }
