@@ -15,7 +15,7 @@ export function channelStyle(id: string) {
   return { color: semanticColors[id] ?? palette[hash % palette.length], dashed: /Requested|requested/.test(id) };
 }
 type Boundary={value:number;label:string;id?:string;color?:string;instance?:string};
-export function traceChart(r: RunResultV2, ids: string[], time?: number, limits: Boundary[] = [], meanAsPath = false, bands:{side:string;from:number;to:number;color:string}[] = []) {
+export function traceChart(r: RunResultV2, ids: string[], time?: number, limits: Boundary[] = [], meanAsPath = false, bands:{side:string;from:number;to:number;color:string}[] = [], selectedUnit?: string) {
   const present = ids.filter(id => r.channels.includes(id));
   let low = 0, high = 1;
   for (const b of r.buckets) for (const id of present) {
@@ -25,7 +25,7 @@ export function traceChart(r: RunResultV2, ids: string[], time?: number, limits:
     }
   }
   for (const l of limits) { low = Math.min(low, l.value); high = Math.max(high, l.value); }
-  const unit = channelUnit(present[0]??ids[0]??'requestedW');
+  const unit = selectedUnit ?? channelUnit(present[0]??ids[0]??'requestedW');
   const axisX=unit==="K"?180:40,plotWidth=660-axisX;
   const start = r.buckets[0]?.startSeconds ?? 0, end = r.buckets.at(-1)?.endSeconds ?? 1;
   const x = (t: number) => axisX + (t - start) / Math.max(1e-12, end - start) * plotWidth;
