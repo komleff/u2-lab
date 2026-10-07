@@ -62,7 +62,7 @@ export type HullProfile = {
   size: "S" | "M" | "L";
   class: ModuleItem["class"];
   generation: number;
-  architecture: "U" | "D" | "E" | "A";
+  architecture: "U" | "D" | "H" | "E" | "A";
   slots: Slot[];
   builtins: Builtin[];
   materials: Material[];
@@ -132,7 +132,7 @@ export type FitValidation = {
   valid: boolean;
 };
 export type CandidateCatalog = {
-  version: "ship-fitting-0.2.0" | "ship-fitting-0.2.1" | "ship-fitting-0.2.2" | "ship-fitting-0.2.3" | "ship-fitting-0.2.4";
+  version: "ship-fitting-0.2.0" | "ship-fitting-0.2.1" | "ship-fitting-0.2.2" | "ship-fitting-0.2.3" | "ship-fitting-0.2.4" | "ship-fitting-0.2.5";
   hulls: HullProfile[];
   items: Record<string, ModuleItem>;
 };

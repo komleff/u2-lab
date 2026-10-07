@@ -10,7 +10,7 @@ const geometry = (p:Page) => p.evaluate(()=>{
 for(const [width,height] of profiles)test(`RC01–04 native reachable layout ${width}×${height}`,async({browser},info)=>{
  const c=await browser.newContext({viewport:{width,height},isMobile:true,hasTouch:true}),p=await c.newPage(),errors:string[]=[];p.on('pageerror',e=>errors.push(e.message));
  try{
- await p.goto('/');await expect(p.locator('#fit-edition')).toContainText('0.2.4');await p.evaluate(()=>document.fonts.ready);
+ await p.goto('/');await expect(p.locator('#fit-edition')).toContainText('0.2.5');await p.evaluate(()=>document.fonts.ready);
  const g=await geometry(p);expect.soft(g.overflow).toBeLessThanOrEqual(1);
  const dockStates:unknown[]=[];
  const dockCheck=async(state:string)=>{const controls=await p.locator('.ui-controls button:visible').evaluateAll(ns=>ns.map(n=>{const b=n.getBoundingClientRect(),hit=document.elementFromPoint(b.x+b.width/2,b.y+b.height/2);return{id:n.id,font:parseFloat(getComputedStyle(n).fontSize),width:b.width,height:b.height,reachable:n===hit||n.contains(hit)};}));expect(controls.map(x=>x.id)).toEqual(state==='idle'?['fit-start','fit-reset']:state==='running'?['fit-pause','fit-cancel']:['fit-resume','fit-step','fit-cancel']);for(const x of controls){expect.soft(x.font,state+':'+x.id).toBeGreaterThanOrEqual(12);expect.soft(x.width,x.id).toBeGreaterThanOrEqual(44);expect.soft(x.height,x.id).toBeGreaterThanOrEqual(44);expect.soft(x.reachable,x.id).toBe(true);}const d=await geometry(p);expect(d.overflow).toBeLessThanOrEqual(1);if(height>width)expect(d.dock.height).toBeLessThanOrEqual(width<=700?132:104);if(height<=400)expect((d.sticky?d.header.height:0)+d.dock.height).toBeLessThanOrEqual(height*.45);dockStates.push({state,controls,dock:d.dock});};

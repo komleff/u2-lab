@@ -84,7 +84,7 @@ for (const width of [1440, 820, 390]) test(`v4 whole native research chain at ${
   await expect(page.locator("#fit-status")).toContainText("Отменён");
   expect(await page.locator(".ab-side-a").innerHTML()).toBe(frozen);
   await page.getByRole("button", { name: /Вариант B ·/ }).click();
-  await page.locator("#fit-preset").selectOption("civilian-M:2"); await openTimedDraft(page,getPresetFit("civilian-M:2"));
+  await page.locator("#fit-preset").selectOption("civilian-M:2:H"); await openTimedDraft(page,getPresetFit("civilian-M:2"));
   await action('button.module-card[data-slot="payload-1"]'); await page.keyboard.press("Escape");
   await page.locator("#fit-variant-field").selectOption("efficiency");
   await page.locator("#fit-variant-value").fill("0.4"); await action("#fit-variant-numeric");
