@@ -271,7 +271,10 @@ test("preset slot filtered catalog delta swap run comparison at390px", async ({
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/"); await openTimedDraft(page);
-  await page.locator("#fit-preset").selectOption("industrial-M:3");
+  await page.locator("#fit-preset").selectOption("industrial-M:2:D");
+  await page.locator('[data-slot="payload-3"]').last().click();
+  await page.locator('[data-candidate="mining-industrial-M"]').click();
+  await page.locator("#fit-apply").click();
   await page.locator('[data-slot="payload-3"]').last().click();
   await page.locator('[data-candidate="cargo-bulk-S"]').click();
   await expect(page.locator("#fit-preview")).toContainText("после");
@@ -291,7 +294,9 @@ test("preset slot filtered catalog delta swap run comparison at390px", async ({
     "Неизменяемый снимок",
   );
   await page.getByRole("link", { name: "Оснастка", exact: true }).click();
-  await page.locator("#fit-preset").selectOption("industrial-M:1");
+  await page.locator("#fit-preset").selectOption("industrial-M:2:D");
+  await page.locator('[data-slot="payload-2"]').last().click();
+  await page.locator("#fit-remove").click();
   await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-start").click();
   await expect(page.locator("#fit-status")).toContainText("Завершён");

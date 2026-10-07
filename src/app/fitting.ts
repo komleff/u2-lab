@@ -300,7 +300,7 @@ export function mountFitting(
         apply(next);
       };
     const preset = el<HTMLSelectElement>("fit-preset");
-    if (preset) preset.onchange = () => { const v=w.applyPreset(preset.value); error=v.valid?"":v.issues.map(i=>i.message).join("\n"); render(); };
+    if (preset) preset.onchange = () => { if (!preset.value) return; const v=w.applyPreset(preset.value); error=v.valid?"":v.issues.map(i=>i.message).join("\n"); render(); };
     for (const x of root.querySelectorAll<HTMLInputElement>("[data-condition]"))
       x.oninput = () => {
         const valid = w.setConditions({ ...w.getSelected().conditions, [x.dataset.condition!]: x.valueAsNumber * Number(x.dataset.multiplier ?? 1) });

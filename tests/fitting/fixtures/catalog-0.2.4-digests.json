@@ -1,0 +1,202 @@
+{
+  "source": "650007bcaf87df9fb3f74d0f71fb7f4bdf90af12",
+  "edition": "ship-fitting-0.2.4",
+  "method": "SHA256(JSON.stringify(value)); short timed H2/dt0.1 result, deterministic runId old:<preset>",
+  "rows": [
+    {
+      "catalog": "4b9406c9cc497bd098f751269e884a54e874d2e47fd285980d3210b18236af62"
+    },
+    {
+      "hull": "sputnik",
+      "sha256": "e11b73b2b1ec0e1a1b1032e35e4acf9c5a3013ca2dcc1d46eab46455074d3178"
+    },
+    {
+      "preset": "sputnik",
+      "fit": "038efbd7490cecd2fdeed17d0f126f2935424638e635b3cb8df1f93077a55e05",
+      "spec": "a7e063f52ececdaf3605c8ff199d56bcb006f17a0f96a0f3f4ae289d81784663",
+      "result": "951ccbcdd3a9262ed01d02906a9d84fb08db9aae51991a0979c4b18037e56855"
+    },
+    {
+      "preset": "sputnik:1",
+      "fit": "038efbd7490cecd2fdeed17d0f126f2935424638e635b3cb8df1f93077a55e05",
+      "spec": "a7e063f52ececdaf3605c8ff199d56bcb006f17a0f96a0f3f4ae289d81784663",
+      "result": "d3e3a2305095dd84df5cf518cd2660be96bb9e29ead575185a62caf49c0e1ceb"
+    },
+    {
+      "preset": "sputnik:2",
+      "fit": "7a5c61152097f3f401c12ebdd170ba27fde346d20f08f9bf501fc8470b8238f7",
+      "spec": "268bdff28234bf7ff74242923d0d7ee3a0aed30f386422fcbe7087b9eb8c5991",
+      "result": "c1981c3a1d313f4aeec27e7089be77bdadf85365da36df7e2cec22d05967f9c0"
+    },
+    {
+      "preset": "sputnik:3",
+      "error": "Число лазеров превышает слоты"
+    },
+    {
+      "hull": "pony",
+      "sha256": "a2c939969cef27a69db60346d7e052417bb1d3198ee1faf237aa3ae7dee64efe"
+    },
+    {
+      "preset": "pony",
+      "fit": "45e2bdad9565b05d10c6032cc9644f3b61422e6af76689966e4c4dca053614e1",
+      "spec": "c3f3456191256cc22ab6fd48dd63ad64443b7a6dffc4d364d654b8e53095f416",
+      "result": "f90fafb822b42edbb5aa13795cac542dcd0d9dfd88e294ba430f8761ca1c6f17"
+    },
+    {
+      "preset": "pony:1",
+      "fit": "45e2bdad9565b05d10c6032cc9644f3b61422e6af76689966e4c4dca053614e1",
+      "spec": "c3f3456191256cc22ab6fd48dd63ad64443b7a6dffc4d364d654b8e53095f416",
+      "result": "d5c23a1be0f8c2befb977a67c35d03196669b2565aff2a32ded085030a5e2a78"
+    },
+    {
+      "preset": "pony:2",
+      "fit": "a003308bfb397432a6df9f895b65f256b67a2fc0f187e60765de761df57f3993",
+      "spec": "8c730b6db5fbd9541fd4f3053aff8aeb04ccb000cbb0eee53206057505f30e43",
+      "result": "fd3680bff142f20dfcab6c00c56551e1054d2c72ac923607764ab62bfc81d0d1"
+    },
+    {
+      "preset": "pony:3",
+      "fit": "ffe2209467218b3d98e2f4861781fd7632741225d83a43a2ae0bcd1fece58605",
+      "spec": "42444b46c0feecf2c977bfcdeec84a8b974e614481fbc085f246d7a7b103f0da",
+      "result": "299fb675c2c439ae78c5f0cd6b2175eb86f51356199f00fe84b4f53b32f00635"
+    },
+    {
+      "hull": "industrial-S",
+      "sha256": "8633bc41e66364a175902329d4c753b2be76fcfc2a9da2951d2d4235abe2187f"
+    },
+    {
+      "preset": "industrial-S",
+      "fit": "84d3809c6138837ad2d346f06bfd9437816122b13f8c48f5d37803e8d226dc06",
+      "spec": "891634866701f4ce57a118c054c1a779e4078a976bec67cd2531c7a709307416",
+      "result": "5e5da8bd77aa2084bc7b5e3d20ae568dd10712d2504754e44126ecec7f68f0df"
+    },
+    {
+      "preset": "industrial-S:1",
+      "fit": "84d3809c6138837ad2d346f06bfd9437816122b13f8c48f5d37803e8d226dc06",
+      "spec": "891634866701f4ce57a118c054c1a779e4078a976bec67cd2531c7a709307416",
+      "result": "a3065ffb3b24a05736cc3b7da51148cfb2777617ed2b145c04cb41161f27fa0a"
+    },
+    {
+      "preset": "industrial-S:2",
+      "fit": "ab34de9511b17f855d7553e8253d5b2722a1e39520a37df5263a808c78ac505e",
+      "spec": "e9f9e40186e5d6fe479bcc78ba0c354f85ecc62611889b923fe8e5a37f9807cf",
+      "result": "baab52cdc42feac8d9e7b375f4467ea5eb44ebe1efcfcd521386b9be5f642a1a"
+    },
+    {
+      "preset": "industrial-S:3",
+      "error": "Число лазеров превышает слоты"
+    },
+    {
+      "hull": "civilian-M",
+      "sha256": "e39532161d9f484837b9e99dc00809b3ff80af0151c762970967c78cef9f4283"
+    },
+    {
+      "preset": "civilian-M",
+      "fit": "214a45cb80f57598cdb6da3f4e7a2e1dcccf9806f194cb18dfcc43ccc2de61fa",
+      "spec": "892399ed50eb1ba1c14f9f97f515b54bef5be9140352f4dd7cd377060779e899",
+      "result": "718af88b99d569160f0c9c463bc3ab552ed0dcce769b53eb021f3dcc708dbad7"
+    },
+    {
+      "preset": "civilian-M:1",
+      "fit": "214a45cb80f57598cdb6da3f4e7a2e1dcccf9806f194cb18dfcc43ccc2de61fa",
+      "spec": "892399ed50eb1ba1c14f9f97f515b54bef5be9140352f4dd7cd377060779e899",
+      "result": "b7f7f0a950d6a81c970dfa560132c008803eca196ca5682615a17f3bc0a3c623"
+    },
+    {
+      "preset": "civilian-M:2",
+      "fit": "b8416ca331ffbb0f9c56e3185432ce461da72d81948c6d1b09090e4142a6b562",
+      "spec": "0fe6986f96d90ba3f360bc8086eb9794b8301645bad7a224a915e46bb4e170dc",
+      "result": "9001bc957b8a6727448ae9e1495e66c664a550c8569d5f8f3d4cc3d363ec0b8c"
+    },
+    {
+      "preset": "civilian-M:3",
+      "fit": "d8f44854f4ff6203ff0529e62c13fc763ab84ccf73edc01f0bd45057e14f6e5c",
+      "spec": "eb7660392a47bd681b10f5f19ac1f73df7fbbb1642b16c4bff289723feefb555",
+      "result": "14223665534ff627af66b5da618ba8f82b1eba663e68f7a06d8ab50429ceba67"
+    },
+    {
+      "hull": "industrial-M",
+      "sha256": "62f09b5a90ec39007c9da6981448150cc6d74d3dae3d207f5114171f4bbc0264"
+    },
+    {
+      "preset": "industrial-M",
+      "fit": "539167315324325e767fff9b74a3566e39d4370cc133658e00b266014ee8e76c",
+      "spec": "ee740a243ec581ee79331fcb611dd5591195bc528835c36be58e8929d606191b",
+      "result": "eb79d56920aaaeb29fa5c2551511111e13e63f0a4748a16272c1ebe4fc1b1dde"
+    },
+    {
+      "preset": "industrial-M:1",
+      "fit": "539167315324325e767fff9b74a3566e39d4370cc133658e00b266014ee8e76c",
+      "spec": "ee740a243ec581ee79331fcb611dd5591195bc528835c36be58e8929d606191b",
+      "result": "a33115fc622ce9d12b56f69b4eda25d40e91d60778f7df904c5d5e21935d7522"
+    },
+    {
+      "preset": "industrial-M:2",
+      "fit": "a16b82d9ae590d2b42845144115d2d3df1228b4bbf39018f2878d7b1ede8df89",
+      "spec": "e43335a0ed569b95a469463e65762a107ee3caba0bb2d2ce92f8637ed1c86428",
+      "result": "c2443d1f12951e6d0a30be9761197d8b529f8a9fad4d8c07fe61b4dfb1cf43a1"
+    },
+    {
+      "preset": "industrial-M:3",
+      "fit": "ac7a96851dd84f5d512f708eb1f9cb2525416594d6ffca8497cdd42a92150fa0",
+      "spec": "ce40be2c8cee74d839c8ed907ddeb5037e0827d3fe82b716367f15ad84b22ef1",
+      "result": "4e6fd8bcb76e8e1c0b184ef161ddb019810168f3a2b603f70d6f42dc112b103e"
+    },
+    {
+      "hull": "industrial-L",
+      "sha256": "7f3fa1e4c1bf002a9a1d4fc9947b6d4ed86af2599c97e6d36e803800c2b591af"
+    },
+    {
+      "preset": "industrial-L",
+      "fit": "4e87c9cd5f171e61a67c602ff02911e4f370e1b6da37a9177bab74de9d5a633e",
+      "spec": "26df132cb7205f0fb937b7355a004146d402be7480580f375218b20b4890bc0b",
+      "result": "37661ab2cd3a53971ac69604db9ab5098adc20b6dfb3920e9ec0d7c6a53d8e7f"
+    },
+    {
+      "preset": "industrial-L:1",
+      "fit": "4e87c9cd5f171e61a67c602ff02911e4f370e1b6da37a9177bab74de9d5a633e",
+      "spec": "26df132cb7205f0fb937b7355a004146d402be7480580f375218b20b4890bc0b",
+      "result": "f7b6e883acc275f99efaf815c610d2dc7cbb65c5841a411f19ab75d0633facec"
+    },
+    {
+      "preset": "industrial-L:2",
+      "fit": "b589d26ea433fc38a950f69657f09153f89c3068e83c9df0c4c0f7ba94aa6184",
+      "spec": "e0f99a045579d55951b6d032ca68bada96b0dcc55217a2bca4edce494d384b4c",
+      "result": "0aa36fb77d43357a3362e4aba9a02524e3447251cf27a47e2c7243d0e99dbc8e"
+    },
+    {
+      "preset": "industrial-L:3",
+      "fit": "b198b11e9eb82b75674384ca047e35aa5ce9f8b936e83e4a1875b41f11b59917",
+      "spec": "58bf272ec55a7c504965b25cedb51903e33acc5d777187191e1bc7e51932e426",
+      "result": "871f39d625c0ac8e9a7dc4adf7b765c8b7a6946675a6a41eda815de836f91699"
+    },
+    {
+      "hull": "severin-mir",
+      "sha256": "916876dca1a74aac5e47f96c71dee79cf6680f3fc2d50c91bbdb32b9e7fc87db"
+    },
+    {
+      "preset": "severin-mir",
+      "fit": "c016a6a757a61e05e623e13c381717d3b4e1e37c6a2e661d4705f06ada256415",
+      "spec": "34c06270304ab4a47fdc18afe1219d6d6e847145d73b64544c12fe529ab793dc",
+      "result": "02af8fecf30f0a36c50d3ec06f0f89fa431a3f6e57f949b3d4216fef8c38eff2"
+    },
+    {
+      "preset": "severin-mir:1",
+      "fit": "c016a6a757a61e05e623e13c381717d3b4e1e37c6a2e661d4705f06ada256415",
+      "spec": "34c06270304ab4a47fdc18afe1219d6d6e847145d73b64544c12fe529ab793dc",
+      "result": "ccdd8cf761c636f42e0a1f3e991bdf66dbf29a990e482954b3e175b23a561d98"
+    },
+    {
+      "preset": "severin-mir:2",
+      "fit": "99c448572db8982dc69808ebfe2313b6f624debed0bb84ed7c3f6ea36f435d50",
+      "spec": "3cb80e856fb87215b6d544871b310769b78b46f141fa663c20bd5b49d316cb82",
+      "result": "ed4a84dc533bb1d01f25f4e71429f413a795852f7e294ff88dab536649fb2f84"
+    },
+    {
+      "preset": "severin-mir:3",
+      "fit": "9dcfbdbb304a704b6fc1f7f64e58e712f3f456293ac2f73ec1761fb80b27d99b",
+      "spec": "a5b27fb654d06eb25fe9591492e38be84c6129f76bd8de1426cfea784fd70b20",
+      "result": "39205ffe67623dbb03e0e78227eb1b812b259e9e9757cfa8650e945bae0d13be"
+    }
+  ]
+}

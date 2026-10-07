@@ -1,69 +1,80 @@
 ---
-title: "План каталога 0.2.5"
-status: proposed / awaiting Plan Review
-version: "0.1"
+title: "План каталога 0.2.5: D/H/E"
+status: accepted / numeric amendment to reviewed v0.2
+version: "0.3"
 date: 2026-10-07
 ---
 
-# Реализация базовых M-сборок и архитектуры Мира
+# Реализация вариантов питания D/H/E
 
-Goal: дать оператору три готовых M-сборки с двумя лазерами/192 SCU и честно разделить Мир U и Волна E.
-Architecture: новая edition поверх неизменных .0–.4; существующие модули и движительные проверки.
-Tech Stack: TypeScript, JSON, Vitest, Playwright, Vite.
-Spec: docs/product/ship-fitting-catalog-0.2.5.md (accepted), прежний .4 — исторический baseline.
-Work item ulab-jc1; PRODUCT budget5 для этой новой задачи, не продолжение закрытой ulab-kup.
-Source baseline650007bcaf87df9fb3f74d0f71fb7f4bdf90af12; branchfeat/medium-defaults-0.2.5,
-Draft stacked PR basefeat/mobile-compact-v4.3; один Developer, Plan Review → DEV → QA → Code Review.
+Goal: рабочие средние2-laser/bulk192 defaults, ВолнаH/builtin cryotank,
+МирU D/E и Ермак/ТитанU D/H/E.
+Architecture: новая edition поверх literal .0–.4, реальные modules/resource ledger;
+суффикс preset означает монтаж, без нового hidden runtime режима.
+Tech Stack: TypeScript/JSON/Vitest/Playwright/Vite.
+Spec: docs/product/ship-fitting-catalog-0.2.5.md0.3; прямой последний WHAT оператора.
+Work itemulab-jc1; PRODUCTbudget5. Plan1 подписал PLAN_READY для HOW0.2; после него оператор изменил только capacity+10→+20%.
+Этот numeric FAST amendment проверен PM; новая QA/CodeReview читаютwhole0.3.
 
-## As-built и scope
+QA2/CodeReview3 reserved, affected4/5 только при namedFAIL. Один Developer.
+Runtimebaseline650007bcaf87df9fb3f74d0f71fb7f4bdf90af12, branchfeat/medium-defaults-0.2.5;
+Draft stacked basefeat/mobile-compact-v4.3. Proposed0.1docs commit3449ec4 historical,
+не реализован; .3 staged/frozen с принятым numeric amendment, Developer включает их в finalcommit.
 
-Сейчас Мир копирует E и встроенный battery-M Волны. M меню содержит1/2/3 лазера,
-базовый fit имеет один лазер без bulk cargo. Новые изменения: edition .5, only fresh defaults,
-Mir U, M option:2 only. Не добавлять модули, новые физические коэффициенты, бюджет слотов,
-изменения интерфейсной раскладки, симуляции, схемы файлов или принудительную миграцию.
+## Scope и владельцы
 
-## Владельцы и последовательность
+Изменяются только known .5/type H, new edition hulls/defaults, реестр menu presets,
+необходимые architecture/input gates и адресованные tests. Запрещены новый slot budget,
+новыеglobal SKU, физическиеформулы/runner/kernel/scenarios и forced migration.
+BuiltinVolnaM capacity+20% — единственная новая declared lab parameter hypothesis,
+явно ограниченная этой моделью; все50global SKU неизменны.
 
-1. Developer до правок сохраняет независимые pre-change digests .4 catalog/фабрик/численных
-   коротких specs для семи корпусов и существующих1/2/3 presets. Добавляет tests/fitting/catalog-0.2.5.test.ts:
-   новая архитектура/defaults/старые hash snapshots/IO atomicity; прогон RED только новых требований.
-2. src/fitting/types.ts и editions.ts: добавить known .5, inherit .4 без её мутации;
-   только новый Mir U remove builtin:battery и operator provenance. loadCandidateCatalog
-   в src/fitting/catalog.ts должен включать те же50 SKU; getPresetFit bare M строит2+bulk192,
-   используемые размеры/классы/Power наборы — по Spec. Явный ручной count допускается,
-   хотя меню их не рекламирует. src/fitting/validate.ts: .5 carry existing E utility exception,
-   остальные propulsion homogeneous/type/resource/battery проверки сохраняются.
-3. src/app/main.ts default .5; src/app/fitting-ui/ship-view.ts один M option `${hullId}:2`.
-   Для текущего .5 сохранить S base-only и L существующие options, правильное выбранное значение.
-   src/io/fitting-json.ts — только если нужен перенос existing known-edition условия, без ослабления
-   несовпадающей architecture/builtin/unknown stamp проверки. kernel/runner/scenarios/IO schema не меняются.
-4. tests/browser/catalog-0.2.5.spec.ts: genuine touch390 workflow — выбрать каждый M,
-   проверить2 лазера/cargo192/builtins/архитектуру, Start/Pause/Resume/result, edit next/freeze,
-   JSON export→fresh reopen без потери монтажа и старый .4 run/result без restamp.
-   Existing browser selectors1/3 изменять лишь для fresh M menu .5; old pinned .4 unit tests неизменны.
-5. Адресованные tests GREEN → обязательный verify.sh normal guarded commit/build → FF push.
-   Immutable candidate с source/build hashes. QA адресует AC ниже, scoped Reviewer проверяет
-   только изменённые owners и версии/совместимость; advisory не расширяют работу.
-6. После PASS/APPROVED PM обновляет текущий LAN4196/Pages, проверяет bare URL/title/edition/menu,
-   закрывает Beads и обновляет MemoryBank. Старые builds/reports неизменны; operator merge отдельно.
+1. До кода Developer фиксирует независимые .4 digests catalog/семьhulls/allfactorypresets/
+   short resolvedspecs; новые tests/fitting/catalog-0.2.5.test.ts наMD01–06 даютRED
+   по .5/архитектуре/сборкам. Existing .0–.4 digesttests не переписываются под новый результат.
+2. src/fitting/types.ts/editions.ts: H допустим только как declared hull type,
+   .5 known; derive .5 без mutation .4. MirU remove builtinbattery, VolnaH replace
+   builtinbattery→explicitPowerbuiltincryotank поSpec (обычныеmaterials/numerics/gates).
+   fitHull и fitItem по edition, false stamps не обходят known-version/declared-hull checks.
+   src/fitting/validate.ts: H homogeneoushydrogen илиelectrichybrid, diesel direct запрещён;
+   existing E utilities carry .5; все4roleshomogeneous и реальныеbattery/species sources обязательны.
+3. src/fitting/catalog.ts getPresetFit(id,version): D/H/E aliases `${hullId}:${count}:${code}`,
+   bare defaultsпоSpec, ErmakD exactoperator .4 assembly; others size/class/Power/payload поSpec.
+   Existing reference retro localvariant bill preserved. Add shared exported
+   presetOptions/catalog factory list here (id/label/fit), использует ship-view.ts;
+   UI не должна копировать таблицу fuel/count policy. Explicit legacy preset/API поведение прежних
+   edition не меняется; unsupported presetcode не подменяется молча другойсборкой.
+4. src/app/main.ts current .5; ship-view.ts один option на declared assembly (Mir2,
+   Ermak3,Titan3,Volna1), M no1/3. Actual selection по catalogversion и реальному
+   mounted preset (revision отдельно); custom/oldimported fit — explicit current/custom option.
+   src/io/fitting-json.ts только existing known-edition/H guards при необходимости;
+   oldpositive roundtrip + forged architecture/builtin rejected atomically.
+5. tests/browser/catalog-0.2.5.spec.ts genuine touch390 и1440 wholechain:
+   все9addressed assemblies selectable/runnable; builtinvisible/count/mounts, shortactualWorker
+   result с ресурсным ledger; одна полная Start/Pause/editnext/freeze/Resume/export/freshreopen цепочка;
+   H builtin+extraH tank aggregate and old .4 import/replay. Обновлять только fresh-M
+   existing browserselectors которые больше отсутствуют; old .4 pinned unit expectations сохранять.
+6. AddressedGREEN→mandatory normal verify.sh guardedcommit/build→FFpush immutablecandidate.
+   QA7AC и один scopedCodeReviewer; advisory не расширяют scope. PM после PASS/APPROVED
+   публикуетLAN4196/Pages и проверяет bareURL/title/edition/menu, closesBeads/MemoryBank.
+   Source/build и whole2 content fingerprints; old signedreports/assets retained.
 
 ## Verification Contract / Review Focus
 
 | AC | Ожидаемое поведение и метод |
 |---|---|
-| MD01 | Все3 M fresh presets валидны и canRun; exactly2 own-class M mining + one bulk-M192. Compile даёт216/216/240 ore capacity и учитывает оборудование один раз; unit и native dropdown. |
-| MD02 | Mir .5 U: четыреhydrogen M role modules, typed H₂ tank/generator, сменный battery-M; cargo24 builtin, builtin battery отсутствует. Альтернативные полные diesel/electric fits проходят; смешанный движительный набор/нетbattery/нетH₂ tank не проходят readiness. |
-| MD03 | Volna .5 E: builtin battery-M/cargo24 неизменны; вседвижителиelectric. Utility H₂ tank+generator/cooler разрешены, chemical propulsion отвергается. Нельзя снятьbuiltin или подменитьего через instance. |
-| MD04 | M menu только:2, S base/L старые options сохранены. Ручное редактирование1/3 lasers разрешено, сохранив выбранный корабль; нет forced preset reset после импорта пользовательского fit. |
-| MD05 | .0–.4 snapshot digests и малыеJSON exact,50 SKU immutable; старый Mir E и builtin battery остаютсяв.4. Old fit/run/result roundtrip/replay неизменны; unknown version/forged stamp/architecture/builtin mismatch отклоняются атомарно. |
-| MD06 | Native short actualWorker on390 и desktop1440: каждый M selectable/runnable/result; один whole edit→run→pause→next→analysis→export→reopen chain с active/frozen/result ownership и station/V_FA/literal conditions preserved. Browser errors0. |
-| MD07 | Physics/kernel/runner/scenarios и numeric SKU файлы byteexact650; normalguardPASS, source/build binding; LAN4196 и Pages фактическипоказываютGD LAB/.5/M single options, без?v=. Physical devices отдельноNOTRUN. |
+| MD01 | ВолнаH + МирD/E + ТитанD/H/E: каждаяMdefault valid/canRun,2ownclassMlasers +1cargo-bulk-M192. Ore capacities216/216/240; встроенное/сменное учитываетсяодинраз. Unit+native. |
+| MD02 | МирU defaultsD/E; ЕрмакU/ТитанU D/H/E. Propulsionactual homogeneous4roles, typedfuel/battery required; mixedtype/нетbattery/нетtypedtank refusal. ErmakD exactpreviousJSON (apartstamp/revision), H/E sameS payload/signature. |
+| MD03 | Волна .5 H: builtin cargo24 + builtinH₂ cryotank4377.0845148kg/declaredexperimental; нетbuiltinbattery. InstalledbatteryM/genH2M, fourhydrogenMroles. Hydrogen/electrichybrid allowed; dieseldirectrejected. Builtinне снимается/неподменяется; extraH₂ tank aggregates/bill/fuel ledgerодинраз, exhaustionне производитресурсы. |
+| MD04 | Menu Мир2/Ермак3/Титан3/Волна1 fuel-labelled options; noM1/3 options, Спутник/Пони/L прежние. Dropdownactualselected/correctsamehull; custom1/3илиoldeditionfit explicitcustom, noforcedreset. Wrong code refuses; manualhydrogenMir possible although menuonlyD/E. |
+| MD05 | .0–.4 snapshots/фабрики,50SKU и малыеJSON bytes exact. OldMir/VolnaE still replay exact; E utility permissions .3/.4/.5 remain. Newfit/run/result roundtripHсbuiltin и oldrun/result, unknown/forgedversion/architecture/builtin mismatch rejected atomically. |
+| MD06 | Touch390 +1440 native actualWorker: all9newassembliesselected/runnable/result; onewholeedit/run/pause/next/freeze/analyze/IO chain; active/current/frozen owner and station checkbox/literalV_FA/distance/time conditions preserved. Browsererrors0, functionalcontrolsreachable. |
+| MD07 | NumericglobalSKU/kernel/runner/scenarios byteexact650; finalguardPASS/actualsourcebuildbinding. LAN4196+barePages show GD LAB/current.5/assemblymenu; physical devicesNOTRUN. |
 
-Именованные риски: borrowed builtin battery наU; незаметный рестамп старого .4; E utility
-регрессия при .5; dropdown selection после ручного1/3 fit; предварительныеrun owners и
-literal условия приwhole preset. Их проверяют MD02/05/03/04/06 соответственно.
-Новый fit не обязан быть экономическим оптимумом или работать без термоограничения:
-его эффективность измеряется существующей Лабой. Не добавлять фиксы симуляции по результатам этого прохода.
-Rollback — предыдущее immutable gd-lab-label-release/source650; retained assets для открытых клиентов.
-PM self-adversarial check: все direct WHAT покрыты MD01–04; исторические/состояния MD05–06;
-нет придуманных ТТХ/дополнительныхslots, источникbuiltin разделён с naming proposal.
+ReviewFocus:1builtinH fuel countedtwice(MD03);2type suffix hiddenmode versus actualmodules(MD02/04);
+3historical .4 auto-restamp(MD05);4customselect depicts anotherhull(MD04);5active-next/condition
+ownership onnewassembly(MD06). Каждому соответствует адресованный test, без полнойnewQAматрицы.
+Экономическуюоптимальность/непрерывнуюработубезограничений не обещать и не чинитьчисленныйдвижок
+в этойпоставке. Rollback — source650/gd-lab-label-release, priorassetsretain.
+PMself-check: последнееWHAT покрыто, builtinadvantage explicittemporarynotcanon,
+slotsunchanged; предыдущаяPlan0.1задачапрекращена доDEV. Status ведёт Beads, неcheckboxплана.

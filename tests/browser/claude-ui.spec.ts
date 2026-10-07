@@ -135,10 +135,11 @@ test("UI03/17 seven current hulls update actual passport; local assets and table
     "../../src/fitting/catalog"
   );
   const { compileFit } = await import("../../src/fitting/compile");
-  const c = loadCandidateCatalog("ship-fitting-0.2.4");
+  const c = loadCandidateCatalog("ship-fitting-0.2.5");
   for (const h of c.hulls) {
-    await page.locator("#fit-preset").selectOption(h.id + ":1");
-    const oracle = compileFit(getPresetFit(h.id + ":1",c.version), c);
+    const id = h.id === "civilian-M" ? h.id+":2:H" : h.id === "industrial-S" ? h.id+":1:D" : h.size === "M" ? h.id+":2:D" : h.id+":1";
+    await page.locator("#fit-preset").selectOption(id);
+    const oracle = compileFit(getPresetFit(id,c.version), c);
     if (!oracle.ok) throw Error(h.id);
     await expect(page.locator(".ship-hero")).toContainText(
       (oracle.value.dryMassKg / 1000).toLocaleString("ru-RU", {
@@ -168,7 +169,7 @@ test("UI04/16 passport data do not overlap ring targets and mobile catalog rows 
   page,
 }) => {
   await page.goto("/"); await openTimedDraft(page);
-  await page.locator("#fit-preset").selectOption("industrial-M:3");
+  await page.locator("#fit-preset").selectOption("industrial-M:2:D");
   await page.evaluate(() => document.fonts.ready);
   const overlap = await page.evaluate(() => {
     const p = document

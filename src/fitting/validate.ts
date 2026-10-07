@@ -285,7 +285,7 @@ export function validateFit(f: ShipFit, c: CandidateCatalog): FitValidation {
       bad("assignments." + slotId, "INACTIVE_SIZE", "XXL — неактивный резерв");
     if (
       ["E", "A"].includes(h.architecture) &&
-      ((m.family === "tank" || m.family === "generator") && !(h.architecture === "E" && ["ship-fitting-0.2.3","ship-fitting-0.2.4"].includes(f.catalogVersion)) ||
+      ((m.family === "tank" || m.family === "generator") && !(h.architecture === "E" && ["ship-fitting-0.2.3","ship-fitting-0.2.4","ship-fitting-0.2.5"].includes(f.catalogVersion)) ||
         (m.propulsionType && m.propulsionType !== "electric"))
     )
       bad(
@@ -294,14 +294,14 @@ export function validateFit(f: ShipFit, c: CandidateCatalog): FitValidation {
         "Архитектура не допускает operating fuel",
       );
     if (
-      h.architecture === "D" &&
+      ["D", "H"].includes(h.architecture) &&
       m.family === "engine" &&
-      !["diesel", "electric"].includes(m.propulsionType!)
+      ![h.architecture === "H" ? "hydrogen" : "diesel", "electric"].includes(m.propulsionType!)
     )
       bad(
         "assignments." + slotId,
         "ARCHITECTURE",
-        "D допускает дизельные или однородные электрические движители",
+        h.architecture + " допускает " + (h.architecture === "H" ? "водородные" : "дизельные") + " или однородные электрические движители",
       );
   }
   for (const id of Object.keys(f.instances))
