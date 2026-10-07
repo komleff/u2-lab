@@ -68,7 +68,7 @@ for (const changed of [false, true])
     expect(w.getCurrentResult()).toBeUndefined();
     expect(w.getActive()?.spec).toEqual(started.value.spec);
     const view = labView(w, old, channel(), "all", "");
-    const context = view.slice(0, view.indexOf('<div class="lab-columns">'));
+    const context = view.slice(view.indexOf('id="condition-notes"'), view.indexOf('<aside class="lab-right">'));
     const measured = view.slice(view.indexOf('id="fit-result"'), view.indexOf('id="lab-channels"'));
     expect(context).toContain("run new");
     expect(context).not.toContain("run old");

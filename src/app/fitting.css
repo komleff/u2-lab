@@ -1219,7 +1219,7 @@ body:has(.fitting-app) {
   .fitting-app .file-actions { width: auto; font-size: 10px; }
   .fitting-app .persistent-context { font-size: 10px; }
   .fitting-app .ui-controls .control-buttons { gap: 4px; }
-  .fitting-app .ui-controls .control-buttons button { padding: 6px; font-size: 11px; }
+  .fitting-app .ui-controls .control-buttons button { padding: 6px; }
 }
 
 /* Графики занимают рабочую ширину; боковые панели не уменьшают оси. */
@@ -1254,3 +1254,124 @@ body:has(.fitting-app) {
 
 /* Длинный рабочий лист прокручивается без случайного обновления на верхней границе. */
 html:has(.fitting-app), body:has(.fitting-app) { overscroll-behavior-y: none; }
+
+/* Компактный рабочий лист: панели не вытесняют доступную область действия. */
+.fitting-app button { min-width: 44px; }
+.fitting-app .ui-header { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 2px 8px; padding: 4px 8px; }
+.fitting-app .ui-brand strong { font-size: 18px; }
+.fitting-app .ui-brand small { font-size: 12px; white-space: nowrap; }
+.fitting-app .ui-header nav { justify-content: center; width: auto; flex-wrap: nowrap; }
+.fitting-app .ui-header nav a { font-size: 12px; padding: 6px; white-space: nowrap; }
+.fitting-app .file-actions { margin: 0; flex-wrap: nowrap; font-size: 12px; width: auto; }
+.fitting-app .file-actions > * { flex: none; padding: 6px 8px; }
+.fitting-app .context-details { grid-column: 1 / -1; font-size: 12px; }
+.fitting-app .context-details > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+.fitting-app .persistent-context { font-size: 12px; padding: 4px 0; }
+.fitting-app .workspace-section { scroll-margin-top: 112px; }
+.fitting-app .ui-main, .fitting-app .workspace-meta { padding-left: 12px; padding-right: 12px; }
+.fitting-app .ui-panel { padding: 12px; margin-bottom: 10px; }
+.fitting-app .ui-panel h2 { font-size: 20px; margin-bottom: 6px; }
+.fitting-app .lab-context { padding: 8px 0; }
+.fitting-app .lab-context h1 { font-size: 26px; }
+.fitting-app .lab-context p { font-size: 12px; margin: 4px 0; }
+.fitting-app .condition-fields { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px 10px; align-items: end; }
+.fitting-app .condition-fields label { gap: 2px; }
+.fitting-app .condition-fields input, .fitting-app .condition-fields select { padding: 6px; width: 100%; }
+.fitting-app .condition-fields label:has(input[type=checkbox]) { align-self: center; }
+.fitting-app .condition-fields input[type=checkbox] { width: 20px; flex: none; }
+.fitting-app .station-policy-summary { font-size: 12px; align-self: center; }
+.fitting-app #condition-notes { font-size: 12px; margin-top: 4px; }
+.fitting-app .systems { gap: 10px; }
+.fitting-app .module-card { padding: 8px; gap: 4px; }
+.fitting-app .module-card p, .fitting-app .module-card .module-profile { margin: 4px 0; }
+.fitting-app .module-top { gap: 6px; }
+.fitting-app .card-enable { font-size: 12px; padding: 4px 8px; }
+.fitting-app .module-profile { font-size: 12px; gap: 4px 8px; }
+.fitting-app .metric-value, .fitting-app #fit-dock-rate, .fitting-app #fit-time { white-space: nowrap; overflow-wrap: normal; }
+.fitting-app .measurement, .fitting-app .channel-legend button, .fitting-app .phase-strip, .fitting-app .fit-f1 small, .fitting-app .ring-center .muted, .fitting-app .condition-differences dd { font-size: 12px; }
+.fitting-app .overview-charts h3 { min-height: 0; }
+.fitting-app .ab-rows dl > div { min-height: 0; padding: 6px 0; }
+.fitting-app .ab-plot text { font-size: 26px; }
+
+.fitting-app .result-tile { padding: 8px; gap: 6px; }
+.fitting-app .result-tile strong { font-size: 24px; }
+.fitting-app .ui-controls { gap: 4px 8px; padding: 4px 8px calc(4px + env(safe-area-inset-bottom)); }
+.fitting-app .control-status { font-size: 12px; gap: 6px; }
+.fitting-app #fit-dock-result-context, .fitting-app .control-reason { font-size: 12px; }
+.fitting-app .control-buttons { gap: 4px; }
+.fitting-app .control-buttons button { padding: 6px 8px; font-size: 12px; min-height: 44px; min-width: 44px; }
+.fitting-app .control-buttons label { font-size: 12px; gap: 4px; }
+.fitting-app #fit-speed { min-width: 70px; padding: 6px; }
+.fitting-app #ui-dialog { max-height: calc(100dvh - 16px); height: auto; margin: auto; }
+.fitting-app #ui-dialog[open] { display: flex; flex-direction: column; }
+.fitting-app .dialog-header, .fitting-app .dialog-footer { flex: none; padding: 6px 10px; }
+.fitting-app .dialog-header h2 { font-size: 18px; margin: 0; }
+.fitting-app .dialog-header button { min-width: 44px; flex: none; }
+.fitting-app .dialog-body { min-height: 0; overflow: auto; max-height: none; padding: 8px 10px; }
+.fitting-app .dialog-footer { position: static; gap: 4px 8px; }
+.fitting-app .dialog-footer button { font-size: 12px; white-space: nowrap; }
+.fitting-app .dialog-footer label { font-size: 12px; }
+.fitting-app .filters { gap: 6px; }
+.fitting-app input, .fitting-app select { font-size: 16px; }
+.fitting-app .catalog-list { max-height: none; overflow: visible; }
+.fitting-app .catalog-row { padding: 8px 64px 8px 8px; gap: 8px; }
+.fitting-app .catalog-row .module-profile { overflow-wrap: normal; }
+
+@media (max-width: 1100px) {
+  .fitting-app .condition-fields { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .fitting-app #fit-running-revision { display: none; }
+  .fitting-app .ui-controls .control-buttons { width: auto; }
+  .fitting-app .control-buttons .primary { min-height: 44px; }
+  .fitting-app .ui-controls[data-control-state=idle] #fit-pause,
+  .fitting-app .ui-controls[data-control-state=idle] #fit-resume,
+  .fitting-app .ui-controls[data-control-state=idle] #fit-step,
+  .fitting-app .ui-controls[data-control-state=idle] #fit-cancel,
+  .fitting-app .ui-controls[data-control-state=running] #fit-start,
+  .fitting-app .ui-controls[data-control-state=running] #fit-resume,
+  .fitting-app .ui-controls[data-control-state=running] #fit-step,
+  .fitting-app .ui-controls[data-control-state=running] #fit-reset,
+  .fitting-app .ui-controls[data-control-state=paused] #fit-start,
+  .fitting-app .ui-controls[data-control-state=paused] #fit-pause,
+  .fitting-app .ui-controls[data-control-state=paused] #fit-reset { display: none; }
+  .fitting-app .ui-controls .control-status { width: auto; }
+}
+@media (max-width: 700px) {
+  .fitting-app #channel-details svg text { font-size: 28px; }
+
+  .fitting-app .ui-header { grid-template-columns: minmax(0, 1fr) auto; }
+  .fitting-app .ui-header nav { grid-column: 1 / -1; grid-row: 2; justify-content: space-between; }
+  .fitting-app .ui-header nav a { flex: 1; justify-content: center; }
+  .fitting-app .ui-brand { gap: 4px; }
+  .fitting-app .ui-brand span { font-size: 20px; }
+  .fitting-app .workspace-section { scroll-margin-top: 148px; }
+  .fitting-app .condition-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fitting-app .condition-fields label:has(input[type=checkbox]), .fitting-app .station-policy-summary { grid-column: 1 / -1; }
+  .fitting-app .control-buttons { width: 100%; justify-content: space-between; }
+  .fitting-app .ui-controls .control-status { width: 100%; }
+  .fitting-app .control-status #fit-ack { margin-left: auto; }
+  .fitting-app .filters { grid-template-columns: 1fr 1fr; }
+  .fitting-app .filters label:first-child { grid-column: auto; }
+  .fitting-app .dialog-footer label { width: 100%; }
+  .fitting-app .dialog-footer > button { flex: 1; }
+  .fitting-app { padding-bottom: 160px; }
+}
+@media (min-width: 701px) and (max-width: 1100px) {
+  .fitting-app .condition-fields { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 500px) {
+  .fitting-app .ui-main, .fitting-app .workspace-meta { padding-left: 8px; padding-right: 8px; }
+  .fitting-app .ui-panel { padding: 8px; }
+  .fitting-app .module-grid { gap: 6px; }
+  .fitting-app .control-buttons button { font-size: 12px; padding: 6px; }
+  .fitting-app #fit-resume { padding-left: 4px; padding-right: 4px; }
+}
+@media (max-height: 400px) {
+  .fitting-app .ui-header { position: static; }
+  .fitting-app .workspace-section { scroll-margin-top: 8px; }
+  .fitting-app .ui-controls .control-status { width: auto; }
+}
+
+/* Нативная прокрутка учитывает закреплённые панели, включая возврат из modal. */
+html:has(.fitting-app) { scroll-padding-top: 112px; scroll-padding-bottom: 132px; }
+@media (max-width: 700px) { html:has(.fitting-app) { scroll-padding-top: 148px; } }
+@media (max-height: 400px) { html:has(.fitting-app) { scroll-padding-top: 8px; } }

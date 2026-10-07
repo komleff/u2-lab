@@ -113,14 +113,19 @@ for (const width of [390, 900])
     ]);
     await p.locator("#fit-duration").fill("3600");
     await p.locator("#fit-speed").selectOption("1");
-    for (const id of ["start", "pause", "resume", "step", "cancel", "reset"]) {
-      const b = await p.locator("#fit-" + id).boundingBox();
-      expect(b!.width).toBeGreaterThanOrEqual(44);
-      expect(b!.height).toBeGreaterThanOrEqual(44);
-    }
+    const touchActions = async (ids: string[]) => {
+      for (const id of ids) {
+        const b = await p.locator("#fit-" + id).boundingBox();
+        expect(b!.width).toBeGreaterThanOrEqual(44);
+        expect(b!.height).toBeGreaterThanOrEqual(44);
+      }
+    };
+    await touchActions(["start", "reset"]);
     await p.locator("#fit-start").tap();
+    await touchActions(["pause", "cancel"]);
     await p.locator("#fit-pause").tap();
     await expect(p.locator("#fit-status")).toContainText("Пауза");
+    await touchActions(["resume", "step", "cancel"]);
     await p.locator("#fit-cancel").tap();
     await p.getByRole("button", { name: "Отменить тест", exact: true }).tap();
     await expect(p.locator("#fit-status")).toContainText("Отменён");

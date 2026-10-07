@@ -201,8 +201,14 @@ test("WF04/06 all slot groups, optional ring and builtin controls retain nodes a
     const button = page.locator(selector).first(); await button.scrollIntoViewIfNeeded();
     const node = await button.elementHandle(), bounds = await button.boundingBox();
     if (!node || !bounds) throw Error("visible group target");
+    const hit = await button.evaluate(n => { const r=n.getBoundingClientRect(),h=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return {target:n.id,hit:h?.id,hitClass:h?.className,correct:n===h||n.contains(h),header:document.querySelector('.ui-header')!.getBoundingClientRect().toJSON(),dock:document.querySelector('.ui-controls')!.getBoundingClientRect().toJSON(),targetBounds:r.toJSON()}; });
+    console.log("HELD_SLOT_HIT",JSON.stringify({selector,...hit}));
+    expect(hit.correct).toBe(true);
     await page.mouse.move(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
-    await page.mouse.down(); await page.waitForTimeout(90); await page.mouse.up();
+    await page.mouse.down(); await page.waitForTimeout(90);
+    const held = await node.evaluate((n, point) => {const h=document.elementFromPoint(point.x,point.y);return {connected:n.isConnected,hit:n===h||n.contains(h)};}, {x:bounds.x+bounds.width/2,y:bounds.y+bounds.height/2});
+    expect(held).toEqual({connected:true,hit:true});
+    await page.mouse.up();
     expect(await node.evaluate(n => n.isConnected)).toBe(true);
     await expect(page.getByRole("dialog")).toBeVisible();
     await expect(page.locator(builtin ? "#instance-sources" : "#swap-title")).toBeVisible();
