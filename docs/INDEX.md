@@ -2,6 +2,8 @@
 
 | Документ | Статус | Область |
 |---|---|---|
+| [Каталог0.2.4 и базовые корабли](product/ship-fitting-catalog-0.2.4.md) | accepted / implementation authorized | JSON оператора, имена, Мир, V_FA, свежие ×2 условия; старые опыты сохраняются |
+| [План каталога0.2.4](plans/2026-10-07-fitting-catalog-0.2.4.md) | proposed / awaiting Plan Review | ulab-9kh, CD01–08, один Developer, scope отдельно от открытого UI closure |
 | [Продуктовый контракт](product/power-heat-lab-v0.1.md) | accepted scope / structured contract | WHAT из решений оператора |
 | [Источники и границы authority](architecture/source-authority.md) | current | Current owners U2, versions, unresolved formula boundary |
 | [План запуска](plans/2026-10-05-u2-lab-launch.md) | PLAN_READY / B0 blocked | HOW лаборатории и зависимости |
