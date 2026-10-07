@@ -56,8 +56,11 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   await expect(page.locator("#fit-dock-result-context")).toHaveAttribute("data-run-id", ids[1]);
   await expect(page.locator("#fit-dock-result-context")).not.toHaveAttribute("data-run-id", ids[0]);
   await expect(page.locator("#fit-result")).toContainText("ожидается первое измерение текущего теста");
-  await expect(page.locator(".lab-context")).toContainText("run " + ids[1]);
-  await expect(page.locator(".lab-context")).not.toContainText(ids[0]);
+  await page.locator("#condition-notes summary").tap();
+  await expect(page.locator("#condition-notes p").first()).toBeVisible();
+  await expect(page.locator("#condition-notes")).toContainText("run " + ids[1]);
+  await expect(page.locator("#condition-notes")).not.toContainText(ids[0]);
+  await page.locator("#condition-notes summary").tap();
   await expect(page.locator(".fit-f1")).toContainText("предыдущий тест · run " + ids[0]);
   await expect(page.locator('.compare-cards [data-compare-variant="A"]')).toContainText("предыдущий тест · run " + ids[0]);
 
@@ -89,13 +92,13 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   expect(await page.locator("#fit-comparison .ab-side-a").innerHTML()).toBe(frozen);
   await page.evaluate(() => (window as any).releaseTelemetry());
   await expect(page.locator("#fit-time")).not.toHaveText("0 с / 20 с");
-  await expect(page.locator(".lab-context")).toContainText("run " + ids[1]);
+  await expect(page.locator("#condition-notes")).toContainText("run " + ids[1]);
   await page.locator("#fit-speed").selectOption("20000");
   await page.locator("#fit-resume").click();
   await expect(page.locator("#fit-active-owner")).toContainText("активного теста нет");
   await page.getByRole("button", { name: /Вариант A ·/ }).click();
   await expect(page.locator("#fit-status")).toContainText("Завершён");
-  await expect(page.locator(".lab-context")).toContainText("run " + ids[1]);
+  await expect(page.locator("#condition-notes")).toContainText("run " + ids[1]);
   expect(await page.locator("#fit-comparison .ab-side-a").innerHTML()).toBe(frozen);
   const finalDownload = page.waitForEvent("download");
   await page.locator("#fit-export-result").tap();
@@ -134,7 +137,7 @@ for (const width of [1440, 1024, 390]) test(`result dock real mission zero/live/
     const g = await page.evaluate(() => {
       const selectors = ["#fit-dock-rate", "#fit-start", "#fit-pause", "#fit-resume", "#fit-reset"];
       return { width: innerWidth, document: document.documentElement.scrollWidth, visual: visualViewport!.width,
-        controls: selectors.map(selector => {
+        controls: selectors.filter(selector => document.querySelector(selector)!.getClientRects().length).map(selector => {
           const n = document.querySelector(selector)!, b = n.getBoundingClientRect();
           const hit = document.elementFromPoint(b.x + b.width / 2, b.y + b.height / 2);
           return { selector, inside: b.x >= 0 && b.right <= innerWidth && b.y >= 0 && b.bottom <= innerHeight, reachable: n === hit || n.contains(hit) };

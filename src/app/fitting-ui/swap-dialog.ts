@@ -156,5 +156,5 @@ export function swapDialog(w: FittingWorkspace, s: SwapState) {
               )
         }</p>${validation?.readiness.missing.length ? `<p class="warning">Сборка неполная: ${esc(validation.readiness.missing.join(" · "))}</p>` : ""}<details><summary>Объявленные ТТХ и происхождение ${f.localVariants[item!.id] ? "· локальный вариант" : ""}</summary><pre>${esc(JSON.stringify(item, null, 2))}</pre></details>`
       : "<p>Выберите изделие для предпросмотра.</p>"
-  }</details></div><div class="dialog-footer">${all ? `<label><input id="swap-batch" type="checkbox" ${s.batch ? "checked" : ""}>Все сменные Payload</label>` : ""}<button id="fit-remove" ${!installed ? "disabled" : ""}>Снять изделие</button><button id="fit-apply" class="primary" ${!validation?.valid || (s.candidate === installed && !s.batch) ? "disabled" : ""}>Применить замену</button><p class="muted">Снятие обязательного изделия допустимо; неполная сборка не запустится.</p></div>`;
+  }</details></div><div class="dialog-footer">${all ? `<label><input id="swap-batch" type="checkbox" ${s.batch ? "checked" : ""}>Все сменные Payload</label>` : ""}<button id="fit-remove" ${!installed ? "disabled" : ""}>Снять</button><button id="fit-apply" class="primary" ${!validation?.valid || (s.candidate === installed && !s.batch) ? "disabled" : ""}>Применить</button></div>`;
 }
