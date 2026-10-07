@@ -754,6 +754,15 @@ body:has(.fitting-app) {
   flex-wrap: wrap;
   font-size: 12px;
 }
+.fitting-app #fit-dock-rate {
+  font: 700 26px "PT Sans Narrow", sans-serif;
+  color: var(--action);
+  line-height: 1.1;
+}
+.fitting-app #fit-dock-result-context {
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
 .fitting-app .control-buttons {
   display: flex;
   gap: 6px;

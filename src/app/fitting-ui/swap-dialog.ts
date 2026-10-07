@@ -29,7 +29,12 @@ export function swapDialog(w: FittingWorkspace, s: SwapState) {
     h = fitHull(f, w.catalog)!,
     slot = h.slots.find((x) => x.id === s.slotId)!,
     installed = f.instances[f.assignments[s.slotId]]?.itemId;
-  const items = Object.values({ ...w.catalog.items, ...f.localVariants });
+  const items = Object.values({ ...w.catalog.items, ...f.localVariants }).filter(
+    (m) => m.category === slot.category && slot.families.includes(m.family),
+  );
+  const families = [...new Set(items.map((m) => m.family))];
+  if (s.family !== "all" && !families.some((family) => family === s.family))
+    s.family = "all";
   const process = nominalProcess(w);
   const [field, direction] = s.sort.split("-");
   const metric = (m: (typeof items)[number]) =>
@@ -105,7 +110,7 @@ export function swapDialog(w: FittingWorkspace, s: SwapState) {
       ? nominalFit(candidate, w.catalog, process)
       : undefined;
   const all = slot.category === "payload";
-  return `<div class="dialog-header"><h2 id="swap-title">${installed ? "Заменить" : "Установить"}: ${esc(slot.id)} · слот ${slot.size}</h2><button id="swap-close" aria-label="Закрыть окно замены">✕</button></div><div class="dialog-body"><div class="filters"><label>Поиск изделий<input id="swap-search" type="search" value="${esc(s.query)}" placeholder="Название изделия"></label><label>Семейство<select id="swap-family"><option value="all">Все</option>${[...new Set(items.map((m) => m.family))].map((x) => `<option ${s.family === x ? "selected" : ""}>${x}</option>`).join("")}</select></label><label>Калибр<select id="swap-size"><option value="all">Все</option>${["XS", "S", "M", "L", "XL", "XXL"].map((x) => `<option ${s.size === x ? "selected" : ""}>${x}</option>`).join("")}</select></label><label>Сортировка<select id="swap-sort">${[
+  return `<div class="dialog-header"><h2 id="swap-title">${installed ? "Заменить" : "Установить"}: ${esc(slot.id)} · слот ${slot.size}</h2><button id="swap-close" autofocus aria-label="Закрыть окно замены">✕</button></div><div class="dialog-body"><div class="filters"><label>Поиск изделий<input id="swap-search" type="search" value="${esc(s.query)}" placeholder="Название изделия"></label><label>Семейство<select id="swap-family"><option value="all">Все</option>${families.map((x) => `<option ${s.family === x ? "selected" : ""}>${x}</option>`).join("")}</select></label><label>Калибр<select id="swap-size"><option value="all">Все</option>${["XS", "S", "M", "L", "XL", "XXL"].map((x) => `<option ${s.size === x ? "selected" : ""}>${x}</option>`).join("")}</select></label><label>Сортировка<select id="swap-sort">${[
     ["name", "Название ▲"],
     ["name-desc", "Название ▼"],
     ["mass-asc", "Масса ▲"],
@@ -125,19 +130,7 @@ export function swapDialog(w: FittingWorkspace, s: SwapState) {
     )
     .join(
       "",
-    )}</select></label></div><p class="muted">${shown.filter((x) => x.v.valid).length} подходят · ${shown.filter((x) => !x.v.valid).length} с отказом · номинальные параметры</p><div class="catalog-head segments" role="group" aria-label="Сортировка по колонкам">${[
-    ["name", "Изделие"],
-    ["mass", "Масса"],
-    ...(s.family === "cargo" ? [["cargo", "Вместимость"]] : []),
-    ...(s.family === "mining" ? [["power", "Мощность"], ["mining", "Номинал добычи"]] : []),
-  ]
-    .map(
-      ([id, label]) =>
-        `<button data-catalog-sort="${id}-${field === id && direction !== "asc" ? "asc" : "desc"}" aria-pressed="${field === id}">${label}${field === id ? (direction === "asc" ? " ▲" : " ▼") : ""}</button>`,
-    )
-    .join(
-      "",
-    )}</div><div class="catalog-list" role="group" aria-label="Каталог изделий">${
+    )}</select></label></div><p class="muted">${shown.filter((x) => x.v.valid).length} подходят · ${shown.filter((x) => !x.v.valid).length} с отказом · номинальные параметры</p><div class="catalog-list" role="group" aria-label="Каталог изделий">${
     shown.map(({ m, v }) =>
       `<div class="catalog-entry"><button class="catalog-row ${m.id === s.candidate ? "selected" : ""} ${!v.valid ? "incompatible" : ""}" data-candidate="${esc(m.id)}" aria-pressed="${m.id === s.candidate}"><span class="calibre">${m.size}</span><span><strong>${esc(m.label)}</strong>${m.id === installed ? '<span class="muted">Установлено</span>' : ""}${!v.valid ? `<span class="warning">Не подходит: ${esc(v.issues.filter(x => x.severity === "error").map(x => x.message).join(" · "))}</span>` : ""}</span><span class="catalog-metrics module-profile">${moduleProfile(m, process)}</span></button>${technicalDetails(m, "candidate-info-" + m.id)}</div>`,
     )

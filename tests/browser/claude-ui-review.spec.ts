@@ -51,6 +51,10 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   const ids = await page.evaluate(() => (window as any).starts as string[]);
   await expect(page.locator("#fit-time")).toHaveText("0 с / 20 с");
   await expect(page.locator("#fit-rate")).toHaveText("—");
+  await expect(page.locator("#fit-dock-rate")).toHaveText("—");
+  await expect(page.locator("#fit-dock-result-context")).toContainText("Пауза");
+  await expect(page.locator("#fit-dock-result-context")).toHaveAttribute("data-run-id", ids[1]);
+  await expect(page.locator("#fit-dock-result-context")).not.toHaveAttribute("data-run-id", ids[0]);
   await expect(page.locator("#fit-result")).toContainText("ожидается первое измерение текущего теста");
   await expect(page.locator(".lab-context")).toContainText("run " + ids[1]);
   await expect(page.locator(".lab-context")).not.toContainText(ids[0]);
@@ -76,6 +80,8 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   await expect(page.locator(".lab-context")).toContainText("Активный тест: вариант A");
   await expect(page.locator(".lab-side")).toContainText("Следующий черновик");
   await expect(page.locator("#fit-time")).toHaveText("0 с / 20 с");
+  await expect(page.locator("#fit-dock-rate")).toHaveText("—");
+  await expect(page.locator("#fit-dock-result-context")).toContainText("вариант A");
   await page.locator('.lab-main [data-instance="fit:march"]').click();
   const oldMarch = JSON.parse(oldBytes.toString()).spec.resolvedShip.instances.find((i: any) => i.id === "fit:march");
   await expect(page.getByRole("dialog")).toContainText('"id": "' + oldMarch.item.id + '"');
@@ -91,4 +97,99 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   await expect(page.locator("#fit-status")).toContainText("Завершён");
   await expect(page.locator(".lab-context")).toContainText("run " + ids[1]);
   expect(await page.locator("#fit-comparison .ab-side-a").innerHTML()).toBe(frozen);
+  const finalDownload = page.waitForEvent("download");
+  await page.locator("#fit-export-result").tap();
+  const final = JSON.parse((await readFile((await (await finalDownload).path())!)).toString());
+  expect(final.metrics.scuPerHour).toBeGreaterThan(0);
+  await expect(page.locator("#fit-dock-rate")).toHaveText(final.metrics.scuPerHour.toLocaleString("ru-RU", { maximumFractionDigits: 2 }) + " SCU/ч");
+  await expect(page.locator("#fit-dock-rate")).toHaveText(await page.locator(".hero-result .metric-focus").innerText());
+  await expect(page.locator("#fit-dock-result-context")).toHaveAttribute("data-run-id", ids[1]);
+});
+
+for (const width of [1440, 1024, 390]) test(`result dock real mission zero/live/Pause/foreign variant/final/stale/import/reset at ${width}`, async ({ browser }, info) => {
+  const context = await browser.newContext({ viewport: { width, height: 1000 }, isMobile: width !== 1440, hasTouch: width !== 1440, acceptDownloads: true });
+  const page = await context.newPage(), errors: string[] = [];
+  page.on("pageerror", e => errors.push(e.message));
+  await page.addInitScript(() => {
+    const Native = Worker;
+    (window as any).dockStarts = [];
+    window.Worker = class extends Native {
+      postMessage(message: any, ...args: any[]) {
+        if (message.type === "start") (window as any).dockStarts.push(structuredClone(message));
+        return (super.postMessage as any)(message, ...args);
+      }
+    };
+  });
+  const action = async (selector: string) => {
+    const n = page.locator(selector);
+    if (width === 1440) await n.click(); else await n.tap();
+  };
+  const exported = async () => {
+    if (!await page.locator("#fit-more").evaluate(n => (n as HTMLDetailsElement).open)) await action("#fit-f3");
+    const wait = page.waitForEvent("download"); await action("#fit-export-result");
+    return JSON.parse(await readFile((await (await wait).path())!, "utf8"));
+  };
+  const geometry = async () => {
+    await page.locator("#workspace-compare").evaluate(n => n.scrollIntoView({ block: "start" }));
+    const g = await page.evaluate(() => {
+      const selectors = ["#fit-dock-rate", "#fit-start", "#fit-pause", "#fit-resume", "#fit-reset"];
+      return { width: innerWidth, document: document.documentElement.scrollWidth, visual: visualViewport!.width,
+        controls: selectors.map(selector => {
+          const n = document.querySelector(selector)!, b = n.getBoundingClientRect();
+          const hit = document.elementFromPoint(b.x + b.width / 2, b.y + b.height / 2);
+          return { selector, inside: b.x >= 0 && b.right <= innerWidth && b.y >= 0 && b.bottom <= innerHeight, reachable: n === hit || n.contains(hit) };
+        }), color: getComputedStyle(document.querySelector("#fit-dock-rate")!).color,
+        heroColor: getComputedStyle(document.querySelector(".metric-focus")!).color,
+        footerHeight: document.querySelector(".ui-controls")!.getBoundingClientRect().height };
+    });
+    expect(g.width).toBe(width); expect(g.document).toBe(width); expect(g.visual).toBe(width);
+    expect(g.controls.every(c => c.inside && c.reachable)).toBe(true); expect(g.color).toBe(g.heroColor);
+    return g;
+  };
+  await page.goto("/");
+  await expect(page.locator("#fit-dock-rate")).toHaveText("—");
+  await page.locator("#fit-duration").fill("6");
+  await page.locator("#fit-distance").fill("0"); await page.locator("#fit-approach").fill("0");
+  await page.locator("#fit-service").fill("2"); await page.locator("#fit-target").fill(".001");
+  await page.locator("#fit-stop-policy").selectOption("first-stop"); await page.locator("#fit-speed").selectOption("1");
+  await action("#fit-start"); await expect(page.locator("#fit-time")).not.toHaveText("0 с / 6 с");
+  await expect(page.locator("#fit-dock-rate")).toHaveText("0 SCU/ч");
+  await expect(page.locator("#fit-dock-result-context")).toContainText("Выполняется");
+  await action("#fit-pause"); await expect(page.locator("#fit-status")).toContainText("Пауза");
+  const paused = await exported(), starts = await page.evaluate(() => (window as any).dockStarts);
+  expect(paused.runId).toBe(starts[0].runId); expect(paused.metrics.scuPerHour).toBeGreaterThan(0);
+  expect(paused.metrics.mission.deliveredScuPerHour).toBe(0);
+  await expect(page.locator("#fit-dock-rate")).toHaveText("0 SCU/ч");
+  await expect(page.locator("#fit-dock-result-context")).toContainText("Пауза");
+  await expect(page.locator("#fit-dock-result-context")).toContainText("ревизия " + paused.spec.resolvedShip.fit.fitRevision);
+  await action("#fit-freeze"); const frozen = await page.locator(".ab-side-a").innerHTML();
+  await action('[data-variant="B"][aria-pressed]'); await page.locator("#fit-preset").selectOption("pony:1");
+  await expect(page.locator("#fit-dock-result-context")).toContainText("вариант A");
+  await expect(page.locator("#fit-dock-result-context")).toHaveAttribute("data-run-id", paused.runId);
+  await expect(page.locator(".hero-result .metric-focus")).toHaveText("—");
+  const runningGeometry = await geometry();
+  await page.locator("#fit-speed").selectOption("20000"); await action("#fit-resume");
+  await expect(page.locator("#fit-active-owner")).toContainText("активного теста нет");
+  await expect(page.locator("#fit-dock-rate")).toHaveText("—");
+  await action('[data-variant="A"][aria-pressed]'); const final = await exported();
+  expect(final.status).toBe("complete"); expect(final.metrics.mission.deliveredScuPerHour).toBeGreaterThan(0);
+  const rate = final.metrics.mission.deliveredScuPerHour.toLocaleString("ru-RU", { maximumFractionDigits: 2 }) + " SCU/ч";
+  await expect(page.locator("#fit-dock-rate")).toHaveText(rate);
+  await expect(page.locator("#fit-dock-rate")).toHaveText(await page.locator(".hero-result .metric-focus").innerText());
+  await expect(page.locator("#fit-dock-result-context")).toContainText(/завершён/i);
+  await page.locator("#fit-duration").fill("7"); await page.locator("#fit-duration").press("Tab");
+  await expect(page.locator("#fit-dock-result-context")).toContainText("устаревший результат");
+  await expect(page.locator("#fit-dock-rate")).toHaveText(rate); expect(await exported()).toEqual(final);
+  expect(await page.locator(".ab-side-a").innerHTML()).toBe(frozen);
+  const finalGeometry = await geometry();
+  console.log("RESULT_DOCK_GEOMETRY", JSON.stringify({ width, runningGeometry, finalGeometry }));
+  await action("#fit-reset"); await expect(page.locator("#fit-dock-rate")).toHaveText("—");
+  await page.reload();
+  await page.locator("#fit-import").setInputFiles({ name: "measured-mission.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(final)) });
+  await expect(page.locator("#fit-dock-rate")).toHaveText(rate);
+  await expect(page.locator("#fit-dock-result-context")).toHaveAttribute("data-run-id", final.runId);
+  expect(await page.evaluate(() => (window as any).dockStarts.length)).toBe(0); expect(await exported()).toEqual(final);
+  expect(errors).toEqual([]);
+  await info.attach("result-dock-lifecycle", { body: JSON.stringify({ width, paused, final, runningGeometry, finalGeometry, errors }), contentType: "application/json" });
+  await context.close();
 });

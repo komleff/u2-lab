@@ -308,8 +308,11 @@ test("incomplete fit and incompatible preview explain refusal; builtin and F3 so
     "заменить нельзя",
   );
   await page.locator('[data-slot="march"]').last().click();
-  await page.locator('[data-candidate="cargo-bulk-S"]').click();
-  await expect(page.locator("#fit-preview")).toContainText("Семейство");
+  await expect(page.locator('[data-candidate="cargo-bulk-S"]')).toHaveCount(0);
+  await page.locator('[data-candidate="engine-hydrogen-S-single"]').click();
+  await expect(page.locator("#fit-preview")).toContainText(
+    "Все четыре роли должны иметь один propulsion type",
+  );
   await expect(page.locator("#fit-apply")).toBeDisabled();
   await page.locator("#fit-remove").click();
   await expect(page.locator("#fit-start")).toBeDisabled();

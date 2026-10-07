@@ -1,3 +1,49 @@
+# Operator result-dock fix, 2026-10-07
+
+ulab-p2w, PR13/fix/catalog-dialog-focus от7eef0c0. Accepted WHAT0.7:
+нижняя панель дублирует SCU/ч текущего опыта; paused/final/stale/import/reset
+и active-owner понятны, старое число не выдаётся за новый run. WF03–06/12–14,
+MC04; HOW0.1 прежний, no physics/runner/workspace/IO. Один existing Developer,
+короткий actual Worker lifecycle и нормальный guard, затем experimental4196/Pages.
+Семейства и menu-only уже LIVE7eef, сохраняются; старые архивы/4189 не трогать.
+PM_ERR/DOC_PR аудит после трёх operator UI-итераций выполнен, counter0/3;
+UI independent budget5/5/final+1 pending прежний, новых verifier нет.
+
+# Operator sort-menu fix каталога, 2026-10-07
+
+ulab-p2w/MC03, один прежний Developer, PR13/fix/catalog-dialog-focus от55279fd.
+WHAT0.6: удалить весь ряд duplicate сортировочных кнопок; правое dropdown меню
+и все его варианты/порядок/совместимые-first сохраняются. No physics/catalog/IO.
+HOW0.1/PLAN_READY прежний. Source/tests/обычный guard → experimental4196/Pages;
+старые архивы и hashed assets сохраняются. Бюджет independent5/5/final+1 pending
+прежний; no new verifier. Счётчик самоаудита1/3→после этогоfix-turn2/3.
+Текущая55279fd поставка доступна до нового проверенного build; history ниже.
+
+# Operator family-filter fix каталога, 2026-10-07
+
+ulab-p2w/MC03, один существующий Developer, PR13/fix/catalog-dialog-focus от2ede529.
+WHAT0.5: семейства и All только category+families выбранного слота; search/size
+не сужают список семейств, refusals внутри семейства остаются. Неполный fit
+можно чинить, stale family→all; initial Close/intentional search сохраняются.
+HOW0.1/PLAN_READY прежний; no physics/catalog/schema. Developer RED/GREEN+
+normalguard → experimentalLAN4196/Pages с сохранением архивов/старого4189.
+Независимый budget5/5/final+1 pending прежний; не запускать новых verifier.
+Последний самоаудит выполнен, counter0/3; эта fix-итерация затем1/3.
+Прежняя поставка2ede529 live до новой проверенной сборки; history ниже.
+
+# Operator focus-fix каталога, 2026-10-07
+
+ulab-p2w/MC03, existing Developer fix-turn; fix/catalog-dialog-focus от4339eca2.
+WHAT v0.4: каталог открывается с фокусом Close, manual search/Tab/caret сохраняются.
+ROOT reproducedLAN1024: nativeClose→explicitsearch, keyboard trigger confirmed.
+Цель — genuine open/reopen без любого editablefocus; OSkeyboard физически NOT RUN.
+Developer RED/GREEN и normalguard → experimentalLAN/Pages, no new physics/hour.
+Independent UI budget5/5 прежний, final+1 ожидаетоператора, не брать cooling budget.
+Самоаудит после QA4+Review5+operatorfix3/3, counter0/3; PR Draft/merge-ineligible.
+Существующие публичная cooling версия и архивы/старый4189 сохраняются до нового build.
+
+## Предыдущий checkpoint
+
 # Автоматика охлаждения — поставлен, 2026-10-07
 
 Beads ulab-6xr; PRODUCT5/5: QA4 PASS, Review5 APPROVED/0B0A, CR-CC-B1 CLOSED. Accepted WHAT:
