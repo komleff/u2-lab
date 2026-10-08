@@ -1,7 +1,7 @@
 ---
 title: "Спринт S1 — сигнатуры и сенсоры, баланс пяти классов"
 status: "accepted / S0 in progress"
-version: "1.5"
+version: "1.6"
 date: 2026-10-08
 tags: [sprint, pm, signatures, sensors, radar, class-balance, server-contract]
 related:
@@ -31,13 +31,15 @@ WHAT: решение оператора от 2026-10-07 о следующем м
 Корабль против корабля/станции — последующее расширение. Направленный IR обязателен
 уже здесь: четыре удобных ракурса, нормированная непрерывная проекция источников;
 EM всенаправленный. Исполнимые входы и актуальная область SS лежат в
-[пакете первого стенда](../product/signatures-observer-v0.1.md) v0.6. Решения ГД
+[пакете первого стенда](../product/signatures-observer-v0.1.md) v0.7. Решения ГД
 2be9ef78 закрепили доли IR генератора/H₂ и изотропный H₂-сброс; a1e2cd1
 закрепил E motor losses после path и service без reset/freeze. Исторический
 input checkpoint — 97ac6dbffc72099087211c119f3c608f20b3e5f2.
 Сверка с каноном U2 2026-10-08 исправила H₂ IR-формулу в package v0.5:
 газовый контраст теперь отсчитывается от местного теплового фона. Версия v0.6
-свела полный порядок расчёта IR, суммы источников и порога сенсора. Доли
+свела полный порядок расчёта IR, суммы источников и порога сенсора. Версия v0.7
+исключила недоказанный отрицательный контраст разреженного H₂-сброса, сохранив
+знаковые поверхностные вклады. Доли
 активного выхлопа двигателей/генератора остаются добавочным излучением.
 Для полной интеграции требуется affected Plan Review изменённого расчётного входа.
 Это уточнение заменяет прежнее требование
@@ -145,7 +147,7 @@ standard IR видит положительный контраст, advanced IR 
 E0.1% own motor waste после тракта: bus_actual×η_path×(1−η_motor). Diesel generator
 IR10% собственного наружного экспорта; H-generator direct IR0 только при current
 own export0. Для каждого H₂-охладителя: T_out=20+P_gas/(14200×own actual flow),
-allocated gas IR budget=0.01×P_gas, signed gas contrast=0.01×14200×own actual flow×(T_out−T_env),
+allocated gas IR budget=0.01×P_gas, gas contrast=0.01×14200×own actual flow×max(T_out−T_env,0),
 изотропно и без второго thermal debit. `20 K` задаёт вход теплообменника, не IR-фон.
 P_gas включает фактический унос и учтённые auxiliary losses именно этого охладителя;
 при zero flow/zero export IR0, positive export/zero flow — недействительный вход.
@@ -254,7 +256,7 @@ OUT: runtime-привязка E own-waste к existing engine, generator/H₂ IR,
 station-temperature изменение, новые SKU/классы, интеграция physics/mission/Worker/UI/IO,
 публикация нового runtime. Это граница исторического component-only release, а не
 перечень ещё открытых WHAT на момент component-only release. GD dependency
-ulab-5vs.7 закрыта принятым package v0.6; полный SS00 требует affected
+ulab-5vs.7 закрыта принятым package v0.7; полный SS00 требует affected
 executable PLAN_READY интеграции §7.2 после исправления газового контраста.
 Стандартная Лаба и historical fixtures в component-only шаге остаются буквально неизменными.
 
@@ -327,7 +329,7 @@ CR-SC-B1 закрывается affected QA/scoped rereview до включен�
    и real browser smoke; actual U2 server/protocol/client parity остаётся NOT RUN.
 
 Исторический Developer read-only preflight на product0.4 не выявил новых WHAT;
-последующие поправки package v0.5–v0.6 требуют affected Plan Review.
+последующие поправки package v0.5–v0.7 требуют affected Plan Review.
 Ранее выбранный HOW:
 новый MODEL_SIGNATURE_MISSION и explicit u2-lab/3 IO branch; старые model/schema2
 branches и каталог immutable. Конкретные имена/представление остаются ответственностью
@@ -484,3 +486,4 @@ remote main при подготовке `9935d40c80b00992b5adcc57bf82380bc870e5b
 | 1.3 | 2026-10-08 | Все WHAT первого стенда закрыты package v0.4; executable integration S0–S5, actual-source partition и версия/IO/lifecycle; hangar/cold-Stealth/moving scope отдельно |
 | 1.4 | 2026-10-08 | Исправлена формула газового IR-контраста относительно фона; доли активного выхлопа явно заданы как добавочные вклады; интеграции требуется affected Plan Review |
 | 1.5 | 2026-10-08 | Ссылка на принятый расчётный контракт IR package v0.6: фактические источники → знаковый контраст по ракурсу → общая сумма → порог прибора |
+| 1.6 | 2026-10-08 | Базовый H₂-сброс не создаёт отрицательный IR-контраст без доказанного поглощения фона; знаковые поверхностные вклады и тепловой унос сохранены |
