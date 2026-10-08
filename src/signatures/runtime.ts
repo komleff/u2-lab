@@ -229,7 +229,12 @@ export function restoreSignatureRuntime(value:unknown,settings:SignatureSettings
     exactFields(b,["startS","endS","values"],"signature bucket");exactFields(b.values,SOURCE_CHANNELS,"bucket channels");
     nonnegative(b.startS,"bucket start");finite(b.endS,"bucket end");
     if(b.startS!==bucketEnd||!(b.endS>b.startS)||b.endS>timeS)throw new RangeError("Missing or inconsistent signature buckets");bucketEnd=b.endS;
-    for(const k of SOURCE_CHANNELS){const v=b.values[k];exactFields(v,["mean","min","max"],"bucket values");for(const x of Object.values(v))finite(x,"bucket value");if(v.min>v.mean||v.max<v.mean)throw new RangeError("Inconsistent bucket bounds");}
+    for(const k of SOURCE_CHANNELS){
+      const v=b.values[k];exactFields(v,["mean","min","max"],"bucket values");for(const x of Object.values(v))finite(x,"bucket value");
+      // Retention division can round mean one ULP outside computed extrema.
+      // Use the aggregate reader's endpoint-relative policy; zero stays exact.
+      if(v.min>v.max||(v.mean<v.min&&finite(v.min-v.mean,"bucket lower difference")>1e-12*Math.abs(v.min))||(v.mean>v.max&&finite(v.mean-v.max,"bucket upper difference")>1e-12*Math.abs(v.max)))throw new RangeError("Inconsistent bucket bounds");
+    }
   }
   if(bucketEnd!==timeS)throw new RangeError("Missing signature bucket suffix");
   if(timeS===0 ? obj.lastTruth!==null : obj.lastTruth===null||obj.lastTruth.endS!==timeS)throw new RangeError("Missing current source");

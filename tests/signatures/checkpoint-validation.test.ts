@@ -2,7 +2,9 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { parseResultJson } from "../../src/io/fitting-result";
 import { FittingWorkspace } from "../../src/app/fitting-workspace";
-import { loadCandidateCatalog } from "../../src/fitting/catalog";
+import { getPresetFit, loadCandidateCatalog } from "../../src/fitting/catalog";
+import { freshMissionConditions, makeMissionRun } from "../../src/scenarios/mission";
+import { defaultSignatureSettings, signatureSpec } from "../../src/signatures/config";
 import { WorkerController } from "../../src/runner/protocol";
 import { createRun, result, runChunk } from "../../src/runner/run";
 import { restoreFittingRun } from "../../src/runner/fitting-run";
@@ -249,5 +251,71 @@ describe("CR-SS-B1 finite persisted leaves cannot hide derived consistency overf
     const good = structuredClone(received); localPhases(good, "IRcontrast", total, phases, min, max);
     const parsed = parseResultJson(json(good)); expect(parsed.ok, parsed.ok ? "" : json(parsed.errors)).toBe(true);
     if (parsed.ok) expect(exportSignatureCsv(parsed.value)).not.toContain("Infinity");
+  });
+});
+
+function nextUp(value: number) {
+  const bits = new DataView(new ArrayBuffer(8)); bits.setFloat64(0, value);
+  bits.setBigUint64(0, bits.getBigUint64(0) + (value > 0 ? 1n : -1n));
+  return bits.getFloat64(0);
+}
+const nativeEm = 76.6567901234568;
+const smallSignals = [1e-18, -1e-18, 1e-100, -1e-100, 1e-300, -1e-300];
+const bucketControls = [
+  { name: "actual Titan bucket439 lower", mean: 76.65679012345679, min: nativeEm, max: nativeEm },
+  { name: "actual Titan bucket608 upper", mean: 76.65679012345682, min: nativeEm, max: nativeEm },
+  { name: "actual Titan bucket673 upper", mean: 76.65679012345682, min: nativeEm, max: nativeEm },
+  ...smallSignals.map(value => ({ name: `nonzero adjacent signed/weak ${value}`, mean: nextUp(value), min: value, max: value })),
+  { name: "signed lower roundoff", mean: -76.65679012345682, min: -nativeEm, max: -nativeEm },
+  { name: "signed upper roundoff", mean: -76.65679012345679, min: -nativeEm, max: -nativeEm },
+  { name: "exact zero", mean: 0, min: 0, max: 0 },
+  { name: "positive subnormal exact", mean: Number.MIN_VALUE, min: Number.MIN_VALUE, max: Number.MIN_VALUE },
+  { name: "negative subnormal exact", mean: -Number.MIN_VALUE, min: -Number.MIN_VALUE, max: -Number.MIN_VALUE },
+  { name: "large finite adjacent", mean: nextUp(1e308), min: 1e308, max: 1e308 },
+  { name: "finite +/-MAX extrema", mean: 0, min: -Number.MAX_VALUE, max: Number.MAX_VALUE },
+];
+const bucketCorruptions = [
+  { name: "reversed extrema by one ULP", mean: nativeEm, min: nextUp(nativeEm), max: nativeEm },
+  { name: "lower beyond endpoint allowance", mean: nativeEm * (1 - 2e-12), min: nativeEm, max: nativeEm },
+  { name: "upper beyond endpoint allowance", mean: nativeEm * (1 + 2e-12), min: nativeEm, max: nativeEm },
+  ...smallSignals.map(value => ({ name: `weak/signed ${value} erased as zero`, mean: 0, min: value, max: value })),
+  { name: "positive nonzero outside exact zero", mean: Number.MIN_VALUE, min: 0, max: 0 },
+  { name: "negative nonzero outside exact zero", mean: -Number.MIN_VALUE, min: 0, max: 0 },
+  { name: "positive subnormal erased as zero", mean: 0, min: Number.MIN_VALUE, max: Number.MIN_VALUE },
+  { name: "negative subnormal erased as zero", mean: 0, min: -Number.MIN_VALUE, max: -Number.MIN_VALUE },
+  { name: "wrong sign above zero endpoint", mean: Number.MIN_VALUE, min: -1e-18, max: 0 },
+  { name: "wrong sign below zero endpoint", mean: -Number.MIN_VALUE, min: 0, max: 1e-18 },
+  { name: "finite lower difference overflows", mean: -1e308, min: 1e308, max: 1e308 },
+  { name: "finite upper difference overflows", mean: 1e308, min: -1e308, max: -1e308 },
+];
+describe("B-QA-UF04-01 local retained bucket roundoff preserves literal result data", () => {
+  it.each(bucketControls)("accepts $name without changing mean/extrema", ({ mean, min, max }) => {
+    const saved = structuredClone(received); saved.signatures.buckets[0].values.IRcontrast = { mean, min, max };
+    const wire = json(saved), parsed = parseResultJson(wire);
+    expect(parsed.ok, parsed.ok ? "" : json(parsed.errors)).toBe(true);
+    if (!parsed.ok) throw Error("valid local bucket refused");
+    expect(json(parsed.value)).toBe(wire); expect(exportSignatureCsv(parsed.value)).toBe(exportSignatureCsv(saved));
+    const workspace = new FittingWorkspace(saved.spec.resolvedShip.fit, loadCandidateCatalog(saved.spec.catalogVersion));
+    expect(workspace.importDocument(wire).ok).toBe(true); expect(json(workspace.getCurrentResult())).toBe(wire);
+  });
+  it.each(bucketCorruptions)("refuses $name atomically", ({ mean, min, max }) => {
+    const bad = structuredClone(received); bad.signatures.buckets[0].values.IRcontrast = { mean, min, max }; atomicRefusal(bad);
+  });
+  it("actual default Titan3600 exports, reopens and restores without numeric changes", { timeout: 20000 }, () => {
+    const catalog = loadCandidateCatalog("ship-fitting-0.2.5"), fit = getPresetFit("industrial-M:2:D", catalog.version);
+    const built = makeMissionRun(fit, catalog, freshMissionConditions(fit, catalog));
+    if (!built.ok) throw Error(json(built.errors));
+    const spec = signatureSpec(built.value, defaultSignatureSettings("M")), run = createRun("native-titan-roundtrip", spec);
+    while (!run.done) runChunk(run, 20000);
+    const saved = result(run), wire = json(saved); expect(saved.state.timeSeconds).toBe(3600);
+    // This is the real producer, including retention division; no normalized fixture.
+    expect(saved.signatures!.buckets.some(b => b.values.EM.mean < b.values.EM.min || b.values.EM.mean > b.values.EM.max)).toBe(true);
+    const parsed = parseResultJson(wire); expect(parsed.ok, parsed.ok ? "" : json(parsed.errors)).toBe(true);
+    if (!parsed.ok) throw Error("actual Titan export refused");
+    expect(json(parsed.value)).toBe(wire); expect(exportSignatureCsv(parsed.value)).toBe(exportSignatureCsv(saved));
+    const workspace = new FittingWorkspace(fit, catalog); expect(workspace.importDocument(wire).ok).toBe(true);
+    expect(json(workspace.getCurrentResult())).toBe(wire);
+    const restored = restoreFittingRun(parsed.value); expect(restored.done).toBe(true);
+    expect(restored.state).toEqual(run.state); expect(restored.signatures).toEqual(run.signatures); expect(restored.metrics).toEqual(run.metrics);
   });
 });
