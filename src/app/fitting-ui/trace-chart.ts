@@ -3,6 +3,8 @@ import { esc, num } from "./presentation";
 import { channelNames, channelUnit } from "./telemetry";
 import { gatedOperations } from '../../runner/diagnostics';
 import { displaySeries, displayPaths } from "./display-series";
+import { PLOT, plotX } from "./plot-geometry";
+import { signatureOverview } from "./signatures";
 const semanticColors: Record<string, string> = {
   requestedW: "#FFAA33", deliveredW: "#2EC4D9", generatorW: "#4DA6FF",
   temperatureK: "#EC8B66", soc: "#E5C23A", chargeJ: "#E5C23A",
@@ -27,9 +29,9 @@ export function traceChart(r: RunResultV2, ids: string[], time?: number, limits:
   }
   for (const l of limits) { low = Math.min(low, l.value); high = Math.max(high, l.value); }
   const unit = selectedUnit ?? channelUnit(present[0]??ids[0]??'requestedW');
-  const axisX=unit==="K"?180:40,plotWidth=660-axisX;
-  const start = r.buckets[0]?.startSeconds ?? 0, end = r.buckets.at(-1)?.endSeconds ?? 1;
-  const x = (t: number) => axisX + (t - start) / Math.max(1e-12, end - start) * plotWidth;
+  const axisX=PLOT.left,plotWidth=PLOT.width;
+  const start = 0, end = r.spec.durationSeconds;
+  const x = (t: number) => plotX(t, end);
   const y = (v: number) => 170 - (v - low) / (high - low) * 150;
   // В SVG размеры шрифта — user units: читаемые 28 дают glyph box около 36, а не 18.
   const labels=[...limits].filter(l=>l.label).sort((a,b)=>b.value-a.value),labelPositions=new Map<Boundary,number>();let nextY=35;
@@ -66,5 +68,5 @@ export function overview(r: RunResultV2, time?: number) {
     { label: "Добыча · темп SCU/с", ids: ["miningRateM3S"] },
     { label: "Добыча и груз на борту · SCU", ids: ["usefulWork", "cargoM3"] },
   ];
-  return `<div class="overview-charts">${panels.map(p => `<figure><h3>${p.label}</h3>${traceChart(r, p.ids, time, p.limits, true,p.thermal?thermal.bands:[])}<figcaption>${p.ids.filter(id => r.channels.includes(id)).map(id => `<span style="color:${channelStyle(id).color}">${esc(channelNames[id] ?? id)}${channelStyle(id).dashed ? " · пунктир" : ""}</span>`).join(" · ")}${p.thermal?' · '+esc(thermal.note)+' '+esc(thermal.individual):''}</figcaption></figure>`).join("")}</div>`;
+  return `<div class="overview-charts">${panels.map((p,i) => `<figure><h3>${p.label}</h3>${traceChart(r, p.ids, time, p.limits, true,p.thermal?thermal.bands:[])}<figcaption>${p.ids.filter(id => r.channels.includes(id)).map(id => `<span style="color:${channelStyle(id).color}">${esc(channelNames[id] ?? id)}${channelStyle(id).dashed ? " · пунктир" : ""}</span>`).join(" · ")}${p.thermal?' · '+esc(thermal.note)+' '+esc(thermal.individual):''}</figcaption></figure>${i===1?signatureOverview(r,time):''}`).join("")}</div>`;
 }

@@ -7,7 +7,8 @@ for (const viewport of [{ width: 360, height: 480 }, { width: 1440, height: 900 
     const page = await context.newPage();
     try {
       await page.goto("/");
-      await expect(page.locator("#sig-mode")).not.toBeChecked();
+      await expect(page.locator("#sig-mode")).toBeChecked();
+      await page.locator("#sig-mode").uncheck();
       const signatureGroup = page.locator('.group-toggle[data-group="signature"]');
       if (await signatureGroup.getAttribute("aria-expanded") === "false") await signatureGroup.click();
       await expect(page.locator("#fit-slots")).toContainText("обнаружение пока не рассчитывается");

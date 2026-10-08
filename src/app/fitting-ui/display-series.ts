@@ -14,7 +14,13 @@ export function displaySeries(rows: readonly DisplayInterval[], columns: number)
     const prior = result.at(-1);
     if (prior && column === priorColumn) {
       const weight = prior.weight + row.weight;
-      prior.mean = prior.mean * (prior.weight / weight) + row.mean * (row.weight / weight);
+      // Равный сигнал сохраняется буквально. Для остальных средних сначала
+      // нормируем значения: доли subnormal не округляются отдельно в ноль,
+      // а большие конечные значения не переполняют weighted numerator.
+      if (prior.mean !== row.mean) {
+        const scale = Math.max(Math.abs(prior.mean), Math.abs(row.mean));
+        prior.mean = (((prior.mean / scale) * prior.weight + (row.mean / scale) * row.weight) / weight) * scale;
+      }
       prior.weight = weight; prior.endS = row.endS;
       prior.min = Math.min(prior.min, row.min); prior.max = Math.max(prior.max, row.max);
     } else result.push({...row});

@@ -3,9 +3,10 @@ import { FittingWorkspace } from "../../src/app/fitting-workspace";
 import { loadCandidateCatalog, getPresetFit } from "../../src/fitting/catalog";
 import type { RunResultV2 } from "../../src/runner/run";
 import native from "../signatures/fixtures/received-result.json";
-import { signatureMeasurements } from "../../src/app/fitting-ui/signatures";
-import { traceChart } from "../../src/app/fitting-ui/trace-chart";
+import { signatureMeasurements, signatureOverview } from "../../src/app/fitting-ui/signatures";
+import { traceChart, overview } from "../../src/app/fitting-ui/trace-chart";
 import * as presentation from "../../src/app/fitting-ui/presentation";
+import { displaySeries, type DisplayInterval } from "../../src/app/fitting-ui/display-series";
 const receipt = () => structuredClone(native) as unknown as RunResultV2;
 
 describe("UF01/04 isolated render snapshot", () => {
@@ -37,15 +38,35 @@ describe("UF01/04 isolated render snapshot", () => {
   });
 });
 
+it("GL02/03 shared overview preserves source data, full horizon and the existing selected-time marker", () => {
+  const r = receipt(); r.spec.durationSeconds = 3600;
+  r.buckets = [{ ...structuredClone(r.buckets[0]), startSeconds: 0, endSeconds: 900 }];
+  r.signatures!.buckets = [{ ...structuredClone(r.signatures!.buckets[0]), startS: 0, endS: 900 }];
+  const before = JSON.stringify(r), html = overview(r, 450), diagnostics = signatureMeasurements(r);
+  expect((html.match(/<figure/g) ?? []).length).toBe(8);
+  const first = html.split("<figure").slice(1, 5);
+  expect(first[0]).toContain("Электричество"); expect(first[1]).toContain("Температура");
+  expect(first[2]).toContain("IR · выбранный ракурс"); expect(first[3]).toContain("EM");
+  for (const figure of first) {
+    expect(figure).toContain('viewBox="0 0 700 205"'); expect(figure).toContain('data-axis-x="180"');
+    expect(figure).toContain('d="M240 20V170"'); expect(figure).toContain('data-time="450"');
+    expect(figure).toContain("3 600 с"); expect(figure).toMatch(/(?:M|L| |,|H)300(?:[ ,V])/);
+    expect(figure).not.toMatch(/NaN|Infinity/);
+  }
+  expect(diagnostics).not.toContain("<svg"); expect(diagnostics).toContain("CS · м²");
+  expect(JSON.stringify(r)).toBe(before);
+});
+
 it("UF02 merged signature intervals cover the beginning and keep the later peak without source mutation", () => {
   const r = receipt(), s = r.signatures!, old = s.buckets[0];
+  r.spec.durationSeconds = 3600;
   s.buckets = [{...structuredClone(old),startS:0,endS:2550},{...structuredClone(old),startS:2550,endS:3600}];
   for (const c of Object.keys(s.buckets[0].values) as (keyof typeof old.values)[]) {
     s.buckets[0].values[c] = {mean:10,min:-5,max:20};s.buckets[1].values[c] = {mean:100,min:50,max:200};
   }
-  const before = JSON.stringify(r), html = signatureMeasurements(r);
-  expect(html).toContain('points="45,');
-  expect(html).toContain('data-envelope');expect(html).toContain('655,');
+  const before = JSON.stringify(r), html = signatureOverview(r);
+  expect(html).toContain('points="180,');
+  expect(html).toContain('data-envelope');expect(html).toContain('660,');
   expect(html).not.toMatch(/NaN|Infinity/);expect(JSON.stringify(r)).toBe(before);
 });
 
@@ -90,4 +111,45 @@ it("UF02 display grouping preserves the chosen observable weight, extrema and fu
   expect(grouped[0].startS).toBe(0);expect(grouped.at(-1)!.endS).toBe(10000);
   expect(Math.min(...grouped.map(b=>b.min))).toBe(-2);expect(Math.max(...grouped.map(b=>b.max))).toBe(10001);
   expect(grouped.reduce((a,b)=>a+b.mean*b.weight,0)).toBe(49995000);
+});
+
+describe("CR-UF-B1 display weighted means preserve finite signed signals", () => {
+  const rows = (means: number[], weights = means.map(() => 1)): DisplayInterval[] => means.map((mean, i) =>
+    ({ startS: i, endS: i + 1, mean, min: mean, max: mean, weight: weights[i] }));
+  it.each([Number.MIN_VALUE, -Number.MIN_VALUE, 1e-300, -1e-300, 1e308, -1e308])("preserves constant %s across the real 610-column grouping", mean => {
+    const input = rows(Array(1220).fill(mean)), before = structuredClone(input), groups = displaySeries(input, 610);
+    expect(groups).toHaveLength(610); expect(groups.every(g => g.mean === mean && g.min === mean && g.max === mean)).toBe(true);
+    expect(groups[0].startS).toBe(0); expect(groups.at(-1)!.endS).toBe(1220); expect(input).toEqual(before);
+  });
+  it.each([Number.MIN_VALUE, -Number.MIN_VALUE, 1e-300, -1e-300])("preserves constant %s with unequal count and duration weights", mean => {
+    for (const weights of [[1, 99], [.1, .3]]) {
+      const input = rows([mean, mean], weights), before = structuredClone(input), group = displaySeries(input, 1)[0];
+      expect(group.mean).toBe(mean); expect(group.weight).toBe(weights[0] + weights[1]); expect(input).toEqual(before);
+    }
+  });
+  it.each([
+    { means: [Number.MIN_VALUE, 2 * Number.MIN_VALUE], weights: [1, 1], expected: 2 * Number.MIN_VALUE },
+    { means: [-Number.MIN_VALUE, -2 * Number.MIN_VALUE], weights: [1, 1], expected: -2 * Number.MIN_VALUE },
+    { means: [Number.MIN_VALUE, 3 * Number.MIN_VALUE], weights: [3, 1], expected: 2 * Number.MIN_VALUE },
+    { means: [Number.MIN_VALUE, -3 * Number.MIN_VALUE], weights: [1, 1], expected: -Number.MIN_VALUE },
+    { means: [-Number.MIN_VALUE, 3 * Number.MIN_VALUE], weights: [1, 1], expected: Number.MIN_VALUE },
+    { means: [Number.MIN_VALUE, -Number.MIN_VALUE], weights: [1, 1], expected: 0 },
+    { means: [1e308, -1e308], weights: [1, 1], expected: 0 },
+  ])("rounds the analytic weighted signal $means / $weights", ({ means, weights, expected }) => {
+    const input = rows(means, weights), before = structuredClone(input), group = displaySeries(input, 1)[0];
+    expect(group.mean).toBe(expected); expect(group.min).toBe(Math.min(...means)); expect(group.max).toBe(Math.max(...means));
+    expect(group.startS).toBe(0); expect(group.endS).toBe(2); expect(input).toEqual(before);
+  });
+  it.each([
+    { means: [1e308, 2e307], weights: [1, 3], expected: 4e307 },
+    { means: [-1e308, -2e307], weights: [1, 3], expected: -4e307 },
+    { means: [1e308, -1e308], weights: [3, 1], expected: 5e307 },
+    { means: [10, 100], weights: [2550, 1050], expected: 36.25 },
+    { means: [10, 100], weights: [1, 99], expected: 99.1 },
+  ])("keeps the finite weighted magnitude $expected", ({ means, weights, expected }) => {
+    const input = rows(means, weights), before = structuredClone(input), group = displaySeries(input, 1)[0];
+    expect(Number.isFinite(group.mean)).toBe(true);
+    expect(Math.abs(group.mean - expected)).toBeLessThanOrEqual(1e-15 * Math.abs(expected));
+    expect(group.mean).toBeGreaterThanOrEqual(group.min); expect(group.mean).toBeLessThanOrEqual(group.max); expect(input).toEqual(before);
+  });
 });

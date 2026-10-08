@@ -45,7 +45,7 @@ for (const width of [1440,390]) test(`MC01–04 module information preserves sel
    await p.locator(selector).focus();await act(selector);await p.keyboard.press('Escape');await expect(p.getByRole('dialog')).not.toBeVisible();await expect(p.locator(selector)).toBeFocused();expect(errors,`${selector}: render/Escape`).toEqual([]);expect(await save()).toEqual(afterBytes);
    await expect(p.locator('#fit-next-revision')).toHaveText(mountedRevision!);
   }
-  await expect(p.locator('footer')).toContainText('интерфейс v4.5');
+  await expect(p.locator('footer')).toContainText('интерфейс v4.6');
   expect(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   expect(errors).toEqual([]);
  }finally{await context.close();}

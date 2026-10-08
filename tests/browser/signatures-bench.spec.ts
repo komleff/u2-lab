@@ -55,7 +55,7 @@ test("SS12/13 actual Worker signature bench keeps active inputs and resumes seri
   const tap=async(id:string)=>{await page.locator(id).scrollIntoViewIfNeeded();await page.locator(id).click();};
   const more=async()=>{await page.locator("#fit-more").evaluate(n=>(n as HTMLDetailsElement).open=true);};
   const exported=async(id:string)=>{const d=page.waitForEvent("download");await tap(id);return await readFile((await(await d).path())!,"utf8");};
-  await page.goto("/");await expect(page.locator("#sig-mode")).not.toBeChecked({timeout:2000});
+  await page.goto("/");await expect(page.locator("#sig-mode")).toBeChecked({timeout:2000});
   await page.locator("#fit-preset").selectOption("pony:1");await page.locator("#sig-mode").check();
   await expect(page.locator("#sig-range")).toHaveValue("16");await expect(page.locator("#sig-radar")).not.toBeChecked();
   await page.locator("#sig-radar").check();await page.locator("#fit-speed").selectOption("1");

@@ -47,7 +47,8 @@ it("CR-UI-B1 extrema retain signed finite full-series bounds, selected curves an
   const graph = channelsView(r, c);
   expect(graph).toContain(num(7654321, "W"));
   const mean = r.buckets[0].sum[i] / r.buckets[0].count;
-  expect(graph).toContain(`350,${170 - ((mean + 1234567) / (7654321 + 1234567)) * 150}`);
+  // 1 s / immutable H4096, общий plot x180..660; значение и extrema прежние.
+  expect(graph).toContain(`180.1171875,${170 - ((mean + 1234567) / (7654321 + 1234567)) * 150}`);
   c.hidden.add(ids[0]);
   expect(channelsView(r, c)).toContain(num(1, "W"));
   expect(channelsView(r, c)).not.toContain("<polyline ");

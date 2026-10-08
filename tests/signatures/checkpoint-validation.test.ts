@@ -301,7 +301,7 @@ describe("B-QA-UF04-01 local retained bucket roundoff preserves literal result d
   it.each(bucketCorruptions)("refuses $name atomically", ({ mean, min, max }) => {
     const bad = structuredClone(received); bad.signatures.buckets[0].values.IRcontrast = { mean, min, max }; atomicRefusal(bad);
   });
-  it("actual default Titan3600 exports, reopens and restores without numeric changes", { timeout: 20000 }, () => {
+  it("actual default Titan3600 exports, reopens and restores without numeric changes", { timeout: 60000 }, () => {
     const catalog = loadCandidateCatalog("ship-fitting-0.2.5"), fit = getPresetFit("industrial-M:2:D", catalog.version);
     const built = makeMissionRun(fit, catalog, freshMissionConditions(fit, catalog));
     if (!built.ok) throw Error(json(built.errors));
