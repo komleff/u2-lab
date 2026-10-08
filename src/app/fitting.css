@@ -1379,6 +1379,9 @@ html:has(.fitting-app) { scroll-padding-top: 112px; scroll-padding-bottom: 132px
 .fitting-app .signature-charts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .fitting-app .signature-charts svg { width: 100%; min-width: 0; }
 .fitting-app .signature-charts svg text { font-size: 28px; fill: #e8dcc6; }
+@media (max-width: 390px) {
+  .fitting-app .ui-header nav { gap: 2px; }
+}
 .fitting-app #sig-truth-details pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 @media (max-width: 850px) { .fitting-app .signature-charts { grid-template-columns: minmax(0, 1fr); } }
 @media (min-width: 851px) and (max-width: 1100px) { .fitting-app .signature-charts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

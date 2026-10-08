@@ -74,6 +74,7 @@ test("D03/D05/D06 mobile Compare cards and honest filters expose accepted contro
   await expect(page.locator(".compare-cards")).toBeVisible();
   await expect(page.locator(".compare-cards article")).toHaveCount(3);
   await page.getByRole("link", { name: "Условия", exact: true }).click();
+  await page.locator("#fit-journal-details > summary").click();
   await expect(page.locator('[data-event-filter="environment"]')).toBeVisible();
   await expect(page.locator("#event-instance")).toBeDisabled();
   await expect(page.locator("#event-instance-note")).toContainText(

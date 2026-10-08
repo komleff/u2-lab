@@ -1,5 +1,5 @@
 import {fitHull} from "../../fitting/editions";
-import type { FittingWorkspace } from "../fitting-workspace";
+import type { WorkspaceRead } from "../fitting-workspace";
 import { isMissionModel } from "../../model/v2/types";
 import type { WorkspaceConditions } from "../../scenarios/mission";
 import type { RunResultV2 } from "../../runner/run";
@@ -45,7 +45,7 @@ export function testStatus(
           : r?.status === "paused" ? "Частичный результат" : "Ещё не запускался";
 }
 export function labView(
-  w: FittingWorkspace,
+  w: WorkspaceRead,
   r: RunResultV2 | undefined,
   c: ChannelState,
   eventFilter: string,
@@ -163,7 +163,7 @@ export function labView(
             " · ",
           )}. Объединение ${num(m.limitationUnionSeconds, "с")} · перекрытие ${num(m.overlapSeconds, "с")} · частичная потеря ${num(m.partialLossM3, "SCU")}.</p>`
       : ""
-  }</section><div id="workspace-charts" class="workspace-section">${channelsView(r, c)}</div><section class="ui-panel"><h2>Модули и каналы экземпляров</h2><div class="ui-table-scroll" tabindex="0" aria-label="Измеренные экземпляры"><table><thead><tr><th>Экземпляр</th><th>Номинал · W</th><th>Доставлено · W</th><th>Луч · W</th><th>Тяга · N</th><th>Ресурс</th></tr></thead><tbody>${
+  }</section><div id="workspace-charts" class="workspace-section">${channelsView(r, c)}</div><details id="fit-modules-details" class="ui-panel"><summary>Модули и каналы экземпляров</summary><div class="ui-table-scroll" tabindex="0" aria-label="Измеренные экземпляры"><table><thead><tr><th>Экземпляр</th><th>Номинал · W</th><th>Доставлено · W</th><th>Луч · W</th><th>Тяга · N</th><th>Ресурс</th></tr></thead><tbody>${
     spec
       ? spec.resolvedShip.instances
           .map((i) => {
@@ -173,7 +173,7 @@ export function labView(
           })
           .join("")
       : '<tr><td colspan="6">Нет снимка теста</td></tr>'
-  }</tbody></table></div><p class="muted">Выдача — среднее выбранного bucket ${num(bucket?.startSeconds)}–${num(bucket?.endSeconds, "с")}; номинал из снимка. Нет канала — «—», не DEMO. Сухой bill, пороги и provenance — по кнопке экземпляра.</p></section><section class="ui-panel"><h2>Журнал событий</h2><div class="segments" role="group" aria-label="Фильтры событий">${[
+  }</tbody></table></div><p class="muted">Выдача — среднее выбранного bucket ${num(bucket?.startSeconds)}–${num(bucket?.endSeconds, "с")}; номинал из снимка. Нет канала — «—», не DEMO. Сухой bill, пороги и provenance — по кнопке экземпляра.</p></details><details id="fit-journal-details" class="ui-panel"><summary>Журнал событий</summary><div class="segments" role="group" aria-label="Фильтры событий">${[
     ["all", "Все"],
     ["limit", "Ограничения"],
     ["thrust", "Недоставка тяги"],
@@ -189,5 +189,5 @@ export function labView(
     )
     .join(
       "",
-    )}</div><label>Экземпляр<select id="event-instance" disabled aria-describedby="event-instance-note"><option>Нет attribution в событиях</option></select></label><p id="event-instance-note" class="muted">Отдельное поле instance отсутствует в текущем payload; фильтрация по экземпляру недоступна. Среда: только реально записанные события, без вывода из текста или метрик.</p><p id="journal-interval" data-selected-start="${bucket?.startSeconds ?? ""}" data-selected-end="${bucket?.endSeconds ?? ""}">Выбранный интервал ${num(bucket?.startSeconds)}–${num(bucket?.endSeconds, "с")}; события внутри выделены. Журнал сохраняет все события текущего фильтра.</p><p id="fit-retention">Показано ${events.length} из видимых ${r?.events.length ?? 0}; всего ${r?.retention.totalEvents ?? 0}, отброшено ${r?.retention.droppedEvents ?? 0}.</p><div id="fit-events" class="ui-table-scroll" tabindex="0" aria-label="События теста"><table><thead><tr><th>Время · с</th><th>Событие</th><th>Факт / причина / экземпляр</th></tr></thead><tbody>${events.map((e) => `<tr class="${bucket && e.timeSeconds >= bucket.startSeconds && e.timeSeconds <= bucket.endSeconds ? "selected-interval" : ""}"><td><button data-event-index="${r!.events.indexOf(e)}" aria-label="Выбрать время события ${num(e.timeSeconds, "с")}">${num(e.timeSeconds)}</button></td><td>${esc(mission?({"cargo-full":"Трюм заполнен → возврат","phase":"Участок рейса","service":"Обслуживание станции","mission-arrival":"Физическое прибытие","constraint":"Временное ограничение / дефицит","recovered":"Выдача восстановлена"} as Record<string,string>)[e.kind]??eventLabel(e.kind):eventLabel(e.kind))}</td><td>${esc(e.message)}<small>Отдельные поля instance/cause отсутствуют в событии; сообщение сохранено буквально.</small></td></tr>`).join("") || '<tr><td colspan="3">Событий по фильтру нет</td></tr>'}</tbody></table></div></section></div></div>`;
+    )}</div><label>Экземпляр<select id="event-instance" disabled aria-describedby="event-instance-note"><option>Нет attribution в событиях</option></select></label><p id="event-instance-note" class="muted">Отдельное поле instance отсутствует в текущем payload; фильтрация по экземпляру недоступна. Среда: только реально записанные события, без вывода из текста или метрик.</p><p id="journal-interval" data-selected-start="${bucket?.startSeconds ?? ""}" data-selected-end="${bucket?.endSeconds ?? ""}">Выбранный интервал ${num(bucket?.startSeconds)}–${num(bucket?.endSeconds, "с")}; события внутри выделены. Журнал сохраняет все события текущего фильтра.</p><p id="fit-retention">Показано ${events.length} из видимых ${r?.events.length ?? 0}; всего ${r?.retention.totalEvents ?? 0}, отброшено ${r?.retention.droppedEvents ?? 0}.</p><div id="fit-events" class="ui-table-scroll" tabindex="0" aria-label="События теста"><table><thead><tr><th>Время · с</th><th>Событие</th><th>Факт / причина / экземпляр</th></tr></thead><tbody>${events.map((e) => `<tr class="${bucket && e.timeSeconds >= bucket.startSeconds && e.timeSeconds <= bucket.endSeconds ? "selected-interval" : ""}"><td><button data-event-index="${r!.events.indexOf(e)}" aria-label="Выбрать время события ${num(e.timeSeconds, "с")}">${num(e.timeSeconds)}</button></td><td>${esc(mission?({"cargo-full":"Трюм заполнен → возврат","phase":"Участок рейса","service":"Обслуживание станции","mission-arrival":"Физическое прибытие","constraint":"Временное ограничение / дефицит","recovered":"Выдача восстановлена"} as Record<string,string>)[e.kind]??eventLabel(e.kind):eventLabel(e.kind))}</td><td>${esc(e.message)}<small>Отдельные поля instance/cause отсутствуют в событии; сообщение сохранено буквально.</small></td></tr>`).join("") || '<tr><td colspan="3">Событий по фильтру нет</td></tr>'}</tbody></table></div></details></div></div>`;
 }

@@ -85,6 +85,7 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   await expect(page.locator("#fit-time")).toHaveText("0 с / 20 с");
   await expect(page.locator("#fit-dock-rate")).toHaveText("—");
   await expect(page.locator("#fit-dock-result-context")).toContainText("вариант A");
+  await page.locator("#fit-modules-details > summary").click();
   await page.locator('.lab-main [data-instance="fit:march"]').click();
   const oldMarch = JSON.parse(oldBytes.toString()).spec.resolvedShip.instances.find((i: any) => i.id === "fit:march");
   await expect(page.getByRole("dialog")).toContainText('"id": "' + oldMarch.item.id + '"');

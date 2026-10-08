@@ -8,7 +8,7 @@ import type {
 } from "../../fitting/types";
 import type { RunResultV2 } from "../../runner/run";
 import type { RunSpecV2 } from "../../model/v2/types";
-import type { FittingWorkspace } from "../fitting-workspace";
+import type { WorkspaceRead } from "../fitting-workspace";
 import { makeMiningRun } from "../../scenarios/fitting";
 import { getPresetFit } from "../../fitting/catalog";
 import { compileFit } from "../../fitting/compile";
@@ -38,10 +38,25 @@ export const esc = (x: unknown) =>
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+const siUnit = (unit: string) => /^(?:W|Вт|J|Дж)(?:\/(?:м²|m²))?$/.test(unit);
+export function compactSI(x: number | null | undefined, unit: string) {
+  if (x == null || !Number.isFinite(x)) return "—";
+  const base = /^(?:J|Дж)/.test(unit) ? "Дж" : "Вт", suffix = unit.includes("/") ? "/м²" : "";
+  if (x === 0) return `0 ${base}${suffix}`;
+  const prefixes = ["п", "н", "мк", "м", "", "к", "М", "Г", "Т"];
+  let index = Math.floor(Math.log10(Math.abs(x)) / 3) + 4;
+  if (index < 0 || index >= prefixes.length)
+    return `${x.toExponential(2).replace(/\.?(0+)(?=e)/, "")} ${base}${suffix}`;
+  let value = x / 10 ** ((index - 4) * 3);
+  if (Math.abs(Number(value.toFixed(2))) >= 1000 && index < prefixes.length - 1) {
+    index++; value /= 1000;
+  }
+  return `${value.toLocaleString("ru-RU", {maximumFractionDigits: 2})} ${prefixes[index]}${base}${suffix}`;
+}
 export const num = (x: number | null | undefined, unit = "", digits = 2) =>
   x == null || !Number.isFinite(x)
     ? "—"
-    : x.toLocaleString("ru-RU", { maximumFractionDigits: digits }) +
+    : siUnit(unit) ? compactSI(x, unit) : x.toLocaleString("ru-RU", { maximumFractionDigits: digits }) +
       (unit ? " " + unit : "");
 export const resultRate = (r?: RunResultV2) =>
   num(r?.metrics.mission ? r.metrics.mission.deliveredScuPerHour : r?.metrics.scuPerHour, "SCU/ч");
@@ -146,7 +161,7 @@ export function slotLayout(
 // Процесс берётся из владельца сценария, в том числе для неполной сборки.
 // Номинал не моделирует выдачу шины, нагрев, ограничения трюма или фазовые запросы.
 export function nominalProcess(
-  w: FittingWorkspace,
+  w: WorkspaceRead,
 ): RunSpecV2["process"] | undefined {
   const current = w.prepare();
   if (current.ok) return current.value.process;

@@ -105,6 +105,35 @@ export class FittingWorkspace {
       baselineId: this.baselineId,
     });
   }
+  // Только для синхронного рендера: одна отделённая копия, повторные чтения
+  // не копируют историю заново. Обработчики и экспорт используют сам workspace.
+  snapshotForRender(): WorkspaceRead {
+    const data = this.snapshot();
+    const selected = () => data.variants.find(v => v.id === data.selectedId)!;
+    const prepared = new Map<Variant, ReturnType<FittingWorkspace["prepare"]>>();
+    const prepare = (v = selected()) => {
+      let value = prepared.get(v);
+      if (!value) { value = this.prepare(v); prepared.set(v, value); }
+      return value;
+    };
+    return {
+      catalog: this.catalog, selectedId: data.selectedId,
+      getSelected: selected,
+      getVariants: () => data.variants,
+      getFit: () => selected().fit,
+      getActive: () => data.active,
+      getCurrentResult: () => {
+        const r = (data.active ? data.variants.find(v => v.id === data.active!.variantId) : selected())?.result;
+        return r && (!data.active || r.runId === data.active.runId) ? r : undefined;
+      },
+      isPreviousResult: (v = selected()) => !!(v.result && data.active?.variantId === v.id && v.result.runId !== data.active.runId),
+      getFrozen: () => data.frozen,
+      getComparisonBase: () => data.baselineId === "reference" ? data.frozen : data.variants.find(v => v.id === data.baselineId)?.result,
+      getComparisonBaseId: () => data.baselineId,
+      prepare,
+      isStale: (v = selected()) => staleVariant(v, prepare(v)),
+    };
+  }
   select(id: string) {
     if (this.variants.some((v) => v.id === id)) this.selectedId = id;
   }
@@ -199,14 +228,7 @@ export class FittingWorkspace {
     return true;
   }
   isStale(v = this.selected()) {
-    const prepared = this.prepare(v);
-    return (
-      !!v.result &&
-      (JSON.stringify(v.result.spec.resolvedShip.fit) !==
-        JSON.stringify(v.fit) ||
-        !prepared.ok ||
-        JSON.stringify(v.result.spec) !== JSON.stringify(prepared.value))
-    );
+    return staleVariant(v, this.prepare(v));
   }
   prepare(v = this.selected()) {
     return v.replaySpec
@@ -337,4 +359,13 @@ export class FittingWorkspace {
       };
     }
   }
+}
+export type WorkspaceRead = Pick<FittingWorkspace,
+  "catalog" | "selectedId" | "getSelected" | "getVariants" | "getFit" |
+  "getActive" | "getCurrentResult" | "isPreviousResult" | "getFrozen" |
+  "getComparisonBase" | "getComparisonBaseId" | "prepare" | "isStale">;
+
+function staleVariant(v: Variant, prepared: ReturnType<FittingWorkspace["prepare"]>) {
+  return !!v.result && (JSON.stringify(v.result.spec.resolvedShip.fit) !== JSON.stringify(v.fit) ||
+    !prepared.ok || JSON.stringify(v.result.spec) !== JSON.stringify(prepared.value));
 }

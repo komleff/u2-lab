@@ -1,5 +1,5 @@
 import { isMissionModel, MODEL_SIGNATURE_MISSION } from "../../model/v2/types";
-import { FittingWorkspace } from "../fitting-workspace";
+import type { WorkspaceRead } from "../fitting-workspace";
 import { installedInstances, validateFit } from "../../fitting/validate";
 import { presetOptions, matchesPreset } from "../../fitting/catalog";
 import { fitHull } from "../../fitting/editions";
@@ -19,7 +19,7 @@ import {
 } from "./presentation";
 import { bucketValue } from "./telemetry";
 export function shipView(
-  w: FittingWorkspace,
+  w: WorkspaceRead,
   width: number,
   collapsed: Set<string>,
 ) {
