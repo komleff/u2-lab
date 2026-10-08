@@ -28,6 +28,11 @@ export interface ReceivedRadarEcho {
   receivedAtS: number;
   measuredRangeM: number;
 }
+export interface RadarRechargeEpoch {
+  timeS: number;
+  capJ: number;
+  externalRechargeJ: number;
+}
 // Это GD/internal state компонента, а не observer wire DTO и не движущаяся цель.
 export interface StationaryRadarState {
   version: "signature-radar-stationary-0.1";
@@ -46,6 +51,7 @@ export interface StationaryRadarState {
   rfExportJ: number;
   hostHeatJ: number;
   pulseSequence: number;
+  rechargeEpoch: RadarRechargeEpoch;
   pending: PendingStationaryEcho[];
   tracks: ReceivedRadarEcho[];
 }
@@ -92,11 +98,12 @@ export function createRadarState(input: StationaryRadarInput): StationaryRadarSt
     size: input.size, rangeM: input.rangeM, crossSectionM2: input.crossSectionM2,
     intervalS: input.intervalS, enabled: flag(input.enabled, "enabled"), timeS: 0, lastEmittedAtS: null, nextPingS: 0,
     initialCapJ, capJ: initialCapJ, externalRechargeJ: 0, rfExportJ: 0, hostHeatJ: 0,
-    pulseSequence: 0, pending: [], tracks: [] };
+    pulseSequence: 0, rechargeEpoch: { timeS: 0, capJ: initialCapJ, externalRechargeJ: 0 }, pending: [], tracks: [] };
 }
 
 function copyState(state: StationaryRadarState): StationaryRadarState {
-  return { ...state, pending: state.pending.map(event => ({ ...event })), tracks: state.tracks.map(track => ({ ...track })) };
+  return { ...state, rechargeEpoch: { ...state.rechargeEpoch },
+    pending: state.pending.map(event => ({ ...event })), tracks: state.tracks.map(track => ({ ...track })) };
 }
 
 function receiveDue(state: StationaryRadarState, receivedEchoes: ReceivedRadarEcho[]): void {
@@ -111,15 +118,40 @@ function receiveDue(state: StationaryRadarState, receivedEchoes: ReceivedRadarEc
   }
 }
 
+function nextClock(value: number): number {
+  const view = new DataView(new ArrayBuffer(8));
+  view.setFloat64(0, value);
+  view.setBigUint64(0, view.getBigUint64(0) + 1n);
+  return finite(view.getFloat64(0), "recharge completion clock");
+}
+
+function rechargeCompletionS(epoch: RadarRechargeEpoch, size: RadarSize): number {
+  const anchor = radarAnchor(size);
+  const remainingJ = anchor.capJ - epoch.capJ;
+  let completionS = finite(epoch.timeS + remainingJ / anchor.rechargeW, "recharge completion clock");
+  // Округление deadline вниз не должно выдавать Дж до достаточного elapsed time.
+  if ((completionS - epoch.timeS) * anchor.rechargeW < remainingJ) completionS = nextClock(completionS);
+  return completionS;
+}
+
+function rechargeAt(epoch: RadarRechargeEpoch, size: RadarSize, enabled: boolean, timeS: number) {
+  if (!enabled) return { capJ: epoch.capJ, externalRechargeJ: epoch.externalRechargeJ };
+  const anchor = radarAnchor(size);
+  const remainingJ = anchor.capJ - epoch.capJ;
+  const complete = timeS >= rechargeCompletionS(epoch, size);
+  const earnedJ = complete ? remainingJ : Math.min(remainingJ, (timeS - epoch.timeS) * anchor.rechargeW);
+  return { capJ: complete ? anchor.capJ : finite(epoch.capJ + earnedJ, "capJ"),
+    externalRechargeJ: finite(epoch.externalRechargeJ + earnedJ, "externalRechargeJ") };
+}
+
+function resetRechargeEpoch(state: StationaryRadarState): void {
+  state.rechargeEpoch = { timeS: state.timeS, capJ: state.capJ, externalRechargeJ: state.externalRechargeJ };
+}
+
 function chargeUntil(state: StationaryRadarState, timeS: number): void {
-  const anchor = radarAnchor(state.size);
-  if (state.enabled) {
-    const remainingJ = anchor.capJ - state.capJ;
-    const elapsedS = timeS - state.timeS;
-    const chargeJ = elapsedS >= remainingJ / anchor.rechargeW ? remainingJ : elapsedS * anchor.rechargeW;
-    state.capJ += chargeJ;
-    state.externalRechargeJ = finite(state.externalRechargeJ + chargeJ, "externalRechargeJ");
-  }
+  // Epoch меняется только при расходе или ON/OFF, а не при polling/echo/checkpoint.
+  // Поэтому разбиение времени не меняет ни Q, ни интегральный внешний ввод энергии.
+  Object.assign(state, rechargeAt(state.rechargeEpoch, state.size, state.enabled, timeS));
   state.timeS = timeS;
 }
 
@@ -131,27 +163,20 @@ export function advanceRadar(previous: StationaryRadarState, toTimeS: number) {
   const receivedEchoes: ReceivedRadarEcho[] = [];
   for (;;) {
     const readyAtS = state.enabled
-      ? Math.max(state.nextPingS, state.timeS + (anchor.capJ - state.capJ) / anchor.rechargeW) : Infinity;
+      ? Math.max(state.nextPingS, state.timeS, rechargeCompletionS(state.rechargeEpoch, state.size)) : Infinity;
     const echoAtS = state.pending[0]?.receivedAtS ?? Infinity;
     const eventTimeS = Math.min(readyAtS, echoAtS);
     if (eventTimeS > toTimeS) break;
     chargeUntil(state, eventTimeS);
     receiveDue(state, receivedEchoes);
     if (readyAtS === eventTimeS) {
-      // Пополнение до full может иметь ошибку округления только в последнем ulp времени.
-      // Перенос на следующий представимый clock вместо создания недостающих Дж.
-      if (state.capJ < anchor.capJ) {
-        const correctionS = (anchor.capJ - state.capJ) / anchor.rechargeW;
-        const laterS = state.timeS + correctionS;
-        if (laterS === state.timeS) throw new RangeError("clock precision cannot resolve capacitor recharge");
-        continue;
-      }
       if (!Number.isSafeInteger(state.pulseSequence + 1)) throw new RangeError("pulse sequence exhausted");
       const pulseId = ++state.pulseSequence;
       state.lastEmittedAtS = state.timeS;
       state.capJ -= anchor.capJ;
       state.rfExportJ = finite(state.rfExportJ + anchor.rfJ, "rfExportJ");
       state.hostHeatJ = finite(state.hostHeatJ + anchor.heatJ, "hostHeatJ");
+      resetRechargeEpoch(state);
       state.nextPingS = finite(state.timeS + state.intervalS, "nextPingS");
       if (state.nextPingS <= state.timeS) throw new RangeError("clock precision cannot resolve ping interval");
       state.pending.push({ pulseId, emittedAtS: state.timeS,
@@ -169,7 +194,9 @@ export function advanceRadar(previous: StationaryRadarState, toTimeS: number) {
 
 export function setRadarEnabled(previous: StationaryRadarState, enabled: boolean): StationaryRadarState {
   const state = restoreRadarCheckpoint(previous);
-  state.enabled = flag(enabled, "enabled");
+  const nextEnabled = flag(enabled, "enabled");
+  if (nextEnabled !== state.enabled) resetRechargeEpoch(state);
+  state.enabled = nextEnabled;
   return state;
 }
 
@@ -204,7 +231,7 @@ function samePhysical(actual: number, expected: number, reference: number, name:
 
 export function restoreRadarCheckpoint(value: unknown): StationaryRadarState {
   const obj = record(value, ["version", "sourceStatus", "size", "rangeM", "crossSectionM2", "intervalS", "enabled", "timeS", "lastEmittedAtS",
-    "nextPingS", "initialCapJ", "capJ", "externalRechargeJ", "rfExportJ", "hostHeatJ", "pulseSequence", "pending", "tracks"]);
+    "nextPingS", "initialCapJ", "capJ", "externalRechargeJ", "rfExportJ", "hostHeatJ", "pulseSequence", "rechargeEpoch", "pending", "tracks"]);
   if (obj.version !== "signature-radar-stationary-0.1" || obj.sourceStatus !== "working_reference") throw new TypeError("unknown checkpoint version/provenance");
   const anchor = radarAnchor(obj.size as RadarSize);
   const state = obj as unknown as StationaryRadarState;
@@ -238,6 +265,18 @@ export function restoreRadarCheckpoint(value: unknown): StationaryRadarState {
   samePhysical(state.hostHeatJ, state.pulseSequence * anchor.heatJ, Math.max(inputEnergyJ, anchor.capJ), "host heat ledger");
   const spentAndStoredJ = finite(state.rfExportJ + state.hostHeatJ + state.capJ, "spentAndStoredJ");
   samePhysical(spentAndStoredJ, inputEnergyJ, inputEnergyJ || anchor.capJ, "energy balance");
+  record(state.rechargeEpoch, ["timeS", "capJ", "externalRechargeJ"]);
+  const epoch = state.rechargeEpoch;
+  nonnegative(epoch.timeS, "recharge epoch timeS");
+  nonnegative(epoch.capJ, "recharge epoch capJ");
+  nonnegative(epoch.externalRechargeJ, "recharge epoch externalRechargeJ");
+  if (epoch.timeS > state.timeS || (state.lastEmittedAtS !== null && epoch.timeS < state.lastEmittedAtS)
+    || epoch.capJ > anchor.capJ || epoch.externalRechargeJ > state.externalRechargeJ) throw new RangeError("inconsistent recharge epoch");
+  const epochInputJ = finite(state.initialCapJ + epoch.externalRechargeJ, "recharge epoch inputJ");
+  samePhysical(state.rfExportJ + state.hostHeatJ + epoch.capJ, epochInputJ, epochInputJ || anchor.capJ, "recharge epoch ledger");
+  const expectedCharge = rechargeAt(epoch, state.size, state.enabled, state.timeS);
+  samePhysical(state.capJ, expectedCharge.capJ, anchor.capJ, "recharge epoch Q");
+  samePhysical(state.externalRechargeJ, expectedCharge.externalRechargeJ, inputEnergyJ || anchor.capJ, "recharge epoch external input");
   if (!Array.isArray(state.pending) || !Array.isArray(state.tracks)) throw new TypeError("checkpoint event arrays required");
   const ids = new Set<number>();
   const validId = (id: number) => {

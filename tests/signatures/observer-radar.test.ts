@@ -196,7 +196,7 @@ describe("stationary radar resource ledger and delayed events (SC04/05)", () => 
   });
 
   it.each([
-    [2.01, 15], [2.1, 15], [2.7, 12], [Math.PI, 10],
+    [2, 16], [2.0000000000000004, 15], [2.01, 15], [2.1, 15], [2.7, 12], [Math.PI, 10],
   ])("preserves valid fractional %s s cadence through polling and checkpoint", (intervalS, count) => {
     const input = { ...settings, intervalS };
     const whole = advanceRadar(createRadarState(input), 30).state;
@@ -215,5 +215,96 @@ describe("stationary radar resource ledger and delayed events (SC04/05)", () => 
       expectPhysical(state.externalRechargeJ, whole.externalRechargeJ, state.initialCapJ + state.externalRechargeJ);
       expectPhysical(state.capJ, whole.capJ, state.initialCapJ + state.externalRechargeJ);
     }
+  });
+
+  const rechargeCases = (["S", "M"] as const).flatMap(size =>
+    (["FULL", "EMPTY"] as const).flatMap(initialCap => [2, 2.0000000000000004].flatMap(intervalS =>
+      [0.1, 0.05, 0.025].map(dt => ({ size, initialCap, intervalS, dt,
+        // EMPTY начинает на2s; repeated +near2 округляется к4/6/.../30 в принятом clock.
+        expectedCount: initialCap === "FULL" ? intervalS === 2 ? 16 : 15 : 15 })))));
+
+  it.each(rechargeCases)("Q36 $size/$initialCap interval $intervalS dt $dt earns charge independently of checkpoint chunks", input => {
+    const initial = createRadarState({ ...settings, ...input });
+    const whole = advanceRadar(initial, 30).state;
+    let state = initial;
+    const emissions: number[] = [];
+    for (let i = 0; i <= Math.round(30 / input.dt); i++) {
+      const step = advanceRadar(state, i * input.dt);
+      emissions.push(...step.emittedPulses.map(pulse => pulse.emittedAtS));
+      state = restoreRadarCheckpoint(JSON.parse(JSON.stringify(radarCheckpoint(step.state))));
+      const inputJ = state.initialCapJ + state.externalRechargeJ;
+      const residualJ = inputJ - state.rfExportJ - state.hostHeatJ - state.capJ;
+      expect(Math.abs(residualJ)).toBeLessThanOrEqual(1e-12 * inputJ);
+      expect(state.capJ).toBeGreaterThanOrEqual(0);
+      expect(state.capJ).toBeLessThanOrEqual(input.size === "S" ? 12_500 : 50_000);
+    }
+    expect(state.pulseSequence).toBe(input.expectedCount);
+    expect(state).toEqual(whole);
+    if (input.intervalS === 2) {
+      expect(emissions.slice(0, 3)).toEqual(input.initialCap === "FULL" ? [0, 2, 4] : [2, 4, 6]);
+    }
+  });
+
+  it.each(["S", "M"] as const)("Q36 %s irregular chunks preserve reserve, queue and recharge timeline", size => {
+    for (const initialCap of ["FULL", "EMPTY"] as const) {
+      for (const intervalS of [2, 2.0000000000000004]) {
+        const input = { ...settings, size, initialCap, intervalS };
+        const whole = advanceRadar(createRadarState(input), 30).state;
+        for (const increments of [[0.03, 0.07, 0.11, 0.05], [0.37, 0.13, 0.41, 0.19]]) {
+          let state = advanceRadar(createRadarState(input), 0).state;
+          let timeS = 0; let index = 0;
+          while (timeS < 30) {
+            timeS = Math.min(30, timeS + increments[index++ % increments.length]);
+            state = restoreRadarCheckpoint(JSON.parse(JSON.stringify(radarCheckpoint(advanceRadar(state, timeS).state))));
+            const inputJ = state.initialCapJ + state.externalRechargeJ;
+            expect(Math.abs(inputJ - state.rfExportJ - state.hostHeatJ - state.capJ)).toBeLessThanOrEqual(1e-12 * inputJ);
+          }
+          expect(state).toEqual(whole);
+        }
+      }
+    }
+  });
+
+  it.each(["S", "M"] as const)("%s does not invent energy when OFF/ON resumes a near-empty or near-full capacitor", size => {
+    const rechargeW = size === "S" ? 6250 : 25_000;
+    const emitted = advanceRadar(createRadarState({ ...settings, size }), 0).state;
+    for (const chargedUntilS of [1e-20, 0.000001, 1.999999, 1.9999999999999998]) {
+      const off = setRadarEnabled(advanceRadar(emitted, chargedUntilS).state, false);
+      const paused = advanceRadar(off, 10).state;
+      expect(paused.capJ).toBe(off.capJ);
+      expect(paused.externalRechargeJ).toBe(off.externalRechargeJ);
+      const resumed = setRadarEnabled(paused, true);
+      const untilS = 12;
+      const whole = advanceRadar(resumed, untilS).state;
+      let chunked = resumed;
+      for (const toS of [10, 10.00000001, 10.05, 10.3, 11, 11.9, 12]) {
+        const step = advanceRadar(chunked, toS);
+        if (toS === 10) expect(step.emittedPulses).toEqual([]);
+        chunked = restoreRadarCheckpoint(JSON.parse(JSON.stringify(radarCheckpoint(step.state))));
+        const elapsedRechargeS = chunked.timeS - resumed.timeS;
+        expect(chunked.externalRechargeJ - resumed.externalRechargeJ).toBeLessThanOrEqual(elapsedRechargeS * rechargeW);
+        const inputJ = chunked.initialCapJ + chunked.externalRechargeJ;
+        expect(Math.abs(inputJ - chunked.rfExportJ - chunked.hostHeatJ - chunked.capJ)).toBeLessThanOrEqual(1e-12 * inputJ);
+      }
+      expect(chunked).toEqual(whole);
+    }
+  });
+
+  it("detaches the recharge epoch on checkpoint and rejects corrupt clock/reserve/energy anchors", () => {
+    const live = advanceRadar(createRadarState(settings), 2.05).state;
+    const saved = JSON.parse(JSON.stringify(live));
+    const checkpoint = radarCheckpoint(live);
+    checkpoint.rechargeEpoch.capJ = 1;
+    expect(live).toEqual(saved);
+    const epoch = live.rechargeEpoch;
+    for (const patch of [{ timeS: NaN }, { timeS: live.timeS + 1 }, { timeS: 0 },
+      { capJ: -1 }, { capJ: 12_501 }, { capJ: 1 }, { externalRechargeJ: NaN },
+      { externalRechargeJ: epoch.externalRechargeJ + 1 }, { hiddenEnergyJ: 1 }]) {
+      expect(() => restoreRadarCheckpoint({ ...live, rechargeEpoch: { ...epoch, ...patch } })).toThrow();
+    }
+    const partialEpoch = { timeS: epoch.timeS, capJ: epoch.capJ };
+    expect(() => restoreRadarCheckpoint({ ...live, rechargeEpoch: partialEpoch })).toThrow();
+    expect(() => restoreRadarCheckpoint({ ...live, rechargeEpoch: undefined })).toThrow();
+    expect(live).toEqual(saved);
   });
 });
