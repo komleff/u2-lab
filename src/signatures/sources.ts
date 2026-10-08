@@ -45,3 +45,23 @@ export function electricMotorLosses(input: ElectricMotorLossInput) {
     usefulW: finite(motorInputW * motor, "usefulW"),
   };
 }
+
+// Рабочие правила Лабы §3: эти ватты уже покинули теплосеть.
+export function generatorIr(kind: "diesel" | "hydrogen", exportedW: number): number {
+  const power = nonnegative(exportedW, "generatorExportW");
+  if (kind !== "diesel" && kind !== "hydrogen") throw new TypeError("unsupported generator kind");
+  if (kind === "hydrogen" && power !== 0) throw new RangeError("hydrogen generator export mapping requires zero actual export");
+  return kind === "diesel" ? power * .10 : 0;
+}
+// Lab data 0.7: выделенная доля тепла не является измерением IR-фотонов.
+export function hydrogenCoolerIr(gasW: number, flowKgS: number, backgroundK: number) {
+  nonnegative(gasW,"gasW"); nonnegative(flowKgS,"flowKgS"); nonnegative(backgroundK,"backgroundK");
+  if (flowKgS === 0) {
+    if (gasW !== 0) throw new RangeError("gas export without flow");
+    return { outletTemperatureK: 20, allocatedIrBudgetW: 0, contrastW: 0 };
+  }
+  if (gasW === 0) throw new RangeError("autonomous cold purge is outside this bench");
+  const outletTemperatureK = finite(20 + gasW / (14200 * flowKgS), "outletTemperatureK");
+  return { outletTemperatureK, allocatedIrBudgetW: finite(.01 * gasW,"allocatedIrBudgetW"),
+    contrastW: finite(.01 * 14200 * flowKgS * Math.max(outletTemperatureK-backgroundK,0),"gasContrastW") };
+}

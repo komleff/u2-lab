@@ -2,6 +2,7 @@
 
 | Документ | Статус | Область |
 |---|---|---|
+| [Стенд сигнатур: работа и handoff](guides/signatures-observer.md) | implementation candidate / full QA and scoped review pending | UI4.4, opt-in model/schema3, actual current fitting + externally powered observer, checkpoint/allowlist/weighted CSV и versioned fixtures; future/server parity NOT RUN |
 | [План развития Лабы v1.0](plans/2026-10-07-lab-development-v1.0.md) | active / roadmap | Серверная спецификация и параметры: архитектурные границы, сигнатуры/сенсоры, износ, перевозки, поля, роли и размеры; эргономика и эталонные опыты |
 | [Спринт S1: сигнатуры и сенсоры](plans/2026-10-07-signatures-sensors-sprint-v1.0.md) | accepted / v1.6, affected Plan Review pending | Полный расчётный контракт IR зафиксирован в package v0.7; полный SS00 требует affected проверки расчётного входа |
 | [Первый стенд: входной пакет](product/signatures-observer-v0.1.md) | accepted / temporary Lab experiment; implementation pending | Preset S/M sensors/radar; фактические тепловые источники, сумма контрастов и порог сенсора; базовый H₂-сброс не даёт отрицательный IR-контраст; далее баланс H₂ Stealth, силуэты, короткий пассивный импульс и движение |

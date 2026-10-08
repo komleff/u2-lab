@@ -1,9 +1,10 @@
 import type { RunSpecV2, StateV2, FittingPhase } from "../model/v2/types";
 import { validateRunSpecV2, initialStateV2, stepV2 } from "../model/v2/step";
-import { MODEL_MISSION } from "../model/v2/types";
+import { MODEL_SIGNATURE_MISSION, isMissionModel } from "../model/v2/types";
+import { createSignatureRuntime, restoreSignatureRuntime, type SignatureRuntimeState } from "../signatures/runtime";
 import { initializeMission, runMissionChunk } from "./mission";
 import type { TickTelemetry } from "../model/types";
-import { DiagnosticObserver, replacedDiagnosticEvent } from './diagnostics';
+import { DiagnosticObserver, replacedDiagnosticEvent, type DiagnosticCheckpoint } from './diagnostics';
 import { Retention, EventRetention, type Bucket } from "./retention";
 import {
   initialMiningMetrics,
@@ -12,6 +13,7 @@ import {
 } from "./mining-metrics";
 export type CoreMiningMetrics = MiningMetrics;
 export type RunContextV2 = {
+  signatures?: SignatureRuntimeState;
   runId: string;
   spec: RunSpecV2;
   state: StateV2;
@@ -23,6 +25,8 @@ export type RunContextV2 = {
   diagnostics: DiagnosticObserver;
 };
 export type RunResultV2 = {
+  signatures?: SignatureRuntimeState;
+  checkpoint?: { diagnostics:DiagnosticCheckpoint; lastTelemetry:TickTelemetry };
   runId: string;
   spec: RunSpecV2;
   state: StateV2;
@@ -79,8 +83,9 @@ export function createFittingRun(runId: string, spec: RunSpecV2): RunContextV2 {
     done: false,
     last: {},
     diagnostics: new DiagnosticObserver(),
+    ...(v.value.modelVersion === MODEL_SIGNATURE_MISSION ? { signatures:createSignatureRuntime(v.value.signatures!) } : {}),
   };
-  if(v.value.modelVersion===MODEL_MISSION)initializeMission(run);
+  if(isMissionModel(v.value.modelVersion))initializeMission(run);
   return run;
 }
 export function runFittingChunk(
@@ -88,7 +93,7 @@ export function runFittingChunk(
   maxSteps: number,
   wallBudgetMs = Infinity,
 ) {
-  if(run.spec.modelVersion===MODEL_MISSION)return runMissionChunk(run,maxSteps,wallBudgetMs);
+  if(isMissionModel(run.spec.modelVersion))return runMissionChunk(run,maxSteps,wallBudgetMs);
   const started = performance.now();
   let steps = 0;
   while (!run.done && steps < maxSteps) {
@@ -175,6 +180,8 @@ export function fittingResult(
   status: RunResultV2["status"] = run.done ? "complete" : "paused",
 ): RunResultV2 {
   return structuredClone({
+    ...(run.signatures ? {signatures:run.signatures} : {}),
+    ...(run.signatures ? {checkpoint:{diagnostics:run.diagnostics.checkpoint(),lastTelemetry:run.last}} : {}),
     runId: run.runId,
     spec: run.spec,
     state: run.state,
@@ -189,4 +196,17 @@ export function fittingResult(
     },
     status,
   });
+}
+
+// Payload уже прошёл atomic IO validation; восстановление не пересчитывает прошлое.
+export function restoreFittingRun(saved:RunResultV2):RunContextV2 {
+  if(saved.spec.modelVersion!==MODEL_SIGNATURE_MISSION||!saved.signatures||!saved.checkpoint)throw new Error("Нужен полный signature checkpoint");
+  const run=createFittingRun(saved.runId,saved.spec);
+  run.state=structuredClone(saved.state);run.metrics=structuredClone(saved.metrics);run.last=structuredClone(saved.checkpoint.lastTelemetry);
+  run.done=saved.status==="complete";run.signatures=restoreSignatureRuntime(saved.signatures,saved.spec.signatures!,saved.state.timeSeconds);
+  run.diagnostics.restore(saved.checkpoint.diagnostics);
+  run.retention=new Retention(saved.channels,saved.retention.maxBuckets);run.retention.buckets=structuredClone(saved.buckets);
+  run.retention.cadenceSeconds=saved.retention.cadenceSeconds;run.retention.totalTicks=saved.retention.totalTicks;
+  run.events.restore(saved.events,saved.retention.totalEvents);
+  return run;
 }

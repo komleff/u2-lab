@@ -4,7 +4,10 @@ import type { RunResultV2 } from "../runner/run";
 import { parseExperimentJson } from "./fitting-json";
 import { initialMiningMetrics } from "../runner/mining-metrics";
 import { allocateCargo } from "../fitting/cargo";
-import { CAUSES, MODEL_MISSION } from "../model/v2/types";
+import { CAUSES, isMissionModel, MODEL_SIGNATURE_MISSION } from "../model/v2/types";
+import { exactFields } from "../signatures/config";
+import { restoreSignatureRuntime } from "../signatures/runtime";
+import { DiagnosticObserver } from "../runner/diagnostics";
 const object = (v: unknown): v is Record<string, any> => !!v && typeof v === "object" && !Array.isArray(v);
 const finite = (v: unknown): v is number => typeof v === "number" && Number.isFinite(v);
 const nonnegative = (v: unknown): v is number => finite(v) && v >= 0;
@@ -17,11 +20,12 @@ export function parseResultJson(text: string): ValidationResult<RunResultV2> {
     if (!object(r)) throw Error("Нужен объект результата");
     const parsed = parseExperimentJson(JSON.stringify(r.spec));
     if (!parsed.ok) return parsed as ValidationResult<RunResultV2>;
-    if (parsed.value.schemaVersion !== "u2-lab/2" || !isKnownCatalogVersion(parsed.value.catalogVersion)) {
+    if ((parsed.value.schemaVersion !== "u2-lab/2" && parsed.value.schemaVersion !== "u2-lab/3") || !isKnownCatalogVersion(parsed.value.catalogVersion)) {
       bad("spec", "Анализ результата поддерживает численную модель v2 и текущий каталог; Legacy открывается отдельно");
       return { ok: false, errors };
     }
     const spec = parsed.value, ship = spec.resolvedShip;
+    if(spec.modelVersion===MODEL_SIGNATURE_MISSION)exactFields(r,["signatures","checkpoint","runId","spec","state","metrics","channels","buckets","events","retention","status"],"signature result");
     const ids = new Set(ship.instances.map(i => i.id));
     const mining = new Set(ship.instances.filter(i => i.item.family === "mining").map(i => i.id));
     if (typeof r.runId !== "string" || !r.runId.length) bad("runId", "Нужен ID измеренного опыта");
@@ -31,8 +35,8 @@ export function parseResultJson(text: string): ValidationResult<RunResultV2> {
     const close = (a: number, b: number) => Math.abs(a - b) <= 1e-8 * Math.max(Number.MIN_VALUE, Math.abs(a), Math.abs(b));
     for (const key of ["timeSeconds", "chargeJ", "temperatureK", "cargo", "usefulWork", "currentMassKg", "cyclesCompleted"])
       if (!nonnegative(state[key])) bad("state." + key, "Нужно конечное неотрицательное число");
-    if (state.schemaVersion !== "u2-lab/2" || typeof state.phaseKey !== "string") bad("state", "Нужны схема и фаза измеренного состояния");
-    if (state.timeSeconds > spec.durationSeconds || (spec.modelVersion!==MODEL_MISSION && r.status === "complete" && !close(state.timeSeconds, spec.durationSeconds))) bad("state.timeSeconds", "Интервал не соответствует горизонту опыта");
+    if (state.schemaVersion !== spec.schemaVersion || typeof state.phaseKey !== "string") bad("state", "Нужны схема и фаза измеренного состояния");
+    if (state.timeSeconds > spec.durationSeconds || (!isMissionModel(spec.modelVersion) && r.status === "complete" && !close(state.timeSeconds, spec.durationSeconds))) bad("state.timeSeconds", "Интервал не соответствует горизонту опыта");
     if (state.chargeJ > ship.batteryCapacityJ * (1 + 1e-8)) bad("state.chargeJ", "Заряд превышает ёмкость");
     const map = (v: any, path: string, allowed?: Set<string>, nullable = false) => {
       if (!object(v)) { bad(path, "Нужна карта значений"); return; }
@@ -84,7 +88,7 @@ export function parseResultJson(text: string): ValidationResult<RunResultV2> {
     }
     if (!close(m.durationSeconds, state.timeSeconds) || !close(m.usefulWork, state.usefulWork)) bad("metrics", "Измерения не соответствуют состоянию своего интервала");
     for (const key of ["ticks", "cyclesCompleted"]) if (!integer(m[key])) bad("metrics." + key, "Нужен целый счётчик");
-    if(spec.modelVersion===MODEL_MISSION){
+    if(isMissionModel(spec.modelVersion)){
       const ms=state.mission,mm=m.mission,cfg=spec.mission!;
       if(!object(ms)||!object(mm)||!object(ms.elapsed))throw Error("Нужны measured mission state/metrics");
       const stages=["outbound","approach","mining","inbound","service","done","stranded"];
@@ -119,7 +123,7 @@ export function parseResultJson(text: string): ValidationResult<RunResultV2> {
       if(r.status==="complete"&&!close(state.timeSeconds,spec.durationSeconds)&&!["done","stranded"].includes(ms.stage))bad("state.mission.stage","Завершение раньше H требует терминального события миссии");
     }
     const aggregate = new Set("requestedW deliveredW activeRequestedW activeW protectedW backgroundRequestedW backgroundW generatorW solarW externalElectricW generatorHostW pathLossW batteryLossW propulsionHostW loadHostW solarHostW directHeatW exhaustW beamW returnHeatW externalBeamW engineUsefulW thrustN h2CoolingW h2AuxRejectW radiatorHostW tiCoolingW tiRejectW bufferAbsorbW bufferReleaseW radiationOutW radiationInW radiationNetW heatInW heatOutW workRate chemicalW energyResidualJ timeSeconds chargeJ soc temperatureK usefulWork cargo currentMassKg cargoM3 miningRateM3S".split(" "));
-    if(spec.modelVersion===MODEL_MISSION)for(const channel of ["positionM","velocityMS","deliveredM3"])aggregate.add(channel);
+    if(isMissionModel(spec.modelVersion))for(const channel of ["positionM","velocityMS","deliveredM3"])aggregate.add(channel);
     for (const sp of ["diesel", "hydrogen"]) aggregate.add("fuelKg:" + sp);
     for (const i of ship.instances) {
       aggregate.add("installedMassKg:" + i.id);
@@ -157,6 +161,12 @@ export function parseResultJson(text: string): ValidationResult<RunResultV2> {
         if (!object(e) || !nonnegative(e.timeSeconds) || (e.timeSeconds < previous && !close(e.timeSeconds, previous)) || (e.timeSeconds > state.timeSeconds && !close(e.timeSeconds, state.timeSeconds)) || typeof e.kind !== "string" || typeof e.message !== "string") bad("events." + i, "Неверные время, kind или сообщение события");
         previous = e?.timeSeconds;
       }
+    }
+    if(spec.modelVersion===MODEL_SIGNATURE_MISSION) {
+      exactFields(state,["schemaVersion","timeSeconds","chargeJ","temperatureK","fuelKg","buffersJ","gates","cargo","cargoM3","currentMassKg","usefulWork","extractedByInstanceM3","consumptionKg","limitations","phaseKey","constraints","cyclesCompleted","miningStopSeconds","mission",...(Object.hasOwn(state,"sourceRecovery")?["sourceRecovery"]:[]),...(Object.hasOwn(state,"scenarioOffsetSeconds")?["scenarioOffsetSeconds"]:[])],"signature physical state");
+      r.signatures=restoreSignatureRuntime(r.signatures,spec.signatures!,state.timeSeconds);
+      exactFields(r.checkpoint,["diagnostics","lastTelemetry"],"run checkpoint");new DiagnosticObserver().restore(r.checkpoint.diagnostics);
+      if(!object(r.checkpoint.lastTelemetry)||Object.values(r.checkpoint.lastTelemetry).some(v=>!finite(v)))throw new Error("Неверный checkpoint telemetry");
     }
     if (errors.length) return { ok: false, errors };
     r.spec = spec;

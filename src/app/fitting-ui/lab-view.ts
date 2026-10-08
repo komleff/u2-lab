@@ -1,6 +1,6 @@
 import {fitHull} from "../../fitting/editions";
 import type { FittingWorkspace } from "../fitting-workspace";
-import { MODEL_MISSION } from "../../model/v2/types";
+import { isMissionModel } from "../../model/v2/types";
 import type { WorkspaceConditions } from "../../scenarios/mission";
 import type { RunResultV2 } from "../../runner/run";
 import type { ChannelState } from "./lab-channels";
@@ -62,7 +62,7 @@ export function labView(
     interval = m
       ? `наблюдаемый интервал 0–${num(m.durationSeconds, "с")} · ${m.intervalLabel}`
       : active ? "ожидается первое измерение текущего теста" : "нет данных до первого теста";
-  const missionDraft=v.conditions.modelVersion===MODEL_MISSION;
+  const missionDraft=isMissionModel(v.conditions.modelVersion??"");
   const mission=state?.mission;
   const tiles = [
     ["Полезная добыча", num(m?.usefulWork, "SCU")],

@@ -1,0 +1,25 @@
+{
+  "version": "signature-motion-fixture-0.1",
+  "scope": "analytic_only_not_runtime",
+  "units": "SI",
+  "cPrimeMS": 3000,
+  "initialRangeM": 16000,
+  "constantVelocityMS": 100,
+  "pulses": [
+    {
+      "pulseId": 1,
+      "emittedAtS": 0,
+      "reflectedAtS": 5.517241379310345,
+      "receivedAtS": 11.03448275862069,
+      "reflectionRangeM": 16551.724137931036
+    },
+    {
+      "pulseId": 2,
+      "emittedAtS": 2,
+      "reflectedAtS": 7.586206896551724,
+      "receivedAtS": 13.172413793103448,
+      "reflectionRangeM": 16758.620689655174
+    }
+  ],
+  "serverParity": "NOT_RUN"
+}

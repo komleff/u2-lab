@@ -1,8 +1,9 @@
+import { validateSignatureSettings } from "../signatures/config";
 import type { ShipFit, CandidateCatalog } from "../fitting/types";
 import type { RunSpecV2 } from "../model/v2/types";
 import type { RunResultV2 } from "../runner/run";
 import { freshMissionConditions, validMissionConditions, type WorkspaceConditions } from "../scenarios/mission";
-import { MODEL_MISSION } from "../model/v2/types";
+import { isMissionModel } from "../model/v2/types";
 import { FittingSession } from "./fitting-session";
 import { parseFitJson, parseExperimentJson } from "../io/fitting-json";
 import { parseResultJson } from "../io/fitting-result";
@@ -133,7 +134,7 @@ export class FittingWorkspace {
     const validation=this.applyFit(getPresetFit(id,this.catalog.version));
     if(validation.valid) {
       const conditions={...this.selected().conditions,selectedWorkGroup:undefined};
-      if(conditions.modelVersion===MODEL_MISSION && mode!==undefined) {
+      if(isMissionModel(conditions.modelVersion ?? "") && mode!==undefined) {
         const defaults=freshMissionConditions(this.selected().fit,this.catalog);
         conditions.referenceVfaMS=defaults.referenceVfaMS;
         conditions.cruiseSpeedMS=mode===null?null:mode*defaults.referenceVfaMS!;
@@ -187,8 +188,9 @@ export class FittingWorkspace {
       }
       validationFit.builtinModes = structuredClone(fit.builtinModes);
     }
-    const mission = conditions.modelVersion === MODEL_MISSION;
+    const mission = isMissionModel(conditions.modelVersion ?? "");
     if (mission && !validMissionConditions(conditions)) return false;
+    if(conditions.signatures){try{validateSignatureSettings(conditions.signatures);}catch{return false;}}
     if (mission) conditions = { ...conditions, stationReplenish: conditions.stationReplenish === undefined ? false : conditions.stationReplenish };
     const checked = makeMiningRun(validationFit, this.catalog, mission ? {...conditions,workSeconds:1,approachSeconds:1,brakingSeconds:1,serviceSeconds:1,idleSeconds:1} : conditions);
     if (!checked.ok) return false;
@@ -237,6 +239,12 @@ export class FittingWorkspace {
   }
   setStatus(runId: string, status: "running" | "paused") {
     if (this.active?.runId === runId) this.active.status = status;
+  }
+  startCheckpoint(runId:string) {
+    const v=this.selected(),r=v.result;
+    if(this.active||!r?.signatures||r.status!=="paused")return {ok:false as const,errors:[{path:"checkpoint",message:"Нужен частичный signature checkpoint без активного теста"}]};
+    this.active={runId,variantId:v.id,variantName:v.name,fitRevision:r.spec.resolvedShip.fit.fitRevision,spec:structuredClone(r.spec),status:"running"};
+    return {ok:true as const,value:this.getActive()!};
   }
   acceptResult(r: RunResultV2) {
     if (r.runId !== this.active?.runId) return false;

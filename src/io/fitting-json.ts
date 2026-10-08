@@ -37,7 +37,7 @@ export function parseExperimentJson(
     const document = JSON.parse(text),
       spec = document?.spec ?? document;
     if (spec?.schemaVersion === "u2-lab/1") return validateRunSpec(spec);
-    if (spec?.schemaVersion !== "u2-lab/2")
+    if (spec?.schemaVersion !== "u2-lab/2" && spec?.schemaVersion !== "u2-lab/3")
       return invalid("SCHEMA", "Неподдерживаемая схема опыта");
     const validated = validateRunSpecV2(spec);
     if (!validated.ok) return validated;

@@ -1,5 +1,5 @@
 import type { RunResultV2 } from "../../runner/run";
-import { MODEL_MISSION, type RunSpecV2 } from "../../model/v2/types";
+import { isMissionModel, type RunSpecV2 } from "../../model/v2/types";
 import { compareMissionConditions, missionComparisonInputs } from "../../scenarios/mission";
 import { esc, num } from "./presentation";
 export function measuredIdentity(r: RunResultV2) {
@@ -11,7 +11,7 @@ export function stationPolicyLabel(s:RunSpecV2) { return s.mission?.stationReple
 export function conditionDifferences(a: RunSpecV2, b: RunSpecV2) {
   const check = compareMissionConditions(a, b);
   if (check.comparable) return "<p class=\"success\">Одинаковые условия</p>";
-  const value = (s: RunSpecV2, key: string) => a.modelVersion===MODEL_MISSION||b.modelVersion===MODEL_MISSION ? (missionComparisonInputs(s) as Record<string,unknown>)[key] : key === "hull" ? { id: s.resolvedShip.hull.id, label: s.resolvedShip.hull.label }
+  const value = (s: RunSpecV2, key: string) => isMissionModel(a.modelVersion)||isMissionModel(b.modelVersion) ? (missionComparisonInputs(s) as Record<string,unknown>)[key] : key === "hull" ? { id: s.resolvedShip.hull.id, label: s.resolvedShip.hull.label }
     : key === "targetM3" || key === "repeat" || key === "phases" ? s.scenario[key]
     : (s as unknown as Record<string, unknown>)[key];
   return `<div class="condition-differences"><p class="warning">Условия отличаются: ${check.differences.map(esc).join(" · ")}</p><dl>${check.differences.map(key => `<div><dt>${esc(key)}</dt><dd>База: ${esc(JSON.stringify(value(a, key)))}<br>Этот опыт: ${esc(JSON.stringify(value(b, key)))}</dd></div>`).join("")}</dl></div>`;

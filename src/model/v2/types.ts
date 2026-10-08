@@ -7,6 +7,10 @@ import type {
 import type { ResolvedShip, PropulsionRole } from "../../fitting/types";
 export const MODEL_V2 = "ship-fitting-ledger-0.2" as const;
 export const MODEL_MISSION = "ship-fitting-mission-0.2.2" as const;
+export const MODEL_SIGNATURE_MISSION = "ship-fitting-signature-mission-0.1" as const;
+export const isMissionModel = (model: string) => model === MODEL_MISSION || model === MODEL_SIGNATURE_MISSION;
+import type { SignatureSettings } from "../../signatures/config";
+import type { SignatureFrame } from "../../signatures/physics";
 export type MissionConfig = {
   distanceM: number;
   cruiseSpeedMS: number | null;
@@ -56,8 +60,9 @@ export type FittingPhase = {
   service?: { unload?: boolean; refuel?: boolean; charge?: boolean };
 };
 export type RunSpecV2 = {
-  schemaVersion: "u2-lab/2";
-  modelVersion: typeof MODEL_V2 | typeof MODEL_MISSION;
+  schemaVersion: "u2-lab/2" | "u2-lab/3";
+  modelVersion: typeof MODEL_V2 | typeof MODEL_MISSION | typeof MODEL_SIGNATURE_MISSION;
+  signatures?: SignatureSettings;
   mission?: MissionConfig;
   catalogVersion: string;
   units: "SI";
@@ -86,7 +91,7 @@ export type RunSpecV2 = {
 };
 export type StateV2 = ModelState & {
   mission?: MissionState;
-  schemaVersion: "u2-lab/2";
+  schemaVersion: "u2-lab/2" | "u2-lab/3";
   cargoM3: Record<string, number>;
   currentMassKg: number;
   extractedByInstanceM3: Record<string, number>;
@@ -118,6 +123,7 @@ export type MiningStepSummary = {
 export type StepResultV2 = Omit<StepResult, "state"> & {
   state: StateV2;
   mining: MiningStepSummary;
+  signatureFrames?: SignatureFrame[];
 };
 export type TelemetryDescriptor = {
   id: string;

@@ -1,0 +1,1048 @@
+{
+  "version": "signature-source-samples-0.1",
+  "scope": "observed_candidate_samples_not_independent_oracles",
+  "labDataVersion": "0.7",
+  "profiles": [
+    {
+      "size": "S",
+      "inputFile": "performance-S-input.json",
+      "initialOverrides": {
+        "temperatureK": 510,
+        "hydrogenKg": 0.001
+      },
+      "dtSeconds": 0.5,
+      "requests": {
+        "retro": 1
+      },
+      "observed": {
+        "state": {
+          "schemaVersion": "u2-lab/3",
+          "timeSeconds": 0.5,
+          "chargeJ": 10000000000,
+          "temperatureK": 510.1689352094889,
+          "fuelKg": {
+            "diesel": 11999.725114599478,
+            "hydrogen": 0
+          },
+          "buffersJ": {},
+          "gates": {
+            "builtin:laser": false,
+            "fit:march": false,
+            "fit:retro": false,
+            "fit:strafe": false,
+            "fit:turn": false,
+            "fit:power-2": false,
+            "fit:signature-1": false,
+            "fit:payload-1": false,
+            "tank:diesel": false,
+            "tank:hydrogen": false
+          },
+          "cargo": 0,
+          "cargoM3": {
+            "ore": 0
+          },
+          "currentMassKg": 72784.48055426028,
+          "usefulWork": 0,
+          "extractedByInstanceM3": {
+            "builtin:laser": 0,
+            "fit:payload-1": 0
+          },
+          "consumptionKg": {
+            "diesel:generator:fit:power-2": 0.008205296474030326,
+            "diesel:propulsion:fit:march": 0,
+            "diesel:propulsion:fit:retro": 0.26668010404791626,
+            "diesel:propulsion:fit:strafe": 0,
+            "diesel:propulsion:fit:turn": 0,
+            "hydrogen:cooler:fit:signature-1": 0.001
+          },
+          "limitations": {
+            "builtin:cargo": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "builtin:tank": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "builtin:laser": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:march": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:retro": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:strafe": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:turn": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:power-1": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:power-2": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:signature-1": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:payload-1": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:payload-2": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:power-3": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            }
+          },
+          "phaseKey": "",
+          "constraints": [
+            "Топливо исчерпано"
+          ],
+          "cyclesCompleted": 0,
+          "miningStopSeconds": null,
+          "sourceRecovery": false
+        },
+        "telemetry": {
+          "deliveredW:builtin:laser": 0,
+          "beamW:builtin:laser": 0,
+          "forceN:builtin:laser": 0,
+          "deliveredW:fit:march": 0,
+          "beamW:fit:march": 0,
+          "forceN:fit:march": 0,
+          "deliveredW:fit:retro": 0,
+          "beamW:fit:retro": 0,
+          "forceN:fit:retro": 944000.368311208,
+          "deliveredW:fit:strafe": 0,
+          "beamW:fit:strafe": 0,
+          "forceN:fit:strafe": 0,
+          "deliveredW:fit:turn": 0,
+          "beamW:fit:turn": 0,
+          "forceN:fit:turn": 0,
+          "deliveredW:fit:power-2": 0,
+          "beamW:fit:power-2": 0,
+          "forceN:fit:power-2": 0,
+          "deliveredW:fit:signature-1": 0,
+          "beamW:fit:signature-1": 0,
+          "forceN:fit:signature-1": 0,
+          "deliveredW:fit:payload-1": 0,
+          "beamW:fit:payload-1": 0,
+          "forceN:fit:payload-1": 0,
+          "coolingAuxRequestedW:fit:signature-1": 53.33333333333333,
+          "coolingAuxW:fit:signature-1": 53.33333333333333,
+          "coolingW:fit:signature-1": 13862.666666666666,
+          "coolingRequested:fit:signature-1": 1,
+          "coolingOffFloor:fit:signature-1": 0,
+          "coolingOffDemand:fit:signature-1": 0,
+          "coolingClosed:fit:signature-1": 0,
+          "requestedW": 200053.33333333334,
+          "deliveredW": 200053.33333333334,
+          "activeRequestedW": 0,
+          "activeW": 0,
+          "protectedW": 200000,
+          "backgroundRequestedW": 0,
+          "backgroundW": 0,
+          "generatorW": 222281.4814814815,
+          "solarW": 0,
+          "externalElectricW": 0,
+          "generatorHostW": 252271.84009406235,
+          "pathLossW": 24697.94238683127,
+          "batteryLossW": 22228.148148148146,
+          "propulsionHostW": 10916816.739305496,
+          "loadHostW": 0,
+          "solarHostW": 0,
+          "directHeatW": 0,
+          "exhaustW": 4885039.978220875,
+          "beamW": 0,
+          "returnHeatW": 0,
+          "externalBeamW": 0,
+          "engineUsefulW": 7339036.463398656,
+          "thrustN": 944000.368311208,
+          "h2CoolingW": 13862.666444759781,
+          "h2AuxRejectW": 53.33333333333333,
+          "radiatorHostW": 0,
+          "tiCoolingW": 0,
+          "tiRejectW": 0,
+          "bufferAbsorbW": 0,
+          "bufferReleaseW": 0,
+          "radiationOutW": 1752156.806291227,
+          "radiationInW": 2588.2424035525496,
+          "radiationNetW": 1749568.5638876741,
+          "heatInW": 11415995.500626557,
+          "heatOutW": 1766019.4727359866,
+          "workRate": 0,
+          "chemicalW": 23640144.444887407,
+          "energyResidualJ": -1.5119985619094223e-7,
+          "timeSeconds": 0.5,
+          "chargeJ": 10000000000,
+          "soc": 1,
+          "temperatureK": 510.1689352094889,
+          "usefulWork": 0,
+          "cargo": 0,
+          "fuelKg:diesel": 11999.725114599478,
+          "fuelKg:hydrogen": 0,
+          "currentMassKg": 72784.48055426028,
+          "cargoM3": 0,
+          "miningRateM3S": 0
+        },
+        "sourceFrames": [
+          {
+            "startS": 0,
+            "endS": 0.0006666666666666666,
+            "startTemperatureK": 510,
+            "endTemperatureK": 509.99998437275656,
+            "rkTemperatureK": [
+              510,
+              509.9999921863751,
+              509.9999921863783,
+              509.99998437275656
+            ],
+            "thermalDerivatives": [
+              -0.02344087478679462,
+              -0.023440865205122827,
+              -0.023440865205126706,
+              -0.023440855623459003
+            ],
+            "backgroundK": 100,
+            "bodyK": 456.45,
+            "radiatorK": 0,
+            "components": [
+              {
+                "id": "body",
+                "profile": "isotropic",
+                "absoluteIrW": 1750997.90236865,
+                "contrastW": 1748409.6599650977
+              },
+              {
+                "id": "radiators",
+                "profile": "aft",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              },
+              {
+                "id": "generator:fit:power-2",
+                "profile": "aft",
+                "absoluteIrW": 24761.904761904763,
+                "contrastW": 24761.904761904763
+              },
+              {
+                "id": "engine:fit:march",
+                "profile": "aft",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              },
+              {
+                "id": "engine:fit:retro",
+                "profile": "fore",
+                "absoluteIrW": 467863.392,
+                "contrastW": 467863.392
+              },
+              {
+                "id": "engine:fit:strafe",
+                "profile": "lateral",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              },
+              {
+                "id": "engine:fit:turn",
+                "profile": "lateral",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              }
+            ],
+            "stages": [
+              {
+                "id": "battery:charge",
+                "kind": "battery_charge",
+                "actualW": 266666.6666666667
+              },
+              {
+                "id": "battery:discharge",
+                "kind": "battery_discharge",
+                "actualW": 266666.6666666667
+              },
+              {
+                "id": "protected:hull",
+                "kind": "protected_processing",
+                "actualW": 200000
+              },
+              {
+                "id": "generator:fit:power-2",
+                "kind": "generator_output",
+                "actualW": 296296.2962962963
+              },
+              {
+                "id": "consumer:builtin:laser",
+                "kind": "consumer_input",
+                "actualW": 0
+              },
+              {
+                "id": "consumer:fit:payload-1",
+                "kind": "consumer_input",
+                "actualW": 0
+              },
+              {
+                "id": "consumer:fit:signature-1",
+                "kind": "consumer_input",
+                "actualW": 40000
+              }
+            ],
+            "hostLossBudgetW": 558941.798941799,
+            "hostIrDebitW": 0,
+            "em": {
+              "scope": "em_component",
+              "stageBasisW": 1069629.6296296297,
+              "rawParasiticW": 22.99703703703704,
+              "escapedParasiticW": 22.99703703703704,
+              "capturedParasiticW": 0,
+              "retainedHostHeatW": 558918.8019047619,
+              "intentionalRfW": 0,
+              "observedEmW": 22.99703703703704
+            },
+            "coolers": [
+              {
+                "id": "fit:signature-1",
+                "flowKgS": 1.5,
+                "auxW": 40000,
+                "gasMeanW": 10436999.833569836,
+                "netCoolingMeanW": 10396999.833569836,
+                "allocatedIrBudgetMeanW": 104369.99833569836,
+                "contrastRkMeanW": 87329.99833569834
+              }
+            ],
+            "exports": [
+              {
+                "id": "generator:fit:power-2",
+                "kind": "generator-diesel",
+                "powerW": 247619.04761904763,
+                "absoluteIrW": 24761.904761904763,
+                "hostHeatDebitW": 0
+              },
+              {
+                "id": "engine:fit:march",
+                "kind": "engine-diesel",
+                "powerW": 0,
+                "absoluteIrW": 0,
+                "hostHeatDebitW": 0
+              },
+              {
+                "id": "engine:fit:retro",
+                "kind": "engine-diesel",
+                "powerW": 4678633.92,
+                "absoluteIrW": 467863.392,
+                "hostHeatDebitW": 0
+              },
+              {
+                "id": "engine:fit:strafe",
+                "kind": "engine-diesel",
+                "powerW": 0,
+                "absoluteIrW": 0,
+                "hostHeatDebitW": 0
+              },
+              {
+                "id": "engine:fit:turn",
+                "kind": "engine-diesel",
+                "powerW": 0,
+                "absoluteIrW": 0,
+                "hostHeatDebitW": 0
+              }
+            ]
+          },
+          {
+            "startS": 0.0006666666666666666,
+            "endS": 0.5,
+            "startTemperatureK": 509.99998437275656,
+            "endTemperatureK": 510.1689352094889,
+            "rkTemperatureK": [
+              509.99998437275656,
+              510.0844699333904,
+              510.08445979115083,
+              510.1689352119808
+            ],
+            "thermalDerivatives": [
+              0.3383934337803584,
+              0.3383528106579502,
+              0.33835281553584645,
+              0.3383121771047072
+            ],
+            "backgroundK": 100,
+            "bodyK": 456.45,
+            "radiatorK": 0,
+            "components": [
+              {
+                "id": "body",
+                "profile": "isotropic",
+                "absoluteIrW": 1752158.3535594812,
+                "contrastW": 1749570.1111559286
+              },
+              {
+                "id": "radiators",
+                "profile": "aft",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              },
+              {
+                "id": "generator:fit:power-2",
+                "profile": "aft",
+                "absoluteIrW": 20634.920634920636,
+                "contrastW": 20634.920634920636
+              },
+              {
+                "id": "engine:fit:march",
+                "profile": "aft",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              },
+              {
+                "id": "engine:fit:retro",
+                "profile": "fore",
+                "absoluteIrW": 467863.5747853781,
+                "contrastW": 467863.5747853781
+              },
+              {
+                "id": "engine:fit:strafe",
+                "profile": "lateral",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              },
+              {
+                "id": "engine:fit:turn",
+                "profile": "lateral",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              }
+            ],
+            "stages": [
+              {
+                "id": "battery:charge",
+                "kind": "battery_charge",
+                "actualW": 222222.22222222222
+              },
+              {
+                "id": "battery:discharge",
+                "kind": "battery_discharge",
+                "actualW": 222222.22222222222
+              },
+              {
+                "id": "protected:hull",
+                "kind": "protected_processing",
+                "actualW": 200000
+              },
+              {
+                "id": "generator:fit:power-2",
+                "kind": "generator_output",
+                "actualW": 246913.58024691357
+              },
+              {
+                "id": "consumer:builtin:laser",
+                "kind": "consumer_input",
+                "actualW": 0
+              },
+              {
+                "id": "consumer:fit:payload-1",
+                "kind": "consumer_input",
+                "actualW": 0
+              },
+              {
+                "id": "consumer:fit:signature-1",
+                "kind": "consumer_input",
+                "actualW": 0
+              }
+            ],
+            "hostLossBudgetW": 499118.16578483244,
+            "hostIrDebitW": 0,
+            "em": {
+              "scope": "em_component",
+              "stageBasisW": 891358.0246913581,
+              "rawParasiticW": 19.1641975308642,
+              "escapedParasiticW": 19.1641975308642,
+              "capturedParasiticW": 0,
+              "retainedHostHeatW": 499099.00158730155,
+              "intentionalRfW": 0,
+              "observedEmW": 19.1641975308642
+            },
+            "coolers": [],
+            "exports": [
+              {
+                "id": "generator:fit:power-2",
+                "kind": "generator-diesel",
+                "powerW": 206349.20634920636,
+                "absoluteIrW": 20634.920634920636,
+                "hostHeatDebitW": 0
+              },
+              {
+                "id": "engine:fit:march",
+                "kind": "engine-diesel",
+                "powerW": 0,
+                "absoluteIrW": 0,
+                "hostHeatDebitW": 0
+              },
+              {
+                "id": "engine:fit:retro",
+                "kind": "engine-diesel",
+                "powerW": 4678635.747853781,
+                "absoluteIrW": 467863.5747853781,
+                "hostHeatDebitW": 0
+              },
+              {
+                "id": "engine:fit:strafe",
+                "kind": "engine-diesel",
+                "powerW": 0,
+                "absoluteIrW": 0,
+                "hostHeatDebitW": 0
+              },
+              {
+                "id": "engine:fit:turn",
+                "kind": "engine-diesel",
+                "powerW": 0,
+                "absoluteIrW": 0,
+                "hostHeatDebitW": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "size": "M",
+      "inputFile": "performance-M-input.json",
+      "initialOverrides": {
+        "temperatureK": 510,
+        "hydrogenKg": 0.001
+      },
+      "dtSeconds": 0.5,
+      "requests": {
+        "retro": 1
+      },
+      "observed": {
+        "state": {
+          "schemaVersion": "u2-lab/3",
+          "timeSeconds": 0.5,
+          "chargeJ": 58919555703.26163,
+          "temperatureK": 510.10257073401544,
+          "fuelKg": {
+            "diesel": 23999.202671642743,
+            "hydrogen": 0
+          },
+          "buffersJ": {},
+          "gates": {
+            "fit:march": false,
+            "fit:retro": false,
+            "fit:strafe": false,
+            "fit:turn": false,
+            "fit:signature-1": false,
+            "fit:payload-1": false,
+            "fit:power-2": false,
+            "tank:diesel": false,
+            "tank:hydrogen": false
+          },
+          "cargo": 0,
+          "cargoM3": {
+            "ore": 0
+          },
+          "currentMassKg": 299091.49881703226,
+          "usefulWork": 0,
+          "extractedByInstanceM3": {
+            "fit:payload-1": 0
+          },
+          "consumptionKg": {
+            "hydrogen:generator:fit:power-2": 0.00000298396120850429,
+            "diesel:propulsion:fit:march": 0,
+            "diesel:propulsion:fit:retro": 0.7973283572598652,
+            "diesel:propulsion:fit:strafe": 0,
+            "diesel:propulsion:fit:turn": 0,
+            "hydrogen:cooler:fit:signature-1": 0.000997016038791496
+          },
+          "limitations": {
+            "builtin:cargo": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:march": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:retro": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:strafe": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:turn": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:signature-1": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:payload-1": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:power-1": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:power-2": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:power-3": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:payload-2": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            },
+            "fit:power-4": {
+              "power": false,
+              "thermal": false,
+              "resource": false,
+              "cargo": false
+            }
+          },
+          "phaseKey": "",
+          "constraints": [
+            "Топливо исчерпано"
+          ],
+          "cyclesCompleted": 0,
+          "miningStopSeconds": null,
+          "sourceRecovery": false
+        },
+        "telemetry": {
+          "deliveredW:fit:march": 0,
+          "beamW:fit:march": 0,
+          "forceN:fit:march": 0,
+          "deliveredW:fit:retro": 0,
+          "beamW:fit:retro": 0,
+          "forceN:fit:retro": 2822401.2646366907,
+          "deliveredW:fit:strafe": 0,
+          "beamW:fit:strafe": 0,
+          "forceN:fit:strafe": 0,
+          "deliveredW:fit:turn": 0,
+          "beamW:fit:turn": 0,
+          "forceN:fit:turn": 0,
+          "deliveredW:fit:signature-1": 0,
+          "beamW:fit:signature-1": 0,
+          "forceN:fit:signature-1": 0,
+          "deliveredW:fit:payload-1": 0,
+          "beamW:fit:payload-1": 0,
+          "forceN:fit:payload-1": 0,
+          "deliveredW:fit:power-2": 0,
+          "beamW:fit:power-2": 0,
+          "forceN:fit:power-2": 0,
+          "coolingAuxRequestedW:fit:signature-1": 53.174188735546444,
+          "coolingAuxW:fit:signature-1": 53.174188735546444,
+          "coolingW:fit:signature-1": 13821.30100708691,
+          "coolingRequested:fit:signature-1": 1,
+          "coolingOffFloor:fit:signature-1": 0,
+          "coolingOffDemand:fit:signature-1": 0,
+          "coolingClosed:fit:signature-1": 0,
+          "requestedW": 800053.1741887355,
+          "deliveredW": 800053.1741887355,
+          "activeRequestedW": 0,
+          "activeW": 0,
+          "protectedW": 800000,
+          "backgroundRequestedW": 0,
+          "backgroundW": 0,
+          "generatorW": 354.49459157030964,
+          "solarW": 0,
+          "externalElectricW": 0,
+          "generatorHostW": 322.2678105184633,
+          "pathLossW": 39.38828795225662,
+          "batteryLossW": 88894.79713208172,
+          "propulsionHostW": 32639433.63278983,
+          "loadHostW": 0,
+          "solarHostW": 0,
+          "directHeatW": 0,
+          "exhaustW": 13988328.699767074,
+          "beamW": 0,
+          "returnHeatW": 0,
+          "externalBeamW": 0,
+          "engineUsefulW": 21942476.391791485,
+          "thrustN": 2822401.2646366907,
+          "h2CoolingW": 13821.300753257428,
+          "h2AuxRejectW": 53.174188735546444,
+          "radiatorHostW": 0,
+          "tiCoolingW": 0,
+          "tiRejectW": 0,
+          "bufferAbsorbW": 0,
+          "bufferReleaseW": 0,
+          "radiationOutW": 7006808.549084044,
+          "radiationInW": 10352.969614210198,
+          "radiationNetW": 6996455.5794698335,
+          "heatInW": 33528653.75640564,
+          "heatOutW": 7020629.849837301,
+          "workRate": 0,
+          "chemicalW": 68570954.87503844,
+          "energyResidualJ": 8.556653483537957e-7,
+          "timeSeconds": 0.5,
+          "chargeJ": 58919555703.26163,
+          "soc": 0.9999924593221594,
+          "temperatureK": 510.10257073401544,
+          "usefulWork": 0,
+          "cargo": 0,
+          "fuelKg:diesel": 23999.202671642743,
+          "fuelKg:hydrogen": 0,
+          "currentMassKg": 299091.49881703226,
+          "cargoM3": 0,
+          "miningRateM3S": 0
+        },
+        "sourceFrames": [
+          {
+            "startS": 0,
+            "endS": 0.00016616933979858264,
+            "startTemperatureK": 510,
+            "endTemperatureK": 509.99998207118597,
+            "rkTemperatureK": [
+              510,
+              509.9999910355922,
+              509.999991035593,
+              509.99998207118597
+            ],
+            "thermalDerivatives": [
+              -0.10789484805744526,
+              -0.1078948383396134,
+              -0.10789483833961427,
+              -0.10789482862178348
+            ],
+            "backgroundK": 100,
+            "bodyK": 1825.8,
+            "radiatorK": 0,
+            "components": [
+              {
+                "id": "body",
+                "profile": "isotropic",
+                "absoluteIrW": 7003991.54625825,
+                "contrastW": 6993638.576644041
+              },
+              {
+                "id": "radiators",
+                "profile": "aft",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              },
+              {
+                "id": "generator:fit:power-2",
+                "profile": "aft",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              },
+              {
+                "id": "engine:fit:march",
+                "profile": "aft",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              },
+              {
+                "id": "engine:fit:retro",
+                "profile": "fore",
+                "absoluteIrW": 1398832.2432000004,
+                "contrastW": 1398832.2432000004
+              },
+              {
+                "id": "engine:fit:strafe",
+                "profile": "lateral",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              },
+              {
+                "id": "engine:fit:turn",
+                "profile": "lateral",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              }
+            ],
+            "stages": [
+              {
+                "id": "battery:charge",
+                "kind": "battery_charge",
+                "actualW": 1066666.6666666667
+              },
+              {
+                "id": "battery:discharge",
+                "kind": "battery_discharge",
+                "actualW": 1066666.6666666667
+              },
+              {
+                "id": "protected:hull",
+                "kind": "protected_processing",
+                "actualW": 800000
+              },
+              {
+                "id": "generator:fit:power-2",
+                "kind": "generator_output",
+                "actualW": 1185185.1851851852
+              },
+              {
+                "id": "consumer:fit:payload-1",
+                "kind": "consumer_input",
+                "actualW": 0
+              },
+              {
+                "id": "consumer:fit:signature-1",
+                "kind": "consumer_input",
+                "actualW": 160000
+              }
+            ],
+            "hostLossBudgetW": 1994882.154882155,
+            "hostIrDebitW": 0,
+            "em": {
+              "scope": "em_component",
+              "stageBasisW": 4278518.518518519,
+              "rawParasiticW": 91.98814814814816,
+              "escapedParasiticW": 91.98814814814816,
+              "capturedParasiticW": 0,
+              "retainedHostHeatW": 1994790.1667340067,
+              "intentionalRfW": 0,
+              "observedEmW": 91.98814814814816
+            },
+            "coolers": [
+              {
+                "id": "fit:signature-1",
+                "flowKgS": 6,
+                "auxW": 160000,
+                "gasMeanW": 41747999.236232504,
+                "netCoolingMeanW": 41587999.236232504,
+                "allocatedIrBudgetMeanW": 417479.9923623251,
+                "contrastRkMeanW": 349319.992362325
+              }
+            ],
+            "exports": [
+              {
+                "id": "generator:fit:power-2",
+                "kind": "generator-hydrogen",
+                "powerW": 0,
+                "absoluteIrW": 0,
+                "hostHeatDebitW": 0
+              },
+              {
+                "id": "engine:fit:march",
+                "kind": "engine-diesel",
+                "powerW": 0,
+                "absoluteIrW": 0,
+                "hostHeatDebitW": 0
+              },
+              {
+                "id": "engine:fit:retro",
+                "kind": "engine-diesel",
+                "powerW": 13988322.432000002,
+                "absoluteIrW": 1398832.2432000004,
+                "hostHeatDebitW": 0
+              },
+              {
+                "id": "engine:fit:strafe",
+                "kind": "engine-diesel",
+                "powerW": 0,
+                "absoluteIrW": 0,
+                "hostHeatDebitW": 0
+              },
+              {
+                "id": "engine:fit:turn",
+                "kind": "engine-diesel",
+                "powerW": 0,
+                "absoluteIrW": 0,
+                "hostHeatDebitW": 0
+              }
+            ]
+          },
+          {
+            "startS": 0.00016616933979858264,
+            "endS": 0.5,
+            "startTemperatureK": 509.99998207118597,
+            "endTemperatureK": 510.10257073401544,
+            "rkTemperatureK": [
+              509.99998207118597,
+              510.05128185151153,
+              510.05127640248884,
+              510.10257073494944
+            ],
+            "thermalDerivatives": [
+              0.20526733957886362,
+              0.20524553624194908,
+              0.2052455385582319,
+              0.20522373095872531
+            ],
+            "backgroundK": 100,
+            "bodyK": 1825.8,
+            "radiatorK": 0,
+            "components": [
+              {
+                "id": "body",
+                "profile": "isotropic",
+                "absoluteIrW": 7006809.485594281,
+                "contrastW": 6996456.515980071
+              },
+              {
+                "id": "radiators",
+                "profile": "aft",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              },
+              {
+                "id": "engine:fit:march",
+                "profile": "aft",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              },
+              {
+                "id": "engine:fit:retro",
+                "profile": "fore",
+                "absoluteIrW": 1398832.8701850788,
+                "contrastW": 1398832.8701850788
+              },
+              {
+                "id": "engine:fit:strafe",
+                "profile": "lateral",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              },
+              {
+                "id": "engine:fit:turn",
+                "profile": "lateral",
+                "absoluteIrW": 0,
+                "contrastW": 0
+              }
+            ],
+            "stages": [
+              {
+                "id": "battery:charge",
+                "kind": "battery_charge",
+                "actualW": 0
+              },
+              {
+                "id": "battery:discharge",
+                "kind": "battery_discharge",
+                "actualW": 888888.8888888889
+              },
+              {
+                "id": "protected:hull",
+                "kind": "protected_processing",
+                "actualW": 800000
+              },
+              {
+                "id": "consumer:fit:payload-1",
+                "kind": "consumer_input",
+                "actualW": 0
+              },
+              {
+                "id": "consumer:fit:signature-1",
+                "kind": "consumer_input",
+                "actualW": 0
+              }
+            ],
+            "hostLossBudgetW": 888888.8888888889,
+            "hostIrDebitW": 0,
+            "em": {
+              "scope": "em_component",
+              "stageBasisW": 1688888.888888889,
+              "rawParasiticW": 36.31111111111112,
+              "escapedParasiticW": 36.31111111111112,
+              "capturedParasiticW": 0,
+              "retainedHostHeatW": 888852.5777777778,
+              "intentionalRfW": 0,
+              "observedEmW": 36.31111111111112
+            },
+            "coolers": [],
+            "exports": [
+              {
+                "id": "engine:fit:march",
+                "kind": "engine-diesel",
+                "powerW": 0,
+                "absoluteIrW": 0,
+                "hostHeatDebitW": 0
+              },
+              {
+                "id": "engine:fit:retro",
+                "kind": "engine-diesel",
+                "powerW": 13988328.701850787,
+                "absoluteIrW": 1398832.8701850788,
+                "hostHeatDebitW": 0
+              },
+              {
+                "id": "engine:fit:strafe",
+                "kind": "engine-diesel",
+                "powerW": 0,
+                "absoluteIrW": 0,
+                "hostHeatDebitW": 0
+              },
+              {
+                "id": "engine:fit:turn",
+                "kind": "engine-diesel",
+                "powerW": 0,
+                "absoluteIrW": 0,
+                "hostHeatDebitW": 0
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
