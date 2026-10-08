@@ -1,6 +1,6 @@
 ---
 title: "Сигнатуры и наблюдатель — входной пакет первого стенда"
-status: "accepted / temporary U2 GD Lab experiment; implementation pending"
+status: "accepted / temporary U2 GD Lab experiment; implemented, scoped acceptance passed"
 version: "0.7"
 date: 2026-10-08
 tags: [signatures, sensors, radar, observer, gd-lab, experimental, server-contract]
@@ -20,7 +20,10 @@ related:
 не как окончательный канон U2.
 Добавочные IR-вклады активного выхлопа и газовый температурный контраст
 разведены явно; температура входного H₂ не подменяет фон сенсора.
-Runtime DEV_RELEASE и independent PLAN_READY этого пакета отсутствуют.
+Пакет получил [affected PLAN_READY](https://github.com/komleff/u2-lab/pull/18#issuecomment-6056712275).
+Runtime `df70444e0800b0e3d34eae8b8f088dda6841772c` прошёл full QA и [affected QA](https://github.com/komleff/u2-lab/pull/18#issuecomment-6059753841);
+[scoped Code Review](https://github.com/komleff/u2-lab/pull/18#issuecomment-6059916541) закрыл CR-SS-B1. Численные правила версии0.7 сохранены;
+канон U2 и actual server/client parity этим не утверждаются.
 
 ## 1. Граница и условия опыта
 

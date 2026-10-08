@@ -1,6 +1,6 @@
 ---
 title: "Спринт S1 — сигнатуры и сенсоры, баланс пяти классов"
-status: "accepted / S0 in progress"
+status: "accepted / first bench implemented; scoped Lab acceptance passed"
 version: "1.6"
 date: 2026-10-08
 tags: [sprint, pm, signatures, sensors, radar, class-balance, server-contract]
@@ -13,6 +13,11 @@ related:
 ---
 
 # Спринт S1 — сигнатуры и сенсоры
+
+Первый стенд реализован в `df70444e0800b0e3d34eae8b8f088dda6841772c`: full SS00–16 QA, [affected QA](https://github.com/komleff/u2-lab/pull/18#issuecomment-6059753841)
+и [scoped Review closure](https://github.com/komleff/u2-lab/pull/18#issuecomment-6059916541). Beads `ulab-5vs` хранит состояние задач;
+разделы плана ниже сохраняют AC, последовательность и границы. Future TI-контур,
+production class balance, физические устройства и actual U2 parity отдельно.
 
 ## 1. Цель, вход и граница
 
