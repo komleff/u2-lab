@@ -229,6 +229,12 @@ function samePhysical(actual: number, expected: number, reference: number, name:
   if (expected === 0 ? actual !== 0 : Math.abs(actual - expected) > 1e-12 * reference) throw new RangeError(`inconsistent ${name}`);
 }
 
+function precedesDerivedClock(actualS: number, minimumS: number): boolean {
+  // Тот же допуск производной cadence-границы: repeated-add отличается от product.
+  // Прямые causal bounds и связь последнего ID с исходным clock проверяются точно.
+  return minimumS - actualS > 1e-12 * minimumS;
+}
+
 export function restoreRadarCheckpoint(value: unknown): StationaryRadarState {
   const obj = record(value, ["version", "sourceStatus", "size", "rangeM", "crossSectionM2", "intervalS", "enabled", "timeS", "lastEmittedAtS",
     "nextPingS", "initialCapJ", "capJ", "externalRechargeJ", "rfExportJ", "hostHeatJ", "pulseSequence", "rechargeEpoch", "pending", "tracks"]);
@@ -256,7 +262,7 @@ export function restoreRadarCheckpoint(value: unknown): StationaryRadarState {
     const minimumCadenceS = nonnegative((state.pulseSequence - 1) * state.intervalS, "minimumCadenceS");
     // Повторное сложение и произведение interval расходятся на ulp. Допуск относится
     // только к этой производной нижней границе времени; causal ordering остаётся точным.
-    const belowMinimum = minimumCadenceS - state.lastEmittedAtS > 1e-12 * minimumCadenceS;
+    const belowMinimum = precedesDerivedClock(state.lastEmittedAtS, minimumCadenceS);
     if (state.lastEmittedAtS > state.timeS || belowMinimum
       || state.nextPingS !== state.lastEmittedAtS + state.intervalS) throw new RangeError("inconsistent ping schedule");
   }
@@ -308,6 +314,32 @@ export function restoreRadarCheckpoint(value: unknown): StationaryRadarState {
     samePhysical(track.measuredRangeM, state.rangeM, state.rangeM, "stationary measured range");
     previousReceiptS = track.receivedAtS;
   }
+  const roundTripS = 2 * state.rangeM / anchor.propagationMps;
+  const earliestReceiptS = finite((state.initialCapJ === 0 ? anchor.capJ / anchor.rechargeW : 0) + roundTripS, "earliest receipt");
+  const lastReceiptS = state.lastEmittedAtS === null ? null : finite(state.lastEmittedAtS + roundTripS, "last receipt");
+  let previousPulseId: number | undefined;
+  let previousSurvivorReceiptS: number | undefined;
+  // При постоянной дальности tracks перед pending образуют surviving suffix pulse IDs.
+  // TTL/слабое эхо удаляют только уже принятый prefix, но не событие внутри suffix.
+  for (const receipt of [...state.tracks, ...state.pending]) {
+    if (lastReceiptS === null || receipt.receivedAtS < earliestReceiptS || receipt.receivedAtS > lastReceiptS)
+      throw new RangeError("receipt outside causal emission bounds");
+    const minimumReceiptS = finite((receipt.pulseId - 1) * state.intervalS + earliestReceiptS, "minimum receipt");
+    if (precedesDerivedClock(receipt.receivedAtS, minimumReceiptS)
+      || (previousPulseId !== undefined && (receipt.pulseId !== previousPulseId + 1
+        || precedesDerivedClock(receipt.receivedAtS, finite(previousSurvivorReceiptS! + state.intervalS, "receipt cadence")))))
+      throw new RangeError("inconsistent causal pulse association");
+    if (receipt.pulseId === state.pulseSequence && receipt.receivedAtS !== lastReceiptS)
+      throw new RangeError("receipt does not belong to last emission");
+    previousPulseId = receipt.pulseId;
+    previousSurvivorReceiptS = receipt.receivedAtS;
+  }
+  const latestPending = state.pending.at(-1);
+  if (latestPending?.pulseId === state.pulseSequence && latestPending.emittedAtS !== state.lastEmittedAtS)
+    throw new RangeError("pending ID does not belong to last emission");
+  if (lastReceiptS !== null && (lastReceiptS > state.timeS
+    || (radarEchoDetected(state.size, expectedEchoJ) && state.timeS < lastReceiptS + 13))
+    && previousPulseId !== state.pulseSequence) throw new RangeError("missing causal pulse receipt");
   return copyState(state);
 }
 

@@ -307,4 +307,89 @@ describe("stationary radar resource ledger and delayed events (SC04/05)", () => 
     expect(() => restoreRadarCheckpoint({ ...live, rechargeEpoch: undefined })).toThrow();
     expect(live).toEqual(saved);
   });
+
+  it.each((["S", "M"] as const).flatMap(size =>
+    (["FULL", "EMPTY"] as const).map(initialCap => ({ size, initialCap }))))(
+    "CR-SC-B1 refuses $size/$initialCap range before the first physical receipt", input => {
+      const emissionS = input.initialCap === "FULL" ? 0 : 2;
+      const valid = advanceRadar(createRadarState({ ...settings, ...input }), emissionS).state;
+      const original = JSON.parse(JSON.stringify(valid));
+      const corrupted = { ...original, pending: [],
+        tracks: [{ pulseId: 1, receivedAtS: emissionS, measuredRangeM: 16_000 }] };
+      expect(() => restoreRadarCheckpoint(corrupted)).toThrow();
+      expect(() => radarObservations(corrupted)).toThrow();
+      expect(valid).toEqual(original);
+    });
+
+  const causalCorruptions = ["swapped pending IDs", "swapped received IDs", "swapped transit/received IDs",
+    "latest receipt moved earlier", "latest emission moved earlier", "compressed emissions",
+    "missing latest pending", "missing latest track", "missing middle pending", "receipt before physical RTT"] as const;
+  it.each(causalCorruptions)("CR-SC-B1 rejects %s atomically", corruption => {
+    const two = setRadarEnabled(advanceRadar(createRadarState(settings), 2).state, false);
+    const live = corruption === "swapped transit/received IDs" ? advanceRadar(two, 11).state
+      : ["swapped received IDs", "latest receipt moved earlier", "missing latest track", "receipt before physical RTT"].includes(corruption)
+        ? advanceRadar(two, 14).state
+        : corruption === "missing middle pending" ? advanceRadar(createRadarState(settings), 4).state : two;
+    const original = JSON.parse(JSON.stringify(live));
+    const changed = JSON.parse(JSON.stringify(live));
+    switch (corruption) {
+      case "swapped pending IDs":
+        [changed.pending[0].pulseId, changed.pending[1].pulseId] = [2, 1]; break;
+      case "swapped received IDs":
+        [changed.tracks[0].pulseId, changed.tracks[1].pulseId] = [2, 1]; break;
+      case "swapped transit/received IDs":
+        changed.tracks[0].pulseId = 2; changed.pending[0].pulseId = 1; break;
+      case "latest receipt moved earlier": changed.tracks[1].receivedAtS -= 0.25; break;
+      case "latest emission moved earlier":
+        changed.pending[1].emittedAtS -= 0.25; changed.pending[1].receivedAtS -= 0.25; break;
+      case "compressed emissions":
+        changed.pending[0].emittedAtS += 1.5; changed.pending[0].receivedAtS += 1.5; break;
+      case "missing latest pending": changed.pending.pop(); break;
+      case "missing latest track": changed.tracks.pop(); break;
+      case "missing middle pending": changed.pending.splice(1, 1); break;
+      case "receipt before physical RTT": changed.tracks[0].receivedAtS = 32000 / 3000 - 1e-12; break;
+    }
+    expect(() => restoreRadarCheckpoint(changed)).toThrow();
+    expect(() => radarObservations(changed)).toThrow();
+    expect(live).toEqual(original);
+  });
+
+  it.each(["S", "M"] as const)("CR-SC-B1 preserves %s legitimate causal checkpoints through OFF, receipts and TTL", size => {
+    for (const initialCap of ["FULL", "EMPTY"] as const) {
+      for (const intervalS of [2, 2.0000000000000004, 2.1, Math.PI]) {
+        let state = createRadarState({ ...settings, size, initialCap, intervalS, enabled: false });
+        state = setRadarEnabled(advanceRadar(state, 5).state, true);
+        const emissions = advanceRadar(state, 9);
+        const actualPulses = emissions.emittedPulses;
+        expect(actualPulses[0].emittedAtS).toBe(initialCap === "FULL" ? 5 : 7);
+        state = setRadarEnabled(emissions.state, false);
+        for (const pulse of actualPulses) {
+          const pending = state.pending.find(event => event.pulseId === pulse.pulseId)!;
+          expect(pending.emittedAtS).toBe(pulse.emittedAtS);
+          expect(pending.receivedAtS).toBe(pulse.emittedAtS + 32000 / 3000);
+        }
+        const arrivalS = actualPulses[0].emittedAtS + 32000 / 3000;
+        const whole = advanceRadar(state, 40).state;
+        let chunked = restoreRadarCheckpoint(JSON.parse(JSON.stringify(radarCheckpoint(state))));
+        const receivedIds: number[] = [];
+        for (const clockS of [9, 9.03, 10.11, 12.37, arrivalS, arrivalS + 0.03,
+          arrivalS + 2.07, arrivalS + 3, arrivalS + 12.999999, arrivalS + 13, 40]) {
+          const result = advanceRadar(chunked, clockS);
+          receivedIds.push(...result.receivedEchoes.map(echo => echo.pulseId));
+          chunked = restoreRadarCheckpoint(JSON.parse(JSON.stringify(radarCheckpoint(result.state))));
+          if (clockS === arrivalS) expect(radarObservations(chunked)[0].pulseId).toBe(actualPulses[0].pulseId);
+          if (clockS === arrivalS + 3) expect(radarObservations(chunked)[0].freshness).toBe("stale");
+          if (clockS === arrivalS + 13) expect(radarObservations(chunked).some(track => track.pulseId === actualPulses[0].pulseId)).toBe(false);
+        }
+        expect(receivedIds).toEqual(actualPulses.map(pulse => pulse.pulseId));
+        expect(chunked).toEqual(whole);
+        expect(chunked.pending).toEqual([]);
+        expect(chunked.tracks).toEqual([]);
+      }
+    }
+    const belowThreshold = advanceRadar(createRadarState({ ...settings, size, crossSectionM2: 0 }), 2).state;
+    const undetected = advanceRadar(setRadarEnabled(belowThreshold, false), 30).state;
+    expect(restoreRadarCheckpoint(JSON.parse(JSON.stringify(undetected)))).toEqual(undetected);
+    expect(radarObservations(undetected)).toEqual([]);
+  });
 });
