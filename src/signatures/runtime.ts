@@ -1,6 +1,6 @@
 import { exactFields, validateSignatureSettings, type SignatureSettings } from "./config";
 import { referenceCrossSection } from "./em-cs";
-import { finite, nonnegative } from "./domain";
+import { finite, label, nonnegative } from "./domain";
 import { observerPreset, passiveObservation, receivedFlux, type PassiveObservation } from "./presets";
 import { advanceRadar, createRadarState, radarObservations, restoreRadarCheckpoint, type RadarPulse, type StationaryRadarState } from "./radar";
 import { addStatisticsInterval, emptyStatistics, type SignatureStatistics } from "./statistics";
@@ -152,6 +152,7 @@ export function observerView(state:SignatureRuntimeState,settings:SignatureSetti
 
 export function restoreSignatureRuntime(value:unknown,settings:SignatureSettings,timeS:number):SignatureRuntimeState {
   const obj=exactFields(value,["version","timeS","pending","lastTruth","sourceStats","peakContexts","observerStats","rfStats","buckets","held","passive","radar","pulseTail","instrument","events"],"signature checkpoint") as unknown as SignatureRuntimeState;
+  nonnegative(timeS,"checkpoint clock");nonnegative(obj.timeS,"source clock");
   if(obj.version!=="signatures-runtime-0.1"||obj.timeS!==timeS)throw new RangeError("Inconsistent source checkpoint clock/version");
   const walk=(v:unknown):void=>{if(typeof v==="number")finite(v,"checkpoint");else if(v&&typeof v==="object")Object.values(v).forEach(walk);};walk(obj);
   const radar=restoreRadarCheckpoint(obj.radar),expected=createSignatureRuntime(settings);
@@ -161,11 +162,11 @@ export function restoreSignatureRuntime(value:unknown,settings:SignatureSettings
   let end:number|null=null;
   for(const frame of obj.pending) {
     exactFields(frame,["startS","endS","phase","ir","emW","crossings"],"pending source");validateCurve(frame.ir);
-    nonnegative(frame.startS,"source start");nonnegative(frame.emW,"source EM");
+    nonnegative(frame.startS,"source start");finite(frame.endS,"source end");nonnegative(frame.emW,"source EM");
     if(!(frame.endS>frame.startS)||frame.endS>timeS||(end!==null&&frame.startS!==end)||typeof frame.phase!=="string"||!frame.phase)throw new RangeError("Source history is not a continuous accepted sequence");
     end=frame.endS;
     if(!Array.isArray(frame.crossings))throw new TypeError("crossings required");
-    for(const x of frame.crossings){exactFields(x,["fraction","fluxWm2"],"crossing");if(x.fraction<0||x.fraction>1)throw new RangeError("Invalid crossing");}
+    for(const x of frame.crossings){exactFields(x,["fraction","fluxWm2"],"crossing");finite(x.fraction,"crossing fraction");finite(x.fluxWm2,"crossing flux");if(x.fraction<0||x.fraction>1)throw new RangeError("Invalid crossing");}
     const preset=observerPreset(settings.observerPreset),area=4*Math.PI*settings.rangeM*settings.rangeM;
     const thresholds=[preset.ir.detectWm2,preset.ir.holdWm2,0,...(settings.advancedIr?[-preset.ir.detectWm2,-preset.ir.holdWm2]:[])];
     const crossings=thresholds.flatMap(fluxWm2=>curveCrossings(frame.ir,fluxWm2*area).map(fraction=>({fraction,fluxWm2}))).sort((a,b)=>a.fraction-b.fraction);
@@ -175,24 +176,36 @@ export function restoreSignatureRuntime(value:unknown,settings:SignatureSettings
   for(const [map,keys] of [[obj.sourceStats,SOURCE_CHANNELS],[obj.observerStats,["IR","EM"]]] as const){exactFields(map,keys,"statistics channels");}
   for(const stats of [...Object.values(obj.sourceStats),...Object.values(obj.observerStats),obj.rfStats]) {
     exactFields(stats,["lastEndS","total","phases"],"statistics");
+    if(stats.lastEndS!==null)nonnegative(stats.lastEndS,"statistics lastEndS");
+    exactFields(stats.phases,Object.keys(stats.phases),"statistics phases");
+    Object.keys(stats.phases).forEach(phase=>label(phase,"statistics phase"));
     for(const aggregate of [stats.total,...Object.values(stats.phases)]) {
       exactFields(aggregate,["durationS","integral","min","max","liveValue","pulsePeak"],"aggregate");nonnegative(aggregate.durationS,"duration");
-      if(aggregate.durationS===0 ? [aggregate.min,aggregate.max,aggregate.liveValue,aggregate.pulsePeak].some(v=>v!==null)||aggregate.integral!==0 : aggregate.min===null||aggregate.max===null||aggregate.liveValue===null||aggregate.min>aggregate.max||aggregate.integral/aggregate.durationS<aggregate.min-1e-12*Math.abs(aggregate.min)||aggregate.integral/aggregate.durationS>aggregate.max+1e-12*Math.abs(aggregate.max))throw new RangeError("Inconsistent statistics");
+      finite(aggregate.integral,"statistics integral");
+      for(const key of ["min","max","liveValue","pulsePeak"] as const)if(aggregate[key]!==null)finite(aggregate[key],"statistics "+key);
+      if(aggregate.durationS===0 ? [aggregate.min,aggregate.max,aggregate.liveValue,aggregate.pulsePeak].some(v=>v!==null)||aggregate.integral!==0 : aggregate.min===null||aggregate.max===null||aggregate.liveValue===null||aggregate.min>aggregate.max||aggregate.liveValue<aggregate.min||aggregate.liveValue>aggregate.max||(aggregate.pulsePeak!==null&&(aggregate.pulsePeak<aggregate.min||aggregate.pulsePeak>aggregate.max))||aggregate.integral/aggregate.durationS<aggregate.min-1e-12*Math.abs(aggregate.min)||aggregate.integral/aggregate.durationS>aggregate.max+1e-12*Math.abs(aggregate.max))throw new RangeError("Inconsistent statistics");
     }
     const phaseDuration=Object.values(stats.phases).reduce((n,p)=>n+p.durationS,0);
     const phaseIntegral=Object.values(stats.phases).reduce((n,p)=>n+p.integral,0),reference=Object.values(stats.phases).reduce((n,p)=>n+Math.abs(p.integral),0);
     if(Math.abs(phaseDuration-stats.total.durationS)>1e-12*stats.total.durationS||Math.abs(phaseIntegral-stats.total.integral)>1e-12*reference)throw new RangeError("Inconsistent phase totals");
   }
-  for(const stats of Object.values(obj.sourceStats))if(stats.lastEndS!==(timeS>0?timeS:null)||Math.abs(stats.total.durationS-timeS)>1e-12*timeS)throw new RangeError("Source statistics clock mismatch");
+  const ownEpoch=(stats:SignatureStatistics,durationS:number,name:string)=>{
+    if(stats.lastEndS!==(durationS>0?timeS:null)||Math.abs(stats.total.durationS-durationS)>1e-12*durationS)throw new RangeError(name+" statistics clock mismatch");
+  };
+  for(const stats of Object.values(obj.sourceStats))ownEpoch(stats,timeS,"Source");
+  ownEpoch(obj.rfStats,timeS,"RF");
+  // На exact arrival границе ещё нет положительного received интервала.
+  const receivedDurationS=Math.max(0,timeS-settings.rangeM/3000);
+  for(const stats of Object.values(obj.observerStats))ownEpoch(stats,receivedDurationS,"Observer");
   exactFields(obj.peakContexts,SOURCE_CHANNELS,"peak contexts");
   for(const channel of SOURCE_CHANNELS){const peak=obj.peakContexts[channel],stats=obj.sourceStats[channel];
     if(stats.total.max===null?peak!==null:peak===null)throw new RangeError("Missing peak context");
-    if(peak){exactFields(peak,["startS","endS","phase","dominantSource"],"peak context");if(peak.startS<0||!(peak.endS>peak.startS)||peak.endS>timeS||!Object.hasOwn(stats.phases,peak.phase)||stats.phases[peak.phase].max!==stats.total.max||typeof peak.dominantSource!=="string"||!peak.dominantSource)throw new RangeError("Inconsistent peak context");}
+    if(peak){exactFields(peak,["startS","endS","phase","dominantSource"],"peak context");nonnegative(peak.startS,"peak start");finite(peak.endS,"peak end");label(peak.phase,"peak phase");label(peak.dominantSource,"dominant source");if(!(peak.endS>peak.startS)||peak.endS>timeS||!Object.hasOwn(stats.phases,peak.phase)||stats.phases[peak.phase].max!==stats.total.max)throw new RangeError("Inconsistent peak context");}
   }
   exactFields(obj.held,["IR","EM"],"passive hold");exactFields(obj.passive,["IR","EM"],"passive state");
   for(const channel of ["IR","EM"] as const) {
     if(typeof obj.held[channel]!=="boolean"||obj.held[channel]!==!!obj.passive[channel])throw new TypeError("Inconsistent hold state");
-    const spot=obj.passive[channel];if(spot){exactFields(spot,["channel","bearingDeg","brightnessWm2"],"passive observation");if(spot.channel!==channel||spot.bearingDeg!==0||spot.brightnessWm2<0)throw new RangeError("Invalid observation");}
+    const spot=obj.passive[channel];if(spot){exactFields(spot,["channel","bearingDeg","brightnessWm2"],"passive observation");finite(spot.bearingDeg,"passive bearing");nonnegative(spot.brightnessWm2,"passive brightness");if(spot.channel!==channel||spot.bearingDeg!==0)throw new RangeError("Invalid observation");}
   }
   if(timeS<settings.rangeM/3000){if(obj.held.IR||obj.held.EM)throw new RangeError("Premature passive contact");}
   else if(obj.pending.length) {
@@ -206,8 +219,9 @@ export function restoreSignatureRuntime(value:unknown,settings:SignatureSettings
   let bucketEnd=0;
   for(const b of obj.buckets) {
     exactFields(b,["startS","endS","values"],"signature bucket");exactFields(b.values,SOURCE_CHANNELS,"bucket channels");
+    nonnegative(b.startS,"bucket start");finite(b.endS,"bucket end");
     if(b.startS!==bucketEnd||!(b.endS>b.startS)||b.endS>timeS)throw new RangeError("Missing or inconsistent signature buckets");bucketEnd=b.endS;
-    for(const k of SOURCE_CHANNELS){const v=b.values[k];exactFields(v,["mean","min","max"],"bucket values");if(v.min>v.mean||v.max<v.mean)throw new RangeError("Inconsistent bucket bounds");}
+    for(const k of SOURCE_CHANNELS){const v=b.values[k];exactFields(v,["mean","min","max"],"bucket values");for(const x of Object.values(v))finite(x,"bucket value");if(v.min>v.mean||v.max<v.mean)throw new RangeError("Inconsistent bucket bounds");}
   }
   if(bucketEnd!==timeS)throw new RangeError("Missing signature bucket suffix");
   if(timeS===0 ? obj.lastTruth!==null : obj.lastTruth===null||obj.lastTruth.endS!==timeS)throw new RangeError("Missing current source");
@@ -218,7 +232,11 @@ export function restoreSignatureRuntime(value:unknown,settings:SignatureSettings
     if(pulse.pulseId!==radar.pulseSequence||pulse.emittedAtS!==radar.lastEmittedAtS||pulse.pulseWidthS!==.005||pulse.rfEnergyJ!==energy||pulse.rfPeakW!==energy/.005||!(timeS<pulse.emittedAtS+.005))throw new RangeError("Inconsistent active pulse");
   }
   if(obj.pulseTail.length>1||((radar.lastEmittedAtS!==null&&timeS<radar.lastEmittedAtS+.005)!==(obj.pulseTail.length===1)))throw new RangeError("Missing active pulse");
-  for(const event of obj.events){exactFields(event,["timeS","channel","kind"],"signature event");if(event.timeS<0||event.timeS>timeS||!["IR","EM","radar"].includes(event.channel)||!["acquired","lost","ping","echo","stale","expired"].includes(event.kind))throw new RangeError("Invalid signature event");}
+  // Оплата целого ping и уже проинтегрированный RF различаются во время 5 ms tail.
+  const remainingRfJ=obj.pulseTail.reduce((sum,p)=>sum+p.rfEnergyJ*(1-Math.min(1,(timeS-p.emittedAtS)/p.pulseWidthS)),0);
+  const integratedRfJ=radar.rfExportJ-remainingRfJ;
+  if(integratedRfJ===0?obj.rfStats.total.integral!==0:Math.abs(obj.rfStats.total.integral-integratedRfJ)>1e-6*Math.abs(integratedRfJ)+1e-12*radar.rfExportJ)throw new RangeError("RF statistics/paid pulse mismatch");
+  for(const event of obj.events){exactFields(event,["timeS","channel","kind"],"signature event");nonnegative(event.timeS,"event time");if(event.timeS>timeS||!["IR","EM","radar"].includes(event.channel)||!["acquired","lost","ping","echo","stale","expired"].includes(event.kind))throw new RangeError("Invalid signature event");}
   const cloned=structuredClone(obj);cloned.radar=radar;instrumentLedger(cloned,settings);
   exactFields(obj.instrument,Object.keys(cloned.instrument),"instrument ledger");
   for(const k of Object.keys(cloned.instrument) as (keyof InstrumentLedger)[])if(obj.instrument[k]!==cloned.instrument[k])throw new RangeError("Inconsistent instrument ledger");

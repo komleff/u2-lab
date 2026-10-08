@@ -74,7 +74,7 @@ export function validateCurve(value:unknown):EvaluatedCurve {
     if(!Array.isArray(obj.pieces)||!obj.pieces.length)throw new TypeError("Source pieces required");
     let end=0,prior:CurvePiece|undefined;
     for(const p of obj.pieces){
-      exactFields(p,["from","to","curve"],"source piece");if(p.from!==end||!(p.to>p.from)||p.to>1)throw new RangeError("Source pieces must cover [0,1]");validateScalar(p.curve);
+      exactFields(p,["from","to","curve"],"source piece");finite(p.from,"piece from");finite(p.to,"piece to");if(p.from!==end||!(p.to>p.from)||p.to>1)throw new RangeError("Source pieces must cover [0,1]");validateScalar(p.curve);
       if(prior){const left=scalarValue(prior.curve,p.from),right=scalarValue(p.curve,p.from);
         // Округление корня оцениваем по ваттам этой же кривой; предел не меняет
         // detect/hold и не допускает физический скачок внутри плотного подшага.

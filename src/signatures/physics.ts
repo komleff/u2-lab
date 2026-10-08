@@ -46,7 +46,7 @@ export interface SignatureExportTap {
 }
 export function validateSignatureFrame(value:unknown,settings:SignatureSettings):SignatureFrame {
   const f=exactFields(value,["startS","endS","startTemperatureK","endTemperatureK","rkTemperatureK","thermalDerivatives","backgroundK","bodyK","radiatorK","components","stages","hostLossBudgetW","hostIrDebitW","em","coolers","exports"],"source frame") as unknown as SignatureFrame;
-  nonnegative(f.startS,"frame start");if(!(f.endS>f.startS))throw new RangeError("frame duration");
+  nonnegative(f.startS,"frame start");finite(f.endS,"frame end");if(!(f.endS>f.startS))throw new RangeError("frame duration");
   for(const x of [f.startTemperatureK,f.endTemperatureK,f.backgroundK,f.bodyK,f.radiatorK,f.hostLossBudgetW,f.hostIrDebitW])nonnegative(x,"source quantity");
   for(const xs of [f.rkTemperatureK,f.thermalDerivatives]) {if(!Array.isArray(xs)||xs.length!==4)throw new TypeError("RK tuple required");xs.forEach(x=>finite(x,"RK value"));}
   if(!Array.isArray(f.components)||!Array.isArray(f.stages)||!Array.isArray(f.coolers)||!Array.isArray(f.exports))throw new TypeError("Actual source arrays required");
@@ -61,6 +61,7 @@ export function validateSignatureFrame(value:unknown,settings:SignatureSettings)
   let debit=0;const ids=new Set<string>();
   for(const x of f.exports) {
     exactFields(x,["id","kind","powerW","absoluteIrW","hostHeatDebitW",...(Object.hasOwn(x,"pathLossW")?["pathLossW"]:[]),...(Object.hasOwn(x,"motorInputW")?["motorInputW"]:[])],"source export");
+    for(const key of ["absoluteIrW","hostHeatDebitW","pathLossW","motorInputW"] as const)if(Object.hasOwn(x,key))finite(x[key]!,"source export "+key);
     if(ids.has(x.id))throw new TypeError("duplicate source export");ids.add(x.id);nonnegative(x.powerW,"source power");
     let expected:number;
     if(x.kind.startsWith("engine-")) {const own=engineIr({kind:x.kind.slice(7) as "diesel"|"hydrogen"|"electric",enabled:true,actualSourceW:x.powerW});expected=own.absoluteIrW;if(x.hostHeatDebitW!==own.hostHeatDebitW)throw new RangeError("IR debit mismatch");debit+=own.hostHeatDebitW;}
@@ -73,6 +74,7 @@ export function validateSignatureFrame(value:unknown,settings:SignatureSettings)
   for(const c of f.coolers) {
     const id=label(c.id,"actual cooler id");if(coolerIds.has(id))throw new TypeError("duplicate actual cooler id");coolerIds.add(id);
     exactFields(c,["id","flowKgS","auxW","gasMeanW","netCoolingMeanW","allocatedIrBudgetMeanW","contrastRkMeanW"],"cooler export");nonnegative(c.flowKgS,"cooler flow");nonnegative(c.auxW,"cooler aux");
+    for(const key of ["gasMeanW","netCoolingMeanW","allocatedIrBudgetMeanW","contrastRkMeanW"] as const)finite(c[key],"cooler export "+key);
     const gas=c.flowKgS*rkMean(f.rkTemperatureK.map(gasSpecificEnergy));
     const ir=rkMean(f.rkTemperatureK.map(t=>hydrogenCoolerIr(c.flowKgS*gasSpecificEnergy(t),c.flowKgS,f.backgroundK).contrastW));
     if(!equal(c.gasMeanW,gas)||!equal(c.netCoolingMeanW,gas-c.auxW)||!equal(c.allocatedIrBudgetMeanW,.01*gas)||!equal(c.contrastRkMeanW,ir)||f.components.some(x=>x.id==="cooler:"+c.id))throw new RangeError("Inconsistent H2 export");
