@@ -189,3 +189,65 @@ describe("CR-SS-B1 legitimate own epochs, optional fields and signed signals rem
     expect(resumed.state).toEqual(run.state); expect(resumed.signatures).toEqual(run.signatures);
   });
 });
+
+function localPhases(r: any, channel: string, totalIntegral: number, integrals: number[], min: number, max: number) {
+  const stats = r.signatures.sourceStats[channel], durationS = r.signatures.timeS;
+  const aggregate = (durationS: number, integral: number) => ({ durationS, integral, min, max, liveValue: min <= 0 && max >= 0 ? 0 : min, pulsePeak: null });
+  stats.total = aggregate(durationS, totalIntegral);
+  stats.phases = Object.fromEntries(integrals.map((integral, i) => [i === 0 ? r.signatures.peakContexts[channel].phase : `local_reference_${i}`, aggregate(durationS / integrals.length, integral)]));
+}
+
+describe("CR-SS-B1 finite persisted leaves cannot hide derived consistency overflow", () => {
+  it.each([
+    { name: "Review positive integral and absolute-reference overflow", channel: "EM", total: 1e308, phases: [1e308, 1e308], min: 0, max: 1e308 },
+    { name: "negative signed integral overflow", total: -1e308, phases: [-1e308, -1e308], min: -1e308, max: 0 },
+    { name: "absolute reference overflow despite finite cancellation", total: 0, phases: [1e308, -1e308], min: -1e308, max: 1e308 },
+    { name: "finite cancellation with inconsistent total and overflowing reference", total: 1e308, phases: [1e308, -1e308], min: -1e308, max: 1e308 },
+    { name: "finite sums but overflowing mismatch subtraction", total: -1e308, phases: [8e307, 8e307], min: -1e308, max: 1e308 },
+  ])("$name", ({ channel, total, phases, min, max }) => {
+    const bad = structuredClone(received); localPhases(bad, channel ?? "IRcontrast", total, phases, min, max); atomicRefusal(bad);
+  });
+  it("duration reduction overflow remains refused with finite persisted durations", () => {
+    const bad = structuredClone(received); localPhases(bad, "EM", 0, [0, 0], 0, 0);
+    Object.values(bad.signatures.sourceStats.EM.phases).forEach((p: any) => { p.durationS = 1e308; });
+    atomicRefusal(bad);
+  });
+  it("derived mean overflow cannot pass an overflowing expanded upper bound", () => {
+    const run = createRun("short", bench("S", 400)); runChunk(run, 1); const good = JSON.parse(json(result(run)));
+    const bad = structuredClone(good); localPhases(bad, "EM", 1e308, [1e308], 0, Number.MAX_VALUE);
+    atomicRefusal(bad, good);
+  });
+  it("derived surface expectations cannot become Infinity and satisfy relative equality", () => {
+    const bad = structuredClone(received); bad.signatures.lastTruth.rkTemperatureK = [1e80, 1e80, 1e80, 1e80];
+    bad.signatures.lastTruth.radiatorK = 1; // Both expected T4 surfaces overflow; stored slots stay finite.
+    atomicRefusal(bad);
+  });
+  it("piece continuity cannot compare Infinity minus Infinity before first receipt", () => {
+    const run = createRun("short-curve", bench("S", 400)); runChunk(run, 1); const good = JSON.parse(json(result(run)));
+    const bad = structuredClone(good), f = bad.signatures.pending[0], q = Number.MAX_VALUE;
+    f.ir = { pieces: [{ from: 0, to: .5, curve: { a: q, b: q, c: 0 } }, { from: .5, to: 1, curve: { a: q / 2, b: .9 * q, c: q } }] };
+    f.crossings = []; atomicRefusal(bad, good);
+  });
+  it.each([
+    { name: "finite scalar coefficients with overflowing endpoint", curve: { a: Number.MAX_VALUE, b: Number.MAX_VALUE, c: 0 } },
+    { name: "finite endpoints with overflowing interior value and mean", curve: { a: 1.45e308, b: Number.MAX_VALUE, c: -Number.MAX_VALUE } },
+  ])("$name", ({ curve }) => {
+    const run = createRun("short-scalar", bench("S", 400)); runChunk(run, 1); const good = JSON.parse(json(result(run)));
+    const bad = structuredClone(good); bad.signatures.pending[0].ir = curve; bad.signatures.pending[0].crossings = [];
+    atomicRefusal(bad, good);
+  });
+  it("a large finite constant source curve before arrival remains accepted", () => {
+    const run = createRun("large-constant", bench("S", 400)); runChunk(run, 1); const good = JSON.parse(json(result(run)));
+    good.signatures.pending[0].ir = { a: Number.MAX_VALUE, b: 0, c: 0 }; good.signatures.pending[0].crossings = [];
+    const parsed = parseResultJson(json(good)); expect(parsed.ok, parsed.ok ? "" : json(parsed.errors)).toBe(true);
+    if (parsed.ok) expect(exportSignatureCsv(parsed.value)).not.toContain("Infinity");
+  });
+  it.each([
+    { total: 2e307, phases: [1e307, 1e307], min: 0, max: 1e308 },
+    { total: 0, phases: [1e307, -1e307], min: -Number.MAX_VALUE, max: Number.MAX_VALUE },
+  ])("large finite local sums and signed extrema remain accepted: $total", ({ total, phases, min, max }) => {
+    const good = structuredClone(received); localPhases(good, "IRcontrast", total, phases, min, max);
+    const parsed = parseResultJson(json(good)); expect(parsed.ok, parsed.ok ? "" : json(parsed.errors)).toBe(true);
+    if (parsed.ok) expect(exportSignatureCsv(parsed.value)).not.toContain("Infinity");
+  });
+});

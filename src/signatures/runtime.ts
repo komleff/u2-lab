@@ -183,11 +183,19 @@ export function restoreSignatureRuntime(value:unknown,settings:SignatureSettings
       exactFields(aggregate,["durationS","integral","min","max","liveValue","pulsePeak"],"aggregate");nonnegative(aggregate.durationS,"duration");
       finite(aggregate.integral,"statistics integral");
       for(const key of ["min","max","liveValue","pulsePeak"] as const)if(aggregate[key]!==null)finite(aggregate[key],"statistics "+key);
-      if(aggregate.durationS===0 ? [aggregate.min,aggregate.max,aggregate.liveValue,aggregate.pulsePeak].some(v=>v!==null)||aggregate.integral!==0 : aggregate.min===null||aggregate.max===null||aggregate.liveValue===null||aggregate.min>aggregate.max||aggregate.liveValue<aggregate.min||aggregate.liveValue>aggregate.max||(aggregate.pulsePeak!==null&&(aggregate.pulsePeak<aggregate.min||aggregate.pulsePeak>aggregate.max))||aggregate.integral/aggregate.durationS<aggregate.min-1e-12*Math.abs(aggregate.min)||aggregate.integral/aggregate.durationS>aggregate.max+1e-12*Math.abs(aggregate.max))throw new RangeError("Inconsistent statistics");
+      if(aggregate.durationS===0) {
+        if([aggregate.min,aggregate.max,aggregate.liveValue,aggregate.pulsePeak].some(v=>v!==null)||aggregate.integral!==0)throw new RangeError("Inconsistent statistics");
+        continue;
+      }
+      if(aggregate.min===null||aggregate.max===null||aggregate.liveValue===null||aggregate.min>aggregate.max||aggregate.liveValue<aggregate.min||aggregate.liveValue>aggregate.max||(aggregate.pulsePeak!==null&&(aggregate.pulsePeak<aggregate.min||aggregate.pulsePeak>aggregate.max)))throw new RangeError("Inconsistent statistics");
+      const mean=finite(aggregate.integral/aggregate.durationS,"statistics mean");
+      // Сравниваем только выход за extrema: расширение ±MAX_VALUE на tolerance
+      // переполнилось бы даже при допустимом конечном mean внутри интервала.
+      if((mean<aggregate.min&&finite(aggregate.min-mean,"statistics lower difference")>1e-12*Math.abs(aggregate.min))||(mean>aggregate.max&&finite(mean-aggregate.max,"statistics upper difference")>1e-12*Math.abs(aggregate.max)))throw new RangeError("Inconsistent statistics");
     }
-    const phaseDuration=Object.values(stats.phases).reduce((n,p)=>n+p.durationS,0);
-    const phaseIntegral=Object.values(stats.phases).reduce((n,p)=>n+p.integral,0),reference=Object.values(stats.phases).reduce((n,p)=>n+Math.abs(p.integral),0);
-    if(Math.abs(phaseDuration-stats.total.durationS)>1e-12*stats.total.durationS||Math.abs(phaseIntegral-stats.total.integral)>1e-12*reference)throw new RangeError("Inconsistent phase totals");
+    const phaseDuration=finite(Object.values(stats.phases).reduce((n,p)=>n+p.durationS,0),"phase duration sum");
+    const phaseIntegral=finite(Object.values(stats.phases).reduce((n,p)=>n+p.integral,0),"phase integral sum"),reference=finite(Object.values(stats.phases).reduce((n,p)=>n+Math.abs(p.integral),0),"phase integral reference");
+    if(Math.abs(finite(phaseDuration-stats.total.durationS,"phase duration difference"))>1e-12*stats.total.durationS||Math.abs(finite(phaseIntegral-stats.total.integral,"phase integral difference"))>1e-12*reference)throw new RangeError("Inconsistent phase totals");
   }
   const ownEpoch=(stats:SignatureStatistics,durationS:number,name:string)=>{
     if(stats.lastEndS!==(durationS>0?timeS:null)||Math.abs(stats.total.durationS-durationS)>1e-12*durationS)throw new RangeError(name+" statistics clock mismatch");

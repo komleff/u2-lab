@@ -74,12 +74,12 @@ export function validateCurve(value:unknown):EvaluatedCurve {
     if(!Array.isArray(obj.pieces)||!obj.pieces.length)throw new TypeError("Source pieces required");
     let end=0,prior:CurvePiece|undefined;
     for(const p of obj.pieces){
-      exactFields(p,["from","to","curve"],"source piece");finite(p.from,"piece from");finite(p.to,"piece to");if(p.from!==end||!(p.to>p.from)||p.to>1)throw new RangeError("Source pieces must cover [0,1]");validateScalar(p.curve);
+      exactFields(p,["from","to","curve"],"source piece");finite(p.from,"piece from");finite(p.to,"piece to");if(p.from!==end||!(p.to>p.from)||p.to>1)throw new RangeError("Source pieces must cover [0,1]");validateScalar(p.curve,p.from,p.to);
       if(prior){const left=scalarValue(prior.curve,p.from),right=scalarValue(p.curve,p.from);
         // Округление корня оцениваем по ваттам этой же кривой; предел не меняет
         // detect/hold и не допускает физический скачок внутри плотного подшага.
         const q=Math.max(Math.abs(prior.curve.a),Math.abs(prior.curve.b),Math.abs(prior.curve.c),Math.abs(p.curve.a),Math.abs(p.curve.b),Math.abs(p.curve.c));
-        if(Math.abs(left-right)>1e-12*q)throw new RangeError("Discontinuous interior source curve");
+        if(Math.abs(finite(left-right,"source continuity difference"))>1e-12*q)throw new RangeError("Discontinuous interior source curve");
       }
       end=p.to;prior=p;
     }
@@ -87,7 +87,12 @@ export function validateCurve(value:unknown):EvaluatedCurve {
   }
   return validateScalar(value);
 }
-function validateScalar(value:unknown):ScalarCurve {const c=exactFields(value,["a","b","c"],"source curve") as unknown as ScalarCurve;Object.values(c).forEach(x=>finite(x,"curve coefficient"));return c;}
+function validateScalar(value:unknown,from=0,to=1):ScalarCurve {
+  const c=exactFields(value,["a","b","c"],"source curve") as unknown as ScalarCurve;Object.values(c).forEach(x=>finite(x,"curve coefficient"));
+  finite(scalarValue(c,from),"curve start value");finite(scalarValue(c,to),"curve end value");finite(scalarMean(c,from,to),"curve mean");
+  const at=-.5*(c.b/c.c);if(c.c!==0&&at>from&&at<to)finite(scalarValue(c,at),"curve interior value");
+  return c;
+}
 export function frameIrAt(frame:SignatureFrame,temperatureK:number,aspectDeg:number) {
   const components=frame.components.map(component=> {
     if(component.id==="body"||component.id==="radiators") {

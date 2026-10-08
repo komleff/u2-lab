@@ -57,7 +57,10 @@ export function validateSignatureFrame(value:unknown,settings:SignatureSettings)
   for(const s of f.stages)exactFields(s,["id","kind","actualW"],"electrical stage");
   const em=emComponent({stages:f.stages,hostLossBudgetW:f.hostLossBudgetW,otherHostExportW:f.hostIrDebitW,shieldingTransmissions:settings.shielding,intentionalRfW:0});
   exactFields(f.em,Object.keys(em),"EM ledger");for(const k of Object.keys(em) as (keyof typeof em)[])if(f.em[k]!==em[k])throw new RangeError("Inconsistent EM field: "+k);
-  const equal=(a:number,b:number)=>b===0?a===0:Math.abs(a-b)<=1e-6*Math.abs(b)+1e-12*Math.abs(b);
+  const equal=(a:number,b:number)=>{
+    finite(a,"stored source observable");finite(b,"expected source observable");
+    return b===0?a===0:Math.abs(finite(a-b,"source observable difference"))<=1e-6*Math.abs(b)+1e-12*Math.abs(b);
+  };
   let debit=0;const ids=new Set<string>();
   for(const x of f.exports) {
     exactFields(x,["id","kind","powerW","absoluteIrW","hostHeatDebitW",...(Object.hasOwn(x,"pathLossW")?["pathLossW"]:[]),...(Object.hasOwn(x,"motorInputW")?["motorInputW"]:[])],"source export");
