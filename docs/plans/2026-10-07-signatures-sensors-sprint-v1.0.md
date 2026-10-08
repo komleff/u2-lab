@@ -1,7 +1,7 @@
 ---
 title: "Спринт S1 — сигнатуры и сенсоры, баланс пяти классов"
 status: "accepted / S0 in progress"
-version: "1.2"
+version: "1.3"
 date: 2026-10-08
 tags: [sprint, pm, signatures, sensors, radar, class-balance, server-contract]
 related:
@@ -31,9 +31,11 @@ WHAT: решение оператора от 2026-10-07 о следующем м
 Корабль против корабля/станции — последующее расширение. Направленный IR обязателен
 уже здесь: четыре удобных ракурса, нормированная непрерывная проекция источников;
 EM всенаправленный. Исполнимые входы и актуальная область SS лежат в
-[пакете первого стенда](../product/signatures-observer-v0.1.md); spectral experiment
-для двигателей принят в v0.2 пакета; generator/H₂ и H₂ направление остаются открыты.
-Коммит ГД a1e2cd1 также закрепил E motor losses после path и service без reset/freeze.
+[пакете первого стенда](../product/signatures-observer-v0.1.md) v0.4. Решения ГД
+2be9ef78 закрыли generator/H₂ IR и изотропный H₂-сброс; a1e2cd1 закрепил E motor
+losses после path и service без reset/freeze. Полный принятый input checkpoint —
+97ac6dbffc72099087211c119f3c608f20b3e5f2. Нерешённых WHAT первого стенда нет;
+следующий gate — independent PLAN_READY исполнимой интеграции, не новое утверждение ГД.
 Это уточнение заменяет прежнее требование
 двух полных ship state machine в первом срезе, не меняет цель баланса пяти классов.
 
@@ -135,10 +137,17 @@ plume, собственный экспорт генератора, H₂ coolant 
 отображение каждого потока фиксируется в S0. Нет отрицательной мощности излучения:
 standard IR видит положительный контраст, advanced IR — оба знака. Фон не вычитается дважды.
 
-Вход первого S0, который ещё требует решения: отображение generator/H₂ export в IR,
-направление H₂. Engine D/H/E fractions приняты в пакете v0.2; E own-waste —
-потери мотора после тракта: bus_actual×η_path×(1−η_motor). Начальная T300K
-и обычный thermal step при service без reset/freeze приняты в a1e2cd1.
+Принятые входы S0: engines D10%/H1% собственного actual наружного thermal export;
+E0.1% own motor waste после тракта: bus_actual×η_path×(1−η_motor). Diesel generator
+IR10% собственного наружного экспорта; H-generator direct IR0 только при current
+own export0. Для каждого H₂-охладителя: T_out=20+P_gas/(14200×own actual flow),
+IR=P_gas×0.01×clamp((T_out−20)/480,0,1), изотропно и без второго thermal debit.
+P_gas включает фактический унос и учтённые auxiliary losses именно этого охладителя;
+при zero flow/zero export IR0, positive export/zero flow — недействительный вход.
+Температурный унос и upper flow — [принятый H₂ owner](../product/h2-cooler-temperature-law-v0.1.md).
+Начальная T300K и обычный thermal step при service без reset/freeze приняты.
+[Ангарный теплообмен](../product/station-hangar-thermal-exchange-v0.1.md) — будущий
+server/station сценарий, OUT первого стенда: новый G_hangar term здесь не добавляется.
 Геометрия первого стенда — явно reference overlay, не named hull
 TTX. Quiet containment/source limit/recovery и C/T новых class-specific изделий
 остаются входами последующего расширения, не блокерами приборного observer. ГД/оператор согласуют
@@ -238,8 +247,10 @@ actual-stage W и отдельный partition oracle, reference CS, поток�
 
 OUT: runtime-привязка E own-waste к existing engine, generator/H₂ IR, H₂ температурный закон,
 station-temperature изменение, новые SKU/классы, интеграция physics/mission/Worker/UI/IO,
-публикация нового runtime. Полный SS00 и его Beads dependency на GD decision сохраняются.
-Стандартная Лаба и historical fixtures остаются буквально неизменными.
+публикация нового runtime. Это граница исторического component-only release, а не
+перечень ещё открытых WHAT. GD dependency ulab-5vs.7 закрыта принятым package v0.4;
+полный SS00 требует отдельного executable PLAN_READY интеграции §7.2.
+Стандартная Лаба и historical fixtures в component-only шаге остаются буквально неизменными.
 
 | Адрес подготовительной приёмки | Expected / edge / метод |
 |---|---|
@@ -254,6 +265,82 @@ Developer выбирает конкретные имена/интерфейсы;
 ради этого шага. Следующий закрытый компонент выполняется без повторного вопроса
 оператору. После получения GD решений эти owners подключаются к full mode по S0–S5;
 готовность библиотеки не выдаётся за доступную новую версию на LAN/Pages.
+
+### 7.2. Исполнимая интеграция принятого первого стенда
+
+Этот release продолжает S0–S5 того же спринта и budget после independent PLAN_READY
+обновлённого input/plan. Component SC01–06 READY/QA/review не подменяет full SS00–16.
+Один тот же Developer подключает библиотеку к текущему fitting; PM не реализует runtime.
+Открытые вопросы product owner §7 относятся к следующим этапам. Pending core defect
+CR-SC-B1 закрывается affected QA/scoped rereview до включения компонента в full mode.
+
+Последовательность и инварианты интеграции:
+
+1. **Versioned opt-in и фактические потоки.** Новый modelVersion сохраняется в input,
+   active/result и checkpoint; прежние модели и численные historical fixtures остаются
+   буквальными. Точки actual источников берутся внутри физического evaluate до
+   усреднения/retention. Деление электрического motor/path и per-source engine/generator/
+   cooler export сохраняет суммарный ledger. E direct IR и escaped parasitic EM один
+   раз вычитаются из уже назначенных electrical host losses до обновления температуры;
+   captured EM уже в host heat, второй add запрещён. D/H/gen/cooler IR — часть ранее
+   наружного export, не новый thermal debit. Surface absolute IR и signed contrast
+   используют реальный T⁴/фон; вклад body/rad/TI и plume не дублируется. Принятый H₂
+   температурный унос и continuous service применяются только новой моделью.
+2. **Source и observer в одном clock/Worker.** Каждый физический шаг отдаёт intrinsic
+   sources, четыре angular equivalents, isotropic EM и reference CS. Для temperature-
+   dependent потоков IR/газовая/поверхностная энергия интегрируются теми же stage weights,
+   что и physical substep, а не IR от averageT. Trial evaluate и mission stop/retry не
+   публикуют frames: commit history/statistics только после принятого recordStep.
+   Сохраняются достаточные evaluated curve/bounds и threshold crossings до усреднения;
+   integral statistics обновляются до сжатия истории. Observer использует fixed measuring R/aspect, источник
+   из causal history, собственные externally powered S/M presets. Passive signal виден
+   после принятой задержки; radar сохраняет original pulse/reflection/receipt events,
+   capacitor/recharge и TTL. OFF, Pause/Step/Resume и checkpoint не стирают события в пути.
+   Это measuring overlay, не физическое перемещение второго корабля. Stationary часть
+   SS07 работает в runtime; constant-velocity — аналитический fixture и handoff reference,
+   actual two-moving-ship сценарий явно NOT RUN.
+3. **Snapshots/IO.** Следующий черновик, active run, результат, reference и A/B держат
+   собственные immutable observer/model/data inputs. JSON round trip и CSV сохраняют
+   исходные измерения; unknown/partial/несогласованный импорт отклоняется атомарно.
+   Новые поля не restamp старые result/fit файлы. GD truth и allowlisted observer DTO
+   отдельны; passive observer не получает true range/age/identity в DOM, tooltip, log
+   или export, первое echo не получает velocity.
+4. **Компактный доступный стенд.** Сохранить текущую длинную страницу/графики/навигацию
+   во время работы и sticky result/first limiter. Добавить observer select, range,
+   cardinal/custom aspect и radar toggle (OFF по умолчанию), controls/details под
+   раскрытием; стандартный опыт R16km, S dedicated, capacitor full, ping interval2s.
+   Четыре angular IR числа не складываются как total. Отдельные IR/EM/CS единицы,
+   live/final min/mean/max и причина пика; два явно подписанных GD/observer view.
+   UI4.4, module signatures-observer0.1, catalogue0.2.5. Без автоклавиатуры/дублирующих
+   панелей/горизонтального overflow; прежние 11 responsive envelopes и LAN HTTP Start.
+5. **Отчёт и приёмка.** Пять role diagnostic vectors сохраняют routed статус и не
+   обещают production recipes/Quiet/escape/battle. Developer даёт durable regression
+   tests, legacy digests, versioned handoff и замеры MAX median3 baseline/new на одинаковых
+   inputs. QA выполняет SS00–16 с оговорёнными OUT/NOT RUN; затем один scoped Code Review
+   изменённых owners и named risks. Новая LAN/Pages версия публикуется после этих gates
+   и real browser smoke; actual U2 server/protocol/client parity остаётся NOT RUN.
+
+Developer read-only preflight на product0.4 не выявил новых WHAT. Выбран HOW:
+новый MODEL_SIGNATURE_MISSION и explicit u2-lab/3 IO branch; старые model/schema2
+branches и каталог immutable. Конкретные имена/представление остаются ответственностью
+Developer, сетевые DTO U2 этим не закрепляются.
+
+| HOW owner / named risk | Действие и обязательная проверка |
+|---|---|
+| model/v2 types/step/physics | Actual per-engine/gen/cooler taps внутри evaluate, отдельные η_path/η_motor; EM stages один раз, EIR+escapedEM в retained electrical loss budget до thermal solver/RK; energy closure и legacy digests |
+| opt-in H₂ thermal integrator | Per-cooler S/M maxflow × existing duty/thermal/actual-power allowance и общий fuel bound; q(T), aux, gas IR теми же RK weights; adaptive H₂ slope и existing300K/gate/fuel boundaries; convergence0.1→0.05 |
+| signatures runtime/history + runner mission/fitting-run/run/protocol | Publish selected accepted substeps only, не trials/retries; causal source history отдельно от Retention, passive R/c′ delay и absent pre-arrival; radar queues/holds/TTL + immutable Worker state |
+| fitting-session/workspace/UI + scenario builder | Explicit mission-compatible dispatch нового discriminator, отсутствие schema3 в legacy fallback; next/active/result/reference/A-B ownership и old workflow |
+| fitting JSON/result/CSV + focused observer presentation | Strict new schema branch/atomic refusal, old literal IO branch, duration-weighted signature metrics; GDTruth/observer allowlist и leak controls |
+| compact UI/verification/handoff | One real3600s Worker,11responsive envelopes/LANStart, source-backed five diagnostic references, median3 baseline/new MAX overhead и profile if>20% |
+
+Исходные focused пути перечислены в §7; UI owner map уточнён как
+src/app/{fitting-session,fitting-workspace,fitting}.ts и
+src/app/fitting-ui/{conditions,lab-view,telemetry,compare-view}.ts. Worker pump и каталог
+не меняются ради полноты; правится только necessary dispatch/feature surface.
+ Статусы исполнения — Beads,
+исторические component reports сохраняются, новые отчёты привязываются к текущим inputs
+и changed runtime. Отдельной копии продукта/трекера или дополнительного review swarm нет.
 
 ## 8. Verification Contract
 
@@ -306,7 +393,9 @@ Performance: одни и те же два входа, MAX режим, медиа
 charts/comparison во время расчёта, результаты в нижней панели. Новый блок «Сигнатуры
 и наблюдение» рядом с текущими графиками, компактный выбор наблюдателя и ракурса;
 детали источников/настроек под раскрытием. Температура, энергия, добыча остаются.
-Role preset запускает осмысленный сценарий, а не перекрашивает график.
+В первом стенде ролевые references — подписанные diagnostic vectors; они не переключают
+класс текущей сборки и не выдают готовый Quiet/escape/Combat сценарий. Реальные ролевые
+сценарии подключаются позднее вместе с собственными принятыми ТТХ.
 
 Два явно различимых представления: «Полная диагностика ГД» и «Что видит наблюдатель».
 В первом доступны истинные расстояния и источники; во втором анонимные пятна и только
@@ -350,7 +439,7 @@ remote main при подготовке `9935d40c80b00992b5adcc57bf82380bc870e5b
 | Owner U2 | Что определяет |
 |---|---|
 | [ADR-0046 v1.3](https://github.com/komleff/u2/blob/0fe06927ab496918b3547f43412134c100a6e0b4/docs/architecture/ADR-0046-Azimuthal-Sensing-And-Track-Firing-Solution.md) | Spot, earned range, slow-light, identity; одна ping не даёт velocity |
-| [Signature model v0.34](https://github.com/komleff/u2/blob/0fe06927ab496918b3547f43412134c100a6e0b4/docs/specs/server/spec_signature_model_v0.1.md) | Source/observer separation, merging, фильтрация; отменённые тепловые формулы не использовать |
+| [Signature model v0.44](https://github.com/komleff/u2/blob/0fe06927ab496918b3547f43412134c100a6e0b4/docs/specs/server/spec_signature_model_v0.1.md) | Source/observer separation, merging, фильтрация; отменённые тепловые формулы не использовать |
 | [Governor v0.2](https://github.com/komleff/u2/blob/0fe06927ab496918b3547f43412134c100a6e0b4/docs/gdd/gdd_hull_class_governor_architecture_v0.1_draft.md) | Balanced/Sustain/Burst/Combat/Quiet, module policy отдельно |
 | [Radar v1.1](https://github.com/komleff/u2/blob/0fe06927ab496918b3547f43412134c100a6e0b4/docs/gdd/gdd_active_radar_clean_space_first_slice_v0.1_draft.md) | 16 км, энергопакет, R⁻⁴, pulse ID, fresh/stale |
 | [Countermeasures v1.0](https://github.com/komleff/u2/blob/0fe06927ab496918b3547f43412134c100a6e0b4/docs/gdd/gdd_signature_countermeasure_first_slice_v0.1_draft.md) | Изоляция, parasitic shielding, RAM, strongest coverage |
@@ -384,3 +473,4 @@ remote main при подготовке `9935d40c80b00992b5adcc57bf82380bc870e5b
 | 1.0 | 2026-10-07 | План следующего модуля: пять ролевых стратегий, causal signature/sensor slice, входной data gate, SS00–16, ранние server/client границы |
 | 1.1 | 2026-10-07 | Оператор утвердил выполнение; первый стенд current ship + preset instrument, направленный IR; S0 package, production role runtime и корабль-vs-корабль позже |
 | 1.2 | 2026-10-08 | Engine IR source принят для Лабы; закрытые компоненты готовятся отдельно после scoped PLAN_READY, full S0/GD gate сохраняется |
+| 1.3 | 2026-10-08 | Все WHAT первого стенда закрыты package v0.4; executable integration S0–S5, actual-source partition и версия/IO/lifecycle; hangar/cold-Stealth/moving scope отдельно |
