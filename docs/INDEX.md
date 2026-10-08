@@ -3,7 +3,7 @@
 | Документ | Статус | Область |
 |---|---|---|
 | [План развития Лабы v1.0](plans/2026-10-07-lab-development-v1.0.md) | active / roadmap | Серверная спецификация и параметры: архитектурные границы, сигнатуры/сенсоры, износ, перевозки, поля, роли и размеры; эргономика и эталонные опыты |
-| [Спринт S1: сигнатуры и сенсоры](plans/2026-10-07-signatures-sensors-sprint-v1.0.md) | accepted / v1.1, S0 in progress | Current ship + preset observer, directional IR/isotropic EM; пять ролевых references; runtime ожидает spectral decision и executable PLAN_READY |
+| [Спринт S1: сигнатуры и сенсоры](plans/2026-10-07-signatures-sensors-sprint-v1.0.md) | accepted / v1.2, S0 in progress | Current ship + preset observer; closed components §7.1 готовятся после scoped PLAN_READY, full integration ожидает GD decisions |
 | [Первый стенд: входной пакет](product/signatures-observer-v0.1.md) | proposed / engine IR accepted for Lab; generator/H₂ pending | Preset S/M sensors/radar; рабочие IR-доли двигателей и их energy ledger; EM, направление, IO/UI/SS; полный спектральный выбор ещё открыт |
 | [Задача ГД: IR выхлопа и H₂](handoffs/2026-10-07-ir-source-model-gd.md) | open / engine source accepted, others pending | PG-SS-IR, Beads ulab-5vs.7; двигатели приняты для Лабы; генератор и H₂-охладитель ещё требуют решения |
 | [Температурное правило H₂-охладителя](product/h2-cooler-temperature-law-v0.1.md) | accepted / temporary Lab experiment | Удельный унос от разницы температур, ограничение расходом H₂ и энергетический баланс; без требований к конкретным кораблям или средам, IR отдельно |

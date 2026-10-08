@@ -1,8 +1,8 @@
 ---
 title: "Спринт S1 — сигнатуры и сенсоры, баланс пяти классов"
 status: "accepted / S0 in progress"
-version: "1.1"
-date: 2026-10-07
+version: "1.2"
+date: 2026-10-08
 tags: [sprint, pm, signatures, sensors, radar, class-balance, server-contract]
 related:
   - docs/product/signatures-observer-v0.1.md
@@ -32,7 +32,9 @@ WHAT: решение оператора от 2026-10-07 о следующем м
 уже здесь: четыре удобных ракурса, нормированная непрерывная проекция источников;
 EM всенаправленный. Исполнимые входы и актуальная область SS лежат в
 [пакете первого стенда](../product/signatures-observer-v0.1.md); spectral experiment
-пока ждёт отдельного решения оператора. Это уточнение заменяет прежнее требование
+для двигателей принят в v0.2 пакета; generator/H₂ и H₂ направление остаются открыты.
+Коммит ГД a1e2cd1 также закрепил E motor losses после path и service без reset/freeze.
+Это уточнение заменяет прежнее требование
 двух полных ship state machine в первом срезе, не меняет цель баланса пяти классов.
 
 Режим будущей поставки — PRODUCT, один основной Developer, общий budget 5 независимых
@@ -40,7 +42,9 @@ EM всенаправленный. Исполнимые входы и актуа
 работа, не продолжение исчерпанных бюджетов старых UI-задач. S0–S5 — последовательные
 шаги одного work item, а не шесть самостоятельных циклов ревью. Beads: `ulab-5vs`;
 статусы ведутся там, не галочками в плане. Вход в runtime: принятое WHAT, закрытый SS00
-и независимое PLAN_READY именно исполнимого контракта. Текущее поручение — подготовить план.
+и независимое PLAN_READY именно исполнимого контракта. Пока полного SS00 нет,
+замкнутые расчётные компоненты готовятся по отдельному ограниченному release §7.1;
+это не разрешение включать неполный режим в текущую Лабу.
 
 ## 2. As-built → gap → target
 
@@ -131,13 +135,17 @@ plume, собственный экспорт генератора, H₂ coolant 
 отображение каждого потока фиксируется в S0. Нет отрицательной мощности излучения:
 standard IR видит положительный контраст, advanced IR — оба знака. Фон не вычитается дважды.
 
-Вход первого S0, который ещё требует решения: отображение engine/generator/H₂
-export в IR-диапазон. Геометрия первого стенда — явно reference overlay, не named hull
+Вход первого S0, который ещё требует решения: отображение generator/H₂ export в IR,
+направление H₂. Engine D/H/E fractions приняты в пакете v0.2; E own-waste —
+потери мотора после тракта: bus_actual×η_path×(1−η_motor). Начальная T300K
+и обычный thermal step при service без reset/freeze приняты в a1e2cd1.
+Геометрия первого стенда — явно reference overlay, не named hull
 TTX. Quiet containment/source limit/recovery и C/T новых class-specific изделий
 остаются входами последующего расширения, не блокерами приборного observer. ГД/оператор согласуют
 входной пакет либо явно маркированный измерительный эксперимент. Отсутствие числа
 не становится нулём, отсутствие рецепта — filler mass. Если пакет не принят,
-SS00 остаётся незакрытым и S1–S5 не получают DEV_RELEASE. Само исследование и
+SS00 остаётся незакрытым и полная интеграция S1–S5 не получает DEV_RELEASE.
+Ограниченное исключение для замкнутых компонентов — §7.1. Само исследование и
 публикация этого плана продолжаются; новые параметры игры не ратифицируются планом.
 
 EM делится на parasitic и intentional. Суммируются только применимые **фактические**
@@ -213,6 +221,39 @@ wire encoding выбираются в U2, а не закрепляются TypeS
 Не превращать большой `physics.ts` или presenter в хозяина всей новой подсистемы.
 Новый versioned signature result не переписывает численные legacy snapshots или
 catalog editions 0.2.0–0.2.5; миграция IO проверяется отдельно и fail-closed.
+
+### 7.1. Замкнутые компоненты до полной интеграции
+
+После сигнала оператора о преждевременной остановке PM меняет последовательность HOW:
+один тот же Developer готовит независимые компоненты принятого WHAT, пока GD закрывает
+остальные входы. Отдельный scoped PLAN_READY обязателен до кода этих компонентов.
+Это один подготовительный шаг спринта и тот же budget, не новый продукт или reset лимита.
+
+IN: focused `src/signatures/` и `tests/signatures/`; источники D/H из готовых actual
+export W и E из явно переданных own-waste W, нормированная IR проекция, EM из готовых
+actual-stage W и отдельный partition oracle, reference CS, потоковая статистика;
+чистые приборные функции passive thresholds и radar event/capacitor/TTL по пакету §2.
+Каждый вход имеет явные единицы и validates finite/range; неизвестный физический поток
+не превращается в ноль. Нельзя публиковать неполную сумму как полную сигнатуру корабля.
+
+OUT: runtime-привязка E own-waste к existing engine, generator/H₂ IR, H₂ температурный закон,
+station-temperature изменение, новые SKU/классы, интеграция physics/mission/Worker/UI/IO,
+публикация нового runtime. Полный SS00 и его Beads dependency на GD decision сохраняются.
+Стандартная Лаба и historical fixtures остаются буквально неизменными.
+
+| Адрес подготовительной приёмки | Expected / edge / метод |
+|---|---|
+| SC01 / SS01 | D/H actual export1MW → IR100/10kW; E explicit own-waste1MW →1kW; bus10MW/path0.9/motor0.9 → motor waste0.9MW/IR900W, path losses1MW отдельно. OFF →0; missing/NaN/negative rejected; готовые inputs, без existing runtime binding. g circular mean1, fore/aft/lateral, 0/360 и ±45° continuous; isotropic body floor отдельно. |
+| SC02 / SS02–03 | EM κ0.0000215 от actual positive stages; strongest-only shielding и energy partition once, insufficient loss budget rejected. CS reference nose96/broad132; RAM0.25, geometry independent of T. |
+| SC03 / SS04 | Integral/time mean при unequal dt; min/max/live/final и отдельные pulse extrema сохраняются; пустой interval absent; duplicate/invalid time rejected; chunk boundaries не меняют итог. |
+| SC04 / SS05–08 | Public S/M/3-in-1 anchors пакета; exact detect/hold, signed contrast, circular bearing; radar energy ledger, pulse5ms, stationary16km RTT10.6667s, two pending IDs, OFF не стирает in-flight event, checkpoint и exact fresh3/stale10 boundaries. Moving-target/steady-pulse acquisition не объявлять реализованными. |
+| SC05 / SS13/15 | Чистые component inputs/outputs разделяют GD truth и allowlisted observation; synthetic checkpoint round-trip. Это не новый общий JSON reader, server wire DTO или full-result export. |
+| SC06 / SS16 | Focused meaningful RED→GREEN tests + обычный verify.sh; existing runtime/build/mission/historical blobs не меняются, guarded commit. QA/scoped review подтверждают только SC01–06, не full SS00–16. |
+
+Developer выбирает конкретные имена/интерфейсы; не добавляет wrappers/scaffolding
+ради этого шага. Следующий закрытый компонент выполняется без повторного вопроса
+оператору. После получения GD решений эти owners подключаются к full mode по S0–S5;
+готовность библиотеки не выдаётся за доступную новую версию на LAN/Pages.
 
 ## 8. Verification Contract
 
@@ -342,3 +383,4 @@ remote main при подготовке `9935d40c80b00992b5adcc57bf82380bc870e5b
 |---|---|---|
 | 1.0 | 2026-10-07 | План следующего модуля: пять ролевых стратегий, causal signature/sensor slice, входной data gate, SS00–16, ранние server/client границы |
 | 1.1 | 2026-10-07 | Оператор утвердил выполнение; первый стенд current ship + preset instrument, направленный IR; S0 package, production role runtime и корабль-vs-корабль позже |
+| 1.2 | 2026-10-08 | Engine IR source принят для Лабы; закрытые компоненты готовятся отдельно после scoped PLAN_READY, full S0/GD gate сохраняется |
