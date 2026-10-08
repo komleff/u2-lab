@@ -1,13 +1,13 @@
 {
   "version": "2.3",
-  "uiVersion": "4.4",
+  "uiVersion": "4.6",
   "thermalDiagnostics": "0.1",
   "thermalControls": "0.1",
   "status": "experimental",
-  "runtimeCommit": "df70444e0800b0e3d34eae8b8f088dda6841772c",
-  "sourceCommit": "b82676123a7722714cf13b7ed177745c3689b31a",
-  "sourceFingerprint": "9645f08f6bf11fdd9a510d09542fd62e7cd50a8d6e8e572d35f22de77b4d4628",
-  "buildFingerprint": "5432a3633e18102e92ad7ac429c43c84b68de4b9c02c1b59705caa0c10a15ff5",
+  "runtimeCommit": "84ef169fd47835b4cdf4ce63e4e08fe9e1ce3f04",
+  "sourceCommit": "84ef169fd47835b4cdf4ce63e4e08fe9e1ce3f04",
+  "sourceFingerprint": "4b7b29880a4f7ebe1a61b2db84c2e79bc5220b8df36cd9c8d7f7168d5499cf22",
+  "buildFingerprint": "58708a5eaaa8ad278900c2c6ab0b2c2fb4131e9a1944c7b82e0ce56f15840f5f",
   "legacyV1": "./legacy-v1/",
   "previousThermal": "./thermal-v0.1/",
   "catalogFocus": "manual-search",
@@ -16,7 +16,7 @@
   "resultDock": "live-and-final",
   "catalogVersion": "ship-fitting-0.2.5",
   "shipFittingVersion": "2.3",
-  "interfaceVersion": "4.4",
+  "interfaceVersion": "4.6",
   "defaultCruise": "2xV_FA",
   "defaultFits": "operator-20261007-DHE",
   "brandTitle": "GD LAB",
@@ -25,5 +25,6 @@
   "signatureModel": "ship-fitting-signature-mission-0.1",
   "signatureDataRevision": "lab-signatures-0.7-h2-0.4",
   "signatureDefault": "opt-in",
-  "acceptedSource": "61d44e7ce4be0c06fbb873ca643c6b8e750a81ee"
+  "acceptedSource": "61d44e7ce4be0c06fbb873ca643c6b8e750a81ee",
+  "deliveryState": "scoped UI4.6 accepted; operator/base merge gates remain separate"
 }
