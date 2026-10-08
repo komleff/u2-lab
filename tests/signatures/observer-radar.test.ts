@@ -392,4 +392,79 @@ describe("stationary radar resource ledger and delayed events (SC04/05)", () => 
     expect(restoreRadarCheckpoint(JSON.parse(JSON.stringify(undetected)))).toEqual(undetected);
     expect(radarObservations(undetected)).toEqual([]);
   });
+
+  it.each(["N03", "N13"])("CR-SC-B1 %s refuses the paid first pulse before its possible discard", namedCase => {
+    const two = setRadarEnabled(advanceRadar(createRadarState(settings), 2).state, false);
+    const live = namedCase === "N03" ? two : advanceRadar(two, 2 + 32000 / 3000).state;
+    const changed = JSON.parse(JSON.stringify(live));
+    if (namedCase === "N03") changed.pending.shift();
+    else changed.tracks.shift();
+    expect(() => restoreRadarCheckpoint(changed)).toThrow();
+  });
+
+  const prefixCases = (["S", "M"] as const).flatMap(size =>
+    (["FULL", "EMPTY"] as const).flatMap(initialCap => [96, 0, 0.01].flatMap(crossSectionM2 =>
+      (crossSectionM2 === 96 ? ["flight", "live"] : ["flight"]).flatMap(phase =>
+        ["first", "firstTwo", "middle", "latest", "all"].map(removed => ({ size, initialCap, crossSectionM2, phase, removed }))))));
+  it.each(prefixCases)("CR-SC-B1 keeps mandatory $removed $size/$initialCap CS$crossSectionM2 $phase prefix", input => {
+    const firstEmissionS = input.initialCap === "FULL" ? 0 : 2;
+    const emitted = setRadarEnabled(advanceRadar(createRadarState({ ...settings, ...input }), firstEmissionS + 4).state, false);
+    const live = input.phase === "live" ? advanceRadar(emitted, firstEmissionS + 4 + 32000 / 3000).state : emitted;
+    const original = JSON.parse(JSON.stringify(live));
+    const changed = JSON.parse(JSON.stringify(live));
+    const receipts = input.phase === "live" ? changed.tracks : changed.pending;
+    expect(receipts.map((event: { pulseId: number }) => event.pulseId)).toEqual([1, 2, 3]);
+    if (input.removed === "all") receipts.splice(0);
+    else if (input.removed === "firstTwo") receipts.splice(0, 2);
+    else receipts.splice(input.removed === "first" ? 0 : input.removed === "middle" ? 1 : 2, 1);
+    expect(() => restoreRadarCheckpoint(changed)).toThrow();
+    expect(() => radarObservations(changed)).toThrow();
+    expect(live).toEqual(original);
+  });
+
+  it.each(["S", "M"] as const)("%s permits prefix discard only after legitimate receipt/TTL through irregular checkpoints", size => {
+    for (const initialCap of ["FULL", "EMPTY"] as const) {
+      for (const crossSectionM2 of [96, 0, 0.01]) {
+        for (const intervalS of [2, 2.0000000000000004, 2.1, Math.PI]) {
+          const firstEmissionS = initialCap === "FULL" ? 0 : 2;
+          const off = setRadarEnabled(advanceRadar(createRadarState({ ...settings, size, initialCap, crossSectionM2, intervalS }), firstEmissionS + 4).state, false);
+          const firstReceiptS = firstEmissionS + 32000 / 3000;
+          const lastReceiptS = off.lastEmittedAtS! + 32000 / 3000;
+          let state = off;
+          for (const clockS of [off.timeS, off.timeS + 0.03, off.timeS + 0.37,
+            firstReceiptS - 1e-8, firstReceiptS, firstReceiptS + 1e-8,
+            firstReceiptS + 13 - 1e-8, firstReceiptS + 13, firstReceiptS + 13 + 1e-8, lastReceiptS + 13]) {
+            state = restoreRadarCheckpoint(JSON.parse(JSON.stringify(radarCheckpoint(advanceRadar(state, clockS).state))));
+            expect(state).toEqual(advanceRadar(off, clockS).state);
+            if (crossSectionM2 < 1) expect(state.tracks).toEqual([]);
+            if (clockS === firstReceiptS) {
+              expect(state.pending.some(event => event.pulseId === 1)).toBe(false);
+              expect(state.tracks.some(track => track.pulseId === 1)).toBe(crossSectionM2 === 96);
+            }
+            if (clockS === firstReceiptS + 13) expect(state.tracks.some(track => track.pulseId === 1)).toBe(false);
+          }
+          expect(state.pending).toEqual([]);
+          expect(state.tracks).toEqual([]);
+        }
+      }
+    }
+  });
+
+  it.each([96, 0])("does not invent unavailable prior history for CS%s aggregate-equivalent checkpoints", crossSectionM2 => {
+    const secondEmissionS = crossSectionM2 === 96 ? 27 : 15;
+    const delayedFirstS = crossSectionM2 === 96 ? 5 : 10;
+    const history = (firstEmissionS: number) => {
+      let state = advanceRadar(createRadarState({ ...settings, crossSectionM2, enabled: false }), firstEmissionS).state;
+      state = advanceRadar(setRadarEnabled(state, true), firstEmissionS).state;
+      state = advanceRadar(setRadarEnabled(state, false), secondEmissionS - 2).state;
+      return advanceRadar(setRadarEnabled(state, true), secondEmissionS).state;
+    };
+    const early = history(0);
+    const late = history(delayedFirstS);
+    const alternative = { ...late, pending: late.pending.filter(event => event.pulseId !== 1),
+      tracks: late.tracks.filter(track => track.pulseId !== 1) };
+    // Отсутствующий первый receipt мог законно уйти в другой истории с теми же aggregate.
+    expect(alternative).toEqual(early);
+    expect(restoreRadarCheckpoint(JSON.parse(JSON.stringify(alternative)))).toEqual(early);
+  });
 });

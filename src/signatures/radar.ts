@@ -340,6 +340,17 @@ export function restoreRadarCheckpoint(value: unknown): StationaryRadarState {
   if (lastReceiptS !== null && (lastReceiptS > state.timeS
     || (radarEchoDetected(state.size, expectedEchoJ) && state.timeS < lastReceiptS + 13))
     && previousPulseId !== state.pulseSequence) throw new RangeError("missing causal pulse receipt");
+  const firstSurvivorId = state.tracks[0]?.pulseId ?? state.pending[0]?.pulseId;
+  const omittedPrefixLastId = firstSurvivorId === undefined ? state.pulseSequence : firstSurvivorId - 1;
+  if (omittedPrefixLastId > 0) {
+    // Prefix мог уйти только после receipt (слабое эхо) либо receipt+TTL.
+    // Earliest bound доказывает обязательное событие без выдуманной прошлой истории.
+    const earliestDiscardS = finite(earliestReceiptS + (omittedPrefixLastId - 1) * state.intervalS
+      + (radarEchoDetected(state.size, expectedEchoJ) ? 13 : 0), "earliest prefix discard");
+    const beforeDiscard = omittedPrefixLastId === 1 ? state.timeS < earliestDiscardS
+      : precedesDerivedClock(state.timeS, earliestDiscardS);
+    if (beforeDiscard) throw new RangeError("missing mandatory causal prefix");
+  }
   return copyState(state);
 }
 
