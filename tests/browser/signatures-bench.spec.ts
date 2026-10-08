@@ -1,5 +1,36 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import { readFile, writeFile } from "node:fs/promises";
+
+
+async function installSignatureProbe(page: Page, collectSnapshots = false) {
+  page.on("console", message => { if (message.text().startsWith("WORKER_PROGRESS ")) console.log(message.text()); });
+  await page.addInitScript((collectSnapshots: boolean) => {
+    const W = Worker; let lastLog = -Infinity, chunks = 0;
+    Object.assign(window, { signatureMessages: [], signatureComplete: null, signatureWorkerErrors: [], signatureLastCommand: null });
+    window.Worker = class extends W {
+      constructor(...args: any[]) {
+        super(args[0], args[1]);
+        this.addEventListener("error", e => { (window as any).signatureWorkerErrors.push(e.message); console.log("WORKER_PROGRESS " + JSON.stringify({ type: "worker-error", message: e.message })); });
+        this.addEventListener("message", e => {
+          const m = e.data;
+          if (collectSnapshots && ["snapshot", "complete"].includes(m.type)) (window as any).signatureMessages.push(structuredClone(m));
+          if (m.type === "complete") (window as any).signatureComplete = m.payload;
+          if (m.type === "error") (window as any).signatureWorkerErrors.push(m.payload);
+          if (m.type === "chunk") chunks++;
+          const wallMs = performance.now();
+          if (["complete", "error"].includes(m.type) || (m.type === "chunk" && wallMs - lastLog >= 5000)) {
+            lastLog = wallMs;
+            console.log("WORKER_PROGRESS " + JSON.stringify({ type: m.type, wallMs, timeS: m.payload?.state?.timeSeconds ?? null, chunks, control: (window as any).signatureLastCommand, error: m.type === "error" ? m.payload : null }));
+          }
+        });
+      }
+      postMessage(message: any, ...args: any[]) {
+        if (message.type !== "telemetry-ack") (window as any).signatureLastCommand = { type: message.type, maxSteps: message.payload?.maxSteps };
+        return (super.postMessage as any)(message, ...args);
+      }
+    };
+  }, collectSnapshots);
+}
 
 test("SS00/12 an invalid actual-source mapping exits the real Worker run with a visible error", async ({ page }) => {
   const errors: string[] = [];
@@ -20,7 +51,7 @@ test("SS00/12 an invalid actual-source mapping exits the real Worker run with a 
 test("SS12/13 actual Worker signature bench keeps active inputs and resumes serialized paid queues",async({page},info)=>{
   test.setTimeout(60000);
   const errors:string[]=[];page.on("pageerror",e=>errors.push(e.message));
-  await page.addInitScript(()=>{const W=Worker;(window as any).signatureMessages=[];window.Worker=class extends W{constructor(...args:any[]){super(args[0],args[1]);this.addEventListener("message",e=>{if(["snapshot","complete"].includes(e.data.type))(window as any).signatureMessages.push(structuredClone(e.data));});}};});
+  await installSignatureProbe(page, true);
   const tap=async(id:string)=>{await page.locator(id).scrollIntoViewIfNeeded();await page.locator(id).click();};
   const more=async()=>{await page.locator("#fit-more").evaluate(n=>(n as HTMLDetailsElement).open=true);};
   const exported=async(id:string)=>{const d=page.waitForEvent("download");await tap(id);return await readFile((await(await d).path())!,"utf8");};
@@ -38,7 +69,9 @@ test("SS12/13 actual Worker signature bench keeps active inputs and resumes seri
   await tap("#fit-reset");await page.locator("#fit-import").setInputFiles({name:"checkpoint.json",mimeType:"application/json",buffer:Buffer.from(JSON.stringify(saved))});
   await tap("#sig-continue");await expect(page.locator("#fit-time")).not.toHaveText(`${saved.state.timeSeconds} с / 30 с`);
   await tap("#fit-pause");await tap("#fit-step");await expect(page.locator("#fit-status")).toContainText("Пауза");
-  await tap("#fit-resume");await page.locator("#fit-speed").selectOption("20000");await expect(page.locator("#fit-status")).toContainText("Завершён",{timeout:30000});
+  await page.locator("#fit-speed").selectOption("20000");await tap("#fit-resume");
+  expect(await page.evaluate(()=>(window as any).signatureLastCommand)).toEqual({type:"resume",maxSteps:20000});
+  await expect(page.locator("#fit-status")).toContainText("Завершён",{timeout:30000});
   await expect(page.locator("#sig-measurements")).toContainText("IR");await expect(page.locator("#sig-observer-view")).not.toContainText("16000");
   expect(errors).toEqual([]);const snapshotsPath=info.outputPath("signature-worker-snapshots.json");await writeFile(snapshotsPath,JSON.stringify(await page.evaluate(()=>(window as any).signatureMessages),(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v));await info.attach("signature-worker-snapshots",{path:snapshotsPath,contentType:"application/json"});
 });
@@ -46,7 +79,7 @@ test("SS12/13 actual Worker signature bench keeps active inputs and resumes seri
 test("SS12/16 real Worker completes a 3600-second signature horizon with station service and separate instrument",async({page},info)=>{
   test.setTimeout(120000);
   const errors:string[]=[];page.on("pageerror",e=>errors.push(e.message));
-  await page.addInitScript(()=>{const W=Worker;(window as any).signatureComplete=null;(window as any).signatureWorkerErrors=[];window.Worker=class extends W{constructor(...args:any[]){super(args[0],args[1]);this.addEventListener("error",e=>(window as any).signatureWorkerErrors.push(e.message));this.addEventListener("message",e=>{if(e.data.type==="complete")(window as any).signatureComplete=e.data.payload;if(e.data.type==="error")(window as any).signatureWorkerErrors.push(e.data.payload);});}};});
+  await installSignatureProbe(page);
   await page.goto("/");await page.locator("#fit-preset").selectOption("pony:1");await page.locator("#sig-mode").check();await page.locator("#sig-radar").check();
   await page.locator("#fit-distance").fill("0");await page.locator("#fit-distance").blur();await page.locator("#fit-target").fill("10000");await page.locator("#fit-target").blur();
   await page.locator("#fit-duration").fill("3600");await page.locator("#fit-duration").blur();await page.locator("#fit-speed").selectOption("20000");

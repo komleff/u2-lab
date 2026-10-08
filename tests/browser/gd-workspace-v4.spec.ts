@@ -188,6 +188,9 @@ test("WF04/06 genuine 90ms desktop payload click survives advancing Worker rende
 });
 
 test("WF04/06 all slot groups, optional ring and builtin controls retain nodes and actions during a live test", async ({ page }) => {
+  // CI trace: первые четыре группы заняли 22.6 с; здесь семь полных held-click
+  // циклов. Это общий бюджет последовательности, 90 ms и node assertions прежние.
+  test.setTimeout(60000);
   await page.goto("/"); await openTimedDraft(page); await expect(page.locator("#fit-preset")).toBeVisible();
   await page.locator("#fit-preset").selectOption("pony:1"); await page.locator("#fit-duration").fill("180");
   await page.locator("#fit-speed").selectOption("1"); await page.locator("#fit-start").click();
