@@ -26,6 +26,7 @@ PR18 `01b15fd` файлы `src/model`, `src/signatures`, `src/fitting`, `src/run
 | [probes/gd-table.probe.ts](probes/gd-table.probe.ts) | Генерация таблиц А и Б |
 | [probes/gd-karavan.probe.ts](probes/gd-karavan.probe.ts) | Сбой часов сигнатур у Каравана 2/3 лазера и контроль без сигнатур |
 | [probes/gd-emv2.probe.ts](probes/gd-emv2.probe.ts), [emv2.json](emv2.json) | EM-закон v2 по классам ступеней и перекалибровка порога EM-сенсора (ТЗ, раздел 2) |
+| [probes/gd-zones.probe.ts](probes/gd-zones.probe.ts), [zones.json](zones.json) | Готовые корабли: холостой ход 60 мин и добыча 15 мин при фоне 3–450 K (температурные зоны) |
 | [probes/ti-model.cjs](probes/ti-model.cjs) | Решатель предлагаемого термоинвертора-теплового насоса (примеры документа) |
 | [probes/format.cjs](probes/format.cjs) | Перевод сырых JSON в таблицы markdown |
 
