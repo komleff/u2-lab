@@ -44,7 +44,10 @@ function stages(size: "S" | "M", mods: PhysicsModule[], req: any[], soc: number)
   let oldW = 0, newW = 0;
   for (const s of f.stages) {
     oldW += s.actualW * KAPPA_OLD;
-    const cls = s.kind === "consumer_input" ? "H" : s.kind === "protected_processing" ? "L" : "M";
+    // Решение оператора В3: выход генератора — высокий класс. Уточнение ГД: вращающиеся машины и их
+    // инверторы (генератор, электродвигатели, насосы, компрессор) — высокий; драйвер лазера — постоянный ток, средний
+    const laser = s.id === "consumer:l";
+    const cls = (s.kind === "consumer_input" && !laser) || s.kind === "generator_output" ? "H" : s.kind === "protected_processing" ? "L" : "M";
     newW += s.actualW * K[cls];
   }
   newW += solar * K.M;
