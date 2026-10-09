@@ -61,7 +61,7 @@ export interface RadarObservation extends ReceivedRadarEcho {
 }
 
 // Только public working_reference anchors: Lab package §2 / frozen active-radar owner.
-function radarAnchor(size: RadarSize) {
+export function radarAnchor(size: RadarSize) {
   if (size !== "S" && size !== "M") throw new TypeError("unsupported radar size");
   const scale = size === "M" ? 4 : 1;
   return { capJ: 12_500 * scale, rfJ: 5625 * scale, heatJ: 6875 * scale,

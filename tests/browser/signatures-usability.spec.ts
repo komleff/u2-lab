@@ -13,10 +13,10 @@ for(const [width,height] of [[360,780],[390,844],[820,1101],[1440,900]])test(`UF
   await info.attach('navigation-geometry',{body:JSON.stringify({width,nav}),contentType:'application/json'});
   for(const id of folds){await expect(p.locator(id)).toHaveCount(1);expect(await p.locator(id).evaluate(n=>(n as HTMLDetailsElement).open)).toBe(false);}
   await expect(p.locator('#lab-first-limiter')).toBeVisible();await expect(p.locator('#fit-comparison')).toBeVisible();
-  await expect(p.locator('#fit-nav-signatures')).toHaveAttribute('href','#sig-controls');await action('#fit-nav-signatures');await expect(p).toHaveURL(/#sig-controls$/);
+  await expect(p.locator('#fit-nav-signatures')).toHaveCount(0);await action('.ui-header nav a[href="#workspace-conditions"]');await expect(p).toHaveURL(/#workspace-conditions$/);
   await p.screenshot({path:info.outputPath('fresh-closed.png')});
   const r=await readFile('tests/signatures/fixtures/received-result.json','utf8');await p.locator('#fit-import').setInputFiles({name:'received.json',mimeType:'application/json',buffer:Buffer.from(r)});
-  await expect(p.locator('#fit-nav-signatures')).toHaveAttribute('href','#sig-overview');await action('#fit-nav-signatures');await expect(p).toHaveURL(/#sig-overview$/);
+  await expect(p.locator('#fit-nav-signatures')).toHaveCount(0);await action('.ui-header nav a[href="#workspace-charts"]');await expect(p).toHaveURL(/#workspace-charts$/);
   await expect(p.locator('.signature-chart')).toHaveCount(2);
   await action('#fit-modules-details > summary');await expect(p.locator('#fit-modules-details table')).toBeVisible();
   await p.locator('#fit-journal-details > summary').focus();await p.keyboard.press('Enter');await expect(p.locator('#fit-events')).toBeVisible();await action('[data-event-filter="phase"]');
@@ -28,6 +28,6 @@ for(const [width,height] of [[360,780],[390,844],[820,1101],[1440,900]])test(`UF
   for(const id of folds)expect(await p.locator(id).evaluate(n=>(n as HTMLDetailsElement).open)).toBe(true);
   await expect(p.locator('[data-event-filter="phase"]')).toHaveAttribute('aria-pressed','true');await expect(p.locator('#compare-sort')).toHaveValue('rate-desc');await expect(p.locator('#compare-base')).toHaveValue('A');
   expect(await p.evaluate(()=>document.documentElement.scrollWidth-innerWidth)).toBe(0);
-  await action('#fit-nav-signatures');await p.screenshot({path:info.outputPath('measurement.png')});expect(errors).toEqual([]);
+  await action('.ui-header nav a[href="#workspace-charts"]');await p.screenshot({path:info.outputPath('measurement.png')});expect(errors).toEqual([]);
  }finally{await context.close();}
 });

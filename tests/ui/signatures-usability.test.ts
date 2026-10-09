@@ -46,7 +46,7 @@ it("GL02/03 shared overview preserves source data, full horizon and the existing
   expect((html.match(/<figure/g) ?? []).length).toBe(8);
   const first = html.split("<figure").slice(1, 5);
   expect(first[0]).toContain("Электричество"); expect(first[1]).toContain("Температура");
-  expect(first[2]).toContain("IR · выбранный ракурс"); expect(first[3]).toContain("EM");
+  expect(first[2]).toContain("EM"); expect(first[3]).toContain("IR · выбранный ракурс");
   for (const figure of first) {
     expect(figure).toContain('viewBox="0 0 700 205"'); expect(figure).toContain('data-axis-x="180"');
     expect(figure).toContain('d="M240 20V170"'); expect(figure).toContain('data-time="450"');
