@@ -42,16 +42,19 @@ function stages(size: "S" | "M", mods: PhysicsModule[], req: any[], soc: number)
   // Новая ступень выхода солнечной панели — по правилу «любой источник — одна ступень»
   const solar = out.telemetry.solarW ?? 0;
   let oldW = 0, newW = 0;
+  const stageLog: any[] = solar > 0 ? [{ id: "solar:s", kind: "solar_output", cls: "M", actualW: solar }] : [];
   for (const s of f.stages) {
     oldW += s.actualW * KAPPA_OLD;
     // Решение оператора В3: выход генератора — высокий класс. Уточнение ГД: вращающиеся машины и их
     // инверторы (генератор, электродвигатели, насосы, компрессор) — высокий; драйвер лазера — постоянный ток, средний
-    const laser = s.id === "consumer:l";
-    const cls = (s.kind === "consumer_input" && !laser) || s.kind === "generator_output" ? "H" : s.kind === "protected_processing" ? "L" : "M";
+    // Топливный элемент — источник постоянного тока: средний класс (замечание адверсального ревью)
+    const laser = s.id === "consumer:l", fuelCell = s.id === "generator:gh";
+    const cls = (s.kind === "consumer_input" && !laser) || (s.kind === "generator_output" && !fuelCell) ? "H" : s.kind === "protected_processing" ? "L" : "M";
+    stageLog.push({ id: s.id, kind: s.kind, cls, actualW: s.actualW });
     newW += s.actualW * K[cls];
   }
   newW += solar * K.M;
-  return { oldW, newW, emOld: f.em.observedEmW };
+  return { oldW, newW, emOld: f.em.observedEmW, stages: stageLog };
 }
 test("EM v2 против нынешней κ", () => {
   const anchor = stages("S", [mod("l", "mining-civil-S"), mod("g", "generator-diesel-S")], [{ moduleId: "l", duty: 1 }], 0.85);
@@ -60,7 +63,7 @@ test("EM v2 против нынешней κ", () => {
   const cases: [string, "S" | "M", PhysicsModule[], any[], number][] = [
     ["Только корпус", "S", [], [], 1],
     ["Дизель-генератор S заряжает", "S", [mod("g", "generator-diesel-S")], [], 0.85],
-    ["H₂-генератор S заряжает", "S", [mod("g", "generator-hydrogen-S")], [], 0.85],
+    ["H₂-генератор S заряжает", "S", [mod("gh", "generator-hydrogen-S")], [], 0.85],
     ["Солнечная панель S заряжает", "S", [mod("s", "solar-S")], [], 0.5],
     ["Лазер civil S от аккумулятора", "S", [mod("l", "mining-civil-S")], [{ moduleId: "l", duty: 1 }], 1],
     ["Лазер civil S + дизель-генератор (эталон)", "S", [mod("l", "mining-civil-S"), mod("g", "generator-diesel-S")], [{ moduleId: "l", duty: 1 }], 0.85],
@@ -73,7 +76,7 @@ test("EM v2 против нынешней κ", () => {
   ];
   const rows = cases.map(([name, size, mods, req, soc]) => {
     const s = stages(size, mods, req, soc);
-    return { name, oldW: s.oldW, newW: s.newW, oldKm: km(s.oldW, EM_OLD), newKm: km(s.newW, EM_NEW) };
+    return { name, oldW: s.oldW, newW: s.newW, oldKm: km(s.oldW, EM_OLD), newKm: km(s.newW, EM_NEW), stages: s.stages };
   });
   writeFileSync(OUT + "emv2.json", JSON.stringify({ K, EM_NEW, holdNew: EM_NEW * 0.6, anchorOld: anchor.oldW, anchorNew: anchor.newW, rows }, null, 1));
 });
