@@ -1,3 +1,4 @@
+import { appendSignatureBins, signatureBinEdges } from "./bins";
 import { exactFields, validateSignatureSettings, type SignatureSettings } from "./config";
 import { referenceCrossSection } from "./em-cs";
 import { finite, label, nonnegative } from "./domain";
@@ -17,7 +18,7 @@ export interface InstrumentLedger {
   escapedEmJ: number; capturedEmJ: number; remainingCapJ: number;
 }
 export interface SignatureRuntimeState {
-  version: "signatures-runtime-0.1";
+  version: "signatures-runtime-0.1" | "signatures-runtime-0.2";
   timeS: number;
   pending: PendingSourceInterval[];
   lastTruth: SignatureFrame | null;
@@ -33,11 +34,12 @@ export interface SignatureRuntimeState {
   instrument: InstrumentLedger;
   events: SignatureEvent[];
 }
-export function createSignatureRuntime(settings: SignatureSettings): SignatureRuntimeState {
+export function createSignatureRuntime(settings: SignatureSettings, horizonS?: number): SignatureRuntimeState {
+  if(horizonS!==undefined)signatureBinEdges(horizonS);
   const s=validateSignatureSettings(settings),preset=observerPreset(s.observerPreset);
   const radar=createRadarState({size:preset.size,initialCap:s.initialCap,rangeM:s.rangeM,
     crossSectionM2:referenceCrossSection(s.geometry,s.aspectDeg,s.ram),intervalS:s.radarIntervalS,enabled:s.radarEnabled});
-  return {version:"signatures-runtime-0.1",timeS:0,pending:[],lastTruth:null,
+  return {version:horizonS===undefined?"signatures-runtime-0.1":"signatures-runtime-0.2",timeS:0,pending:[],lastTruth:null,
     sourceStats:Object.fromEntries(SOURCE_CHANNELS.map(k=>[k,emptyStatistics()])) as Record<SourceChannel,SignatureStatistics>,
     peakContexts:Object.fromEntries(SOURCE_CHANNELS.map(k=>[k,null])) as Record<SourceChannel,PeakContext|null>,
     observerStats:{IR:emptyStatistics(),EM:emptyStatistics()},rfStats:emptyStatistics(),buckets:[],held:{IR:false,EM:false},passive:{IR:null,EM:null},
@@ -50,7 +52,10 @@ function statistics(state:SignatureStatistics,curve:EvaluatedCurve,startS:number
   const bounds=curveBounds(curve,from,to),meanValue=curveMean(curve,from,to);
   return addStatisticsInterval(state,{startS,endS,phase,meanValue,minValue:Math.min(bounds.min,meanValue),maxValue:Math.max(bounds.max,meanValue),pulsePeakValue});
 }
-function recordSource(state:SignatureRuntimeState,f:SignatureFrame,phase:string,s:SignatureSettings) {
+function recordSource(state:SignatureRuntimeState,f:SignatureFrame,phase:string,s:SignatureSettings,horizonS?:number) {
+  if(state.version==="signatures-runtime-0.2") {
+    signatureBinEdges(horizonS!);if(f.endS>horizonS!)throw new RangeError("Accepted source exceeds signature horizon");
+  }
   if(f.startS!==state.timeS||!(f.endS>f.startS))throw new RangeError(`Accepted source intervals must be continuous and positive: clock=${state.timeS}, frame=${f.startS}–${f.endS}`);
   const selected=frameIrCurves(f,s.aspectDeg);
   const views={IRnose:frameIrCurves(f,0),IRrear:frameIrCurves(f,180),IRleft:frameIrCurves(f,90),IRright:frameIrCurves(f,270)};
@@ -70,6 +75,8 @@ function recordSource(state:SignatureRuntimeState,f:SignatureFrame,phase:string,
       state.peakContexts[channel]={startS:f.startS,endS:f.endS,phase,dominantSource};
     }
   }
+  if(state.version==="signatures-runtime-0.2")appendSignatureBins(state.buckets,curves,f.startS,f.endS,horizonS!);
+  else {
   state.buckets.push({startS:f.startS,endS:f.endS,values});
   if(state.buckets.length>2000) {
     const merged:SignatureBucket[]=[];
@@ -78,6 +85,7 @@ function recordSource(state:SignatureRuntimeState,f:SignatureFrame,phase:string,
       for(const k of SOURCE_CHANNELS)v[k]={mean:(a.values[k].mean*da+b.values[k].mean*db)/(da+db),min:Math.min(a.values[k].min,b.values[k].min),max:Math.max(a.values[k].max,b.values[k].max)};
       merged.push({startS:a.startS,endS:b.endS,values:v});
     }state.buckets=merged;
+  }
   }
   const preset=observerPreset(s.observerPreset),area=4*Math.PI*s.rangeM*s.rangeM;
   const thresholds=[preset.ir.detectWm2,preset.ir.holdWm2,0,...(s.advancedIr?[-preset.ir.detectWm2,-preset.ir.holdWm2]:[])];
@@ -136,10 +144,10 @@ function advanceInstrument(state:SignatureRuntimeState,s:SignatureSettings,toTim
   for(const pulse of pulses){const from=Math.max(cursor,pulse.emittedAtS),to=Math.min(toTimeS,pulse.emittedAtS+pulse.pulseWidthS);if(to<=from)continue;segment(from,0);segment(to,pulse.rfPeakW);}
   segment(toTimeS,0);state.pulseTail=pulses.filter(p=>p.emittedAtS+p.pulseWidthS>toTimeS);
 }
-export function commitSignatureFrames(state:SignatureRuntimeState,frames:readonly SignatureFrame[],phase:string,settings:SignatureSettings):void {
+export function commitSignatureFrames(state:SignatureRuntimeState,frames:readonly SignatureFrame[],phase:string,settings:SignatureSettings,horizonS?:number):void {
   // Вызывается только из accepted recordStep, никогда из physics trial.
   for(const frame of frames) {
-    const previous=state.timeS;recordSource(state,frame,phase,settings);
+    const previous=state.timeS;recordSource(state,frame,phase,settings,horizonS);
     receiveSource(state,settings,previous,frame.endS);advanceInstrument(state,settings,frame.endS);
     state.timeS=frame.endS;instrumentLedger(state,settings);
   }
@@ -150,15 +158,17 @@ export function observerView(state:SignatureRuntimeState,settings:SignatureSetti
     radar:radarObservations(state.radar).map(v=>({...v}))};
 }
 
-export function restoreSignatureRuntime(value:unknown,settings:SignatureSettings,timeS:number):SignatureRuntimeState {
+export function restoreSignatureRuntime(value:unknown,settings:SignatureSettings,timeS:number,horizonS?:number):SignatureRuntimeState {
   const obj=exactFields(value,["version","timeS","pending","lastTruth","sourceStats","peakContexts","observerStats","rfStats","buckets","held","passive","radar","pulseTail","instrument","events"],"signature checkpoint") as unknown as SignatureRuntimeState;
   nonnegative(timeS,"checkpoint clock");nonnegative(obj.timeS,"source clock");
-  if(obj.version!=="signatures-runtime-0.1"||obj.timeS!==timeS)throw new RangeError("Inconsistent source checkpoint clock/version");
+  if(!["signatures-runtime-0.1","signatures-runtime-0.2"].includes(obj.version)||obj.timeS!==timeS)throw new RangeError("Inconsistent source checkpoint clock/version");
+  const edges=obj.version==="signatures-runtime-0.2"?signatureBinEdges(horizonS!):null;
+  if(edges&&timeS>horizonS!)throw new RangeError("Source checkpoint exceeds H");
   const walk=(v:unknown):void=>{if(typeof v==="number")finite(v,"checkpoint");else if(v&&typeof v==="object")Object.values(v).forEach(walk);};walk(obj);
   const radar=restoreRadarCheckpoint(obj.radar),expected=createSignatureRuntime(settings);
   for(const k of ["size","rangeM","crossSectionM2","intervalS","enabled","initialCapJ"] as const)if(radar[k]!==expected.radar[k])throw new RangeError("Radar/settings mismatch: "+k);
   if(radar.timeS!==timeS)throw new RangeError("Radar/source clocks differ");
-  if(!Array.isArray(obj.pending)||!Array.isArray(obj.buckets)||!Array.isArray(obj.pulseTail)||!Array.isArray(obj.events)||obj.buckets.length>2000||obj.events.length>200)throw new TypeError("Invalid bounded source history");
+  if(!Array.isArray(obj.pending)||!Array.isArray(obj.buckets)||!Array.isArray(obj.pulseTail)||!Array.isArray(obj.events)||obj.buckets.length>(edges?edges.length-1:2000)||obj.events.length>200)throw new TypeError("Invalid bounded source history");
   let end:number|null=null;
   for(const frame of obj.pending) {
     exactFields(frame,["startS","endS","phase","ir","emW","crossings"],"pending source");validateCurve(frame.ir);
@@ -225,9 +235,10 @@ export function restoreSignatureRuntime(value:unknown,settings:SignatureSettings
     }
   }
   let bucketEnd=0;
-  for(const b of obj.buckets) {
+  for(const [index,b] of obj.buckets.entries()) {
     exactFields(b,["startS","endS","values"],"signature bucket");exactFields(b.values,SOURCE_CHANNELS,"bucket channels");
     nonnegative(b.startS,"bucket start");finite(b.endS,"bucket end");
+    if(edges&&(b.startS!==edges[index]||b.endS!==Math.min(edges[index+1],timeS)))throw new RangeError("Inconsistent uniform signature grid");
     if(b.startS!==bucketEnd||!(b.endS>b.startS)||b.endS>timeS)throw new RangeError("Missing or inconsistent signature buckets");bucketEnd=b.endS;
     for(const k of SOURCE_CHANNELS){
       const v=b.values[k];exactFields(v,["mean","min","max"],"bucket values");for(const x of Object.values(v))finite(x,"bucket value");

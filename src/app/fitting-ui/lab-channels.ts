@@ -5,6 +5,7 @@ import {
   channelNames,
   channelUnit,
 } from "./telemetry";
+import { signatureLive } from "./signatures";
 import { esc, num } from "./presentation";
 import { channelStyle, traceChart, overview, thermalFrontiers } from "./trace-chart";
 export type ChannelState = {
@@ -22,7 +23,8 @@ export function selectedBucket(r: RunResultV2, s: ChannelState) {
     : e ? r.buckets.find(b => b.endSeconds >= e.timeSeconds) ?? r.buckets.at(-1)
     : r.buckets.at(-1);
 }
-export function channelsView(r: RunResultV2 | undefined, s: ChannelState) {
+export function channelsView(r: RunResultV2 | undefined, s: ChannelState, running = false) {
+  if (!r&&running)return `<section class="ui-panel" id="lab-channels"><h2>Каналы и графики</h2>${signatureLive()}</section>`;
   if (!r)
     return '<section class="ui-panel"><h2>Каналы и графики</h2><p>Измерения появятся после теста.</p></section>';
   const events = r.events, e = events[Math.min(s.eventIndex, Math.max(0, events.length - 1))], b = selectedBucket(r, s);
@@ -34,7 +36,7 @@ export function channelsView(r: RunResultV2 | undefined, s: ChannelState) {
   const selectedIndex = b ? r.buckets.indexOf(b) : 0;
   const thermal=s.unit==="K"?thermalFrontiers(r):undefined;
   const graph = s.detailsOpen === false ? "" : traceChart(r, curves.map(row => row.id), b?.endSeconds,thermal?.limits, false,thermal?.bands,s.unit);
-  return `<section class="ui-panel" id="lab-channels"><h2>Каналы и графики</h2>${overview(r, b?.endSeconds)}<label>Выбранное время · bucket ${num(b?.startSeconds)}–${num(b?.endSeconds, "с")}<input id="chart-bucket" type="range" min="0" max="${Math.max(0, r.buckets.length - 1)}" step="1" value="${selectedIndex}" ${!r.buckets.length ? "disabled" : ""}></label><p>Выбор времени доступен мышью, touch и клавиатурой. Mean/min/max/count относятся к указанному интервалу, не к мгновенному состоянию.</p><details id="channel-details"><summary>Полные каналы · исследовательские подробности</summary><div class="segments" role="group" aria-label="Группа каналов">${[
+  return `<section class="ui-panel" id="lab-channels"><h2>Каналы и графики</h2>${running?signatureLive(r):overview(r, b?.endSeconds)}<label>Выбранное время · bucket ${num(b?.startSeconds)}–${num(b?.endSeconds, "с")}<input id="chart-bucket" type="range" min="0" max="${Math.max(0, r.buckets.length - 1)}" step="1" value="${selectedIndex}" ${!r.buckets.length ? "disabled" : ""}></label><p>Выбор времени доступен мышью, touch и клавиатурой. Mean/min/max/count относятся к указанному интервалу, не к мгновенному состоянию.</p><details id="channel-details"><summary>Полные каналы · исследовательские подробности</summary><div class="segments" role="group" aria-label="Группа каналов">${[
     ["energy", "Энергия"],
     ["heat", "Тепло"],
     ["stocks", "Запасы"],

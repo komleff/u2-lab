@@ -179,3 +179,25 @@ it("SS06 changing the external S/M instrument never debits target physics and pa
   expect(Math.abs(residual)).toBeLessThanOrEqual(1e-6*l.externalEnergyJ+1e-12*l.externalEnergyJ);
   expect(observerView(two,b.signatures!).radar[0].receivedAtS).toBe(32000/3000);
 });
+
+
+it("H02/03 new history version preserves full source, causal and instrument state and mid-bin checkpoints",()=>{
+  const spec=bench("S",400);spec.signatures!.radarEnabled=true;
+  const old=createSignatureRuntime(spec.signatures!),fresh=createSignatureRuntime(spec.signatures!,30);let physical=initialStateV2(spec);
+  expect(fresh.version).toBe("signatures-runtime-0.2");
+  for(let i=0;i<81;i++){const p=stepV2(spec,physical,.1,{});physical=p.state;commitSignatureFrames(old,p.signatureFrames!,"same_frame",spec.signatures!);commitSignatureFrames(fresh,p.signatureFrames!,"same_frame",spec.signatures!,30);}
+  const {version:ov,buckets:ob,...oldData}=old,{version:nv,buckets:nb,...newData}=fresh;expect(newData).toEqual(oldData);expect(nb.length).toBeLessThanOrEqual(28);expect(ob.length).toBeGreaterThan(nb.length);
+  const saved=JSON.parse(JSON.stringify(fresh));expect(restoreSignatureRuntime(saved,spec.signatures!,physical.timeSeconds,30)).toEqual(fresh);
+  expect(()=>restoreSignatureRuntime(saved,spec.signatures!,physical.timeSeconds,31)).toThrow();
+  for(const mutate of [(x:any)=>x.version="unknown",(x:any)=>x.buckets[0].startS=.01,(x:any)=>x.buckets[0].endS+=.001,(x:any)=>x.buckets.at(-1).endS-=.001,(x:any)=>x.buckets[0].values.EM.mean="0"]){const bad=structuredClone(saved);mutate(bad);expect(()=>restoreSignatureRuntime(bad,spec.signatures!,physical.timeSeconds,30)).toThrow();}
+  const legacy=restoreSignatureRuntime(JSON.parse(JSON.stringify(old)),spec.signatures!,physical.timeSeconds,30);expect(legacy).toEqual(old);
+  const p=stepV2(spec,physical,.1,{});commitSignatureFrames(legacy,p.signatureFrames!,"same_frame",spec.signatures!,30);commitSignatureFrames(old,p.signatureFrames!,"same_frame",spec.signatures!);expect(legacy).toEqual(old);
+});
+
+
+it("H05 old0.1 continuation keeps literal pair-merge retention after 2000 accepted intervals even with H",()=>{
+  const spec=bench("S",400),a=createSignatureRuntime(spec.signatures!),b=createSignatureRuntime(spec.signatures!);let state=initialStateV2(spec);
+  for(let i=0;i<2100;i++){const p=stepV2(spec,state,.1,{});state=p.state;commitSignatureFrames(a,p.signatureFrames!,"legacy",spec.signatures!);commitSignatureFrames(b,p.signatureFrames!,"legacy",spec.signatures!,300);}
+  expect(b).toEqual(a);expect(b.version).toBe("signatures-runtime-0.1");expect(b.buckets.length).toBeLessThanOrEqual(2000);expect(b.buckets[0].endS).toBeGreaterThan(.1);
+  expect(restoreSignatureRuntime(JSON.parse(JSON.stringify(b)),spec.signatures!,state.timeSeconds,300)).toEqual(a);
+});

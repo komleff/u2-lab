@@ -70,7 +70,7 @@ function recordStep(run:RunContextV2,previous:StateV2,step:StepResultV2,dt:numbe
   const before=previous.mission!;
   if(run.signatures) {
     if(!step.signatureFrames)throw new Error("Accepted physical source frames missing");
-    commitSignatureFrames(run.signatures,step.signatureFrames,before.stage+(before.stage==="outbound"||before.stage==="inbound"?":"+before.flightMode:""),run.spec.signatures!);
+    commitSignatureFrames(run.signatures,step.signatureFrames,before.stage+(before.stage==="outbound"||before.stage==="inbound"?":"+before.flightMode:""),run.spec.signatures!,run.spec.durationSeconds);
   }
   run.state=step.state;
   run.state.mission={...before,elapsed:{...before.elapsed},receivedFuelKg:{...before.receivedFuelKg}};

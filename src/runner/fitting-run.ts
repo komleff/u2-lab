@@ -83,7 +83,7 @@ export function createFittingRun(runId: string, spec: RunSpecV2): RunContextV2 {
     done: false,
     last: {},
     diagnostics: new DiagnosticObserver(),
-    ...(v.value.modelVersion === MODEL_SIGNATURE_MISSION ? { signatures:createSignatureRuntime(v.value.signatures!) } : {}),
+    ...(v.value.modelVersion === MODEL_SIGNATURE_MISSION ? { signatures:createSignatureRuntime(v.value.signatures!,v.value.durationSeconds) } : {}),
   };
   if(isMissionModel(v.value.modelVersion))initializeMission(run);
   return run;
@@ -203,7 +203,7 @@ export function restoreFittingRun(saved:RunResultV2):RunContextV2 {
   if(saved.spec.modelVersion!==MODEL_SIGNATURE_MISSION||!saved.signatures||!saved.checkpoint)throw new Error("Нужен полный signature checkpoint");
   const run=createFittingRun(saved.runId,saved.spec);
   run.state=structuredClone(saved.state);run.metrics=structuredClone(saved.metrics);run.last=structuredClone(saved.checkpoint.lastTelemetry);
-  run.done=saved.status==="complete";run.signatures=restoreSignatureRuntime(saved.signatures,saved.spec.signatures!,saved.state.timeSeconds);
+  run.done=saved.status==="complete";run.signatures=restoreSignatureRuntime(saved.signatures,saved.spec.signatures!,saved.state.timeSeconds,saved.spec.durationSeconds);
   run.diagnostics.restore(saved.checkpoint.diagnostics);
   run.retention=new Retention(saved.channels,saved.retention.maxBuckets);run.retention.buckets=structuredClone(saved.buckets);
   run.retention.cadenceSeconds=saved.retention.cadenceSeconds;run.retention.totalTicks=saved.retention.totalTicks;

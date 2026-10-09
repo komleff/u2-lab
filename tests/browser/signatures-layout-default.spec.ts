@@ -55,6 +55,13 @@ for (const width of [390, 820, 1440]) test(`GL01–04 default model, immutable i
     await expect(page.locator("#sig-mode")).not.toBeChecked();
     if (!await page.locator("#fit-more").evaluate(n => (n as HTMLDetailsElement).open)) await page.locator("#fit-more > summary").click();
     const download = page.waitForEvent("download"); await page.locator("#fit-export-run").click();
-    expect(JSON.parse(await readFile((await (await download).path())!, "utf8"))).toEqual(old.value); expect(errors).toEqual([]);
+    expect(JSON.parse(await readFile((await (await download).path())!, "utf8"))).toEqual(old.value);
+    await page.locator("#sig-mode").check();await page.locator("#fit-duration").fill("60");await page.locator("#fit-duration").blur();await page.locator("#fit-speed").selectOption("1");await page.locator("#fit-start").click();
+    await expect(page.locator("[data-signature-live]")).toHaveCount(1);await expect(page.locator(".overview-charts svg")).toHaveCount(0);
+    await expect(page.locator("#fit-time")).not.toHaveText("0 с / 60 с");await expect(page.locator("#sig-overview")).toContainText("На конец последнего принятого подшага");
+    await page.locator("#fit-pause").click();await expect(page.locator("#fit-status")).toContainText("Пауза");await expect(page.locator(".overview-charts svg")).toHaveCount(8);
+    await page.locator("#fit-step").click();await expect(page.locator("#fit-status")).toContainText("Пауза");await expect(page.locator(".overview-charts svg")).toHaveCount(8);
+    await page.locator("#fit-resume").click();await expect(page.locator("[data-signature-live]")).toHaveCount(1);await expect(page.locator(".overview-charts svg")).toHaveCount(0);
+    await page.locator("#fit-cancel").click();await page.locator("#cancel-yes").click();await expect(page.locator(".overview-charts svg")).toHaveCount(8);expect(errors).toEqual([]);
   } finally { await context.close(); }
 });

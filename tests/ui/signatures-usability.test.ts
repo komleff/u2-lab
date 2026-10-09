@@ -153,3 +153,22 @@ describe("CR-UF-B1 display weighted means preserve finite signed signals", () =>
     expect(group.mean).toBeGreaterThanOrEqual(group.min); expect(group.mean).toBeLessThanOrEqual(group.max); expect(input).toEqual(before);
   });
 });
+
+
+it("H06 live overview is ACK-owned and reports accepted endpoints without bin mean or mutation",async()=>{
+  const {channelsView}=await import("../../src/app/fitting-ui/lab-channels"),{labView}=await import("../../src/app/fitting-ui/lab-view"),{frameIrCurves,curveValue}=await import("../../src/signatures/history");
+  const r=receipt(),displayed=structuredClone(r);displayed.signatures!.buckets[0].values.IRobserver.mean=123;
+  const channel={group:"energy",unit:"W",hidden:new Set<string>(),eventIndex:0,detailsOpen:false};
+  const running=channelsView(displayed,channel,true);expect(running).not.toContain("<svg");expect(running).toContain('id="sig-overview"');expect(running).toContain("На конец последнего принятого подшага");
+  const value=Math.max(curveValue(frameIrCurves(r.signatures!.lastTruth!,r.spec.signatures!.aspectDeg).contrast,1),0);expect(running).toContain(presentation.num(value,"Вт"));
+  expect(running).toContain(presentation.num(r.signatures!.lastTruth!.em.observedEmW,"Вт"));
+  const before=JSON.stringify(r),w=new FittingWorkspace(r.spec.resolvedShip.fit,loadCandidateCatalog());expect(w.importDocument(JSON.stringify(r)).ok).toBe(true);
+  expect(w.startCheckpoint(r.runId).ok).toBe(true);w.acceptResult(r);
+  const render=()=>labView(w.snapshotForRender(),w.getCurrentResult(),channel,"all","");
+  expect(render()).toContain('data-signature-live');
+  w.select("B");expect(render()).toContain('data-signature-live');
+  w.setStatus(r.runId,"paused");expect(render()).not.toContain('data-signature-live');
+  w.setStatus(r.runId,"running");expect(render()).toContain('data-signature-live');
+  w.abort();w.select("A");expect(render()).not.toContain('data-signature-live');expect(JSON.stringify(r)).toBe(before);
+  const absent=receipt();absent.signatures!.lastTruth=null;expect(channelsView(absent,channel,true)).toContain("нет измерения");expect(channelsView(undefined,channel,true)).toContain("нет измерения");
+});

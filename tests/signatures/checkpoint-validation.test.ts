@@ -301,11 +301,12 @@ describe("B-QA-UF04-01 local retained bucket roundoff preserves literal result d
   it.each(bucketCorruptions)("refuses $name atomically", ({ mean, min, max }) => {
     const bad = structuredClone(received); bad.signatures.buckets[0].values.IRcontrast = { mean, min, max }; atomicRefusal(bad);
   });
-  it("actual default Titan3600 exports, reopens and restores without numeric changes", { timeout: 60000 }, () => {
+  it("actual legacy0.1 default Titan3600 exports, reopens and restores without numeric changes", { timeout: 60000 }, () => {
     const catalog = loadCandidateCatalog("ship-fitting-0.2.5"), fit = getPresetFit("industrial-M:2:D", catalog.version);
     const built = makeMissionRun(fit, catalog, freshMissionConditions(fit, catalog));
     if (!built.ok) throw Error(json(built.errors));
     const spec = signatureSpec(built.value, defaultSignatureSettings("M")), run = createRun("native-titan-roundtrip", spec);
+    run.signatures=createSignatureRuntime(spec.signatures!); // Продолжает адресовать literal legacy retention arithmetic.
     while (!run.done) runChunk(run, 20000);
     const saved = result(run), wire = json(saved); expect(saved.state.timeSeconds).toBe(3600);
     // This is the real producer, including retention division; no normalized fixture.

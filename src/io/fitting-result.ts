@@ -164,7 +164,7 @@ export function parseResultJson(text: string): ValidationResult<RunResultV2> {
     }
     if(spec.modelVersion===MODEL_SIGNATURE_MISSION) {
       exactFields(state,["schemaVersion","timeSeconds","chargeJ","temperatureK","fuelKg","buffersJ","gates","cargo","cargoM3","currentMassKg","usefulWork","extractedByInstanceM3","consumptionKg","limitations","phaseKey","constraints","cyclesCompleted","miningStopSeconds","mission",...(Object.hasOwn(state,"sourceRecovery")?["sourceRecovery"]:[]),...(Object.hasOwn(state,"scenarioOffsetSeconds")?["scenarioOffsetSeconds"]:[])],"signature physical state");
-      r.signatures=restoreSignatureRuntime(r.signatures,spec.signatures!,state.timeSeconds);
+      r.signatures=restoreSignatureRuntime(r.signatures,spec.signatures!,state.timeSeconds,spec.durationSeconds);
       exactFields(r.checkpoint,["diagnostics","lastTelemetry"],"run checkpoint");new DiagnosticObserver().restore(r.checkpoint.diagnostics);
       if(!object(r.checkpoint.lastTelemetry)||Object.values(r.checkpoint.lastTelemetry).some(v=>!finite(v)))throw new Error("Неверный checkpoint telemetry");
     }

@@ -14,7 +14,7 @@ export function exportObserverCsv(result:RunResultV2):string {
 }
 export function exportSignatureCsv(result:RunResultV2):string {
   const state=result.signatures;if(!state)throw new Error("Нет измерений сигнатур");
-  const meta={schema:"u2-signature-trace/1",model:result.spec.modelVersion,settings:result.spec.signatures,
+  const meta={...(state.version==="signatures-runtime-0.2"?{history:{version:state.version,representation:"uniform-horizon-100",horizonS:result.spec.durationSeconds}}:{}),schema:"u2-signature-trace/1",model:result.spec.modelVersion,settings:result.spec.signatures,
     statistics:Object.fromEntries(SOURCE_CHANNELS.map(k=>[k,statisticsView(state.sourceStats[k])])),instrument:state.instrument,sourceAccounting:state.lastTruth?{knownOutwardComponents:state.lastTruth.components,coolers:state.lastTruth.coolers,exports:state.lastTruth.exports,stages:state.lastTruth.stages}:null,channelMeaning:{IRtotal:"intrinsic sensor equivalent before angular projection; gas included",IRknownOutward:"known surface/active outward only; gas absolute photons unspecified",IRobserver:"sensor equivalent at selected aspect",IRcontrast:"signed total at selected aspect"}};
   const units=(k:string)=>k==="CS"?"m2":"W";
   const header=["start_s","end_s",...SOURCE_CHANNELS.flatMap(k=>["mean","min","max"].map(field=>`${k}_${field}_${units(k)}`))];

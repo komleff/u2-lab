@@ -86,7 +86,13 @@ test("SS12/16 real Worker completes a 3600-second signature horizon with station
   await page.locator("#fit-start").click();await expect.poll(()=>page.evaluate(()=>(window as any).signatureComplete!==null||(window as any).signatureWorkerErrors.length>0),{timeout:100000}).toBe(true);
   expect(await page.evaluate(()=>(window as any).signatureWorkerErrors)).toEqual([]);
   const r=await page.evaluate(()=>(window as any).signatureComplete);
+  expect(r.signatures.version).toBe("signatures-runtime-0.2");expect(r.signatures.buckets).toHaveLength(100);
+  for(let i=0;i<100;i++){expect(r.signatures.buckets[i].startS).toBe(3600*(i/100));expect(r.signatures.buckets[i].endS).toBe(i===99?3600:3600*((i+1)/100));}
+  for(const channel of ["IRobserver","IRcontrast","EM"]){const sum=r.signatures.buckets.reduce((n:any,b:any)=>n+b.values[channel].mean*(b.endS-b.startS),0),expected=r.signatures.sourceStats[channel].total.integral;expect(Math.abs(sum-expected)).toBeLessThanOrEqual(1e-12*Math.abs(expected));}
   expect(r.state.timeSeconds).toBe(3600);expect(r.signatures.timeS).toBe(3600);expect(r.state.mission.elapsed.service).toBeGreaterThan(0);
   expect(r.signatures.instrument.rfExportJ).toBeGreaterThan(0);expect(r.signatures.sourceStats.IRobserver.total.durationS).toBe(3600);expect(errors).toEqual([]);
+  const {parseResultJson}=await import("../../src/io/fitting-result"),{restoreFittingRun}=await import("../../src/runner/fitting-run");
+  const wire=JSON.stringify(r,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v),parsed=parseResultJson(wire);expect(parsed.ok,parsed.ok?"":JSON.stringify(parsed.errors)).toBe(true);if(!parsed.ok)throw Error("hourly roundtrip");expect(JSON.stringify(parsed.value,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v)===wire,"canonical typed-array roundtrip bytes").toBe(true);
+  const restored=restoreFittingRun(parsed.value);expect(restored.done).toBe(true);expect(restored.signatures).toEqual(r.signatures);expect(restored.state).toEqual(r.state);
   const resultPath=info.outputPath("real-worker-3600-result.json");await writeFile(resultPath,JSON.stringify(r,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v));await info.attach("real-worker-3600-result",{path:resultPath,contentType:"application/json"});
 });

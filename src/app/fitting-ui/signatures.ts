@@ -8,6 +8,7 @@ import { observerPreset, receivedFlux } from "../../signatures/presets";
 import { ROLE_REFERENCES, ROLE_REFERENCE_SOURCE } from "../../signatures/role-references";
 import { esc, num } from "./presentation";
 import { displaySeries, displayPaths } from "./display-series";
+import { curveValue, frameIrCurves } from "../../signatures/history";
 import { PLOT, plotX } from "./plot-geometry";
 
 export function signatureControls(conditions:WorkspaceConditions,size:"S"|"M") {
@@ -31,6 +32,12 @@ function channelChart(r:RunResultV2,channel:SourceChannel,time?:number) {
 export function signatureOverview(r:RunResultV2,time?:number) {
   if(!r.signatures)return '';
   return (["IRobserver","EM"] as const).map(channel=>`<figure class="signature-chart" ${channel==="IRobserver"?'id="sig-overview"':''}><h3>${channel==="IRobserver"?"IR · выбранный ракурс":channel}</h3>${channelChart(r,channel,time)}</figure>`).join('');
+}
+export function signatureLive(r?:RunResultV2) {
+  const frame=r?.signatures?.lastTruth,settings=r?.spec.signatures;
+  const contrast=frame&&settings?curveValue(frameIrCurves(frame,settings.aspectDeg).contrast,1):null;
+  const ir=contrast===null?null:settings!.advancedIr?Math.abs(contrast):Math.max(contrast,0);
+  return `<div class="overview-charts" data-signature-live>${([["IR · выбранный ракурс",ir],["EM",frame?.em.observedEmW??null]] as const).map(([name,value],i)=>`<figure class="signature-chart" ${i===0?'id="sig-overview"':''}><h3>${name}</h3><p>${measured(value,"Вт")}</p><figcaption>На конец последнего принятого подшага${frame?" · "+num(frame.endS,"с"):""}</figcaption></figure>`).join('')}</div><p class="muted">Графики доступны на паузе и после завершения опыта.</p>`;
 }
 function statsRows(r:RunResultV2,channels:readonly SourceChannel[]) {
   return channels.map(channel=>{const s=statisticsView(r.signatures!.sourceStats[channel]),unit=channel==="CS"?"м²":"Вт";

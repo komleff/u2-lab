@@ -163,7 +163,7 @@ export function labView(
             " · ",
           )}. Объединение ${num(m.limitationUnionSeconds, "с")} · перекрытие ${num(m.overlapSeconds, "с")} · частичная потеря ${num(m.partialLossM3, "SCU")}.</p>`
       : ""
-  }</section><div id="workspace-charts" class="workspace-section">${channelsView(r, c)}</div><details id="fit-modules-details" class="ui-panel"><summary>Модули и каналы экземпляров</summary><div class="ui-table-scroll" tabindex="0" aria-label="Измеренные экземпляры"><table><thead><tr><th>Экземпляр</th><th>Номинал · W</th><th>Доставлено · W</th><th>Луч · W</th><th>Тяга · N</th><th>Ресурс</th></tr></thead><tbody>${
+  }</section><div id="workspace-charts" class="workspace-section">${channelsView(r, c,active?.status==="running"&&!!active.spec.signatures&&(!r||r.runId===active.runId))}</div><details id="fit-modules-details" class="ui-panel"><summary>Модули и каналы экземпляров</summary><div class="ui-table-scroll" tabindex="0" aria-label="Измеренные экземпляры"><table><thead><tr><th>Экземпляр</th><th>Номинал · W</th><th>Доставлено · W</th><th>Луч · W</th><th>Тяга · N</th><th>Ресурс</th></tr></thead><tbody>${
     spec
       ? spec.resolvedShip.instances
           .map((i) => {
