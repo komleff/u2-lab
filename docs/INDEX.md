@@ -3,6 +3,7 @@
 | Документ | Статус | Область |
 |---|---|---|
 | [Стенд сигнатур: работа и handoff](guides/signatures-observer.md) | implemented / scoped Lab QA and Review passed; UI4.6 candidate | UI4.6: новый UI defaultON, IR/EM рядом с мощностью/T на общей шкале; сохранённые model/schema3, actual fitting/observer, checkpoint/allowlist/weighted CSV; future/server parity NOT RUN |
+| [Равномерная история сигнатур](plans/2026-10-09-signature-history-100.md) | proposed / independent Plan Review pending | ulab-i4g: 100 равных интервалов, live IR/EM, compatibility0.1→0.2, H01–06; UI4.7 ещё не поставлена |
 | [План развития Лабы v1.0](plans/2026-10-07-lab-development-v1.0.md) | active / roadmap | Серверная спецификация и параметры: архитектурные границы, сигнатуры/сенсоры, износ, перевозки, поля, роли и размеры; эргономика и эталонные опыты |
 | [Спринт S1: сигнатуры и сенсоры](plans/2026-10-07-signatures-sensors-sprint-v1.0.md) | accepted / v1.6, first bench scoped acceptance passed | Вход0.7 получил affected PLAN_READY; runtime, full QA и scoped closure выполнены; будущие расширения отдельно |
 | [Первый стенд: входной пакет](product/signatures-observer-v0.1.md) | accepted / temporary Lab experiment; implemented | Preset S/M sensors/radar; фактические тепловые источники, сумма контрастов и порог сенсора; базовый H₂-сброс не даёт отрицательный IR-контраст; далее баланс H₂ Stealth, силуэты, короткий пассивный импульс и движение |
