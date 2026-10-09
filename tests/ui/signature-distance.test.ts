@@ -6,8 +6,10 @@ import { signatureLive, signatureMeasurements, signatureOverview } from "../../s
 import { observerPreset } from "../../src/signatures/presets";
 import { echoEnergy, radarAnchor } from "../../src/signatures/radar";
 import { observerView } from "../../src/signatures/runtime";
-import { curveMean, scalarCurve, transformCurve } from "../../src/signatures/history";
+import { curveBounds, curveMean, scalarCurve, transformCurve } from "../../src/signatures/history";
 import { exportObserverCsv, exportObserverJson, exportSignatureCsv } from "../../src/signatures/io";
+import { addStatisticsInterval, emptyStatistics } from "../../src/signatures/statistics";
+import { parseResultJson } from "../../src/io/fitting-result";
 const receipt = () => structuredClone(native) as unknown as RunResultV2;
 const relative = (actual: number, expected: number) => expect(Math.abs(actual - expected)).toBeLessThanOrEqual(1e-12 * Math.abs(expected));
 
@@ -33,6 +35,58 @@ describe("H07 passive clean-space detection reach", () => {
     expect(passiveDetectionReachM(0, "S-dedicated-G1", "IR")).toBe(0);
     expect(passiveDetectionReachM(null, "S-dedicated-G1", "IR")).toBeNull();
     for (const bad of [-1, NaN, Infinity]) expect(() => passiveDetectionReachM(bad, "S-dedicated-G1", "IR")).toThrow();
+  });
+});
+
+describe("CR-H07-B1 represented root boundary in transformed IR summaries", () => {
+  it.each(["positive", "absolute"] as const)("renders the production %s minimum accepted by the cold reader without changing raw values", mode => {
+    const curve = transformCurve({a: -1, b: 0, c: 2}, mode), bounds = curveBounds(curve, 0, 1);
+    const produced = addStatisticsInterval(emptyStatistics(), {startS: 0, endS: 1, phase: "root",
+      meanValue: curveMean(curve, 0, 1), minValue: bounds.min, maxValue: bounds.max, pulsePeakValue: null});
+    expect(produced.total.min).toBe(-2.220446049250313e-16);
+    const r = receipt(), stats = r.signatures!.sourceStats.IRobserver, priorMin = stats.total.min;
+    r.spec.signatures!.advancedIr = mode === "absolute";
+    // Local reader-domain fixture: only replace the total and matching phase
+    // minimum by the production value, without inventing prior ship history.
+    stats.total.min = produced.total.min;
+    const matching = Object.values(stats.phases).filter(p => p.min === priorMin);
+    expect(matching.length).toBeGreaterThan(0);matching.forEach(p => p.min = produced.total.min);
+    const wire = JSON.stringify(r), parsed = parseResultJson(wire);expect(parsed.ok).toBe(true);
+    if (!parsed.ok) throw Error("Reader-domain root fixture rejected");
+    const saved = parsed.value, before = JSON.stringify(saved), csv = exportSignatureCsv(saved), observer = exportObserverJson(saved);
+    expect(signatureReach(saved, "IR").minM).toBe(0);
+    expect(() => signatureOverview(saved)).not.toThrow();
+    expect(JSON.stringify(saved)).toBe(before);expect(exportSignatureCsv(saved)).toBe(csv);expect(exportObserverJson(saved)).toBe(observer);
+    expect(saved.signatures!.sourceStats.IRobserver.total.min).toBe(produced.total.min);
+  });
+  it.each([-Number.MIN_VALUE, -2.220446049250313e-16, -1, -Number.MAX_VALUE])("projects finite %s in already-transformed IR summary slots onto their nonnegative domain", value => {
+    const r = receipt();Object.assign(r.signatures!.sourceStats.IRobserver.total,
+      {durationS: 1, integral: value, min: value, max: value, liveValue: value});
+    const before = JSON.stringify(r), summary = signatureReach(r, "IR");
+    expect(summary.minM).toBe(0);expect(summary.meanPowerM).toBe(0);expect(summary.maxM).toBe(0);
+    expect(summary.currentM).toBeGreaterThan(0);expect(JSON.stringify(r)).toBe(before);
+  });
+  it.each([Number.MIN_VALUE, 0])("preserves %s literally at all already-transformed summary boundaries", value => {
+    const r = receipt();Object.assign(r.signatures!.sourceStats.IRobserver.total,
+      {durationS: 1, integral: value, min: value, max: value, liveValue: value});
+    // Isolated endpoint projection fixture, not a whole imported-frame claim.
+    const f = r.signatures!.lastTruth!;f.bodyK = 0;f.radiatorK = 0;f.coolers = [];
+    f.components = [{id: "caller-endpoint", profile: "isotropic", absoluteIrW: value, contrastW: value}];
+    const summary = signatureReach(r, "IR"), expected = passiveDetectionReachM(value, r.spec.signatures!.observerPreset, "IR");
+    expect(summary.minM).toBe(expected);expect(summary.meanPowerM).toBe(expected);expect(summary.maxM).toBe(expected);expect(summary.currentM).toBe(expected);
+    if (value > 0) expect(summary.minM).toBeGreaterThan(0);
+  });
+  it.each(["min", "max", "integral"] as const)("keeps finite checks on IR %s before boundary projection", slot => {
+    for (const value of [NaN, -Infinity, Infinity]) {
+      const r = receipt();r.signatures!.sourceStats.IRobserver.total[slot] = value;
+      expect(() => signatureReach(r, "IR")).toThrow();
+    }
+  });
+  it.each(["EM", "radar"] as const)("does not normalize invalid %s powers/CS", channel => {
+    for (const value of [-Number.MIN_VALUE, -1, NaN, -Infinity]) {
+      const r = receipt();r.signatures!.sourceStats[channel === "EM" ? "EM" : "CS"].total.min = value;
+      expect(() => signatureReach(r, channel)).toThrow();
+    }
   });
 });
 

@@ -43,7 +43,12 @@ export function signatureReach(r: RunResultV2 | undefined, channel: PassiveChann
   const current = signatureCurrentPowers(r)[channel];
   const reach = (value: number | null) => channel === "radar"
     ? nominalRadarReachM(value, observerPreset(settings.observerPreset).size)
-    : passiveDetectionReachM(value, settings.observerPreset, channel);
+    // IRobserver уже хранит max/abs полной кривой. На представленном корне
+    // её min может округлиться ниже0; для derived reach возвращаем только
+    // этот неотрицательный domain, не abs(mean signed) и не новую epsilon.
+    // finite идёт до max: -Infinity/NaN не превращаются в измеренный0.
+    : passiveDetectionReachM(channel === "IR" && value !== null
+      ? Math.max(finite(value, "IR sensor-equivalent power W"), 0) : value, settings.observerPreset, channel);
   const stats = statisticsView(state.sourceStats[channel === "IR" ? "IRobserver" : channel === "EM" ? "EM" : "CS"]);
   return { currentM: reach(current), minM: stats.status === "absent" ? null : reach(stats.min),
     meanPowerM: stats.status === "absent" ? null : reach(stats.mean), maxM: stats.status === "absent" ? null : reach(stats.max) };
