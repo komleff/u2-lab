@@ -33,6 +33,7 @@ PR18 `01b15fd` файлы `src/model`, `src/signatures`, `src/fitting`, `src/run
 | [probes/field.py](probes/field.py) | Время остывания в холодных полях и равновесия стоянки с генератором и без; EM-дальности маскировки при 200 кВт |
 | [probes/eq-all.cjs](probes/eq-all.cjs) | Равновесие стоянки корпусов из zones.json при фоне 3 и 250 K (без пассивных радиаторов) |
 | [probes/gd-maneuver.probe.ts](probes/gd-maneuver.probe.ts), [maneuver.json](maneuver.json), [probes/maneuver-calc.cjs](probes/maneuver-calc.cjs) | Массы, маршевая тяга и аккумулятор готовых кораблей; резерв 2×V_FA и время манёвров тихого хода (решения Г1, Г2) |
+| [probes/ti-rescue.cjs](probes/ti-rescue.cjs) | Варианты спасения термоинвертора: `η_II`, теплообменники, горячая сторона, площадь панелей |
 | [probes/format.cjs](probes/format.cjs) | Перевод сырых JSON в таблицы markdown |
 
 ## Условия
