@@ -76,7 +76,12 @@ for (const changed of [false, true])
     expect(measured).toContain("Пауза");
     expect(measured).toContain("ожидается первое измерение текущего теста");
     expect(measured).not.toContain("наблюдаемый интервал 0–20");
-    expect(compareView(w, "name")).toContain("предыдущий тест · run old");
+    const comparison = compareView(w, "name");
+    const previousRow = comparison.split('<tr data-compare-variant="A">')[1].split('</tr>')[0];
+    expect(previousRow).toContain("предыдущий тест · ");
+    expect(previousRow.slice(0, previousRow.indexOf('<details'))).not.toContain("run old");
+    const passport = previousRow.split('class="measured-passport"')[1].split('</details>')[0];
+    expect(passport).toContain("run old"); expect(passport).not.toContain("run new"); expect(passport).not.toContain("run foreign");
     expect(shipView(w, 0, new Set())).toContain("Предыдущий тест · run old");
     expect(w.getSelected().result).toEqual(old);
     expect(w.getFrozen()).toEqual(frozen);

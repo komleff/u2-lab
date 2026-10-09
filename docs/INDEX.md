@@ -2,6 +2,7 @@
 
 | Документ | Статус | Область |
 |---|---|---|
+| [Анализ и сравнение UI4.8](plans/2026-10-09-gd-analysis-ui4.8.md) | accepted WHAT / HOW proposed; independent Plan Review pending | ulab-7lp, UI48-01–06: время над графиками, IR/EM и дальности A/B, читаемые отличия и компактный паспорт; текущий live UI4.7 остаётся до поставки |
 | [Стенд сигнатур: работа и handoff](guides/signatures-observer.md) | implemented / численная модель прошла scoped QA/Review; UI4.7 final candidate | UI4.7: 100 равных bins, текущий endpoint; EM под электричеством, IR под температурой, mean/min–max; три расчётные GD дальности без изменения earned contact; model/schema3, compatibility0.1→0.2/weighted CSV; final QA/Review pending, server parity NOT RUN |
 | [Равномерная история сигнатур](plans/2026-10-09-signature-history-100.md) | PLAN_READY / implemented candidate; final acceptance pending | ulab-i4g: 100 равных интервалов, live IR/EM, compatibility0.1→0.2, H01–06; intermediate LAN UI4.7, финальная поставка отдельно |
 | [План развития Лабы v1.0](plans/2026-10-07-lab-development-v1.0.md) | active / roadmap | Серверная спецификация и параметры: архитектурные границы, сигнатуры/сенсоры, износ, перевозки, поля, роли и размеры; эргономика и эталонные опыты |

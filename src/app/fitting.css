@@ -1294,6 +1294,26 @@ html:has(.fitting-app), body:has(.fitting-app) { overscroll-behavior-y: none; }
 .fitting-app .ab-rows dl > div { min-height: 0; padding: 6px 0; }
 .fitting-app .ab-plot text { font-size: 26px; }
 
+/* Число и единица остаются одной читаемой величиной в компактном Compare. */
+.fitting-app .measurement-value { white-space: nowrap; overflow-wrap: normal; }
+.fitting-app .chart-time-picker { margin: 8px 0; }
+.fitting-app .measured-passport > summary,
+.fitting-app .condition-snapshots > summary,
+.fitting-app #signature-comparison > summary,
+.fitting-app .signature-sources > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; }
+.fitting-app .measured-passport pre,
+.fitting-app .condition-snapshots pre,
+.fitting-app .signature-sources pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 300px; overflow: auto; font-size: 12px; }
+.fitting-app .measured-ownership,
+.fitting-app .signature-contexts { overflow-wrap: anywhere; }
+.fitting-app .signature-comparison-rows > div { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(0, 2fr); gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.fitting-app .signature-comparison-rows dd { margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.fitting-app .signature-comparison-rows dd > span { font-size: 12px; }
+.fitting-app .signature-comparison-rows strong { display: block; font-size: 12px; }
+@media (max-width: 700px) {
+  .fitting-app .signature-comparison-rows > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+}
+
 .fitting-app .result-tile { padding: 8px; gap: 6px; }
 .fitting-app .result-tile strong { font-size: 24px; }
 .fitting-app .ui-controls { gap: 4px 8px; padding: 4px 8px calc(4px + env(safe-area-inset-bottom)); }

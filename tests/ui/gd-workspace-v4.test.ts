@@ -66,8 +66,8 @@ describe("v4 preserves the complete GD research workflow", () => {
     expect(html).toContain("измерена ревизия");
     expect(html).toContain("черновик");
     expect(html).toContain(a.spec.resolvedShip.hull.label);
-    expect(html).toContain("temperatureK");
-    expect(html).toContain("300");
+    expect(html).toContain("Начальная температура");
+    expect(html).toContain("300 K"); expect(html).toContain("320 K");
   });
   it("opens a native result for analysis without rerunning or showing the previous hull", () => {
     const source = workspace(); source.applyFit(getPresetFit("civilian-M:2"));
