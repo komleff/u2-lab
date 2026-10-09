@@ -36,6 +36,8 @@ PR18 `01b15fd` файлы `src/model`, `src/signatures`, `src/fitting`, `src/run
 | [probes/quiet-criterion.cjs](probes/quiet-criterion.cjs) | Дальность заметности гражданского корабля на стоянке и тяга тихого хода при порогах 5–15 км |
 | [probes/quiet-caliber.cjs](probes/quiet-caliber.cjs) | Порог тихого хода по калибру (S 10 / M 20 / L 40 км): тяга и время до `V_FA` для 14 кораблей; стелс-линейка электродвигателя; чувствительность к IR выхлопа H₂ |
 | [probes/limits-matrix.cjs](probes/limits-matrix.cjs) | Матрица тепловых пределов ярус × класс × поколение по закону `p(G)` с малыми асимптотами |
+| [probes/gen-sweep.cjs](probes/gen-sweep.cjs) | Прогон по поколениям G1…G∞ опорных шахтёров с канонными осями КПД: нужно ли охлаждение на высоких G (верхняя оценка тепла) |
+| [probes/quiet-shield.cjs](probes/quiet-shield.cjs) | Цена электростелса: тихий ход с экранированием, стелс-линейкой двигателя и обоими |
 | [probes/ti-rescue.cjs](probes/ti-rescue.cjs) | Варианты спасения термоинвертора: `η_II`, теплообменники, горячая сторона, площадь панелей |
 | [probes/format.cjs](probes/format.cjs) | Перевод сырых JSON в таблицы markdown |
 
