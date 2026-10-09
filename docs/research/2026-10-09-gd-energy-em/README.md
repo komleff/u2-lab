@@ -34,6 +34,8 @@ PR18 `01b15fd` файлы `src/model`, `src/signatures`, `src/fitting`, `src/run
 | [probes/eq-all.cjs](probes/eq-all.cjs) | Равновесие стоянки корпусов из zones.json при фоне 3 и 250 K (без пассивных радиаторов) |
 | [probes/gd-maneuver.probe.ts](probes/gd-maneuver.probe.ts), [maneuver.json](maneuver.json), [probes/maneuver-calc.cjs](probes/maneuver-calc.cjs) | Массы, маршевая тяга и аккумулятор готовых кораблей; резерв 2×V_FA и время манёвров тихого хода (решения Г1, Г2) |
 | [probes/quiet-criterion.cjs](probes/quiet-criterion.cjs) | Дальность заметности гражданского корабля на стоянке и тяга тихого хода при порогах 5–15 км |
+| [probes/quiet-caliber.cjs](probes/quiet-caliber.cjs) | Порог тихого хода по калибру (S 10 / M 20 / L 40 км): тяга и время до `V_FA` для 14 кораблей; стелс-линейка электродвигателя; чувствительность к IR выхлопа H₂ |
+| [probes/limits-matrix.cjs](probes/limits-matrix.cjs) | Матрица тепловых пределов ярус × класс × поколение по закону `p(G)` с малыми асимптотами |
 | [probes/ti-rescue.cjs](probes/ti-rescue.cjs) | Варианты спасения термоинвертора: `η_II`, теплообменники, горячая сторона, площадь панелей |
 | [probes/format.cjs](probes/format.cjs) | Перевод сырых JSON в таблицы markdown |
 
