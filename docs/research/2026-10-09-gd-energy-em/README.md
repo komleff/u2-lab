@@ -29,6 +29,9 @@ PR18 `01b15fd` файлы `src/model`, `src/signatures`, `src/fitting`, `src/run
 | [probes/gd-zones.probe.ts](probes/gd-zones.probe.ts), [zones.json](zones.json) | Готовые корабли: холостой ход 60 мин и добыча 15 мин при фоне 3–450 K (температурные зоны) |
 | [probes/gd-ircal.probe.ts](probes/gd-ircal.probe.ts), [ircal.json](ircal.json) | Перекалибровка IR-порогов при стандартном фоне 250 K (эталон — Ермак D, 15 мин добычи) |
 | [probes/ti-model.cjs](probes/ti-model.cjs) | Решатель предлагаемого термоинвертора-теплового насоса (примеры документа) |
+| [probes/ti-map-pump.cjs](probes/ti-map-pump.cjs) | Карта выгодности термоинвертора с насосом 0,3 МВт в горячей ветке (вторая проверка) |
+| [probes/field.py](probes/field.py) | Время остывания в холодных полях и равновесия стоянки с генератором и без; EM-дальности маскировки при 200 кВт |
+| [probes/eq-all.cjs](probes/eq-all.cjs) | Равновесие стоянки корпусов из zones.json при фоне 3 и 250 K (без пассивных радиаторов) |
 | [probes/format.cjs](probes/format.cjs) | Перевод сырых JSON в таблицы markdown |
 
 ## Условия
