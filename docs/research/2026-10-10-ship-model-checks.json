@@ -390,47 +390,49 @@
         "SM-06",
         "SM-07"
       ],
-      "risk": "Горячая обшивка получает поток поля по T_ship и повторно греет общий узел",
+      "risk": "Обычный холодный корпус и горячие радиаторы TI смешаны либо их площадь посчитана дважды; закрытая активная панель даёт вымышленный поток",
       "inputs": {
         "ship_K": 450.0,
         "hot_surface_K": 650.0,
         "field_K": 600.0,
         "h_W_per_m2_K": 10.0,
-        "hull_area_m2": 100.0
+        "cold_body_area_m2": 100.0,
+        "native_passive_radiator_area_m2": 40.0,
+        "active_radiator_area_m2": 60.0
       },
       "outputs": {
         "cases": [
           {
             "TI_enabled": true,
-            "connected_hull_fraction": 1.0,
-            "direct_area_m2": 0.0,
+            "active_open": true,
+            "direct_area_m2": 100.0,
             "hot_area_m2": 100.0,
-            "host_field_out_W": -0.0,
+            "host_field_out_W": -150000.0,
             "hot_loop_field_out_W": 50000.0
           },
           {
             "TI_enabled": false,
-            "connected_hull_fraction": 0.0,
-            "direct_area_m2": 100.0,
+            "active_open": true,
+            "direct_area_m2": 200.0,
             "hot_area_m2": 0.0,
-            "host_field_out_W": -150000.0,
+            "host_field_out_W": -300000.0,
             "hot_loop_field_out_W": 0.0
           },
           {
             "TI_enabled": true,
-            "connected_hull_fraction": 0.4,
-            "direct_area_m2": 60.0,
+            "active_open": false,
+            "direct_area_m2": 100.0,
             "hot_area_m2": 40.0,
-            "host_field_out_W": -90000.0,
+            "host_field_out_W": -150000.0,
             "hot_loop_field_out_W": 20000.0
           }
         ],
-        "old_wrong_full_hull_host_out_W": -150000.0,
-        "correct_full_hull_hot_out_W": 50000.0,
+        "wrong_using_ship_temperature_for_100m2_hot_radiator_W": -150000.0,
+        "correct_100m2_hot_radiator_out_W": 50000.0,
         "wrong_temperature_difference_W": 200000.0,
         "zero_h_recovers_radiation_only": true
       },
-      "note": "Аналитическая проверка температуры и владельца потока, не новый runtime решатель. В Qh входят излучение и поле горячей части; оставшаяся площадь относится к общему узлу."
+      "note": "Две группы поверхностей: неизменно холодная базовая конструкция и радиаторы, горячие только при TI. Собственный пассивный радиатор корпуса отделён от базовой поверхности и не дублируется. Активная площадь доступна только открытой. Коэффициент поля задан явно, не выведен из epsilon*A. Обновлённая аналитическая точка по прямому решению оператора; runtime NOT RUN."
     },
     {
       "id": "CANDIDATE-CORRIDOR-ORDER",
@@ -531,18 +533,72 @@
         ]
       },
       "note": "Синтетическая аналитическая пара, не ТТХ изделий. Остаточные потоки постоянны. Первый буфер выигрывает мощный пик, второй — длительную слабую нагрузку. Масса, слот и весь цикл восстановления сравниваются в будущем опыте."
+    },
+    {
+      "id": "TI-EXCLUSIVE-SURFACES",
+      "addresses": [
+        "SM-07",
+        "SM-10"
+      ],
+      "risk": "Общий TI забирает панели готового насосного радиатора, в том числе при его выключении, либо площадь дублируется",
+      "inputs": {
+        "body_area_m2": 100,
+        "native_passive_area_m2": 40,
+        "ordinary_active_area_m2": 60,
+        "self_contained_active_area_m2": 80,
+        "all_panels_open": true
+      },
+      "outputs": {
+        "cases": [
+          {
+            "common_pump_on": true,
+            "own_pump_on": true,
+            "direct_m2": 100,
+            "common_hot_m2": 100,
+            "own_hot_m2": 80,
+            "total_m2": 280
+          },
+          {
+            "common_pump_on": true,
+            "own_pump_on": false,
+            "direct_m2": 180,
+            "common_hot_m2": 100,
+            "own_hot_m2": 0,
+            "total_m2": 280
+          },
+          {
+            "common_pump_on": false,
+            "own_pump_on": true,
+            "direct_m2": 200,
+            "common_hot_m2": 0,
+            "own_hot_m2": 80,
+            "total_m2": 280
+          },
+          {
+            "common_pump_on": false,
+            "own_pump_on": false,
+            "direct_m2": 280,
+            "common_hot_m2": 0,
+            "own_hot_m2": 0,
+            "total_m2": 280
+          }
+        ],
+        "common_area_never_includes_self_contained": true,
+        "closed_self_contained_hot_and_direct_area_m2": 0
+      },
+      "note": "Синтетическая проверка принадлежности площадей для двух насосов, не их ТТХ или превосходства по COP. Каждый работающий контур имеет собственную алгебраическую горячую температуру; состояния температур панелей не добавлены. Runtime NOT RUN."
     }
   ],
-  "proposal_version": "0.7",
+  "proposal_version": "0.10",
   "buffer_model": "Одна T_ship; отдельный запас B; уставки выводятся из класса/режима/состава; theta_ch — память минимальной температуры накопления, не второй тепловой узел.",
   "document_fingerprints": {
-    "docs/gdd/gdd_ship_energy_thermal_model_v0.1.md": "2cdb0d4e04ff5843855ea1247c196ea7d6004a361a919f209ea030969a39a404",
-    "docs/specs/spec_u2_lab_ship_model_v0.1.md": "9de7fff78eb8d16286aeade47b99309c5a29a3629c7a753f200ad5f6dbda1cdf"
+    "docs/gdd/gdd_ship_energy_thermal_model_v0.1.md": "358308e57972ddcdcd8498669e77bf9388ee5b0319f86dd41555cb62997f67a0",
+    "docs/specs/spec_u2_lab_ship_model_v0.1.md": "cf788880a1403ec14d4e877ba2154129fb72f84ae1b0771090f0be1684e5648a"
   },
   "verification": {
     "status": "PASS_ANALYTICAL_AND_DOCUMENTS",
     "date": "2026-10-10",
-    "analytical_check_count": 15,
+    "analytical_check_count": 16,
     "named_risks": [
       "R-SCOPE",
       "R-THERMAL-LEDGER",
@@ -593,14 +649,22 @@
       "affected_recheck_version": "0.7",
       "affected_recheck": {
         "PH-B1": "RESOLVED / NO_BLOCKERS",
-        "AR-1": "RESOLVED / NO_BLOCKERS"
+        "AR-1": "RESOLVED / NO_BLOCKERS",
+        "PH-B1-v0.8": "RESOLVED / NO_BLOCKERS terminology",
+        "PH-B1-v0.9": "RESOLVED / NO_BLOCKERS cold body and hot radiators; independent field recalculation PASS",
+        "PH-B1-v0.10": "RESOLVED / NO_BLOCKERS exclusive surfaces and separate algebraic pump-loop balances; independent four-state area recalculation PASS"
       },
       "open_document_blockers": 0,
-      "scope": "Frozen v0.6 review, then only PH-B1/PH-A1 and AR-1/AR-2 affected v0.7 recheck. Later spec FIT-01/02 clarifications and analytic FIT-03/04 examples were checked by lead, not a new full review.",
+      "scope": "Frozen v0.6 review, then only PH-B1/PH-A1 and AR-1/AR-2 affected v0.7 recheck. Later spec FIT-01/02 clarifications and analytic FIT-03/04 examples were checked by lead, not a new full review. v0.8 clarifies separate TI outer surface versus monolithic hull temperature after operator question; formulas/results unchanged. v0.8 affected terminology confirmed by audit_physics; v0.9 incorporates operator-approved all-available radiator scope and body/hot-radiator split, with one updated analytical point. v0.9 affected review confirmed by audit_physics. v0.10 clarifies permanent ownership of self-contained panels and separate algebraic pump loops; fitting consultation supports testing two construction niches, not a numeric balance approval. v0.10 affected physics recheck confirmed document fingerprints and four-state area recalculation; only subsequent review metadata was added to analytical JSON.",
       "affected_snapshot_fingerprints": {
         "docs/gdd/gdd_ship_energy_thermal_model_v0.1.md": "2cdb0d4e04ff5843855ea1247c196ea7d6004a361a919f209ea030969a39a404",
         "docs/specs/spec_u2_lab_ship_model_v0.1.md": "29df3c835954c572fedc0fffd6948e09688e7892e8c0f37f278545df593d0fa4",
         "docs/research/2026-10-10-ship-model-checks.json": "61b247204f88b9de679d74b456a4f3225affc98d674c736e351a4aa44191d57f"
+      },
+      "affected_snapshot_v0_10_fingerprints": {
+        "docs/gdd/gdd_ship_energy_thermal_model_v0.1.md": "358308e57972ddcdcd8498669e77bf9388ee5b0319f86dd41555cb62997f67a0",
+        "docs/specs/spec_u2_lab_ship_model_v0.1.md": "cf788880a1403ec14d4e877ba2154129fb72f84ae1b0771090f0be1684e5648a",
+        "docs/research/2026-10-10-ship-model-checks.json": "aa34f7f0a927ff5edb11026d34963ebb3a6326f093aceee403dccc00af886cc3"
       }
     },
     "runtime": "NOT RUN: proposal documents and analytical evidence only; CP-01–05 and SM-01–14 runtime acceptance pending"
