@@ -1,0 +1,608 @@
+{
+  "title": "Контрольные расчёты предложения модели корабля",
+  "date": "2026-10-10",
+  "status": "analytical_checks_passed",
+  "author": {
+    "role": "Game Designer",
+    "model": "GPT-6",
+    "agent": "Codex"
+  },
+  "scope": "Независимые аналитические точки; не выполнение runtime U2 Lab, UI QA, server parity или балансный плейтест.",
+  "source_snapshots": {
+    "u2": "2171a20a068749f481d35a3d059e4103e34b79d5",
+    "u2_lab": "f7c6dc274d69d9c98226bda1e8a5e52d99ba9671",
+    "u2_lab_documents": "c95988eb85e8126b4b7a783449e170064dba83f4"
+  },
+  "proposal": "docs/gdd/gdd_ship_energy_thermal_model_v0.1.md",
+  "specification": "docs/specs/spec_u2_lab_ship_model_v0.1.md",
+  "tolerance": {
+    "relative": 1e-08,
+    "absolute_W": 1e-06,
+    "absolute_em_W": 1e-12,
+    "absolute_K": 1e-06,
+    "absolute_time_s": 1e-06,
+    "absolute_energy_J": 1.0
+  },
+  "checks": [
+    {
+      "id": "RAD-SIGNED",
+      "addresses": [
+        "SM-06"
+      ],
+      "risk": "Номинальные МВт вне температуры и потеря знака обмена",
+      "inputs": {
+        "effective_area_m2": 456.0,
+        "background_K": 250.0,
+        "ship_temperatures_K": [
+          500.0,
+          300.0,
+          200.0,
+          250.0
+        ]
+      },
+      "outputs": {
+        "net_out_W": [
+          1515053.1650765624,
+          108437.4052017465,
+          -59632.492577413504,
+          0.0
+        ]
+      }
+    },
+    {
+      "id": "ELECTRIC-ONLINE",
+      "addresses": [
+        "SM-02"
+      ],
+      "risk": "Подмена потока ступени производной заряда",
+      "inputs": {
+        "eta_in": 0.9,
+        "eta_out": 0.9,
+        "source_accepted_W": 10000000.0,
+        "load_delivered_W": 8100000.0
+      },
+      "outputs": {
+        "storage_derivative_W": 0.0,
+        "total_loss_budget_W": 1900000.0,
+        "balance_residual_W": 0.0
+      },
+      "note": "Синтетическая точка; потери показаны до выделения EM из их бюджета."
+    },
+    {
+      "id": "BUFFER-CREDIT",
+      "addresses": [
+        "SM-04",
+        "SM-05"
+      ],
+      "risk": "Аппаратный порог буфера подменяет уставку режима и установленного состава",
+      "inputs": {
+        "capacity_J": 1000000000.0,
+        "policy": "Efficient",
+        "installed_ordinary_work_high_K": [
+          500.0,
+          530.0,
+          560.0
+        ],
+        "absorption_limit_W": 2000000.0,
+        "net_heat_W": 2000000.0,
+        "initial_J": 0.0
+      },
+      "outputs": {
+        "weakest_work_high_K": 500.0,
+        "absorption_setpoint_K": 490.0,
+        "holding_s": 500.0,
+        "stored_J": 1000000000.0,
+        "charge_history_min_K": 490.0
+      },
+      "note": "Синтетический буфер, не паспорт S. 490 K выводятся из состава и политики, не из материала буфера."
+    },
+    {
+      "id": "BUFFER-RETURN",
+      "addresses": [
+        "SM-05"
+      ],
+      "risk": "Разгрузка стирает запас или нарушает ограничения происхождения тепла",
+      "inputs": {
+        "initial_J": 1000000000.0,
+        "charge_history_min_K": 490.0,
+        "weakest_work_high_K": 500.0,
+        "cold_work_low_K": 250.0,
+        "release_W": 1000000.0,
+        "residual_outward_or_cold_loss_W": 1000000.0,
+        "duration_s": 1000.0
+      },
+      "outputs": {
+        "efficient_unload_ship_K": 450.0,
+        "cold_warming_ship_K": 280.0,
+        "both_points_below_charge_history_min": true,
+        "returned_to_host_J_each_case": 1000000000.0,
+        "final_J_each_case": 0.0,
+        "host_heat_storage_change_J_each_case": 0.0
+      },
+      "note": "Две отдельные точки: эффективная разгрузка и прогрев в холоде. Отдача совпадает с остаточным отводом/потерями, поэтому общая температура постоянна."
+    },
+    {
+      "id": "TI-CONTOUR",
+      "addresses": [
+        "SM-07"
+      ],
+      "risk": "Насос нарушает баланс горячей стороны или использует несуществующую площадь",
+      "inputs": {
+        "ship_K": 500.0,
+        "background_K": 250.0,
+        "effective_area_m2": 882.0,
+        "evaporator_conductance_W_per_K": 500000.0,
+        "condenser_conductance_W_per_K": 500000.0,
+        "second_law_efficiency": 0.5,
+        "drive_efficiency": 0.95,
+        "bus_power_W": 4000000.0
+      },
+      "outputs": {
+        "drive_work_W": 3800000.0,
+        "drive_host_heat_W": 200000.0,
+        "cold_removed_W": 5124739.876896761,
+        "hot_rejected_W": 8924739.876896761,
+        "panel_K": 653.4763030072518,
+        "evaporator_K": 489.75052024620646,
+        "condenser_K": 671.3257827610453,
+        "energy_residual_W": 0.0,
+        "radiation_residual_W": 1.862645149230957e-09
+      }
+    },
+    {
+      "id": "TI-INCREMENTAL-GAIN",
+      "addresses": [
+        "SM-07"
+      ],
+      "risk": "Выгода забывает замещённое обычное охлаждение и цену питания",
+      "inputs": {
+        "battery_output_efficiency": 0.9,
+        "generator_marginal_host_heat_W_per_bus_W": 1.5,
+        "same_radiator_pump_in_both_states": true
+      },
+      "outputs": {
+        "bypass_cooling_W": 2930431.7798191407,
+        "battery_extra_path_heat_W": 444444.44444444467,
+        "battery_gain_W": 1549863.6526331757,
+        "generator_gain_W": -4005691.9029223793
+      },
+      "note": "Цена генератора 1.5 — условие контрольной точки. Если радиаторный насос включается дополнительно, его расход и тепло требуется добавить."
+    },
+    {
+      "id": "EM-OBSERVATION",
+      "addresses": [
+        "SM-09"
+      ],
+      "risk": "Малое излучение ошибочно уравнивается по ваттам с IR",
+      "source": "docs/product/energy-cooling-em-fixes-tz-v1.0.md §4.5, строка Электродвигатель S, полная тяга",
+      "inputs": {
+        "stages": [
+          {
+            "class": "high",
+            "actual_power_W": 26912281.0,
+            "lambda": 1e-09
+          },
+          {
+            "class": "medium",
+            "actual_power_W": 29958090.0,
+            "lambda": 3e-10
+          },
+          {
+            "class": "low",
+            "actual_power_W": 50000.0,
+            "lambda": 1e-10
+          }
+        ],
+        "escape_fraction": 1.0,
+        "observer_detect_W_per_m2": 7.2803e-13
+      },
+      "outputs": {
+        "escaped_power_W": 0.035904708,
+        "nominal_range_m": 62646.40152271852
+      },
+      "note": "Независимый расчёт по сводным фактическим ступеням. Серверное обнаружение, временная задержка и энергетическое списание runtime здесь не выполнены."
+    },
+    {
+      "id": "BUFFER-ONE-T-FULL-CYCLE",
+      "addresses": [
+        "SM-05"
+      ],
+      "risk": "После цикла сохраняется скрытый долг либо запас конструкции посчитан дважды",
+      "inputs": {
+        "host_sensible_capacity_J_per_K": 20000000.0,
+        "policy": "Efficient",
+        "weakest_work_high_K": 500.0,
+        "start_and_final_ship_K": 450.0,
+        "capacity_J": 1000000000.0,
+        "net_charge_heat_W": 2000000.0,
+        "net_cool_loss_W": 1000000.0,
+        "initial_buffer_J": 0.0
+      },
+      "outputs": {
+        "warm_to_absorption_s": 400.0,
+        "charge_at_common_490_K_s": 500.0,
+        "cool_to_unload_s": 800.0,
+        "release_at_common_450_K_s": 1000.0,
+        "net_thermal_input_J": 1800000000.0,
+        "net_thermal_output_J": 1800000000.0,
+        "final_buffer_J": 0.0,
+        "final_charge_history": null,
+        "host_state_change_J": 0.0,
+        "cycle_residual_J": 0.0
+      },
+      "note": "Четыре аналитические фазы с постоянными остаточными потоками после прочих тепловых путей. Это контроль термического счёта; полная электросеть и реальная зависимость излучения от температуры проверяются будущим runtime опытом."
+    },
+    {
+      "id": "BUFFER-POLICY-COMPOSITION",
+      "addresses": [
+        "SM-04"
+      ],
+      "risk": "Класс корпуса скрыто повышает предел чужого модуля либо всем режимам навязан один порог",
+      "inputs": {
+        "same_buffer_in_all_cases": true,
+        "efficient_offset_K": 10.0
+      },
+      "outputs": {
+        "cases": [
+          {
+            "hull": "Civilian",
+            "mode": "Efficient",
+            "installed_ordinary_work_high_K": [
+              500.0,
+              530.0,
+              560.0
+            ],
+            "weakest_K": 500.0,
+            "buffer_absorption_setpoint_K": 490.0,
+            "unload_setpoint_K": 450.0
+          },
+          {
+            "hull": "Sport",
+            "mode": "Efficient",
+            "installed_ordinary_work_high_K": [
+              540.0,
+              580.0
+            ],
+            "weakest_K": 540.0,
+            "buffer_absorption_setpoint_K": 530.0,
+            "unload_setpoint_K": 490.0
+          },
+          {
+            "hull": "Sport_with_Civilian_sensor",
+            "mode": "Efficient",
+            "installed_ordinary_work_high_K": [
+              500.0,
+              580.0
+            ],
+            "weakest_K": 500.0,
+            "buffer_absorption_setpoint_K": 490.0,
+            "unload_setpoint_K": 450.0
+          },
+          {
+            "hull": "Military",
+            "mode": "Combat",
+            "weakest_K": 540.0,
+            "main_cooling_setpoint_K": 480.0,
+            "buffer_peak_setpoint_K": 530.0,
+            "unload_setpoint_K": null,
+            "note": "Combat unload setpoint is not specified by the accepted owner."
+          },
+          {
+            "hull": "Stealth",
+            "mode": "Stealth",
+            "entry_ship_K": 320.0,
+            "buffer_holding_setpoint_K": 320.0,
+            "active_radiators_closed": true
+          }
+        ]
+      },
+      "source": "Прямые уточнения оператора 2026-10-10; docs/product/energy-cooling-em-fixes-tz-v1.0.md §5.1–5.5; thermal-control-cascade-civilian §2.2.",
+      "note": "540 K — заданный минимум примерной сборки, не автоматическая замена старой таблицы Sport."
+    },
+    {
+      "id": "BUFFER-CHARGE-HISTORY",
+      "addresses": [
+        "SM-05"
+      ],
+      "risk": "Смена режима разрешает выдавать холодный запас более горячему кораблю",
+      "inputs": {
+        "first_absorption_ship_K": 490.0,
+        "next_absorption_with_positive_stock_ship_K": 310.0,
+        "partial_release_keeps_positive_stock": true,
+        "candidate_release_ship_K": [
+          450.0,
+          310.0,
+          280.0
+        ]
+      },
+      "outputs": {
+        "mixed_stock_history_min_K": 310.0,
+        "release_allowed": [
+          false,
+          false,
+          true
+        ],
+        "after_partial_release_history_min_K": 310.0,
+        "after_empty_history_min_K": null
+      },
+      "source": "docs/product/energy-cooling-em-fixes-tz-v1.0.md §5.5, §15.3.",
+      "note": "Историческая метка, не T_buffer. Политика активации независима от неё; метка дополнительно ограничивает только отдачу."
+    },
+    {
+      "id": "TI-THERMAL-LEDGER",
+      "addresses": [
+        "SM-02",
+        "SM-07"
+      ],
+      "risk": "Qh горячей стороны повторно вычитается из общего теплового узла вместо Qc",
+      "inputs": {
+        "contour_point": "TI-CONTOUR",
+        "battery_output_efficiency": 0.9
+      },
+      "outputs": {
+        "battery_storage_derivative_W": -4444444.444444444,
+        "battery_path_host_heat_W": 444444.44444444467,
+        "host_heat_storage_derivative_W": -4480295.432452316,
+        "hot_loop_radiation_W": 8924739.876896761,
+        "total_energy_residual_W": 0.0
+      },
+      "note": "Общий узел получает потери привода и пути питания, отдаёт Qc; работа W выходит через горячий контур. Только аналитическая точка."
+    },
+    {
+      "id": "COLD-HEAT-PRIORITY",
+      "addresses": [
+        "SM-02",
+        "SM-04"
+      ],
+      "risk": "Один порядок прогрева скрыто ухудшает расход одной из архитектур или считает доступным замёрзший источник",
+      "inputs": {
+        "generators": {
+          "diesel": {
+            "module_id": "generator-diesel-S",
+            "eta_gen": 0.35,
+            "self_export_fraction": 0.45,
+            "fuel_heat_fraction_with_dump": 0.7075
+          },
+          "hydrogen": {
+            "module_id": "generator-hydrogen-S",
+            "eta_gen": 0.55,
+            "self_export_fraction": 0,
+            "fuel_heat_fraction_with_dump": 1.0
+          }
+        },
+        "stove_heat_efficiency": {
+          "diesel": 0.9,
+          "hydrogen": 0.95
+        },
+        "dedicated_dump_electricity_becomes_host_heat": true
+      },
+      "outputs": {
+        "efficient_diesel_priority": "buffer -> available fuel stove -> electric dump",
+        "efficient_hydrogen_priority": "buffer -> available generator electric dump -> fuel stove",
+        "diesel_ideal_fuel_saving_fraction": 0.2138888888888889
+      },
+      "note": "Аналитическое сравнение дополнительного прогрева для текущего среза. Малые EM/aux потери и предел мощности не включены в доли; полный опыт обязан учитывать фактическое питание вентилятора, работоспособность источников и мощность прогрева. Очередь по архитектуре принята оператором 2026-10-10; Маскировка сохраняет запрет печей."
+    },
+    {
+      "id": "TI-HULL-FIELD-PARTITION",
+      "addresses": [
+        "SM-02",
+        "SM-06",
+        "SM-07"
+      ],
+      "risk": "Горячая обшивка получает поток поля по T_ship и повторно греет общий узел",
+      "inputs": {
+        "ship_K": 450.0,
+        "hot_surface_K": 650.0,
+        "field_K": 600.0,
+        "h_W_per_m2_K": 10.0,
+        "hull_area_m2": 100.0
+      },
+      "outputs": {
+        "cases": [
+          {
+            "TI_enabled": true,
+            "connected_hull_fraction": 1.0,
+            "direct_area_m2": 0.0,
+            "hot_area_m2": 100.0,
+            "host_field_out_W": -0.0,
+            "hot_loop_field_out_W": 50000.0
+          },
+          {
+            "TI_enabled": false,
+            "connected_hull_fraction": 0.0,
+            "direct_area_m2": 100.0,
+            "hot_area_m2": 0.0,
+            "host_field_out_W": -150000.0,
+            "hot_loop_field_out_W": 0.0
+          },
+          {
+            "TI_enabled": true,
+            "connected_hull_fraction": 0.4,
+            "direct_area_m2": 60.0,
+            "hot_area_m2": 40.0,
+            "host_field_out_W": -90000.0,
+            "hot_loop_field_out_W": 20000.0
+          }
+        ],
+        "old_wrong_full_hull_host_out_W": -150000.0,
+        "correct_full_hull_hot_out_W": 50000.0,
+        "wrong_temperature_difference_W": 200000.0,
+        "zero_h_recovers_radiation_only": true
+      },
+      "note": "Аналитическая проверка температуры и владельца потока, не новый runtime решатель. В Qh входят излучение и поле горячей части; оставшаяся площадь относится к общему узлу."
+    },
+    {
+      "id": "CANDIDATE-CORRIDOR-ORDER",
+      "addresses": [
+        "SM-04"
+      ],
+      "risk": "Прогрев и охлаждение пересекаются в узком коридоре или Delta=0 ошибочно считается допустимым",
+      "inputs": {
+        "corridor_widths_K": [
+          1.0,
+          12.0,
+          50.0,
+          120.0,
+          250.0
+        ],
+        "rule": "Delta=min(10 K,(Tw-Tc)/12), only Tw>Tc",
+        "nonpositive_widths_K": [
+          0.0,
+          -1.0
+        ]
+      },
+      "outputs": {
+        "cases": [
+          {
+            "corridor_K": 1.0,
+            "step_K": 0.08333333333333333,
+            "warm_first_K": 250.25,
+            "efficient_first_cool_K": 250.58333333333334,
+            "combat_cool_K": 250.5
+          },
+          {
+            "corridor_K": 12.0,
+            "step_K": 1.0,
+            "warm_first_K": 253.0,
+            "efficient_first_cool_K": 257.0,
+            "combat_cool_K": 256.0
+          },
+          {
+            "corridor_K": 50.0,
+            "step_K": 4.166666666666667,
+            "warm_first_K": 262.5,
+            "efficient_first_cool_K": 279.1666666666667,
+            "combat_cool_K": 275.0
+          },
+          {
+            "corridor_K": 120.0,
+            "step_K": 10.0,
+            "warm_first_K": 280.0,
+            "efficient_first_cool_K": 320.0,
+            "combat_cool_K": 310.0
+          },
+          {
+            "corridor_K": 250.0,
+            "step_K": 10.0,
+            "warm_first_K": 280.0,
+            "efficient_first_cool_K": 450.0,
+            "combat_cool_K": 440.0
+          }
+        ],
+        "nonpositive_width_rule_applies": false,
+        "nonpositive_width_label": "Нет общего рабочего интервала ненулевой ширины; формула не применяется"
+      },
+      "note": "Проверена только алгебра порядка уставок кандидата. Реальная устойчивость, масштаб шага и игровой баланс NOT RUN; кандидат не ратифицирован."
+    },
+    {
+      "id": "BUFFER-CAPACITY-VS-POWER",
+      "addresses": [
+        "SM-05",
+        "SM-10"
+      ],
+      "risk": "Большая ёмкость буфера ошибочно считается универсальным улучшением при недостаточной мощности",
+      "inputs": {
+        "host_capacity_J_per_K": 20000000.0,
+        "next_threshold_delta_K": 10.0,
+        "peak_net_heat_W": 2000000.0,
+        "weak_net_heat_W": 500000.0,
+        "buffers": [
+          {
+            "capacity_J": 1000000000.0,
+            "absorption_limit_W": 2000000.0
+          },
+          {
+            "capacity_J": 2000000000.0,
+            "absorption_limit_W": 1000000.0
+          }
+        ]
+      },
+      "outputs": {
+        "first_buffer_peak_hold_s": 500.0,
+        "second_buffer_peak_host_warming_K_per_s": 0.05,
+        "second_buffer_peak_next_threshold_s": 200.0,
+        "second_buffer_peak_stored_J": 200000000.0,
+        "second_buffer_peak_host_heat_J": 200000000.0,
+        "peak_second_energy_residual_J": 0.0,
+        "weak_load_hold_s": [
+          2000.0,
+          4000.0
+        ]
+      },
+      "note": "Синтетическая аналитическая пара, не ТТХ изделий. Остаточные потоки постоянны. Первый буфер выигрывает мощный пик, второй — длительную слабую нагрузку. Масса, слот и весь цикл восстановления сравниваются в будущем опыте."
+    }
+  ],
+  "proposal_version": "0.7",
+  "buffer_model": "Одна T_ship; отдельный запас B; уставки выводятся из класса/режима/состава; theta_ch — память минимальной температуры накопления, не второй тепловой узел.",
+  "document_fingerprints": {
+    "docs/gdd/gdd_ship_energy_thermal_model_v0.1.md": "2cdb0d4e04ff5843855ea1247c196ea7d6004a361a919f209ea030969a39a404",
+    "docs/specs/spec_u2_lab_ship_model_v0.1.md": "9de7fff78eb8d16286aeade47b99309c5a29a3629c7a753f200ad5f6dbda1cdf"
+  },
+  "verification": {
+    "status": "PASS_ANALYTICAL_AND_DOCUMENTS",
+    "date": "2026-10-10",
+    "analytical_check_count": 15,
+    "named_risks": [
+      "R-SCOPE",
+      "R-THERMAL-LEDGER",
+      "R-USER-DECISIONS",
+      "R-DOC-LINKS",
+      "R-COLD-PRIORITY",
+      "R-TI-HULL-FIELD",
+      "R-DISCRETE-PARITY",
+      "R-FITTING-CORRIDOR"
+    ],
+    "document_checks": [
+      "UTF-8/LF",
+      "frontmatter/version/H1",
+      "glossary in model/spec; review terminology defined",
+      "relative links",
+      "related paths",
+      "14 acceptance IDs",
+      "evidence addresses",
+      "INDEX registration"
+    ],
+    "independent_text_review": {
+      "report": "docs/reviews/review_ship_model_adversarial_2026_10_10.md",
+      "reviewed_version": "0.6",
+      "reviewers": {
+        "audit_physics": {
+          "role": "Engineer-physicist",
+          "model": "GPT-6",
+          "verdict": "BLOCKERS",
+          "finding": "PH-B1"
+        },
+        "audit_architecture": {
+          "role": "Architect",
+          "model": "GPT-6",
+          "verdict": "BLOCKERS",
+          "finding": "AR-1"
+        },
+        "audit_producer": {
+          "role": "Producer",
+          "model": "GPT-6",
+          "verdict": "NO_BLOCKERS"
+        },
+        "audit_fitting": {
+          "role": "Game Designer",
+          "model": "GPT-6",
+          "verdict": "NO_BLOCKERS"
+        }
+      },
+      "affected_recheck_version": "0.7",
+      "affected_recheck": {
+        "PH-B1": "RESOLVED / NO_BLOCKERS",
+        "AR-1": "RESOLVED / NO_BLOCKERS"
+      },
+      "open_document_blockers": 0,
+      "scope": "Frozen v0.6 review, then only PH-B1/PH-A1 and AR-1/AR-2 affected v0.7 recheck. Later spec FIT-01/02 clarifications and analytic FIT-03/04 examples were checked by lead, not a new full review.",
+      "affected_snapshot_fingerprints": {
+        "docs/gdd/gdd_ship_energy_thermal_model_v0.1.md": "2cdb0d4e04ff5843855ea1247c196ea7d6004a361a919f209ea030969a39a404",
+        "docs/specs/spec_u2_lab_ship_model_v0.1.md": "29df3c835954c572fedc0fffd6948e09688e7892e8c0f37f278545df593d0fa4",
+        "docs/research/2026-10-10-ship-model-checks.json": "61b247204f88b9de679d74b456a4f3225affc98d674c736e351a4aa44191d57f"
+      }
+    },
+    "runtime": "NOT RUN: proposal documents and analytical evidence only; CP-01–05 and SM-01–14 runtime acceptance pending"
+  }
+}
