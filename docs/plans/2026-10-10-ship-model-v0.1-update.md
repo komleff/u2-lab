@@ -169,7 +169,10 @@ Files:
 
 - create `src/model/v3/types.ts`, `src/model/v3/schema.ts`;
 - modify `src/model/v2/types.ts` только для version dispatch, без изменения old behavior;
-- modify `src/fitting/types.ts`, `src/fitting/compile.ts`, `src/fitting/catalog.ts`;
+- modify `src/fitting/types.ts`, `src/fitting/compile.ts`, `src/fitting/catalog.ts`,
+  `src/fitting/editions.ts`, `src/fitting/validate.ts`;
+- modify `src/catalog/schema.ts` and `src/io/fitting-json.ts` so `/4` and catalog `0.3.0`
+  reach the new validators while `/1|2|3` retain their exact legacy/fitting routes;
 - create versioned catalog files under `src/fitting/data/*-0.3.0.json`;
 - create `tests/model-v3/schema.test.ts`, `tests/fitting/catalog-0.3.0.test.ts`;
 - extend `tests/fitting/catalog-editions.test.ts`, `tests/fitting/input-guards.test.ts`.
@@ -188,50 +191,63 @@ Contract:
 - state persists buffer J + minimum capture K, mode + Masking entry K, governor/generator/
   thermal latches, durability, first-zero-stop flag, emergency exposure, cooldown and RNG;
 - origin is required for every new numeric field; candidate and canonical values remain distinct;
-- `stepSeconds` for the new model is exactly 1 s and duration/phase boundaries are whole seconds.
+- `stepSeconds` for the new model is exactly 1 s and duration/phase boundaries are whole seconds;
+- one explicit `compileFitToShipModelV01` operation promotes a validated old fit into catalog
+  `0.3.0`, displays the structural/numeric/origin diff and produces a new object. Merely selecting
+  the new model on an old fit is rejected; no parser silently promotes or mutates source bytes.
 
 Exit: valid Sputnik/Mir/stealth reference compile; malformed/nonfinite/negative values,
 duplicate surfaces/source representation, impossible temperature ordering, invalid stocks,
 unknown circuit owners and missing origins fail atomically with path+reason. Old fixtures keep
-their exact old discriminators and replay path.
+their exact old discriminators and replay path. Positive parse/serialize covers `/4` + `0.3.0`;
+negative cases prove old fit → new model refusal without the explicit compilation operation.
 
 ### T2 — 1 s power/thermal controller and automatic cascades
 
 Files:
 
 - create `src/model/v3/power.ts`, `thermal-control.ts`, `heating.ts`, `step.ts`;
+- create `src/model/v3/em-ledger.ts` as the physical coupling owner for raw/escaped/captured EM;
 - reuse pure v2 ledger helpers only after old-model regression proves byte/number stability;
-- modify `src/runner/fitting-run.ts` and `src/scenarios/mission.ts` for version dispatch;
+- modify `src/scenarios/fitting.ts`, `src/scenarios/mission.ts`, `src/runner/run.ts`,
+  `src/runner/fitting-run.ts` and `src/runner/protocol.ts` for `/4` context/result/Worker dispatch;
 - create `tests/model-v3/power-thermal-ledger.test.ts`,
-  `tests/model-v3/discrete-profile.test.ts`, `tests/model-v3/thermal-control.test.ts`.
+  `tests/model-v3/em-thermal-ledger.test.ts`, `tests/model-v3/discrete-profile.test.ts`,
+  `tests/model-v3/thermal-control.test.ts`; extend actual-Worker protocol tests for `/4`.
 
 Behavior:
 
 1. Close the electrical balance with input/output efficiencies: source follows actual load
    when the accumulator is full, and actual work is clipped by delivered power when empty;
    rejected external electric input does not become hidden host heat.
-2. Compute `T_w=min(T_work_high)` and `T_c=max(T_work_low)` over installed ordinary
+2. From actual delivered electrical stages compute `rawEmW=escapedEmW+capturedEmW` in the kernel.
+   Only `escapedEmW` leaves the ship energy/heat ledger; captured shielding loss stays in host
+   heat exactly once. The thermal controller consumes that coupled host heat in the same step;
+   signature adapters later project these frozen outputs and never recalculate the split.
+3. Compute `T_w=min(T_work_high)` and `T_c=max(T_work_low)` over installed ordinary
    modules, including switched-off modules; exclude thermal regulators.
-3. Apply normal linear derate and accelerated wear between work/critical boundaries;
+4. Apply normal linear derate and accelerated wear between work/critical boundaries;
    stop at critical. Passive exchange remains after module stop. Report incompatible
    `T_w<=T_c`, do not invent a common corridor.
-4. Evaluate natural exchange and current device heat first; allocate the accepted Efficient,
+5. Evaluate natural exchange and current device heat first; allocate the accepted Efficient,
    Combat or Masking cascade. Earlier active stages run to available maximum, exactly one
    current stage regulates, later stages wait for their own threshold.
-5. At equal setpoints the later stage regulates; the earlier stage runs at available maximum.
+6. At equal setpoints the later stage regulates; the earlier stage runs at available maximum.
    Heating and cooling never fight; buffer recovery through cooling does not start a heater.
-6. Heating order: diesel generator — fuel furnace then electric; H₂ generator — electric
+7. Heating order: diesel generator — fuel furnace then electric; H₂ generator — electric
    then furnace; no generator — battery electric then compatible furnace; Masking — electric only.
    Furnaces require fuel and delivered auxiliary power, efficiency 0.90/0.95.
-7. At each 1 s boundary request only the power needed to reach/hold the setpoint by interval end.
+8. At each 1 s boundary request only the power needed to reach/hold the setpoint by interval end.
    Clip depletion/critical crossings inside the interval so stocks never go negative, but do not
    grant a later reserve before the next controller boundary.
-8. Keep a separate continuous/reference helper for convergence studies; it never decides the
+9. Keep a separate continuous/reference helper for convergence studies; it never decides the
    production Lab request or overwrites a stored result.
 
 Exit: CP-01–04 pass, including 1.2 MW in CP-01, no premature reserve, one regulator at equal
 setpoints and no negative E/B/fuel or work past critical boundary. Existing v2 convergence,
-mission and ledger tests remain unchanged.
+mission and ledger tests remain unchanged. Actual Worker accepts `/4`, starts and pauses through
+the new runner branch. Shield off/on proves `raw=escaped+captured`, a closed total residual and
+causal host-temperature/controller change from only the retained part.
 
 ### T3 — buffer, surfaces and both thermoinverters
 
@@ -268,7 +284,8 @@ returns the buffer debt or reports the exact unreachable remainder/reason.
 Files:
 
 - create `src/model/v3/durability.ts`, `src/model/v3/random.ts`;
-- modify `src/runner/fitting-run.ts`, `src/io/fitting-result.ts`, worker checkpoint validation;
+- modify `src/runner/fitting-run.ts`, `src/runner/run.ts`, `src/runner/protocol.ts`,
+  `src/io/fitting-json.ts`, `src/io/fitting-result.ts` and Worker checkpoint validation;
 - create `tests/model-v3/durability.test.ts`, `tests/model-v3/persistence.test.ts`;
 - extend `tests/fitting/io.test.ts`, `tests/fitting/mission-io.test.ts`.
 
@@ -283,13 +300,18 @@ Behavior:
 - malformed or future state rejects atomically; no field silently defaults during continuation.
 
 Exit: CP-05 after 59 s + save + 1 s matches uninterrupted 60 s for request, failure, RNG,
-stocks, latches and cooldown. Repeated import does not reroll; old results stay frozen.
+stocks, latches and cooldown. One actual-Worker `/4` chain start→pause→export result/checkpoint→
+atomic import→resume matches uninterrupted execution. Repeated import does not reroll; malformed
+future state is rejected; old fit/results keep literal replay and never enter v3 restore dispatch.
 
 ### T5 — Masking, signatures, observer and UI explanation
 
 Files:
 
-- extend new-model adapters in `src/signatures/physics.ts`, `runtime.ts`, `config.ts`;
+- extend new-model adapters in `src/signatures/physics.ts`, `runtime.ts`, `config.ts`; adapters
+  consume the v3 kernel `raw/escaped/captured` ledger and do not change host heat;
+- modify `src/app/main.ts` and `src/app/fitting-workspace.ts` for explicit catalog `0.3.0` /
+  model selection and the visible old-fit compilation action with diff/provenance;
 - modify `src/app/fitting-ui/conditions.ts`, `ship-view.ts`, `lab-channels.ts`,
   `signatures.ts`, `signature-comparison.ts`, `compare-view.ts`, `result-context.ts`;
 - modify `src/app/fitting.ts` and styles only for the accepted presentation;
@@ -301,8 +323,8 @@ Behavior:
 - Masking closes managed radiators and disables pumps/TI; buffer holds entry temperature then
   debt grows. Pilot thrust has no extra mode cap; actual delivered load drives heat/IR/EM;
 - IR uses actual outward body/radiator/hot-circuit/exhaust paths and signed contrast, including
-  cold silhouette. EM uses actual delivered stages; shielding reduces escape, returns retained
-  energy as host heat and degrades own antenna response;
+  cold silhouette. EM uses the T2 actual-stage split; shielding reduces escaped output, while
+  its already coupled retained host heat changes temperature/control, and degrades own antenna response;
 - 10/20/40 km and other distances are reference calculations for the same observer conditions,
   never a guarantee of stealth or knowledge about an enemy contact;
 - show work/time, stocks, first limiting installed module, cascade/stage reason, buffer debt and
@@ -313,7 +335,9 @@ Behavior:
 Exit: same maneuver outside/inside Masking has the same requested flight command and ordinary
 limits, while actual signatures/debt differ causally; radiators never auto-open for maneuver.
 Shielding comparison shows lower escaped EM plus higher host heat/weaker own sensor, with no
-free range leak. Desktop 1440, touch 390 and tablet 820 preserve current control ownership.
+free range leak. Native UI chain compiles an old fit only by the explicit operation, starts `/4`,
+and displays its new discriminator; direct model switching on the old fit is refused. Desktop 1440,
+touch 390 and tablet 820 preserve current control ownership.
 
 ### T6 — candidate experiments, full QA and delivery
 
@@ -376,6 +400,7 @@ QA/Code Review named risks:
 - one surface or energy source counted twice;
 - reserve activated inside the second before its threshold boundary;
 - stock clamp erases energy or permits unpaid work;
+- shielding changes observer EM without the matching escaped/captured/host-heat ledger change;
 - buffer debt/marker, failure exposure or RNG lost on mode/save;
 - pump-radiator area leaks into common TI while its pump is off;
 - `T_ship` used instead of `T_hot` for hot-circuit field exchange;
