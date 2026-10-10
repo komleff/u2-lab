@@ -1,8 +1,9 @@
+import { validateSignatureSettings } from "../signatures/config";
 import type { ShipFit, CandidateCatalog } from "../fitting/types";
 import type { RunSpecV2 } from "../model/v2/types";
 import type { RunResultV2 } from "../runner/run";
 import { freshMissionConditions, validMissionConditions, type WorkspaceConditions } from "../scenarios/mission";
-import { MODEL_MISSION } from "../model/v2/types";
+import { isMissionModel } from "../model/v2/types";
 import { FittingSession } from "./fitting-session";
 import { parseFitJson, parseExperimentJson } from "../io/fitting-json";
 import { parseResultJson } from "../io/fitting-result";
@@ -104,6 +105,35 @@ export class FittingWorkspace {
       baselineId: this.baselineId,
     });
   }
+  // Только для синхронного рендера: одна отделённая копия, повторные чтения
+  // не копируют историю заново. Обработчики и экспорт используют сам workspace.
+  snapshotForRender(): WorkspaceRead {
+    const data = this.snapshot();
+    const selected = () => data.variants.find(v => v.id === data.selectedId)!;
+    const prepared = new Map<Variant, ReturnType<FittingWorkspace["prepare"]>>();
+    const prepare = (v = selected()) => {
+      let value = prepared.get(v);
+      if (!value) { value = this.prepare(v); prepared.set(v, value); }
+      return value;
+    };
+    return {
+      catalog: this.catalog, selectedId: data.selectedId,
+      getSelected: selected,
+      getVariants: () => data.variants,
+      getFit: () => selected().fit,
+      getActive: () => data.active,
+      getCurrentResult: () => {
+        const r = (data.active ? data.variants.find(v => v.id === data.active!.variantId) : selected())?.result;
+        return r && (!data.active || r.runId === data.active.runId) ? r : undefined;
+      },
+      isPreviousResult: (v = selected()) => !!(v.result && data.active?.variantId === v.id && v.result.runId !== data.active.runId),
+      getFrozen: () => data.frozen,
+      getComparisonBase: () => data.baselineId === "reference" ? data.frozen : data.variants.find(v => v.id === data.baselineId)?.result,
+      getComparisonBaseId: () => data.baselineId,
+      prepare,
+      isStale: (v = selected()) => staleVariant(v, prepare(v)),
+    };
+  }
   select(id: string) {
     if (this.variants.some((v) => v.id === id)) this.selectedId = id;
   }
@@ -133,7 +163,7 @@ export class FittingWorkspace {
     const validation=this.applyFit(getPresetFit(id,this.catalog.version));
     if(validation.valid) {
       const conditions={...this.selected().conditions,selectedWorkGroup:undefined};
-      if(conditions.modelVersion===MODEL_MISSION && mode!==undefined) {
+      if(isMissionModel(conditions.modelVersion ?? "") && mode!==undefined) {
         const defaults=freshMissionConditions(this.selected().fit,this.catalog);
         conditions.referenceVfaMS=defaults.referenceVfaMS;
         conditions.cruiseSpeedMS=mode===null?null:mode*defaults.referenceVfaMS!;
@@ -187,8 +217,9 @@ export class FittingWorkspace {
       }
       validationFit.builtinModes = structuredClone(fit.builtinModes);
     }
-    const mission = conditions.modelVersion === MODEL_MISSION;
+    const mission = isMissionModel(conditions.modelVersion ?? "");
     if (mission && !validMissionConditions(conditions)) return false;
+    if(conditions.signatures){try{validateSignatureSettings(conditions.signatures);}catch{return false;}}
     if (mission) conditions = { ...conditions, stationReplenish: conditions.stationReplenish === undefined ? false : conditions.stationReplenish };
     const checked = makeMiningRun(validationFit, this.catalog, mission ? {...conditions,workSeconds:1,approachSeconds:1,brakingSeconds:1,serviceSeconds:1,idleSeconds:1} : conditions);
     if (!checked.ok) return false;
@@ -197,14 +228,7 @@ export class FittingWorkspace {
     return true;
   }
   isStale(v = this.selected()) {
-    const prepared = this.prepare(v);
-    return (
-      !!v.result &&
-      (JSON.stringify(v.result.spec.resolvedShip.fit) !==
-        JSON.stringify(v.fit) ||
-        !prepared.ok ||
-        JSON.stringify(v.result.spec) !== JSON.stringify(prepared.value))
-    );
+    return staleVariant(v, this.prepare(v));
   }
   prepare(v = this.selected()) {
     return v.replaySpec
@@ -237,6 +261,12 @@ export class FittingWorkspace {
   }
   setStatus(runId: string, status: "running" | "paused") {
     if (this.active?.runId === runId) this.active.status = status;
+  }
+  startCheckpoint(runId:string) {
+    const v=this.selected(),r=v.result;
+    if(this.active||!r?.signatures||r.status!=="paused")return {ok:false as const,errors:[{path:"checkpoint",message:"Нужен частичный signature checkpoint без активного теста"}]};
+    this.active={runId,variantId:v.id,variantName:v.name,fitRevision:r.spec.resolvedShip.fit.fitRevision,spec:structuredClone(r.spec),status:"running"};
+    return {ok:true as const,value:this.getActive()!};
   }
   acceptResult(r: RunResultV2) {
     if (r.runId !== this.active?.runId) return false;
@@ -329,4 +359,13 @@ export class FittingWorkspace {
       };
     }
   }
+}
+export type WorkspaceRead = Pick<FittingWorkspace,
+  "catalog" | "selectedId" | "getSelected" | "getVariants" | "getFit" |
+  "getActive" | "getCurrentResult" | "isPreviousResult" | "getFrozen" |
+  "getComparisonBase" | "getComparisonBaseId" | "prepare" | "isStale">;
+
+function staleVariant(v: Variant, prepared: ReturnType<FittingWorkspace["prepare"]>) {
+  return !!v.result && (JSON.stringify(v.result.spec.resolvedShip.fit) !== JSON.stringify(v.fit) ||
+    !prepared.ok || JSON.stringify(v.result.spec) !== JSON.stringify(prepared.value));
 }

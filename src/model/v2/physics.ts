@@ -9,6 +9,11 @@ import type {
 import { capacity } from "../types";
 import { updateThermalGates } from "../thermal-gates";
 import { backgroundFraction, thermalDuty } from "../scheduler";
+import type { SignatureSettings } from "../../signatures/config";
+import { engineIr, electricMotorLosses, generatorIr, hydrogenCoolerIr, type EngineIrKind } from "../../signatures/sources";
+import { emComponent, type ActualElectricalStage } from "../../signatures/em-cs";
+import type { IrProjectionInput, IrAngularProfile } from "../../signatures/projection";
+import { gasSpecificEnergy, rkMean, type SignatureFrame, type SignatureExportTap } from "../../signatures/physics";
 export const SIGMA = 5.670374419e-8;
 export type ActionRequest = { moduleId: string; duty: number };
 const eps = 1e-10;
@@ -16,12 +21,14 @@ import type { Cause, MiningStepSummary } from "./types";
 export type PhysicsModule = Module & {
   output?: "mining" | "drive";
   requestKey?: string;
+  signature?: { size: "S" | "M"; kind: EngineIrKind; motorEfficiency: number; profile: IrAngularProfile };
 };
 export type PhysicsShip = Omit<ShipConfig, "modules"> & {
   modules: PhysicsModule[];
   returnFraction: number;
   cargoLimitM3: number;
   targetLimitM3: number;
+  signatures?: SignatureSettings;
 };
 export function stepPhysicsV2(
   ship: PhysicsShip,
@@ -41,6 +48,7 @@ export function stepPhysicsV2(
   };
   const events = updateThermalGates(ship, state);
   const total: TickTelemetry = {};
+  const signatureFrames: SignatureFrame[] | undefined = ship.signatures ? [] : undefined;
   const consumptionKg: Record<string, number> = {};
   const extractedByInstanceM3: Record<string, number> = {};
   const mining: MiningStepSummary = {
@@ -74,11 +82,13 @@ export function stepPhysicsV2(
   let maxTemperatureK = input.temperatureK;
   let left = dt,
     iteration = 0;
+  const targetTimeS=input.timeSeconds+dt;
   const add = (k: string, v: number, h: number) =>
     (total[k] = (total[k] ?? 0) + v * h);
   const allowed = (m: Module) => thermalDuty(ship, state, m.id);
   // eps запасов не является разрешением отбросить часть физического времени.
-  while (left > 0) {
+  while (ship.signatures ? state.timeSeconds < targetTimeS : left > 0) {
+    if(ship.signatures)left=targetTimeS-state.timeSeconds;
     if (++iteration > 10000) throw new Error("Unresolved event boundary");
     const live = ship.modules.filter(
       (m) =>
@@ -136,6 +146,8 @@ export function stepPhysicsV2(
     if (state.chargeJ <= 0.9 * qmax) state.sourceRecovery = true;
     if (state.chargeJ >= qmax - eps) state.sourceRecovery = false;
     const evaluate = (coolingDuty: number) => {
+      const signature = ship.signatures ? { stages: [] as ActualElectricalStage[], components: [] as IrProjectionInput[],
+        exports: [] as SignatureExportTap[], coolerInputs: [] as { id: string; flowKgS: number; auxW: number }[], hostIrDebitW: 0 } : undefined;
       const flows: Record<string, number> = {}, consumerFlows: Record<string, number> = {};
       let chemical = 0,
         genHeat = 0,
@@ -177,9 +189,16 @@ export function stepPhysicsV2(
       const coolingRequests = coolers.map((m) => {
         let q = 0,
           work = m.auxW;
+        let flow = 0;
         if (m.kind === "h2") {
-          q = tankLive(m) ? m.coolingW * allowed(m) * coolingDuty : 0;
-          work = q > 0 ? m.auxW * allowed(m) * coolingDuty : 0;
+          if (ship.signatures) {
+            flow = tankLive(m) ? ((m as PhysicsModule).signature!.size === "M" ? 7.5 : 1.875) * allowed(m) * coolingDuty : 0;
+            work = flow > 0 ? m.auxW * allowed(m) * coolingDuty : 0;
+            q = flow * gasSpecificEnergy(state.temperatureK) - work;
+          } else {
+            q = tankLive(m) ? m.coolingW * allowed(m) * coolingDuty : 0;
+            work = q > 0 ? m.auxW * allowed(m) * coolingDuty : 0;
+          }
         }
         if (m.kind === "thermoinverter" && m.hotK > state.temperatureK) {
           const cop =
@@ -195,7 +214,7 @@ export function stepPhysicsV2(
         const deployed = m.kind !== "radiator" || m.auxW === 0 ||
           state.temperatureK > env.effectiveBackgroundK + eps;
         if (m.kind === "radiator") work = deployed ? m.auxW * allowed(m) : 0;
-        return { m, q, work, deployed };
+        return { m, q, work, deployed, flow };
       });
       const coolingRequest = coolingRequests.reduce((s, x) => s + x.work, 0);
       const demand = ship.hullPowerW + activeRequest + coolingRequest;
@@ -269,6 +288,8 @@ export function stepPhysicsV2(
         state.chargeJ >= qmax - eps ? withdraw : Infinity,
       );
       const curtailed = sourceBus - storedIn / ship.chargeEfficiency;
+      if (signature) signature.stages.push({ id: "battery:charge",kind:"battery_charge",actualW:storedIn/ship.chargeEfficiency },
+        { id:"battery:discharge",kind:"battery_discharge",actualW:withdraw }, { id:"protected:hull",kind:"protected_processing",actualW:hull });
       const chargeLoss = storedIn * (1 / ship.chargeEfficiency - 1),
         dischargeLoss = withdraw - delivered;
       let batteryRate = storedIn - withdraw;
@@ -286,6 +307,12 @@ export function stepPhysicsV2(
         genHeat += waste * (1 - m.exportFraction);
         exhaust += waste * m.exportFraction;
         pathLoss += electric * (1 - m.pathEfficiency);
+        if (signature) {
+          signature.stages.push({id:"generator:"+m.id,kind:"generator_output",actualW:electric});
+          const absoluteIrW = generatorIr(m.species === "hydrogen" ? "hydrogen" : "diesel", waste * m.exportFraction);
+          signature.components.push({id:"generator:"+m.id,profile:"aft",absoluteIrW,contrastW:absoluteIrW});
+          signature.exports.push({id:"generator:"+m.id,kind:m.species==="hydrogen"?"generator-hydrogen":"generator-diesel",powerW:waste*m.exportFraction,absoluteIrW,hostHeatDebitW:0});
+        }
       }
       for (const m of live.filter((m) => m.kind === "engine" && tankLive(m))) {
         const f = m.forceN * (req.get(m.id) ?? 0) * allowed(m),
@@ -297,6 +324,11 @@ export function stepPhysicsV2(
         engineUseful += power * m.efficiency;
         engineHeat += power * (1 - m.efficiency) * m.hostFraction;
         exhaust += power * (1 - m.efficiency) * (1 - m.hostFraction);
+        if (signature) {
+          const own = engineIr({kind:(m as PhysicsModule).signature!.kind,enabled:true,actualSourceW:power*(1-m.efficiency)*(1-m.hostFraction)});
+          signature.components.push({id:"engine:"+m.id,profile:(m as PhysicsModule).signature!.profile,absoluteIrW:own.absoluteIrW,contrastW:own.absoluteIrW});
+          signature.exports.push({id:"engine:"+m.id,kind:((m as PhysicsModule).signature!.kind==="hydrogen"?"engine-hydrogen":"engine-diesel"),powerW:own.basisW,absoluteIrW:own.absoluteIrW,hostHeatDebitW:0});
+        }
         thrust += f;
       }
       let propulsionShortfall = false;
@@ -318,6 +350,17 @@ export function stepPhysicsV2(
               : 0
             : activeRatio);
         instanceActual[m.id] = actual;
+        if (signature) {
+          signature.stages.push({id:"consumer:"+m.id,kind:"consumer_input",actualW:actual});
+          if ((m as PhysicsModule).output === "drive") {
+            const losses = electricMotorLosses({actualBusW:actual,pathEfficiency:m.pathEfficiency,motorEfficiency:(m as PhysicsModule).signature!.motorEfficiency});
+            const ownWaste = losses.motorWasteW;
+            const own = engineIr({kind:"electric",enabled:true,actualSourceW:ownWaste});
+            signature.hostIrDebitW += own.hostHeatDebitW;
+            signature.components.push({id:"engine:"+m.id,profile:(m as PhysicsModule).signature!.profile,absoluteIrW:own.absoluteIrW,contrastW:own.absoluteIrW});
+            signature.exports.push({id:"engine:"+m.id,kind:"engine-electric",powerW:own.basisW,absoluteIrW:own.absoluteIrW,hostHeatDebitW:own.hostHeatDebitW,pathLossW:losses.pathLossW,motorInputW:losses.motorInputW});
+          }
+        }
         loadHeat += actual * (1 - m.efficiency);
         if ((m as PhysicsModule).output === "mining") {
           const emitted = actual * m.efficiency;
@@ -355,18 +398,25 @@ export function stepPhysicsV2(
         radiatorArea = ship.hullRadiationM2;
       for (const x of coolingRequests) {
         const ratio = x.work > 0 ? activeRatio : 1;
+        if (signature) signature.stages.push({id:"consumer:"+x.m.id,kind:"consumer_input",actualW:x.work*ratio});
         if (x.m.kind === "h2" && tankLive(x.m)) {
           const q = x.q * ratio,
             aux = x.work * ratio;
           h2 += q;
           h2AuxHeat += aux;
-          const flow = (q + aux) / x.m.qJKg;
+          const flow = ship.signatures ? x.flow * ratio : (q + aux) / x.m.qJKg;
+          if (signature) signature.coolerInputs.push({id:x.m.id,flowKgS:flow,auxW:aux});
           fuelFlow(x.m, flow);
           coolantFlowKgS += flow;
         }
         if (x.m.kind === "thermoinverter") {
           ti += x.q * ratio;
           tiReject += (x.q + x.work) * ratio;
+          if (signature) {
+            const absoluteIrW = (x.q+x.work)*ratio;
+            const absolute = x.m.hotK > env.effectiveBackgroundK ? absoluteIrW / (1-(env.effectiveBackgroundK/x.m.hotK)**4) : 0;
+            signature.components.push({id:"ti:"+x.m.id,profile:"aft",absoluteIrW:absolute,contrastW:absoluteIrW});
+          }
         }
         if (x.m.kind === "radiator") {
           radiatorArea += x.deployed ? x.m.areaM2 * (x.m.auxW > 0 ? ratio : 1) : 0;
@@ -393,6 +443,10 @@ export function stepPhysicsV2(
         env.energyInputs
           .filter((x) => x.representation === "heat")
           .reduce((n, x) => n + x.powerW, 0);
+      const hostLossBudgetW = signature ? hull + genHeat + pathLoss + loadHeat + chargeLoss + dischargeLoss + radiatorHostHeat : 0;
+      const em = signature ? emComponent({stages:signature.stages,hostLossBudgetW,otherHostExportW:signature.hostIrDebitW,
+        shieldingTransmissions:ship.signatures!.shielding,intentionalRfW:0}) : undefined;
+      const hostDebitW = signature ? signature.hostIrDebitW + em!.escapedParasiticW : 0;
       const constantHeat =
         hull +
         genHeat +
@@ -408,12 +462,13 @@ export function stepPhysicsV2(
         h2 -
         ti -
         bufferAbsorb +
-        bufferRelease;
+        bufferRelease - hostDebitW;
       const net = (t: number) =>
         env.law === "radiative"
           ? radiatorArea * SIGMA * (t ** 4 - env.effectiveBackgroundK ** 4)
           : env.linearWK * (t - env.effectiveBackgroundK);
-      return { flows, consumerFlows, chemical, genHeat, exhaust, pathLoss, engineHeat, thrust, engineUseful, solarHeat, solar, coolingRequests, coolingRequest, fraction, genBus, sourceBus, recharge, activeRatio, active, hull, coolingBus, bg, delivered, curtailed, chargeLoss, dischargeLoss, batteryRate, loadHeat, beam, workRate, returnHeat, electricUseful, instanceActual, instanceBeam, instanceForce, instanceWork, coolantFlowKgS, h2, ti, tiReject, h2AuxHeat, radiatorHostHeat, radiatorArea, bufferAbsorb, bufferRelease, bufferRates, direct, constantHeat, net, propulsionShortfall };
+      const thermalNet = (t: number) => net(t) + (signature ? signature.coolerInputs.reduce((n,c)=>n+c.flowKgS*(gasSpecificEnergy(t)-gasSpecificEnergy(state.temperatureK)),0) : 0);
+      return { signature, hostLossBudgetW, em, hostDebitW, flows, consumerFlows, chemical, genHeat, exhaust, pathLoss, engineHeat, thrust, engineUseful, solarHeat, solar, coolingRequests, coolingRequest, fraction, genBus, sourceBus, recharge, activeRatio, active, hull, coolingBus, bg, delivered, curtailed, chargeLoss, dischargeLoss, batteryRate, loadHeat, beam, workRate, returnHeat, electricUseful, instanceActual, instanceBeam, instanceForce, instanceWork, coolantFlowKgS, h2, ti, tiReject, h2AuxHeat, radiatorHostHeat, radiatorArea, bufferAbsorb, bufferRelease, bufferRates, direct, constantHeat, net: thermalNet, propulsionShortfall };
     };
     let ledger = evaluate(0), coolingDuty = 0;
     // Сначала обычные signed paths и actual bus/генератор/потери. Stored excess
@@ -445,17 +500,16 @@ export function stepPhysicsV2(
         }
       }
     }
-    const { flows, consumerFlows, chemical, genHeat, exhaust, pathLoss, engineHeat, thrust, engineUseful, solarHeat, solar, coolingRequests, coolingRequest, fraction, genBus, sourceBus, recharge, activeRatio, active, hull, coolingBus, bg, delivered, curtailed, chargeLoss, dischargeLoss, batteryRate, loadHeat, beam, workRate, returnHeat, electricUseful, instanceActual, instanceBeam, instanceForce, instanceWork, coolantFlowKgS, h2, ti, tiReject, h2AuxHeat, radiatorHostHeat, radiatorArea, bufferAbsorb, bufferRelease, bufferRates, direct, constantHeat, net, propulsionShortfall } = ledger;
+    const { signature, hostLossBudgetW, em, hostDebitW, flows, consumerFlows, chemical, genHeat, exhaust, pathLoss, engineHeat, thrust, engineUseful, solarHeat, solar, coolingRequests, coolingRequest, fraction, genBus, sourceBus, recharge, activeRatio, active, hull, coolingBus, bg, delivered, curtailed, chargeLoss, dischargeLoss, batteryRate, loadHeat, beam, workRate, returnHeat, electricUseful, instanceActual, instanceBeam, instanceForce, instanceWork, coolantFlowKgS, h2, ti, tiReject, h2AuxHeat, radiatorHostHeat, radiatorArea, bufferAbsorb, bufferRelease, bufferRates, direct, constantHeat, net, propulsionShortfall } = ledger;
     mining.propulsionShortfall ||= propulsionShortfall;
-    const temperatureAfter = (h: number) => {
+    const rkEvaluation = (h: number) => {
       const f = (t: number) => (constantHeat - net(t)) / ship.heatCapacityJK;
-      const t = state.temperatureK,
-        k1 = f(t),
-        k2 = f(t + (h * k1) / 2),
-        k3 = f(t + (h * k2) / 2),
-        k4 = f(t + h * k3);
-      return t + (h * (k1 + 2 * k2 + 2 * k3 + k4)) / 6;
+      const t = state.temperatureK, k1 = f(t), t2 = t + h * k1 / 2,
+        k2 = f(t2), t3 = t + h * k2 / 2, k3 = f(t3), t4 = t + h * k3, k4 = f(t4);
+      return { endTemperatureK: t + (h * (k1 + 2 * k2 + 2 * k3 + k4)) / 6,
+        temperatures: [t,t2,t3,t4] as [number,number,number,number], derivatives: [k1,k2,k3,k4] as [number,number,number,number] };
     };
+    const temperatureAfter = (h: number) => rkEvaluation(h).endTemperatureK;
     let h = left;
     const boundary = (time: number) => {
       // Даже очень короткое истощение меняет запас до пересчёта потоков:
@@ -474,8 +528,9 @@ export function stepPhysicsV2(
             Math.max(state.temperatureK, env.effectiveBackgroundK) ** 3) /
           ship.heatCapacityJK
         : env.linearWK / ship.heatCapacityJK;
-    if (thermalSlope > 0 && Math.abs(thermalRate) > eps) {
-      boundary(0.05 / thermalSlope);
+    const h2Slope = signature ? signature.coolerInputs.reduce((n,c)=>n+c.flowKgS*14200,0) / ship.heatCapacityJK : 0;
+    if (thermalSlope + h2Slope > 0 && Math.abs(thermalRate) > eps) {
+      boundary(0.05 / (thermalSlope + h2Slope));
       boundary(
         (0.02 * Math.max(1, state.temperatureK, env.effectiveBackgroundK)) /
           Math.abs(thermalRate),
@@ -594,6 +649,15 @@ export function stepPhysicsV2(
       }
     }
     if (!(h > 0 && Number.isFinite(h))) h = Math.min(left, 1e-8);
+    if(signature){
+      // В новой модели физическая энергия и causal history имеют один clock.
+      // Ресурсный h превращаем в представленную границу, затем используем её
+      // реальную ширину во всех RK/газовых/электрических интегралах. Остаток
+      // вычитания меньше ULP не создаёт отдельного нулевого source interval.
+      const endS=Math.min(targetTimeS,state.timeSeconds+h);
+      h=endS-state.timeSeconds;
+      if(!(h>0))throw new RangeError("Physical clock cannot resolve the selected source boundary");
+    }
     const desired = targetReached
       ? 0
       : rawLoads
@@ -680,14 +744,38 @@ export function stepPhysicsV2(
       add("coolingClosed:" + m.id, closed ? 1 : 0, h);
     }
     coolantConsumedKg += coolantFlowKgS * h;
-    const tNext = Math.max(0, temperatureAfter(h));
+    const rk = signature ? rkEvaluation(h) : undefined;
+    const tNext = Math.max(0, rk ? rk.endTemperatureK : temperatureAfter(h));
     const thermalDelta = ship.heatCapacityJK * (tNext - startT);
-    const radiationNet = (constantHeat * h - thermalDelta) / h;
+    const coolerExports = signature ? signature.coolerInputs.map(c => {
+      const gasMeanW = c.flowKgS * rkMean(rk!.temperatures.map(gasSpecificEnergy));
+      return { ...c, gasMeanW, netCoolingMeanW: gasMeanW - c.auxW, allocatedIrBudgetMeanW:.01*gasMeanW,
+        contrastRkMeanW:rkMean(rk!.temperatures.map(t=>hydrogenCoolerIr(c.flowKgS*gasSpecificEnergy(t),c.flowKgS,env.effectiveBackgroundK).contrastW)) };
+    }) : undefined;
+    const h2Mean = coolerExports ? coolerExports.reduce((n,c)=>n+c.netCoolingMeanW,0) : h2;
+    const radiationNet = signature ? env.law === "radiative" ? radiatorArea * SIGMA * (rkMean(rk!.temperatures.map(t=>t**4)) - env.effectiveBackgroundK**4)
+      : env.linearWK * (rkMean(rk!.temperatures) - env.effectiveBackgroundK) : (constantHeat * h - thermalDelta) / h;
     const radIn =
       env.law === "radiative"
         ? radiatorArea * SIGMA * env.effectiveBackgroundK ** 4
         : Math.max(0, -radiationNet);
     const radOut = radIn + radiationNet;
+    if (signature) {
+      if (env.law !== "radiative") {
+        const expectedOut = radiatorArea * SIGMA * rkMean(rk!.temperatures.map(t=>t**4));
+        const expectedNet = expectedOut - radiatorArea * SIGMA * env.effectiveBackgroundK**4;
+        const matches = (actual: number, expected: number) => expected === 0 ? actual === 0 : Math.abs(actual-expected) <= 1e-6*Math.abs(expected)+1e-12*Math.abs(expected);
+        if (!matches(radOut,expectedOut) || !matches(radiationNet,expectedNet)) throw new Error("Источник linear-fog radiationOut/net не имеет согласованного T⁴/K IR mapping; прежний опыт доступен без сигнатур");
+      }
+      const bodyK = ship.hullRadiationM2, radiatorK = radiatorArea - bodyK;
+      const surface = (id: string, k: number, profile: IrAngularProfile): IrProjectionInput => ({id,profile,
+        absoluteIrW: k * SIGMA * rkMean(rk!.temperatures.map(t=>t**4)),
+        contrastW: k * SIGMA * (rkMean(rk!.temperatures.map(t=>t**4)) - env.effectiveBackgroundK**4)});
+      const components = [surface("body",bodyK,"isotropic"),surface("radiators",radiatorK,"aft"),...signature.components];
+      signatureFrames!.push({startS:state.timeSeconds,endS:state.timeSeconds+h,startTemperatureK:startT,endTemperatureK:tNext,
+        rkTemperatureK:rk!.temperatures,thermalDerivatives:rk!.derivatives,backgroundK:env.effectiveBackgroundK,bodyK,radiatorK,
+        components,stages:signature.stages,hostLossBudgetW,hostIrDebitW:signature.hostIrDebitW,em:em!,coolers:coolerExports!,exports:signature.exports});
+    }
     const oldCharge = state.chargeJ;
     state.chargeJ = Math.max(
       0,
@@ -723,10 +811,10 @@ export function stepPhysicsV2(
         returnHeat +
         electricUseful +
         radOut +
-        h2 +
+        h2Mean +
         h2AuxHeat +
         tiReject +
-        curtailed) *
+        curtailed + hostDebitW) *
         h;
     const values = {
       requestedW: ship.hullPowerW + rawActive + rawBackground + coolingRequest,
@@ -752,7 +840,7 @@ export function stepPhysicsV2(
       externalBeamW: beam - returnHeat,
       engineUsefulW: engineUseful + electricUseful,
       thrustN: thrust,
-      h2CoolingW: h2,
+      h2CoolingW: h2Mean,
       h2AuxRejectW: h2AuxHeat,
       radiatorHostW: radiatorHostHeat,
       tiCoolingW: ti,
@@ -763,7 +851,7 @@ export function stepPhysicsV2(
       radiationInW: radIn,
       radiationNetW: radiationNet,
       heatInW: constantHeat + h2 + ti + bufferAbsorb - bufferRelease,
-      heatOutW: radOut + h2 + ti + bufferAbsorb,
+      heatOutW: radOut + h2Mean + ti + bufferAbsorb,
       workRate,
       chemicalW: chemical,
     };
@@ -774,6 +862,7 @@ export function stepPhysicsV2(
   // Все положительные подинтервалы уже интегрированы; одна операция сложения
   // согласует clock с dt метрик, не накапливая округление внутренних границ.
   state.timeSeconds = input.timeSeconds + dt;
+  if (signatureFrames?.length) signatureFrames[signatureFrames.length-1].endS = state.timeSeconds;
   for (const key of Object.keys(total))
     if (key !== "energyResidualJ") total[key] /= dt;
   total.timeSeconds = state.timeSeconds;
@@ -807,6 +896,7 @@ export function stepPhysicsV2(
       message: now || "Ограничения сняты",
     });
   return {
+    ...(signatureFrames ? { signatureFrames } : {}),
     state,
     telemetry: total,
     events,

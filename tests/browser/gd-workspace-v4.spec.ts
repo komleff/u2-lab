@@ -5,7 +5,8 @@ test("v4 continuous research page keeps sections and navigation reachable during
   await page.goto("/"); await openTimedDraft(page);
   await expect(page.locator("#fit-preset")).toBeVisible();
   await expect(page.locator("#fit-duration")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Сравнение вариантов", exact: true })).toBeVisible();
+  await expect(page.locator("#compare-variants-details > summary")).toHaveText("Сравнение вариантов");
+  await expect(page.locator("#compare-variants-details > summary")).toBeVisible();
   await page.locator("#fit-preset").selectOption("pony:1");
   await page.locator("#fit-duration").fill("180");
   await page.locator("#fit-speed").selectOption("1");
@@ -105,6 +106,7 @@ for (const width of [1440, 820, 390]) test(`v4 whole native research chain at ${
   await expect(page.locator(`#channel-details g[data-channel="${id}"]`)).toHaveCount(0);
   await expect(page.locator(`#channel-details g[data-channel="${remainingId}"]`)).toHaveAttribute("stroke", color!);
   await curve.click();
+  await action("#fit-nav-compare");
   await page.locator("#compare-sort").selectOption("rate-desc"); await expect(page.locator("#compare-base")).toHaveValue("reference");
   await expect(page.locator(".comparison-conditions")).toContainText("Условия варианта B");
   const resultText = await exported("#fit-export-result"), native = JSON.parse(resultText), fitText = await exported("#fit-save", "  Моя сборка ГД  "), runText = await exported("#fit-export-run"), csv = await exported("#fit-export-csv");
@@ -188,6 +190,9 @@ test("WF04/06 genuine 90ms desktop payload click survives advancing Worker rende
 });
 
 test("WF04/06 all slot groups, optional ring and builtin controls retain nodes and actions during a live test", async ({ page }) => {
+  // CI trace: первые четыре группы заняли 22.6 с; здесь семь полных held-click
+  // циклов. Это общий бюджет последовательности, 90 ms и node assertions прежние.
+  test.setTimeout(60000);
   await page.goto("/"); await openTimedDraft(page); await expect(page.locator("#fit-preset")).toBeVisible();
   await page.locator("#fit-preset").selectOption("pony:1"); await page.locator("#fit-duration").fill("180");
   await page.locator("#fit-speed").selectOption("1"); await page.locator("#fit-start").click();

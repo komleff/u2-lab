@@ -1,5 +1,5 @@
-import { MODEL_MISSION } from "../../model/v2/types";
-import { FittingWorkspace } from "../fitting-workspace";
+import { isMissionModel, MODEL_SIGNATURE_MISSION } from "../../model/v2/types";
+import type { WorkspaceRead } from "../fitting-workspace";
 import { installedInstances, validateFit } from "../../fitting/validate";
 import { presetOptions, matchesPreset } from "../../fitting/catalog";
 import { fitHull } from "../../fitting/editions";
@@ -19,7 +19,7 @@ import {
 } from "./presentation";
 import { bucketValue } from "./telemetry";
 export function shipView(
-  w: FittingWorkspace,
+  w: WorkspaceRead,
   width: number,
   collapsed: Set<string>,
 ) {
@@ -70,7 +70,7 @@ export function shipView(
         })
         .join("")}</div>`
     : hero;
-  return `<section class="ship-hero" data-layout="flat">${hero}<aside class="hero-result"><span class="eyebrow">Добыча LAB-ORE-01</span><h2>Оснастка для следующего теста</h2><p>${selected.conditions.modelVersion===MODEL_MISSION?"Физический рейс до полного трюма: проверьте тягу, топливо, питание, охлаждение и грузовую ёмкость.":"Старый лабораторный сценарий с фиксированными фазами."}</p><p class="muted">Номинал не предсказывает фактическую добычу. ${selected.conditions.modelVersion===MODEL_MISSION?"Перелёт использует действительную тягу, массу, топливо и тепло; V_FA — лабораторная гипотеза.":"Заданные импульсы тяги не рассчитывают расстояние и ETA."}</p><div class="metric-focus">${resultRate(r)}</div><p>${r ? `${previous ? "Предыдущий тест · run " + esc(r.runId) + (stale ? " · устарело" : "") : stale ? "Устаревший результат" : "Результат"} · ревизия ${r.spec.resolvedShip.fit.fitRevision} · ${num(r.metrics.durationSeconds, "с")}` : "Измерения появятся после первого теста"}</p><p class="warning">${v.readiness.resourceWarnings.map((x) => esc(x.message)).join(" · ")}</p></aside></section><details class="ui-panel" id="fit-ring"><summary>Схема слотов · дополнительный обзор</summary>${layout.ring ? ring : "<p>Кольцо не помещается с безопасными интервалами. Все слоты доступны в списке ниже.</p>"}</details><div class="systems" id="fit-slots">${groups
+  return `<section class="ship-hero" data-layout="flat">${hero}<aside class="hero-result"><span class="eyebrow">Добыча LAB-ORE-01</span><h2>Оснастка для следующего теста</h2><p>${isMissionModel(selected.conditions.modelVersion??"")?"Физический рейс до полного трюма: проверьте тягу, топливо, питание, охлаждение и грузовую ёмкость.":"Старый лабораторный сценарий с фиксированными фазами."}</p><p class="muted">Номинал не предсказывает фактическую добычу. ${isMissionModel(selected.conditions.modelVersion??"")?"Перелёт использует действительную тягу, массу, топливо и тепло; V_FA — лабораторная гипотеза.":"Заданные импульсы тяги не рассчитывают расстояние и ETA."}</p><div class="metric-focus">${resultRate(r)}</div><p>${r ? `${previous ? "Предыдущий тест · run " + esc(r.runId) + (stale ? " · устарело" : "") : stale ? "Устаревший результат" : "Результат"} · ревизия ${r.spec.resolvedShip.fit.fitRevision} · ${num(r.metrics.durationSeconds, "с")}` : "Измерения появятся после первого теста"}</p><p class="warning">${v.readiness.resourceWarnings.map((x) => esc(x.message)).join(" · ")}</p></aside></section><details class="ui-panel" id="fit-ring"><summary>Схема слотов · дополнительный обзор</summary>${layout.ring ? ring : "<p>Кольцо не помещается с безопасными интервалами. Все слоты доступны в списке ниже.</p>"}</details><div class="systems" id="fit-slots">${groups
     .map((cat) => {
       const slots = h.slots.filter((x) => x.category === cat),
         builtins = h.builtins.filter((x) => x.item.category === cat);
@@ -116,7 +116,7 @@ export function shipView(
               })
               .join(
                 "",
-              )}</div>${cat === "signature" ? '<p class="muted">Тепловое оборудование; обнаружение пока не рассчитывается.</p>' : ""}`
+              )}</div>${cat === "signature" ? `<p class="muted">${selected.conditions.modelVersion === MODEL_SIGNATURE_MISSION ? "Тепловое оборудование. Излучение этой оснастки измеряет условный внешний наблюдатель; его приборы не занимают слоты корабля." : "Тепловое оборудование; обнаружение пока не рассчитывается."}</p>` : ""}`
       }</section>`;
     })
     .join("")}</div>`;

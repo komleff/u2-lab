@@ -1,6 +1,8 @@
 import type { ValidationResult } from "../../catalog/schema";
 import type { RunSpecV2, StateV2, StepResultV2, RequestFrame } from "./types";
-import { CAUSES, MODEL_V2, MODEL_MISSION } from "./types";
+import { CAUSES, MODEL_V2, MODEL_MISSION, MODEL_SIGNATURE_MISSION, isMissionModel } from "./types";
+import { exactFields, validateSignatureSettings } from "../../signatures/config";
+import { intrinsicHullK } from "../../signatures/em-cs";
 import { itemIssues } from "../../fitting/validate";
 import { allocateCargo, commodities } from "../../fitting/cargo";
 import { moduleBase } from "../../catalog/presets";
@@ -20,13 +22,16 @@ export function validateRunSpecV2(input: unknown): ValidationResult<RunSpecV2> {
     };
   try {
     if (
-      s.schemaVersion !== "u2-lab/2" ||
-      ![MODEL_V2, MODEL_MISSION].includes(s.modelVersion) ||
+      !(s.modelVersion === MODEL_SIGNATURE_MISSION ? s.schemaVersion === "u2-lab/3" : s.schemaVersion === "u2-lab/2") ||
+      ![MODEL_V2, MODEL_MISSION, MODEL_SIGNATURE_MISSION].includes(s.modelVersion) ||
       s.units !== "SI" ||
       s.approvedBaseline !== false ||
       !s.catalogVersion
     )
       bad("$", "Неподдерживаемая версия опыта");
+    if (s.modelVersion === MODEL_SIGNATURE_MISSION) {
+      try { exactFields(s,["schemaVersion","modelVersion","catalogVersion","units","approvedBaseline","resolvedShip","origins","environment","initial","selectedWorkGroup","process","scenario","durationSeconds","stepSeconds","mission","signatures",...(Object.hasOwn(s,"snapshotReplayOnly")?["snapshotReplayOnly"]:[])],"signature spec"); validateSignatureSettings(s.signatures); } catch (e) { bad("signatures", String(e)); }
+    } else if (Object.hasOwn(s,"signatures")) bad("signatures","Сигнатуры требуют новую явную модель");
     const finite = (n: unknown) =>
       typeof n === "number" && Number.isFinite(n) && n >= 0;
     const walk = (v: unknown, path: string) => {
@@ -241,7 +246,7 @@ export function validateRunSpecV2(input: unknown): ValidationResult<RunSpecV2> {
         bad("initial.buffersJ." + id, "Запас вне ёмкости буфера");
     if (!allocateCargo(ship, s.initial.cargoM3).ok)
       bad("initial.cargoM3", "Невалидный cargo");
-    if (s.modelVersion === MODEL_MISSION) {
+    if (isMissionModel(s.modelVersion)) {
       const m=s.mission;
       if (!m) bad("mission", "Нужны условия физического рейса");
       else {
@@ -304,7 +309,7 @@ export function initialStateV2(s: RunSpecV2): StateV2 {
     0,
   );
   return {
-    schemaVersion: "u2-lab/2",
+    schemaVersion: s.schemaVersion,
     timeSeconds: 0,
     chargeJ: s.initial.chargeJ,
     temperatureK: s.initial.temperatureK,
@@ -363,6 +368,14 @@ export function physicsShip(s: RunSpecV2, state: StateV2): PhysicsShip {
       } as PhysicsModule;
       if (x.output === "drive")
         x.efficiency = m.numerics.pathEfficiency * m.numerics.efficiency;
+      if (s.modelVersion === MODEL_SIGNATURE_MISSION && m.family === "h2" && !["S","M"].includes(m.size)) throw new Error("H2 flow profile отсутствует для size " + m.size);
+      if (s.modelVersion === MODEL_SIGNATURE_MISSION && m.family === "engine" && (!m.propulsionType || !i.role)) throw new Error("IR source требует propulsion type и role для " + i.id);
+      if (s.modelVersion === MODEL_SIGNATURE_MISSION) x.signature = {
+        size: m.size === "M" ? "M" : "S",
+        kind: m.propulsionType ?? (m.species === "hydrogen" ? "hydrogen" : "diesel"),
+        motorEfficiency: m.numerics.efficiency,
+        profile: i.role === "retro" ? "fore" : i.role === "strafe" || i.role === "turn" ? "lateral" : "aft",
+      };
       if (x.output === "mining")
         x.workPerJ =
           (s.process.extractFactor * s.process.softFactor) /
@@ -390,7 +403,7 @@ export function physicsShip(s: RunSpecV2, state: StateV2): PhysicsShip {
     dryMassKg: r.dryMassKg,
     thermalMaterials: r.materials,
     hullPowerW: r.hull.hullPowerW,
-    hullRadiationM2: r.hull.hullRadiationM2,
+    hullRadiationM2: s.modelVersion === MODEL_SIGNATURE_MISSION ? intrinsicHullK(r.hull.hullRadiationM2,s.signatures!.insulation) : r.hull.hullRadiationM2,
     dischargeEfficiency: 0.9,
     chargeEfficiency: 1,
     accumulators: [{ id: "common", capacityJ: r.batteryCapacityJ }],
@@ -410,6 +423,7 @@ export function physicsShip(s: RunSpecV2, state: StateV2): PhysicsShip {
     cargoLimitM3: state.cargo + oreRemaining,
     targetLimitM3: s.scenario.targetM3,
     returnFraction: s.process.returnFraction,
+    ...(s.modelVersion === MODEL_SIGNATURE_MISSION ? { signatures: s.signatures! } : {}),
   };
 }
 export function stepV2(

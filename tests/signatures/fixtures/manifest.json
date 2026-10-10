@@ -1,0 +1,61 @@
+{
+  "version": "signature-handoff-0.1",
+  "schema": "u2-lab/3",
+  "model": "ship-fitting-signature-mission-0.1",
+  "dataRevision": "lab-signatures-0.7-h2-0.4",
+  "sourceBase": "61d44e7ce4be0c06fbb873ca643c6b8e750a81ee",
+  "labDataVersion": "0.7",
+  "h2LawVersion": "0.4",
+  "gameStatus": "experimental",
+  "files": [
+    {
+      "path": "performance-S-input.json",
+      "sha256": "1275ce934697b6611b5366c7268d64007e11802dc4497b44b7fb307035926ded"
+    },
+    {
+      "path": "performance-M-input.json",
+      "sha256": "e2b19f388efe160f0605bd5ac5f34e3350c1c23dca241d9d45391ec5c94f3e10"
+    },
+    {
+      "path": "bench-input.json",
+      "sha256": "bfb853d57e81c77bb5932e6edaa1615fe51b40b47755d7548b99cf7bb0123732"
+    },
+    {
+      "path": "two-ping-checkpoint.json",
+      "sha256": "6d35282afbcb23e7522bf43dd82682c8cc7fdf508f9bfa983cffda110751b6fd"
+    },
+    {
+      "path": "received-result.json",
+      "sha256": "5f790fa6f0815a711dc5fb96c50143f4214bc4da46e0107eca0877db5e373321"
+    },
+    {
+      "path": "gd-trace.csv",
+      "sha256": "b606ca0b0260a566bc85076473586aa389065e3e00069883d8da950b423910fe"
+    },
+    {
+      "path": "observer-view.json",
+      "sha256": "4ef9d83a1574031a6340c55ef6577a01966c216decc227e0fa567ab7640d6228"
+    },
+    {
+      "path": "observer-view.csv",
+      "sha256": "a1ef54cc2f35caba22383d0f7ec5afe2a4eb32c9c2cfa7147964574a1e343a5a"
+    },
+    {
+      "path": "source-vectors.json",
+      "sha256": "d7a60e95cfb94a2077ecfca57c16f0cde715b783350cad42bd12fb7b48e1b7f9"
+    },
+    {
+      "path": "analytic-moving-radar.json",
+      "sha256": "69ef97f9343a30a637a433e041e8e673b441b4d86491039dec49d88b0a72437a"
+    },
+    {
+      "path": "coupled-source-samples.json",
+      "sha256": "a0a8cb238562a078c9db145950fe841b5427217599cf1b2efd6efd8fc2ef5640"
+    },
+    {
+      "path": "flight-stop-envelope-pose.json",
+      "sha256": "af7a740a6b7167bc968bba2029d6345e0e99881ed51b787b561b8d6ac2e96aa1"
+    }
+  ],
+  "serverParity": "NOT_RUN"
+}

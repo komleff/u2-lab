@@ -4,7 +4,7 @@ import type {
   StepResultV2,
   Cause,
 } from "../model/v2/types";
-import { CAUSES, MODEL_MISSION } from "../model/v2/types";
+import { CAUSES, isMissionModel } from "../model/v2/types";
 export type RecoverySummary = {
   firstSeconds: number | null;
   count: number;
@@ -225,7 +225,7 @@ export function updateMiningMetrics(
     step.state.usefulWork >= s.scenario.targetM3 - 1e-9
   )
     m.firstTargetSeconds = step.state.timeSeconds;
-  if (s.modelVersion !== MODEL_MISSION) {
+  if (!isMissionModel(s.modelVersion)) {
   const cycleDuration = s.scenario.phases.reduce(
     (n, p) => n + p.durationSeconds,
     0,

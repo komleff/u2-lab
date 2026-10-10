@@ -1,0 +1,156 @@
+[
+ {
+  "id": "sputnik:1",
+  "dryKg": 56837.38761920413,
+  "startKg": 62837.38761920413,
+  "fullKg": 107837.38761920412,
+  "forceN": 2950000,
+  "powerW": 0,
+  "propulsion": "diesel",
+  "batteryJ": 3682499999.9999995,
+  "cargoM3": 30
+ },
+ {
+  "id": "pony:1",
+  "dryKg": 54033.86760766081,
+  "startKg": 66033.86760766081,
+  "fullKg": 120033.86760766081,
+  "forceN": 2950000,
+  "powerW": 0,
+  "propulsion": "diesel",
+  "batteryJ": 10000000000,
+  "cargoM3": 36
+ },
+ {
+  "id": "industrial-S:1:D",
+  "dryKg": 52283.86760766081,
+  "startKg": 58283.86760766081,
+  "fullKg": 112283.86760766081,
+  "forceN": 2950000,
+  "powerW": 0,
+  "propulsion": "diesel",
+  "batteryJ": 3682499999.9999995,
+  "cargoM3": 36
+ },
+ {
+  "id": "industrial-S:1:H",
+  "dryKg": 64334.75543966081,
+  "startKg": 64968.21301966081,
+  "fullKg": 118968.21301966082,
+  "forceN": 2950000,
+  "powerW": 0,
+  "propulsion": "hydrogen",
+  "batteryJ": 14729999999.999998,
+  "cargoM3": 36
+ },
+ {
+  "id": "industrial-S:1:E",
+  "dryKg": 57083.86760766081,
+  "startKg": 57083.86760766081,
+  "fullKg": 111083.86760766081,
+  "forceN": 2950000,
+  "powerW": 26912280.701754387,
+  "propulsion": "electric",
+  "batteryJ": 14729999999.999998,
+  "cargoM3": 36
+ },
+ {
+  "id": "civilian-M:2:H",
+  "dryKg": 282292.29614538944,
+  "startKg": 286669.38066018943,
+  "fullKg": 610669.3806601894,
+  "forceN": 8820000,
+  "powerW": 0,
+  "propulsion": "hydrogen",
+  "batteryJ": 58919999999.99999,
+  "cargoM3": 216
+ },
+ {
+  "id": "industrial-M:2:D",
+  "dryKg": 379245.5504768165,
+  "startKg": 403245.5504768165,
+  "fullKg": 763245.5504768165,
+  "forceN": 16228800,
+  "powerW": 0,
+  "propulsion": "diesel",
+  "batteryJ": 58919999999.99999,
+  "cargoM3": 240
+ },
+ {
+  "id": "industrial-M:2:H",
+  "dryKg": 262211.2052118165,
+  "startKg": 265858.7756408165,
+  "fullKg": 625858.7756408164,
+  "forceN": 8820000,
+  "powerW": 0,
+  "propulsion": "hydrogen",
+  "batteryJ": 58919999999.99999,
+  "cargoM3": 240
+ },
+ {
+  "id": "industrial-M:2:E",
+  "dryKg": 235685.5504768165,
+  "startKg": 235685.5504768165,
+  "fullKg": 595685.5504768165,
+  "forceN": 8820000,
+  "powerW": 80463157.89473684,
+  "propulsion": "electric",
+  "batteryJ": 58919999999.99999,
+  "cargoM3": 240
+ },
+ {
+  "id": "industrial-L:1",
+  "dryKg": 664102.5656415579,
+  "startKg": 688102.5656415579,
+  "fullKg": 976102.5656415579,
+  "forceN": 8820000,
+  "powerW": 0,
+  "propulsion": "diesel",
+  "batteryJ": 3682499999.9999995,
+  "cargoM3": 192
+ },
+ {
+  "id": "industrial-L:2",
+  "dryKg": 712102.5656415579,
+  "startKg": 736102.5656415579,
+  "fullKg": 1024102.5656415579,
+  "forceN": 8820000,
+  "powerW": 0,
+  "propulsion": "diesel",
+  "batteryJ": 3682499999.9999995,
+  "cargoM3": 192
+ },
+ {
+  "id": "industrial-L:3",
+  "dryKg": 771238.5656415579,
+  "startKg": 795238.5656415579,
+  "fullKg": 1371238.5656415578,
+  "forceN": 8820000,
+  "powerW": 0,
+  "propulsion": "diesel",
+  "batteryJ": 3682499999.9999995,
+  "cargoM3": 384
+ },
+ {
+  "id": "severin-mir:2:D",
+  "dryKg": 259366.64141038948,
+  "startKg": 283366.64141038945,
+  "fullKg": 607366.6414103894,
+  "forceN": 8820000,
+  "powerW": 0,
+  "propulsion": "diesel",
+  "batteryJ": 58919999999.99999,
+  "cargoM3": 216
+ },
+ {
+  "id": "severin-mir:2:E",
+  "dryKg": 255766.64141038948,
+  "startKg": 255766.64141038948,
+  "fullKg": 579766.6414103894,
+  "forceN": 8820000,
+  "powerW": 80463157.89473684,
+  "propulsion": "electric",
+  "batteryJ": 58919999999.99999,
+  "cargoM3": 216
+ }
+]

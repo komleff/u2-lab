@@ -47,7 +47,8 @@ it("CR-UI-B1 extrema retain signed finite full-series bounds, selected curves an
   const graph = channelsView(r, c);
   expect(graph).toContain(num(7654321, "W"));
   const mean = r.buckets[0].sum[i] / r.buckets[0].count;
-  expect(graph).toContain(`350,${170 - ((mean + 1234567) / (7654321 + 1234567)) * 150}`);
+  // 1 s / immutable H4096, общий plot x180..660; значение и extrema прежние.
+  expect(graph).toContain(`180.1171875,${170 - ((mean + 1234567) / (7654321 + 1234567)) * 150}`);
   c.hidden.add(ids[0]);
   expect(channelsView(r, c)).toContain(num(1, "W"));
   expect(channelsView(r, c)).not.toContain("<polyline ");
@@ -75,7 +76,12 @@ for (const changed of [false, true])
     expect(measured).toContain("Пауза");
     expect(measured).toContain("ожидается первое измерение текущего теста");
     expect(measured).not.toContain("наблюдаемый интервал 0–20");
-    expect(compareView(w, "name")).toContain("предыдущий тест · run old");
+    const comparison = compareView(w, "name");
+    const previousRow = comparison.split('<tr data-compare-variant="A">')[1].split('</tr>')[0];
+    expect(previousRow).toContain("предыдущий тест · ");
+    expect(previousRow.slice(0, previousRow.indexOf('<details'))).not.toContain("run old");
+    const passport = previousRow.split('class="measured-passport"')[1].split('</details>')[0];
+    expect(passport).toContain("run old"); expect(passport).not.toContain("run new"); expect(passport).not.toContain("run foreign");
     expect(shipView(w, 0, new Set())).toContain("Предыдущий тест · run old");
     expect(w.getSelected().result).toEqual(old);
     expect(w.getFrozen()).toEqual(frozen);

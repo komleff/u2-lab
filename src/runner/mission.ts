@@ -2,6 +2,8 @@ import type { RunContextV2 } from "./fitting-run";
 import type { MissionState, RequestFrame, StateV2, StepResultV2 } from "../model/v2/types";
 import { thermalDuty } from "../model/scheduler";
 import { stepV2, physicsShip } from "../model/v2/step";
+import { commitSignatureFrames } from "../signatures/runtime";
+import { MODEL_SIGNATURE_MISSION } from "../model/v2/types";
 import { advanceFlight, momentum, stoppingDistance } from "../model/v2/flight";
 import { updateMiningMetrics } from "./mining-metrics";
 import { Retention } from "./retention";
@@ -66,6 +68,10 @@ function firstLimitation(run:RunContextV2,previous:StateV2,step:StepResultV2,req
 }
 function recordStep(run:RunContextV2,previous:StateV2,step:StepResultV2,dt:number,requests:RequestFrame) {
   const before=previous.mission!;
+  if(run.signatures) {
+    if(!step.signatureFrames)throw new Error("Accepted physical source frames missing");
+    commitSignatureFrames(run.signatures,step.signatureFrames,before.stage+(before.stage==="outbound"||before.stage==="inbound"?":"+before.flightMode:""),run.spec.signatures!,run.spec.durationSeconds);
+  }
   run.state=step.state;
   run.state.mission={...before,elapsed:{...before.elapsed},receivedFuelKg:{...before.receivedFuelKg}};
   const m=run.state.mission!;
@@ -144,7 +150,11 @@ function flightStep(run:RunContextV2,dt:number) {
   let selected=trial(dt,requests);
   const projection=(h:number)=>{const s=trial(h,requests);return {s,a:advanceFlight(m,s.state.currentMassKg,role?sign*force(run,s,role):0,h)};};
   if(m.flightMode==='acceleration'){
-    const beyond=(h:number)=>{const {s,a}=projection(h),f=force(run,trial(h,{[brake]:1}),brake);return (cfg.cruiseSpeedMS!==null&&Math.abs(a.velocityMS)>cfg.cruiseSpeedMS)||(f>0&&Math.abs(cfg.distanceM-a.positionM)<stoppingDistance(a.velocityMS,s.state.currentMassKg,f));};
+    // Новая тепловая модель меняет availability внутри пробного h. Mode choice
+    // и boundary search используют одну actual brake envelope этого решения:
+    // смешивание full-dt и shortened-h force создаёт бесконечный chatter у границы.
+    // Исторический controller сохраняет прежний путь буквально.
+    const beyond=(h:number)=>{const {s,a}=projection(h),f=run.spec.modelVersion===MODEL_SIGNATURE_MISSION?brakeForce:force(run,trial(h,{[brake]:1}),brake);return (cfg.cruiseSpeedMS!==null&&Math.abs(a.velocityMS)>cfg.cruiseSpeedMS)||(f>0&&Math.abs(cfg.distanceM-a.positionM)<stoppingDistance(a.velocityMS,s.state.currentMassKg,f));};
     if(beyond(dt)){
       let lo=0,hi=dt;for(let n=0;n<36;n++){const h=(lo+hi)/2;if(beyond(h))hi=h;else lo=h;}
       if(lo>1e-10){dt=lo;selected=trial(dt,requests);}

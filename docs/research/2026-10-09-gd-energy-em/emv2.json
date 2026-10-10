@@ -1,0 +1,481 @@
+{
+ "K": {
+  "H": 1e-9,
+  "M": 3e-10,
+  "L": 1e-10
+ },
+ "EM_NEW": 7.280259023085718e-13,
+ "holdNew": 4.3681554138514304e-13,
+ "anchorOld": 220.13611111111112,
+ "anchorNew": 0.004461666666666667,
+ "rows": [
+  {
+   "name": "Только корпус",
+   "oldW": 2.2694444444444444,
+   "newW": 0.000021666666666666667,
+   "oldKm": 2.242251615660473,
+   "newKm": 1.5389258803660626,
+   "stages": [
+    {
+     "id": "battery:charge",
+     "kind": "battery_charge",
+     "cls": "M",
+     "actualW": 0
+    },
+    {
+     "id": "battery:discharge",
+     "kind": "battery_discharge",
+     "cls": "M",
+     "actualW": 55555.555555555555
+    },
+    {
+     "id": "protected:hull",
+     "kind": "protected_processing",
+     "cls": "L",
+     "actualW": 50000
+    },
+    {
+     "id": "consumer:rad",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 0
+    }
+   ]
+  },
+  {
+   "name": "Дизель-генератор S заряжает",
+   "oldW": 83.96944444444445,
+   "newW": 0.002561666666666667,
+   "oldKm": 13.63908411124017,
+   "newKm": 16.7333525398674,
+   "stages": [
+    {
+     "id": "battery:charge",
+     "kind": "battery_charge",
+     "cls": "M",
+     "actualW": 1800000
+    },
+    {
+     "id": "battery:discharge",
+     "kind": "battery_discharge",
+     "cls": "M",
+     "actualW": 55555.555555555555
+    },
+    {
+     "id": "protected:hull",
+     "kind": "protected_processing",
+     "cls": "L",
+     "actualW": 50000
+    },
+    {
+     "id": "generator:g",
+     "kind": "generator_output",
+     "cls": "H",
+     "actualW": 2000000
+    },
+    {
+     "id": "consumer:rad",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 0
+    }
+   ]
+  },
+  {
+   "name": "H₂-генератор S заряжает",
+   "oldW": 47.20444444444445,
+   "newW": 0.0006486666666666667,
+   "oldKm": 10.226240756259635,
+   "newKm": 8.420394578546375,
+   "stages": [
+    {
+     "id": "battery:charge",
+     "kind": "battery_charge",
+     "cls": "M",
+     "actualW": 990000
+    },
+    {
+     "id": "battery:discharge",
+     "kind": "battery_discharge",
+     "cls": "M",
+     "actualW": 55555.555555555555
+    },
+    {
+     "id": "protected:hull",
+     "kind": "protected_processing",
+     "cls": "L",
+     "actualW": 50000
+    },
+    {
+     "id": "generator:gh",
+     "kind": "generator_output",
+     "cls": "M",
+     "actualW": 1100000
+    },
+    {
+     "id": "consumer:rad",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 0
+    }
+   ]
+  },
+  {
+   "name": "Солнечная панель S заряжает",
+   "oldW": 3.0009819444444448,
+   "newW": 0.00004208166666666667,
+   "oldKm": 2.5784354230979276,
+   "newKm": 2.144707736139954,
+   "stages": [
+    {
+     "id": "solar:s",
+     "kind": "solar_output",
+     "cls": "M",
+     "actualW": 34025
+    },
+    {
+     "id": "battery:charge",
+     "kind": "battery_charge",
+     "cls": "M",
+     "actualW": 34025
+    },
+    {
+     "id": "battery:discharge",
+     "kind": "battery_discharge",
+     "cls": "M",
+     "actualW": 55555.555555555555
+    },
+    {
+     "id": "protected:hull",
+     "kind": "protected_processing",
+     "cls": "L",
+     "actualW": 50000
+    },
+    {
+     "id": "consumer:rad",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 0
+    }
+   ]
+  },
+  {
+   "name": "Лазер civil S от аккумулятора",
+   "oldW": 138.43611111111113,
+   "newW": 0.0019216666666666666,
+   "oldKm": 17.51254495451338,
+   "newKm": 14.493079711061336,
+   "stages": [
+    {
+     "id": "battery:charge",
+     "kind": "battery_charge",
+     "cls": "M",
+     "actualW": 0
+    },
+    {
+     "id": "battery:discharge",
+     "kind": "battery_discharge",
+     "cls": "M",
+     "actualW": 3388888.888888889
+    },
+    {
+     "id": "protected:hull",
+     "kind": "protected_processing",
+     "cls": "L",
+     "actualW": 50000
+    },
+    {
+     "id": "consumer:l",
+     "kind": "consumer_input",
+     "cls": "M",
+     "actualW": 3000000
+    },
+    {
+     "id": "consumer:rad",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 0
+    }
+   ]
+  },
+  {
+   "name": "Лазер civil S + дизель-генератор (эталон)",
+   "oldW": 220.13611111111112,
+   "newW": 0.004461666666666667,
+   "oldKm": 22.08361731848757,
+   "newKm": 22.08361731848757,
+   "stages": [
+    {
+     "id": "battery:charge",
+     "kind": "battery_charge",
+     "cls": "M",
+     "actualW": 1800000
+    },
+    {
+     "id": "battery:discharge",
+     "kind": "battery_discharge",
+     "cls": "M",
+     "actualW": 3388888.888888889
+    },
+    {
+     "id": "protected:hull",
+     "kind": "protected_processing",
+     "cls": "L",
+     "actualW": 50000
+    },
+    {
+     "id": "generator:g",
+     "kind": "generator_output",
+     "cls": "H",
+     "actualW": 2000000
+    },
+    {
+     "id": "consumer:l",
+     "kind": "consumer_input",
+     "cls": "M",
+     "actualW": 3000000
+    },
+    {
+     "id": "consumer:rad",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 0
+    }
+   ]
+  },
+  {
+   "name": "Электродвигатель S, полная тяга",
+   "oldW": 1223.787962962963,
+   "newW": 0.035904707602339186,
+   "oldKm": 52.06881048929656,
+   "newKm": 62.64657747808473,
+   "stages": [
+    {
+     "id": "battery:charge",
+     "kind": "battery_charge",
+     "cls": "M",
+     "actualW": 0
+    },
+    {
+     "id": "battery:discharge",
+     "kind": "battery_discharge",
+     "cls": "M",
+     "actualW": 29958089.668615986
+    },
+    {
+     "id": "protected:hull",
+     "kind": "protected_processing",
+     "cls": "L",
+     "actualW": 50000
+    },
+    {
+     "id": "consumer:d",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 26912280.701754387
+    },
+    {
+     "id": "consumer:rad",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 0
+    }
+   ]
+  },
+  {
+   "name": "Электродвигатель S, 30%",
+   "oldW": 368.725,
+   "newW": 0.010786578947368421,
+   "oldKm": 28.58089733277519,
+   "newKm": 34.33709227527841,
+   "stages": [
+    {
+     "id": "battery:charge",
+     "kind": "battery_charge",
+     "cls": "M",
+     "actualW": 0
+    },
+    {
+     "id": "battery:discharge",
+     "kind": "battery_discharge",
+     "cls": "M",
+     "actualW": 9026315.789473685
+    },
+    {
+     "id": "protected:hull",
+     "kind": "protected_processing",
+     "cls": "L",
+     "actualW": 50000
+    },
+    {
+     "id": "consumer:d",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 8073684.2105263155
+    },
+    {
+     "id": "consumer:rad",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 0
+    }
+   ]
+  },
+  {
+   "name": "Активный радиатор S (насос)",
+   "oldW": 15.88611111111111,
+   "newW": 0.0004216666666666667,
+   "oldKm": 5.9324401518703915,
+   "newKm": 6.7890074889819925,
+   "stages": [
+    {
+     "id": "battery:charge",
+     "kind": "battery_charge",
+     "cls": "M",
+     "actualW": 0
+    },
+    {
+     "id": "battery:discharge",
+     "kind": "battery_discharge",
+     "cls": "M",
+     "actualW": 388888.8888888889
+    },
+    {
+     "id": "protected:hull",
+     "kind": "protected_processing",
+     "cls": "L",
+     "actualW": 50000
+    },
+    {
+     "id": "consumer:rad",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 0
+    },
+    {
+     "id": "consumer:a",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 300000
+    }
+   ]
+  },
+  {
+   "name": "Дизельный двигатель S",
+   "oldW": 2.2694444444444444,
+   "newW": 0.000021666666666666667,
+   "oldKm": 2.242251615660473,
+   "newKm": 1.5389258803660626,
+   "stages": [
+    {
+     "id": "battery:charge",
+     "kind": "battery_charge",
+     "cls": "M",
+     "actualW": 0
+    },
+    {
+     "id": "battery:discharge",
+     "kind": "battery_discharge",
+     "cls": "M",
+     "actualW": 55555.555555555555
+    },
+    {
+     "id": "protected:hull",
+     "kind": "protected_processing",
+     "cls": "L",
+     "actualW": 50000
+    },
+    {
+     "id": "consumer:rad",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 0
+    }
+   ]
+  },
+  {
+   "name": "Лазер industrial M + дизель-генератор M",
+   "oldW": 953.1666666666667,
+   "newW": 0.018860000000000002,
+   "oldKm": 45.95248382113246,
+   "newKm": 45.40383079677425,
+   "stages": [
+    {
+     "id": "battery:charge",
+     "kind": "battery_charge",
+     "cls": "M",
+     "actualW": 7200000
+    },
+    {
+     "id": "battery:discharge",
+     "kind": "battery_discharge",
+     "cls": "M",
+     "actualW": 15333333.333333332
+    },
+    {
+     "id": "protected:hull",
+     "kind": "protected_processing",
+     "cls": "L",
+     "actualW": 200000
+    },
+    {
+     "id": "generator:g",
+     "kind": "generator_output",
+     "cls": "H",
+     "actualW": 8000000
+    },
+    {
+     "id": "consumer:l",
+     "kind": "consumer_input",
+     "cls": "M",
+     "actualW": 13600000
+    },
+    {
+     "id": "consumer:rad",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 0
+    }
+   ]
+  },
+  {
+   "name": "Электродвигатель M, полная тяга",
+   "oldW": 3661.211111111111,
+   "newW": 0.10737087719298247,
+   "oldKm": 90.06103913245425,
+   "newKm": 108.33403096113231,
+   "stages": [
+    {
+     "id": "battery:charge",
+     "kind": "battery_charge",
+     "cls": "M",
+     "actualW": 0
+    },
+    {
+     "id": "battery:discharge",
+     "kind": "battery_discharge",
+     "cls": "M",
+     "actualW": 89625730.99415204
+    },
+    {
+     "id": "protected:hull",
+     "kind": "protected_processing",
+     "cls": "L",
+     "actualW": 200000
+    },
+    {
+     "id": "consumer:d",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 80463157.89473684
+    },
+    {
+     "id": "consumer:rad",
+     "kind": "consumer_input",
+     "cls": "H",
+     "actualW": 0
+    }
+   ]
+  }
+ ]
+}

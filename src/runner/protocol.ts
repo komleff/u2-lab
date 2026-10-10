@@ -1,5 +1,8 @@
 import type { AnyRunSpec } from "../model/v2/types";
+import { MODEL_SIGNATURE_MISSION } from "../model/v2/types";
 import { createRun, runChunk, result, type AnyRunContext } from "./run";
+import { parseResultJson } from "../io/fitting-result";
+import { restoreFittingRun, type RunResultV2 } from "./fitting-run";
 export type Control =
   | "start"
   | "pause"
@@ -12,7 +15,7 @@ export type WorkerCommand =
       runId: string;
       commandId: number;
       type: Control;
-      payload?: { spec?: AnyRunSpec; maxSteps?: number };
+      payload?: { spec?: AnyRunSpec; maxSteps?: number; checkpoint?: RunResultV2 };
     }
   | { runId: string; type: "telemetry-ack"; chunkId: number };
 export class WorkerController {
@@ -34,7 +37,13 @@ export class WorkerController {
     }
     if (c.type === "start") {
       try {
-        this.context = createRun(c.runId, c.payload!.spec!);
+        let next:AnyRunContext;
+        if(c.payload?.checkpoint){
+          const parsed=parseResultJson(JSON.stringify(c.payload.checkpoint,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v));
+          if(!parsed.ok)throw new Error(parsed.errors.map(e=>e.path+": "+e.message).join("\n"));
+          next=restoreFittingRun(parsed.value);next.runId=c.runId;
+        }else next=createRun(c.runId,c.payload!.spec!);
+        this.context = next;
         this.pending = undefined;
         this.chunkId = 0;
         this.running = true;
@@ -81,7 +90,16 @@ export class WorkerController {
     )
       return;
     const run = this.context;
-    const chunk = runChunk(run, this.stepping ? 1 : this.maxSteps, 80);
+    let chunk: ReturnType<typeof runChunk>;
+    try {
+      chunk = runChunk(run, this.stepping ? 1 : this.maxSteps, 80);
+    } catch (error) {
+      if (run.spec.modelVersion !== MODEL_SIGNATURE_MISSION) throw error;
+      this.running = false;
+      this.stepping = false;
+      this.send({ runId: run.runId, type: "error", payload: String(error) });
+      return;
+    }
     this.stepping = false;
     const id = ++this.chunkId;
     this.pending = { runId: run.runId, chunkId: id };
@@ -89,7 +107,7 @@ export class WorkerController {
       runId: run.runId,
       type: "chunk",
       chunkId: id,
-      payload: {
+      payload: "signatures" in run && run.signatures ? result(run) : {
         ...chunk,
         metrics: run.metrics,
         buckets: run.retention.buckets.slice(-250),

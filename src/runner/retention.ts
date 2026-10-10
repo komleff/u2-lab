@@ -96,6 +96,11 @@ export class EventRetention {
   private tail: LabEvent[] = [];
   private cursor = 0;
   total = 0;
+  restore(events:readonly LabEvent[],total:number) {
+    this.first=[];this.tail=[];this.cursor=0;this.total=0;
+    for(const event of events)this.add(structuredClone(event));
+    this.total=total;
+  }
   add(e: LabEvent) {
     this.total++;
     if (this.first.length < 128) this.first.push(e);

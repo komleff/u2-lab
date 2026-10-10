@@ -62,7 +62,11 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   await expect(page.locator("#condition-notes")).not.toContainText(ids[0]);
   await page.locator("#condition-notes summary").tap();
   await expect(page.locator(".fit-f1")).toContainText("предыдущий тест · run " + ids[0]);
-  await expect(page.locator('.compare-cards [data-compare-variant="A"]')).toContainText("предыдущий тест · run " + ids[0]);
+  const previousCard = page.locator('.compare-cards [data-compare-variant="A"]');
+  await expect(previousCard.locator('> dl')).toContainText("предыдущий тест · ");
+  await expect(previousCard.locator('.variant-identity > p').first()).not.toContainText(ids[0]);
+  await expect(previousCard.locator('.measured-passport > p').last()).toContainText("run " + ids[0]);
+  await expect(previousCard.locator('.measured-passport')).not.toContainText(ids[1]);
 
   expect(await page.evaluate(() => ({
     inner: innerWidth, document: document.documentElement.scrollWidth,
@@ -72,7 +76,11 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   await page.locator("#fit-export-result").tap();
   expect(await readFile((await (await retainedDownload).path())!)).toEqual(oldBytes);
   await page.getByRole("link", { name: "Сравнение", exact: true }).click();
-  await expect(page.locator(".compare-desktop [data-compare-variant=A]")).toContainText("предыдущий тест · run " + ids[0]);
+  const previousRow = page.locator(".compare-desktop [data-compare-variant=A]");
+  await expect(previousRow.locator('> td').last()).toContainText("предыдущий тест · ");
+  await expect(previousRow.locator('th > p').first()).not.toContainText(ids[0]);
+  await expect(previousRow.locator('.measured-passport > p').last()).toContainText("run " + ids[0]);
+  await expect(previousRow.locator('.measured-passport')).not.toContainText(ids[1]);
   await expect(page.locator(".compare-desktop [data-compare-variant=A]")).not.toContainText("предварительно");
   await page.getByRole("button", { name: /Вариант B ·/ }).click();
   await page.getByRole("link", { name: "Оснастка", exact: true }).click();
@@ -85,6 +93,7 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
   await expect(page.locator("#fit-time")).toHaveText("0 с / 20 с");
   await expect(page.locator("#fit-dock-rate")).toHaveText("—");
   await expect(page.locator("#fit-dock-result-context")).toContainText("вариант A");
+  await page.locator("#fit-modules-details > summary").click();
   await page.locator('.lab-main [data-instance="fit:march"]').click();
   const oldMarch = JSON.parse(oldBytes.toString()).spec.resolvedShip.instances.find((i: any) => i.id === "fit:march");
   await expect(page.getByRole("dialog")).toContainText('"id": "' + oldMarch.item.id + '"');

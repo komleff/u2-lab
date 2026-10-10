@@ -1226,13 +1226,14 @@ body:has(.fitting-app) {
 .fitting-app .lab-columns { grid-template-columns: minmax(0, 1fr); grid-template-areas: "conditions" "main" "resources"; }
 .fitting-app .condition-fields { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
 .fitting-app .lab-main, .fitting-app .lab-side, .fitting-app .lab-right { min-width: 0; }
-.fitting-app .overview-charts svg text, .fitting-app #channel-details svg text { font-size: 20px; }
+.fitting-app .overview-charts svg text { font-size: 28px; }
+.fitting-app #channel-details svg text { font-size: 20px; }
 .fitting-app .selected-interval { background: var(--panel-active, #3a3226); }
 .fitting-app #chart-bucket { width: 100%; }
 @media (max-width: 900px) {
   .fitting-app .condition-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .fitting-app .overview-charts { grid-template-columns: 1fr; }
 }
+@media (max-width: 700px) { .fitting-app .overview-charts { grid-template-columns: 1fr; } }
 @media (max-width: 500px) {
   .fitting-app .condition-fields { grid-template-columns: 1fr; }
   .fitting-app .overview-charts svg text { font-size: 28px; }
@@ -1292,6 +1293,26 @@ html:has(.fitting-app), body:has(.fitting-app) { overscroll-behavior-y: none; }
 .fitting-app .overview-charts h3 { min-height: 0; }
 .fitting-app .ab-rows dl > div { min-height: 0; padding: 6px 0; }
 .fitting-app .ab-plot text { font-size: 26px; }
+
+/* Число и единица остаются одной читаемой величиной в компактном Compare. */
+.fitting-app .measurement-value { white-space: nowrap; overflow-wrap: normal; }
+.fitting-app .chart-time-picker { margin: 8px 0; }
+.fitting-app .measured-passport > summary,
+.fitting-app .condition-snapshots > summary,
+.fitting-app #signature-comparison > summary,
+.fitting-app .signature-sources > summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; }
+.fitting-app .measured-passport pre,
+.fitting-app .condition-snapshots pre,
+.fitting-app .signature-sources pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 300px; overflow: auto; font-size: 12px; }
+.fitting-app .measured-ownership,
+.fitting-app .signature-contexts { overflow-wrap: anywhere; }
+.fitting-app .signature-comparison-rows > div { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(0, 2fr); gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.fitting-app .signature-comparison-rows dd { margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.fitting-app .signature-comparison-rows dd > span { font-size: 12px; }
+.fitting-app .signature-comparison-rows strong { display: block; font-size: 12px; }
+@media (max-width: 700px) {
+  .fitting-app .signature-comparison-rows > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+}
 
 .fitting-app .result-tile { padding: 8px; gap: 6px; }
 .fitting-app .result-tile strong { font-size: 24px; }
@@ -1375,3 +1396,11 @@ html:has(.fitting-app), body:has(.fitting-app) { overscroll-behavior-y: none; }
 html:has(.fitting-app) { scroll-padding-top: 112px; scroll-padding-bottom: 132px; }
 @media (max-width: 700px) { html:has(.fitting-app) { scroll-padding-top: 148px; } }
 @media (max-height: 400px) { html:has(.fitting-app) { scroll-padding-top: 8px; } }
+.fitting-app #sig-controls, .fitting-app #sig-measurements, .fitting-app #sig-observer-view { min-width: 0; overflow-wrap: anywhere; }
+.fitting-app .signature-chart { scroll-margin-top: 160px; }
+.fitting-app .signature-chart svg { width: 100%; min-width: 0; }
+.fitting-app .signature-chart svg text { fill: #e8dcc6; }
+@media (max-width: 390px) {
+  .fitting-app .ui-header nav { gap: 2px; }
+}
+.fitting-app #sig-truth-details pre { white-space: pre-wrap; overflow-wrap: anywhere; }

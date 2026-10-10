@@ -4,9 +4,11 @@ import type { RequestFrame, RunSpecV2, StateV2, StepResultV2 } from '../model/v2
 import { physicsShip } from '../model/v2/step';
 import { thermalDuty } from '../model/scheduler';
 import { stoppingDistance } from '../model/v2/flight';
+import { exactFields } from '../signatures/config';
 
 type Operation = { id:string; label:string; gate:Gate; causeGate?:Gate; requested:boolean; thermal:number; nominal:number; actual:number; unit:string; species?:string; role?:string; capacity?:boolean; aggregate?:boolean; powerLimited?:boolean; resourceLimited?:string[]; detail?:string };
 type Episode = { identity:string; bucket:number; thermal:boolean };
+export type DiagnosticCheckpoint = { episodes:[string,Episode][]; thermalEpisode:boolean; coolingModes:[string,{phase:string;seen:string[]}][]; controlsDisclosed:boolean };
 const n=(x:number)=>Number.isFinite(x)?x.toFixed(3):'не записано';
 const side=(g:Gate,T:number)=>T<=g.low?'cold':T>=g.high?'hot':g.workLow!==undefined&&T<g.workLow?'cold':T>g.workHigh?'hot':'';
 const thermalText=(g:Gate,T:number)=>side(g,T)==='cold'?`переохлаждение; T ${n(T)} K, рабочая от ${g.workLow??'не записано'} K, отключение ${g.low} K`:side(g,T)==='hot'?`недостаточно охлаждения; T ${n(T)} K, рабочая до ${g.workHigh} K, отключение ${g.high} K`:`температурный запрет удерживается; T ${n(T)} K; повторное включение ${g.restartLow}–${g.restartHigh} K`;
@@ -28,6 +30,16 @@ export class DiagnosticObserver {
  private thermalEpisode=false;
  private coolingModes=new Map<string,{phase:string; seen:Set<string>}>();
  private controlsDisclosed=false;
+ checkpoint():DiagnosticCheckpoint { return structuredClone({episodes:[...this.episodes],thermalEpisode:this.thermalEpisode,coolingModes:[...this.coolingModes].map(([id,v])=>[id,{phase:v.phase,seen:[...v.seen]}] as [string,{phase:string;seen:string[]}]),controlsDisclosed:this.controlsDisclosed}); }
+ restore(value:unknown):void {
+  const x=exactFields(value,['episodes','thermalEpisode','coolingModes','controlsDisclosed'],'diagnostics') as unknown as DiagnosticCheckpoint;
+  if(typeof x.thermalEpisode!=='boolean'||typeof x.controlsDisclosed!=='boolean'||!Array.isArray(x.episodes)||!Array.isArray(x.coolingModes))throw new TypeError('Invalid diagnostic checkpoint');
+  const ids=new Set<string>();
+  for(const pair of x.episodes){if(!Array.isArray(pair)||pair.length!==2||typeof pair[0]!=='string'||ids.has(pair[0]))throw new TypeError('Invalid diagnostic episode');ids.add(pair[0]);exactFields(pair[1],['identity','bucket','thermal'],'episode');if(typeof pair[1].identity!=='string'||!Number.isSafeInteger(pair[1].bucket)||typeof pair[1].thermal!=='boolean')throw new TypeError('Invalid episode');}
+  ids.clear();for(const pair of x.coolingModes){if(!Array.isArray(pair)||pair.length!==2||typeof pair[0]!=='string'||ids.has(pair[0]))throw new TypeError('Invalid cooling checkpoint');ids.add(pair[0]);exactFields(pair[1],['phase','seen'],'cooling mode');if(typeof pair[1].phase!=='string'||!Array.isArray(pair[1].seen)||pair[1].seen.some(v=>typeof v!=='string'))throw new TypeError('Invalid cooling mode');}
+  this.episodes=new Map(structuredClone(x.episodes));this.thermalEpisode=x.thermalEpisode;
+  this.coolingModes=new Map(x.coolingModes.map(([id,v])=>[id,{phase:v.phase,seen:new Set(v.seen)}]));this.controlsDisclosed=x.controlsDisclosed;
+ }
  observe(phase:string,previous:ModelState,step:StepResult,operations:Operation[],native:LabEvent[]=step.events):LabEvent[] {
   const events:LabEvent[]=[],time=step.state.timeSeconds,T=previous.temperatureK;
   const emit=(kind:string,message:string,t=time)=>events.push({timeSeconds:t,kind,message:`${phase} · ${message}`});
