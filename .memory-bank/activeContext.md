@@ -1,3 +1,31 @@
+# Ship-model v0.1 — реализация, 2026-10-11
+
+Оператор одобрил план v1.2 и поручил реализацию. Frozen plan692385d:
+docs/plans/2026-10-10-ship-model-v0.1-update.md, весь SM-01–14. Affected PLAN_READY:
+PR21comment6100571178,0B0A/noPRODUCTGAP, FP95d7430f13b91ba9650fbdf2a4ec016bb9b842031435eafd5b095f85c1a2b314.
+Поздние U2 owners PR842/5140593 и PR848/db32125 supersede старый handoff:
+Military hull+Combat/all temperature-sensitive active modules hot-only f_T=1 с wear;
+mandatory own critical stop, обычная cold/Masking, hysteresis→durability/cooldown.
+
+Рабочая ветка feat/ship-model-v0.1-runtime в этом isolated checkout; DraftPR22
+base fix/lab-durability-adr0066. Один основной Developer /root/ship_model_developer,
+GPT-6.1 Sol/xhigh. DEV_RELEASE D0/T1 после baseline5f209e7 fullguardPASS:
+1075unit/117browser+1inheritedskip/26cloud/type/build/structure/bootstrap metadata.
+Canonical work items ulab-9aa.10–.16 с последовательными dependencies; только
+primary bd API writer, snapshot опубликован0ba144a. Текущий статус читать в Beads;
+эта запись — recovery context. PM не реализует runtime. Далее T2→T3→T4→T5→T6,
+independent QA + один scoped Code Review. Budget PRODUCT:1/5(existing PlanReview).
+Evidence launch: docs/reviews/2026-10-11-ship-model-implementation-launch.md.
+
+Новая версия u2-lab/4/model ship-fitting-ship-model-0.1/catalog0.3.0 explicit opt-in;
+legacy /1|2|3, catalog0.2.x/history literal-compatible. Missing numeric TTX явно
+experimental candidates, никогда canonical by green tests. Cold-H2 Masking позже.
+Server runtime/U2 implementation OUT; actual SM14 parity, physical second LAN,
+native activation/playtest/base/bootstrap acceptance/operator merge separate gates.
+Существующие LAN4196/4189/Pages и архивы не менять в ходе разработки.
+
+## Предыдущий checkpoint
+
 # Operator result-dock fix, 2026-10-07
 
 ulab-p2w, PR13/fix/catalog-dialog-focus от7eef0c0. Accepted WHAT0.7:
