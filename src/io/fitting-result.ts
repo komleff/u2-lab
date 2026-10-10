@@ -8,6 +8,13 @@ import { CAUSES, isMissionModel, MODEL_SIGNATURE_MISSION } from "../model/v2/typ
 import { exactFields } from "../signatures/config";
 import { restoreSignatureRuntime } from "../signatures/runtime";
 import { DiagnosticObserver } from "../runner/diagnostics";
+import {parseShipModelResultJson} from './ship-model-result';
+import type {RunResultV3} from '../runner/ship-model-run';
+// Explicit version dispatch; the old reader/ReturnType remains unchanged.
+export function parseStoredResultJson(text:string):ValidationResult<RunResultV2|RunResultV3>{
+  try{if(JSON.parse(text)?.spec?.schemaVersion==='u2-lab/4')return parseShipModelResultJson(text);}catch{}
+  return parseResultJson(text);
+}
 const object = (v: unknown): v is Record<string, any> => !!v && typeof v === "object" && !Array.isArray(v);
 const finite = (v: unknown): v is number => typeof v === "number" && Number.isFinite(v);
 const nonnegative = (v: unknown): v is number => finite(v) && v >= 0;

@@ -26,6 +26,7 @@ import { updateDom } from "./fitting-ui/dom";
 import { numericalVariant } from "./fitting-ui/local-variant";
 import { measuredIdentity } from "./fitting-ui/result-context";
 import type { ChannelState } from "./fitting-ui/lab-channels";
+import {mountShipModel} from './ship-model';
 export type FittingController = {
   getFit(): ShipFit;
   applyFit(f: ShipFit): FitValidation;
@@ -72,6 +73,8 @@ export function mountFitting(
     },
     pending = new Map<number, { at: number; type: string }>();
   root.classList.add("fitting-app");
+  let shipModel:ReturnType<typeof mountShipModel>|undefined;
+  function openShipModel(documentText?:string){try{const workspace=w.createShipModelWorkspace();if(documentText)workspace.importDocument(documentText);shipModel=mountShipModel(root,workspace,()=>{shipModel=undefined;render();});}catch(e){error=String(e);render();}}
   const el = <T extends HTMLElement = HTMLElement>(id: string) =>
     root.querySelector<T>("#" + CSS.escape(id));
   const listen = (id: string, fn: () => void) => {
@@ -169,6 +172,7 @@ export function mountFitting(
     el(returnId)?.focus();
   }
   function render() {
+    if(shipModel){shipModel.render();return;}
     const focus = document.activeElement as
         HTMLInputElement | HTMLSelectElement | null,
       focusId = focus?.id,
@@ -304,6 +308,7 @@ export function mountFitting(
         else next.instances[x.dataset.enable!].enabled = x.checked;
         apply(next);
       };
+    const entry=document.createElement('button');entry.id='ship-model-open';entry.textContent='Ship model v0.1 · experimental opt-in';entry.disabled=!!w.getActive();entry.onclick=()=>openShipModel();root.querySelector('.workspace-meta')!.append(entry);
     const preset = el<HTMLSelectElement>("fit-preset");
     if (preset) preset.onchange = () => { if (!preset.value) return; const v=w.applyPreset(preset.value); error=v.valid?"":v.issues.map(i=>i.message).join("\n"); render(); };
     const signatureDraft=()=>w.getSelected().conditions.signatures??defaultSignatureSettings(fitHull(w.getFit(),catalog)?.size==="S"?"S":"M");
@@ -441,6 +446,7 @@ export function mountFitting(
             render();
             return;
           }
+          const discriminator=JSON.parse(source);if(discriminator.schemaVersion==='u2-ship-fit/2'||(discriminator.spec??discriminator).schemaVersion==='u2-lab/4'){openShipModel(source);return;}
           const p = w.importDocument(source, allowSnapshot);
           if (!p.ok)
             error = p.errors.map((e) => e.path + ": " + e.message).join("\n");
@@ -726,6 +732,7 @@ export function mountFitting(
       render();
     },
     destroy() {
+      shipModel?.destroy();
       worker.terminate();
       window.removeEventListener("resize", resize);
       root.classList.remove("fitting-app");

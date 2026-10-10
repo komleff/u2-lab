@@ -8,11 +8,14 @@ import { makeMissionRun,compareMissionConditions } from "../../src/scenarios/mis
 import { makeMiningRun } from "../../src/scenarios/fitting";
 import { createRun,runChunk,result } from "../../src/runner/run";
 import { parseExperimentJson } from "../../src/io/fitting-json";
-import { parseResultJson } from "../../src/io/fitting-result";
+import { parseResultJson,parseStoredResultJson } from "../../src/io/fitting-result";
 const c=loadCandidateCatalog("ship-fitting-0.2.2");
 const json=(x:unknown)=>JSON.stringify(x,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as any):v);
 const digest=(x:unknown)=>createHash('sha256').update(json(x)).digest('hex');
 function spec(){const s=makeMissionRun(getPresetFit('pony:2',c.version),c,{durationSeconds:50,stepSeconds:.1,distanceM:0,approachSeconds:0,serviceSeconds:1,targetM3:.01,repeat:false});if(!s.ok)throw Error(json(s));return s.value;}
+it('stored-result version dispatch preserves old mission measurements and native reader literals',()=>{
+ const run=createRun('old-mission-dispatch',spec());runChunk(run,1);const text=json(result(run));expect(parseStoredResultJson(text)).toEqual(parseResultJson(text));const opened=parseStoredResultJson(text);if(!opened.ok)throw Error('parse');expect(json(opened.value)).toBe(text);expect(opened.value.spec.schemaVersion).toBe('u2-lab/2');
+});
 it('M06 native zero/partial/completed-before-H/cancelled results roundtrip without recomputation',()=>{
  const s=spec();expect(parseExperimentJson(json(s))).toEqual({ok:true,value:s});
  const run=createRun('mission-io',s);const zero=result(run);const z=parseResultJson(json(zero));expect(z.ok,z.ok?'':json(z.errors)).toBe(true);if(z.ok)expect(digest(z.value)).toBe(digest(zero));

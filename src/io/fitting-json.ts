@@ -99,3 +99,6 @@ export function parseExperimentJson(
 export function serializeExperiment(spec: StoredRunSpec): string {
   return JSON.stringify(spec, null, 2);
 }
+export function serializeResultSnapshot(result:import('../runner/run').RunResultV2|import('../runner/run').RunResultV3):string{
+  return JSON.stringify(result,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v,2);
+}

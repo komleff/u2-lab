@@ -19,6 +19,7 @@ export type ThermalSurface = {
 export type DurabilityParameters = {
   behavior: "repairable-active" | "passive" | "hull" | "armor" | "vital";
   emergencyDepthR: number; wearPerWorkSecond: number; failurePeriodSeconds: number; cooldownSeconds: number;
+  emergencyMinimumFraction?: number;
 };
 export type ModuleItemV3 = {
   id: string; label: string; category: CategoryV3; size: Size; family: FamilyV3;
@@ -67,7 +68,7 @@ export type StateV3 = {
   fuelKg: Record<Species, number>; buffers: Record<string, { storedJ: number; minimumCaptureK: number | null }>;
   governor: { coolingStageId: string | null; heatingStageId: string | null; recoveringBuffer: boolean };
   generator: { permission: boolean; normalOn: boolean };
-  modules: Record<string, { durabilityR: number; firstNegativeCrossing: boolean; emergencyExposureSeconds: number; cooldownSeconds: number; restartAuthorized: boolean; thermalStopped: boolean }>;
+  modules: Record<string, { durabilityR: number; firstNegativeCrossing: boolean; emergencyExposureSeconds: number; cooldownSeconds: number; restartAuthorized: boolean; durabilityStopped: boolean; thermalStopped: boolean }>;
   surfaceOpen: Record<string, boolean>;
   rng: { algorithm: "xorshift32/1"; seed: number; state: number };
 };

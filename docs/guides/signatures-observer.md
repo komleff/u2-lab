@@ -1,5 +1,8 @@
 # Сигнатуры и условный наблюдатель · первый стенд
 
+Этот раздел описывает прежний стенд `u2-lab/3`; новый явный `/4` путь описан
+в конце документа. Его experimental статус не наследует прежние QA/Review verdict.
+
 Модуль `signatures-observer 0.1`, UI 4.8 candidate, каталог 0.2.5. Численная модель
 Лабы прошла полную QA и scoped Code Review; история и расчётные дальности UI4.7 проходят отдельную финальную приёмку. Прежние опыты
 сохраняют свои версии и числа. Физический корабль здесь один — текущая оснастка.
@@ -222,3 +225,33 @@ frozen baseline и новой модели, отдельно source-only и sour
 Цель source-only overhead ≤20%; превышение сопровождается profile и явным отчётом,
 без ослабления solver accuracy. Browser emulation/LAN smoke и физическое мобильное
 устройство имеют отдельные статусы проверки.
+
+## Ship model v0.1 · `u2-lab/4`
+
+Отдельный opt-in workspace использует `ship-signatures/1`, persisted receiver
+profile `positive-only` или `absolute-contrast` и условия того же observer.
+Adapter читает уже измеренные kernel frames, не пересчитывает тепло и не создаёт
+виртуальную тягу. IR сохраняет signed contrast тела и каждой поверхности;
+контактное thermal field не считается излучением. Горячий контур наследует
+профиль каждой принадлежащей ему поверхности. Aft projection меняет направление,
+не суммарные intrinsic watts и не площадь. Двигатели и генератор дают IR только
+по фактической работе/топливу. H₂-путь — выделенный бюджет уноса газа, не измеренное
+излучение фотонов; numerical cold-H₂ Stealth по-прежнему не включён.
+
+EM raw/escaped/captured поступает из production split. Shielding уменьшает
+escaped EM, сохраняет captured тепло в корабле и ухудшает own antenna response;
+адаптер не вычитает это тепло повторно. Собственный взгляд на явный control target
+требует реально оплаченного сенсора, в отличие от внешнего прибора прежнего стенда.
+Референс 1 MW IR / 20 W EM — условие опыта, не игровой контакт. 10/20/40 км
+сравнивают поток `W/(4πr²)` при тех же профиле и угле, не обещают скрытность.
+
+Result `/4` содержит полный spec/state/RNG, версию checkpoint, измеренные signals,
+frozen paths, metrics/retention/events. Import/reopen не пересчитывает историю;
+paused checkpoint возобновляется в настоящем Worker без reroll. Старые `/1`–`/3`
+читаются собственными прежними readers и не мигрируют автоматически.
+
+[Матрица кандидата](../experiments/ship-model-v0.1-matrix.md) и
+[production CP export](../verification/ship-model-v0.1-runtime.json) — Lab evidence,
+не server parity. Текущая независимая приёмка и точный commit —
+[PR #22](https://github.com/komleff/u2-lab/pull/22). QA/Review ещё не заявлены PASS;
+Unity/U2 server, физическое второе LAN-устройство и playtest balance — NOT RUN.

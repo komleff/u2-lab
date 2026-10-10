@@ -1,0 +1,12 @@
+{
+  "version": "ship-model-generations/1",
+  "status": "experimental; operator balance decision pending",
+  "sourceRef": "docs/gdd/gdd_ship_energy_thermal_model_v0.1.md §7; docs/plans/2026-10-10-ship-model-v0.1-update.md T6",
+  "scope": "Discrete laser-only sensitivity points, not a canonical curve or updated U2 table. Other installed mass, cooling and sources remain literal 0.3.0 candidates.",
+  "points": [
+    {"generation": 1, "usefulScale": 1, "efficiency": 0.35},
+    {"generation": 10, "usefulScale": 1.7, "efficiency": 0.60},
+    {"generation": 20, "usefulScale": 1.9, "efficiency": 0.67},
+    {"generation": 100, "usefulScale": 1.99, "efficiency": 0.699}
+  ]
+}

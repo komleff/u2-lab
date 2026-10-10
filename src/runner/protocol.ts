@@ -2,21 +2,26 @@ import type { StoredRunSpec } from "../model/v2/types";
 import { MODEL_SIGNATURE_MISSION } from "../model/v2/types";
 import { createRun, runChunk, result, type ExecutableRunContext } from "./run";
 import type {runShipModelChunk} from './ship-model-run';
-import { parseResultJson } from "../io/fitting-result";
+import { parseStoredResultJson } from "../io/fitting-result";
 import { restoreFittingRun, type RunResultV2 } from "./fitting-run";
+import {controlModule} from '../model/v3/durability';
+import type {RunContextV3} from './ship-model-run';
+import {restoreShipModelRun,type RunResultV3} from './ship-model-run';
 export type Control =
   | "start"
   | "pause"
   | "resume"
   | "step"
   | "cancel"
+  | "restart"
+  | "repair"
   | "snapshot";
 export type WorkerCommand =
   | {
       runId: string;
       commandId: number;
       type: Control;
-      payload?: { spec?: StoredRunSpec; maxSteps?: number; checkpoint?: RunResultV2 };
+      payload?: { spec?: StoredRunSpec; maxSteps?: number; checkpoint?: RunResultV2|RunResultV3; instanceId?:string; durabilityR?:number };
     }
   | { runId: string; type: "telemetry-ack"; chunkId: number };
 export class WorkerController {
@@ -40,9 +45,9 @@ export class WorkerController {
       try {
         let next:ExecutableRunContext;
         if(c.payload?.checkpoint){
-          const parsed=parseResultJson(JSON.stringify(c.payload.checkpoint,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v));
+          const parsed=parseStoredResultJson(JSON.stringify(c.payload.checkpoint,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v));
           if(!parsed.ok)throw new Error(parsed.errors.map(e=>e.path+": "+e.message).join("\n"));
-          next=restoreFittingRun(parsed.value);next.runId=c.runId;
+          next=parsed.value.spec.schemaVersion==='u2-lab/4'?restoreShipModelRun(parsed.value as RunResultV3):restoreFittingRun(parsed.value as RunResultV2);next.runId=c.runId;
         }else next=createRun(c.runId,c.payload!.spec!);
         this.context = next;
         this.pending = undefined;
@@ -55,6 +60,10 @@ export class WorkerController {
       }
     }
     if (this.context?.runId !== c.runId) return;
+    if(c.type==='restart'||c.type==='repair'){
+      try{if(this.context.spec.schemaVersion!=='u2-lab/4')throw new Error('schemaVersion: module control требует /4');const run=this.context as RunContextV3;run.state=controlModule(run.spec.resolvedShip,run.state,c.payload?.instanceId??'',c.type,c.payload?.durabilityR);}
+      catch(error){this.send({runId:c.runId,type:'error',payload:String(error)});return;}
+    }
     if (c.payload?.maxSteps)
       this.maxSteps = Math.min(20000, Math.max(1, c.payload.maxSteps));
     if (c.type === "pause" || c.type === "cancel") {
@@ -108,7 +117,7 @@ export class WorkerController {
       runId: run.runId,
       type: "chunk",
       chunkId: id,
-      payload: "signatures" in run && run.signatures ? result(run) : {
+      payload: run.spec.schemaVersion==='u2-lab/4'?{...result(run),telemetry:(run as RunContextV3).last}:"signatures" in run && run.signatures ? result(run) : {
         ...chunk,
         metrics: run.metrics,
         buckets: run.retention.buckets.slice(-250),

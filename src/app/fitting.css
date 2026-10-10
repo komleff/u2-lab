@@ -1404,3 +1404,11 @@ html:has(.fitting-app) { scroll-padding-top: 112px; scroll-padding-bottom: 132px
   .fitting-app .ui-header nav { gap: 2px; }
 }
 .fitting-app #sig-truth-details pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+/* Versioned opt-in pane: functional controls keep the existing ownership model. */
+.ship-model-preview { max-width: 1200px; margin: auto; padding: 16px; overflow-wrap: anywhere; }
+.ship-model-preview section { margin: 16px 0; padding: 12px; border: 1px solid var(--border, #394454); }
+.ship-model-preview label { display: inline-flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 6px; max-width: 100%; }
+.ship-model-preview input, .ship-model-preview select { max-width: 100%; min-width: 0; }
+.ship-model-preview pre { max-width: 100%; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+.ship-model-preview button { margin: 4px; }
+#sm-error { color: #ff9f91; white-space: pre-wrap; }

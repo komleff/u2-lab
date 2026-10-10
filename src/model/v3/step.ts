@@ -8,6 +8,10 @@ import { exchangeAt, evaluateSurfaces } from './thermal-surfaces';
 import { solveThermoinverter } from './thermoinverter';
 import { allocateCascade, authorizedDuty, temperatureCorridor, thermalAvailability, type ThermalStage } from './thermal-control';
 import { heatingOrder } from './heating';
+import {attemptRestart,durabilityBoundary,advanceDurability,stopAtFirstNegative} from './durability';
+import {engineIr,electricMotorLosses,generatorIr,hydrogenCoolerIr} from '../../signatures/sources';
+import {strongestTransmission} from '../../signatures/domain';
+export type OutwardIrPath={id:string;kind:'engine'|'generator'|'h2';absoluteIrW:number;contrastW:number;profile:'omnidirectional'|'aft-directed'};
 
 // Явные balance candidates, не канонические ТТХ или continuation defaults.
 export const CONTROLLER_CANDIDATES={chargeEfficiency:0.9,dischargeEfficiency:0.9,narrowOffsets:true,
@@ -61,17 +65,22 @@ function flows(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,c:Con
   const el=electrical(baseLoad*fraction+fixedAux+tiBus,1);
   const stages:ActualElectricalStage[]=[{id:'hull',kind:'consumer_input',actualW:ship.hull.hullPowerW*fraction},{id:'battery-in',kind:'battery_charge',actualW:el.batteryInputW},{id:'battery-out',kind:'battery_discharge',actualW:el.batteryOutputW}];
   let hostLossBudgetW=ship.hull.hullPowerW*fraction+el.converterLossW,usefulWorkW=0,exportW=0,chemicalW=0,intentionalRfW=0;
-  const fuelRate={diesel:0,hydrogen:0},actualW:Record<string,number>={},working:Record<string,number>={};
+  const fuelRate={diesel:0,hydrogen:0},actualW:Record<string,number>={},working:Record<string,number>={},outwardIr:OutwardIrPath[]=[];let engineIrExportW=0;
   for(const i of generators){const n=i.item.numerics,bus=generatorMaximumW>0?el.generatorW*n.powerW*availability[i.id]/generatorMaximumW:0,chem=bus/n.pathEfficiency/n.efficiency,waste=chem-bus/n.pathEfficiency;
-    chemicalW+=chem;fuelRate[i.item.species!]+=chem/ship.resources[i.item.species!].energyJKg;exportW+=waste*n.exportFraction;hostLossBudgetW+=bus*(1/n.pathEfficiency-1)+waste*(1-n.exportFraction);actualW[i.id]=bus;working[i.id]=bus/n.powerW;stages.push({id:i.id,kind:'generator_output',actualW:bus});}
+    chemicalW+=chem;fuelRate[i.item.species!]+=chem/ship.resources[i.item.species!].energyJKg;exportW+=waste*n.exportFraction;hostLossBudgetW+=bus*(1/n.pathEfficiency-1)+waste*(1-n.exportFraction);actualW[i.id]=bus;working[i.id]=bus/n.powerW;stages.push({id:i.id,kind:'generator_output',actualW:bus});
+    const ir=generatorIr(i.item.species!,waste*n.exportFraction);outwardIr.push({id:i.id,kind:'generator',absoluteIrW:ir,contrastW:ir,profile:'aft-directed'});}
   for(const i of consumers){const n=i.item.numerics;
     if(i.item.family==='engine'&&i.item.propulsionType!=='electric'){
       const sp=i.item.propulsionType as 'diesel'|'hydrogen',mass=state.fuelKg[sp]>0?n.forceN*n.alpha*duty[i.id]:0,chem=mass*ship.resources[sp].energyJKg,useful=chem*n.efficiency*n.pathEfficiency,waste=chem-useful;
-      chemicalW+=chem;fuelRate[sp]+=mass;exportW+=useful+waste*(1-n.hostFraction);hostLossBudgetW+=waste*n.hostFraction;actualW[i.id]=chem;working[i.id]=mass>0?duty[i.id]:0;continue;
+      chemicalW+=chem;fuelRate[sp]+=mass;exportW+=useful+waste*(1-n.hostFraction);hostLossBudgetW+=waste*n.hostFraction;actualW[i.id]=chem;working[i.id]=mass>0?duty[i.id]:0;
+      const ir=engineIr({kind:sp,enabled:mass>0,actualSourceW:waste*(1-n.hostFraction)});outwardIr.push({id:i.id,kind:'engine',absoluteIrW:ir.absoluteIrW,contrastW:ir.absoluteIrW,profile:'aft-directed'});continue;
     }
     const power=(n.powerW??0)*duty[i.id]*fraction;actualW[i.id]=power;working[i.id]=power>0?duty[i.id]*fraction:0;stages.push({id:i.id,kind:'consumer_input',actualW:power});
     if(i.item.family==='mining'){const useful=power*n.efficiency;usefulWorkW+=useful;exportW+=useful;hostLossBudgetW+=power-useful;}
-    else if(i.item.family==='engine'){const useful=power*n.efficiency*n.pathEfficiency,waste=power-useful;exportW+=useful+waste*(1-n.hostFraction);hostLossBudgetW+=waste*n.hostFraction;}
+    else if(i.item.family==='engine'){const useful=power*n.efficiency*n.pathEfficiency,waste=power-useful;
+      const ir=engineIr({kind:'electric',enabled:power>0,actualSourceW:electricMotorLosses({actualBusW:power,pathEfficiency:n.pathEfficiency,motorEfficiency:n.efficiency}).motorWasteW});
+      exportW+=useful+waste*(1-n.hostFraction)+ir.hostHeatDebitW;hostLossBudgetW+=waste*n.hostFraction-ir.hostHeatDebitW;engineIrExportW+=ir.hostHeatDebitW;
+      outwardIr.push({id:i.id,kind:'engine',absoluteIrW:ir.absoluteIrW,contrastW:ir.absoluteIrW,profile:'aft-directed'});}
     else if(i.item.family==='transmitter'||i.item.family==='radar'){intentionalRfW+=power;exportW+=power;}
     else hostLossBudgetW+=power;
   }
@@ -93,7 +102,8 @@ function flows(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,c:Con
   const surfaceRows=evaluateSurfaces(ship.surfaces.map(s=>{const circuit=s.circuitOwner.kind==='common-ti'?'common-ti':s.circuitOwner.instanceId;return {...s,areaM2:s.areaM2*(!s.active||heldOpen(s)||circuitTemperatures[circuit]!==undefined?1:c.active*fraction)};}),open,T,env.radiativeBackgroundK,env.thermalField,circuitTemperatures);
   const directSurfaceW=surfaceRows.rows.filter(r=>circuitTemperatures[r.circuitId]===undefined).reduce((n,r)=>n+r.totalW,0);
   const h2CoolingW=h2.reduce((n,i)=>n+i.item.numerics.coolingW*availability[i.id]*c.h2*fraction,0);
-  for(const i of h2){fuelRate.hydrogen+=i.item.numerics.coolingW*availability[i.id]*c.h2*fraction/i.item.numerics.qJKg;working[i.id]=c.h2*availability[i.id]*fraction;}
+  for(const i of h2){const gasW=i.item.numerics.coolingW*availability[i.id]*c.h2*fraction,flow=gasW/i.item.numerics.qJKg;fuelRate.hydrogen+=flow;working[i.id]=c.h2*availability[i.id]*fraction;
+    const ir=hydrogenCoolerIr(gasW,flow,env.radiativeBackgroundK);outwardIr.push({id:i.id,kind:'h2',absoluteIrW:ir.allocatedIrBudgetW,contrastW:ir.contrastW,profile:'omnidirectional'});}
   const directHeatW=env.directHeat.reduce((n,x)=>n+x.powerW,0)+env.energyInputs.filter(x=>x.representation==='heat').reduce((n,x)=>n+x.powerW,0);
   let buffers=ship.instances.filter(i=>i.item.family==='buffer').map(i=>{const n=i.item.numerics,x:BufferInput={...state.buffers[i.id],capacityJ:ship.bufferCapacityJ[i.id],chargePowerW:n.chargePowerW,dischargePowerW:n.dischargePowerW,temperatureK:T,captureW:n.chargePowerW*c.capture*availability[i.id],releaseW:n.dischargePowerW*c.release*availability[i.id]};return {i,input:x,flow:bufferFlow(x)};});
   const touching=buffers.filter(b=>b.flow.rateStoredJPerS<0&&T>=b.input.minimumCaptureK!),touchingW=touching.reduce((n,b)=>n-b.flow.rateStoredJPerS,0);
@@ -106,7 +116,8 @@ function flows(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,c:Con
   const netHeatW=em.hostHeatW+directHeatW-body.totalW-directSurfaceW-tiCoolingW-h2CoolingW-bufferRateW;
   const inputW=chemicalW+el.independentAcceptedW+solarHeatW+directHeatW;
   const outputW=exportW+em.escapedEmW+body.totalW+surfaceRows.totalW+h2CoolingW;
-  return {el,em,body,surfaceRows,open,actualPumps,availability,working,actualW,fuelRate,buffers,netHeatW,inputW,outputW,usefulWorkW,tiCoolingW,h2CoolingW,bufferRateW,requestedLoad,fraction};
+  const ownAntennaTransmission=strongestTransmission(ship.instances.filter(i=>i.item.family==='shielding'&&availability[i.id]>0&&fraction>0).map(i=>i.item.numerics.antennaTransmission)),ownSensorWorkingW=ship.instances.filter(i=>i.item.family==='sensor').reduce((sum,i)=>sum+(actualW[i.id]??0),0);
+  return {el,em,body,surfaceRows,open,actualPumps,availability,working,actualW,fuelRate,buffers,netHeatW,inputW,outputW,usefulWorkW,tiCoolingW,h2CoolingW,bufferRateW,requestedLoad,fraction,outwardIr,engineIrExportW,ownAntennaTransmission,ownSensorWorkingW};
 }
 
 function chooseControls(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,env:EnvironmentV3,action:PhaseAction){
@@ -143,9 +154,11 @@ function chooseControls(spec:RunSpecV3,state:StateV3,requests:Record<string,numb
 
 export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,number>,action:PhaseAction='work'){
   const state=structuredClone(input),env=spec.environment,diagnostics:StepDiagnostic[]=[],telemetry:TickTelemetry={};
-  const frames:{durationSeconds:number;body:ReturnType<typeof exchangeAt>;surfaces:ReturnType<typeof evaluateSurfaces>;em:ReturnType<typeof coupledEm>}[]=[];
-  const updateGates=()=>{for(const i of spec.resolvedShip.instances){const m=state.modules[i.id],a=thermalAvailability(i.item,m,state.temperatureK,spec.resolvedShip.hull.class,state.mode);m.thermalStopped=a.thermalStopped;}};
+  const frames:{durationSeconds:number;body:ReturnType<typeof exchangeAt>;surfaces:ReturnType<typeof evaluateSurfaces>;em:ReturnType<typeof coupledEm>;outwardIr:OutwardIrPath[];ownAntennaTransmission:number;ownSensorWorkingW:number}[]=[];
+  const updateGates=()=>{for(const i of spec.resolvedShip.instances){const m=state.modules[i.id],a=thermalAvailability(i.item,m,state.temperatureK,spec.resolvedShip.hull.class,state.mode);if(a.thermalStopped&&!m.thermalStopped&&m.durabilityR<0&&i.item.durability.behavior==='repairable-active')m.durabilityStopped=true;m.thermalStopped=a.thermalStopped;}};
+  const restartReady=()=>{for(const i of spec.resolvedShip.instances)if(i.enabled){const reason=attemptRestart(i.item.durability,state.modules[i.id],state.rng);if(reason)diagnostics.push({instanceId:i.id,reason,timeSeconds:state.timeSeconds});}};
   updateGates();
+  restartReady();
   for(const i of spec.resolvedShip.instances)if((requests[i.id]??0)>0&&authorizedDuty(i.item,state.mode,requests[i.id]).duty===0)diagnostics.push({instanceId:i.id,reason:'masking-forbidden',timeSeconds:state.timeSeconds});
   const chosen=chooseControls(spec,state,requests,env,action);state.governor={coolingStageId:chosen.coolingStageId,heatingStageId:chosen.heatingStageId,recoveringBuffer:chosen.recoveringBuffer};
   if(chosen.incompatible)diagnostics.push({reason:'incompatible-temperature-corridor',timeSeconds:state.timeSeconds});
@@ -156,6 +169,13 @@ export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,numbe
     if(++segments>128)throw new Error('v3 event clipping did not converge');
     const r=flows(spec,state,requests,chosen.controls,env);let dt=left;
     const boundaries:{seconds:number;instanceId?:string;reason:string;temperatureK?:number}[]=[];
+    let immediate=false;
+    for(const i of spec.resolvedShip.instances){const m=state.modules[i.id],a=thermalAvailability(i.item,m,state.temperatureK,spec.resolvedShip.hull.class,state.mode),b=durabilityBoundary(i.item.durability,m,r.working[i.id]??0,a.wearMultiplier,left);
+      if(b?.seconds===0&&b.reason==='first-negative-crossing'){stopAtFirstNegative(i.item.durability,m);diagnostics.push({instanceId:i.id,reason:b.reason,timeSeconds:state.timeSeconds});immediate=true;}
+      else if(b&&b.seconds>0)boundaries.push({...b,instanceId:i.id});
+      if(m.cooldownSeconds>0)boundaries.push({seconds:m.cooldownSeconds,instanceId:i.id,reason:'cooldown-ready'});
+    }
+    if(immediate)continue;
     if(Number.isFinite(r.el.depletionSeconds)&&r.el.depletionSeconds>0)boundaries.push({seconds:r.el.depletionSeconds,reason:'battery-empty'});
     for(const sp of ['diesel','hydrogen']as const)if(r.fuelRate[sp]>0)boundaries.push({seconds:state.fuelKg[sp]/r.fuelRate[sp],reason:'fuel-empty:'+sp});
     for(const b of r.buffers)if(Number.isFinite(b.flow.limitSeconds)&&b.flow.limitSeconds>0)boundaries.push({seconds:b.flow.limitSeconds,instanceId:b.i.id,reason:b.flow.rateStoredJPerS>0?'buffer-full':'buffer-empty'});
@@ -164,20 +184,23 @@ export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,numbe
     for(const i of spec.resolvedShip.instances){if(!i.enabled||state.modules[i.id].thermalStopped)continue;const boundary=temperatureRate>0?i.item.gate.high:i.item.gate.low,seconds=(boundary-state.temperatureK)/temperatureRate;if(seconds>0&&Number.isFinite(seconds))boundaries.push({seconds,instanceId:i.id,reason:temperatureRate>0?'critical-hot':'critical-cold',temperatureK:boundary});}
     for(const b of boundaries)if(b.seconds>0)dt=Math.min(dt,b.seconds);
     if(!(dt>0))throw new Error('nonpositive v3 event interval');
-    frames.push({durationSeconds:dt,body:r.body,surfaces:r.surfaceRows,em:r.em});
+    frames.push({durationSeconds:dt,body:r.body,surfaces:r.surfaceRows,em:r.em,outwardIr:r.outwardIr,ownAntennaTransmission:r.ownAntennaTransmission,ownSensorWorkingW:r.ownSensorWorkingW});
     const beforeT=state.temperatureK;state.temperatureK+=temperatureRate*dt;
     state.chargeJ=Math.max(0,Math.min(spec.resolvedShip.batteryCapacityJ,state.chargeJ+r.el.chargeRateJPerS*dt));state.generator=r.el.generator;
     for(const sp of ['diesel','hydrogen']as const)state.fuelKg[sp]=Math.max(0,state.fuelKg[sp]-r.fuelRate[sp]*dt);
-    for(const b of r.buffers){const next=advanceBuffer(b.input,b.flow,dt,state.temperatureK);state.buffers[b.i.id]={storedJ:next.storedJ,minimumCaptureK:next.minimumCaptureK};if(b.flow.reason)diagnostics.push({instanceId:b.i.id,reason:b.flow.reason,timeSeconds:state.timeSeconds,remainingJ:next.storedJ});}
-    for(const i of spec.resolvedShip.instances){const m=state.modules[i.id],a=thermalAvailability(i.item,m,beforeT,spec.resolvedShip.hull.class,state.mode);m.cooldownSeconds=Math.max(0,m.cooldownSeconds-dt);const work=(r.working[i.id]??0)*dt;
-      if(work>0){m.durabilityR-=i.item.durability.wearPerWorkSecond*a.wearMultiplier*work;if(m.durabilityR<0&&!m.firstNegativeCrossing){m.firstNegativeCrossing=true;m.cooldownSeconds=i.item.durability.cooldownSeconds;diagnostics.push({instanceId:i.id,reason:'first-negative-crossing',timeSeconds:state.timeSeconds+dt});}}
-    }
+    for(const b of r.buffers){const next=advanceBuffer(b.input,b.flow,dt,state.temperatureK);state.buffers[b.i.id]={storedJ:next.storedJ,minimumCaptureK:next.minimumCaptureK};const reason=b.flow.reason??(b.flow.rateStoredJPerS>0&&r.netHeatW>0&&chosen.controls.capture===1?'power-limit':null);if(reason)diagnostics.push({instanceId:b.i.id,reason,timeSeconds:state.timeSeconds,remainingJ:next.storedJ});}
+    for(const i of spec.resolvedShip.instances){const m=state.modules[i.id],a=thermalAvailability(i.item,m,beforeT,spec.resolvedShip.hull.class,state.mode),reason=advanceDurability(i.item.durability,m,state.rng,r.working[i.id]??0,a.wearMultiplier,dt);if(reason)diagnostics.push({instanceId:i.id,reason,timeSeconds:state.timeSeconds+dt});}
     state.surfaceOpen=r.open;
     for(const [key,value]of Object.entries({deliveredW:r.el.deliveredW,requestedW:r.requestedLoad,converterLossW:r.el.converterLossW,generatorW:r.el.generatorW,independentAcceptedW:r.el.independentAcceptedW,rejectedIndependentW:r.el.rejectedIndependentW,usefulWorkW:r.usefulWorkW,hostHeatW:r.em.hostHeatW,rawEmW:r.em.rawEmW,escapedEmW:r.em.escapedEmW,capturedEmW:r.em.capturedEmW,intentionalRfW:r.em.intentionalRfW,netHeatW:r.netHeatW,bufferCaptureW:Math.max(0,r.bufferRateW),bufferReleaseW:Math.max(0,-r.bufferRateW),tiCoolingW:r.tiCoolingW,h2CoolingW:r.h2CoolingW,radiationW:r.body.radiationW+r.surfaceRows.radiationW,fieldW:r.body.fieldW+r.surfaceRows.fieldW,totalResidualJ:r.inputW-r.outputW-r.el.chargeRateJPerS-r.netHeatW-r.bufferRateW}))add(key,value,dt);
     for(const [id,power]of Object.entries(r.actualW))add('actualW:'+id,power,dt);
+    add('engineIrExportW',r.engineIrExportW,dt);
     for(const p of r.actualPumps){add('tiHotK:'+p.i.id,p.result.hotK,dt);add('tiBusW:'+p.i.id,p.result.busW,dt);add('tiNetBenefitW:'+p.i.id,p.result.netBenefitW,dt);}
-    for(const b of boundaries)if(Math.abs(b.seconds-dt)<=1e-10*Math.max(1,dt)){if(b.temperatureK!==undefined){state.temperatureK=b.temperatureK;if(b.reason!=='capture-temperature-contact')state.modules[b.instanceId!].thermalStopped=true;}diagnostics.push({instanceId:b.instanceId,reason:b.reason,timeSeconds:state.timeSeconds+dt});}
-    left-=dt;state.timeSeconds=input.timeSeconds+(1-left);updateGates();
+    for(const b of boundaries)if(Math.abs(b.seconds-dt)<=1e-10*Math.max(1,dt)){
+      if(b.reason==='first-negative-crossing'){const m=state.modules[b.instanceId!];if(!m.firstNegativeCrossing){stopAtFirstNegative(spec.resolvedShip.instances.find(i=>i.id===b.instanceId)!.item.durability,m);diagnostics.push({instanceId:b.instanceId,reason:b.reason,timeSeconds:state.timeSeconds+dt});}continue;}
+      if(b.reason==='terminal-durability'){const m=state.modules[b.instanceId!];m.durabilityR=-spec.resolvedShip.instances.find(i=>i.id===b.instanceId)!.item.durability.emergencyDepthR;if(!m.durabilityStopped){m.durabilityStopped=true;diagnostics.push({instanceId:b.instanceId,reason:b.reason,timeSeconds:state.timeSeconds+dt});}continue;}
+      if(b.reason==='cooldown-ready'||b.reason==='failure-period')continue;
+      if(b.temperatureK!==undefined)state.temperatureK=b.temperatureK;diagnostics.push({instanceId:b.instanceId,reason:b.reason,timeSeconds:state.timeSeconds+dt});}
+    left-=dt;state.timeSeconds=input.timeSeconds+(1-left);updateGates();restartReady();
   }
   state.timeSeconds=input.timeSeconds+1;state.phaseElapsedSeconds=input.phaseElapsedSeconds+1;
   telemetry.temperatureK=state.temperatureK;telemetry.chargeJ=state.chargeJ;

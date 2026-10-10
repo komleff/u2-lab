@@ -1,4 +1,26 @@
-# Ship-model v0.1 — начало реализации, 2026-10-11
+# Ship-model v0.1 — подготовлен функциональный кандидат, 2026-10-11
+
+Актуальный task status: canonical Beads ulab-9aa.10–.16 (primary bd API only),
+snapshot1895799. Актуальные commit/evidence/acceptance: Draft PR22, не этот checkpoint.
+Milestones D0/T1 b5cb313 и T2/T3 476392d: обычный full guard PASS; последний
+1198unit/118browser+1inheritedskip/type/build/reference/bootstrap/26cloud PASS.
+T4–T6 ещё до final guard/commit: focused T4 и actual Worker CP05 PASS; T5 functional
+155unit/19files, type/build и actual browser6 PASS (compile1440/390/820,
+pause-save-import-resume, ownership/atomic refusal, real RESTART/repair).
+T6 latest receipt:55 actual production cases, measured matrix/CP exports,
+literal artifact reproduction,10,000s bounded retention и5000+restore5000 equivalence GREEN.
+
+Не объявлено: whole-candidate acceptance, независимые QA/Code Review, current CI
+final candidate. Следующий шаг — normal full guard, frozen SHA, QA SM-01–14 и один
+scoped Review по плану §8. Один основной Developer; no per-task reviewers/swarm.
+PRODUCT1/5 до QA; review/fix counter0/3, каждый третий цикл — PM_ERR/DOC_PR аудит.
+Early PM manual audit выполнен; тактика — полезные combined milestones, no cosmetics,
+no speculative hardening/новый канон/лишние metadata guard-циклы. План692385d неизменен.
+Preview4197 experimental opt-in; existing live releases сохранены. Межрепозиторный
+server parity, physical second LAN, native activation, playtest/balance и bootstrap/base
+acceptance отдельные NOT RUN/open gates; merge только оператору.
+
+## Начало реализации — историческая квитанция
 
 Accepted plan1.2/frozen692385d, affected PLAN_READY PR21comment6100571178,
 0blocker/0advisory/noPRODUCTGAP. Operator approved implementation and selected

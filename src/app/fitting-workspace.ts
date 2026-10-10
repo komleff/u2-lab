@@ -12,6 +12,7 @@ import { validateFit } from "../fitting/validate";
 import { getPresetFit } from "../fitting/catalog";
 import { fitItem, fitHull, isKnownCatalogVersion } from "../fitting/editions";
 import { conditionsFromSpec } from "./fitting-ui/conditions";
+import {ShipModelWorkspace} from './ship-model-workspace';
 export type Variant = {
   id: string;
   name: string;
@@ -31,6 +32,7 @@ export type ActiveTest = {
   status: "running" | "paused";
 };
 export class FittingWorkspace {
+  createShipModelWorkspace(){if(this.active)throw Error('Активный старый тест владеет controls; завершите его перед opt-in /4.');return new ShipModelWorkspace(this.getFit(),this.catalog);}
   private variants: Variant[];
   selectedId = "A";
   private active?: ActiveTest;

@@ -10,7 +10,7 @@ export function runtimeFixture(temperatureK=450){
 }
 export function install(s:RunSpecV3,itemId:string,id=itemId){
   const item=structuredClone(loadCandidateCatalog('ship-fitting-0.3.0').items[itemId]),i={id,item,enabled:true,builtin:false};
-  s.resolvedShip.instances.push(i);s.initialState.modules[id]={durabilityR:1,firstNegativeCrossing:false,emergencyExposureSeconds:0,cooldownSeconds:0,restartAuthorized:false,thermalStopped:false};
+  s.resolvedShip.instances.push(i);s.initialState.modules[id]={durabilityR:1,firstNegativeCrossing:false,emergencyExposureSeconds:0,cooldownSeconds:0,restartAuthorized:false,durabilityStopped:false,thermalStopped:false};
   if(item.family==='buffer'){s.resolvedShip.bufferCapacityJ[id]=item.numerics.capacityJ;s.initialState.buffers[id]={storedJ:0,minimumCaptureK:null};}
   for(const surface of item.surfaces){const row=structuredClone(surface);row.id=id+':'+row.id;if(row.circuitOwner.kind==='pump-radiator')row.circuitOwner.instanceId=id;s.resolvedShip.surfaces.push(row);s.initialState.surfaceOpen[row.id]=true;}
   return i;

@@ -1,4 +1,5 @@
 import type { ModuleItemV3, ResolvedInstanceV3, ShipClass, ShipMode, StateV3 } from "./types";
+import {durabilityFactor} from './durability';
 export type ThermalStage={id:string;setpointK:number;maximumW:number;heatSource?:boolean};
 export type CascadeInput={temperatureK:number;heatCapacityJK:number;netHeatW:number;durationSeconds:number;direction:"cooling"|"heating";stages:ThermalStage[]};
 export function allocateCascade(x:CascadeInput) {
@@ -26,8 +27,8 @@ export function thermalAvailability(item:ModuleItemV3,state:StateV3['modules'][s
   const cold=Math.max(0,Math.min(1,(g.workLow-temperatureK)/(g.workLow-g.low)));
   const override=hullClass==='Military'&&mode==='Combat'&&item.durability.behavior!=='passive';
   const temperatureFactor=thermalStopped?0:Math.min(override?1:1-hot,1-cold);
-  const conditionBlocked=item.durability.behavior==='repairable-active'&&(state.cooldownSeconds>0||state.durabilityR<=-item.durability.emergencyDepthR||state.durabilityR<0&&(!state.restartAuthorized||!state.firstNegativeCrossing));
-  return {thermalStopped,temperatureFactor,factor:conditionBlocked?0:temperatureFactor,wearMultiplier:1+Math.max(hot,cold),reason:thermalStopped?'thermal':conditionBlocked?'durability':null};
+  const conditionFactor=durabilityFactor(item.durability,state);
+  return {thermalStopped,temperatureFactor,factor:conditionFactor*temperatureFactor,wearMultiplier:1+Math.max(hot,cold),reason:thermalStopped?'thermal':conditionFactor===0?'durability':null};
 }
 export function authorizedDuty(item:ModuleItemV3,mode:ShipMode,requested:number) {
   const forbidden=mode==='Masking'&&(['mining','radar','transmitter'].includes(item.family)||item.operationPolicy==='deferrable-background'||item.operationPolicy==='optional-pulse-charge');

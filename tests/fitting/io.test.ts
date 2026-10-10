@@ -9,7 +9,13 @@ import {
 } from "../../src/io/fitting-json";
 import { createRun, runChunk, result } from "../../src/runner/run";
 import { exportFittingTelemetryCsv } from "../../src/io/fitting-csv";
+import {parseResultJson,parseStoredResultJson} from '../../src/io/fitting-result';
+import {serializeResultSnapshot} from '../../src/io/fitting-json';
 const c = loadCandidateCatalog();
+it('explicit stored-result router opens an old timed result literally and never adds /4 checkpoint/state',()=>{
+  const s=makeMiningRun(getPresetFit('sputnik'),loadCandidateCatalog(),{durationSeconds:2});if(!s.ok)throw Error('fixture');const run=createRun('old-stored',s.value);runChunk(run,1);const text=serializeResultSnapshot(result(run));
+  expect(parseStoredResultJson(text)).toEqual(parseResultJson(text));const opened=parseStoredResultJson(text);if(!opened.ok)throw Error('parse');expect(serializeResultSnapshot(opened.value)).toBe(text);expect(opened.value.spec.schemaVersion).toBe('u2-lab/2');expect('checkpoint'in opened.value).toBe(false);
+});
 it("roundtrips duplicate/builtin/localvariant origins and replay never reads latest catalog", () => {
   const f = getPresetFit("pony:3");
   f.builtinModes = { "builtin:laser": { enabled: false } };

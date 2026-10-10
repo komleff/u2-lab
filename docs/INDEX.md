@@ -2,6 +2,7 @@
 
 | Документ | Статус | Область |
 |---|---|---|
+| [Ship model v0.1: матрица кандидата](experiments/ship-model-v0.1-matrix.md) | experimental runtime candidate / текущая независимая приёмка в [PR #22](https://github.com/komleff/u2-lab/pull/22); QA/Review не заявлены PASS | Версионированные измерения циклов, поколений и cooling trade-offs; literal replay/performance; [исходные CP](verification/ship-model-v0.1-vectors.json) и [production input-state/output](verification/ship-model-v0.1-runtime.json). Server/LAN/playtest balance NOT RUN; новые ТТХ не канон |
 | [План обновления Lab до модели корабля PR #19](plans/2026-10-10-ship-model-v0.1-update.md) | v1.2 / [affected PLAN_READY на 692385d](https://github.com/komleff/u2-lab/pull/21#issuecomment-6100571178); одобрен оператором, реализация начата | SM-01–14, versioned model/schema/catalog, 1 s thermal profile, Combat hot-only override, обычная Masking protection, классовые поверхности/IR-профили, Quiet authorization, прочность, совместимость и U2 doc-sync gate |
 | [Запуск реализации ship-model v0.1](reviews/2026-10-11-ship-model-implementation-launch.md) | PRODUCT / source binding и canonical task IDs | Один основной Developer GPT-6.1 Sol / xhigh, frozen plan/U2 owners, DEV → QA → scoped review; runtime acceptance pending |
 | [Передача в U2: обновления ГДД и паспортов кораблей](handoffs/2026-10-10-u2-gdd-ship-specs-update-list.md) | reference v0.4.1 / сверено 2026-10-10 | Перечень согласования U2 и Лабы: принятые правила, кандидаты, прочность ADR-0066, Quiet, PR #20/#21 и адреса профильных владельцев U2 |

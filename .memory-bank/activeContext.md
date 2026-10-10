@@ -1,4 +1,27 @@
-# Ship-model v0.1 — реализация, 2026-10-11
+# Ship-model v0.1 — checkpoint перед независимой проверкой, 2026-10-11
+
+Draft PR22: https://github.com/komleff/u2-lab/pull/22. Актуальные статусы — только
+canonical Beads ulab-9aa.10–.16 и опубликованные evidence PR; эта запись фиксирует
+подготовку кандидата, не окончательный verdict. Один Developer GPT-6.1 Sol/xhigh.
+D0/T1 b5cb313 и T2/T3 476392d прошли обычный full guard. T4–T6 подготовлены
+в той же рабочей ветке; адресные проверки T4 и real Worker CP05, T5 UI1440/390/820
+и pause/save/import/resume пройдены. Последняя квитанция T6:55 production cases,
+versioned measured artifacts/CP full-state export, literal reproduction и bounded
+10,000s/5000+restore5000 equivalence GREEN. Итоговый full guard/commit ещё впереди.
+
+Следующий переход: frozen candidate + обычный verify → independent QA SM-01–14
+внутри Lab → один scoped Code Review → только blocker fixes/affected rechecks.
+PRODUCT verifier budget до запуска QA:1/5; review/fix counter0/3. Каждая третья
+итерация — PM_ERR.md/DOC_PR.md самоаудит PM (references в primary U2 .agents/).
+Полезная функция важнее полировки; advisory не расширяет поставку автоматически.
+Новые guards/переопределение WHAT не добавлены. PM runtime не реализует.
+
+Preview: http://127.0.0.1:4197/?shipModel=experimental, explicit opt-in candidate;
+это не acceptance. Старые4196/4189/Pages/archive не менялись. После проверок
+читать актуальный SHA/verdict/CI/риски в PR22; не переносить прошлый PLAN_READY
+на runtime и не выдавать внешний server/native/base/bootstrap gate за PASS.
+
+## Контракт и запуск реализации
 
 Оператор одобрил план v1.2 и поручил реализацию. Frozen plan692385d:
 docs/plans/2026-10-10-ship-model-v0.1-update.md, весь SM-01–14. Affected PLAN_READY:
