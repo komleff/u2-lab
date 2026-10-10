@@ -18,7 +18,7 @@ export const CONTROLLER_CANDIDATES={chargeEfficiency:0.9,dischargeEfficiency:0.9
   origin:{kind:'experimental' as const,unit:'1',sourceRef:'docs/gdd/gdd_ship_energy_thermal_model_v0.1.md §§4.1,4.3; frozen Lab accumulator efficiency anchor',note:'η=.9 и сжатие offsets требуют balance evidence; не канон'}};
 type Controls={active:number;ti:number;capture:number;release:number;h2:number;furnace:number;electric:number};
 const zero=():Controls=>({active:0,ti:0,capture:0,release:0,h2:0,furnace:0,electric:0});
-export type StepDiagnostic={instanceId?:string;reason:string;timeSeconds:number;remainingJ?:number};
+export type StepDiagnostic={instanceId?:string;reason:string;timeSeconds:number;remainingJ?:number;limiting?:boolean};
 type PhaseAction=RunSpecV3['scenario']['phases'][number]['action'];
 
 function flows(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,c:Controls,env:EnvironmentV3){
@@ -159,11 +159,32 @@ export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,numbe
   const restartReady=()=>{for(const i of spec.resolvedShip.instances)if(i.enabled){const reason=attemptRestart(i.item.durability,state.modules[i.id],state.rng);if(reason)diagnostics.push({instanceId:i.id,reason,timeSeconds:state.timeSeconds});}};
   updateGates();
   restartReady();
-  for(const i of spec.resolvedShip.instances)if((requests[i.id]??0)>0&&authorizedDuty(i.item,state.mode,requests[i.id]).duty===0)diagnostics.push({instanceId:i.id,reason:'masking-forbidden',timeSeconds:state.timeSeconds});
+  for(const i of spec.resolvedShip.instances)if((requests[i.id]??0)>0&&authorizedDuty(i.item,state.mode,requests[i.id]).duty===0)diagnostics.push({instanceId:i.id,reason:'masking-forbidden',timeSeconds:state.timeSeconds,limiting:true});
   const chosen=chooseControls(spec,state,requests,env,action);state.governor={coolingStageId:chosen.coolingStageId,heatingStageId:chosen.heatingStageId,recoveringBuffer:chosen.recoveringBuffer};
   if(chosen.incompatible)diagnostics.push({reason:'incompatible-temperature-corridor',timeSeconds:state.timeSeconds});
   if(chosen.heatingUnavailable)diagnostics.push({reason:'heating-unavailable',timeSeconds:state.timeSeconds});
   const add=(key:string,value:number,dt:number)=>{telemetry[key]=(telemetry[key]??0)+value*dt;};
+  const limit=(instanceId:string,reason:string,timeSeconds=state.timeSeconds)=>{
+    if(!diagnostics.some(d=>d.limiting&&d.instanceId===instanceId&&d.reason===reason))diagnostics.push({instanceId,reason,timeSeconds,limiting:true});
+  };
+  const recordLimits=(r:ReturnType<typeof flows>)=>{
+    for(const i of spec.resolvedShip.instances){
+      const a=thermalAvailability(i.item,state.modules[i.id],state.temperatureK,spec.resolvedShip.hull.class,state.mode),g=i.item.gate;
+      // Installed ordinary sensitivity defines the corridor even when OFF;
+      // this explains a thermal limit, not fictitious work by an OFF module.
+      if(i.item.thermalRole==='ordinary'&&a.temperatureFactor<1){
+        const side=state.temperatureK<g.workLow?'cold':'hot';
+        limit(i.id,a.thermalStopped?state.temperatureK>=g.high||state.temperatureK<=g.low?'thermal-stop-'+side:'thermal-restart-required':'thermal-'+side);
+      }
+      const wanted=authorizedDuty(i.item,state.mode,requests[i.id]??(['sensor','shielding','shell'].includes(i.item.family)?1:0)).duty;
+      if(i.enabled&&wanted>0&&a.reason==='durability')limit(i.id,state.modules[i.id].cooldownSeconds>0?'cooldown':'durability-stop');
+      if(i.enabled&&wanted>0&&i.item.family==='engine'&&i.item.propulsionType!=='electric'&&state.fuelKg[i.item.species!]===0)limit(i.id,'fuel-empty:'+i.item.species);
+    }
+    if(r.requestedLoad>0&&r.fraction<1){
+      const source=spec.resolvedShip.instances.find(i=>i.enabled&&i.item.family==='battery')??spec.resolvedShip.instances.find(i=>i.enabled&&i.item.family==='generator');
+      if(source)limit(source.id,'power-limited');
+    }
+  };
   let left=1,segments=0;
   while(left>1e-12){
     if(++segments>128)throw new Error('v3 event clipping did not converge');
@@ -171,7 +192,7 @@ export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,numbe
     const boundaries:{seconds:number;instanceId?:string;reason:string;temperatureK?:number}[]=[];
     let immediate=false;
     for(const i of spec.resolvedShip.instances){const m=state.modules[i.id],a=thermalAvailability(i.item,m,state.temperatureK,spec.resolvedShip.hull.class,state.mode),b=durabilityBoundary(i.item.durability,m,r.working[i.id]??0,a.wearMultiplier,left);
-      if(b?.seconds===0&&b.reason==='first-negative-crossing'){stopAtFirstNegative(i.item.durability,m);diagnostics.push({instanceId:i.id,reason:b.reason,timeSeconds:state.timeSeconds});immediate=true;}
+      if(b?.seconds===0&&b.reason==='first-negative-crossing'){stopAtFirstNegative(i.item.durability,m);limit(i.id,b.reason);immediate=true;}
       else if(b&&b.seconds>0)boundaries.push({...b,instanceId:i.id});
       if(m.cooldownSeconds>0)boundaries.push({seconds:m.cooldownSeconds,instanceId:i.id,reason:'cooldown-ready'});
     }
@@ -184,22 +205,23 @@ export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,numbe
     for(const i of spec.resolvedShip.instances){if(!i.enabled||state.modules[i.id].thermalStopped)continue;const boundary=temperatureRate>0?i.item.gate.high:i.item.gate.low,seconds=(boundary-state.temperatureK)/temperatureRate;if(seconds>0&&Number.isFinite(seconds))boundaries.push({seconds,instanceId:i.id,reason:temperatureRate>0?'critical-hot':'critical-cold',temperatureK:boundary});}
     for(const b of boundaries)if(b.seconds>0)dt=Math.min(dt,b.seconds);
     if(!(dt>0))throw new Error('nonpositive v3 event interval');
+    recordLimits(r);
     frames.push({durationSeconds:dt,body:r.body,surfaces:r.surfaceRows,em:r.em,outwardIr:r.outwardIr,ownAntennaTransmission:r.ownAntennaTransmission,ownSensorWorkingW:r.ownSensorWorkingW});
     const beforeT=state.temperatureK;state.temperatureK+=temperatureRate*dt;
     state.chargeJ=Math.max(0,Math.min(spec.resolvedShip.batteryCapacityJ,state.chargeJ+r.el.chargeRateJPerS*dt));state.generator=r.el.generator;
     for(const sp of ['diesel','hydrogen']as const)state.fuelKg[sp]=Math.max(0,state.fuelKg[sp]-r.fuelRate[sp]*dt);
-    for(const b of r.buffers){const next=advanceBuffer(b.input,b.flow,dt,state.temperatureK);state.buffers[b.i.id]={storedJ:next.storedJ,minimumCaptureK:next.minimumCaptureK};const reason=b.flow.reason??(b.flow.rateStoredJPerS>0&&r.netHeatW>0&&chosen.controls.capture===1?'power-limit':null);if(reason)diagnostics.push({instanceId:b.i.id,reason,timeSeconds:state.timeSeconds,remainingJ:next.storedJ});}
-    for(const i of spec.resolvedShip.instances){const m=state.modules[i.id],a=thermalAvailability(i.item,m,beforeT,spec.resolvedShip.hull.class,state.mode),reason=advanceDurability(i.item.durability,m,state.rng,r.working[i.id]??0,a.wearMultiplier,dt);if(reason)diagnostics.push({instanceId:i.id,reason,timeSeconds:state.timeSeconds+dt});}
+    for(const b of r.buffers){const next=advanceBuffer(b.input,b.flow,dt,state.temperatureK);state.buffers[b.i.id]={storedJ:next.storedJ,minimumCaptureK:next.minimumCaptureK};const reason=b.flow.reason??(b.flow.rateStoredJPerS>0&&r.netHeatW>0&&chosen.controls.capture===1?'power-limit':null);if(reason)diagnostics.push({instanceId:b.i.id,reason,timeSeconds:state.timeSeconds,remainingJ:next.storedJ,limiting:true});}
+    for(const i of spec.resolvedShip.instances){const m=state.modules[i.id],a=thermalAvailability(i.item,m,beforeT,spec.resolvedShip.hull.class,state.mode),reason=advanceDurability(i.item.durability,m,state.rng,r.working[i.id]??0,a.wearMultiplier,dt);if(reason)limit(i.id,reason,state.timeSeconds+dt);}
     state.surfaceOpen=r.open;
     for(const [key,value]of Object.entries({deliveredW:r.el.deliveredW,requestedW:r.requestedLoad,converterLossW:r.el.converterLossW,generatorW:r.el.generatorW,independentAcceptedW:r.el.independentAcceptedW,rejectedIndependentW:r.el.rejectedIndependentW,usefulWorkW:r.usefulWorkW,hostHeatW:r.em.hostHeatW,rawEmW:r.em.rawEmW,escapedEmW:r.em.escapedEmW,capturedEmW:r.em.capturedEmW,intentionalRfW:r.em.intentionalRfW,netHeatW:r.netHeatW,bufferCaptureW:Math.max(0,r.bufferRateW),bufferReleaseW:Math.max(0,-r.bufferRateW),tiCoolingW:r.tiCoolingW,h2CoolingW:r.h2CoolingW,radiationW:r.body.radiationW+r.surfaceRows.radiationW,fieldW:r.body.fieldW+r.surfaceRows.fieldW,totalResidualJ:r.inputW-r.outputW-r.el.chargeRateJPerS-r.netHeatW-r.bufferRateW}))add(key,value,dt);
     for(const [id,power]of Object.entries(r.actualW))add('actualW:'+id,power,dt);
     add('engineIrExportW',r.engineIrExportW,dt);
     for(const p of r.actualPumps){add('tiHotK:'+p.i.id,p.result.hotK,dt);add('tiBusW:'+p.i.id,p.result.busW,dt);add('tiNetBenefitW:'+p.i.id,p.result.netBenefitW,dt);}
     for(const b of boundaries)if(Math.abs(b.seconds-dt)<=1e-10*Math.max(1,dt)){
-      if(b.reason==='first-negative-crossing'){const m=state.modules[b.instanceId!];if(!m.firstNegativeCrossing){stopAtFirstNegative(spec.resolvedShip.instances.find(i=>i.id===b.instanceId)!.item.durability,m);diagnostics.push({instanceId:b.instanceId,reason:b.reason,timeSeconds:state.timeSeconds+dt});}continue;}
-      if(b.reason==='terminal-durability'){const m=state.modules[b.instanceId!];m.durabilityR=-spec.resolvedShip.instances.find(i=>i.id===b.instanceId)!.item.durability.emergencyDepthR;if(!m.durabilityStopped){m.durabilityStopped=true;diagnostics.push({instanceId:b.instanceId,reason:b.reason,timeSeconds:state.timeSeconds+dt});}continue;}
+      if(b.reason==='first-negative-crossing'){const m=state.modules[b.instanceId!];if(!m.firstNegativeCrossing){stopAtFirstNegative(spec.resolvedShip.instances.find(i=>i.id===b.instanceId)!.item.durability,m);limit(b.instanceId!,b.reason,state.timeSeconds+dt);}continue;}
+      if(b.reason==='terminal-durability'){const m=state.modules[b.instanceId!];m.durabilityR=-spec.resolvedShip.instances.find(i=>i.id===b.instanceId)!.item.durability.emergencyDepthR;if(!m.durabilityStopped){m.durabilityStopped=true;limit(b.instanceId!,b.reason,state.timeSeconds+dt);}continue;}
       if(b.reason==='cooldown-ready'||b.reason==='failure-period')continue;
-      if(b.temperatureK!==undefined)state.temperatureK=b.temperatureK;diagnostics.push({instanceId:b.instanceId,reason:b.reason,timeSeconds:state.timeSeconds+dt});}
+      if(b.temperatureK!==undefined)state.temperatureK=b.temperatureK;diagnostics.push({instanceId:b.instanceId,reason:b.reason,timeSeconds:state.timeSeconds+dt,...(b.instanceId&&b.reason.startsWith('critical-')?{limiting:true}:{})});}
     left-=dt;state.timeSeconds=input.timeSeconds+(1-left);updateGates();restartReady();
   }
   state.timeSeconds=input.timeSeconds+1;state.phaseElapsedSeconds=input.phaseElapsedSeconds+1;

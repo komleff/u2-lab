@@ -2,6 +2,7 @@ import type { ValidationResult } from "../../catalog/schema";
 import type { CandidateCatalogV3, ResolvedInstanceV3, ResolvedShipV3, ShipFitV3, RunSpecV3, StateV3, EnvironmentV3, ModuleItemV3, HullV3, ThermalSurface } from "./types";
 import { CATALOG_V3, MODEL_V3, SCHEMA_V3 } from "./types";
 import type { FieldOrigin } from "../../fitting/types";
+import {OBSERVER_PRESET_IDS} from '../../signatures/presets';
 
 type Issue = { path: string; code: string; message: string };
 const object = (v: unknown): v is Record<string, any> => !!v && typeof v === "object" && !Array.isArray(v);
@@ -196,7 +197,7 @@ export function validateRunSpecV3(input:unknown):ValidationResult<RunSpecV3>{
     const s=input as RunSpecV3;c.choice(s.schemaVersion,'schemaVersion',[SCHEMA_V3]);c.choice(s.modelVersion,'modelVersion',[MODEL_V3]);c.choice(s.catalogVersion,'catalogVersion',[CATALOG_V3]);c.choice(s.units,'units',['SI']);c.choice(s.approvedBaseline,'approvedBaseline',[false]);c.choice(s.receiverProfile,'receiverProfile',['positive-only','absolute-contrast']);c.choice(s.stepSeconds,'stepSeconds',[1]);c.number(s.durationSeconds,'durationSeconds',1,Infinity,true);
     if(resolvedChecks(c,s.resolvedShip,'resolvedShip'))stateChecks(c,s.initialState,s.resolvedShip,'initialState');
     environmentChecks(c,s.environment,'environment');
-    if(c.exact(s.observer,'observer',['presetId','rangeM','aspectDeg'])){c.text(s.observer.presetId,'observer.presetId');c.positive(s.observer.rangeM,'observer.rangeM');c.number(s.observer.aspectDeg,'observer.aspectDeg',-Infinity);}
+    if(c.exact(s.observer,'observer',['presetId','rangeM','aspectDeg'])){c.choice(s.observer.presetId,'observer.presetId',OBSERVER_PRESET_IDS);c.positive(s.observer.rangeM,'observer.rangeM');c.number(s.observer.aspectDeg,'observer.aspectDeg',-Infinity);}
     if(c.exact(s.scenario,'scenario',['name','repeat','phases'])){c.text(s.scenario.name,'scenario.name');c.flag(s.scenario.repeat,'scenario.repeat');if(c.list(s.scenario.phases,'scenario.phases')){const ids=new Set();if(!s.scenario.phases.length)c.bad('scenario.phases','Нужна фаза');for(const[i,p]of s.scenario.phases.entries()){const path='scenario.phases.'+i;if(!c.exact(p,path,['id','action','durationSeconds','requests','environment'],['mode']))continue;if(p.mode!==undefined)c.choice(p.mode,path+'.mode',s.resolvedShip.hull.modes);c.text(p.id,path+'.id');if(ids.has(p.id))c.bad(path+'.id','Повтор фазы');ids.add(p.id);c.choice(p.action,path+'.action',['idle','work','maneuver','recovery']);c.number(p.durationSeconds,path+'.durationSeconds',1,Infinity,true);if(p.environment!==null)environmentChecks(c,p.environment,path+'.environment');if(!object(p.requests))c.bad(path+'.requests','Нужен record запросов');else for(const[id,duty]of Object.entries(p.requests)){c.number(duty,path+'.requests.'+id,0,1);if(!s.resolvedShip.instances.some(i=>i.id===id))c.bad(path+'.requests.'+id,'Неизвестный установленный instance');}}}}
     const current=s.scenario.phases[s.initialState.phaseIndex];if(!current)c.bad('initialState.phaseIndex','Сохранённый index вне сценария');else if(s.initialState.phaseElapsedSeconds>current.durationSeconds)c.bad('initialState.phaseElapsedSeconds','Сохранённое время вне фазы');
     for(const[key,value]of Object.entries(s))if(!['origins','resolvedShip'].includes(key))c.numericOrigins(value,s.origins,key,key);

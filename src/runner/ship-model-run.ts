@@ -32,7 +32,16 @@ export function runShipModelChunk(run:RunContextV3,maxSteps:number,wallBudgetMs=
     run.state=step.state;if(phase.id==='horizon-idle')run.state.phaseElapsedSeconds=phases[run.state.phaseIndex].durationSeconds;
     run.last=step.telemetry;run.metrics.usefulWorkJ+=step.telemetry.usefulWorkW;run.metrics.totalResidualJ+=step.telemetry.totalResidualJ;
     run.metrics.maximumTemperatureK=Math.max(run.metrics.maximumTemperatureK,step.state.temperatureK);
-    for(const d of step.diagnostics){run.events.add({timeSeconds:d.timeSeconds,kind:d.reason,message:(d.instanceId?d.instanceId+': ':'')+d.reason+(d.remainingJ===undefined?'':' ('+d.remainingJ+' J)')});run.metrics.firstConstraint??=d.reason;}
+    for(const d of step.diagnostics.sort((a,b)=>a.timeSeconds-b.timeSeconds)){
+      const message=(d.instanceId?d.instanceId+': ':'')+d.reason+(d.remainingJ===undefined?'':' ('+d.remainingJ+' J)');
+      // Keep the first causal installed limiter independently of bounded event
+      // retention. Do not replace it with restart-success/recovery messages.
+      if(d.limiting){
+        if(run.metrics.firstConstraint===null)run.metrics.firstConstraint=message;
+        else if(d.reason.startsWith('thermal-')||['power-limited','cooldown','durability-stop'].includes(d.reason))continue;
+      }
+      run.events.add({timeSeconds:d.timeSeconds,kind:d.reason,message});
+    }
     if(!run.retention.channels.length)run.retention=new Retention(Object.keys(run.last).sort(),run.retention.maxBuckets);run.retention.add(run.state.timeSeconds,run.last);
     run.done=run.state.timeSeconds>=run.spec.durationSeconds;steps++;
   }

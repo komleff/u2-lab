@@ -33,9 +33,12 @@ export function advanceDurability(p:DurabilityParameters,m:ModuleState,rng:State
   if(p.behavior!=='repairable-active')return null;
   if(m.durabilityR<0&&!m.firstNegativeCrossing){m.firstNegativeCrossing=true;m.durabilityStopped=true;m.cooldownSeconds=p.cooldownSeconds;return 'first-negative-crossing';}
   if(before<0)m.emergencyExposureSeconds+=dt;
+  const periodDue=m.durabilityR<0&&m.emergencyExposureSeconds>=p.failurePeriodSeconds-1e-12;
+  // The terminal boundary wins without drawing RNG, but exposure is always
+  // a period remainder: our own saved state must satisfy the strict reader.
+  if(periodDue)m.emergencyExposureSeconds=Math.max(0,m.emergencyExposureSeconds-p.failurePeriodSeconds);
   if(m.durabilityR<=-p.emergencyDepthR){m.durabilityStopped=true;return 'terminal-durability';}
-  if(m.durabilityR<0&&m.emergencyExposureSeconds>=p.failurePeriodSeconds-1e-12){
-    m.emergencyExposureSeconds=Math.max(0,m.emergencyExposureSeconds-p.failurePeriodSeconds);
+  if(periodDue){
     if(randomV3(rng)<Math.min(1,-m.durabilityR/p.emergencyDepthR)){m.durabilityStopped=true;m.cooldownSeconds=p.cooldownSeconds;return 'emergency-failure';}
   }
   return null;

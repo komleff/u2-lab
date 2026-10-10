@@ -6,6 +6,8 @@ import {serializeFit,serializeExperiment,serializeResultSnapshot} from '../io/fi
 import {compileShipModelFit} from '../model/v3/schema';
 import type {ShipMode,ReceiverProfile} from '../model/v3/types';
 import type {Control} from '../runner/protocol';
+// Same opaque ID primitive as the existing fitting/LAN HTTP workflow.
+const newId=()=>Array.from(crypto.getRandomValues(new Uint8Array(16)),b=>b.toString(16).padStart(2,'0')).join('');
 export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:()=>void){
   const worker=new Worker(new URL('../runner/worker.ts',import.meta.url),{type:'module'});let error='',runId='',commandId=0,ack='';const pending=new Map<number,Control>();
   const el=<T extends HTMLElement=HTMLElement>(id:string)=>root.querySelector<T>('#'+id);
@@ -24,7 +26,7 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:()=>
     for(const [id,key]of [['duration','durationSeconds'],['temperature','temperatureK'],['background','backgroundK']] as const)el<HTMLInputElement>('sm-'+id)!.onchange=()=>act(()=>w.updateConditions({[key]:Number(el<HTMLInputElement>('sm-'+id)!.value)}));
     for(const id of ['range','aspect'])el<HTMLInputElement>('sm-'+id)!.onchange=()=>act(()=>w.updateConditions({observer:{presetId:c.observer?.presetId??'S-dedicated-G1',rangeM:Number(el<HTMLInputElement>('sm-range')!.value)*1000,aspectDeg:Number(el<HTMLInputElement>('sm-aspect')!.value)}}));
     for(const node of root.querySelectorAll<HTMLInputElement>('[data-sm-enabled]'))node.onchange=()=>act(()=>w.setEnabled(node.dataset.smEnabled!,node.checked));
-    bind('sm-start',()=>{runId=crypto.randomUUID();const spec=w.start(runId);send('start',{spec,maxSteps:1});});bind('sm-checkpoint',()=>{runId=crypto.randomUUID();const checkpoint=w.startCheckpoint(runId);send('start',{checkpoint,maxSteps:1});});
+    bind('sm-start',()=>{runId=newId();const spec=w.start(runId);send('start',{spec,maxSteps:1});});bind('sm-checkpoint',()=>{runId=newId();const checkpoint=w.startCheckpoint(runId);send('start',{checkpoint,maxSteps:1});});
     for(const [id,type]of [['pause','pause'],['resume','resume'],['step','step'],['cancel','cancel'],['snapshot','snapshot']] as const)bind('sm-'+id,()=>send(type));
     bind('sm-restart',()=>send('restart',{instanceId:el<HTMLSelectElement>('sm-module')!.value}));bind('sm-repair',()=>send('repair',{instanceId:el<HTMLSelectElement>('sm-module')!.value,durabilityR:Number(el<HTMLInputElement>('sm-repair-r')!.value)}));
     bind('sm-save-fit',()=>download('u2-ship-model-fit.json',serializeFit(w.fit!)));bind('sm-save-run',()=>download('u2-ship-model-run.json',serializeExperiment(w.prepare())));bind('sm-save-result',()=>download('u2-ship-model-result.json',serializeResultSnapshot(w.result!)));

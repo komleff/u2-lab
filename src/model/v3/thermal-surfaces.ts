@@ -2,8 +2,11 @@ import type { ThermalSurface } from './types';
 export const STEFAN_BOLTZMANN=5.670374419e-8;
 export type ThermalField={temperatureK:number;coefficientWPerM2K:number};
 export function exchangeAt(areaM2:number,emissivity:number,temperatureK:number,backgroundK:number,field:ThermalField|null){
-  const emittedIrW=STEFAN_BOLTZMANN*emissivity*areaM2*temperatureK**4;
-  const absorbedBackgroundW=STEFAN_BOLTZMANN*emissivity*areaM2*backgroundK**4;
+  // Pin T⁴ to IEEE-754 square-then-square. Integer exponentiation uses a
+  // runtime-specific pow path; its ULPs changed literal exports on Node 24.
+  const temperatureSquared=temperatureK*temperatureK,backgroundSquared=backgroundK*backgroundK;
+  const emittedIrW=STEFAN_BOLTZMANN*emissivity*areaM2*(temperatureSquared*temperatureSquared);
+  const absorbedBackgroundW=STEFAN_BOLTZMANN*emissivity*areaM2*(backgroundSquared*backgroundSquared);
   const radiationW=emittedIrW-absorbedBackgroundW;
   const fieldW=field?field.coefficientWPerM2K*areaM2*(temperatureK-field.temperatureK):0;
   return {radiationW,fieldW,totalW:radiationW+fieldW,emittedIrW,absorbedBackgroundW};

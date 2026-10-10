@@ -2,6 +2,7 @@ import { cosineDegrees, finite, flag, nonnegative, positive, sineDegrees } from 
 import { normalizeBearing } from "./projection";
 
 export type ObserverPresetId = "S-dedicated-G1" | "S-3in1-G1" | "M-dedicated-G1" | "M-3in1-G1";
+export const OBSERVER_PRESET_IDS:readonly ObserverPresetId[]=["S-dedicated-G1","S-3in1-G1","M-dedicated-G1","M-3in1-G1"];
 export type PassiveChannel = "IR" | "EM";
 export interface PassiveObservation {
   channel: PassiveChannel;
@@ -11,7 +12,7 @@ export interface PassiveObservation {
 
 // Компактные public anchors: Lab package §2; статусы CSV не повышаются до production SKU.
 export function observerPreset(id: ObserverPresetId) {
-  if (!["S-dedicated-G1", "S-3in1-G1", "M-dedicated-G1", "M-3in1-G1"].includes(id)) throw new TypeError("unsupported observer preset");
+  if (!OBSERVER_PRESET_IDS.includes(id)) throw new TypeError("unsupported observer preset");
   const size = id.startsWith("M") ? "M" as const : "S" as const;
   const factor = (id.includes("3in1") ? 2.25 : 1) / (size === "M" ? 4 : 1);
   return { id, size,
