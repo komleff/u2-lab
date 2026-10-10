@@ -61,7 +61,7 @@ owner — `docs/gdd/gdd_ship_energy_thermal_model_v0.1.md` v0.11. Analytical evi
 | U2 thermal field в текущем owner выражен через среду; PR #19 разделяет фон излучения и поле `hA(T-T_field)` | Хранить и считать два независимых signed потока; для hot side TI использовать `T_hot`, для прямой поверхности — `T_ship` | Amendment ADR-0036/runtime field DTO и профильным thermal owners; запрет двойного представления того же источника |
 | Lab сейчас интегрирует с `stepSeconds=.01/.1`; PR #19 задаёт общий thermal profile 1 s | Новая модель принимает thermal-control решения только на границе 1 s; внутри секунды допускается лишь event clipping запасов/критической границы без раннего включения следующей ступени | Быстрый shared flight loop не меняется; для U2 выделяется 1 Hz authoritative thermal-control слой |
 | Lab имеет частичную автоматику, но не полные каскады | Использовать каскады и очередь прогрева PR #19; игрок выбирает сборку, режим и действие, а не пороги/законы | U2 scheduler/governor owner синхронизируется отдельным doc work item |
-| U2 governor ограничивает Combat hot override классом Military module | По прямому уточнению оператора Military hull в Combat позволяет использовать все установленные модули независимо от их класса; module class не выключает Combat hot override | Исправить U2 governor owner; hot critical stop, cold side и restart остаются в PG-SM-THERMAL-01 |
+| U2 governor ограничивает Combat hot override классом Military module | По прямому уточнению оператора Military hull в Combat позволяет использовать все установленные модули независимо от их класса; на hot work→critical участке они сохраняют полную мощность | Исправить U2 governor owner; поведение на/за hot critical boundary, cold side и restart остаются в PG-SM-THERMAL-01 |
 | В старых предложениях Masking ограничивал тягу | Дополнительного потолка тяги нет; действуют обычные power/thermal/workability limits, фактический манёвр увеличивает расход и сигнатуры, радиаторы не открываются | Явно закрепить в U2 mode/HUD owner без изменения flight physics |
 | U2 сохраняет earned range и server authority; Lab показывает расчётные дальности | Сохранить earned range. В Lab — только одинаковый reference observer и расчётный ориентир; HUD не узнаёт факта чужого обнаружения | Signature/HUD docs уточнить без free range/hidden-position shortcut |
 | Lab category id/label — `signature` / «Контроль сигнатур» | В новом каталоге отображать «Сенсоры и тепло»; старый serialized id читать как compatibility alias | Новый id вводить только в versioned catalog/schema, старые fits не переписывать |
@@ -79,15 +79,16 @@ Question: какая точная thermal protection matrix действует �
 
 Why unresolved: ADR-0068 сохраняет только прежний Military hot override, а прежний
 текст U2 governor ограничивал его сочетанием `Military hull + Combat + Military module`.
-Оператор уточнил scope до `Military hull + Combat + any installed module`, но ещё не
-определил hot critical stop, cold-side behavior и restart. Предложение Lab дополнительно
+Оператор уточнил scope до `Military hull + Combat + any installed module` с полной
+мощностью на hot work→critical участке, но ещё не определил поведение на/за hot critical
+boundary, cold-side behavior и restart. Предложение Lab дополнительно
 распространяет отсутствие обычного снижения мощности на Masking. Handoff v0.4.1 прямо
 оставляет критическую защиту и повторный запуск на уточнение.
 
 | Mode | Hull class | Module class | Hot work→critical | Cold work→critical | Critical stop | Restart | Статус D0 |
 |---|---|---|---|---|---|---|---|
 | Обычный, без special override | Любой | Любой | Линейное снижение + accelerated wear | Линейное снижение + accelerated wear | Обязательная thermal stop | После возврата в owner restart-band | Принято ADR-0068/ADR-0043 |
-| Combat | Military | Любой установленный | Existing hot override действует независимо от класса модуля; точный диапазон надо зафиксировать | Cold bypass не принят | Допустимость работы за `T_crit_high` и точная stop boundary требуют решения | Связь thermal hysteresis с durability/restart требует решения | Scope принят оператором; границы требуют решения |
+| Combat | Military | Любой установленный | Полная мощность от `T_work_high` до собственного `T_crit_high`, независимо от класса модуля | Cold bypass не принят | Поведение на/за `T_crit_high` и точная stop boundary требуют решения | Связь thermal hysteresis с durability/restart требует решения | Hot derate принят оператором; critical/restart требуют решения |
 | Combat | non-Military | Любой | Обычная hot protection | Обычная cold protection | Обязательная stop по собственному `T_crit` | По собственному restart-band | Текущий U2; D0 подтверждает без расширения |
 | Masking | Stealth / Masking-capable | Military | Special hot bypass не принят | Special cold bypass не принят | Обычная safety protection остаётся baseline, но special-mode boundary должна быть явно подтверждена | Требуется явное решение | **Решение оператора требуется** |
 | Masking | Stealth / Masking-capable | non-Military | Special hot bypass не принят | Special cold bypass не принят | Обычная safety protection остаётся baseline, но special-mode boundary должна быть явно подтверждена | Требуется явное решение | **Решение оператора требуется** |
@@ -291,8 +292,9 @@ Behavior:
    modules, including switched-off modules; exclude thermal regulators.
 5. Apply ordinary linear derate and accelerated wear between work/critical boundaries and
    stop ordinary operation at critical. Do not generalize this rule into, or remove it from,
-   special modes. A Military hull in Combat grants the accepted hot override to every installed
-   module regardless of class, but its exact hot critical boundary/restart remain blocked by
+   special modes. A Military hull in Combat grants every installed module full power from its
+   hot work boundary to its own `T_crit_high` regardless of class, but behavior on/beyond that
+   critical boundary and restart remain blocked by
    PG-SM-THERMAL-01; non-Military Combat keeps ordinary protection. Masking gains no hot/cold
    bypass by default. Passive exchange remains after a stop. Report incompatible `T_w<=T_c`,
    do not invent a common corridor.
@@ -465,7 +467,7 @@ Developer and only affected checks/re-review repeat. Operator decides candidate 
 |---|---|---|
 | SM-01 | Sputnik/Mir runnable; every gap is a signed candidate, never zero/hidden multiplier | Catalog schema/provenance tests + UI inspection |
 | SM-02 | Source/load/loss/stock and fuel/work/heat ledgers close; full/empty battery neither creates nor deletes energy | Analytic constant-flow, mid-step depletion and residual tests |
-| SM-03 | In ordinary mode four limits produce nominal corridor, linear derate/accelerated wear and critical stop in both hot/cold directions; Military Combat hot override covers every installed module, while its critical/restart limits and all unapproved special-mode behavior await PG-SM-THERMAL-01 without an implementation default | Boundary table including exact equality/crossing; approved D0 matrix before special-mode tests |
+| SM-03 | In ordinary mode four limits produce nominal corridor, linear derate/accelerated wear and critical stop in both hot/cold directions; Military Combat keeps every installed module at full power from `T_work_high` to its `T_crit_high`, while behavior on/beyond critical, restart and all unapproved special-mode behavior await PG-SM-THERMAL-01 without an implementation default | Boundary table including exact equality/crossing; approved D0 matrix before special-mode tests |
 | SM-04 | Installed sensitive module defines `T_w/T_c`; accepted mode/heating order; reserve waits for own threshold; no opposing control | Discrete profile tests, CP-01–03, mount/off/demount comparison |
 | SM-05 | Buffer J/power/marker persist; cold stock is not released to hotter ship; full debt restored or unreachable remainder explained | Full-cycle, partial discharge, mode/save/reopen cases |
 | SM-06 | Body and hull passive radiator are distinct signed exchanges; shell changes only its declared body fraction; radiator version changes observer profile, not total watts | Surface ledger, hot/cold field signs, ordinary/aft bow-stern comparison |
