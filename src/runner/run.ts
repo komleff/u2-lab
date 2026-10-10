@@ -216,15 +216,15 @@ function legacyResult(
   });
 }
 
-import type {AnyRunSpec,RunSpecV2} from '../model/v2/types';
+import type {AnyRunSpec,RunSpecV2,StoredRunSpec} from '../model/v2/types';
 import {createFittingRun,runFittingChunk,fittingResult,type RunContextV2,type RunResultV2} from './fitting-run';
 export type {RunContextV2,RunResultV2} from './fitting-run';
 export type AnyRunContext=RunContext|RunContextV2;
 export type AnyRunResult=RunResult|RunResultV2;
 export function createRun(runId:string,spec:RunSpec):RunContext;
 export function createRun(runId:string,spec:RunSpecV2):RunContextV2;
-export function createRun(runId:string,spec:AnyRunSpec):AnyRunContext;
-export function createRun(runId:string,spec:AnyRunSpec):AnyRunContext{return (spec.schemaVersion==='u2-lab/2'||spec.schemaVersion==='u2-lab/3')?createFittingRun(runId,spec):createLegacyRun(runId,spec as RunSpec);}
+export function createRun(runId:string,spec:StoredRunSpec):AnyRunContext;
+export function createRun(runId:string,spec:StoredRunSpec):AnyRunContext{if(spec.schemaVersion==='u2-lab/4')throw new Error('schemaVersion: u2-lab/4 execution requires the new ship-model runner');return (spec.schemaVersion==='u2-lab/2'||spec.schemaVersion==='u2-lab/3')?createFittingRun(runId,spec):createLegacyRun(runId,spec as RunSpec);}
 export function runChunk(run:RunContext,maxSteps:number,wallBudgetMs?:number):ReturnType<typeof runLegacyChunk>;
 export function runChunk(run:RunContextV2,maxSteps:number,wallBudgetMs?:number):ReturnType<typeof runFittingChunk>;
 export function runChunk(run:AnyRunContext,maxSteps:number,wallBudgetMs?:number):ReturnType<typeof runLegacyChunk>|ReturnType<typeof runFittingChunk>;

@@ -5,15 +5,21 @@ import defaultPony from "./data/default-diesel-pony-0.2.4.json" with { type:"jso
 import itemData from "./data/modules.json" with { type: "json" };
 import additions from "./data/modules-0.2.1.json" with { type: "json" };
 import medium from "./data/modules-0.2.3.json" with { type: "json" };
+import shipModelHulls from "./data/hulls-0.3.0.json" with { type: "json" };
+import shipModelItems from "./data/items-0.3.0.json" with { type: "json" };
+import shipModelPresets from "./data/presets-0.3.0.json" with { type: "json" };
+import { CATALOG_V3, type CandidateCatalogV3, type ShipFitV3 } from "../model/v3/types";
 import type {
   CandidateCatalog,
   FieldOrigin,
   ModuleItem,
   ShipFit,
 } from "./types";
-export function loadCandidateCatalog(
-  version: CandidateCatalog["version"] = "ship-fitting-0.2.3",
-): CandidateCatalog {
+export function loadCandidateCatalog(version?: CandidateCatalog["version"]): CandidateCatalog;
+export function loadCandidateCatalog(version: typeof CATALOG_V3): CandidateCatalogV3;
+export function loadCandidateCatalog(version?: CandidateCatalog["version"]): CandidateCatalog;
+export function loadCandidateCatalog(version: CandidateCatalog["version"] | typeof CATALOG_V3 = "ship-fitting-0.2.3"): CandidateCatalog | CandidateCatalogV3 {
+  if (version === CATALOG_V3) return structuredClone({ version, hulls: shipModelHulls, items: shipModelItems, presets: shipModelPresets }) as unknown as CandidateCatalogV3;
   if (!isKnownCatalogVersion(version)) throw new Error("Неизвестная версия каталога: " + version);
   return structuredClone({
     version,
@@ -21,10 +27,15 @@ export function loadCandidateCatalog(
     items: version === "ship-fitting-0.2.0" ? itemData : ["ship-fitting-0.2.3","ship-fitting-0.2.4","ship-fitting-0.2.5"].includes(version) ? { ...itemData, ...additions, ...medium } : { ...itemData, ...additions },
   }) as unknown as CandidateCatalog;
 }
-export function getPresetFit(
-  id: string,
-  version: CandidateCatalog["version"] = "ship-fitting-0.2.3",
-): ShipFit {
+export function getPresetFit(id: string, version?: CandidateCatalog["version"]): ShipFit;
+export function getPresetFit(id: string, version: typeof CATALOG_V3): ShipFitV3;
+export function getPresetFit(id: string, version?: CandidateCatalog["version"]): ShipFit;
+export function getPresetFit(id: string, version: CandidateCatalog["version"] | typeof CATALOG_V3 = "ship-fitting-0.2.3"): ShipFit | ShipFitV3 {
+  if (version === CATALOG_V3) {
+    const fit = (shipModelPresets as Record<string, unknown>)[id];
+    if (!fit) throw new Error("Неизвестная ship-model сборка: " + id);
+    return structuredClone(fit) as ShipFitV3;
+  }
   const c = loadCandidateCatalog(version);
   if (version === "ship-fitting-0.2.5") return mediumPreset(id, c);
   if (version === "ship-fitting-0.2.4") {

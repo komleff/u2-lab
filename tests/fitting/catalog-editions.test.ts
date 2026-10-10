@@ -1,5 +1,6 @@
 import { it, expect } from "vitest";
 import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 import baseline from "./fixtures/catalog-0.2.0-digests.json";
 import physical from "./fixtures/thermal-old-result-digests.json";
 import { physicalResult } from './physical-result';
@@ -15,6 +16,28 @@ const old = "ship-fitting-0.2.0", current=loadCandidateCatalog("ship-fitting-0.2
 const getPresetFit = (id: string, v: CandidateCatalog["version"] = "ship-fitting-0.2.1") => editionPreset(id, v);
 const json=(x:unknown)=>JSON.stringify(x,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as any):v);
 const digest=(x:unknown)=>createHash("sha256").update(json(x)).digest("hex");
+// Frozen 692385d: guards остаются литералами, а не пересчитанными goldens.
+const oldFileHashes = {
+  "src/fitting/data/default-diesel-pony-0.2.4.json": "702d45e1576a9f1f24aad83833392527c8a886f552e63f67c5e4d049be5e98e0",
+  "src/fitting/data/default-ermak-0.2.4.json": "bf02a939fe2c1acbd4c2db24a95bc94c8adcd752bf64bd2996c2a2e5c7d44a16",
+  "src/fitting/data/default-sputnik-0.2.4.json": "58104a35a485e93e94a8cb5a06fada39aa360b9bfb8267df272f800e8c11918c",
+  "src/fitting/data/hulls.json": "3261b2219b39f187db7666f1af16b4685ab32b62bc4af640ddeafd8d9e00cef4",
+  "src/fitting/data/modules-0.2.1.json": "1f5d5e490d45b9cb7ef70f9cbdb4ae6fa56accc0accf8b66aef50e84e213df95",
+  "src/fitting/data/modules-0.2.3.json": "7fb46f47018a8af5f8bbf2bf22fb4cc13ce61e472e4df35d89cdbe845b032832",
+  "src/fitting/data/modules.json": "de854469f7b71799dde7a1fdea4ca00aab8a704337b8255f257a03cb48feea70",
+  "tests/fitting/fixtures/catalog-0.2.0-digests.json": "cc937f04385c6cf462232d531fe786971f17da93205316e775ffd989e28ec16c",
+  "tests/fitting/fixtures/catalog-0.2.1-pony-digests.json": "472ce0482ab532366161289dbe8bc584c5b6fba96031893fdbaec9560e8d279b",
+  "tests/fitting/fixtures/catalog-0.2.2-digests.json": "19e32f99ae73fe29041c1c9db7b13ae5d6bed516586a3a06158be9e3ddc6b6f5",
+  "tests/fitting/fixtures/catalog-0.2.3-inherited-digests.json": "014226805a7183a5dd6943b55c60fad9c67dddba87ea4059c8c3429585de4b6a",
+  "tests/fitting/fixtures/catalog-0.2.4-digests.json": "41ca8c6b30780c686afa7f87b8af1a453bfea69771774c1d70a062b0cd081216",
+  "tests/fitting/fixtures/legacy-0.json": "49654f9ec95522557fdf0574d50a20c2b0b71c54895f42c2c3088a5ae9fe9f6c",
+  "tests/fitting/fixtures/legacy-1.json": "690a9d485ba4645062305bd2be5061a0b366c0ca2ca86ae8965e898c66ace29e",
+  "tests/fitting/fixtures/legacy-external.json": "55f41118efbfb307082a68a3cd8d35395c29a93084308b4523149b46c5cc085d",
+  "tests/fitting/fixtures/thermal-old-result-digests.json": "d726097652cfe27855a71593c59b578f2eb84fb7f75ceb5d4cb1c4fc04776857"
+};
+it("ship-model addition preserves every old catalog/default and literal replay/digest fixture byte",()=>{
+  for(const[path,expected]of Object.entries(oldFileHashes))expect(createHash("sha256").update(readFileSync(path)).digest("hex"),path).toBe(expected);
+});
 for(const [id,oracle] of Object.entries(baseline.rows)) it(`old ${id} retains exact native fit/spec/zero/partial/completed hashes in the current catalog`,()=>{
  const f=getPresetFit(id,old), c=loadCandidateCatalog(old);
  expect(digest(c)).toBe(baseline.catalog);expect(digest(f)).toBe(oracle.fit);

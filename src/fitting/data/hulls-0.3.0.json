@@ -1,0 +1,3182 @@
+[
+  {
+    "id": "sputnik",
+    "label": "Северин Спутник · кандидат",
+    "size": "S",
+    "generation": 1,
+    "architecture": "U",
+    "slots": [
+      {
+        "id": "march",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "march",
+        "formFactor": "single"
+      },
+      {
+        "id": "retro",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "retro",
+        "formFactor": "single"
+      },
+      {
+        "id": "strafe",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "strafe",
+        "formFactor": "pair"
+      },
+      {
+        "id": "turn",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine",
+          "gyrodyne"
+        ],
+        "mandatory": true,
+        "role": "turn",
+        "formFactor": "pair"
+      },
+      {
+        "id": "power-1",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-2",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-3",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-1",
+        "category": "payload",
+        "size": "S",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-2",
+        "category": "payload",
+        "size": "S",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-1",
+        "category": "sensors-thermal",
+        "size": "S",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter",
+          "pump-radiator",
+          "furnace",
+          "electric-heater",
+          "shielding",
+          "sensor",
+          "radar",
+          "transmitter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-2",
+        "category": "sensors-thermal",
+        "size": "S",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter",
+          "pump-radiator",
+          "furnace",
+          "electric-heater",
+          "shielding",
+          "sensor",
+          "radar",
+          "transmitter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      }
+    ],
+    "builtins": [
+      {
+        "id": "builtin:cargo",
+        "item": {
+          "id": "builtin-cargo-sputnik",
+          "label": "Встроенный универсальный трюм",
+          "family": "cargo",
+          "category": "payload",
+          "size": "S",
+          "formFactor": "single",
+          "generation": 1,
+          "generationState": "authored",
+          "materials": [
+            {
+              "id": "LAB-STEEL-MIX",
+              "massKg": 2377.3876192041307,
+              "cpJKgK": 470,
+              "contents": "dry",
+              "origin": {
+                "kind": "experimental",
+                "sourceRef": "lab:LAB-STEEL-MIX-01",
+                "unit": "kg; J/(kg·K)",
+                "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+                "range": [
+                  350,
+                  900
+                ]
+              }
+            }
+          ],
+          "numerics": {
+            "cargoM3": 6
+          },
+          "gate": {
+            "low": 200,
+            "workLow": 250,
+            "restartLow": 260,
+            "workHigh": 500,
+            "restartHigh": 480,
+            "high": 550
+          },
+          "origins": {
+            "numerics.cargoM3": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_ship_cargo_payload_and_dimensions.md:profile",
+              "unit": "m³ = SCU",
+              "note": "Явный authored reference; нет automatic Class/G multipliers"
+            },
+            "gate.low": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.high": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "materials.0.massKg": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-BUILTIN-CARGO-01",
+              "unit": "kg",
+              "note": "6V^(2/3) ×120kg/m²",
+              "range": [
+                1584.9250794694206,
+                3169.850158938841
+              ]
+            },
+            "materials.0.cpJKgK": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-STEEL-MIX-01",
+              "unit": "J/(kg·K)",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                350,
+                900
+              ]
+            },
+            "generation": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                0.5,
+                2
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.emergencyDepthR": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                0.5,
+                2
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.wearPerWorkSecond": {
+              "kind": "experimental",
+              "unit": "1/s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                5e-7,
+                0.000002
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.failurePeriodSeconds": {
+              "kind": "experimental",
+              "unit": "s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                30,
+                120
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.cooldownSeconds": {
+              "kind": "experimental",
+              "unit": "s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                5,
+                20
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            }
+          },
+          "class": "Civilian",
+          "cargoType": "universal",
+          "thermalRole": "ordinary",
+          "durability": {
+            "behavior": "passive",
+            "emergencyDepthR": 1,
+            "wearPerWorkSecond": 0.000001,
+            "failurePeriodSeconds": 60,
+            "cooldownSeconds": 10
+          },
+          "surfaces": []
+        }
+      }
+    ],
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 42500,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "hullPowerW": 200000,
+    "origins": {
+      "materials.0.massKg": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_s_hull_dry_mass_closure_v0.1_draft.md§shell",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          31875,
+          53125
+        ]
+      },
+      "hullPowerW": {
+        "kind": "experimental",
+        "sourceRef": "lab:hotel-load-candidate",
+        "unit": "W",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "hullRadiationM2": {
+        "kind": "experimental",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§2",
+        "unit": "m²",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "profile": {
+        "kind": "experimental",
+        "unit": "profile",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "note": "Reference prototype; не полный канонический паспорт."
+      },
+      "generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.materials.0.massKg": {
+        "kind": "experimental",
+        "unit": "kg",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          1188.6938096020654,
+          4754.775238408261
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.materials.0.cpJKgK": {
+        "kind": "experimental",
+        "unit": "J/(kg K)",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          235,
+          940
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.numerics.cargoM3": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          3,
+          12
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.low": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          100,
+          400
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.workLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          125,
+          500
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.restartLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          130,
+          520
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.workHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250,
+          1000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.restartHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          240,
+          960
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.high": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          275,
+          1100
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.durability.emergencyDepthR": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.durability.wearPerWorkSecond": {
+        "kind": "experimental",
+        "unit": "1/s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5e-7,
+          0.000002
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.durability.failurePeriodSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          30,
+          120
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.durability.cooldownSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5,
+          20
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "unit": "J/(kg K)",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          235,
+          940
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "bodyExchangeAreaM2": {
+        "kind": "experimental",
+        "unit": "m²",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          228.225,
+          912.9
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "bodyEmissivity": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "hullPassiveRadiator.areaM2": {
+        "kind": "experimental",
+        "unit": "m²",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          20,
+          80
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "hullPassiveRadiator.emissivity": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.45,
+          1.8
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "hullPassiveRadiator.irProfile.aftFraction": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0,
+          0
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "class": "Civilian",
+    "bodyExchangeAreaM2": 456.45,
+    "bodyEmissivity": 1,
+    "hullPassiveRadiator": {
+      "id": "hull:passive-radiator",
+      "areaM2": 40,
+      "emissivity": 0.9,
+      "active": false,
+      "closable": false,
+      "builtin": true,
+      "circuitOwner": {
+        "kind": "common-ti"
+      },
+      "irProfile": {
+        "version": "radiator-ir/1",
+        "kind": "omnidirectional",
+        "aftFraction": 0
+      },
+      "origins": {
+        "areaM2": {
+          "kind": "experimental",
+          "unit": "m²",
+          "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+          "range": [
+            20,
+            80
+          ],
+          "note": "Кандидат для проверки; не канонические ТТХ."
+        },
+        "emissivity": {
+          "kind": "experimental",
+          "unit": "1",
+          "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+          "range": [
+            0.45,
+            1.8
+          ],
+          "note": "Кандидат для проверки; не канонические ТТХ."
+        },
+        "irProfile.aftFraction": {
+          "kind": "experimental",
+          "unit": "1",
+          "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+          "range": [
+            0,
+            0
+          ],
+          "note": "Кандидат для проверки; не канонические ТТХ."
+        }
+      }
+    },
+    "modes": [
+      "Efficient"
+    ]
+  },
+  {
+    "id": "severin-mir",
+    "label": "Северин Мир · кандидат",
+    "size": "M",
+    "generation": 1,
+    "architecture": "U",
+    "slots": [
+      {
+        "id": "march",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "march",
+        "formFactor": "single"
+      },
+      {
+        "id": "retro",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "retro",
+        "formFactor": "single"
+      },
+      {
+        "id": "strafe",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "strafe",
+        "formFactor": "pair"
+      },
+      {
+        "id": "turn",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine",
+          "gyrodyne"
+        ],
+        "mandatory": true,
+        "role": "turn",
+        "formFactor": "pair"
+      },
+      {
+        "id": "power-1",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-2",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-3",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-4",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-1",
+        "category": "payload",
+        "size": "M",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-2",
+        "category": "payload",
+        "size": "M",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-3",
+        "category": "payload",
+        "size": "M",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-1",
+        "category": "sensors-thermal",
+        "size": "M",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter",
+          "pump-radiator",
+          "furnace",
+          "electric-heater",
+          "shielding",
+          "sensor",
+          "radar",
+          "transmitter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-2",
+        "category": "sensors-thermal",
+        "size": "M",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter",
+          "pump-radiator",
+          "furnace",
+          "electric-heater",
+          "shielding",
+          "sensor",
+          "radar",
+          "transmitter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-3",
+        "category": "sensors-thermal",
+        "size": "M",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter",
+          "pump-radiator",
+          "furnace",
+          "electric-heater",
+          "shielding",
+          "sensor",
+          "radar",
+          "transmitter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      }
+    ],
+    "builtins": [
+      {
+        "id": "builtin:cargo",
+        "item": {
+          "id": "builtin-cargo-civilian-M",
+          "label": "Встроенный универсальный трюм",
+          "family": "cargo",
+          "category": "payload",
+          "size": "M",
+          "formFactor": "single",
+          "generation": 1,
+          "generationState": "authored",
+          "materials": [
+            {
+              "id": "LAB-STEEL-MIX",
+              "massKg": 5990.641410389484,
+              "cpJKgK": 470,
+              "contents": "dry",
+              "origin": {
+                "kind": "experimental",
+                "sourceRef": "lab:LAB-STEEL-MIX-01",
+                "unit": "kg; J/(kg·K)",
+                "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+                "range": [
+                  350,
+                  900
+                ]
+              }
+            }
+          ],
+          "numerics": {
+            "cargoM3": 24
+          },
+          "gate": {
+            "low": 200,
+            "workLow": 250,
+            "restartLow": 260,
+            "workHigh": 500,
+            "restartHigh": 480,
+            "high": 550
+          },
+          "origins": {
+            "numerics.cargoM3": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_ship_cargo_payload_and_dimensions.md:profile",
+              "unit": "m³ = SCU",
+              "note": "Явный authored reference; нет automatic Class/G multipliers"
+            },
+            "gate.low": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.high": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "materials.0.massKg": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-BUILTIN-CARGO-01",
+              "unit": "kg",
+              "note": "6V^(2/3) ×120kg/m²",
+              "range": [
+                3993.760940259656,
+                7987.521880519312
+              ]
+            },
+            "materials.0.cpJKgK": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-STEEL-MIX-01",
+              "unit": "J/(kg·K)",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                350,
+                900
+              ]
+            },
+            "generation": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                0.5,
+                2
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.emergencyDepthR": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                0.5,
+                2
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.wearPerWorkSecond": {
+              "kind": "experimental",
+              "unit": "1/s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                5e-7,
+                0.000002
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.failurePeriodSeconds": {
+              "kind": "experimental",
+              "unit": "s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                30,
+                120
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.cooldownSeconds": {
+              "kind": "experimental",
+              "unit": "s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                5,
+                20
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            }
+          },
+          "class": "Civilian",
+          "cargoType": "universal",
+          "thermalRole": "ordinary",
+          "durability": {
+            "behavior": "passive",
+            "emergencyDepthR": 1,
+            "wearPerWorkSecond": 0.000001,
+            "failurePeriodSeconds": 60,
+            "cooldownSeconds": 10
+          },
+          "surfaces": []
+        }
+      }
+    ],
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 170000,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "hullPowerW": 800000,
+    "origins": {
+      "materials.0.massKg": {
+        "kind": "experimental",
+        "sourceRef": "lab:shell-size-recipe",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          127500,
+          212500
+        ]
+      },
+      "hullPowerW": {
+        "kind": "experimental",
+        "sourceRef": "lab:hotel-load-candidate",
+        "unit": "W",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "hullRadiationM2": {
+        "kind": "experimental",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§2",
+        "unit": "m²",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "profile": {
+        "kind": "experimental",
+        "unit": "profile",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "note": "Reference prototype; не полный канонический паспорт."
+      },
+      "generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.materials.0.massKg": {
+        "kind": "experimental",
+        "unit": "kg",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          2995.320705194742,
+          11981.282820778968
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.materials.0.cpJKgK": {
+        "kind": "experimental",
+        "unit": "J/(kg K)",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          235,
+          940
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.numerics.cargoM3": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          12,
+          48
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.low": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          100,
+          400
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.workLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          125,
+          500
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.restartLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          130,
+          520
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.workHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250,
+          1000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.restartHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          240,
+          960
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.high": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          275,
+          1100
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.durability.emergencyDepthR": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.durability.wearPerWorkSecond": {
+        "kind": "experimental",
+        "unit": "1/s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5e-7,
+          0.000002
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.durability.failurePeriodSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          30,
+          120
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.durability.cooldownSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5,
+          20
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.materials.0.massKg": {
+        "kind": "experimental",
+        "unit": "kg",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          12000,
+          48000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.materials.0.cpJKgK": {
+        "kind": "experimental",
+        "unit": "J/(kg K)",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          235,
+          940
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.numerics.capacityJ": {
+        "kind": "experimental",
+        "unit": "J",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          29459999999.999996,
+          117839999999.99998
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.gate.low": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          100,
+          400
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.gate.workLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          125,
+          500
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.gate.restartLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          130,
+          520
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.gate.workHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250,
+          1000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.gate.restartHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          240,
+          960
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.gate.high": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          275,
+          1100
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.durability.emergencyDepthR": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.durability.wearPerWorkSecond": {
+        "kind": "experimental",
+        "unit": "1/s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5e-7,
+          0.000002
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.durability.failurePeriodSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          30,
+          120
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.durability.cooldownSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5,
+          20
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "unit": "J/(kg K)",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          235,
+          940
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "bodyExchangeAreaM2": {
+        "kind": "experimental",
+        "unit": "m²",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          912.9,
+          3651.6
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "bodyEmissivity": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "hullPassiveRadiator.areaM2": {
+        "kind": "experimental",
+        "unit": "m²",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          200,
+          800
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "hullPassiveRadiator.emissivity": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.45,
+          1.8
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "hullPassiveRadiator.irProfile.aftFraction": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0,
+          0
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "class": "Civilian",
+    "bodyExchangeAreaM2": 1825.8,
+    "bodyEmissivity": 1,
+    "hullPassiveRadiator": {
+      "id": "hull:passive-radiator",
+      "areaM2": 400,
+      "emissivity": 0.9,
+      "active": false,
+      "closable": false,
+      "builtin": true,
+      "circuitOwner": {
+        "kind": "common-ti"
+      },
+      "irProfile": {
+        "version": "radiator-ir/1",
+        "kind": "omnidirectional",
+        "aftFraction": 0
+      },
+      "origins": {
+        "areaM2": {
+          "kind": "experimental",
+          "unit": "m²",
+          "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+          "range": [
+            200,
+            800
+          ],
+          "note": "Кандидат для проверки; не канонические ТТХ."
+        },
+        "emissivity": {
+          "kind": "experimental",
+          "unit": "1",
+          "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+          "range": [
+            0.45,
+            1.8
+          ],
+          "note": "Кандидат для проверки; не канонические ТТХ."
+        },
+        "irProfile.aftFraction": {
+          "kind": "experimental",
+          "unit": "1",
+          "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+          "range": [
+            0,
+            0
+          ],
+          "note": "Кандидат для проверки; не канонические ТТХ."
+        }
+      }
+    },
+    "modes": [
+      "Efficient"
+    ]
+  },
+  {
+    "id": "stealth-reference",
+    "label": "Стелс reference S · кандидат",
+    "size": "S",
+    "generation": 1,
+    "architecture": "U",
+    "slots": [
+      {
+        "id": "march",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "march",
+        "formFactor": "single"
+      },
+      {
+        "id": "retro",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "retro",
+        "formFactor": "single"
+      },
+      {
+        "id": "strafe",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "strafe",
+        "formFactor": "pair"
+      },
+      {
+        "id": "turn",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine",
+          "gyrodyne"
+        ],
+        "mandatory": true,
+        "role": "turn",
+        "formFactor": "pair"
+      },
+      {
+        "id": "power-1",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-2",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-3",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-1",
+        "category": "payload",
+        "size": "S",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-2",
+        "category": "payload",
+        "size": "S",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-1",
+        "category": "sensors-thermal",
+        "size": "S",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter",
+          "pump-radiator",
+          "furnace",
+          "electric-heater",
+          "shielding",
+          "sensor",
+          "radar",
+          "transmitter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-2",
+        "category": "sensors-thermal",
+        "size": "S",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter",
+          "pump-radiator",
+          "furnace",
+          "electric-heater",
+          "shielding",
+          "sensor",
+          "radar",
+          "transmitter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      }
+    ],
+    "builtins": [
+      {
+        "id": "builtin:cargo",
+        "item": {
+          "id": "builtin-cargo-sputnik",
+          "label": "Встроенный универсальный трюм",
+          "family": "cargo",
+          "category": "payload",
+          "size": "S",
+          "formFactor": "single",
+          "generation": 1,
+          "generationState": "authored",
+          "materials": [
+            {
+              "id": "LAB-STEEL-MIX",
+              "massKg": 2377.3876192041307,
+              "cpJKgK": 470,
+              "contents": "dry",
+              "origin": {
+                "kind": "experimental",
+                "sourceRef": "lab:LAB-STEEL-MIX-01",
+                "unit": "kg; J/(kg·K)",
+                "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+                "range": [
+                  350,
+                  900
+                ]
+              }
+            }
+          ],
+          "numerics": {
+            "cargoM3": 6
+          },
+          "gate": {
+            "low": 200,
+            "workLow": 250,
+            "restartLow": 260,
+            "workHigh": 500,
+            "restartHigh": 480,
+            "high": 550
+          },
+          "origins": {
+            "numerics.cargoM3": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_ship_cargo_payload_and_dimensions.md:profile",
+              "unit": "m³ = SCU",
+              "note": "Явный authored reference; нет automatic Class/G multipliers"
+            },
+            "gate.low": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.high": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "materials.0.massKg": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-BUILTIN-CARGO-01",
+              "unit": "kg",
+              "note": "6V^(2/3) ×120kg/m²",
+              "range": [
+                1584.9250794694206,
+                3169.850158938841
+              ]
+            },
+            "materials.0.cpJKgK": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-STEEL-MIX-01",
+              "unit": "J/(kg·K)",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                350,
+                900
+              ]
+            },
+            "generation": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                0.5,
+                2
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.emergencyDepthR": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                0.5,
+                2
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.wearPerWorkSecond": {
+              "kind": "experimental",
+              "unit": "1/s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                5e-7,
+                0.000002
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.failurePeriodSeconds": {
+              "kind": "experimental",
+              "unit": "s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                30,
+                120
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.cooldownSeconds": {
+              "kind": "experimental",
+              "unit": "s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                5,
+                20
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            }
+          },
+          "class": "Civilian",
+          "cargoType": "universal",
+          "thermalRole": "ordinary",
+          "durability": {
+            "behavior": "passive",
+            "emergencyDepthR": 1,
+            "wearPerWorkSecond": 0.000001,
+            "failurePeriodSeconds": 60,
+            "cooldownSeconds": 10
+          },
+          "surfaces": []
+        }
+      },
+      {
+        "id": "builtin:buffer-S",
+        "item": {
+          "id": "buffer-S",
+          "label": "Тепловой буфер S",
+          "family": "buffer",
+          "category": "sensors-thermal",
+          "size": "S",
+          "formFactor": "single",
+          "generation": 1,
+          "generationState": "authored",
+          "materials": [
+            {
+              "id": "LAB-STEEL-MIX",
+              "massKg": 5000,
+              "cpJKgK": 470,
+              "contents": "dry",
+              "origin": {
+                "kind": "experimental",
+                "sourceRef": "lab:LAB-STEEL-MIX-01",
+                "unit": "kg; J/(kg·K)",
+                "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+                "range": [
+                  350,
+                  900
+                ]
+              }
+            }
+          ],
+          "numerics": {
+            "capacityJ": 2000000000,
+            "chargePowerW": 20000000,
+            "dischargePowerW": 20000000
+          },
+          "gate": {
+            "low": 200,
+            "workLow": 250,
+            "restartLow": 260,
+            "workHigh": 500,
+            "restartHigh": 480,
+            "high": 550
+          },
+          "origins": {
+            "numerics.capacityJ": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5",
+              "unit": "J",
+              "note": "Явный authored reference; нет automatic Class/G multipliers"
+            },
+            "numerics.coolingW": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5",
+              "unit": "W",
+              "note": "Явный authored reference; нет automatic Class/G multipliers"
+            },
+            "numerics.absorbAboveK": {
+              "kind": "derived",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5",
+              "unit": "K",
+              "note": "Явный authored reference; нет automatic Class/G multipliers",
+              "range": [
+                217.5,
+                362.5
+              ],
+              "derivation": "Буквальная копия численного поля исходной редакции 0.2.x; исходный вывод указан в sourceRef."
+            },
+            "numerics.releaseBelowK": {
+              "kind": "derived",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5",
+              "unit": "K",
+              "note": "Явный authored reference; нет automatic Class/G multipliers",
+              "range": [
+                210,
+                350
+              ],
+              "derivation": "Буквальная копия численного поля исходной редакции 0.2.x; исходный вывод указан в sourceRef."
+            },
+            "gate.low": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.high": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "materials.0.massKg": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5",
+              "unit": "kg",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                3750,
+                6250
+              ]
+            },
+            "materials.0.cpJKgK": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-STEEL-MIX-01",
+              "unit": "J/(kg·K)",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                350,
+                900
+              ]
+            },
+            "generation": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                0.5,
+                2
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "numerics.chargePowerW": {
+              "kind": "experimental",
+              "unit": "W",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                10000000,
+                40000000
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "numerics.dischargePowerW": {
+              "kind": "experimental",
+              "unit": "W",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                10000000,
+                40000000
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.emergencyDepthR": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                0.5,
+                2
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.wearPerWorkSecond": {
+              "kind": "experimental",
+              "unit": "1/s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                5e-7,
+                0.000002
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.failurePeriodSeconds": {
+              "kind": "experimental",
+              "unit": "s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                30,
+                120
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.cooldownSeconds": {
+              "kind": "experimental",
+              "unit": "s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                5,
+                20
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            }
+          },
+          "class": "Civilian",
+          "thermalRole": "regulator",
+          "durability": {
+            "behavior": "repairable-active",
+            "emergencyDepthR": 1,
+            "wearPerWorkSecond": 0.000001,
+            "failurePeriodSeconds": 60,
+            "cooldownSeconds": 10
+          },
+          "surfaces": []
+        }
+      },
+      {
+        "id": "builtin:ram-S",
+        "item": {
+          "id": "ram-S",
+          "label": "ram-S · кандидат",
+          "category": "sensors-thermal",
+          "size": "S",
+          "family": "ram",
+          "formFactor": "single",
+          "class": "Civilian",
+          "generation": 1,
+          "generationState": "authored",
+          "materials": [
+            {
+              "id": "candidate-dry",
+              "massKg": 50,
+              "cpJKgK": 470,
+              "contents": "dry",
+              "origin": {
+                "kind": "experimental",
+                "unit": "kg",
+                "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+                "range": [
+                  25,
+                  100
+                ],
+                "note": "Кандидат для проверки; не канонические ТТХ."
+              }
+            }
+          ],
+          "numerics": {
+            "radarTransmission": 0.2
+          },
+          "gate": {
+            "low": 200,
+            "workLow": 250,
+            "workHigh": 500,
+            "high": 550,
+            "restartLow": 260,
+            "restartHigh": 480
+          },
+          "thermalRole": "ordinary",
+          "durability": {
+            "behavior": "passive",
+            "emergencyDepthR": 1,
+            "wearPerWorkSecond": 0.000001,
+            "failurePeriodSeconds": 60,
+            "cooldownSeconds": 10
+          },
+          "surfaces": [],
+          "origins": {
+            "generation": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                0.5,
+                2
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "materials.0.massKg": {
+              "kind": "experimental",
+              "unit": "kg",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                25,
+                100
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "materials.0.cpJKgK": {
+              "kind": "experimental",
+              "unit": "J/(kg K)",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                235,
+                940
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "numerics.radarTransmission": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                0.1,
+                0.4
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "gate.low": {
+              "kind": "experimental",
+              "unit": "K",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                100,
+                400
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "gate.workLow": {
+              "kind": "experimental",
+              "unit": "K",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                125,
+                500
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "gate.workHigh": {
+              "kind": "experimental",
+              "unit": "K",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                250,
+                1000
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "gate.high": {
+              "kind": "experimental",
+              "unit": "K",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                275,
+                1100
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "gate.restartLow": {
+              "kind": "experimental",
+              "unit": "K",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                130,
+                520
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "gate.restartHigh": {
+              "kind": "experimental",
+              "unit": "K",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                240,
+                960
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.emergencyDepthR": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                0.5,
+                2
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.wearPerWorkSecond": {
+              "kind": "experimental",
+              "unit": "1/s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                5e-7,
+                0.000002
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.failurePeriodSeconds": {
+              "kind": "experimental",
+              "unit": "s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                30,
+                120
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.cooldownSeconds": {
+              "kind": "experimental",
+              "unit": "s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                5,
+                20
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            }
+          }
+        }
+      },
+      {
+        "id": "builtin:shell-S",
+        "item": {
+          "id": "shell-S",
+          "label": "shell-S · кандидат",
+          "category": "sensors-thermal",
+          "size": "S",
+          "family": "shell",
+          "formFactor": "single",
+          "class": "Civilian",
+          "generation": 1,
+          "generationState": "authored",
+          "materials": [
+            {
+              "id": "candidate-dry",
+              "massKg": 100,
+              "cpJKgK": 470,
+              "contents": "dry",
+              "origin": {
+                "kind": "experimental",
+                "unit": "kg",
+                "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+                "range": [
+                  50,
+                  200
+                ],
+                "note": "Кандидат для проверки; не канонические ТТХ."
+              }
+            }
+          ],
+          "numerics": {
+            "managedBodyFraction": 0.5,
+            "powerW": 1000
+          },
+          "gate": {
+            "low": 200,
+            "workLow": 250,
+            "workHigh": 500,
+            "high": 550,
+            "restartLow": 260,
+            "restartHigh": 480
+          },
+          "thermalRole": "regulator",
+          "durability": {
+            "behavior": "repairable-active",
+            "emergencyDepthR": 1,
+            "wearPerWorkSecond": 0.000001,
+            "failurePeriodSeconds": 60,
+            "cooldownSeconds": 10
+          },
+          "surfaces": [],
+          "origins": {
+            "generation": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                0.5,
+                2
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "materials.0.massKg": {
+              "kind": "experimental",
+              "unit": "kg",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                50,
+                200
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "materials.0.cpJKgK": {
+              "kind": "experimental",
+              "unit": "J/(kg K)",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                235,
+                940
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "numerics.managedBodyFraction": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                0.25,
+                1
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "numerics.powerW": {
+              "kind": "experimental",
+              "unit": "W",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                500,
+                2000
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "gate.low": {
+              "kind": "experimental",
+              "unit": "K",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                100,
+                400
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "gate.workLow": {
+              "kind": "experimental",
+              "unit": "K",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                125,
+                500
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "gate.workHigh": {
+              "kind": "experimental",
+              "unit": "K",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                250,
+                1000
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "gate.high": {
+              "kind": "experimental",
+              "unit": "K",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                275,
+                1100
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "gate.restartLow": {
+              "kind": "experimental",
+              "unit": "K",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                130,
+                520
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "gate.restartHigh": {
+              "kind": "experimental",
+              "unit": "K",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                240,
+                960
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.emergencyDepthR": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                0.5,
+                2
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.wearPerWorkSecond": {
+              "kind": "experimental",
+              "unit": "1/s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                5e-7,
+                0.000002
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.failurePeriodSeconds": {
+              "kind": "experimental",
+              "unit": "s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                30,
+                120
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            },
+            "durability.cooldownSeconds": {
+              "kind": "experimental",
+              "unit": "s",
+              "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+              "range": [
+                5,
+                20
+              ],
+              "note": "Кандидат для проверки; не канонические ТТХ."
+            }
+          }
+        }
+      }
+    ],
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 42500,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "hullPowerW": 200000,
+    "origins": {
+      "materials.0.massKg": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_s_hull_dry_mass_closure_v0.1_draft.md§shell",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          31875,
+          53125
+        ]
+      },
+      "hullPowerW": {
+        "kind": "experimental",
+        "sourceRef": "lab:hotel-load-candidate",
+        "unit": "W",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "hullRadiationM2": {
+        "kind": "experimental",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§2",
+        "unit": "m²",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "profile": {
+        "kind": "experimental",
+        "unit": "profile",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "note": "Reference prototype; не полный канонический паспорт."
+      },
+      "generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.materials.0.massKg": {
+        "kind": "experimental",
+        "unit": "kg",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          1188.6938096020654,
+          4754.775238408261
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.materials.0.cpJKgK": {
+        "kind": "experimental",
+        "unit": "J/(kg K)",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          235,
+          940
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.numerics.cargoM3": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          3,
+          12
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.low": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          100,
+          400
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.workLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          125,
+          500
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.restartLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          130,
+          520
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.workHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250,
+          1000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.restartHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          240,
+          960
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.gate.high": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          275,
+          1100
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.durability.emergencyDepthR": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.durability.wearPerWorkSecond": {
+        "kind": "experimental",
+        "unit": "1/s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5e-7,
+          0.000002
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.durability.failurePeriodSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          30,
+          120
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.0.item.durability.cooldownSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5,
+          20
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "unit": "J/(kg K)",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          235,
+          940
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "bodyExchangeAreaM2": {
+        "kind": "experimental",
+        "unit": "m²",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          20,
+          80
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "bodyEmissivity": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.materials.0.massKg": {
+        "kind": "experimental",
+        "unit": "kg",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          2500,
+          10000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.materials.0.cpJKgK": {
+        "kind": "experimental",
+        "unit": "J/(kg K)",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          235,
+          940
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.numerics.capacityJ": {
+        "kind": "experimental",
+        "unit": "J",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          1000000000,
+          4000000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.numerics.chargePowerW": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          10000000,
+          40000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.numerics.dischargePowerW": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          10000000,
+          40000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.gate.low": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          100,
+          400
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.gate.workLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          125,
+          500
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.gate.restartLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          130,
+          520
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.gate.workHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250,
+          1000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.gate.restartHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          240,
+          960
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.gate.high": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          275,
+          1100
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.durability.emergencyDepthR": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.durability.wearPerWorkSecond": {
+        "kind": "experimental",
+        "unit": "1/s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5e-7,
+          0.000002
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.durability.failurePeriodSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          30,
+          120
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.1.item.durability.cooldownSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5,
+          20
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.2.item.generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.2.item.materials.0.massKg": {
+        "kind": "experimental",
+        "unit": "kg",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          25,
+          100
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.2.item.materials.0.cpJKgK": {
+        "kind": "experimental",
+        "unit": "J/(kg K)",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          235,
+          940
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.2.item.numerics.radarTransmission": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.1,
+          0.4
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.2.item.gate.low": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          100,
+          400
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.2.item.gate.workLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          125,
+          500
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.2.item.gate.workHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250,
+          1000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.2.item.gate.high": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          275,
+          1100
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.2.item.gate.restartLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          130,
+          520
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.2.item.gate.restartHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          240,
+          960
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.2.item.durability.emergencyDepthR": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.2.item.durability.wearPerWorkSecond": {
+        "kind": "experimental",
+        "unit": "1/s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5e-7,
+          0.000002
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.2.item.durability.failurePeriodSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          30,
+          120
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.2.item.durability.cooldownSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5,
+          20
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.3.item.generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.3.item.materials.0.massKg": {
+        "kind": "experimental",
+        "unit": "kg",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          50,
+          200
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.3.item.materials.0.cpJKgK": {
+        "kind": "experimental",
+        "unit": "J/(kg K)",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          235,
+          940
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.3.item.numerics.managedBodyFraction": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.25,
+          1
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.3.item.numerics.powerW": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          500,
+          2000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.3.item.gate.low": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          100,
+          400
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.3.item.gate.workLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          125,
+          500
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.3.item.gate.workHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250,
+          1000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.3.item.gate.high": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          275,
+          1100
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.3.item.gate.restartLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          130,
+          520
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.3.item.gate.restartHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          240,
+          960
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.3.item.durability.emergencyDepthR": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.3.item.durability.wearPerWorkSecond": {
+        "kind": "experimental",
+        "unit": "1/s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5e-7,
+          0.000002
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.3.item.durability.failurePeriodSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          30,
+          120
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "builtins.3.item.durability.cooldownSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5,
+          20
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "class": "Stealth",
+    "bodyExchangeAreaM2": 40,
+    "bodyEmissivity": 1,
+    "hullPassiveRadiator": null,
+    "modes": [
+      "Efficient",
+      "Masking"
+    ]
+  }
+]

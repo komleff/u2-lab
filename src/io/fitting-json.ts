@@ -4,17 +4,20 @@ import { validateFit, installedInstances } from "../fitting/validate";
 import { loadCandidateCatalog } from "../fitting/catalog";
 import { validateRunSpecV2 } from "../model/v2/step";
 import type { ShipFit, CandidateCatalog, ModuleItem, Slot } from "../fitting/types";
-import type { AnyRunSpec } from "../model/v2/types";
+import type { StoredRunSpec } from "../model/v2/types";
+import type { CandidateCatalogV3, ShipFitV3 } from "../model/v3/types";
+import { validateRunSpecV3, validateShipModelFit } from "../model/v3/schema";
 const invalid = <T>(code: string, message: string, path = "$"): ValidationResult<T> => ({
   ok: false,
   errors: [{ path, code, message }],
 });
-export function parseFitJson(
-  text: string,
-  catalog: CandidateCatalog,
-): ValidationResult<ShipFit> {
+export function parseFitJson(text: string, catalog: CandidateCatalog): ValidationResult<ShipFit>;
+export function parseFitJson(text: string, catalog: CandidateCatalogV3): ValidationResult<ShipFitV3>;
+export function parseFitJson(text: string, catalog: CandidateCatalog): ValidationResult<ShipFit>;
+export function parseFitJson(text: string, catalog: CandidateCatalog | CandidateCatalogV3): ValidationResult<ShipFit | ShipFitV3> {
   try {
     const fit = JSON.parse(text);
+    if (catalog.version === "ship-fitting-0.3.0") return validateShipModelFit(fit, catalog);
     const checked = validateFit(fit, catalog);
     return checked.valid
       ? { ok: true, value: structuredClone(fit) }
@@ -26,17 +29,18 @@ export function parseFitJson(
     return invalid("FIT_JSON", "Не удалось прочитать fitting JSON");
   }
 }
-export function serializeFit(fit: ShipFit): string {
+export function serializeFit(fit: ShipFit | ShipFitV3): string {
   return JSON.stringify(fit, null, 2);
 }
 export function parseExperimentJson(
   text: string,
   options: { allowSnapshotReplay?: boolean } = {},
-): ValidationResult<AnyRunSpec> {
+): ValidationResult<StoredRunSpec> {
   try {
     const document = JSON.parse(text),
       spec = document?.spec ?? document;
     if (spec?.schemaVersion === "u2-lab/1") return validateRunSpec(spec);
+    if (spec?.schemaVersion === "u2-lab/4") return validateRunSpecV3(spec);
     if (spec?.schemaVersion !== "u2-lab/2" && spec?.schemaVersion !== "u2-lab/3")
       return invalid("SCHEMA", "Неподдерживаемая схема опыта");
     const validated = validateRunSpecV2(spec);
@@ -92,6 +96,6 @@ export function parseExperimentJson(
     );
   }
 }
-export function serializeExperiment(spec: AnyRunSpec): string {
+export function serializeExperiment(spec: StoredRunSpec): string {
   return JSON.stringify(spec, null, 2);
 }

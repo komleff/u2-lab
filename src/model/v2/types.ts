@@ -132,3 +132,4 @@ export type TelemetryDescriptor = {
   role?: PropulsionRole;
 };
 export type AnyRunSpec = import("../types").RunSpec | RunSpecV2;
+export type StoredRunSpec = AnyRunSpec | import("../v3/types").RunSpecV3;

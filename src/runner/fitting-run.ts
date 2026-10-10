@@ -69,7 +69,9 @@ export function phaseAtV2(
     cycle,
   };
 }
-export function createFittingRun(runId: string, spec: RunSpecV2): RunContextV2 {
+export function createFittingRun(runId: string, input: RunSpecV2 | import("../model/v3/types").RunSpecV3): RunContextV2 {
+  if (input.schemaVersion === "u2-lab/4") throw new Error("schemaVersion: u2-lab/4 execution requires the new ship-model runner");
+  const spec = input;
   const v = validateRunSpecV2(spec);
   if (!v.ok)
     throw Error(v.errors.map((e) => e.path + ": " + e.message).join("\n"));

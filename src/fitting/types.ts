@@ -136,3 +136,4 @@ export type CandidateCatalog = {
   hulls: HullProfile[];
   items: Record<string, ModuleItem>;
 };
+export type { CandidateCatalogV3, ShipFitV3, HullV3, ModuleItemV3, ResolvedShipV3 } from "../model/v3/types";
