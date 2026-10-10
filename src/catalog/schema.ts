@@ -289,5 +289,9 @@ export function validateRunSpec(input: unknown): ValidationResult<RunSpec> {
 }
 
 // Диспетчер не переинтерпретирует числа legacy snapshot по текущему каталогу.
-export function validateAnyRunSpec(input:unknown):ValidationResult<import('../model/v2/types').AnyRunSpec>{return (input as any)?.schemaVersion==='u2-lab/2'?validateRunSpecV2(input):validateRunSpec(input);}
+export function validateAnyRunSpec(input:unknown):ValidationResult<import('../model/v2/types').StoredRunSpec>{
+  const version=(input as any)?.schemaVersion;
+  return version==='u2-lab/4'?validateRunSpecV3(input):version==='u2-lab/2'||version==='u2-lab/3'?validateRunSpecV2(input):validateRunSpec(input);
+}
 import {validateRunSpecV2} from '../model/v2/step';
+import {validateRunSpecV3} from '../model/v3/schema';

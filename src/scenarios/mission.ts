@@ -4,6 +4,12 @@ import { validateRunSpecV2 } from "../model/v2/step";
 import { MODEL_MISSION, MODEL_V2, MODEL_SIGNATURE_MISSION, isMissionModel, type RunSpecV2, type MissionConfig } from "../model/v2/types";
 import {fitHull} from "../fitting/editions";
 import type { ShipFit, CandidateCatalog } from "../fitting/types";
+import {makeShipModelMiningRun,type ShipModelConditions} from './fitting';
+import type {ShipFitV3,CandidateCatalogV3} from '../model/v3/types';
+// Authored 1 Hz resource/thermal phases; старый fast mission/flight owner неизменён.
+export function makeShipModelMissionRun(fit:ShipFitV3,catalog:CandidateCatalogV3,x:ShipModelConditions&{phases:NonNullable<ShipModelConditions['phases']>}){
+  return makeShipModelMiningRun(fit,catalog,x);
+}
 export type MissionConditions = MiningConditions & Partial<Omit<MissionConfig,"cPrimeMS">>;
 export type WorkspaceConditions = MissionConditions & { modelVersion?: typeof MODEL_MISSION | typeof MODEL_V2 | typeof MODEL_SIGNATURE_MISSION; signatures?: SignatureSettings };
 export const DEFAULT_MISSION_CONDITIONS: WorkspaceConditions = {modelVersion:MODEL_MISSION,durationSeconds:3600,stepSeconds:.1,temperatureK:300,effectiveBackgroundK:100,distanceM:100000,cruiseSpeedMS:null,referenceVfaMS:500,stopPolicy:"full-hold",approachSeconds:10,serviceSeconds:10,maneuverDuty:.1,stationReplenish:true,duty:1,densityKgM3:1500,returnFraction:.35,targetM3:10000,repeat:true};

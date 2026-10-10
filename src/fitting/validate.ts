@@ -1,4 +1,6 @@
 import { fitItem, fitHull, isKnownCatalogVersion } from "./editions";
+import { validateShipModelFit } from "../model/v3/schema";
+import type { ShipFitV3, CandidateCatalogV3 } from "../model/v3/types";
 import type {
   ShipFit,
   CandidateCatalog,
@@ -175,7 +177,17 @@ export function itemIssues(m: ModuleItem, path: string): FitIssue[] {
     bad("RANGE", "q должно быть >0");
   return issues;
 }
-export function validateFit(f: ShipFit, c: CandidateCatalog): FitValidation {
+export function validateFit(f: ShipFit, c: CandidateCatalog): FitValidation;
+export function validateFit(f: ShipFitV3, c: CandidateCatalogV3): FitValidation;
+export function validateFit(f: ShipFit, c: CandidateCatalog): FitValidation;
+export function validateFit(input: ShipFit | ShipFitV3, catalog: CandidateCatalog | CandidateCatalogV3): FitValidation {
+  if (catalog.version === "ship-fitting-0.3.0") {
+    const valid = validateShipModelFit(input, catalog), ready = validateShipModelFit(input, catalog, true);
+    const issues = (valid.ok ? [] : valid.errors).map(e => ({ ...e, severity: "error" as const }));
+    const readiness = (ready.ok ? [] : ready.errors).filter(e => valid.ok || !issues.some(i => i.path === e.path && i.message === e.message));
+    return { valid: valid.ok, issues: [...issues, ...readiness.map(e => ({...e,severity:"warning" as const}))], readiness: { complete: ready.ok, canRun: ready.ok, missing: readiness.map(e=>e.path), resourceWarnings: [] } };
+  }
+  const f = input as ShipFit, c = catalog as CandidateCatalog;
   const issues: FitIssue[] = [],
     missing: string[] = [],
     warnings: FitIssue[] = [];

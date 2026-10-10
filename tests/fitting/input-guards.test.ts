@@ -18,6 +18,14 @@ import { FittingSession } from "../../src/app/fitting-session";
 import { fixture } from "./test-spec";
 import { electricFit, thermoinverterFit } from "./input-fixtures";
 import type { ModuleItem } from "../../src/fitting/types";
+import { compileFit } from "../../src/fitting/compile";
+
+it.each([null, [], {}, {schemaVersion:"u2-ship-fit/1"}])("new fit input guard refuses incomplete/old objects without promotion",input=>{
+  const c=loadCandidateCatalog("ship-fitting-0.3.0"), before=structuredClone(input);
+  const result=compileFit(input as any,c);expect(result.ok).toBe(false);
+  if(!result.ok)expect(result.errors.every(e=>e.path&&e.message)).toBe(true);
+  expect(input).toEqual(before);expect(parseFitJson(JSON.stringify(input),c).ok).toBe(false);
+});
 
 const invalidValues = [undefined, 0, -0.01, 1.01, NaN, Infinity];
 const change = (item: ModuleItem, key: string, value: number | undefined) => {

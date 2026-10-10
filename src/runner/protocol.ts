@@ -1,6 +1,7 @@
-import type { AnyRunSpec } from "../model/v2/types";
+import type { StoredRunSpec } from "../model/v2/types";
 import { MODEL_SIGNATURE_MISSION } from "../model/v2/types";
-import { createRun, runChunk, result, type AnyRunContext } from "./run";
+import { createRun, runChunk, result, type ExecutableRunContext } from "./run";
+import type {runShipModelChunk} from './ship-model-run';
 import { parseResultJson } from "../io/fitting-result";
 import { restoreFittingRun, type RunResultV2 } from "./fitting-run";
 export type Control =
@@ -15,11 +16,11 @@ export type WorkerCommand =
       runId: string;
       commandId: number;
       type: Control;
-      payload?: { spec?: AnyRunSpec; maxSteps?: number; checkpoint?: RunResultV2 };
+      payload?: { spec?: StoredRunSpec; maxSteps?: number; checkpoint?: RunResultV2 };
     }
   | { runId: string; type: "telemetry-ack"; chunkId: number };
 export class WorkerController {
-  context?: AnyRunContext;
+  context?: ExecutableRunContext;
   private pending?: { runId: string; chunkId: number };
   private chunkId = 0;
   private running = false;
@@ -37,7 +38,7 @@ export class WorkerController {
     }
     if (c.type === "start") {
       try {
-        let next:AnyRunContext;
+        let next:ExecutableRunContext;
         if(c.payload?.checkpoint){
           const parsed=parseResultJson(JSON.stringify(c.payload.checkpoint,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v));
           if(!parsed.ok)throw new Error(parsed.errors.map(e=>e.path+": "+e.message).join("\n"));
@@ -90,11 +91,11 @@ export class WorkerController {
     )
       return;
     const run = this.context;
-    let chunk: ReturnType<typeof runChunk>;
+    let chunk: ReturnType<typeof runChunk>|ReturnType<typeof runShipModelChunk>;
     try {
       chunk = runChunk(run, this.stepping ? 1 : this.maxSteps, 80);
     } catch (error) {
-      if (run.spec.modelVersion !== MODEL_SIGNATURE_MISSION) throw error;
+      if (run.spec.modelVersion !== MODEL_SIGNATURE_MISSION&&run.spec.schemaVersion!=='u2-lab/4') throw error;
       this.running = false;
       this.stepping = false;
       this.send({ runId: run.runId, type: "error", payload: String(error) });

@@ -339,6 +339,8 @@ export class FittingWorkspace {
             },
           ],
         };
+      if (p.value.schemaVersion === "u2-lab/4")
+        return { ok: false as const, errors: [{ path: "schemaVersion", message: "u2-lab/4: исполнение нового ship model ещё не подключено к legacy workspace" }] };
       this.selected().replaySpec = structuredClone(p.value);
       const fit = parseFitJson(JSON.stringify(p.value.resolvedShip.fit), this.catalog);
       if (fit.ok) this.selected().fit = structuredClone(fit.value);

@@ -1,3 +1,23 @@
+# Ship-model v0.1 — начало реализации, 2026-10-11
+
+Accepted plan1.2/frozen692385d, affected PLAN_READY PR21comment6100571178,
+0blocker/0advisory/noPRODUCTGAP. Operator approved implementation and selected
+GPT-6.1 Sol/xhigh. Runtime DraftPR22/feat/ship-model-v0.1-runtime from692385d,
+basePR21. Source binding и Beads IDs: docs/reviews/2026-10-11-ship-model-implementation-launch.md.
+Canonical ulab-9aa.10–.16 созданы primary bdAPI; snapshot0ba144a опубликован.
+Исходные девять IDs не изменялись. Статус работ — только Beads, не этот checkpoint.
+
+Metadata launch5f209e7 full baseline .agents/project/verify.sh PASS:
+77files/1075unit,117browser+1inheritedskip,26cloud,type/build/reference/bootstrap.
+Это baseline evidence, не QA новой модели. DEV_RELEASE D0 vectors+T1 schema/catalog/state
+основному /root/ship_model_developer. PRODUCT independent budget1/5: existing PlanReview;
+QA и scopedReview whole candidate ещё не запускались. PM runtime не пишет.
+Actual server parity/physical second LAN/native activation/playtest/base/bootstrap
+acceptance/finalize/operator merge отдельные OPEN gates. Cold-H2 Masking numeric stage OUT.
+Legacy results/catalog0.2.x и текущие live releases сохраняются.
+
+## Предыдущий checkpoint
+
 # Operator result-dock fix, 2026-10-07
 
 ulab-p2w, PR13/fix/catalog-dialog-focus от7eef0c0. Accepted WHAT0.7:
