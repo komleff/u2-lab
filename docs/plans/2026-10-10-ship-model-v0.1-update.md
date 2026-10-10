@@ -1,20 +1,21 @@
 ---
 title: "Обновление U2 Lab до модели корабля PR #19"
-status: proposed / independent Plan Review pending
-version: "1.0"
+status: proposed / PRODUCT GAP open / affected Plan Review pending
+version: "1.1"
 date: 2026-10-10
 tags: [pm, ship-model, thermal, energy, durability, signatures, compatibility]
 related:
   - docs/gdd/gdd_ship_energy_thermal_model_v0.1.md
   - docs/specs/spec_u2_lab_ship_model_v0.1.md
+  - docs/handoffs/2026-10-10-u2-gdd-ship-specs-update-list.md
   - docs/reviews/review_ship_model_adversarial_2026_10_10.md
   - docs/research/2026-10-10-ship-model-checks.json
 ---
 
 # Обновление U2 Lab до модели корабля PR #19 — план реализации
 
-Для исполнения: режим PRODUCT. После Draft PR этот план проходит независимый
-Plan Review и получает `PLAN_READY`; затем каждый work item выполняет один основной
+Для исполнения: режим PRODUCT. После закрытия PRODUCT GAP в Draft PR этот план проходит
+независимый affected Plan Review и получает новый `PLAN_READY`; затем каждый work item выполняет один основной
 Developer, после чего независимые QA и scoped Code Review проверяют указанные AC.
 Beads остаётся единственным статусом работ; шаги ниже задают порядок и приёмку, а не
 заменяют tracker. Merge выполняет оператор.
@@ -40,15 +41,18 @@ owner — `docs/gdd/gdd_ship_energy_thermal_model_v0.1.md` v0.11. Analytical evi
 `34b44d5fdc041d2bcd8949fadbb9e38f994b1cb9`; документальный parent —
 `698845d6e3e09433ae21cd4b345d84263d38b182`. Runtime baseline для сравнения —
 `01b15fdbb31464df84e9c3c6297383f90bf43a5b` из ветки PR #18. U2 owners проверены по `docs/INDEX.md` и
-`docs/architecture/ADR-INDEX.md` на локальном `0d0f65fc...`; затронутые sections
-совпадают с источником PR #19 `2171a20a...`.
+`docs/architecture/ADR-INDEX.md`; оператор подтвердил U2 main `c780ffaf...`, где относительно
+источника PR #19 `2171a20a...` изменены только два roadmap-файла.
 
 Прямое решение оператора в этой задаче: **данные GPT-агента из PR #19 являются
 целевым authority при конфликте с текущим U2 Lab или действующим текстом U2,
-кроме позднее явно исправленной границы прочности**. Для прочности оператор
-подтвердил ADR-0066 v1.3: точный `R=0` гарантирован, первый отказ наступает
-при переходе в `R<0`. Числа, которые сам PR #19 помечает как кандидаты, не
-становятся каноном от этого решения.
+кроме последующих явных решений оператора**. К таким решениям уже относятся граница
+прочности и scope Military thermal exception: `Military hull + Combat`, но для всех
+установленных модулей независимо от их класса; на Masking это решение не распространяется.
+Для прочности оператор подтвердил ADR-0066 v1.3: точный `R=0` гарантирован, первый
+отказ наступает при переходе в `R<0`. Для теплового исключения действуют только
+принятые рамки U2, описанные в PG-SM-THERMAL-01 ниже. Числа, которые сам PR #19
+помечает как кандидаты, не становятся каноном от этого решения.
 
 | Расхождение | Принято для реализации | Действие синхронизации |
 |---|---|---|
@@ -57,6 +61,7 @@ owner — `docs/gdd/gdd_ship_energy_thermal_model_v0.1.md` v0.11. Analytical evi
 | U2 thermal field в текущем owner выражен через среду; PR #19 разделяет фон излучения и поле `hA(T-T_field)` | Хранить и считать два независимых signed потока; для hot side TI использовать `T_hot`, для прямой поверхности — `T_ship` | Amendment ADR-0036/runtime field DTO и профильным thermal owners; запрет двойного представления того же источника |
 | Lab сейчас интегрирует с `stepSeconds=.01/.1`; PR #19 задаёт общий thermal profile 1 s | Новая модель принимает thermal-control решения только на границе 1 s; внутри секунды допускается лишь event clipping запасов/критической границы без раннего включения следующей ступени | Быстрый shared flight loop не меняется; для U2 выделяется 1 Hz authoritative thermal-control слой |
 | Lab имеет частичную автоматику, но не полные каскады | Использовать каскады и очередь прогрева PR #19; игрок выбирает сборку, режим и действие, а не пороги/законы | U2 scheduler/governor owner синхронизируется отдельным doc work item |
+| U2 governor ограничивает Combat hot override классом Military module | По прямому уточнению оператора Military hull в Combat позволяет использовать все установленные модули независимо от их класса; module class не выключает Combat hot override | Исправить U2 governor owner; hot critical stop, cold side и restart остаются в PG-SM-THERMAL-01 |
 | В старых предложениях Masking ограничивал тягу | Дополнительного потолка тяги нет; действуют обычные power/thermal/workability limits, фактический манёвр увеличивает расход и сигнатуры, радиаторы не открываются | Явно закрепить в U2 mode/HUD owner без изменения flight physics |
 | U2 сохраняет earned range и server authority; Lab показывает расчётные дальности | Сохранить earned range. В Lab — только одинаковый reference observer и расчётный ориентир; HUD не узнаёт факта чужого обнаружения | Signature/HUD docs уточнить без free range/hidden-position shortcut |
 | Lab category id/label — `signature` / «Контроль сигнатур» | В новом каталоге отображать «Сенсоры и тепло»; старый serialized id читать как compatibility alias | Новый id вводить только в versioned catalog/schema, старые fits не переписывать |
@@ -65,6 +70,32 @@ U2 doc sync для остальных расхождений не даёт пр�
 этого Lab PR. Он является обязательным входом для отдельного server work item
 и финальной проверки SM-14; граница прочности уже определена ADR-0066 и не
 требует U2 amendment.
+
+### PRODUCT GAP PG-SM-THERMAL-01 — критическая защита особых режимов
+
+Question: какая точная thermal protection matrix действует для сочетания режима,
+класса корпуса и класса модуля на горячей и холодной стороне, включая критическую
+остановку и повторный запуск?
+
+Why unresolved: ADR-0068 сохраняет только прежний Military hot override, а прежний
+текст U2 governor ограничивал его сочетанием `Military hull + Combat + Military module`.
+Оператор уточнил scope до `Military hull + Combat + any installed module`, но ещё не
+определил hot critical stop, cold-side behavior и restart. Предложение Lab дополнительно
+распространяет отсутствие обычного снижения мощности на Masking. Handoff v0.4.1 прямо
+оставляет критическую защиту и повторный запуск на уточнение.
+
+| Mode | Hull class | Module class | Hot work→critical | Cold work→critical | Critical stop | Restart | Статус D0 |
+|---|---|---|---|---|---|---|---|
+| Обычный, без special override | Любой | Любой | Линейное снижение + accelerated wear | Линейное снижение + accelerated wear | Обязательная thermal stop | После возврата в owner restart-band | Принято ADR-0068/ADR-0043 |
+| Combat | Military | Любой установленный | Existing hot override действует независимо от класса модуля; точный диапазон надо зафиксировать | Cold bypass не принят | Допустимость работы за `T_crit_high` и точная stop boundary требуют решения | Связь thermal hysteresis с durability/restart требует решения | Scope принят оператором; границы требуют решения |
+| Combat | non-Military | Любой | Обычная hot protection | Обычная cold protection | Обязательная stop по собственному `T_crit` | По собственному restart-band | Текущий U2; D0 подтверждает без расширения |
+| Masking | Stealth / Masking-capable | Military | Special hot bypass не принят | Special cold bypass не принят | Обычная safety protection остаётся baseline, но special-mode boundary должна быть явно подтверждена | Требуется явное решение | **Решение оператора требуется** |
+| Masking | Stealth / Masking-capable | non-Military | Special hot bypass не принят | Special cold bypass не принят | Обычная safety protection остаётся baseline, но special-mode boundary должна быть явно подтверждена | Требуется явное решение | **Решение оператора требуется** |
+
+Affected behavior: полезная мощность, thermal wear, момент остановки, повторный запуск,
+видимые причины ограничения и Lab↔server parity. Implementation не может выбрать
+широкий override как technical default. До утверждения таблицы T2 не реализует
+special-mode bypass и affected Plan Review не запускается.
 
 ## 2. Target → as-built → gap
 
@@ -159,6 +190,11 @@ Deliverables:
 - этот план и независимый Plan Review;
 - отдельный U2 doc-only amendment по таблице §1, routed через U2 `docs/INDEX.md` и
   `docs/architecture/ADR-INDEX.md`;
+- handoff `docs/handoffs/2026-10-10-u2-gdd-ship-specs-update-list.md` и принятые
+  качественные правила U2 PR #848 входят в frozen owner set без автоматического
+  принятия открытых численных ТТХ;
+- оператор утверждает PG-SM-THERMAL-01 как полную matrix hull/mode/module × hot/cold ×
+  critical stop/restart; соответствующие U2 owners обновляются до реализации этой ветки T2;
 - machine-readable conformance fixture `docs/verification/ship-model-v0.1-vectors.json`
   для CP-01–05 и аналитических точек PR #19 без runtime verdict;
 - Beads children существующего epic `ulab-9aa` создаются canonical writer только после
@@ -166,7 +202,9 @@ Deliverables:
 
 Exit: reviewer подтверждает authority, scope, version/rollback boundary, тестируемость
 SM-01–14 и отсутствие неразрешённого WHAT. U2 amendment может идти параллельно с Lab T1–T5,
-но должен быть принят до server implementation/SM-14 parity claim.
+но должен быть принят до server implementation/SM-14 parity claim. Пока
+PG-SM-THERMAL-01 открыт, D0 не завершён, T2 special-mode protection не реализуется и
+affected Plan Review не запускается.
 
 ### T1 — schema, catalog и полный state
 
@@ -186,7 +224,14 @@ Contract:
 
 - hull separates `bodyExchangeAreaM2` from immutable `hullPassiveRadiator`;
 - every surface has area, emissivity, active/passive, closable, builtin and exclusive
-  `circuitOwner`; pump-radiator panels never migrate to common TI;
+  `circuitOwner`, versioned directional IR profile and origin; pump-radiator panels never
+  migrate to common TI. An ordinary radiator remains omnidirectional on a Military hull;
+- Military schema can represent its accepted built-in buffer and aft radiator surfaces;
+  Stealth schema can represent its built-in buffer, RAM and controllable body shell as three
+  separate physical functions. Stealth gains no implicit radiator. This delivery does not
+  invent a complete Military passport or numerical TTX outside Sputnik/Mir/one Stealth reference;
+- controllable shell changes only an explicit bounded fraction of effective signed body-exchange
+  area; it is not a cold source. Buffer mass enters dry mass once and buffer J do not enter `C_ship`;
 - ordinary modules have four temperatures and durability parameters; thermal-control
   devices do not define `T_w/T_c`;
 - ship heat capacity is compiled from dry construction/modules once; cargo and fuel do not
@@ -195,6 +240,8 @@ Contract:
   `{temperatureK, coefficientWPerM2K, sourceId}`;
 - state persists buffer J + minimum capture K, mode + Masking entry K, governor/generator/
   thermal latches, durability, first-negative-crossing flag, emergency exposure, cooldown and RNG;
+- experiment/result state persists the selected receiver profile independently from model version:
+  existing `positive-only` and `absolute-contrast` profiles coexist and are not sequential old versions;
 - origin is required for every new numeric field; candidate and canonical values remain distinct;
 - `stepSeconds` for the new model is exactly 1 s and duration/phase boundaries are whole seconds;
 - one explicit `compileFitToShipModelV01` operation promotes a validated old fit into catalog
@@ -222,7 +269,12 @@ Files:
 
 Behavior:
 
-1. Close the electrical balance with input/output efficiencies: source follows actual load
+1. Authorize the requested action before load construction. In Masking, forbidden laser/radar/
+   outward-transmission and other owner-declared active-emission commands are rejected before
+   electrical request, heat and IR/EM calculation; rejection produces no work or emission and does
+   not exit the mode. Deferrable background work and optional pulse-device charging pause, while
+   passive receivers, flight control and actual critical loads remain in the ledger.
+2. Close the electrical balance with input/output efficiencies: source follows actual load
    when the accumulator is full, and actual work is clipped by delivered power when empty;
    rejected external electric input does not become hidden host heat.
    In Masking, the emergency fuel-generator permission arms below 1% battery only when
@@ -231,38 +283,45 @@ Behavior:
    Permission clears on Masking exit or independent battery recovery to the upper threshold;
    2% is a balance candidate. Mode exit hands the generator to normal control without a
    forced power-off. Persist the permission latch and count actual fuel/heat/signatures.
-2. From actual delivered electrical stages compute `rawEmW=escapedEmW+capturedEmW` in the kernel.
+3. From actual delivered electrical stages compute `rawEmW=escapedEmW+capturedEmW` in the kernel.
    Only `escapedEmW` leaves the ship energy/heat ledger; captured shielding loss stays in host
    heat exactly once. The thermal controller consumes that coupled host heat in the same step;
    signature adapters later project these frozen outputs and never recalculate the split.
-3. Compute `T_w=min(T_work_high)` and `T_c=max(T_work_low)` over installed ordinary
+4. Compute `T_w=min(T_work_high)` and `T_c=max(T_work_low)` over installed ordinary
    modules, including switched-off modules; exclude thermal regulators.
-4. Apply normal linear derate and accelerated wear between work/critical boundaries;
-   stop at critical. Passive exchange remains after module stop. Report incompatible
-   `T_w<=T_c`, do not invent a common corridor.
-5. Evaluate natural exchange and current device heat first; allocate the accepted Efficient,
+5. Apply ordinary linear derate and accelerated wear between work/critical boundaries and
+   stop ordinary operation at critical. Do not generalize this rule into, or remove it from,
+   special modes. A Military hull in Combat grants the accepted hot override to every installed
+   module regardless of class, but its exact hot critical boundary/restart remain blocked by
+   PG-SM-THERMAL-01; non-Military Combat keeps ordinary protection. Masking gains no hot/cold
+   bypass by default. Passive exchange remains after a stop. Report incompatible `T_w<=T_c`,
+   do not invent a common corridor.
+6. Evaluate natural exchange and current device heat first; allocate the accepted Efficient,
    Combat or Masking cascade. Earlier active stages run to available maximum, exactly one
    current stage regulates, later stages wait for their own threshold.
-6. At equal setpoints the later stage regulates; the earlier stage runs at available maximum.
+7. At equal setpoints the later stage regulates; the earlier stage runs at available maximum.
    Heating and cooling never fight; buffer recovery through cooling does not start a heater.
-7. Heating order: diesel generator — fuel furnace then electric; H₂ generator — electric
+8. Heating order: diesel generator — fuel furnace then electric; H₂ generator — electric
    then furnace; no generator — battery electric then compatible furnace; Masking — electric only.
    Furnaces require fuel and delivered auxiliary power, efficiency 0.90/0.95.
-8. At each 1 s boundary request only the power needed to reach/hold the setpoint by interval end.
+9. At each 1 s boundary request only the power needed to reach/hold the setpoint by interval end.
    Clip depletion/critical crossings inside the interval so stocks never go negative, but do not
    grant a later reserve before the next controller boundary.
-9. Keep a separate continuous/reference helper for convergence studies; it never decides the
+10. Keep a separate continuous/reference helper for convergence studies; it never decides the
    production Lab request or overwrites a stored result.
 
-Exit: CP-01–04 pass, including 1.2 MW in CP-01, no premature reserve, one regulator at equal
-setpoints and no negative E/B/fuel or work past critical boundary. Existing v2 convergence,
+Exit: after PG-SM-THERMAL-01 closure, CP-01–04 pass, including 1.2 MW in CP-01, no premature
+reserve, one regulator at equal setpoints and no negative E/B/fuel. Ordinary-mode work stops at
+its critical boundary; every special-mode boundary follows the approved D0 matrix. Existing v2 convergence,
 mission and ledger tests remain unchanged. Actual Worker accepts `/4`, starts and pauses through
 the new runner branch. Shield off/on proves `raw=escaped+captured`, a closed total residual and
 causal host-temperature/controller change from only the retained part.
 Masking-generator fixtures cover battery just below/exactly at 1%, demand fully/partly
 covered by independent supply, no battery charging from fuel, an armed permission across
-save/resume, independent recovery to the configured upper threshold (2% candidate) and
-handoff to normal governor on mode exit without a forced off/on transition.
+save/resume, preserved permission with zero output when independent supply covers demand,
+request reappearance on a later deficit, independent recovery to the configured upper threshold
+(2% candidate) and handoff to normal governor on mode exit without a forced off/on transition.
+Blocked-action fixtures prove authorization precedes all power/heat/signature ledgers.
 
 ### T3 — buffer, surfaces and both thermoinverters
 
@@ -289,6 +348,9 @@ Behavior:
   at most 50 deterministic `double` iterations. Select the minimum useful `T_hot`; if the whole
   ship gains no cooling after source heat/power and displaced natural exchange, keep TI off;
 - `hA(T-T_field)` and radiation remain independently signed; reject duplicated source IDs.
+- directional profile belongs to each radiator version and does not change total thermal watts;
+  a hot circuit inherits each connected surface profile without collapsing a mixed set into a
+  hidden hull/class multiplier. Controllable shell affects only its declared body fraction.
 
 Exit: PH-B1 cases reproduce direct −150 kW vs hot-side +50 kW with correct signs; all four
 two-pump ownership states preserve total area without double count; full work→recovery→repeat
@@ -315,11 +377,14 @@ Behavior:
 - seed/state of RNG, work exposure, cooldown, first-negative-crossing flag, all latches, buffer marker/debt and
   Masking entry temperature round-trip through pause/export/import/resume;
 - malformed or future state rejects atomically; no field silently defaults during continuation.
+- repair that restores `R>=0` resets the first-negative-crossing flag; power-cycle, mode change,
+  pause/reopen or a repair that remains below zero do not, so none grants or removes a warning failure.
 
 Exit: CP-05 after 59 s + save + 1 s matches uninterrupted 60 s for request, failure, RNG,
 stocks, latches and cooldown. One actual-Worker `/4` chain start→pause→export result/checkpoint→
 atomic import→resume matches uninterrupted execution. Repeated import does not reroll; malformed
-future state is rejected; old fit/results keep literal replay and never enter v3 restore dispatch.
+future state is rejected; repair to `R>=0` restores exactly one next-crossing warning failure;
+old fit/results keep literal replay and never enter v3 restore dispatch.
 
 ### T5 — Masking, signatures, observer and UI explanation
 
@@ -339,14 +404,19 @@ Behavior:
 
 - Masking closes managed radiators and disables pumps/TI; buffer holds entry temperature then
   debt grows. Pilot thrust has no extra mode cap; actual delivered load drives heat/IR/EM;
+- T5 renders the action authorization decision and reason but does not own enforcement; a refused
+  active action already has zero delivered work/heat/emission from T2 and never auto-exits Masking;
 - IR uses actual outward body/radiator/hot-circuit/exhaust paths and signed contrast, including
-  cold silhouette. EM uses the T2 actual-stage split; shielding reduces escaped output, while
+  cold silhouette. It applies the selected persisted receiver profile and each installed radiator
+  version's observer-angle projection while preserving total emitted watts. EM uses the T2 actual-stage split; shielding reduces escaped output, while
   its already coupled retained host heat changes temperature/control, and degrades own antenna response;
 - 10/20/40 km and other distances are reference calculations for the same observer conditions,
   never a guarantee of stealth or knowledge about an enemy contact;
 - show work/time, stocks, first limiting installed module, cascade/stage reason, buffer debt and
   recovery reachability, stops/restart/repair, IR/EM, own view of one control target and A/B price;
 - shielding/gyrodyne comparison keeps their actual mass, occupied category, power and heat costs;
+- numerical cold-H₂ Masking (`ΔT_stealth`, anticipation and hysteresis) remains a later stage and
+  is not enabled by the current GDD mention or by this first implementation;
 - default view remains concise; formulas, origins and full ledger stay under details. No law editor.
 
 Exit: same maneuver outside/inside Masking has the same requested flight command and ordinary
@@ -367,9 +437,16 @@ Files/artifacts:
 Run matrix:
 
 - Sputnik S and Mir M: standard/cold/hot field, idle/work/peak/recovery/repeat;
+- one structural Military fixture proves built-in buffer/aft-radiator representation without
+  claiming a complete Military passport or candidate balance;
+- Stealth reference keeps RAM/buffer/controllable shell separate; no implicit radiator appears;
 - small vs large built-in radiator area: common TI vs pump-radiator, battery and generator;
+- ordinary vs aft-directed and mixed radiator versions: equal total watts, bow/stern projection,
+  hot-circuit profile inheritance and no lost/double-counted area;
 - buffer high-power-short vs low-power-long, reachable and unreachable recovery;
 - Efficient/Combat/Masking, quiet work and emergency maneuver;
+- Masking forbidden-action rejection before ledgers, no auto-exit, paused background/optional
+  charging, persisted emergency-generator permission and later deficit reactivation;
 - candidate G1/G10/G20/further: same task/environment plus harder task;
   useful laser power follows the accepted ×1→×2 direction and efficiency approaches, but never
   exceeds, 0.70; the unknown curve remains versioned candidate data;
@@ -388,17 +465,17 @@ Developer and only affected checks/re-review repeat. Operator decides candidate 
 |---|---|---|
 | SM-01 | Sputnik/Mir runnable; every gap is a signed candidate, never zero/hidden multiplier | Catalog schema/provenance tests + UI inspection |
 | SM-02 | Source/load/loss/stock and fuel/work/heat ledgers close; full/empty battery neither creates nor deletes energy | Analytic constant-flow, mid-step depletion and residual tests |
-| SM-03 | Four limits produce nominal corridor, linear derate/accelerated wear and critical stop in both hot/cold directions | Boundary table including exact equality and crossing |
+| SM-03 | In ordinary mode four limits produce nominal corridor, linear derate/accelerated wear and critical stop in both hot/cold directions; Military Combat hot override covers every installed module, while its critical/restart limits and all unapproved special-mode behavior await PG-SM-THERMAL-01 without an implementation default | Boundary table including exact equality/crossing; approved D0 matrix before special-mode tests |
 | SM-04 | Installed sensitive module defines `T_w/T_c`; accepted mode/heating order; reserve waits for own threshold; no opposing control | Discrete profile tests, CP-01–03, mount/off/demount comparison |
 | SM-05 | Buffer J/power/marker persist; cold stock is not released to hotter ship; full debt restored or unreachable remainder explained | Full-cycle, partial discharge, mode/save/reopen cases |
-| SM-06 | Body and hull passive radiator are distinct, immutable signed exchanges; active radiator opens/closes only by policy | Surface ledger and hot/cold field sign cases |
-| SM-07 | Common TI and pump-radiator obey exclusive area ownership, hot-side field exchange and whole-ship benefit | PH-B1 + four ownership states + power/source-heat controls |
-| SM-08 | Exact zero is guaranteed; first crossing below zero causes one immediate stop; below-zero risk/cooldown/restart/terminal repair are deterministic and saved | Seeded durability boundaries + CP-05 |
-| SM-09 | IR/EM separate; same observer; shielding has heat and own-antenna cost | Signal ledger and A/B observer tests |
+| SM-06 | Body and hull passive radiator are distinct signed exchanges; shell changes only its declared body fraction; radiator version changes observer profile, not total watts | Surface ledger, hot/cold field signs, ordinary/aft bow-stern comparison |
+| SM-07 | Common TI and pump-radiator obey exclusive area ownership; hot side inherits each surface profile; mixed versions preserve area and whole-ship benefit | PH-B1 + four ownership states + mixed-profile power/source-heat controls |
+| SM-08 | Exact zero is guaranteed; first crossing below zero causes one immediate stop; below-zero risk/cooldown/restart/terminal repair are deterministic and saved; repair to `R>=0` rearms exactly one next-crossing stop | Seeded durability/repair boundaries + CP-05 |
+| SM-09 | IR/EM separate; receiver model version and selected positive-only/absolute-contrast profile persist; same observer/angle; shielding has heat and own-antenna cost | Versioned signal ledger, bow/stern and shield A/B observer tests |
 | SM-10 | Result explains useful work, first limiter, stop and upgrade trade-off without exposing a laws editor | Unit presentation + native browser chains |
 | SM-11 | G10/G20/further and candidate correction are reproducible and visibly non-canonical | Matrix artifacts with origin/version and operator decision pending |
 | SM-12 | Fit, candidate data, conditions, model/state/RNG and measured result round-trip without history recompute | Literal JSON fixtures, resume equivalence, atomic negative imports |
-| SM-13 | Masking adds no thrust cap, never opens radiators for maneuver, and actual load raises signatures; emergency generator output tracks only unmet permitted load below 1%, never charges battery, drops to zero on independent supply and returns to normal control on mode exit; reference range does not reveal enemy truth | Flight/signature/power coupled cases + UI language inspection |
+| SM-13 | Masking adds no thrust cap and never opens radiators for maneuver; forbidden active actions are rejected before ledgers without emission/auto-exit; emergency generator output tracks only unmet permitted load below 1%, never charges battery, can be zero while permission persists, reappears on later deficit and returns to normal control on mode exit; reference range does not reveal enemy truth | Authorization→flight/signature/power coupled cases + UI language inspection |
 | SM-14 | Same full state/input on 1 s profile gives same stages, permissions, requests and final state in Lab/reference implementation; client uses server state | CP-01–05 JSON vectors; Lab adapter now, U2 server runner in separate work item before PASS |
 
 Numerical policy: exact stock bounds, no NaN/Infinity; constant linear ledgers use absolute
@@ -409,7 +486,8 @@ policy. A mismatch changes solver/contract, never hidden candidate TTX.
 ## 8. Review focus, risks and completion gates
 
 Plan Review focuses on: precedence of PR #19, candidate/canon separation, frozen old readers,
-1 s boundary semantics, area ownership, buffer marker, guaranteed exact-zero durability and first-negative crossing, deterministic save,
+closure of PG-SM-THERMAL-01, 1 s boundary semantics, area/profile ownership, buffer marker,
+guaranteed exact-zero durability and first-negative crossing/reset-on-repair, deterministic save,
 observer privacy and feasibility of CP-01–05.
 
 QA/Code Review named risks:
@@ -422,11 +500,16 @@ QA/Code Review named risks:
 - pump-radiator area leaks into common TI while its pump is off;
 - `T_ship` used instead of `T_hot` for hot-circuit field exchange;
 - Masking silently caps thrust or opens panels;
+- forbidden Masking action reaches load/heat/signature calculation or exits the mode;
+- special-mode thermal bypass is inferred without the approved hull/mode/module matrix;
+- radiator direction becomes a hull multiplier, changes total watts or is lost by a TI hot circuit;
+- cold-H₂ Masking candidate is enabled without separate `ΔT`/anticipation/hysteresis decision;
 - candidate numeric data displayed as accepted U2 canon;
 - old catalog/result silently migrates or recomputes;
 - Lab reference distance leaks into game contact/range authority.
 
-Completion requires: independent `PLAN_READY`; canonical Beads work items; all addressed AC
+Completion requires: operator closure of PG-SM-THERMAL-01; independent `PLAN_READY` on the
+resulting exact plan; canonical Beads work items; all addressed AC
 with actual evidence; project guard PASS; independent QA PASS; scoped Code Review APPROVED;
 U2 doc sync accepted before server implementation; PM final binding; operator merge. This plan
 does not claim runtime or server parity before those gates.
