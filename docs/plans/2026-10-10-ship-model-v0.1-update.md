@@ -29,8 +29,8 @@ Architecture: новая явная версия расчёта поверх с�
 полное сохраняемое состояние и фактические IR/EM-каналы. Быстрая физика полёта и
 исторические результаты не пересчитываются.
 
-Spec: `docs/specs/spec_u2_lab_ship_model_v0.1.md` v0.10, SM-01–14; физический
-owner — `docs/gdd/gdd_ship_energy_thermal_model_v0.1.md` v0.10. Analytical evidence
+Spec: `docs/specs/spec_u2_lab_ship_model_v0.1.md` v0.11, SM-01–14; физический
+owner — `docs/gdd/gdd_ship_energy_thermal_model_v0.1.md` v0.11. Analytical evidence
 имеет 16 PASS, но runtime, CI, UI, server parity, performance, persistence и полный
 каталог пока **NOT RUN**.
 
@@ -44,13 +44,15 @@ owner — `docs/gdd/gdd_ship_energy_thermal_model_v0.1.md` v0.10. Analytical evi
 совпадают с источником PR #19 `2171a20a...`.
 
 Прямое решение оператора в этой задаче: **данные GPT-агента из PR #19 являются
-целевым authority при конфликте с текущим U2 Lab или действующим текстом U2**.
-Это снимает повторный выбор механики. Числа, которые сам PR #19 помечает как
-кандидаты, не становятся каноном от этого решения.
+целевым authority при конфликте с текущим U2 Lab или действующим текстом U2,
+кроме позднее явно исправленной границы прочности**. Для прочности оператор
+подтвердил ADR-0066 v1.3: точный `R=0` гарантирован, первый отказ наступает
+при переходе в `R<0`. Числа, которые сам PR #19 помечает как кандидаты, не
+становятся каноном от этого решения.
 
 | Расхождение | Принято для реализации | Действие синхронизации |
 |---|---|---|
-| Прочность: U2 гарантирует `R=0`, первый отказ при `R<0`; PR #19 требует первую остановку при достижении нуля | Граница PR #19: однократная остановка на `R=0`, после кулдауна разрешена аварийная работа ниже нуля | Отдельный U2 doc-only amendment для ADR-0066, ADR-0043, emergency doctrine и зависимых INDEX/HUD текстов до server implementation |
+| Прочность: PR #19 ошибочно требует первую остановку при достижении нуля; U2 ADR-0066 гарантирует работу при `R=0` | По прямому уточнению оператора сохранить U2: однократный обязательный отказ при первом переходе `R>=0 -> R<0`, затем кулдаун и вероятностный аварийный запуск | Исправить Lab GDD/spec/тестовые границы; ADR-0066 и зависимые нормы U2 не менять |
 | Общий TI в U2 использует установленные радиаторы; PR #19 добавляет собственный пассивный радиатор корпуса | Общий TI получает собственный passive radiator корпуса, встроенные/дополнительные passive и только открытые active; панели pump-radiator навсегда принадлежат своему изделию | Обновить U2 hot-environment TI owner, thermal palette и config projection; базовая обшивка остаётся при `T_ship` |
 | U2 thermal field в текущем owner выражен через среду; PR #19 разделяет фон излучения и поле `hA(T-T_field)` | Хранить и считать два независимых signed потока; для hot side TI использовать `T_hot`, для прямой поверхности — `T_ship` | Amendment ADR-0036/runtime field DTO и профильным thermal owners; запрет двойного представления того же источника |
 | Lab сейчас интегрирует с `stepSeconds=.01/.1`; PR #19 задаёт общий thermal profile 1 s | Новая модель принимает thermal-control решения только на границе 1 s; внутри секунды допускается лишь event clipping запасов/критической границы без раннего включения следующей ступени | Быстрый shared flight loop не меняется; для U2 выделяется 1 Hz authoritative thermal-control слой |
@@ -59,8 +61,10 @@ owner — `docs/gdd/gdd_ship_energy_thermal_model_v0.1.md` v0.10. Analytical evi
 | U2 сохраняет earned range и server authority; Lab показывает расчётные дальности | Сохранить earned range. В Lab — только одинаковый reference observer и расчётный ориентир; HUD не узнаёт факта чужого обнаружения | Signature/HUD docs уточнить без free range/hidden-position shortcut |
 | Lab category id/label — `signature` / «Контроль сигнатур» | В новом каталоге отображать «Сенсоры и тепло»; старый serialized id читать как compatibility alias | Новый id вводить только в versioned catalog/schema, старые fits не переписывать |
 
-U2 doc sync не даёт права менять runtime U2 в рамках этого Lab PR. Он является
-обязательным входом для отдельного server work item и финальной проверки SM-14.
+U2 doc sync для остальных расхождений не даёт права менять runtime U2 в рамках
+этого Lab PR. Он является обязательным входом для отдельного server work item
+и финальной проверки SM-14; граница прочности уже определена ADR-0066 и не
+требует U2 amendment.
 
 ## 2. Target → as-built → gap
 
@@ -98,7 +102,8 @@ IN:
 - buffer capacity/power/debt/minimum capture-temperature marker;
 - body, hull passive radiator, fitted radiators, pump-radiator и common TI;
 - signed radiative background и optional thermal field;
-- durability at exact zero, emergency operation, cooldown и deterministic RNG;
+- guaranteed durability at exact zero, first crossing below zero, emergency operation,
+  cooldown и deterministic RNG;
 - actual IR/EM, shielding heat/own-antenna cost, reference observer;
 - immutable save/reopen/resume, A/B и объяснение первого ограничения/восстановления.
 
@@ -189,7 +194,7 @@ Contract:
 - environment separates `radiativeBackgroundK` from optional field
   `{temperatureK, coefficientWPerM2K, sourceId}`;
 - state persists buffer J + minimum capture K, mode + Masking entry K, governor/generator/
-  thermal latches, durability, first-zero-stop flag, emergency exposure, cooldown and RNG;
+  thermal latches, durability, first-negative-crossing flag, emergency exposure, cooldown and RNG;
 - origin is required for every new numeric field; candidate and canonical values remain distinct;
 - `stepSeconds` for the new model is exactly 1 s and duration/phase boundaries are whole seconds;
 - one explicit `compileFitToShipModelV01` operation promotes a validated old fit into catalog
@@ -220,6 +225,12 @@ Behavior:
 1. Close the electrical balance with input/output efficiencies: source follows actual load
    when the accumulator is full, and actual work is clipped by delivered power when empty;
    rejected external electric input does not become hidden host heat.
+   In Masking, the emergency fuel-generator permission arms below 1% battery only when
+   permitted load exceeds solar/external supply. Its actual output covers only that deficit,
+   never charges the battery, and falls to zero when independent supply covers the load.
+   Permission clears on Masking exit or independent battery recovery to the upper threshold;
+   2% is a balance candidate. Mode exit hands the generator to normal control without a
+   forced power-off. Persist the permission latch and count actual fuel/heat/signatures.
 2. From actual delivered electrical stages compute `rawEmW=escapedEmW+capturedEmW` in the kernel.
    Only `escapedEmW` leaves the ship energy/heat ledger; captured shielding loss stays in host
    heat exactly once. The thermal controller consumes that coupled host heat in the same step;
@@ -248,6 +259,10 @@ setpoints and no negative E/B/fuel or work past critical boundary. Existing v2 c
 mission and ledger tests remain unchanged. Actual Worker accepts `/4`, starts and pauses through
 the new runner branch. Shield off/on proves `raw=escaped+captured`, a closed total residual and
 causal host-temperature/controller change from only the retained part.
+Masking-generator fixtures cover battery just below/exactly at 1%, demand fully/partly
+covered by independent supply, no battery charging from fuel, an armed permission across
+save/resume, independent recovery to the configured upper threshold (2% candidate) and
+handoff to normal governor on mode exit without a forced off/on transition.
 
 ### T3 — buffer, surfaces and both thermoinverters
 
@@ -291,11 +306,13 @@ Files:
 
 Behavior:
 
-- reaching exact `R=0` causes one mandatory first stop; after cooldown restart is allowed;
+- exact `R=0` remains guaranteed by durability; first `R>=0 -> R<0` crossing
+  causes one immediate mandatory stop; after cooldown an emergency restart is allowed;
 - below zero use `x=clamp(-R/R_emg,0,1)` per declared work period, with restart chance `1-x`;
+  one player `RESTART` request authorizes automatic retries after each cooldown;
   terminal floor requires repair. Hull/armor/vital exceptions remain explicit data, not guesses;
 - thermal stop and durability stop are independent, with stable priority in diagnostics;
-- seed/state of RNG, work exposure, cooldown, first-zero-stop, all latches, buffer marker/debt and
+- seed/state of RNG, work exposure, cooldown, first-negative-crossing flag, all latches, buffer marker/debt and
   Masking entry temperature round-trip through pause/export/import/resume;
 - malformed or future state rejects atomically; no field silently defaults during continuation.
 
@@ -376,12 +393,12 @@ Developer and only affected checks/re-review repeat. Operator decides candidate 
 | SM-05 | Buffer J/power/marker persist; cold stock is not released to hotter ship; full debt restored or unreachable remainder explained | Full-cycle, partial discharge, mode/save/reopen cases |
 | SM-06 | Body and hull passive radiator are distinct, immutable signed exchanges; active radiator opens/closes only by policy | Surface ledger and hot/cold field sign cases |
 | SM-07 | Common TI and pump-radiator obey exclusive area ownership, hot-side field exchange and whole-ship benefit | PH-B1 + four ownership states + power/source-heat controls |
-| SM-08 | First stop occurs at exact zero; below-zero risk/cooldown/restart/terminal repair are deterministic and saved | Seeded durability boundaries + CP-05 |
+| SM-08 | Exact zero is guaranteed; first crossing below zero causes one immediate stop; below-zero risk/cooldown/restart/terminal repair are deterministic and saved | Seeded durability boundaries + CP-05 |
 | SM-09 | IR/EM separate; same observer; shielding has heat and own-antenna cost | Signal ledger and A/B observer tests |
 | SM-10 | Result explains useful work, first limiter, stop and upgrade trade-off without exposing a laws editor | Unit presentation + native browser chains |
 | SM-11 | G10/G20/further and candidate correction are reproducible and visibly non-canonical | Matrix artifacts with origin/version and operator decision pending |
 | SM-12 | Fit, candidate data, conditions, model/state/RNG and measured result round-trip without history recompute | Literal JSON fixtures, resume equivalence, atomic negative imports |
-| SM-13 | Masking adds no thrust cap, never opens radiators for maneuver, and actual load raises signatures; reference range does not reveal enemy truth | Flight/signature coupled cases + UI language inspection |
+| SM-13 | Masking adds no thrust cap, never opens radiators for maneuver, and actual load raises signatures; emergency generator output tracks only unmet permitted load below 1%, never charges battery, drops to zero on independent supply and returns to normal control on mode exit; reference range does not reveal enemy truth | Flight/signature/power coupled cases + UI language inspection |
 | SM-14 | Same full state/input on 1 s profile gives same stages, permissions, requests and final state in Lab/reference implementation; client uses server state | CP-01–05 JSON vectors; Lab adapter now, U2 server runner in separate work item before PASS |
 
 Numerical policy: exact stock bounds, no NaN/Infinity; constant linear ledgers use absolute
@@ -392,7 +409,7 @@ policy. A mismatch changes solver/contract, never hidden candidate TTX.
 ## 8. Review focus, risks and completion gates
 
 Plan Review focuses on: precedence of PR #19, candidate/canon separation, frozen old readers,
-1 s boundary semantics, area ownership, buffer marker, exact-zero durability, deterministic save,
+1 s boundary semantics, area ownership, buffer marker, guaranteed exact-zero durability and first-negative crossing, deterministic save,
 observer privacy and feasibility of CP-01–05.
 
 QA/Code Review named risks:
