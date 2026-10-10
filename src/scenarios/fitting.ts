@@ -3,6 +3,26 @@ import type { ShipFit, CandidateCatalog } from "../fitting/types";
 import { compileFit } from "../fitting/compile";
 import type { RunSpecV2, FittingPhase } from "../model/v2/types";
 import { validateRunSpecV2 } from "../model/v2/step";
+import {compileShipModelFit,validateRunSpecV3} from '../model/v3/schema';
+import {SCHEMA_V3,MODEL_V3,CATALOG_V3,type RunSpecV3,type ShipFitV3,type CandidateCatalogV3,type ShipMode,type EnvironmentV3,type ReceiverProfile} from '../model/v3/types';
+import {CONTROLLER_CANDIDATES} from '../model/v3/step';
+export type ShipModelConditions={durationSeconds?:number;temperatureK?:number;backgroundK?:number;mode?:ShipMode;receiverProfile?:ReceiverProfile;environment?:EnvironmentV3;observer?:RunSpecV3['observer'];repeat?:boolean;duty?:number;phases?:RunSpecV3['scenario']['phases']};
+// Только fresh-run initialization; сохранённое продолжение не проходит этот builder.
+export function makeShipModelMiningRun(fit:ShipFitV3,catalog:CandidateCatalogV3,x:ShipModelConditions={}):ValidationResult<RunSpecV3>{
+  const compiled=compileShipModelFit(fit,catalog);if(!compiled.ok)return compiled;const ship=compiled.value;
+  const mode=x.mode??'Efficient',temperatureK=x.temperatureK??300,durationSeconds=x.durationSeconds??60;
+  const spec:RunSpecV3={schemaVersion:SCHEMA_V3,modelVersion:MODEL_V3,catalogVersion:CATALOG_V3,units:'SI',approvedBaseline:false,resolvedShip:ship,origins:{...ship.origins},
+    environment:x.environment??{radiativeBackgroundK:x.backgroundK??100,backgroundSourceId:'lab-radiative-background',thermalField:null,solarFluxWm2:0,solarSourceId:null,energyInputs:[],directHeat:[]},
+    receiverProfile:x.receiverProfile??'positive-only',observer:x.observer??{presetId:'S-dedicated-G1',rangeM:16000,aspectDeg:0},
+    initialState:{schemaVersion:SCHEMA_V3,modelVersion:MODEL_V3,stateVersion:'ship-state/1',timeSeconds:0,phaseIndex:0,phaseElapsedSeconds:0,mode,maskingEntryTemperatureK:mode==='Masking'?temperatureK:null,temperatureK,chargeJ:ship.batteryCapacityJ*fit.initial.chargeFraction,
+      fuelKg:{diesel:ship.resources.diesel.capacityKg*fit.initial.fuelFraction.diesel,hydrogen:ship.resources.hydrogen.capacityKg*fit.initial.fuelFraction.hydrogen},
+      buffers:Object.fromEntries(Object.keys(ship.bufferCapacityJ).map(id=>[id,{storedJ:0,minimumCaptureK:null}])),governor:{coolingStageId:null,heatingStageId:null,recoveringBuffer:false},generator:{permission:false,normalOn:false},
+      modules:Object.fromEntries(ship.instances.map(i=>[i.id,{durabilityR:1,firstNegativeCrossing:false,emergencyExposureSeconds:0,cooldownSeconds:0,restartAuthorized:false,thermalStopped:false}])),surfaceOpen:Object.fromEntries(ship.surfaces.map(s=>[s.id,!s.active])),rng:{algorithm:'xorshift32/1',seed:424242,state:424242}},
+    scenario:{name:'Ship model v0.1: физический рабочий цикл',repeat:x.repeat??false,phases:x.phases??[{id:'work',action:'work',durationSeconds,requests:Object.fromEntries(ship.instances.filter(i=>i.item.family==='mining').map(i=>[i.id,x.duty??1])),environment:null}]},durationSeconds,stepSeconds:1};
+  const annotate=(value:unknown,path:string)=>{if(typeof value==='number')spec.origins[path]={kind:'experimental',unit:'SI',sourceRef:'src/scenarios/fitting.ts: explicit fresh ship-model conditions',note:'Явное условие нового опыта или начальное состояние; не continuation default и не канонические ТТХ.'};else if(value&&typeof value==='object')for(const[key,v]of Object.entries(value))if(!['origins','resolvedShip'].includes(key))annotate(v,path?path+'.'+key:key);};
+  annotate(spec,'');spec.origins['controllerCandidates']=CONTROLLER_CANDIDATES.origin;
+  return validateRunSpecV3(spec);
+}
 export type MiningConditions = {
   durationSeconds?: number;
   stepSeconds?: number;

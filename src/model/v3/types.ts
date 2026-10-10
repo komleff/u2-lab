@@ -27,6 +27,7 @@ export type ModuleItemV3 = {
   numerics: Record<string, number>; gate: ThermalGateV3; thermalRole: "ordinary" | "regulator";
   durability: DurabilityParameters; surfaces: ThermalSurface[]; origins: Record<string, FieldOrigin>;
   cargoType?: "universal" | "bulk" | "liquid";
+  operationPolicy?: "critical" | "deferrable-background" | "optional-pulse-charge";
 };
 export type SlotV3 = { id: string; category: CategoryV3; size: Size; families: FamilyV3[]; mandatory: boolean; role?: PropulsionRole; formFactor: "single" | "pair" };
 export type HullV3 = {
@@ -75,7 +76,7 @@ export type RunSpecV3 = {
   units: "SI"; approvedBaseline: false; resolvedShip: ResolvedShipV3; origins: Record<string, FieldOrigin>;
   environment: EnvironmentV3; initialState: StateV3; receiverProfile: ReceiverProfile;
   observer: { presetId: string; rangeM: number; aspectDeg: number };
-  scenario: { name: string; repeat: boolean; phases: { id: string; action: "idle" | "work" | "maneuver" | "recovery"; durationSeconds: number; requests: Record<string, number>; environment: EnvironmentV3 | null }[] };
+  scenario: { name: string; repeat: boolean; phases: { id: string; action: "idle" | "work" | "maneuver" | "recovery"; durationSeconds: number; requests: Record<string, number>; environment: EnvironmentV3 | null; mode?: ShipMode }[] };
   durationSeconds: number; stepSeconds: 1;
 };
 export type CompilationChange = { path: string; kind: "structural" | "numeric" | "origin"; before: unknown; after: unknown };

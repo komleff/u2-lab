@@ -55,9 +55,9 @@ it("a nonempty buffer cannot lose its capture marker during import", () => {
   const spec = fixture("stealth-reference"), id = Object.keys(spec.initialState.buffers)[0]; spec.initialState.buffers[id].storedJ = 100;
   expect(validate(spec).ok).toBe(false); delete (spec.initialState.buffers[id] as any).minimumCaptureK; expect(validate(spec).ok).toBe(false);
 });
-it("legacy execution/workspace explicitly refuse /4 until the new runner exists", () => {
+it("legacy fitting branch/workspace explicitly refuse /4; new dispatcher selects its own runner", () => {
   const spec = fixture();
-  expect(() => createRun("not-running", spec as any)).toThrow("u2-lab/4");
+  expect(createRun("new-runner",spec).state).toEqual(spec.initialState);
   expect(() => createFittingRun("not-running", spec as any)).toThrow("u2-lab/4");
   const w = new FittingWorkspace(getPresetFit("sputnik"), loadCandidateCatalog()), before = w.snapshot();
   const result = w.importDocument(serializeExperiment(spec)); expect(result.ok).toBe(false);

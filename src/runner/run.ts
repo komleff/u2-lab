@@ -218,18 +218,29 @@ function legacyResult(
 
 import type {AnyRunSpec,RunSpecV2,StoredRunSpec} from '../model/v2/types';
 import {createFittingRun,runFittingChunk,fittingResult,type RunContextV2,type RunResultV2} from './fitting-run';
+import type {RunSpecV3} from '../model/v3/types';
+import {createShipModelRun,runShipModelChunk,shipModelResult,type RunContextV3,type RunResultV3} from './ship-model-run';
 export type {RunContextV2,RunResultV2} from './fitting-run';
+export type {RunContextV3,RunResultV3} from './ship-model-run';
 export type AnyRunContext=RunContext|RunContextV2;
 export type AnyRunResult=RunResult|RunResultV2;
+export type ExecutableRunContext=AnyRunContext|RunContextV3;
+export type ExecutableRunResult=AnyRunResult|RunResultV3;
 export function createRun(runId:string,spec:RunSpec):RunContext;
+export function createRun(runId:string,spec:RunSpecV3):RunContextV3;
 export function createRun(runId:string,spec:RunSpecV2):RunContextV2;
-export function createRun(runId:string,spec:StoredRunSpec):AnyRunContext;
-export function createRun(runId:string,spec:StoredRunSpec):AnyRunContext{if(spec.schemaVersion==='u2-lab/4')throw new Error('schemaVersion: u2-lab/4 execution requires the new ship-model runner');return (spec.schemaVersion==='u2-lab/2'||spec.schemaVersion==='u2-lab/3')?createFittingRun(runId,spec):createLegacyRun(runId,spec as RunSpec);}
+export function createRun(runId:string,spec:StoredRunSpec):ExecutableRunContext;
+export function createRun(runId:string,spec:AnyRunSpec):AnyRunContext;
+export function createRun(runId:string,spec:StoredRunSpec):ExecutableRunContext{if(spec.schemaVersion==='u2-lab/4')return createShipModelRun(runId,spec);return (spec.schemaVersion==='u2-lab/2'||spec.schemaVersion==='u2-lab/3')?createFittingRun(runId,spec):createLegacyRun(runId,spec as RunSpec);}
 export function runChunk(run:RunContext,maxSteps:number,wallBudgetMs?:number):ReturnType<typeof runLegacyChunk>;
+export function runChunk(run:RunContextV3,maxSteps:number,wallBudgetMs?:number):ReturnType<typeof runShipModelChunk>;
 export function runChunk(run:RunContextV2,maxSteps:number,wallBudgetMs?:number):ReturnType<typeof runFittingChunk>;
+export function runChunk(run:ExecutableRunContext,maxSteps:number,wallBudgetMs?:number):ReturnType<typeof runLegacyChunk>|ReturnType<typeof runFittingChunk>|ReturnType<typeof runShipModelChunk>;
 export function runChunk(run:AnyRunContext,maxSteps:number,wallBudgetMs?:number):ReturnType<typeof runLegacyChunk>|ReturnType<typeof runFittingChunk>;
-export function runChunk(run:AnyRunContext,maxSteps:number,wallBudgetMs=Infinity){return (run.spec.schemaVersion==='u2-lab/2'||run.spec.schemaVersion==='u2-lab/3')?runFittingChunk(run as RunContextV2,maxSteps,wallBudgetMs):runLegacyChunk(run as RunContext,maxSteps,wallBudgetMs);}
+export function runChunk(run:ExecutableRunContext,maxSteps:number,wallBudgetMs=Infinity){if(run.spec.schemaVersion==='u2-lab/4')return runShipModelChunk(run as RunContextV3,maxSteps,wallBudgetMs);return (run.spec.schemaVersion==='u2-lab/2'||run.spec.schemaVersion==='u2-lab/3')?runFittingChunk(run as RunContextV2,maxSteps,wallBudgetMs):runLegacyChunk(run as RunContext,maxSteps,wallBudgetMs);}
 export function result(run:RunContext,status?:RunResult['status']):RunResult;
+export function result(run:RunContextV3,status?:RunResultV3['status']):RunResultV3;
 export function result(run:RunContextV2,status?:RunResultV2['status']):RunResultV2;
+export function result(run:ExecutableRunContext,status?:RunResult['status']):ExecutableRunResult;
 export function result(run:AnyRunContext,status?:RunResult['status']):AnyRunResult;
-export function result(run:AnyRunContext,status?:RunResult['status']):AnyRunResult{return (run.spec.schemaVersion==='u2-lab/2'||run.spec.schemaVersion==='u2-lab/3')?fittingResult(run as RunContextV2,status):legacyResult(run as RunContext,status);}
+export function result(run:ExecutableRunContext,status?:RunResult['status']):ExecutableRunResult{if(run.spec.schemaVersion==='u2-lab/4')return shipModelResult(run as RunContextV3,status);return (run.spec.schemaVersion==='u2-lab/2'||run.spec.schemaVersion==='u2-lab/3')?fittingResult(run as RunContextV2,status):legacyResult(run as RunContext,status);}

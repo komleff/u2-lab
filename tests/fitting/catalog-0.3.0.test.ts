@@ -83,7 +83,7 @@ it("Military structure can carry buffer and aft builtins without turning ordinar
   h.hullPassiveRadiator!.irProfile={version:"radiator-ir/1",kind:"aft-directed",aftFraction:0.8};
   h.builtins.push({id:"builtin:buffer",item:structuredClone(c.items["buffer-S"])});
   h.origins["hullPassiveRadiator.irProfile.aftFraction"]={kind:"experimental",unit:"1",sourceRef:"tests/fitting/catalog-0.3.0.test.ts: synthetic Military structure only"};
-  for(const[path,o]of Object.entries(c.items["buffer-S"].origins))h.origins["builtins.1.item."+path]=o;
+  for(const[path,o]of Object.entries(c.items["buffer-S"].origins))h.origins["builtins."+(h.builtins.length-1)+".item."+path]=o;
   const result=compileFit(f,c);expect(result.ok,JSON.stringify(!result.ok&&result.errors)).toBe(true);if(!result.ok)throw Error("compile");
   expect(result.value.surfaces.find(s=>s.id.startsWith("fit:"))!.irProfile.kind).toBe("omnidirectional");
   expect(result.value.bufferCapacityJ["builtin:buffer"]).toBeGreaterThan(0);
