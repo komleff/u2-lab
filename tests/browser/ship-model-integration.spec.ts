@@ -48,3 +48,20 @@ test('I2 a late valid JSON import closes a catalog whose slot is absent from the
   await page.locator('#sm-slot-power-4').click();await expect(page.getByRole('dialog')).toBeVisible();await page.evaluate(()=>(window as any).releaseShipFile());
   await expect(page.locator('#sm-preset')).toHaveValue('sputnik');expect(errors).toEqual([]);await expect(page.getByRole('dialog')).toBeHidden();await expect(page.locator('#sm-start')).toBeEnabled();
 });
+const openTwoPhaseEditor=async(page:import('@playwright/test').Page)=>{
+  const catalog=loadCandidateCatalog('ship-fitting-0.3.0'),built=makeShipModelMiningRun(getPresetFit('stealth-reference',catalog.version),catalog,{durationSeconds:6,repeat:true,phases:[{id:'first',action:'work',durationSeconds:2,requests:{'fit:payload-1':0.5},environment:{...environment,radiativeBackgroundK:100}},{id:'second',action:'recovery',durationSeconds:1,requests:{},environment:{...environment,radiativeBackgroundK:200}}]});
+  if(!built.ok)throw Error('Invalid test fixture');await page.goto('/?shipModel=experimental');await page.locator('#sm-import').setInputFiles({name:'two-phase.json',mimeType:'application/json',buffer:Buffer.from(serializeExperiment(built.value))});await page.locator('#sm-scenario-edit').click();
+};
+const renderedEnvironments=(page:import('@playwright/test').Page)=>page.locator('[data-sm-phase]').evaluateAll(rows=>rows.map(row=>({id:row.querySelector<HTMLInputElement>('[data-phase-field="id"]')!.value,environment:JSON.parse(row.querySelector<HTMLTextAreaElement>('[data-phase-field="environment"]')!.value)})));
+test('I2-R1 duplicating a preceding phase preserves the dirty later environment without assigning it to the duplicate',async({page})=>{
+  await openTwoPhaseEditor(page);await page.locator('[data-sm-phase]').nth(1).locator('[data-phase-field="environment"]').fill(JSON.stringify({...environment,radiativeBackgroundK:320}));
+  await page.locator('[data-sm-phase]').nth(0).locator('[data-phase-duplicate]').click();
+  const intended=[{id:'first',environment:{...environment,radiativeBackgroundK:100}},{id:'first-copy-1',environment:{...environment,radiativeBackgroundK:100}},{id:'second',environment:{...environment,radiativeBackgroundK:320}}];
+  expect(await renderedEnvironments(page)).toEqual(intended);await page.locator('#sm-scenario-apply').click();await expect(page.locator('#sm-error')).toBeEmpty();expect(JSON.parse(await downloadRun(page)).scenario.phases.map(({id,environment}:RunSpecV3['scenario']['phases'][number])=>({id,environment}))).toEqual(intended);
+});
+test('I2-R1 removing a dirty preceding phase preserves the surviving phase identity and its own environment',async({page})=>{
+  await openTwoPhaseEditor(page);await page.locator('[data-sm-phase]').nth(0).locator('[data-phase-field="environment"]').fill(JSON.stringify({...environment,radiativeBackgroundK:150}));
+  await page.locator('[data-sm-phase]').nth(0).locator('[data-phase-remove]').click();
+  const intended=[{id:'second',environment:{...environment,radiativeBackgroundK:200}}];expect(await renderedEnvironments(page)).toEqual(intended);
+  await page.locator('#sm-scenario-apply').click();await expect(page.locator('#sm-error')).toBeEmpty();expect(JSON.parse(await downloadRun(page)).scenario.phases.map(({id,environment}:RunSpecV3['scenario']['phases'][number])=>({id,environment}))).toEqual(intended);
+});
