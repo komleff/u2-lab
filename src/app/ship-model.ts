@@ -1,4 +1,4 @@
-import {ShipModelWorkspace} from './ship-model-workspace';
+import {ShipModelWorkspace,type ScenarioEdit} from './ship-model-workspace';
 import type {WorkspaceShellParts} from './fitting';
 import {esc,num} from './fitting-ui/presentation';
 import {shipModelResults,shipModelComparison} from './fitting-ui/ship-model-results';
@@ -7,17 +7,20 @@ import {compileShipModelFit} from '../model/v3/schema';
 import {compileFit} from '../fitting/compile';
 import type {ShipMode,ReceiverProfile} from '../model/v3/types';
 import type {Control} from '../runner/protocol';
+import {shipModelShipView,shipModelModuleProfile,shipModelItemDetails} from './fitting-ui/ship-model-ship-view';
+import {shipModelSwapDialog,type ShipModelSwapState} from './fitting-ui/ship-model-swap-dialog';
+import {shipModelConditions,readScenarioForm,changePhaseList} from './fitting-ui/ship-model-conditions';
+import {updateDom} from './fitting-ui/dom';
 // Непрозрачный ID доступен и на HTTP/LAN, где randomUUID отсутствует.
 const newId=()=>Array.from(crypto.getRandomValues(new Uint8Array(16)),b=>b.toString(16).padStart(2,'0')).join('');
 const presetNames:Record<string,string>={sputnik:'Спутник', 'severin-mir':'Мир', 'stealth-reference':'Стелс-сборка'};
-const modeNames:Record<string,string>={Efficient:'Эффективный',Combat:'Боевой',Masking:'Маскировка'};
-const actionNames:Record<string,string>={work:'Работа',maneuver:'Манёвр',recovery:'Восстановление',idle:'Простой'};
-const roleNames:Record<string,string>={march:'Маршевый',retro:'Ретро',strafe:'Боковой',turn:'Поворот'};
 const quantity=(value:number|undefined,unit:string)=>`<span class="sm-quantity">${esc(num(value,unit))}</span>`;
 export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(legacyText?:string)=>void,renderShell:(parts:WorkspaceShellParts)=>void){
   const worker=new Worker(new URL('../runner/worker.ts',import.meta.url),{type:'module'});
   let error='',runId='',commandId=0,ack='',revision=0,fileRead=0,mounted=true;
   let leaving:{text?:string;label:string;revision:number}|undefined;
+  let swap:ShipModelSwapState|undefined,instanceId:string|undefined;
+  let scenarioDraft:{value:ScenarioEdit;revision:number;variantId:'A'|'B'}|undefined;
   const pending=new Map<number,Control>();
   let pendingFreeze:{runId:string;commandId:number}|undefined,snapshotCommandId:number|undefined;
   const sourceCompiled=compileFit(w.source,w.sourceCatalog);
@@ -36,13 +39,12 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
   }
   function render(){
     const view=w.snapshotForRender(),active=view.active,r=active?view.currentResult:view.result,c=view.conditions,fit=view.fit,compiled=fit?compileShipModelFit(fit,w.catalog):null,ship=compiled?.ok?compiled.value:undefined;
-    const busy=!!active,locked=busy||!!leaving?'disabled':'',stale=!!r&&view.currentStale,formLocked=busy||!!leaving||!view.taskEditable?'disabled':'';
+    const busy=!!active,locked=busy||!!leaving?'disabled':'',stale=!!r&&view.currentStale;
     const sourceName=w.sourceCatalog.hulls.find(h=>h.id===w.source.hullId)?.label??w.source.hullId;
     const label=ship?.hull.label??'Корабль ещё не открыт';
     const preset=fit?Object.entries(w.catalog.presets).find(([,p])=>JSON.stringify([p.hullId,p.assignments,p.instances,p.localVariants])===JSON.stringify([fit.hullId,fit.assignments,fit.instances,fit.localVariants]))?.[0]:undefined;
     const opening=fit?`${view.opened==='result'?'Результат / checkpoint':view.opened==='run'?'Опыт':'Сборка'} · ${view.opened==='fit'?fit.schemaVersion:'u2-lab/4'} · ${fit.catalogVersion}`:'Выберите корабль или откройте JSON. Для текущей старой сборки нужен явный перенос.';
     let validation='';if(fit)try{w.prepare();}catch(e){validation=String(e);}
-    const modes=ship?.hull.modes??['Efficient','Combat','Masking'];
     const startReason=busy?'Активный тест владеет управлением; на паузе сборку тоже нельзя менять.':leaving?'Сначала отмените или подтвердите переход в старую модель.':!fit?'Выберите готовый корабль, откройте JSON или подготовьте и примените перенос текущей сборки.':validation?`Исправьте условия перед запуском: ${validation}`:!view.taskEditable?'Импортированная задача сохранена: запуск воспроизводит её; простая форма задачи недоступна.':'Условия ниже относятся к следующему тесту; запуск фиксирует отдельный численный снимок.';
     const ownership=`${fit?`<p id="sm-draft-owner">Следующий черновик ${view.selected}: ${esc(label)} · ревизия ${fit.fitRevision} · ${esc(c.mode??'Efficient')} · T ${num(c.temperatureK??300,'K')} · фон ${num(c.backgroundK??100,'K')} · ${esc(c.receiverProfile??'positive-only')}</p>`:''}${active?`<p id="sm-test-owner">Активный тест ${active.variantId}: ${esc(active.spec.resolvedShip.hull.label)} · ревизия ${active.fitRevision} · run ${esc(active.runId)}${!r?' · ожидается текущее измерение':''}</p>`:''}${stale?'<p id="sm-stale" class="warning" role="status">Измерение устарело: следующий черновик изменён. Сохранённый результат не пересчитан; ждёт соответствующего нового снимка.</p>':''}`;
     renderShell({
@@ -53,9 +55,8 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
       <button id="sm-source" ${locked}>Перенести текущую старую сборку: ${esc(sourceName)}</button>
       <details id="sm-compilation"><summary>Перенос старой сборки · предпросмотр → изменения → применение</summary><p>Источник: ${esc(sourceName)} · ${esc(w.source.catalogVersion)} / ${esc(w.source.schemaVersion)} / ревизия ${w.source.fitRevision}. Source snapshot не изменяется.</p><div class="sm-fields">${Object.entries(templates).map(([id,t])=>`<label>Основа для ${esc(t.label)}<select data-sm-template="${esc(id)}" ${locked}><option value="">Выберите совместимое изделие</option>${t.options.map(o=>`<option value="${esc(o.id)}" ${t.value===o.id?'selected':''}>${esc(o.label)}</option>`).join('')}</select><small>${t.options.length===1?'Единственная совместимая основа предвыбрана; перенос ещё не применён.':'Основа неоднозначна или отсутствует; выбор требуется явно.'}</small></label>`).join('')}</div><div class="sm-actions"><button id="sm-preview" ${locked}>Предпросмотр переноса</button><button id="sm-apply" class="primary" ${!view.preview||busy||leaving?'disabled':''}>Применить перенос</button></div>${view.preview?`<div id="sm-diff-summary" class="sm-version"><p>Версия: ${esc(w.source.schemaVersion)} / ${esc(w.source.catalogVersion)} → ${esc(view.preview.fit.schemaVersion)} / ${esc(view.preview.fit.catalogVersion)}</p><p>Масса: ${quantity(sourceCompiled.ok?sourceCompiled.value.dryMassKg/1000:undefined,'т')} → ${quantity(view.preview.ship.dryMassKg/1000,'т')} · C: ${quantity(sourceCompiled.ok?sourceCompiled.value.heatCapacityJK/1000:undefined,'кДж/K')} → ${quantity(view.preview.ship.heatCapacityJK/1000,'кДж/K')}</p><p>${view.preview.changes.length} изменений структуры, чисел и происхождения; источник не переписан.</p></div><details id="sm-diff"><summary>Полный diff / provenance JSON · ${view.preview.changes.length} изменений</summary><p>Это новые правила, не восстановленное старое измерение. Проверьте изменения перед применением.</p><pre>${esc(JSON.stringify(view.preview.changes,null,2))}</pre></details>`:''}</details>
       <div class="sm-actions"><label>Вариант<select id="sm-variant" ${leaving?'disabled':''}><option ${view.selected==='A'?'selected':''}>A</option><option ${view.selected==='B'?'selected':''}>B</option></select></label><button id="sm-copy" ${!fit||busy||leaving?'disabled':''}>Копия сборки и условий → B</button></div></section>
-      ${ship?`<details id="sm-fit" class="ui-panel"><summary>Оснастка · ${esc(label)} · ${quantity(ship.dryMassKg/1000,'т')} · C ${quantity(ship.heatCapacityJK/1000,'кДж/K')}</summary><p>В этой модели можно выключать установленные изделия. Полный редактор слотов остаётся в старой модели; после его правок нужен новый явный перенос.</p><div class="sm-module-grid">${ship.instances.map(i=>`<label class="sm-module"><input type="checkbox" data-sm-enabled="${esc(i.id)}" ${i.enabled?'checked':''} ${locked}><span><strong>${esc(i.item.label)}</strong><small>${esc(i.item.category)} · ${num(i.item.materials.reduce((n,m)=>n+m.massKg,0),'кг')}</small></span></label>`).join('')}</div><details id="sm-fit-origins"><summary>Технические сведения · IDs и происхождение</summary><pre>${esc(JSON.stringify({instances:ship.instances.map(i=>({id:i.id,itemId:i.item.id})),origins:ship.origins},null,2))}</pre></details></details>`:''}`,
-      conditions:`      <section id="sm-conditions" class="ui-panel"><span class="eyebrow">2 · следующий опыт</span><h2>Условия опыта</h2>${c.phases?`<p id="sm-task-summary">Импортированные фазы: ${esc(c.phases.map(p=>p.id+': '+p.action+' '+JSON.stringify(p.requests)).join(' → '))}${!view.taskEditable?'. Сценарий не представим простой формой: доступны receiver/background/observer; задача сохранена без подмены.':''}</p>`:''}
-      <div class="sm-fields"><label>Действие<select id="sm-action" ${formLocked}>${Object.entries(actionNames).map(([value,name])=>`<option value="${value}" ${(c.action??'work')===value?'selected':''}>${name}</option>`).join('')}</select></label><label>Двигательная роль<select id="sm-role" ${formLocked}>${Object.entries(roleNames).map(([value,name])=>`<option value="${value}" ${(c.maneuverRole??'march')===value?'selected':''}>${name}</option>`).join('')}</select></label><label>Доля запрошенной работы<input id="sm-duty" type="number" min="0" max="1" step="0.1" value="${c.duty??1}" ${formLocked}></label><label>Режим<select id="sm-mode" ${formLocked}>${c.mode&&!modes.includes(c.mode)?`<option value="${esc(c.mode)}" selected disabled>${esc(modeNames[c.mode])} — недоступен этому кораблю</option>`:''}${modes.map(mode=>`<option value="${mode}" ${(c.mode??'Efficient')===mode?'selected':''}>${modeNames[mode]} · ${mode}</option>`).join('')}</select></label><label>IR-профиль приёмника<select id="sm-profile" ${locked}>${['positive-only','absolute-contrast'].map(p=>`<option ${c.receiverProfile===p?'selected':''}>${p}</option>`).join('')}</select></label>${[['duration','Длительность, с',c.durationSeconds??60],['temperature','Начальная температура, K',c.temperatureK??300],['background','Излучающий фон, K',c.backgroundK??100],['range','Дальность наблюдателя, км',(c.observer?.rangeM??16000)/1000],['aspect','Ракурс наблюдателя, °',c.observer?.aspectDeg??0]].map(([id,name,value])=>`<label>${name}<input id="sm-${id}" type="number" value="${value}" ${['duration','temperature'].includes(String(id))?formLocked:locked}></label>`).join('')}</div><p class="muted">Маскировка не добавляет потолка тяги и не открывает панели радиаторов для манёвра. Запрещённая нагрузка не оплачивается kernel.</p></section>
+      ${fit?shipModelShipView(fit,w.catalog,busy||!!leaving):''}`,
+      conditions:`${shipModelConditions(c,view.nextSpec,busy||!!leaving,view.taskEditable,scenarioDraft?.value)}
       <section class="ui-panel sm-ownership">${ownership||'<p>Измерения появятся после первого запуска.</p>'}</section>
       <div id="workspace-charts">${r?shipModelResults(r):'<section class="ui-panel"><h2>Результат</h2><p>Пока нет измерения. Откройте корабль → задайте условия → нажмите «Запуск».</p></section>'}</div>
       <details id="sm-transport" class="ui-panel"><summary>Управление текущим тестом · шаг, снимок, checkpoint</summary><div class="sm-actions"><button id="sm-step" ${active?.status!=='paused'?'disabled':''}>Шаг 1 с</button><button id="sm-snapshot" ${!active?'disabled':''}>Снимок</button><button id="sm-checkpoint" ${busy||leaving||r?.status!=='paused'||r.state.timeSeconds>=r.spec.durationSeconds?'disabled':''}>Продолжить checkpoint</button></div><p>Новый запуск создаёт fresh state. Checkpoint продолжает сохранённый paused результат, не новый черновик.</p></details>
@@ -73,13 +74,20 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
     for(const select of root.querySelectorAll<HTMLSelectElement>('[data-sm-template]'))select.onchange=()=>act(()=>{templates[select.dataset.smTemplate!].value=select.value;w.preview=undefined;});
     bind('sm-preview',()=>w.previewCompilation(Object.fromEntries(Object.entries(templates).map(([id,t])=>[id,t.value]))));bind('sm-apply',()=>w.applyCompilation());bind('sm-copy',()=>w.copyToB());
     bind('sm-freeze',()=>{if(w.active?.status==='paused'){pendingFreeze={runId:w.active.runId,commandId:send('snapshot')};}else if(!w.freeze())throw Error('Эталон доступен для завершённого или paused текущего измерения.');});
-    el<HTMLSelectElement>('sm-preset')!.onchange=()=>act(()=>{const value=el<HTMLSelectElement>('sm-preset')!.value;if(value)w.loadPreset(value);});el<HTMLSelectElement>('sm-variant')!.onchange=()=>act(()=>w.selectVariant(el<HTMLSelectElement>('sm-variant')!.value as 'A'|'B'));
+    el<HTMLSelectElement>('sm-preset')!.onchange=()=>act(()=>{const value=el<HTMLSelectElement>('sm-preset')!.value;if(value)w.loadPreset(value);});el<HTMLSelectElement>('sm-variant')!.onchange=()=>act(()=>{w.selectVariant(el<HTMLSelectElement>('sm-variant')!.value as 'A'|'B');scenarioDraft=undefined;});
     el<HTMLSelectElement>('sm-mode')!.onchange=()=>act(()=>w.updateConditions({mode:el<HTMLSelectElement>('sm-mode')!.value as ShipMode}));el<HTMLSelectElement>('sm-profile')!.onchange=()=>act(()=>w.updateConditions({receiverProfile:el<HTMLSelectElement>('sm-profile')!.value as ReceiverProfile}));
     el<HTMLSelectElement>('sm-action')!.onchange=()=>act(()=>w.updateConditions({action:el<HTMLSelectElement>('sm-action')!.value as 'work'|'maneuver'|'recovery'|'idle'}));el<HTMLInputElement>('sm-duty')!.onchange=()=>act(()=>w.updateConditions({duty:Number(el<HTMLInputElement>('sm-duty')!.value)}));
     el<HTMLSelectElement>('sm-role')!.onchange=()=>act(()=>w.updateConditions({maneuverRole:el<HTMLSelectElement>('sm-role')!.value as 'march'|'retro'|'strafe'|'turn'}));
     for(const [id,key]of [['duration','durationSeconds'],['temperature','temperatureK'],['background','backgroundK']] as const)el<HTMLInputElement>('sm-'+id)!.onchange=()=>act(()=>w.updateConditions({[key]:Number(el<HTMLInputElement>('sm-'+id)!.value)}));
     for(const id of ['range','aspect'])el<HTMLInputElement>('sm-'+id)!.onchange=()=>act(()=>w.updateConditions({observer:{presetId:c.observer?.presetId??'S-dedicated-G1',rangeM:Number(el<HTMLInputElement>('sm-range')!.value)*1000,aspectDeg:Number(el<HTMLInputElement>('sm-aspect')!.value)}}));
     for(const node of root.querySelectorAll<HTMLInputElement>('[data-sm-enabled]'))node.onchange=()=>act(()=>w.setEnabled(node.dataset.smEnabled!,node.checked));
+    for(const node of root.querySelectorAll<HTMLElement>('[data-sm-slot]'))node.onclick=()=>act(()=>{if(w.active||leaving)throw Error('Сначала завершите активный тест.');swap={slotId:node.dataset.smSlot!,query:'',family:'all',size:'all',sort:'name-asc',returnId:node.id};instanceId=undefined;},false);
+    for(const node of root.querySelectorAll<HTMLElement>('[data-sm-instance]'))node.onclick=()=>act(()=>{instanceId=node.dataset.smInstance;swap=undefined;},false);
+    bind('sm-scenario-edit',()=>{if(w.active||leaving)throw Error('Сначала завершите активный тест.');const spec=w.prepare();scenarioDraft={value:{...spec.scenario,durationSeconds:spec.durationSeconds},revision,variantId:w.selected};},false);
+    bind('sm-scenario-cancel',()=>{scenarioDraft=undefined;},false);
+    bind('sm-scenario-apply',()=>{if(!scenarioDraft||scenarioDraft.revision!==revision||scenarioDraft.variantId!==w.selected)throw Error('Черновик изменён после открытия сценария. Повторите редактирование.');scenarioDraft.value=readScenarioForm(root,scenarioDraft.value);w.replaceScenario(scenarioDraft.value);scenarioDraft=undefined;});
+    bind('sm-phase-add',()=>{if(scenarioDraft)scenarioDraft.value=changePhaseList(readScenarioForm(root,scenarioDraft.value),'add');},false);
+    for(const node of root.querySelectorAll<HTMLElement>('[data-phase-duplicate],[data-phase-remove]'))node.onclick=()=>act(()=>{if(scenarioDraft)scenarioDraft.value=changePhaseList(readScenarioForm(root,scenarioDraft.value),node.hasAttribute('data-phase-duplicate')?'duplicate':'remove',Number(node.dataset.phaseDuplicate??node.dataset.phaseRemove));},false);
     bind('sm-start',()=>{runId=newId();const spec=w.start(runId);send('start',{spec,maxSteps:1});});bind('sm-checkpoint',()=>{runId=newId();const checkpoint=w.startCheckpoint(runId);send('start',{checkpoint,maxSteps:1});});
     for(const [id,type]of [['pause','pause'],['resume','resume'],['step','step'],['cancel','cancel'],['snapshot','snapshot']] as const)bind('sm-'+id,()=>send(type));
     bind('sm-restart',()=>send('restart',{instanceId:el<HTMLSelectElement>('sm-module')!.value}));bind('sm-repair',()=>send('repair',{instanceId:el<HTMLSelectElement>('sm-module')!.value,durabilityR:Number(el<HTMLInputElement>('sm-repair-r')!.value)}));
@@ -89,10 +97,25 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
       const owner=revision,read=++fileRead;
       try{const text=await file.text();if(!mounted)return;if(read!==fileRead||owner!==revision||w.active||leaving)throw Error('Вариант или активный тест изменён во время чтения файла; импорт не применён.');
         const opening=w.inspectOpening(text);if(opening.legacy){requestLeave(text,`${opening.kind} · ${opening.schemaVersion} · старая модель`);}else w.importDocument(text);
+        swap=undefined;instanceId=undefined;scenarioDraft=undefined;
         revision++;error='';
       }catch(e){if(!mounted)return;error=String(e);}
       input.value='';render();
     };
+    const dialog=el<HTMLDialogElement>('ui-dialog')!;
+    const closeDialog=()=>{const returnId=swap?.returnId;swap=undefined;instanceId=undefined;dialog.close();if(returnId)document.getElementById(returnId)?.focus();render();};
+    if(swap&&fit){
+      dialog.setAttribute('aria-labelledby','sm-swap-title');updateDom(dialog,shipModelSwapDialog(fit,w.catalog,c,swap,swap.candidate===undefined?undefined:w.replacementPreview));if(!dialog.open)dialog.showModal();
+      bind('sm-swap-close',closeDialog,false);
+      for(const [id,key]of [['search','query'],['family','family'],['size','size'],['sort','sort']] as const){const node=el<HTMLInputElement>('sm-swap-'+id)!;const change=()=>act(()=>{swap![key]=node.value;},false);if(id==='search')node.oninput=change;else node.onchange=change;}
+      for(const node of root.querySelectorAll<HTMLElement>('[data-sm-candidate]'))node.onclick=()=>act(()=>{swap!.candidate=node.dataset.smCandidate!;w.previewReplacement(swap!.slotId,swap!.candidate);},false);
+      bind('sm-swap-remove',()=>{swap!.candidate=null;w.previewReplacement(swap!.slotId,null);},false);
+      bind('sm-swap-apply',()=>{w.applyReplacement();closeDialog();});
+    }else if(instanceId&&fit){
+      const hull=w.catalog.hulls.find(h=>h.id===fit.hullId),instance=hull?.builtins.find(i=>i.id===instanceId),item=instance?.item;
+      if(item){dialog.setAttribute('aria-labelledby','sm-swap-title');updateDom(dialog,`<div class="dialog-header"><h2 id="sm-swap-title">Встроенный · ${esc(item.label)}</h2><button id="sm-swap-close" autofocus>Закрыть</button></div><div class="dialog-body">${shipModelModuleProfile(item)}${shipModelItemDetails(item)}<p>Встроенный модуль не снимается и не заменяется.</p></div>`);if(!dialog.open)dialog.showModal();bind('sm-swap-close',closeDialog,false);}
+    }else if(dialog.open)dialog.close();
+    dialog.oncancel=event=>{event.preventDefault();closeDialog();};
   }
   // Protocol отправляет snapshot сразу после ACK snapshot/cancel: commandId берём из этой пары.
   worker.onmessage=({data:m})=>{if(!mounted||m.runId!==runId)return;if(m.type==='control-ack'){if(pending.get(m.commandId)!==m.control)return;pending.delete(m.commandId);ack=m.control+' ACK';if(m.control==='snapshot'||m.control==='cancel')snapshotCommandId=m.commandId;if(m.control==='pause'||m.control==='step')w.setStatus('paused');if(m.control==='resume')w.setStatus('running');if(['pause','restart','repair'].includes(m.control))send('snapshot');}

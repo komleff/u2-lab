@@ -1431,12 +1431,22 @@ html:has(.fitting-app) { scroll-padding-top: 112px; scroll-padding-bottom: 132px
 .fitting-app .ship-model-preview .ui-controls .control-status { display: block; flex: 1; }
 .fitting-app .ship-model-preview .ui-controls small { max-width: 650px; }
 .fitting-app .ship-model-preview #sm-error:not(:empty) { color: #ffb6ae; white-space: pre-wrap; padding: 12px; border-left: 3px solid #d23b2c; background: #2b1713; }
+.fitting-app .ship-model-preview .systems { display: grid; grid-template-columns: minmax(0,1fr); }
+.fitting-app .ship-model-preview .module-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.fitting-app .ship-model-preview .module-wrapper { min-width: 0; }
+.fitting-app .ship-model-preview .module-card { width: 100%; text-align: left; min-height: 44px; }
+.fitting-app .ship-model-preview .module-card p { white-space: normal; }
+.fitting-app .ship-model-preview .module-wrapper > details { font-size: 12px; padding: 0 8px; }
+.fitting-app .ship-model-preview #sm-scenario-editor fieldset { min-width: 0; margin: 12px 0; border: 1px solid var(--border); padding: 12px; }
+.fitting-app .ship-model-preview #sm-scenario-editor textarea { display: block; box-sizing: border-box; width: 100%; max-width: 100%; font-family: monospace; resize: vertical; }
+.fitting-app .ship-model-preview #sm-swap-preview { padding: 12px; border-top: 1px solid var(--border); }
 @media (max-width: 900px) {
   .fitting-app .ship-model-preview .sm-fields { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
 @media (max-width: 600px) {
   .fitting-app .ship-model-preview .sm-chooser,
   .fitting-app .ship-model-preview .sm-fields,
+  .fitting-app .ship-model-preview .module-grid,
   .fitting-app .ship-model-preview .sm-module-grid,
   .fitting-app .ship-model-preview .sm-comparison-pair { grid-template-columns: minmax(0,1fr); }
   .fitting-app .ship-model-preview #sm-source { width: 100%; }

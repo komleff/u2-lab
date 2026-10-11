@@ -1,0 +1,50 @@
+import {test,expect} from '@playwright/test';
+import {readFileSync} from 'node:fs';
+import {getPresetFit,loadCandidateCatalog} from '../../src/fitting/catalog';
+import {makeShipModelMiningRun} from '../../src/scenarios/fitting';
+import {serializeExperiment,serializeFit} from '../../src/io/fitting-json';
+import type {RunSpecV3} from '../../src/model/v3/types';
+const environment={radiativeBackgroundK:250,backgroundSourceId:'phase-background',thermalField:{temperatureK:270,coefficientWPerM2K:0.1,sourceId:'field'},solarFluxWm2:10,solarSourceId:'sun',energyInputs:[{sourceId:'bus',representation:'electric' as const,powerW:1}],directHeat:[{sourceId:'heat',powerW:2}]};
+const downloadRun=async(page:import('@playwright/test').Page)=>{const saving=page.waitForEvent('download');await page.locator('#sm-save-run').click();return readFileSync((await (await saving).path())!,'utf8');};
+test('I2 V3 grouped cards expose atomic searchable catalog Apply and incompatible/builtin/request-owner refusals',async({page})=>{
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');await page.locator('#sm-fit > summary').click();
+  await expect(page.locator('#sm-group-sensors-thermal')).toContainText('Сенсоры и тепло');await expect(page.locator('#sm-slot-signature-1')).toContainText('Тепловые границы');await expect(page.locator('#sm-slot-signature-1')).toContainText('Прочность');
+  const before=await downloadRun(page);await page.locator('#sm-slot-signature-2').click();
+  await page.locator('#sm-swap-family').selectOption('buffer');await page.locator('#sm-swap-size').selectOption('S');await page.locator('#sm-swap-sort').selectOption('mass-desc');await page.locator('#sm-swap-search').fill('buffer');
+  await page.locator('[data-sm-candidate="buffer-S"]').click();await expect(page.locator('#sm-swap-preview')).toContainText('Масса');await expect(page.locator('#sm-swap-apply')).toBeEnabled();
+  await page.locator('#sm-swap-close').click();expect(await downloadRun(page)).toBe(before);
+  await page.locator('#sm-slot-signature-2').click();await page.locator('[data-sm-candidate="buffer-S"]').click();await page.locator('#sm-swap-apply').click();await expect(page.locator('#sm-slot-signature-2')).toContainText('Тепловой буфер S');
+  const applied=JSON.parse(await downloadRun(page));expect(applied.resolvedShip.fit.fitRevision).toBe(2);expect(applied.resolvedShip.fit.instances['fit:signature-2'].itemId).toBe('buffer-S');
+  await page.locator('#sm-slot-march').click();await page.locator('#sm-swap-size').selectOption('M');await page.locator('[data-sm-candidate="engine-electric-M-single"]').click();await expect(page.locator('#sm-swap-preview')).toContainText('Несовместимые');await expect(page.locator('#sm-swap-apply')).toBeDisabled();await page.locator('#sm-swap-close').click();
+  await page.locator('#sm-instance-builtin\\:cargo').click();await expect(page.getByRole('dialog')).toContainText('Встроенный');await expect(page.locator('#sm-swap-remove')).toHaveCount(0);await page.locator('#sm-swap-close').click();
+  await page.locator('#sm-slot-payload-1').click();await page.locator('#sm-swap-remove').click();await expect(page.locator('#sm-swap-preview')).toContainText('владельца запроса');await expect(page.locator('#sm-swap-apply')).toBeDisabled();await page.locator('#sm-swap-close').click();expect(JSON.parse(await downloadRun(page))).toEqual(applied);
+});
+test('I2 fresh whole phase editor add/duplicate/remove sends literal work→recovery→repeat modes and environment to real Worker',async({page})=>{
+  await page.addInitScript(()=>{const Native=Worker;(window as any).shipModelStarts=[];window.Worker=class extends Native{postMessage(message:any,...args:any[]){if(message.type==='start')(window as any).shipModelStarts.push(structuredClone(message));return (super.postMessage as any)(message,...args);}};});
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('stealth-reference');await page.locator('#sm-scenario-edit').click();
+  await page.locator('#sm-scenario-name').fill('Работа / охлаждение');await page.locator('#sm-scenario-repeat').check();await page.locator('#sm-scenario-duration').fill('6');
+  const first=page.locator('[data-sm-phase]').nth(0);await first.locator('[data-phase-field="durationSeconds"]').fill('2');await first.locator('[data-phase-field="mode"]').selectOption('Efficient');await first.locator('details > summary').click();await first.locator('[data-request-duty="fit:payload-1"]').fill('0.5');
+  await page.locator('#sm-phase-add').click();const second=page.locator('[data-sm-phase]').nth(1);await second.locator('[data-phase-field="action"]').selectOption('recovery');await second.locator('[data-phase-field="mode"]').selectOption('Masking');await second.locator('[data-phase-field="environment"]').fill(JSON.stringify(environment));
+  await second.locator('[data-phase-duplicate]').click();await expect(page.locator('[data-sm-phase]')).toHaveCount(3);const ids=await page.locator('[data-phase-field="id"]').evaluateAll(nodes=>nodes.map(node=>(node as HTMLInputElement).value));expect(new Set(ids).size).toBe(3);await page.locator('[data-sm-phase]').nth(2).locator('[data-phase-remove]').click();await expect(page.locator('[data-sm-phase]')).toHaveCount(2);
+  await page.locator('#sm-scenario-apply').click();await expect(page.locator('#sm-error')).toBeEmpty();await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
+  const started=await page.evaluate(()=>(window as any).shipModelStarts.at(-1).payload.spec) as RunSpecV3;
+  expect(started.scenario).toEqual({name:'Работа / охлаждение',repeat:true,phases:[{id:'work',action:'work',durationSeconds:2,requests:{'fit:payload-1':0.5},environment:null,mode:'Efficient'},{id:'phase-1',action:'recovery',durationSeconds:1,requests:{},environment,mode:'Masking'}]});expect(started.durationSeconds).toBe(6);
+  await page.locator('#sm-fit > summary').click();await page.locator('#sm-scenario-edit').click();await page.locator('#sm-scenario-duration').fill('120');await page.locator('#sm-scenario-apply').click();await page.locator('#sm-scenario-edit').click();await page.locator('#sm-start').click();await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
+  await expect(page.locator('#sm-scenario-apply')).toBeDisabled();await expect(page.locator('#sm-slot-signature-1')).toBeDisabled();
+});
+test('I2 imported complex task edits atomically while preserving literal fields outside the scenario',async({page})=>{
+  const catalog=loadCandidateCatalog('ship-fitting-0.3.0'),built=makeShipModelMiningRun(getPresetFit('stealth-reference',catalog.version),catalog,{durationSeconds:6,repeat:true,phases:[{id:'work',action:'work',durationSeconds:2,requests:{'fit:payload-1':0.5},environment:null,mode:'Efficient'},{id:'recover',action:'recovery',durationSeconds:1,requests:{},environment,mode:'Masking'}]});
+  if(!built.ok)throw Error('Invalid test fixture');const spec=built.value;spec.initialState.rng={algorithm:'xorshift32/1',seed:42,state:77};spec.initialState.chargeJ=123456;
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-import').setInputFiles({name:'complex.json',mimeType:'application/json',buffer:Buffer.from(serializeExperiment(spec))});const original=await downloadRun(page);
+  await page.locator('#sm-scenario-edit').click();await page.locator('[data-sm-phase]').nth(0).locator('[data-phase-field="durationSeconds"]').fill('1.5');await page.locator('#sm-scenario-apply').click();await expect(page.locator('#sm-error')).not.toBeEmpty();expect(await downloadRun(page)).toBe(original);
+  await page.locator('[data-sm-phase]').nth(0).locator('[data-phase-field="durationSeconds"]').fill('3');await page.locator('#sm-scenario-name').fill('Новый сложный опыт');await page.locator('#sm-scenario-apply').click();await expect(page.locator('#sm-error')).toBeEmpty();
+  const changed=JSON.parse(await downloadRun(page));expect(changed.scenario.name).toBe('Новый сложный опыт');expect(changed.scenario.phases[0].durationSeconds).toBe(3);expect(changed.scenario.phases[1]).toEqual(spec.scenario.phases[1]);expect(changed.initialState).toEqual(spec.initialState);expect(changed.environment).toEqual(spec.environment);expect(changed.resolvedShip).toEqual(spec.resolvedShip);
+});
+test('I2 a late valid JSON import closes a catalog whose slot is absent from the new hull without a page error',async({page})=>{
+  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.addInitScript(()=>{const original=File.prototype.text;File.prototype.text=function(){return new Promise<string>(resolve=>{original.call(this).then(text=>{(window as any).releaseShipFile=()=>resolve(text);});});};});
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('severin-mir');await page.locator('#sm-fit > summary').click();
+  await page.locator('#sm-import').setInputFiles({name:'sputnik.json',mimeType:'application/json',buffer:Buffer.from(serializeFit(getPresetFit('sputnik','ship-fitting-0.3.0')))});
+  await page.locator('#sm-slot-power-4').click();await expect(page.getByRole('dialog')).toBeVisible();await page.evaluate(()=>(window as any).releaseShipFile());
+  await expect(page.locator('#sm-preset')).toHaveValue('sputnik');expect(errors).toEqual([]);await expect(page.getByRole('dialog')).toBeHidden();await expect(page.locator('#sm-start')).toBeEnabled();
+});

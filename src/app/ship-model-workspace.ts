@@ -1,15 +1,31 @@
 import type {CandidateCatalog,ShipFit} from '../fitting/types';
 import {getPresetFit,loadCandidateCatalog} from '../fitting/catalog';
 import {compileFitToShipModelV01} from '../fitting/compile';
-import type {CandidateCatalogV3,ShipFitV3,PromotedFitV3,RunSpecV3} from '../model/v3/types';
+import type {CandidateCatalogV3,ShipFitV3,PromotedFitV3,RunSpecV3,ResolvedShipV3} from '../model/v3/types';
 import {makeShipModelMiningRun,type ShipModelConditions} from '../scenarios/fitting';
 import {parseFitJson,parseExperimentJson} from '../io/fitting-json';
 import {parseStoredResultJson} from '../io/fitting-result';
 import type {RunResultV3} from '../runner/ship-model-run';
-import {validateRunSpecV3} from '../model/v3/schema';
-type Variant={fit?:ShipFitV3;conditions:ShipModelConditions;result?:RunResultV3;replay?:RunSpecV3;stale?:boolean;opened?:'fit'|'run'|'result'};
+import {validateRunSpecV3,validateShipModelFit,compileShipModelFit} from '../model/v3/schema';
+type Variant={fit?:ShipFitV3;conditions:ShipModelConditions;result?:RunResultV3;replay?:RunSpecV3;scenarioName?:string;stale?:boolean;opened?:'fit'|'run'|'result'};
 type ActiveTest={runId:string;variantId:'A'|'B';fitRevision:number;spec:RunSpecV3;status:'running'|'paused'};
+export type ScenarioEdit=RunSpecV3['scenario']&{durationSeconds:number};
+export type ReplacementPreview={ok:boolean;fit?:ShipFitV3;ship?:ResolvedShipV3;errors:{path:string;code:string;message:string}[]};
 const unwrap=<T>(r:import('../catalog/schema').ValidationResult<T>):T=>{if(!r.ok)throw Error(r.errors.map(e=>e.path+': '+e.message).join('\n'));return r.value;};
+export function previewShipModelReplacement(fit:ShipFitV3,catalog:CandidateCatalogV3,conditions:ShipModelConditions,slotId:string,itemId:string|null):ReplacementPreview{
+  const hull=catalog.hulls.find(h=>h.id===fit.hullId),slot=hull?.slots.find(s=>s.id===slotId);
+  if(!slot)return {ok:false,errors:[{path:'slotId',code:'SLOT',message:hull?.builtins.some(i=>i.id===slotId)?'Встроенный модуль нельзя снять или заменить.':'Неизвестный сменный слот.'}]};
+  const next=structuredClone(fit),id=next.assignments[slotId]??'fit:'+slotId;
+  if(itemId===null){delete next.instances[id];delete next.assignments[slotId];}
+  else {next.assignments[slotId]=id;next.instances[id]={id,itemId,enabled:next.instances[id]?.enabled??true};}
+  next.fitRevision++;
+  const checked=validateShipModelFit(next,catalog),compiled=checked.ok?compileShipModelFit(next,catalog):checked;
+  const errors=compiled.ok?[]:[...compiled.errors];
+  const original=makeShipModelMiningRun(fit,catalog,conditions),phases=conditions.phases??(original.ok?original.value.scenario.phases:[]);
+  phases.forEach((phase,index)=>{for(const owner of Object.keys(phase.requests))if(!next.instances[owner]&&!hull?.builtins.some(i=>i.id===owner))errors.push({path:`scenario.phases.${index}.requests.${owner}`,code:'REQUEST_OWNER',message:'Снятие удаляет владельца запроса '+owner+'. Сначала явно измените сценарий.'});});
+  if(compiled.ok){const run=makeShipModelMiningRun(next,catalog,conditions);if(!run.ok)errors.push(...run.errors);}
+  return {ok:errors.length===0,fit:next,...(compiled.ok?{ship:compiled.value}:{}),errors};
+}
 // Черновики /4 и legacy сохраняют свои численные данные внутри общей Lab shell.
 export class ShipModelWorkspace{
   readonly source:ShipFit;readonly catalog:CandidateCatalogV3=loadCandidateCatalog('ship-fitting-0.3.0');
@@ -17,6 +33,8 @@ export class ShipModelWorkspace{
   private activeTest?:ActiveTest;
   private frozenResult?:RunResultV3;
   private comparisonBaseId?:'A'|'B'|'reference';
+  private draftRevision={A:0,B:0};
+  private replacement?:{variantId:'A'|'B';revision:number;fitLiteral:string;preview:ReplacementPreview};
   private variants:Record<'A'|'B',Variant>={A:{conditions:{durationSeconds:60,mode:'Efficient',receiverProfile:'positive-only',temperatureK:300,backgroundK:100,observer:{presetId:'S-dedicated-G1',rangeM:16000,aspectDeg:0}}},B:{conditions:{}}};
   constructor(source:ShipFit,readonly sourceCatalog:CandidateCatalog){this.source=structuredClone(source);}
   get fit(){return this.variants[this.selected].fit;}
@@ -25,6 +43,7 @@ export class ShipModelWorkspace{
   get active(){return this.activeTest&&structuredClone(this.activeTest);}
   get frozen(){return this.frozenResult&&structuredClone(this.frozenResult);}
   get baselineId(){return this.comparisonBaseId;}
+  get replacementPreview(){return this.replacement&&structuredClone(this.replacement.preview);}
   get currentResult(){
     const r=this.variants[this.activeTest?.variantId??this.selected].result;
     return r&&(!this.activeTest||r.runId===this.activeTest.runId)?r:undefined;
@@ -34,11 +53,12 @@ export class ShipModelWorkspace{
   isStale(){return !!this.result&&!!this.variants[this.selected].stale;}
   // Одна отделённая копия на render: история и captured owner читаются согласованно.
   snapshotForRender(){
+    let nextSpec:RunSpecV3|undefined;try{nextSpec=this.prepare();}catch{/* Неполный черновик всё ещё доступен для исправления. */}
     const data=structuredClone({selected:this.selected,variants:this.variants,active:this.activeTest,frozen:this.frozenResult,baselineId:this.comparisonBaseId,preview:this.preview});
     const v=data.variants[data.selected],r=data.variants[data.active?.variantId??data.selected].result;
     return {selected:data.selected,fit:v.fit,conditions:v.conditions,result:v.result,opened:v.opened??'fit',stale:!!v.result&&!!v.stale,
       active:data.active,currentResult:r&&(!data.active||r.runId===data.active.runId)?r:undefined,currentStale:!!r&&!!data.variants[data.active?.variantId??data.selected].stale,frozen:data.frozen,baselineId:data.baselineId,preview:data.preview,
-      comparison:{A:data.variants.A.result,B:data.variants.B.result},taskEditable:this.taskEditable};
+      comparison:{A:data.variants.A.result,B:data.variants.B.result},taskEditable:this.taskEditable,nextSpec};
   }
   get taskEditable(){
     const phases=this.conditions.phases;if(!phases)return true;
@@ -46,7 +66,7 @@ export class ShipModelWorkspace{
     const fresh=this.fit&&makeShipModelMiningRun(this.fit,this.catalog,{...this.conditions,phases:undefined});
     return !!fresh?.ok&&phases[0].action===fresh.value.scenario.phases[0].action&&JSON.stringify(Object.entries(phases[0].requests).sort())===JSON.stringify(Object.entries(fresh.value.scenario.phases[0].requests).sort());
   }
-  private edited(){this.variants[this.selected].stale=!!this.result;}
+  private edited(){this.variants[this.selected].stale=!!this.result;this.draftRevision[this.selected]++;}
   private replaceFit(fit:ShipFitV3){
     if(this.conditions.phases)unwrap(makeShipModelMiningRun(fit,this.catalog,this.conditions));
     const v=this.variants[this.selected];v.fit=fit;v.replay=undefined;v.opened='fit';this.edited();
@@ -56,8 +76,27 @@ export class ShipModelWorkspace{
   previewCompilation(templates:Record<string,string>){this.idle();this.preview=unwrap(compileFitToShipModelV01(this.source,this.sourceCatalog,this.catalog,{variantTemplates:templates}));return structuredClone(this.preview);}
   applyCompilation(){this.idle();if(!this.preview)throw Error('Сначала просмотрите diff компиляции.');this.replaceFit(structuredClone(this.preview.fit));}
   loadPreset(id:string){this.idle();const fit=getPresetFit(id,this.catalog.version);unwrap(parseFitJson(JSON.stringify(fit),this.catalog));this.replaceFit(fit);}
-  copyToB(){this.idle();this.selectModel();this.variants.B=structuredClone(this.variants[this.selected]);this.variants.B.result=undefined;this.variants.B.opened=this.variants.B.replay?'run':'fit';this.selected='B';}
+  copyToB(){this.idle();this.selectModel();this.variants.B=structuredClone(this.variants[this.selected]);this.variants.B.result=undefined;this.variants.B.opened=this.variants.B.replay?'run':'fit';this.draftRevision.B++;this.selected='B';}
   selectVariant(id:'A'|'B'){this.selected=id;}
+  previewReplacement(slotId:string,itemId:string|null){
+    this.idle();this.selectModel();const preview=previewShipModelReplacement(this.fit!,this.catalog,this.conditions,slotId,itemId);
+    this.replacement={variantId:this.selected,revision:this.draftRevision[this.selected],fitLiteral:JSON.stringify(this.fit),preview:structuredClone(preview)};
+    return structuredClone(preview);
+  }
+  applyReplacement(){
+    this.idle();const p=this.replacement;if(!p)throw Error('Сначала выполните предпросмотр замены.');
+    if(p.variantId!==this.selected||p.revision!==this.draftRevision[this.selected]||p.fitLiteral!==JSON.stringify(this.fit))throw Error('Черновик или ревизия изменены после предпросмотра; повторите preview.');
+    if(!p.preview.ok||!p.preview.fit)throw Error(p.preview.errors.map(e=>e.path+': '+e.message).join('\n'));
+    this.replaceFit(structuredClone(p.preview.fit));this.replacement=undefined;
+  }
+  replaceScenario(edit:ScenarioEdit){
+    this.idle();const {durationSeconds,...scenario}=structuredClone(edit),next=this.prepare();next.scenario=scenario;next.durationSeconds=durationSeconds;
+    // Новые численные условия получают provenance; остальные imported origins остаются буквально.
+    const annotate=(value:unknown,path:string)=>{if(typeof value==='number')next.origins[path]={kind:'experimental',unit:'SI',sourceRef:'src/app/ship-model-workspace.ts: explicit whole-scenario edit',note:'Явное условие следующего опыта, не канонические ТТХ.'};else if(value&&typeof value==='object')for(const [key,v]of Object.entries(value))annotate(v,path+'.'+key);};
+    annotate(next.scenario,'scenario');annotate(durationSeconds,'durationSeconds');unwrap(validateRunSpecV3(next));
+    const v=this.variants[this.selected];v.replay=structuredClone(next);v.scenarioName=next.scenario.name;
+    v.conditions={...structuredClone(v.conditions),phases:structuredClone(next.scenario.phases),repeat:next.scenario.repeat,durationSeconds:next.durationSeconds};this.edited();
+  }
   updateConditions(change:ShipModelConditions){
     this.idle();const v=this.variants[this.selected],nonTask=Object.keys(change).every(k=>['receiverProfile','backgroundK','observer'].includes(k));
     if(!nonTask&&!this.taskEditable)throw Error('Импортированный сценарий не представим простой формой; сохранены все фазы и requests. Доступны receiver, background и observer.');
@@ -75,13 +114,17 @@ export class ShipModelWorkspace{
     v.replay=replay;this.edited();
   }
   setEnabled(id:string,enabled:boolean){this.idle();this.selectModel();const fit=structuredClone(this.fit!);if(fit.instances[id])fit.instances[id].enabled=enabled;else if(id.startsWith('builtin:'))fit.builtinModes[id]={...fit.builtinModes[id],enabled};else throw Error('Неизвестный установленный module ID');fit.fitRevision++;unwrap(parseFitJson(JSON.stringify(fit),this.catalog));this.replaceFit(fit);}
-  prepare(){this.selectModel();return structuredClone(this.variants[this.selected].replay??unwrap(makeShipModelMiningRun(this.fit!,this.catalog,this.conditions)));}
+  private draftSpec(v:Variant):import('../catalog/schema').ValidationResult<RunSpecV3>{
+    const checked=v.replay?{ok:true as const,value:structuredClone(v.replay)}:makeShipModelMiningRun(v.fit!,this.catalog,v.conditions);
+    if(checked.ok&&v.scenarioName)checked.value.scenario.name=v.scenarioName;return checked;
+  }
+  prepare(){this.selectModel();return structuredClone(unwrap(this.draftSpec(this.variants[this.selected])));}
   start(runId:string){this.idle();const spec=this.prepare();this.activeTest={runId,variantId:this.selected,fitRevision:spec.resolvedShip.fit.fitRevision,spec:structuredClone(spec),status:'running'};return spec;}
   startCheckpoint(runId:string){this.idle();const r=this.result;if(!r||r.status!=='paused'||r.state.timeSeconds>=r.spec.durationSeconds)throw Error('Нужен незавершённый paused /4 checkpoint');const saved=unwrap(parseStoredResultJson(JSON.stringify(r,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v)));if(saved.spec.schemaVersion!=='u2-lab/4')throw Error('Checkpoint требует /4');const checkpoint=structuredClone(saved as RunResultV3);checkpoint.runId=runId;this.activeTest={runId,variantId:this.selected,fitRevision:checkpoint.spec.resolvedShip.fit.fitRevision,spec:structuredClone(checkpoint.spec),status:'running'};return checkpoint;}
   setStatus(status:'running'|'paused'){if(this.activeTest)this.activeTest.status=status;}
   acceptResult(r:RunResultV3){
     if(!this.activeTest||r.runId!==this.activeTest.runId||r.spec.schemaVersion!=='u2-lab/4')return false;
-    const v=this.variants[this.activeTest.variantId],draft=v.replay?{ok:true as const,value:v.replay}:makeShipModelMiningRun(v.fit!,this.catalog,v.conditions);
+    const v=this.variants[this.activeTest.variantId],draft=this.draftSpec(v);
     v.result=structuredClone(r);v.stale=!draft.ok||JSON.stringify(r.spec)!==JSON.stringify(draft.value);
     this.comparisonBaseId??=this.activeTest.variantId;
     if(r.status==='complete'||r.status==='cancelled')this.activeTest=undefined;return true;
@@ -99,6 +142,7 @@ export class ShipModelWorkspace{
     const phase=replay?.scenario.phases[0],duties=phase?Object.values(phase.requests):[],role=phase&&replay?.resolvedShip.instances.find(i=>i.id in phase.requests&&i.role)?.role;
     this.variants[this.selected]={fit,conditions:replay?{durationSeconds:replay.durationSeconds,mode:replay.initialState.mode,receiverProfile:replay.receiverProfile,temperatureK:replay.initialState.temperatureK,backgroundK:replay.environment.radiativeBackgroundK,observer:structuredClone(replay.observer),environment:structuredClone(replay.environment),repeat:replay.scenario.repeat,phases:structuredClone(replay.scenario.phases),action:phase!.action,duty:duties.length&&duties.every(d=>d===duties[0])?duties[0]:1,maneuverRole:role??'march'}:structuredClone(this.conditions),result,replay,opened:result?'result':replay?'run':'fit'};
     if(result)this.comparisonBaseId??=this.selected;
+    this.variants[this.selected].scenarioName=replay?.scenario.name;this.draftRevision[this.selected]++;
   }
   inspectOpening(text:string){
     this.idle();const doc=JSON.parse(text);
