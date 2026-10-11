@@ -89,3 +89,33 @@ it('I5 separate passports preserve frozen identity and report missing selected B
   const a=cp04Result(),before=serializeResultSnapshot(a),html=shipModelComparison(a,undefined,{sourceVariant:'A',selectedVariant:'B',frozenStale:true,bStale:false});
   expect(html).toContain('id="sm-comparison-a"');expect(html).toContain('data-run-id="I5-CP04"');expect(html).toContain('data-stale="true"');expect(html).toContain('id="sm-comparison-b"');expect(html).toContain('Выбранный B: нет измерения');expect(displayedValue(html,'B:receiverIrW:meanW')).toBe('');expect(displayedValue(html,'delta:receiverIrW:maxW')).toBe('');expect(serializeResultSnapshot(a)).toBe(before);
 });
+const mainLayer=(html:string)=>html.replace(/<details\b[\s\S]*?<\/details>/g,'').replace(/<[^>]*>/g,'');
+it('QA B1 Compare shows only readable changed leaves, not unchanged observer/environment fields',()=>{
+  const a=cp04Result();a.spec.environment.radiativeBackgroundK=100;a.spec.observer.aspectDeg=0;
+  const b=structuredClone(a);b.runId='QA-selected-B';b.spec.environment.radiativeBackgroundK=120;b.spec.observer.aspectDeg=180;
+  const before=[serializeResultSnapshot(a),serializeResultSnapshot(b)],html=shipModelComparison(a,b),main=mainLayer(html);
+  expect(main).toContain('Ракурс: A 0° → B 180°');expect(main).toContain('Фон: A 100 K → B 120 K');
+  expect(main).not.toMatch(/S-dedicated-G1|16000|solarFluxWm2|backgroundSourceId|energyInputs|aspectDeg|radiativeBackgroundK/);
+  expect(html).toContain('Полные условия A/B');expect([serializeResultSnapshot(a),serializeResultSnapshot(b)]).toEqual(before);
+});
+it('QA B1 Compare main identity is compact/partial/stale, with full input/passport only in closed details and no retained trace DOM',()=>{
+  const a=cp04Result(),b=structuredClone(a);b.runId='QA-selected-B';const html=shipModelComparison(a,b,{frozenStale:true}),main=mainLayer(html);
+  expect(main).toContain(a.spec.resolvedShip.hull.label);expect(main).toContain('Состав');expect(main).toContain('ревизия');expect(main).toContain('измерено 0–1 с');expect(main).toContain('частичный');expect(main).toContain('Устарело');
+  expect(main).not.toContain(a.runId);expect(main).not.toContain(b.runId);expect(main).not.toContain(a.spec.modelVersion);expect(main).not.toContain(a.spec.schemaVersion);
+  expect(html).not.toMatch(/<details[^>]*\bopen\b/);expect(html).toContain(a.runId);expect(html).toContain(b.runId);expect(html).toContain(a.spec.modelVersion);expect(html).toContain('Raw snapshot');expect(html).toContain('&quot;statistics&quot;');expect(html).not.toContain('&quot;buckets&quot;');
+});
+it('QA B1 unknown/array/add/remove/model differences remain escaped and discoverable only in details',()=>{
+  const a=cp04Result(),b=structuredClone(a);b.runId='QA-selected-B';
+  Object.assign(a.spec.environment,{custom:{list:[1,2],removed:'<old>'}});Object.assign(b.spec.environment,{custom:{list:[1,3,4],added:'<script>'}});Object.assign(b.spec,{modelVersion:'different-model'});
+  const html=shipModelComparison(a,b),main=mainLayer(html);
+  expect(main).toContain('сравнение ограничено');expect(main).not.toMatch(/custom|list|removed|added|different-model/);
+  expect(html).toContain('custom');expect(html).toContain('removed');expect(html).toContain('added');expect(html).toContain('different-model');expect(html).toContain('&lt;script&gt;');expect(html).not.toContain('<script>');
+});
+it('QA B2 all Compare power/range measurements bind the existing non-wrapping number-unit presentation',()=>{
+  const a=cp04Result(),html=shipModelComparison(a,a),values=[...html.matchAll(/<span\b[^>]*\bdata-stat="[^"]+"[^>]*>/g)];
+  expect(values).toHaveLength(24);for(const [tag]of values)expect(tag).toContain('class="measurement-value"');
+});
+it('Compare preserves one visible condition-group owner when several observer leaves change',()=>{
+  const a=cp04Result(),b=structuredClone(a);b.spec.observer.aspectDeg=0;b.spec.observer.rangeM=20000;
+  const html=shipModelComparison(a,b);expect([...html.matchAll(/data-condition="observer"/g)]).toHaveLength(1);expect(mainLayer(html)).toContain('Ракурс: A 180° → B 0°');expect(mainLayer(html)).toContain('Дальность наблюдателя');
+});

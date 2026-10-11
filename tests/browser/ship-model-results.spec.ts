@@ -1,5 +1,5 @@
 import {test,expect,type Page} from '@playwright/test';
-import {readFileSync} from 'node:fs';
+import {readFileSync,writeFileSync} from 'node:fs';
 import {signatureDepletionFixture} from '../model-v3/fixture';
 import {serializeExperiment,serializeResultSnapshot} from '../../src/io/fitting-json';
 import {exportShipModelTelemetryCsv} from '../../src/io/ship-model-csv';
@@ -39,4 +39,41 @@ test('I5 actual zero and literal imported v1 have distinct measured DOM, with no
   await expect(page.locator('#sm-results [data-stat="receiverIrW:meanW"]')).toHaveAttribute('data-value','0');await expect(page.locator('#sm-results [data-stat="receiverIrW:meanW"]')).toHaveText('0 Вт');await expect(page.locator('#sm-results [data-stat="observedEmW:maxRangeM"]')).toHaveText('0 м');
   const measured=JSON.parse((await download(page,'sm-save-result')).text);measured.signatures={version:'ship-signatures/1',last:measured.signatures.last};const literal=serializeResultSnapshot(measured);await page.locator('#sm-import').setInputFiles({name:'old-v1.json',mimeType:'application/json',buffer:Buffer.from(literal)});
   await expect(page.locator('#sm-results [data-stat="receiverIrW:meanW"]')).toHaveAttribute('data-value','');await expect(page.locator('#sm-results [data-stat="receiverIrW:meanW"]')).toHaveText('—');await expect(page.locator('#sm-results [data-stat="observedEmW:maxRangeM"]')).toHaveText('—');expect((await download(page,'sm-save-result')).text).toBe(literal);await expect(page.locator('#sm-results')).not.toContainText('SCU');await expect(page.locator('[data-nominal-radar]')).toHaveCount(0);
+});
+async function qaMeasuredPair(page:Page,touch=false){
+  const action=async(selector:string)=>{const node=page.locator(selector);await node.evaluate(n=>n.scrollIntoView({block:'center'}));if(touch)await node.tap();else await node.click();};
+  const save=async()=>{const waiting=page.waitForEvent('download');await action('#sm-save-result');return readFileSync((await (await waiting).path())!,'utf8');};
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');await page.locator('#sm-duration').fill('1');await page.locator('#sm-duration').press('Tab');
+  await action('#sm-start');await expect(page.locator('#sm-status')).toHaveText('complete');const aText=await save(),a=JSON.parse(aText);
+  expect(a.spec.environment.radiativeBackgroundK).toBe(100);expect(a.spec.observer.aspectDeg).toBe(0);await action('#sm-freeze');await expect(page.locator('#sm-frozen-owner')).toContainText(a.runId);
+  await action('#sm-copy');await page.locator('#sm-background').fill('120');await page.locator('#sm-background').press('Tab');await page.locator('#sm-aspect').fill('180');await page.locator('#sm-aspect').press('Tab');
+  await action('#sm-start');await expect(page.locator('#sm-status')).toHaveText('complete');const bText=await save(),b=JSON.parse(bText);expect(b.runId).not.toBe(a.runId);await action('#fit-nav-compare');
+  return {a,b,aText,bText,action,save};
+}
+test('QA B1 whole Compare main layer has readable changed leaves and compact identities; full literal owners remain in closed details',async({page})=>{
+  const {a,b,bText,action,save}=await qaMeasuredPair(page);
+  const main=await page.locator('#workspace-compare').evaluate(node=>{const copy=node.cloneNode(true) as HTMLElement;copy.querySelectorAll('details').forEach(d=>d.remove());return copy.textContent!;});
+  expect(main).not.toContain(a.runId);expect(main).not.toContain(b.runId);expect(main).not.toContain(a.spec.modelVersion);expect(main).not.toContain(a.spec.schemaVersion);expect(main).not.toMatch(/S-dedicated-G1|16000|solarFluxWm2|backgroundSourceId|energyInputs/);
+  await expect(page.locator('#sm-comparison [data-condition-path="observer.aspectDeg"]')).toHaveText('Ракурс: A 0° → B 180°');
+  await expect(page.locator('#sm-comparison [data-condition-path="environment.radiativeBackgroundK"]')).toHaveText('Фон: A 100 K → B 120 K');
+  await expect(page.locator('#sm-comparison-a')).toContainText('Состав');await expect(page.locator('#sm-comparison-b')).toContainText('измерено 0–1 с');await expect(page.locator('#workspace-compare details[open]')).toHaveCount(0);
+  for(const [side,result]of [['a',a],['b',b]] as const){const details=page.locator('#sm-comparison-'+side+' > details');await details.locator(':scope > summary').click();await expect(details).toContainText(result.runId);await expect(details).toContainText(result.spec.modelVersion);const raw=await details.locator('[data-raw-spec]').textContent();expect(JSON.parse(raw!)).toEqual(result.spec);const passport=JSON.parse((await details.locator('[data-measured-passport]').textContent())!);expect(passport.signatures).toEqual(result.signatures);expect(passport.runId).toBe(result.runId);expect(passport.state.temperatureK).toBe(result.state.temperatureK);expect(passport).not.toHaveProperty('buckets');}
+  await action('#sm-variant');await page.locator('#sm-variant').selectOption('B');expect(await save()).toBe(bText);
+});
+test('QA B2 actual mobile Chromium touch390x844 keeps every Compare number+unit on one line and the wide table contained',async({browser},info)=>{
+  const context=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,acceptDownloads:true}),page=await context.newPage(),errors:string[]=[];
+  page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+  try{
+    const {a,b,action}=await qaMeasuredPair(page,true);expect(await page.evaluate(()=>navigator.maxTouchPoints)).toBeGreaterThan(0);
+    const audit=()=>page.locator('#workspace-compare').evaluate(node=>{
+      const values=[...node.querySelectorAll('[data-stat],.measurement-value')].filter(n=>n.getClientRects().length>0&&!n.closest('details:not([open])')).map(n=>{const range=document.createRange();range.selectNodeContents(n);return {text:n.textContent,stat:n.hasAttribute('data-stat'),nowrap:getComputedStyle(n).whiteSpace,box:n.getBoundingClientRect().toJSON(),lines:[...range.getClientRects()].map(r=>({x:r.x,y:r.y,width:r.width,height:r.height}))};});
+      const table=node.querySelector('#sm-comparison > .ui-table-scroll')!;return {width:innerWidth,overflow:document.documentElement.scrollWidth-innerWidth,values,table:{box:table.getBoundingClientRect().toJSON(),scrollWidth:table.scrollWidth,clientWidth:table.clientWidth,overflowX:getComputedStyle(table).overflowX}};
+    });
+    const check=(geometry:Awaited<ReturnType<typeof audit>>)=>{for(const value of geometry.values){expect(new Set(value.lines.map(r=>r.y)).size,value.text!).toBe(1);expect(value.nowrap,value.text!).toBe('nowrap');expect(value.box.height).toBeLessThan(30);}expect(geometry.overflow).toBe(0);};
+    const geometry=await audit();check(geometry);expect(geometry.values.filter(v=>v.stat)).toHaveLength(24);expect(geometry.values.length).toBeGreaterThanOrEqual(30);
+    expect(geometry.width).toBe(390);expect(geometry.overflow).toBe(0);expect(geometry.table.box.x).toBeGreaterThanOrEqual(0);expect(geometry.table.box.x+geometry.table.box.width).toBeLessThanOrEqual(390);expect(geometry.table.overflowX).toBe('auto');expect(geometry.table.scrollWidth).toBeGreaterThanOrEqual(geometry.table.clientWidth);
+    await page.screenshot({path:info.outputPath('qa-touch-compare-390.png')});await action('#sm-comparison-a > details > summary');await expect(page.locator('#sm-comparison-a > details')).toHaveAttribute('open','');
+    await action('#sm-freeze + details > summary');const expanded=await audit();check(expanded);expect(expanded.values.length).toBeGreaterThan(geometry.values.length);expect(errors).toEqual([]);
+    const evidence={a:a.runId,b:b.runId,geometry,expanded,errors},path=info.outputPath('qa-touch-geometry-390.json');writeFileSync(path,JSON.stringify(evidence,null,2)+'\n');await info.attach('qa-touch-number-unit-geometry',{path,contentType:'application/json'});
+  }finally{await context.close();}
 });
