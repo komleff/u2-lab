@@ -1,10 +1,11 @@
 import type { RunResultV2 } from "../../runner/run";
 import { esc, num } from "./presentation";
-import { channelNames, channelUnit } from "./telemetry";
+import { channelNames, channelUnit,type RetainedTrace } from "./telemetry";
 import { gatedOperations } from '../../runner/diagnostics';
 import { displaySeries, displayPaths } from "./display-series";
 import { PLOT, plotX } from "./plot-geometry";
 import { signatureOverview } from "./signatures";
+import type {Bucket} from '../../runner/retention';
 const semanticColors: Record<string, string> = {
   requestedW: "#FFAA33", deliveredW: "#2EC4D9", generatorW: "#4DA6FF",
   temperatureK: "#EC8B66", soc: "#E5C23A", chargeJ: "#E5C23A",
@@ -18,10 +19,11 @@ export function channelStyle(id: string) {
   return { color: semanticColors[id] ?? palette[hash % palette.length], dashed: /Requested|requested/.test(id) };
 }
 type Boundary={value:number;label:string;id?:string;color?:string;instance?:string};
-export function traceChart(r: RunResultV2, ids: string[], time?: number, limits: Boundary[] = [], meanAsPath = false, bands:{side:string;from:number;to:number;color:string}[] = [], selectedUnit?: string) {
+export function traceChart(r: Pick<RetainedTrace,'channels'|'buckets'>&{spec?:{durationSeconds:number}}, ids: string[], time?: number, limits: Boundary[] = [], meanAsPath = false, bands:{side:string;from:number;to:number;color:string}[] = [], selectedUnit?: string,available:(id:string,b:Bucket)=>boolean=()=>true) {
   const present = ids.filter(id => r.channels.includes(id));
   let low = 0, high = 1;
   for (const b of r.buckets) for (const id of present) {
+    if(!available(id,b))continue;
     const i = r.channels.indexOf(id);
     for (const value of [b.min[i], b.max[i]]) if (Number.isFinite(value)) {
       low = Math.min(low, value); high = Math.max(high, value);
@@ -30,7 +32,7 @@ export function traceChart(r: RunResultV2, ids: string[], time?: number, limits:
   for (const l of limits) { low = Math.min(low, l.value); high = Math.max(high, l.value); }
   const unit = selectedUnit ?? channelUnit(present[0]??ids[0]??'requestedW');
   const axisX=PLOT.left,plotWidth=PLOT.width;
-  const start = 0, end = r.spec.durationSeconds;
+  const start = 0, end = r.spec?.durationSeconds??r.buckets.at(-1)?.endSeconds??1;
   const x = (t: number) => plotX(t, end);
   const y = (v: number) => 170 - (v - low) / (high - low) * 150;
   // В SVG размеры шрифта — user units: читаемые 28 дают glyph box около 36, а не 18.
@@ -42,10 +44,17 @@ export function traceChart(r: RunResultV2, ids: string[], time?: number, limits:
   const highLabel=unit==="K" ? (labels.length ? "" : `<text data-k-axis-label="scale" x="154" y="35" text-anchor="end">${num(high,unit)}</text>`) : `<text x="660" y="35" text-anchor="end">${num(high,unit)}</text>`;
   return `<svg data-axis-x="${axisX}" viewBox="0 0 700 205" role="img" aria-label="Измеренные каналы: ${esc(unit)}">${bands.filter(b=>b.to>=b.from).map(b=>`<rect data-thermal-band="${b.side}" x="${axisX}" y="${y(b.to)}" width="${plotWidth}" height="${y(b.from)-y(b.to)}" fill="${b.color}" opacity=".14"/>`).join('')}<path d="M${axisX} 20V170H660M${axisX} 95H660" stroke="#3a3226" fill="none"/><text x="${axisX}" y="195">${num(start, "с")}</text><text x="660" y="195" text-anchor="end">${num(end, "с")}</text>${highLabel}${present.map(id => {
     const i = r.channels.indexOf(id), style = channelStyle(id);
-    const rows = displaySeries(r.buckets.map(b => ({startS:b.startSeconds,endS:b.endSeconds,
-      mean:b.sum[i]/b.count,min:b.min[i],max:b.max[i],weight:b.count})),plotWidth);
-    const {points,envelope} = displayPaths(rows,x,y);
-    return `<g stroke="${style.color}" data-channel="${esc(id)}" fill="none"><path data-envelope opacity=".18" stroke="none" fill="${style.color}" d="${envelope}"/>${meanAsPath ? `<path stroke-width="2" ${style.dashed ? 'stroke-dasharray="6 4"' : ""} d="${points.split(" ").filter(Boolean).map((p, n) => (n ? "L" : "M") + p).join(" ")}"/>` : `<polyline stroke-width="2" ${style.dashed ? 'stroke-dasharray="6 4"' : ""} points="${points}"/>`}</g>`;
+    // Split unavailable spans before pixel reduction; never join a measured
+    // interval through a placeholder (including a mixed retained bucket).
+    const segments:Bucket[][]=[];let segment:Bucket[]=[];
+    for(const b of r.buckets){if(available(id,b)){segment.push(b);}else if(segment.length){segments.push(segment);segment=[];}}
+    if(segment.length)segments.push(segment);
+    if(!r.buckets.length)segments.push([]);
+    return `<g stroke="${style.color}" data-channel="${esc(id)}" fill="none">${segments.map(buckets=>{
+      const rows=displaySeries(buckets.map(b=>({startS:b.startSeconds,endS:b.endSeconds,mean:b.sum[i]/b.count,min:b.min[i],max:b.max[i],weight:b.count})),plotWidth);
+      const {points,envelope}=displayPaths(rows,x,y);
+      return `<path data-envelope opacity=".18" stroke="none" fill="${style.color}" d="${envelope}"/>${meanAsPath ? `<path stroke-width="2" ${style.dashed ? 'stroke-dasharray="6 4"' : ""} d="${points.split(" ").filter(Boolean).map((p, n) => (n ? "L" : "M") + p).join(" ")}"/>` : `<polyline stroke-width="2" ${style.dashed ? 'stroke-dasharray="6 4"' : ""} points="${points}"/>`}`;
+    }).join('')}</g>`;
   }).join("")}${limits.map(l => `<path data-boundary="${esc(l.id??'')}" data-value="${l.value}" ${l.instance?'data-instance="'+esc(l.instance)+'" opacity=".5"':''} d="M${axisX} ${y(l.value)}H660" stroke="${l.color??'#D2B47C'}" stroke-dasharray="3 5"/>${l.label?`<path data-boundary-leader="${esc(l.id??'')}" d="M158 ${labelPositions.get(l)!-10}L${axisX} ${y(l.value)}" stroke="${l.color??'#D2B47C'}" fill="none"/><text data-k-axis-label="boundary" data-boundary-label="${esc(l.id??'')}" aria-label="${esc(l.label)} ${num(l.value,'K')}" fill="${l.color??'#D2B47C'}" text-anchor="end" x="154" y="${labelPositions.get(l)}" style="font-size:28px">${num(l.value, "K")}</text>`:''}`).join("")}${time !== undefined ? `<path d="M${x(time)} 20V170" stroke="#E8DCC6" data-time="${time}"/>` : ""}</svg>`;
 }
 export function thermalFrontiers(r:RunResultV2) {

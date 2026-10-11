@@ -1,7 +1,9 @@
 import {ShipModelWorkspace,type ScenarioEdit} from './ship-model-workspace';
 import type {WorkspaceShellParts} from './fitting';
 import {esc,num} from './fitting-ui/presentation';
-import {shipModelResults,shipModelComparison} from './fitting-ui/ship-model-results';
+import {shipModelComparison} from './fitting-ui/ship-model-results';
+import {shipModelLabView} from './fitting-ui/ship-model-lab-view';
+import type {ChannelState} from './fitting-ui/lab-channels';
 import {serializeFit,serializeExperiment,serializeResultSnapshot} from '../io/fitting-json';
 import {compileShipModelFit} from '../model/v3/schema';
 import {compileFit} from '../fitting/compile';
@@ -21,6 +23,8 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
   let leaving:{text?:string;label:string;revision:number}|undefined;
   let swap:ShipModelSwapState|undefined,instanceId:string|undefined;
   let scenarioDraft:{value:ScenarioEdit;revision:number;variantId:'A'|'B'}|undefined;
+  const channels:ChannelState={group:'energy',unit:'W',hidden:new Set(),eventIndex:0,bucketIndex:Number.MAX_SAFE_INTEGER,detailsOpen:false};
+  let eventFilter='all';
   const pending=new Map<number,Control>();
   let pendingFreeze:{runId:string;commandId:number}|undefined,snapshotCommandId:number|undefined;
   const sourceCompiled=compileFit(w.source,w.sourceCatalog);
@@ -58,7 +62,7 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
       ${fit?shipModelShipView(fit,w.catalog,busy||!!leaving):''}`,
       conditions:`${shipModelConditions(c,view.nextSpec,busy||!!leaving,view.taskEditable,scenarioDraft?.value)}
       <section class="ui-panel sm-ownership">${ownership||'<p>Измерения появятся после первого запуска.</p>'}</section>
-      <div id="workspace-charts">${r?shipModelResults(r):'<section class="ui-panel"><h2>Результат</h2><p>Пока нет измерения. Откройте корабль → задайте условия → нажмите «Запуск».</p></section>'}</div>
+      <div id="workspace-charts">${r?shipModelLabView(r,channels,eventFilter):'<section class="ui-panel"><h2>Результат</h2><p>Пока нет измерения. Откройте корабль → задайте условия → нажмите «Запуск».</p></section>'}</div>
       <details id="sm-transport" class="ui-panel"><summary>Управление текущим тестом · шаг, снимок, checkpoint</summary><div class="sm-actions"><button id="sm-step" ${active?.status!=='paused'?'disabled':''}>Шаг 1 с</button><button id="sm-snapshot" ${!active?'disabled':''}>Снимок</button><button id="sm-checkpoint" ${busy||leaving||r?.status!=='paused'||r.state.timeSeconds>=r.spec.durationSeconds?'disabled':''}>Продолжить checkpoint</button></div><p>Новый запуск создаёт fresh state. Checkpoint продолжает сохранённый paused результат, не новый черновик.</p></details>
       ${r?`<details id="sm-repair-controls" class="ui-panel"><summary>Остановки и обслуживание · restart / repair</summary><div class="sm-fields"><label>Установленный модуль<select id="sm-module">${r.spec.resolvedShip.instances.filter(i=>i.item.durability.behavior==='repairable-active').map(i=>`<option value="${esc(i.id)}">${esc(i.item.label)} · ${esc(i.id)}</option>`).join('')}</select></label><label>Прочность после ремонта, R<input id="sm-repair-r" type="number" min="0" step="any" value="1"></label></div><div class="sm-actions"><button id="sm-restart" ${!active?'disabled':''}>RESTART</button><button id="sm-repair" ${!active?'disabled':''}>Repair</button></div><p>Тепловая остановка, прочность и cooldown независимы. Терминальная прочность требует ремонта.</p></details>`:''}`,
       comparison:`<section class="ui-panel"><h2>Эталон измерения</h2><button id="sm-freeze" ${!r||active?.status==='running'||!['complete','paused'].includes(r.status)||leaving?'disabled':''}>Зафиксировать измерение</button>${view.frozen?`<p id="sm-frozen-owner">Замороженное измерение · ${esc(view.frozen.spec.resolvedShip.hull.label)} · ревизия ${view.frozen.spec.resolvedShip.fit.fitRevision} · run ${esc(view.frozen.runId)} · ${esc(view.frozen.status)} · ${num(view.frozen.state.timeSeconds,'с')}</p>`:'<p>Эталон ещё не зафиксирован.</p>'}</section>
@@ -92,6 +96,15 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
     for(const [id,type]of [['pause','pause'],['resume','resume'],['step','step'],['cancel','cancel'],['snapshot','snapshot']] as const)bind('sm-'+id,()=>send(type));
     bind('sm-restart',()=>send('restart',{instanceId:el<HTMLSelectElement>('sm-module')!.value}));bind('sm-repair',()=>send('repair',{instanceId:el<HTMLSelectElement>('sm-module')!.value,durabilityR:Number(el<HTMLInputElement>('sm-repair-r')!.value)}));
     bind('sm-save-fit',()=>download('u2-ship-model-fit.json',serializeFit(w.fit!)),false);bind('sm-save-run',()=>download('u2-ship-model-run.json',serializeExperiment(active?.spec??w.prepare())),false);bind('sm-save-result',()=>download('u2-ship-model-result.json',serializeResultSnapshot(r!)),false);
+    const details=el<HTMLDetailsElement>('channel-details');if(details)details.ontoggle=()=>{if(channels.detailsOpen!==details.open)act(()=>{channels.detailsOpen=details.open;},false);};
+    const picker=el<HTMLInputElement>('chart-bucket');if(picker)picker.oninput=()=>act(()=>{channels.bucketIndex=Number(picker.value);},false);
+    const event=(index:number)=>{channels.eventIndex=Math.max(0,Math.min(index,(r?.events.length??1)-1));channels.bucketIndex=undefined;};
+    for(const node of root.querySelectorAll<HTMLElement>('[data-event-index]'))node.onclick=()=>act(()=>event(Number(node.dataset.eventIndex)),false);
+    bind('channel-prev',()=>event(channels.eventIndex-1),false);bind('channel-next',()=>event(channels.eventIndex+1),false);
+    for(const node of root.querySelectorAll<HTMLElement>('[data-channel-group]'))node.onclick=()=>act(()=>{channels.group=node.dataset.channelGroup!;},false);
+    for(const node of root.querySelectorAll<HTMLElement>('[data-curve]'))node.onclick=()=>act(()=>{const id=node.dataset.curve!;if(channels.hidden.has(id))channels.hidden.delete(id);else channels.hidden.add(id);},false);
+    for(const node of root.querySelectorAll<HTMLElement>('[data-event-filter]'))node.onclick=()=>act(()=>{eventFilter=node.dataset.eventFilter!;},false);
+    const unit=el<HTMLSelectElement>('channel-unit');if(unit)unit.onchange=()=>act(()=>{channels.unit=unit.value;},false);
     el<HTMLInputElement>('sm-import')!.onchange=async()=>{
       const input=el<HTMLInputElement>('sm-import')!,file=input.files?.[0];if(!file)return;
       const owner=revision,read=++fileRead;

@@ -4,6 +4,7 @@ import {
   channelGroup,
   channelNames,
   channelUnit,
+  type RetainedTrace,
 } from "./telemetry";
 import { signatureLive } from "./signatures";
 import { esc, num } from "./presentation";
@@ -16,7 +17,7 @@ export type ChannelState = {
   bucketIndex?: number;
   detailsOpen?: boolean;
 };
-export function selectedBucket(r: RunResultV2, s: ChannelState) {
+export function selectedBucket(r: Pick<RetainedTrace,'buckets'|'events'>, s: ChannelState) {
   const e = r.events[Math.max(0, Math.min(s.eventIndex, r.events.length - 1))];
   return s.bucketIndex !== undefined
     ? r.buckets[Math.max(0, Math.min(s.bucketIndex, r.buckets.length - 1))]

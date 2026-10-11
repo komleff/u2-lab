@@ -1,8 +1,9 @@
-import type { RunResultV2 } from "../../runner/run";
 import { fittingChannelUnit } from "../../io/fitting-csv";
-import type { Bucket } from "../../runner/retention";
+import type { Bucket,Retention } from "../../runner/retention";
+import type {LabEvent} from '../../model/types';
+export type RetainedTrace={channels:readonly string[];buckets:readonly Bucket[];events:readonly LabEvent[];retention:ReturnType<Retention['metadata']>&{totalEvents:number;droppedEvents:number}};
 export function bucketValue(
-  r: Pick<RunResultV2, "channels">,
+  r: Pick<RetainedTrace, "channels">,
   b: Bucket,
   id: string,
 ) {
@@ -37,7 +38,7 @@ export function channelGroup(id: string) {
   return "energy";
 }
 export function channelRows(
-  r: Pick<RunResultV2, "channels">,
+  r: Pick<RetainedTrace, "channels">,
   b: Bucket | undefined,
 ) {
   return b
