@@ -5,7 +5,7 @@ import type {TickTelemetry} from '../model/types';
 import {Retention,EventRetention} from './retention';
 import {validateShipModelResult} from '../io/ship-model-result';
 import {observeShipModelStep,SHIP_SIGNATURE_VERSION,type ShipSignal} from '../signatures/ship-model';
-import {shipModelChannelNames,observeShipModelState} from './ship-model-telemetry';
+import {shipModelChannelNames,observeShipModelState,shipModelEffectivePhase} from './ship-model-telemetry';
 export type ShipModelSignatures={version:typeof SHIP_SIGNATURE_VERSION;last:ShipSignal|null};
 export type ShipModelMetrics={usefulWorkJ:number;totalResidualJ:number;maximumTemperatureK:number;firstConstraint:string|null};
 export type RunContextV3={runId:string;spec:RunSpecV3;state:StateV3;metrics:ShipModelMetrics;signatures:ShipModelSignatures;retention:Retention;events:EventRetention;done:boolean;last:TickTelemetry};
@@ -19,21 +19,18 @@ export function runShipModelChunk(run:RunContextV3,maxSteps:number,wallBudgetMs=
   const started=performance.now();let steps=0;
   while(!run.done&&steps<maxSteps){
     if(performance.now()-started>=wallBudgetMs)break;
-    const phases=run.spec.scenario.phases;let phase=phases[run.state.phaseIndex];
-    if(run.state.phaseElapsedSeconds>=phase.durationSeconds){
-      if(run.state.phaseIndex+1<phases.length||run.spec.scenario.repeat){run.state.phaseIndex=(run.state.phaseIndex+1)%phases.length;run.state.phaseElapsedSeconds=0;phase=phases[run.state.phaseIndex];}
-      else phase={id:'horizon-idle',action:'idle',durationSeconds:1,requests:{},environment:null};
-    }
-    if(run.state.phaseElapsedSeconds===0)run.events.add({timeSeconds:run.state.timeSeconds,kind:'phase',message:phase.id+' · '+phase.action});
-    if(run.state.phaseElapsedSeconds===0&&phase.mode!==undefined&&phase.mode!==run.state.mode){
+    const effective=shipModelEffectivePhase(run.spec,run.state,'next'),phase=effective.phase;
+    run.state.phaseIndex=effective.index;run.state.phaseElapsedSeconds=effective.elapsed;
+    if(effective.entering)run.events.add({timeSeconds:run.state.timeSeconds,kind:'phase',message:phase.id+' · '+phase.action});
+    if(effective.entering&&phase.mode!==undefined&&phase.mode!==run.state.mode){
       run.events.add({timeSeconds:run.state.timeSeconds,kind:'mode',message:run.state.mode+' → '+phase.mode});
       run.state.mode=phase.mode;run.state.maskingEntryTemperatureK=phase.mode==='Masking'?run.state.temperatureK:null;
       if(phase.mode!=='Masking')run.state.generator.permission=false;
     }
     const step=stepV3(phase.environment?{...run.spec,environment:phase.environment}:run.spec,run.state,phase.requests,phase.action);
     run.signatures.last=observeShipModelStep(run.spec,step);
-    run.state=step.state;if(phase.id==='horizon-idle')run.state.phaseElapsedSeconds=phases[run.state.phaseIndex].durationSeconds;
-    run.last=observeShipModelState(run.spec,run.state,step.telemetry,run.signatures.last);run.metrics.usefulWorkJ+=step.telemetry.usefulWorkW;run.metrics.totalResidualJ+=step.telemetry.totalResidualJ;
+    run.state=step.state;if(effective.fallback)run.state.phaseElapsedSeconds=run.spec.scenario.phases[run.state.phaseIndex].durationSeconds;
+    run.last=observeShipModelState(run.spec,run.state,step.telemetry,run.signatures.last,step);run.metrics.usefulWorkJ+=step.telemetry.usefulWorkW;run.metrics.totalResidualJ+=step.telemetry.totalResidualJ;
     run.metrics.maximumTemperatureK=Math.max(run.metrics.maximumTemperatureK,step.state.temperatureK);
     for(const d of step.diagnostics.sort((a,b)=>a.timeSeconds-b.timeSeconds)){
       const message=(d.instanceId?d.instanceId+': ':'')+d.reason+(d.remainingJ===undefined?'':' ('+d.remainingJ+' J)');

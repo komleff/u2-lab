@@ -21,8 +21,8 @@
     "src/model/v3/thermal-surfaces.ts": "5a0fa42878bffa2de2be4aee76f35f9886eda4ab283c7baefe3c8330cd8f7157",
     "src/model/v3/thermoinverter.ts": "5e49d31484c8a3b86cc0f0dc36ce05c87e51c251be71632d209d61aa29eb6481",
     "src/model/v3/types.ts": "aefc1cf8c3ac27e91021ded512dfb31d98e14d3519dbd8e8970228755f71baf7",
-    "src/runner/ship-model-run.ts": "ccbd85d2287aefb1f41d6de60b98dc029a2ea356585feb3e683a2fae6c56b994",
-    "src/runner/ship-model-telemetry.ts": "73f9a6586858a39cbe680eaf0326e66e158aa1b29a7b5aa7bd39f447631b36f3",
+    "src/runner/ship-model-run.ts": "df45b0ed10c38bde1dea82a94884e46df986c4a7e508c9371398a7df09f44ce8",
+    "src/runner/ship-model-telemetry.ts": "d20f164864f0daef3a331173ad8beaefa7ec7a69130ad29b582739c886f509e4",
     "src/scenarios/fitting.ts": "d9dc1581e113917391c083b2c94e3d60e97dc5f1d11c687d7ecd232b165d2567",
     "src/signatures/ship-model.ts": "74f2e2e917c97d31000c88128a7818c5e3e14886922f0b217c60c1688cd63a3f",
     "src/signatures/sources.ts": "484f518e5d8026b6a20a9298304a302ba977b475d33f6c405d298fbe7951f16f"
@@ -16626,6 +16626,7 @@
           "tiBusW:fit:signature-1": 786.5567896861924,
           "tiCoolingW": 4051.416100610075,
           "tiHotK:fit:signature-1": 549.9904027098984,
+          "tiHotMeasured:fit:signature-1": 1,
           "tiNetBenefitW:fit:signature-1": 17646.7764626694,
           "totalResidualJ": -0.0026251208037137985,
           "usefulWorkW": 1293679.6412663334
@@ -16745,15 +16746,15 @@
           "cadenceSeconds": 1,
           "totalTicks": 30,
           "buckets": 30,
-          "maxBuckets": 38657,
-          "estimatedBytes": 104160,
+          "maxBuckets": 38391,
+          "estimatedBytes": 104880,
           "maxBytes": 134217728,
           "totalEvents": 2,
           "droppedEvents": 0
         },
         "status": "complete"
       },
-      "fullResultSha256": "61b56a0968ecff90501aa60f83772446afded7df84381bde2649fbab92f6e00c"
+      "fullResultSha256": "862fbf61c6a1063a9312b72372839f9181afcc379bd361f970521c9ce80cef02"
     },
     {
       "id": "surface-10-thermoinverter-S-generator",
@@ -17033,6 +17034,7 @@
           "tiBusW:fit:signature-1": 754.6296571016094,
           "tiCoolingW": 4081.74353968621,
           "tiHotK:fit:signature-1": 549.9904027165721,
+          "tiHotMeasured:fit:signature-1": 1,
           "tiNetBenefitW:fit:signature-1": 16087.829497714858,
           "totalResidualJ": -0.005964934825897217,
           "usefulWorkW": 1275260.5432399292
@@ -17165,15 +17167,15 @@
           "cadenceSeconds": 1,
           "totalTicks": 30,
           "buckets": 30,
-          "maxBuckets": 37117,
-          "estimatedBytes": 108480,
+          "maxBuckets": 36873,
+          "estimatedBytes": 109200,
           "maxBytes": 134217728,
           "totalEvents": 2,
           "droppedEvents": 0
         },
         "status": "complete"
       },
-      "fullResultSha256": "5997b2d3f3bedeae57dec45834604e7d6b14894df79d987d1a11fdf17ec7bcc7"
+      "fullResultSha256": "88098d33e9ac29c0a693b30226b80edb8a64944dea4f0d2c5a67edc12713ff90"
     },
     {
       "id": "surface-10-pump-radiator-S-battery",
@@ -17440,6 +17442,7 @@
           "tiBusW:fit:signature-1": 0,
           "tiCoolingW": 0,
           "tiHotK:fit:signature-1": 503.5576227183406,
+          "tiHotMeasured:fit:signature-1": 0,
           "tiNetBenefitW:fit:signature-1": 0,
           "totalResidualJ": 0,
           "usefulWorkW": 1294395.471872104
@@ -17559,15 +17562,15 @@
           "cadenceSeconds": 1,
           "totalTicks": 30,
           "buckets": 30,
-          "maxBuckets": 38391,
-          "estimatedBytes": 104880,
+          "maxBuckets": 38130,
+          "estimatedBytes": 105600,
           "maxBytes": 134217728,
           "totalEvents": 2,
           "droppedEvents": 0
         },
         "status": "complete"
       },
-      "fullResultSha256": "5e3667afbb938d792acf9f687a64519366f876093c6953562f646a35e6596ab8"
+      "fullResultSha256": "212594cb226d4650604369b861ad67e41c26135ed955cef544514d5308215564"
     },
     {
       "id": "surface-10-pump-radiator-S-generator",
@@ -17849,6 +17852,7 @@
           "tiBusW:fit:signature-1": 0,
           "tiCoolingW": 0,
           "tiHotK:fit:signature-1": 505.57796527990337,
+          "tiHotMeasured:fit:signature-1": 0,
           "tiNetBenefitW:fit:signature-1": 0,
           "totalResidualJ": -1.862645149230957e-9,
           "usefulWorkW": 1276441.2022712226
@@ -17981,15 +17985,15 @@
           "cadenceSeconds": 1,
           "totalTicks": 30,
           "buckets": 30,
-          "maxBuckets": 36873,
-          "estimatedBytes": 109200,
+          "maxBuckets": 36631,
+          "estimatedBytes": 109920,
           "maxBytes": 134217728,
           "totalEvents": 2,
           "droppedEvents": 0
         },
         "status": "complete"
       },
-      "fullResultSha256": "056416a288fe52fcb1851cb26fd1abcd70e3357d33e93b9fb17bff8eda643270"
+      "fullResultSha256": "ca025fa6ab74f987a1f1da83a58cdedaad8b7671cfbbb364b3a190baa481258a"
     },
     {
       "id": "surface-300-thermoinverter-S-battery",
@@ -18254,6 +18258,7 @@
           "tiBusW:fit:signature-1": 23163.268134714133,
           "tiCoolingW": 118380.0530677982,
           "tiHotK:fit:signature-1": 549.7192296844084,
+          "tiHotMeasured:fit:signature-1": 1,
           "tiNetBenefitW:fit:signature-1": 527447.5556634495,
           "totalResidualJ": -0.009606923442333937,
           "usefulWorkW": 1299542.7093905334
@@ -18373,15 +18378,15 @@
           "cadenceSeconds": 1,
           "totalTicks": 30,
           "buckets": 30,
-          "maxBuckets": 38657,
-          "estimatedBytes": 104160,
+          "maxBuckets": 38391,
+          "estimatedBytes": 104880,
           "maxBytes": 134217728,
           "totalEvents": 2,
           "droppedEvents": 0
         },
         "status": "complete"
       },
-      "fullResultSha256": "f7699f0e54ad4a9dacdc06a61656fc9a8f706245a88f6486cf6488cfa67334f5"
+      "fullResultSha256": "5c3b48caf9c75f5d086dbebdb04cb377f1f9d8273207a7b2482ed509c9a3ae23"
     },
     {
       "id": "surface-300-thermoinverter-S-generator",
@@ -18661,6 +18666,7 @@
           "tiBusW:fit:signature-1": 22230.37796748258,
           "tiCoolingW": 119266.298128107,
           "tiHotK:fit:signature-1": 549.7192296856056,
+          "tiHotMeasured:fit:signature-1": 1,
           "tiNetBenefitW:fit:signature-1": 481108.46187260514,
           "totalResidualJ": -0.010221254080533981,
           "usefulWorkW": 1278624.6017731277
@@ -18793,15 +18799,15 @@
           "cadenceSeconds": 1,
           "totalTicks": 30,
           "buckets": 30,
-          "maxBuckets": 37117,
-          "estimatedBytes": 108480,
+          "maxBuckets": 36873,
+          "estimatedBytes": 109200,
           "maxBytes": 134217728,
           "totalEvents": 2,
           "droppedEvents": 0
         },
         "status": "complete"
       },
-      "fullResultSha256": "0965165f0bbe95ccd7a41a200322f3a13f6a334c58f635c3588277afb2fb6ff3"
+      "fullResultSha256": "5f2ad0d6312fda2cf886334d7945e1fe6086b8cf50d01fd7d75bb56665b8282a"
     },
     {
       "id": "surface-300-pump-radiator-S-battery",
@@ -19068,6 +19074,7 @@
           "tiBusW:fit:signature-1": 0,
           "tiCoolingW": 0,
           "tiHotK:fit:signature-1": 503.95077086653646,
+          "tiHotMeasured:fit:signature-1": 0,
           "tiNetBenefitW:fit:signature-1": 0,
           "totalResidualJ": 0,
           "usefulWorkW": 1272573.3660521908
@@ -19187,15 +19194,15 @@
           "cadenceSeconds": 1,
           "totalTicks": 30,
           "buckets": 30,
-          "maxBuckets": 38391,
-          "estimatedBytes": 104880,
+          "maxBuckets": 38130,
+          "estimatedBytes": 105600,
           "maxBytes": 134217728,
           "totalEvents": 2,
           "droppedEvents": 0
         },
         "status": "complete"
       },
-      "fullResultSha256": "2f6fd5e1cd77b0a04fe380f142b094bccc31aed0e5a1cf1d7f05442e30cfe782"
+      "fullResultSha256": "bff3899875609a3601b7460d9bc291c6744b51d417483f5cb61dbcc9363bea5f"
     },
     {
       "id": "surface-300-pump-radiator-S-generator",
@@ -19477,6 +19484,7 @@
           "tiBusW:fit:signature-1": 0,
           "tiCoolingW": 0,
           "tiHotK:fit:signature-1": 505.9521022435894,
+          "tiHotMeasured:fit:signature-1": 0,
           "tiNetBenefitW:fit:signature-1": 0,
           "totalResidualJ": 9.313225746154785e-10,
           "usefulWorkW": 1261875.9207387557
@@ -19609,15 +19617,15 @@
           "cadenceSeconds": 1,
           "totalTicks": 30,
           "buckets": 30,
-          "maxBuckets": 36873,
-          "estimatedBytes": 109200,
+          "maxBuckets": 36631,
+          "estimatedBytes": 109920,
           "maxBytes": 134217728,
           "totalEvents": 2,
           "droppedEvents": 0
         },
         "status": "complete"
       },
-      "fullResultSha256": "1fc28d8a4406d86f6f24650a6537f298141fb505e3da354383d0aba912f32816"
+      "fullResultSha256": "5ebc6043d2f9c71f2d5c6f1d66decd60d814a8bd0004965d82ad8646005da2fa"
     },
     {
       "id": "surface-mixed-ordinary",
@@ -20655,6 +20663,7 @@
           "tiBusW:fit:signature-1": 635163.8288292526,
           "tiCoolingW": 2690358.7618935825,
           "tiHotK:fit:signature-1": 543.4124712014373,
+          "tiHotMeasured:fit:signature-1": 1,
           "tiNetBenefitW:fit:signature-1": 229804.03514332464,
           "totalResidualJ": 0.0013906704261898994,
           "usefulWorkW": 1500300
@@ -20782,15 +20791,15 @@
           "cadenceSeconds": 1,
           "totalTicks": 3,
           "buckets": 3,
-          "maxBuckets": 36873,
-          "estimatedBytes": 10920,
+          "maxBuckets": 36631,
+          "estimatedBytes": 10992,
           "maxBytes": 134217728,
           "totalEvents": 1,
           "droppedEvents": 0
         },
         "status": "complete"
       },
-      "fullResultSha256": "36e9d2de89e0c8431136bc1502d88d4d7b80a101a618ef096cd9be380eb3c063"
+      "fullResultSha256": "56bdcbd95de9c5ca404ec98a966895b6ff6ebe8e3e5449a0ff5676b91f26c32b"
     },
     {
       "id": "buffer-high-short",

@@ -31,6 +31,25 @@ test('I3 actual late TI keeps inactive hot-side unavailable and measured work ow
   await page.locator('#sm-live-details > summary').click();await expect(page.locator('[data-live-instance="fit:power-1"]')).toContainText('нет измерения');await expect(page.locator('[data-live-instance="fit:signature-1"]')).not.toContainText('неактивен');
   await page.locator('[data-curve="tiHotK:fit:signature-1"]').click();await expect(page.locator('#channel-details svg g[data-channel="tiHotK:fit:signature-1"]')).toHaveCount(0);await expect(hot).toContainText('измерено');
 });
+test('I3-R1 actual Worker enters horizon-idle once and Live follows its executed fallback',async({page})=>{
+  const c=loadCandidateCatalog('ship-fitting-0.3.0'),built=makeShipModelMiningRun(getPresetFit('sputnik',c.version),c,{durationSeconds:4,repeat:false,phases:[{id:'mine',action:'work',durationSeconds:1,requests:{'fit:payload-1':1},environment:null}]});if(!built.ok)throw Error('Invalid horizon-idle fixture');
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-import').setInputFiles({name:'horizon.json',mimeType:'application/json',buffer:Buffer.from(serializeExperiment(built.value))});await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
+  await expect(page.locator('#sm-live')).toHaveAttribute('data-time','4');await expect(page.locator('#sm-live')).toContainText('фаза horizon-idle / idle');
+  await page.locator('#fit-journal-details > summary').click();await page.locator('[data-event-filter="phase"]').click();await expect(page.locator('#fit-events tbody tr')).toHaveCount(2);
+  await expect(page.locator('#fit-events [data-event-index]').filter({hasText:'horizon-idle'})).toHaveText('1 с · horizon-idle · idle');
+  await page.locator('#sm-live-details > summary').click();await expect(page.locator('[data-live-instance="fit:payload-1"] td').first()).toHaveText('0 Вт');
+});
+test('I3-R2 actual Worker preserves raw partial TI but never displays its integral as physical hot-side K',async({page})=>{
+  await page.addInitScript(()=>{const Native=Worker;window.Worker=class extends Native{constructor(url:string|URL,options?:WorkerOptions){super(url,options);this.addEventListener('message',({data})=>{if(data.type==='complete')(window as any).partialTiMeasured=data.payload;});}};});
+  const c=loadCandidateCatalog('ship-fitting-0.3.0'),fit=getPresetFit('stealth-reference',c.version);fit.instances['fit:signature-1'].itemId='thermoinverter-S';fit.assignments['signature-2']='fit:signature-2';fit.instances['fit:signature-2']={id:'fit:signature-2',itemId:'radiator-passive-S',enabled:true};
+  const built=makeShipModelMiningRun(fit,c,{durationSeconds:1,temperatureK:500,action:'idle',environment:{radiativeBackgroundK:100,backgroundSourceId:'I3-R2-background',thermalField:null,solarFluxWm2:0,solarSourceId:null,energyInputs:[],directHeat:[{sourceId:'I3-R2-explicit-heat',powerW:1e10}]}});if(!built.ok)throw Error('Invalid partial-TI fixture');
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-import').setInputFiles({name:'partial-ti.json',mimeType:'application/json',buffer:Buffer.from(serializeExperiment(built.value))});await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
+  const literal=await page.evaluate(()=>{const r=(window as any).partialTiMeasured,id='fit:signature-1';return {hot:r.checkpoint.lastTelemetry['tiHotK:'+id],active:r.checkpoint.lastTelemetry['tiActive:'+id],measured:r.checkpoint.lastTelemetry['tiHotMeasured:'+id],stopped:r.state.modules[id].thermalStopped};});
+  expect(literal.hot).toBeCloseTo(87.4098,4);expect(literal).toMatchObject({active:1,measured:0,stopped:true});
+  await page.locator('#channel-details > summary').click();await page.locator('[data-channel-group="heat"]').click();await page.locator('#channel-unit').selectOption('K');
+  const hot=page.locator('#sm-channel-table tr[data-channel="tiHotK:fit:signature-1"]');await expect(hot).toHaveAttribute('data-mean','');await expect(hot).toContainText('смешанная доступность');await expect(page.locator('#lab-channels svg g[data-channel="tiHotK:fit:signature-1"] polyline')).toHaveCount(0);
+  await page.locator('#sm-live-details > summary').click();await expect(page.locator('[data-live-instance="fit:signature-1"] td').last()).toHaveText('смешанная доступность · нет полного измерения');
+});
 test('I2 V3 grouped cards expose atomic searchable catalog Apply and incompatible/builtin/request-owner refusals',async({page})=>{
   await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');await page.locator('#sm-fit > summary').click();
   await expect(page.locator('#sm-group-sensors-thermal')).toContainText('Сенсоры и тепло');await expect(page.locator('#sm-slot-signature-1')).toContainText('Тепловые границы');await expect(page.locator('#sm-slot-signature-1')).toContainText('Прочность');

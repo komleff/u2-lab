@@ -6,6 +6,8 @@ import {Retention} from '../../src/runner/retention';
 import {parseShipModelResultJson} from '../../src/io/ship-model-result';
 import {serializeResultSnapshot} from '../../src/io/fitting-json';
 import {shipModelChannelNames,observeShipModelState} from '../../src/runner/ship-model-telemetry';
+import {stepV3} from '../../src/model/v3/step';
+import {fixture} from './fixture';
 
 function latePumpSpec(durationSeconds=4){
   const c=loadCandidateCatalog('ship-fitting-0.3.0'),fit=getPresetFit('stealth-reference',c.version);
@@ -74,4 +76,35 @@ it('I3 observer reads nonzero actual state and gates absent work instead of inve
   expect(values['actualW:fit:payload-1']).toBe(7);expect(values['actualMeasured:fit:payload-1']).toBe(1);expect(values['actualW:fit:signature-2']).toBe(0);expect(values['actualMeasured:fit:signature-2']).toBe(0);expect(values['tiActive:fit:signature-1']).toBe(0);
   expect(Object.keys(values).sort()).toEqual(shipModelChannelNames(spec));expect(Object.values(values).every(Number.isFinite)).toBe(true);expect({spec,state,raw}).toEqual(before);
   const reordered=structuredClone(spec);reordered.resolvedShip.instances.reverse();reordered.resolvedShip.surfaces.reverse();expect(shipModelChannelNames(reordered)).toEqual(shipModelChannelNames(spec));
+});
+it.each([1,2,3])('I3-R1 horizon-idle enters once and resumes literally at t=%s',cut=>{
+  const spec=fixture();spec.durationSeconds=4;spec.scenario.phases[0].id='mine';spec.scenario.phases[0].durationSeconds=1;
+  const full=createShipModelRun('horizon',spec),split=createShipModelRun('horizon',spec);
+  runShipModelChunk(full,4);runShipModelChunk(split,cut);
+  const parsed=parseShipModelResultJson(serializeResultSnapshot(shipModelResult(split,'paused')));expect(parsed.ok,JSON.stringify(parsed)).toBe(true);if(!parsed.ok)return;
+  const resumed=restoreShipModelRun(parsed.value);runShipModelChunk(resumed,4-cut);
+  // One work tick, then three actual idle ticks; no re-entry at checkpoint.
+  expect(full.retention.buckets.map(b=>b.sum[full.retention.channels.indexOf('actualW:fit:payload-1')])).toEqual([3e6,0,0,0]);
+  expect(full.events.items().filter(e=>e.kind==='phase').map(e=>[e.timeSeconds,e.message])).toEqual([[0,'mine · work'],[1,'horizon-idle · idle']]);
+  expect(serializeResultSnapshot(shipModelResult(resumed))).toBe(serializeResultSnapshot(shipModelResult(full)));
+});
+it('I3-R2 a sub-second TI stop retains literal telemetry but not a full hot-side measurement',()=>{
+  const spec=latePumpSpec(1);spec.scenario.phases=[spec.scenario.phases[1]];spec.scenario.repeat=false;
+  spec.environment.directHeat=[{sourceId:'I3-R2-explicit-heat',powerW:1e10}];spec.origins['environment.directHeat.0.powerW']={kind:'experimental',unit:'W',sourceRef:'tests/model-v3/telemetry.test.ts: I3-R2'};
+  const raw=stepV3(spec,spec.initialState,{},'idle'),id='fit:signature-1';
+  const stop=raw.diagnostics.find(d=>d.instanceId===id&&d.reason==='critical-hot');
+  expect(stop?.timeSeconds).toBeCloseTo(0.1600899752,8);expect(raw.frames.length).toBeGreaterThan(1);
+  expect(raw.telemetry['tiHotK:'+id]).toBeCloseTo(87.4098,4);
+  const run=createShipModelRun('partial-TI',spec);runShipModelChunk(run,1);
+  expect(run.last['tiHotK:'+id]).toBe(raw.telemetry['tiHotK:'+id]);expect(run.last['tiActive:'+id]).toBe(1);
+  expect(run.state.modules[id].thermalStopped).toBe(true);expect(run.last['tiHotMeasured:'+id]).toBe(0);
+  const i=run.retention.channels.indexOf('tiHotMeasured:'+id);expect(i).toBeGreaterThanOrEqual(0);expect(run.retention.buckets[0].min[i]).toBe(0);expect(run.retention.buckets[0].max[i]).toBe(0);
+});
+it('I3-R2 only a confirmed full-frame active TI tick has a physical hot-side measurement',()=>{
+  const spec=latePumpSpec(1);spec.scenario.phases=[spec.scenario.phases[1]];spec.scenario.repeat=false;
+  const raw=stepV3(spec,spec.initialState,{},'idle'),id='fit:signature-1';expect(raw.frames.map(f=>f.durationSeconds)).toEqual([1]);
+  const run=createShipModelRun('full-TI',spec);runShipModelChunk(run,1);
+  expect(run.last['tiActive:'+id]).toBe(1);expect(run.last['tiHotMeasured:'+id]).toBe(1);expect(run.last['tiHotK:'+id]).toBe(raw.telemetry['tiHotK:'+id]);
+  // Positive average power alone proves only was-active, not interval coverage.
+  const unconfirmed=observeShipModelState(spec,raw.state,raw.telemetry,null);expect(unconfirmed['tiActive:'+id]).toBe(1);expect(unconfirmed['tiHotMeasured:'+id]).toBe(0);
 });
