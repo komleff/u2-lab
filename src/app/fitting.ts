@@ -74,7 +74,12 @@ export function mountFitting(
     pending = new Map<number, { at: number; type: string }>();
   root.classList.add("fitting-app");
   let shipModel:ReturnType<typeof mountShipModel>|undefined;
-  function openShipModel(documentText?:string){try{const workspace=w.createShipModelWorkspace();if(documentText)workspace.importDocument(documentText);shipModel=mountShipModel(root,workspace,()=>{shipModel=undefined;render();});}catch(e){error=String(e);render();}}
+  let workspaceRevision=0;
+  function openShipModel(documentText?:string){try{const workspace=w.createShipModelWorkspace();if(documentText)workspace.importDocument(documentText);shipModel=mountShipModel(root,workspace,(legacyText?:string)=>{
+    if(w.getActive())throw Error('Завершите активный старый тест перед сменой workspace.');
+    if(legacyText){const opened=w.importDocument(legacyText,allowSnapshot);if(!opened.ok)throw Error(opened.errors.map(e=>e.path+': '+e.message).join('\n'));if(opened.value==='legacy'){sessionStorage.setItem('u2-lab:legacy-import',serializeExperiment(opened.spec!));location.search='?mode=legacy';}}
+    shipModel=undefined;workspaceRevision++;error='';render();
+  });workspaceRevision++;}catch(e){error=String(e);render();}}
   const el = <T extends HTMLElement = HTMLElement>(id: string) =>
     root.querySelector<T>("#" + CSS.escape(id));
   const listen = (id: string, fn: () => void) => {
@@ -308,7 +313,7 @@ export function mountFitting(
         else next.instances[x.dataset.enable!].enabled = x.checked;
         apply(next);
       };
-    const entry=document.createElement('button');entry.id='ship-model-open';entry.textContent='Ship model v0.1 · experimental opt-in';entry.disabled=!!w.getActive();entry.onclick=()=>openShipModel();root.querySelector('.workspace-meta')!.append(entry);
+    const entry=document.createElement('button');entry.id='ship-model-open';entry.textContent='Новая модель корабля · открыть / перенести';entry.disabled=!!w.getActive();entry.onclick=()=>openShipModel();root.querySelector('.workspace-meta')!.append(entry);
     const preset = el<HTMLSelectElement>("fit-preset");
     if (preset) preset.onchange = () => { if (!preset.value) return; const v=w.applyPreset(preset.value); error=v.valid?"":v.issues.map(i=>i.message).join("\n"); render(); };
     const signatureDraft=()=>w.getSelected().conditions.signatures??defaultSignatureSettings(fitHull(w.getFit(),catalog)?.size==="S"?"S":"M");
@@ -437,12 +442,12 @@ export function mountFitting(
       imported.onchange = async () => {
         const file = imported.files?.[0];
         if (!file) return;
-        const selected = w.selectedId;
+        const selected = w.selectedId,context=workspaceRevision,draft=JSON.stringify([w.getFit(),w.getSelected().conditions]),activeRunId=w.getActive()?.runId;
         try {
           const source = await file.text();
-          if (selected !== w.selectedId) {
+          if (selected !== w.selectedId || context !== workspaceRevision || draft !== JSON.stringify([w.getFit(),w.getSelected().conditions]) || activeRunId !== w.getActive()?.runId) {
             error =
-              "Вариант изменён во время чтения файла; импорт не применён.";
+              "Вариант или активный тест изменён во время чтения файла; импорт не применён.";
             render();
             return;
           }

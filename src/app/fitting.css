@@ -1404,11 +1404,41 @@ html:has(.fitting-app) { scroll-padding-top: 112px; scroll-padding-bottom: 132px
   .fitting-app .ui-header nav { gap: 2px; }
 }
 .fitting-app #sig-truth-details pre { white-space: pre-wrap; overflow-wrap: anywhere; }
-/* Versioned opt-in pane: functional controls keep the existing ownership model. */
-.ship-model-preview { max-width: 1200px; margin: auto; padding: 16px; overflow-wrap: anywhere; }
-.ship-model-preview section { margin: 16px 0; padding: 12px; border: 1px solid var(--border, #394454); }
-.ship-model-preview label { display: inline-flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 6px; max-width: 100%; }
-.ship-model-preview input, .ship-model-preview select { max-width: 100%; min-width: 0; }
-.ship-model-preview pre { max-width: 100%; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
-.ship-model-preview button { margin: 4px; }
-#sm-error { color: #ff9f91; white-space: pre-wrap; }
+/* Новая модель использует знакомые cards/tokens UI4.8, не отдельную палитру. */
+.fitting-app .ship-model-preview { overflow-wrap: anywhere; }
+.fitting-app .ship-model-preview .sm-main { max-width: 1440px; margin: auto; padding-bottom: 28px; }
+.fitting-app .ship-model-preview .ui-panel { margin-bottom: 16px; }
+.fitting-app .ship-model-preview h1 { margin: 6px 0; }
+.fitting-app .ship-model-preview .sm-chooser,
+.fitting-app .ship-model-preview .sm-fields { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; margin: 16px 0; }
+.fitting-app .ship-model-preview .sm-chooser { grid-template-columns: minmax(0,2fr) minmax(0,1fr); }
+.fitting-app .ship-model-preview .sm-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; margin: 12px 0; }
+.fitting-app .ship-model-preview .sm-version { color: var(--action); border-left: 3px solid var(--action); padding: 8px 12px; background: var(--card); }
+.fitting-app .ship-model-preview .sm-module-grid,
+.fitting-app .ship-model-preview .sm-comparison-pair { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; margin: 12px 0; }
+.fitting-app .ship-model-preview .sm-module,
+.fitting-app .ship-model-preview .sm-comparison-pair > div { padding: 14px; background: var(--card); border: 1px solid var(--border); border-radius: 3px; }
+.fitting-app .ship-model-preview .sm-module { min-height: 64px; }
+.fitting-app .ship-model-preview .sm-module small { white-space: nowrap; }
+.fitting-app .ship-model-preview .sm-quantity { white-space: nowrap; }
+.fitting-app .ship-model-preview summary { display: list-item; min-height: 44px; padding: 10px 0; cursor: pointer; color: var(--text); }
+.fitting-app .ship-model-preview details details { margin-top: 12px; }
+.fitting-app .ship-model-preview pre { max-width: 100%; max-height: min(450px,55vh); overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+.fitting-app .ship-model-preview input,
+.fitting-app .ship-model-preview select { width: 100%; max-width: 100%; }
+.fitting-app .ship-model-preview input[type=checkbox] { width: auto; flex: 0 0 auto; }
+.fitting-app .ship-model-preview .ui-file { min-height: 48px; justify-content: center; align-self: end; }
+.fitting-app .ship-model-preview .ui-controls .control-status { display: block; flex: 1; }
+.fitting-app .ship-model-preview .ui-controls small { max-width: 650px; }
+.fitting-app .ship-model-preview #sm-error:not(:empty) { color: #ffb6ae; white-space: pre-wrap; padding: 12px; border-left: 3px solid #d23b2c; background: #2b1713; }
+@media (max-width: 900px) {
+  .fitting-app .ship-model-preview .sm-fields { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 600px) {
+  .fitting-app .ship-model-preview .sm-chooser,
+  .fitting-app .ship-model-preview .sm-fields,
+  .fitting-app .ship-model-preview .sm-module-grid,
+  .fitting-app .ship-model-preview .sm-comparison-pair { grid-template-columns: minmax(0,1fr); }
+  .fitting-app .ship-model-preview #sm-source { width: 100%; }
+  .fitting-app .ship-model-preview .ui-controls .control-status { flex-basis: 100%; }
+}

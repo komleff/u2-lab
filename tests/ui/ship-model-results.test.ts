@@ -34,3 +34,19 @@ it('UI maneuver asks the same installed march engine in Efficient and Masking; r
   w.updateConditions({action:'recovery'});expect(w.prepare().scenario.phases[0].requests).toEqual({});
   w.updateConditions({action:'maneuver',maneuverRole:'turn'});expect(w.prepare().scenario.phases[0].requests).toEqual({'fit:turn':0.7});
 });
+it.each([
+  ['equal',{},true],
+  ['only initial T',{temperatureK:310},false],
+  ['only mode',{mode:'Masking' as const},false],
+] as const)('measured A/B %s conditions show both initial T/mode without altering snapshots',(_,change,same)=>{
+  const w=workspace();w.loadPreset('stealth-reference');w.updateConditions({durationSeconds:1});
+  const runA=createShipModelRun('A',w.start('A'));runShipModelChunk(runA,1);w.acceptResult(shipModelResult(runA));
+  const a=w.result!;w.copyToB();w.updateConditions(change);
+  const runB=createShipModelRun('B',w.start('B'));runShipModelChunk(runB,1);w.acceptResult(shipModelResult(runB));
+  const b=w.result!,before=[serializeResultSnapshot(a),serializeResultSnapshot(b)],html=shipModelComparison(a,b);
+  expect(html).toContain('Начальная T');expect(html).toContain('Efficient');expect(html).toContain('300');
+  if('temperatureK' in change)expect(html).toContain('310');
+  if('mode' in change)expect(html).toContain('Masking');
+  expect(html.includes('Одинаковые')).toBe(same);
+  expect([serializeResultSnapshot(a),serializeResultSnapshot(b)]).toEqual(before);
+});
