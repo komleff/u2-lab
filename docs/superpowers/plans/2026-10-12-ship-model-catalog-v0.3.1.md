@@ -330,4 +330,3 @@
    replaces preview `4197` with an immutable candidate artifact.
 8. Rollback restores preview `80ce337`; 0.3.0 data stay available throughout.
 9. Operator alone decides merge.
-

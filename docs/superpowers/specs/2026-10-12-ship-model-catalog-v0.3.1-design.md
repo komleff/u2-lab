@@ -171,4 +171,3 @@ PLAN_READY, QA и scoped Code Review текущий принятый preview `41
 Новая immutable preview публикуется только после этих gates. Rollback — вернуть
 preview на сохранённый accepted artifact `80ce337`; версии 0.3.0 остаются в
 репозитории и не требуют data rollback. Merge выполняет оператор.
-
