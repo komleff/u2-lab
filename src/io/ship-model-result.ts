@@ -33,8 +33,8 @@ export function validateShipModelResult(input:unknown):ValidationResult<RunResul
         }else{
           if(![channel.integralJ,channel.meanW,channel.minW,channel.maxW].every(value=>finite(value)&&value>=0))bad('signatures.statistics.'+name,'Нужны конечные неотрицательные measured statistics');
           else{
-            const wattsTolerance=1e-9*Math.max(1,channel.maxW),joulesTolerance=1e-9*Math.max(1,channel.integralJ);
-            if(channel.minW>channel.maxW||channel.meanW<channel.minW-wattsTolerance||channel.meanW>channel.maxW+wattsTolerance||Math.abs(channel.integralJ-channel.meanW*stats.durationSeconds)>joulesTolerance)bad('signatures.statistics.'+name,'Несогласованные integral/mean/min/max');
+            const minimumTolerance=1e-9*Math.max(1,channel.meanW,channel.minW),maximumTolerance=1e-9*Math.max(1,channel.meanW,channel.maxW),joulesTolerance=1e-9*Math.max(1,channel.integralJ);
+            if(channel.minW>channel.maxW||channel.meanW<channel.minW-minimumTolerance||channel.meanW>channel.maxW+maximumTolerance||Math.abs(channel.integralJ-channel.meanW*stats.durationSeconds)>joulesTolerance)bad('signatures.statistics.'+name,'Несогласованные integral/mean/min/max');
           }
         }
       }
@@ -77,7 +77,7 @@ export function validateShipModelResult(input:unknown):ValidationResult<RunResul
         if(!Array.isArray(b[key])&&!(b[key] instanceof Float64Array)||b[key].length!==r.channels.length||Array.from(b[key] as ArrayLike<number>).some(v=>!finite(v)))bad('buckets.'+j+'.'+key,'Нужен finite массив размерности channels');
         else b[key]=new Float64Array(b[key]);
       }
-      for(let n=0;n<r.channels.length;n++){const mean=b.sum[n]/b.count,tolerance=1e-8*Math.max(1,Math.abs(mean),Math.abs(b.min[n]),Math.abs(b.max[n]));if(b.min[n]>b.max[n]||mean<b.min[n]-tolerance||mean>b.max[n]+tolerance)bad('buckets.'+j,'Несогласованные sum/min/max');}
+      for(let n=0;n<r.channels.length;n++){const mean=b.sum[n]/b.count,minimumTolerance=1e-8*Math.max(1,Math.abs(mean),Math.abs(b.min[n])),maximumTolerance=1e-8*Math.max(1,Math.abs(mean),Math.abs(b.max[n]));if(b.min[n]>b.max[n]||mean<b.min[n]-minimumTolerance||mean>b.max[n]+maximumTolerance)bad('buckets.'+j,'Несогласованные sum/min/max');}
     }
     if(count!==meta.totalTicks||meta.estimatedBytes!==r.buckets.length*(r.channels.length*24+1024))bad('retention','Counts/bytes не соответствуют полному trace');
     if(!Array.isArray(r.events)||r.events.length!==meta.totalEvents-meta.droppedEvents||r.events.length>20000||meta.droppedEvents!==Math.max(0,meta.totalEvents-20000))throw Error('events: неполные или несогласованные counters');

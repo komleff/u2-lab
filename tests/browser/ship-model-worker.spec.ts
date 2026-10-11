@@ -1,6 +1,6 @@
 import {test,expect} from '@playwright/test';
 import {readdirSync} from 'node:fs';
-import {fixture,checkpointFixture} from '../model-v3/fixture';
+import {fixture,checkpointFixture,signatureDepletionFixture} from '../model-v3/fixture';
 import {loadCandidateCatalog,getPresetFit} from '../../src/fitting/catalog';
 import {makeShipModelMiningRun} from '../../src/scenarios/fitting';
 test('actual Worker /4 starts production branch and ACKs pause while preserving the new state',async({page})=>{
@@ -66,4 +66,30 @@ test('CP05 actual Worker /4 pause-export-import-resume 59+1 matches 60 without r
   expect(receipt.resumed).toEqual(receipt.continuous);expect(receipt.repeated).toEqual(receipt.continuous);
   expect(receipt.resumed.state.rng.state).toBe(724273890);expect(receipt.resumed.state.modules[instanceId].durabilityStopped).toBe(true);
   expect(receipt.atomic.refused).toBe(true);expect(receipt.atomic.snapshot).toEqual(receipt.continuous);
+});
+test('CR-UI4I-B1 native Worker refuses CP-04 impossible IR mean and preserves the held measured snapshot',async({page})=>{
+  const file=readdirSync('dist/assets').find(n=>n.startsWith('worker-')&&n.endsWith('.js'))!,spec=signatureDepletionFixture();await page.goto('/?mode=legacy');
+  const receipt=await page.evaluate(async({file,spec})=>new Promise<any>((resolve,reject)=>{
+    const pack=(x:any)=>JSON.parse(JSON.stringify(x,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v));
+    const worker=new Worker('/assets/'+file,{type:'module'}),timer=setTimeout(()=>{worker.terminate();reject(Error('CP-04 refusal timeout'));},10000);let held:any,refused=false,accepted=false,error='';
+    worker.onmessage=({data})=>{
+      if(data.type==='chunk'&&!held)worker.postMessage({runId:'held-owner',commandId:2,type:'pause'});
+      if(data.type==='control-ack'&&data.control==='pause')worker.postMessage({runId:data.runId,commandId:3,type:'snapshot'});
+      if(data.type==='control-ack'&&data.control==='start'&&data.runId==='impossible-ir-min'){accepted=true;worker.postMessage({runId:data.runId,commandId:5,type:'pause'});}
+      if(data.type==='error'){
+        if(data.runId!=='impossible-ir-min'){clearTimeout(timer);worker.terminate();reject(Error(data.payload));return;}
+        refused=true;error=data.payload;worker.postMessage({runId:'held-owner',commandId:6,type:'snapshot'});
+      }
+      if(data.type==='snapshot'){
+        if(!held){
+          held=pack(data.payload);const malformed=pack(held),mean=malformed.signatures.last.receiverIrW;
+          malformed.signatures.statistics.receiverIrW={integralJ:mean,meanW:mean,minW:1e6,maxW:1e20};
+          worker.postMessage({runId:'impossible-ir-min',commandId:4,type:'start',payload:{checkpoint:malformed,maxSteps:1}});
+        }else{clearTimeout(timer);worker.terminate();resolve({held,refused,accepted,error,after:pack(data.payload)});}
+      }
+    };
+    worker.postMessage({runId:'held-owner',commandId:1,type:'start',payload:{spec,maxSteps:1}});
+  }),{file,spec});
+  expect(receipt.held.state.timeSeconds).toBe(1);expect(receipt.held.signatures.last.receiverIrW).toBe(3891.434262156444);expect(receipt.held.signatures.last.observedEmW).toBe(524.6226315789473);
+  expect(receipt.refused).toBe(true);expect(receipt.accepted).toBe(false);expect(receipt.error).toContain('signatures.statistics.receiverIrW');expect(receipt.after).toEqual(receipt.held);
 });

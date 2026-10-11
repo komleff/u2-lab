@@ -148,3 +148,56 @@ it('I4-R1 IR clipping forbids neither IR min above compatible last nor lifetime 
   // Exact: average(abs(frame contrast)); compatible: abs(average contrast).
   saved.signatures.statistics.receiverIrW={integralJ:last*2,meanW:last*2,minW:last*1.5,maxW:last*3};expect(validateShipModelResult(saved).ok).toBe(true);
 });
+it('CR-UI4I-B1 rejects CP-04 IR mean below min despite an unrelated enormous max',()=>{
+  const saved=cp04Paused(),before=structuredClone(saved);if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');
+  const mean=saved.signatures.last!.receiverIrW;
+  saved.signatures.statistics.receiverIrW={integralJ:mean,meanW:mean,minW:1e6,maxW:1e20};
+  expect(saved.signatures.last).toEqual(before.signatures.last);const checked=validateShipModelResult(saved);
+  expect(checked.ok).toBe(false);if(!checked.ok)expect(checked.errors.some(error=>error.path==='signatures.statistics.receiverIrW')).toBe(true);
+});
+it('CR-UI4I-B1 actual Worker refuses impossible IR mean without replacing held context, owner or result',()=>{
+  const saved=cp04Paused(),messages:any[]=[],worker=new WorkerController(message=>messages.push(message));
+  worker.handle({runId:'held-owner',commandId:1,type:'start',payload:{checkpoint:saved}});worker.handle({runId:'held-owner',commandId:2,type:'pause'});
+  const heldContext=worker.context!,held=result(heldContext),malformed=structuredClone(saved);if(malformed.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');
+  const mean=malformed.signatures.last!.receiverIrW;malformed.signatures.statistics.receiverIrW={integralJ:mean,meanW:mean,minW:1e6,maxW:1e20};
+  worker.handle({runId:'impossible-ir-min',commandId:3,type:'start',payload:{checkpoint:malformed}});
+  expect(worker.context?.runId).toBe('held-owner');expect(worker.context).toBe(heldContext);expect(result(worker.context!)).toEqual(held);
+  expect(messages.filter(message=>message.type==='error')).toEqual([expect.objectContaining({runId:'impossible-ir-min',payload:expect.stringContaining('signatures.statistics.receiverIrW')})]);
+  expect(messages.some(message=>message.runId==='impossible-ir-min'&&message.type==='control-ack')).toBe(false);
+  worker.handle({runId:'held-owner',commandId:4,type:'snapshot'});expect(messages.at(-1).payload).toEqual(held);
+});
+it.each(['receiverIrW','observedEmW'] as const)('CR-UI4I-B1 %s lower bound ignores unrelated extrema and tolerates only rounding-sized pairs',name=>{
+  const run=createShipModelRun('pair-local-signature',fixture());runShipModelChunk(run,3);const saved=shipModelResult(run,'paused');if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');
+  const mean=saved.signatures.last![name]/2;expect(mean).toBeGreaterThan(0);
+  for(const maxW of [1e20,1e300])for(const [difference,accepted] of [[5e-10,true],[2e-9,false]] as const){
+    // EM min stays below last and lifetime integral covers its tick: only mean/min is tested.
+    saved.signatures.statistics[name]={integralJ:mean*3,meanW:mean,minW:mean*(1+difference),maxW};
+    expect(validateShipModelResult(saved).ok,JSON.stringify({name,maxW,difference})).toBe(accepted);
+  }
+});
+it.each(['receiverIrW','observedEmW'] as const)('CR-UI4I-B1 %s upper bound tolerates only rounding-sized pairs',name=>{
+  const run=createShipModelRun('pair-local-signature',fixture());runShipModelChunk(run,3);const saved=shipModelResult(run,'paused');if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');
+  const mean=saved.signatures.last![name]*2;
+  for(const [difference,accepted] of [[5e-10,true],[2e-9,false]] as const){
+    saved.signatures.statistics[name]={integralJ:mean*3,meanW:mean,minW:0,maxW:mean*(1-difference)};
+    expect(validateShipModelResult(saved).ok).toBe(accepted);
+  }
+});
+it('CR-UI4I-B1 finite enormous valid statistics remain accepted; overflowing mean-duration is already refused',()=>{
+  const saved=cp04Paused();if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');
+  saved.signatures.statistics.receiverIrW={integralJ:1e300,meanW:1e300,minW:1e300*(1+5e-10),maxW:1e308};expect(validateShipModelResult(saved).ok).toBe(true);
+  const run=createShipModelRun('overflow-existing-refusal',fixture());runShipModelChunk(run,3);const overflow=shipModelResult(run,'paused');if(overflow.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');
+  overflow.signatures.statistics.receiverIrW={integralJ:Number.MAX_VALUE,meanW:Number.MAX_VALUE,minW:0,maxW:Number.MAX_VALUE};expect(validateShipModelResult(overflow).ok).toBe(false);
+});
+it.each(['lower','upper'] as const)('CR-UI4I-B1 retained %s mean bound cannot be masked by the unrelated opposite extremum',bound=>{
+  const saved=cp04Paused(),bucket=saved.buckets[0];
+  bucket.sum[0]=1000*bucket.count;bucket.min[0]=bound==='lower'?1e6:-1e20;bucket.max[0]=bound==='lower'?1e20:100;
+  const checked=validateShipModelResult(saved);expect(checked.ok).toBe(false);if(!checked.ok)expect(checked.errors.some(error=>error.path==='buckets.0')).toBe(true);
+});
+it.each(['lower','upper'] as const)('CR-UI4I-B1 retained %s pair retains its own 1e-8 rounding allowance with disparate extrema',bound=>{
+  for(const [difference,accepted] of [[5e-9,true],[2e-8,false]] as const){
+    const saved=cp04Paused(),bucket=saved.buckets[0];bucket.sum[0]=1000*bucket.count;
+    bucket.min[0]=bound==='lower'?1000*(1+difference):-1e20;bucket.max[0]=bound==='upper'?1000*(1-difference):1e20;
+    expect(validateShipModelResult(saved).ok,JSON.stringify({bound,difference})).toBe(accepted);
+  }
+});
