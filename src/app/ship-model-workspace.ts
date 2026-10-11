@@ -2,6 +2,7 @@ import type {CandidateCatalog,ShipFit} from '../fitting/types';
 import {getPresetFit,loadCandidateCatalog} from '../fitting/catalog';
 import {compileFitToShipModelV01} from '../fitting/compile';
 import type {CandidateCatalogV3,ShipFitV3,PromotedFitV3,RunSpecV3,ResolvedShipV3} from '../model/v3/types';
+import {CURRENT_SHIP_MODEL_CATALOG,isShipModelCatalogVersion,type ShipModelCatalogVersion} from '../model/v3/types';
 import {makeShipModelMiningRun,type ShipModelConditions} from '../scenarios/fitting';
 import {parseFitJson,parseExperimentJson} from '../io/fitting-json';
 import {parseStoredResultJson} from '../io/fitting-result';
@@ -28,7 +29,8 @@ export function previewShipModelReplacement(fit:ShipFitV3,catalog:CandidateCatal
 }
 // Черновики /4 и legacy сохраняют свои численные данные внутри общей Lab shell.
 export class ShipModelWorkspace{
-  readonly source:ShipFit;readonly catalog:CandidateCatalogV3=loadCandidateCatalog('ship-fitting-0.3.0');
+  readonly source:ShipFit;readonly currentCatalog:CandidateCatalogV3=loadCandidateCatalog(CURRENT_SHIP_MODEL_CATALOG);
+  private catalogs:Partial<Record<ShipModelCatalogVersion,CandidateCatalogV3>>={[CURRENT_SHIP_MODEL_CATALOG]:this.currentCatalog};
   preview?:PromotedFitV3;selected:'A'|'B'='A';
   private activeTest?:ActiveTest;
   private frozenResult?:RunResultV3;
@@ -38,6 +40,11 @@ export class ShipModelWorkspace{
   private replacement?:{variantId:'A'|'B';revision:number;fitLiteral:string;preview:ReplacementPreview};
   private variants:Record<'A'|'B',Variant>={A:{conditions:{durationSeconds:60,mode:'Efficient',receiverProfile:'positive-only',temperatureK:300,backgroundK:100,observer:{presetId:'S-dedicated-G1',rangeM:16000,aspectDeg:0}}},B:{conditions:{}}};
   constructor(source:ShipFit,readonly sourceCatalog:CandidateCatalog){this.source=structuredClone(source);}
+  private catalogFor(version:unknown){
+    if(!isShipModelCatalogVersion(version))throw Error('catalogVersion: Неизвестная версия каталога: '+String(version));
+    return this.catalogs[version]??(this.catalogs[version]=loadCandidateCatalog(version));
+  }
+  get catalog(){return this.catalogFor(this.fit?this.fit.catalogVersion:CURRENT_SHIP_MODEL_CATALOG);}
   get fit(){return this.variants[this.selected].fit;}
   get conditions(){return this.variants[this.selected].conditions;}
   get result(){return this.variants[this.selected].result;}
@@ -71,14 +78,14 @@ export class ShipModelWorkspace{
   }
   private edited(){this.variants[this.selected].stale=!!this.result;this.draftRevision[this.selected]++;}
   private replaceFit(fit:ShipFitV3){
-    if(this.conditions.phases)unwrap(makeShipModelMiningRun(fit,this.catalog,this.conditions));
+    if(this.conditions.phases)unwrap(makeShipModelMiningRun(fit,this.catalogFor(fit.catalogVersion),this.conditions));
     const v=this.variants[this.selected];v.fit=fit;v.replay=undefined;v.opened='fit';this.edited();
   }
   private idle(){if(this.activeTest)throw Error('Сначала завершите/отмените активный тест; его controls принадлежат исходному варианту.');}
   selectModel(){if(!this.fit)throw Error('Старый fit: требуется явная компиляция с diff, model toggle не мигрирует данные.');}
-  previewCompilation(templates:Record<string,string>){this.idle();this.preview=unwrap(compileFitToShipModelV01(this.source,this.sourceCatalog,this.catalog,{variantTemplates:templates}));return structuredClone(this.preview);}
+  previewCompilation(templates:Record<string,string>){this.idle();this.preview=unwrap(compileFitToShipModelV01(this.source,this.sourceCatalog,this.currentCatalog,{variantTemplates:templates}));return structuredClone(this.preview);}
   applyCompilation(){this.idle();if(!this.preview)throw Error('Сначала просмотрите diff компиляции.');this.replaceFit(structuredClone(this.preview.fit));}
-  loadPreset(id:string){this.idle();const fit=getPresetFit(id,this.catalog.version);unwrap(parseFitJson(JSON.stringify(fit),this.catalog));this.replaceFit(fit);}
+  loadPreset(id:string,version:ShipModelCatalogVersion=CURRENT_SHIP_MODEL_CATALOG){this.idle();const catalog=this.catalogFor(version),fit=getPresetFit(id,version);unwrap(parseFitJson(JSON.stringify(fit),catalog));this.replaceFit(fit);}
   copyToB(){this.idle();this.selectModel();this.variants.B=structuredClone(this.variants[this.selected]);this.variants.B.result=undefined;this.variants.B.opened=this.variants.B.replay?'run':'fit';this.draftRevision.B++;this.selected='B';}
   selectVariant(id:'A'|'B'){this.selected=id;}
   previewReplacement(slotId:string,itemId:string|null){
@@ -118,7 +125,7 @@ export class ShipModelWorkspace{
   }
   setEnabled(id:string,enabled:boolean){this.idle();this.selectModel();const fit=structuredClone(this.fit!);if(fit.instances[id])fit.instances[id].enabled=enabled;else if(id.startsWith('builtin:'))fit.builtinModes[id]={...fit.builtinModes[id],enabled};else throw Error('Неизвестный установленный module ID');fit.fitRevision++;unwrap(parseFitJson(JSON.stringify(fit),this.catalog));this.replaceFit(fit);}
   private draftSpec(v:Variant):import('../catalog/schema').ValidationResult<RunSpecV3>{
-    const checked=v.replay?{ok:true as const,value:structuredClone(v.replay)}:makeShipModelMiningRun(v.fit!,this.catalog,v.conditions);
+    const checked=v.replay?{ok:true as const,value:structuredClone(v.replay)}:makeShipModelMiningRun(v.fit!,this.catalogFor(v.fit?.catalogVersion),v.conditions);
     if(checked.ok&&v.scenarioName)checked.value.scenario.name=v.scenarioName;return checked;
   }
   prepare(){this.selectModel();return structuredClone(unwrap(this.draftSpec(this.variants[this.selected])));}
@@ -139,7 +146,7 @@ export class ShipModelWorkspace{
   }
   importDocument(text:string){
     this.idle();const doc=JSON.parse(text);let fit:ShipFitV3,replay:RunSpecV3|undefined,result:RunResultV3|undefined;
-    if(doc.schemaVersion==='u2-ship-fit/2')fit=unwrap(parseFitJson(text,this.catalog));
+    if(doc.schemaVersion==='u2-ship-fit/2')fit=unwrap(parseFitJson(text,this.catalogFor(doc.catalogVersion)));
     else if(doc.spec&&doc.state){const parsed=unwrap(parseStoredResultJson(text));if(parsed.spec.schemaVersion!=='u2-lab/4')throw Error('Старые results открываются в старой модели, без миграции.');result=parsed as RunResultV3;fit=structuredClone(result.spec.resolvedShip.fit);replay=structuredClone(result.spec);}
     else {const spec=unwrap(parseExperimentJson(text));if(spec.schemaVersion!=='u2-lab/4')throw Error('Старая схема открывается в старой модели; нужна явная компиляция.');replay=spec;fit=structuredClone(spec.resolvedShip.fit);}
     const phase=replay?.scenario.phases[0],duties=phase?Object.values(phase.requests):[],role=phase&&replay?.resolvedShip.instances.find(i=>i.id in phase.requests&&i.role)?.role;
@@ -150,7 +157,7 @@ export class ShipModelWorkspace{
   inspectOpening(text:string){
     this.idle();const doc=JSON.parse(text);
     if(doc?.schemaVersion==='u2-ship-fit/1'){unwrap(parseFitJson(text,this.sourceCatalog));return {kind:'сборка',schemaVersion:doc.schemaVersion,legacy:true};}
-    if(doc?.schemaVersion==='u2-ship-fit/2'){unwrap(parseFitJson(text,this.catalog));return {kind:'сборка',schemaVersion:doc.schemaVersion,legacy:false};}
+    if(doc?.schemaVersion==='u2-ship-fit/2'){unwrap(parseFitJson(text,this.catalogFor(doc.catalogVersion)));return {kind:'сборка',schemaVersion:doc.schemaVersion,legacy:false};}
     const isResult=!!doc?.spec&&['state','metrics','channels','buckets','runId'].some(k=>k in doc);
     const spec=isResult?unwrap(parseStoredResultJson(text)).spec:unwrap(parseExperimentJson(text));
     if(spec.schemaVersion!=='u2-lab/4'&&spec.schemaVersion!=='u2-lab/1')unwrap(parseFitJson(JSON.stringify(spec.resolvedShip.fit),this.sourceCatalog));

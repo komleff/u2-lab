@@ -6,6 +6,7 @@ import { validateRunSpecV2 } from "../model/v2/step";
 import type { ShipFit, CandidateCatalog, ModuleItem, Slot } from "../fitting/types";
 import type { StoredRunSpec } from "../model/v2/types";
 import type { CandidateCatalogV3, ShipFitV3 } from "../model/v3/types";
+import { isShipModelCatalogVersion } from "../model/v3/types";
 import { validateRunSpecV3, validateShipModelFit } from "../model/v3/schema";
 const invalid = <T>(code: string, message: string, path = "$"): ValidationResult<T> => ({
   ok: false,
@@ -17,7 +18,7 @@ export function parseFitJson(text: string, catalog: CandidateCatalog): Validatio
 export function parseFitJson(text: string, catalog: CandidateCatalog | CandidateCatalogV3): ValidationResult<ShipFit | ShipFitV3> {
   try {
     const fit = JSON.parse(text);
-    if (catalog.version === "ship-fitting-0.3.0") return validateShipModelFit(fit, catalog);
+    if (isShipModelCatalogVersion(catalog.version)) return validateShipModelFit(fit, catalog as CandidateCatalogV3);
     const checked = validateFit(fit, catalog);
     return checked.valid
       ? { ok: true, value: structuredClone(fit) }

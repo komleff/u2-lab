@@ -15,7 +15,7 @@
     "src/model/v3/heating.ts": "f24fc93e040685039e66abedad9f5bae3fe6a08fdc5423006a55486590535538",
     "src/model/v3/power.ts": "d72336dc0848ea653d8b50b94776f9f836597801b32f95512d9e16e52e6a2e53",
     "src/model/v3/random.ts": "698b3ebe27c01e340cb6bd1650ab49285109ba85aa703829898b6f34065672b4",
-    "src/model/v3/schema.ts": "08c3c25726a4eb5f9fbd30fbed933367e1f19d170b7b03feea4bae251b8094ec",
+    "src/model/v3/schema.ts": "a7a25010ea5d81ab4bb707047a5124ec202817ffd5d19be511f1f5cfc23d23c3",
     "src/model/v3/step.ts": "ec5e23ca231333078933b94c9ace79d295001cb1fc820a1285c2b71950bf4606",
     "src/model/v3/thermal-control.ts": "acdee22c9dcd5663684164eb0603c38318900e138e6be5632a1968dd578b3e56",
     "src/model/v3/thermal-surfaces.ts": "5a0fa42878bffa2de2be4aee76f35f9886eda4ab283c7baefe3c8330cd8f7157",
@@ -23,7 +23,7 @@
     "src/model/v3/types.ts": "70315d8215fcb84326c24157ce49019aa0e51b49a464ba94b5e3f0a93df3ca42",
     "src/runner/ship-model-run.ts": "2ef9c7b48fdadd90a96a884e92ce3c7e3a8d7292c54b4da1d8826fce421c2012",
     "src/runner/ship-model-telemetry.ts": "d20f164864f0daef3a331173ad8beaefa7ec7a69130ad29b582739c886f509e4",
-    "src/scenarios/fitting.ts": "d9dc1581e113917391c083b2c94e3d60e97dc5f1d11c687d7ecd232b165d2567",
+    "src/scenarios/fitting.ts": "d3560c3a6459347b3883b43df7b281022a82410f6f6da7f7090c38f772237158",
     "src/signatures/ship-model.ts": "2686e22d0555bbb997155b41adc8b9526bea6c0a57fe28569ab80742b7b80619",
     "src/signatures/sources.ts": "484f518e5d8026b6a20a9298304a302ba977b475d33f6c405d298fbe7951f16f"
   },

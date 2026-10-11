@@ -5,6 +5,11 @@ import { catalogHasItem, isShipModelCatalogVersion } from "../../src/fitting/edi
 import { compileFit, compileFitToShipModelV01 } from "../../src/fitting/compile";
 import { validateFit } from "../../src/fitting/validate";
 import type { CandidateCatalogV3, ShipFitV3 } from "../../src/model/v3/types";
+import { ShipModelWorkspace } from "../../src/app/ship-model-workspace";
+import { serializeFit, serializeExperiment, serializeResultSnapshot } from "../../src/io/fitting-json";
+import { makeShipModelMiningRun } from "../../src/scenarios/fitting";
+import { createShipModelRun, runShipModelChunk, shipModelResult } from "../../src/runner/ship-model-run";
+import { parseStoredResultJson } from "../../src/io/fitting-result";
 
 const next = "ship-fitting-0.3.1";
 it("supported V3 versions are explicit, current is 0.3.1, and old default stays literal", () => {
@@ -49,4 +54,49 @@ it("legacy promotion targets the requested version and errors name that target",
   expect(promoted.value.ship.catalogVersion).toBe("ship-fitting-0.3.1");
   expect(source).toEqual(before);
   expect(promoted.value.sourceSnapshot).toEqual(before);
+});
+const oldVersion = "ship-fitting-0.3.0";
+const workspace = () => {
+  const sourceCatalog = loadCandidateCatalog("ship-fitting-0.2.4");
+  return new ShipModelWorkspace(getPresetFit("sputnik", sourceCatalog.version), sourceCatalog);
+};
+it("workspace new presets and legacy promotion use current, without changing explicit old selection", () => {
+  const w = workspace(); w.loadPreset("sputnik-d");
+  expect(w.fit!.catalogVersion).toBe(next); expect(w.catalog.version).toBe(next);
+  expect(w.prepare().catalogVersion).toBe(next);
+  w.loadPreset("sputnik", oldVersion);
+  expect(serializeFit(w.fit!)).toBe(serializeFit(getPresetFit("sputnik", oldVersion)));
+  const before = serializeFit(w.fit!);
+  for (const select of [() => w.loadPreset("sputnik"), () => w.loadPreset("sputnik-d", oldVersion), () => w.loadPreset("sputnik-d", "ship-fitting-0.3.2" as never)]) {
+    expect(select).toThrow(); expect(serializeFit(w.fit!)).toBe(before);
+  }
+  const promoted = w.previewCompilation({ "reference-retro-engine-diesel-S-single": "engine-diesel-S-single" });
+  expect(promoted.fit.catalogVersion).toBe(next); w.applyCompilation(); expect(w.prepare().catalogVersion).toBe(next);
+});
+it.each([oldVersion, next] as const)("fresh scenario builder stamps every owner %s", version => {
+  const c = loadCandidateCatalog(version), f = getPresetFit(version === oldVersion ? "sputnik" : "sputnik-d", version);
+  const built = makeShipModelMiningRun(f, c, { durationSeconds: 3 });
+  expect(built.ok, JSON.stringify(built)).toBe(true); if (!built.ok) return;
+  expect([built.value.catalogVersion, built.value.resolvedShip.catalogVersion, built.value.resolvedShip.fit.catalogVersion]).toEqual([version, version, version]);
+  const run = createShipModelRun("actual-"+version, built.value); runShipModelChunk(run, 1);
+  const literal = serializeResultSnapshot(shipModelResult(run, "paused")), opened = parseStoredResultJson(literal);
+  expect(opened.ok, JSON.stringify(opened)).toBe(true); if (opened.ok) expect(serializeResultSnapshot(opened.value)).toBe(literal);
+});
+it("workspace operations resolve each fit, not the selected/global/current catalog", () => {
+  const w = workspace(); w.importDocument(serializeFit(getPresetFit("sputnik", oldVersion)));
+  w.updateConditions({ durationSeconds: 2 }); w.copyToB(); w.importDocument(serializeFit(getPresetFit("sputnik-d", next)));
+  expect(w.catalog.version).toBe(next); expect(w.prepare().catalogVersion).toBe(next);
+  const replacement = w.previewReplacement("payload-1", "mining-industrial-S"); expect(replacement.ok, JSON.stringify(replacement.errors)).toBe(true); w.applyReplacement();
+  w.setEnabled("fit:signature-1", false); expect(w.fit!.catalogVersion).toBe(next);
+  w.replaceScenario({ ...w.prepare().scenario, name: "version-owned B", durationSeconds: 2 });
+  const b = serializeExperiment(w.prepare()); w.selectVariant("A"); expect(w.catalog.version).toBe(oldVersion);
+  expect(w.previewReplacement("payload-1", "mining-industrial-S").ok).toBe(false);
+  w.setEnabled("fit:signature-1", false); expect(w.prepare().catalogVersion).toBe(oldVersion);
+  const spec = w.start("old-A"), run = createShipModelRun("old-A", spec); w.selectVariant("B");
+  runShipModelChunk(run, 1); expect(w.acceptResult(shipModelResult(run, "paused"))).toBe(true); w.setStatus("paused");
+  expect(w.active!.spec).toEqual(spec); expect(w.comparison.A!.spec.catalogVersion).toBe(oldVersion);
+  expect(w.snapshotForRender().currentStale).toBe(false); expect(w.freeze()).toBe(true);
+  const frozen = serializeResultSnapshot(w.frozen!); runShipModelChunk(run, 1); w.acceptResult(shipModelResult(run));
+  expect(serializeExperiment(w.prepare())).toBe(b); expect(serializeResultSnapshot(w.frozen!)).toBe(frozen);
+  expect(w.snapshotForRender().frozenStale).toBe(false);
 });

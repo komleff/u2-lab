@@ -1,6 +1,6 @@
 import type { ValidationResult } from "../../catalog/schema";
 import type { CandidateCatalogV3, ResolvedInstanceV3, ResolvedShipV3, ShipFitV3, RunSpecV3, StateV3, EnvironmentV3, ModuleItemV3, HullV3, ThermalSurface } from "./types";
-import { CATALOG_V3, SHIP_MODEL_CATALOG_VERSIONS, MODEL_V3, SCHEMA_V3 } from "./types";
+import { SHIP_MODEL_CATALOG_VERSIONS, MODEL_V3, SCHEMA_V3 } from "./types";
 import type { FieldOrigin } from "../../fitting/types";
 import {OBSERVER_PRESET_IDS} from '../../signatures/presets';
 
@@ -175,12 +175,12 @@ function same(a: unknown,b:unknown): boolean {
 }
 function resolvedChecks(c:Check,input:unknown,path:string):input is ResolvedShipV3{
   if(!c.exact(input,path,["catalogVersion","hull","fit","instances","materials","dryMassKg","heatCapacityJK","batteryCapacityJ","bufferCapacityJ","cargoCapacityM3","resources","surfaces","origins"]))return false;
-  const s=input as ResolvedShipV3;c.choice(s.catalogVersion,path+".catalogVersion",[CATALOG_V3]);hullChecks(c,s.hull,path+".hull");
+  const s=input as ResolvedShipV3;c.choice(s.catalogVersion,path+".catalogVersion",SHIP_MODEL_CATALOG_VERSIONS);hullChecks(c,s.hull,path+".hull");
   for(const key of ['dryMassKg','heatCapacityJK','batteryCapacityJ','bufferCapacityJ','cargoCapacityM3','resources']as const)c.numericOrigins(s[key],s.origins,path+'.'+key,key);
   if(!c.list(s.instances,path+".instances"))return false;
   const ids=new Set<string>(),items:Record<string,ModuleItemV3>={};
   for(const[i,row]of s.instances.entries()){const p=path+".instances."+i;if(!c.exact(row,p,["id","item","enabled","builtin"],["slotId","role"]))continue;c.text(row.id,p+".id");if(ids.has(row.id))c.bad(p+".id","Повтор экземпляра");ids.add(row.id);c.flag(row.enabled,p+".enabled");c.flag(row.builtin,p+".builtin");itemChecks(c,row.item,p+".item");if(row.item)items[row.item.id]=row.item;}
-  const compiled=compileShipModelFit(s.fit,{version:CATALOG_V3,hulls:[s.hull],items,presets:{},presetOptions:[]});
+  const compiled=compileShipModelFit(s.fit,{version:s.catalogVersion,hulls:[s.hull],items,presets:{},presetOptions:[]});
   if(!compiled.ok)c.errors.push(...compiled.errors.map(e=>({...e,path:path+".fit."+e.path})));
   else for(const key of ["instances","materials","dryMassKg","heatCapacityJK","batteryCapacityJ","bufferCapacityJ","cargoCapacityM3","resources","surfaces"]as const)if(!same(s[key],compiled.value[key]))c.bad(path+"."+key,"Не соответствует installed roster и exclusive bill/stock/surface graph");
   if(c.list(s.surfaces,path+".surfaces")){const seen=new Set();for(const[i,surface]of s.surfaces.entries()){surfaceChecks(c,surface,path+".surfaces."+i);if(seen.has(surface?.id))c.bad(path+".surfaces","Повтор поверхности");seen.add(surface?.id);const owner=surface?.circuitOwner;if(owner?.kind==='pump-radiator'&&!s.instances.some(i=>i.id===owner.instanceId&&i.item.family==='pump-radiator'))c.bad(path+".surfaces."+i+".circuitOwner","Неизвестный владелец контура");}}
@@ -212,8 +212,14 @@ export function validateStateV3(input:unknown,ship:ResolvedShipV3):ValidationRes
 export function validateRunSpecV3(input:unknown):ValidationResult<RunSpecV3>{
   const c=new Check();try{
     if(!c.exact(input,'$',['schemaVersion','modelVersion','catalogVersion','units','approvedBaseline','resolvedShip','origins','environment','initialState','receiverProfile','observer','scenario','durationSeconds','stepSeconds']))return c.result(input as RunSpecV3);
-    const s=input as RunSpecV3;c.choice(s.schemaVersion,'schemaVersion',[SCHEMA_V3]);c.choice(s.modelVersion,'modelVersion',[MODEL_V3]);c.choice(s.catalogVersion,'catalogVersion',[CATALOG_V3]);c.choice(s.units,'units',['SI']);c.choice(s.approvedBaseline,'approvedBaseline',[false]);c.choice(s.receiverProfile,'receiverProfile',['positive-only','absolute-contrast']);c.choice(s.stepSeconds,'stepSeconds',[1]);c.number(s.durationSeconds,'durationSeconds',1,Infinity,true);
-    if(resolvedChecks(c,s.resolvedShip,'resolvedShip'))stateChecks(c,s.initialState,s.resolvedShip,'initialState');
+    const s=input as RunSpecV3;c.choice(s.schemaVersion,'schemaVersion',[SCHEMA_V3]);c.choice(s.modelVersion,'modelVersion',[MODEL_V3]);c.choice(s.catalogVersion,'catalogVersion',SHIP_MODEL_CATALOG_VERSIONS);c.choice(s.units,'units',['SI']);c.choice(s.approvedBaseline,'approvedBaseline',[false]);c.choice(s.receiverProfile,'receiverProfile',['positive-only','absolute-contrast']);c.choice(s.stepSeconds,'stepSeconds',[1]);c.number(s.durationSeconds,'durationSeconds',1,Infinity,true);
+    if(resolvedChecks(c,s.resolvedShip,'resolvedShip')){
+      if(s.resolvedShip.catalogVersion!==s.catalogVersion){
+        c.bad('catalogVersion','Версия опыта не совпадает с resolvedShip.catalogVersion');
+        c.bad('resolvedShip.catalogVersion','Версия resolvedShip не совпадает с catalogVersion опыта');
+      }
+      stateChecks(c,s.initialState,s.resolvedShip,'initialState');
+    }
     environmentChecks(c,s.environment,'environment');
     if(c.exact(s.observer,'observer',['presetId','rangeM','aspectDeg'])){c.choice(s.observer.presetId,'observer.presetId',OBSERVER_PRESET_IDS);c.positive(s.observer.rangeM,'observer.rangeM');c.number(s.observer.aspectDeg,'observer.aspectDeg',-Infinity);}
     if(c.exact(s.scenario,'scenario',['name','repeat','phases'])){c.text(s.scenario.name,'scenario.name');c.flag(s.scenario.repeat,'scenario.repeat');if(c.list(s.scenario.phases,'scenario.phases')){const ids=new Set();if(!s.scenario.phases.length)c.bad('scenario.phases','Нужна фаза');for(const[i,p]of s.scenario.phases.entries()){const path='scenario.phases.'+i;if(!c.exact(p,path,['id','action','durationSeconds','requests','environment'],['mode']))continue;if(p.mode!==undefined)c.choice(p.mode,path+'.mode',s.resolvedShip.hull.modes);c.text(p.id,path+'.id');if(ids.has(p.id))c.bad(path+'.id','Повтор фазы');ids.add(p.id);c.choice(p.action,path+'.action',['idle','work','maneuver','recovery']);c.number(p.durationSeconds,path+'.durationSeconds',1,Infinity,true);if(p.environment!==null)environmentChecks(c,p.environment,path+'.environment');if(!object(p.requests))c.bad(path+'.requests','Нужен record запросов');else for(const[id,duty]of Object.entries(p.requests)){c.number(duty,path+'.requests.'+id,0,1);if(!s.resolvedShip.instances.some(i=>i.id===id))c.bad(path+'.requests.'+id,'Неизвестный установленный instance');}}}}

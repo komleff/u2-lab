@@ -7,6 +7,15 @@ import {createFittingRun,runFittingChunk,fittingResult} from '../../src/runner/f
 const oldCatalog=loadCandidateCatalog('ship-fitting-0.2.5');
 const oldFit=getPresetFit('sputnik',oldCatalog.version);
 const upload=(text:string,name='ship.json')=>({name,mimeType:'application/json',buffer:Buffer.from(text)});
+test('Task2 compatibility selector stays on exactly three old IDs before and after current promotion',async({page})=>{
+  await page.goto('/?shipModel=experimental');
+  await expect(page.locator('#sm-preset')).toBeVisible();
+  const values=()=>page.locator('#sm-preset option').evaluateAll(options=>options.map(option=>(option as HTMLOptionElement).value));
+  expect(await values()).toEqual(['','sputnik','severin-mir','stealth-reference']);
+  await page.locator('#sm-source').click();await page.locator('#sm-preview').click();await page.locator('#sm-apply').click();
+  await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.1');
+  expect(await values()).toEqual(['','sputnik','severin-mir','stealth-reference']);
+});
 test('I1 switching models retains the same Lab header, navigation, sections and dock',async({page})=>{
   await page.goto('/');
   await expect(page.locator('#fit-status')).toBeVisible();

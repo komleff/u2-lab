@@ -14,23 +14,23 @@ it('direct model selection refuses the old fit; explicit preview/apply leaves so
   w.applyCompilation();w.selectModel();expect(w.fit!.schemaVersion).toBe('u2-ship-fit/2');expect(JSON.stringify(w.source)).toBe(source);
 });
 it('new run owns its immutable conditions; A/B keeps real module mass, category, delivered power and heat',()=>{
-  const w=workspace();w.loadPreset('stealth-reference');w.conditions.durationSeconds=2;const s=w.start('ui-A'),run=createShipModelRun('ui-A',s);runShipModelChunk(run,2);w.acceptResult(shipModelResult(run));
+  const w=workspace();w.loadPreset('stealth-reference','ship-fitting-0.3.0');w.conditions.durationSeconds=2;const s=w.start('ui-A'),run=createShipModelRun('ui-A',s);runShipModelChunk(run,2);w.acceptResult(shipModelResult(run));
   const a=w.result!;w.copyToB();w.setEnabled(a.spec.resolvedShip.instances.find(i=>i.item.family==='shielding')!.id,false);
   const next=w.start('ui-B'),b=createShipModelRun('ui-B',next);runShipModelChunk(b,2);w.acceptResult(shipModelResult(b));
   const html=shipModelComparison(a,w.result!);expect(html).toContain('sensors-thermal');expect(html).toContain('кг');expect(html).toContain('hostHeatW');expect(a.spec.resolvedShip.fit).not.toEqual(w.result!.spec.resolvedShip.fit);
   expect(shipModelResults(w.result!)).toContain('u2-lab/4');expect(shipModelResults(w.result!)).toContain('reference');expect(shipModelResults(w.result!)).not.toContain('гарантия скрытности');
 });
 it('native /4 import preserves measured checkpoint, resumes it, rejects future atomically and never migrates old results',()=>{
-  const w=workspace();w.loadPreset('sputnik');w.conditions.durationSeconds=3;const run=createShipModelRun('saved',w.start('saved'));runShipModelChunk(run,1);const saved=shipModelResult(run,'paused');
+  const w=workspace();w.loadPreset('sputnik','ship-fitting-0.3.0');w.conditions.durationSeconds=3;const run=createShipModelRun('saved',w.start('saved'));runShipModelChunk(run,1);const saved=shipModelResult(run,'paused');
   const opened=workspace();opened.importDocument(serializeResultSnapshot(saved));expect(opened.result).toEqual(saved);const checkpoint=opened.startCheckpoint('resume');expect(checkpoint.state).toEqual(saved.state);expect(checkpoint.runId).toBe('resume');
   const before=serializeResultSnapshot(opened.result!);const future=structuredClone(saved);future.state.stateVersion='future' as any;expect(()=>opened.importDocument(serializeResultSnapshot(future))).toThrow();expect(serializeResultSnapshot(opened.result!)).toBe(before);
   expect(()=>workspace().importDocument(JSON.stringify({schemaVersion:'u2-ship-fit/1'}))).toThrow(/стар|old|схем/i);
 });
 it('active test owns controls; equipment, copy and import cannot replace running/paused source',()=>{
-  const w=workspace();w.loadPreset('sputnik');w.start('active');expect(()=>w.loadPreset('mir')).toThrow(/тест/i);expect(()=>w.copyToB()).toThrow(/тест/i);expect(()=>w.setEnabled('fit:march',false)).toThrow(/тест/i);
+  const w=workspace();w.loadPreset('sputnik','ship-fitting-0.3.0');w.start('active');expect(()=>w.loadPreset('mir','ship-fitting-0.3.0')).toThrow(/тест/i);expect(()=>w.copyToB()).toThrow(/тест/i);expect(()=>w.setEnabled('fit:march',false)).toThrow(/тест/i);
 });
 it('UI maneuver asks the same installed march engine in Efficient and Masking; recovery is a distinct real task',()=>{
-  const w=workspace();w.loadPreset('stealth-reference');w.updateConditions({action:'maneuver',duty:0.7});const a=w.prepare();w.updateConditions({mode:'Masking'});const b=w.prepare();
+  const w=workspace();w.loadPreset('stealth-reference','ship-fitting-0.3.0');w.updateConditions({action:'maneuver',duty:0.7});const a=w.prepare();w.updateConditions({mode:'Masking'});const b=w.prepare();
   expect(a.scenario.phases[0].action).toBe('maneuver');expect(Object.keys(a.scenario.phases[0].requests)).toContain('fit:march');expect(a.scenario.phases[0].requests).toEqual(b.scenario.phases[0].requests);
   w.updateConditions({action:'recovery'});expect(w.prepare().scenario.phases[0].requests).toEqual({});
   w.updateConditions({action:'maneuver',maneuverRole:'turn'});expect(w.prepare().scenario.phases[0].requests).toEqual({'fit:turn':0.7});
@@ -40,7 +40,7 @@ it.each([
   ['only initial T',{temperatureK:310},false],
   ['only mode',{mode:'Masking' as const},false],
 ] as const)('measured A/B %s conditions show both initial T/mode without altering snapshots',(_,change,same)=>{
-  const w=workspace();w.loadPreset('stealth-reference');w.updateConditions({durationSeconds:1});
+  const w=workspace();w.loadPreset('stealth-reference','ship-fitting-0.3.0');w.updateConditions({durationSeconds:1});
   const runA=createShipModelRun('A',w.start('A'));runShipModelChunk(runA,1);w.acceptResult(shipModelResult(runA));
   const a=w.result!;w.copyToB();w.updateConditions(change);
   const runB=createShipModelRun('B',w.start('B'));runShipModelChunk(runB,1);w.acceptResult(shipModelResult(runB));
@@ -133,7 +133,7 @@ it.each(Object.keys(loadCandidateCatalog('ship-fitting-0.3.0').presets))('QA B3 
   expect(rows.every(row=>row.count>0)).toBe(true);expect(main).not.toContain('Контроль сигнатур: 0');if(id==='sputnik')expect(instances).toHaveLength(10);
 });
 it('QA B3 disabled installed instances and builtins stay in measured composition instead of disappearing',()=>{
-  const w=workspace();w.loadPreset('sputnik');w.setEnabled('fit:payload-1',false);w.setEnabled('builtin:electric-heater',false);w.updateConditions({durationSeconds:1});
+  const w=workspace();w.loadPreset('sputnik','ship-fitting-0.3.0');w.setEnabled('fit:payload-1',false);w.setEnabled('builtin:electric-heater',false);w.updateConditions({durationSeconds:1});
   const run=createShipModelRun('QA-disabled-roster',w.start('QA-disabled-roster'));runShipModelChunk(run,1);const r=shipModelResult(run);expect(r.spec.resolvedShip.instances.filter(i=>i.builtin)).toHaveLength(2);expect(r.spec.resolvedShip.instances.filter(i=>!i.enabled)).toHaveLength(2);
   expect(compositionRows(shipModelComparison(r,undefined))).toEqual([{label:'Полезная нагрузка',count:2},{label:'Двигатели',count:4},{label:'Питание',count:2},{label:'Сенсоры и тепло',count:2}]);
 });
