@@ -1,7 +1,7 @@
 ---
 title: "Ship model v0.1 внутри существующей U2 Lab UI4.8"
-status: proposed / affected Plan Review pending
-version: "1.0"
+status: proposed / affected Plan Review follow-up pending
+version: "1.1"
 date: 2026-10-11
 tags: [pm, product, ui, ship-model, telemetry, signatures, compatibility]
 related:
@@ -35,6 +35,10 @@ dependencies и без изменения принятых физических 
 **Спецификация:** `docs/plans/2026-10-10-ship-model-v0.1-update.md` v1.2,
 `docs/specs/spec_u2_lab_ship_model_v0.1.md` v0.11, current product owner
 `docs/product/ship-fitting-gd-workspace-v4.md` v0.9.
+
+**v1.1:** закрывает blocker `UI4I-PR-B1` первого affected Plan Review: exact
+signature statistics берутся из фактических sub-second production frames до
+секундного усреднения, а не из уже усреднённого `ShipSignal`.
 
 ## 1. Authority и границы решения
 
@@ -100,7 +104,7 @@ IN:
 - actual Worker Start/Pause/Step/Resume/Cancel/Restart/Repair;
 - overview/detail graphs, общий time selector, legend/group/hide, journal/events;
 - live stocks, thermal stages, buffer, per-instance work/durability/stops;
-- pre-retention saved IR/EM mean/min/max и UI48 A/B/range presentation;
+- pre-1s-aggregation saved IR/EM integral/mean/min/max и UI48 A/B/range presentation;
 - raw `/4` fit/run/result/checkpoint JSON и model-specific retained CSV;
 - desktop 1440, tablet 820, touch 390, literal legacy/new reopen/resume.
 
@@ -233,20 +237,31 @@ legend/table/chart/journal согласованы; long retention остаётс
 Файлы: `src/signatures/ship-model.ts`, `src/runner/ship-model-run.ts`,
 `src/io/ship-model-result.ts`, новый `src/io/ship-model-csv.ts`,
 `tests/signatures/ship-model-v0.1.test.ts`,
-`tests/model-v3/persistence.test.ts`, `tests/model-v3/ship-model-csv.test.ts`.
+`tests/model-v3/power-thermal-ledger.test.ts`, `tests/model-v3/persistence.test.ts`,
+`tests/model-v3/ship-model-csv.test.ts`.
 
-1. Fresh runs используют `ship-signatures/2`: `last` плюс versioned statistics
-   для actual `receiverIrW` и `observedEmW`. Accumulator получает authoritative
-   1 s production sample до retained aggregation и хранит duration/integral/
-   min/max/live, включая phases. Retained bins не являются источником stats.
-2. Checkpoint сохраняет accumulator; restore продолжает его без повторного учёта
-   последнего interval и без reroll. Full run и pause/export/import/resume дают
-   одинаковые stats.
+1. Fresh runs используют `ship-signatures/2`: совместимый секундный `last` плюс
+   versioned statistics для actual `receiverIrW` и `observedEmW`. Statistics
+   accumulator получает каждый frozen `step.frames` production interval до
+   `observeShipModelStep` и retained aggregation. Для каждого frame он применяет
+   тот же observer aspect/IR profile, а EM берёт как фактические
+   `escapedEmW + intentionalRfW`; хранит фактический `dt`, duration-weighted
+   integral/mean и min/max production values, включая границы phases. Ни
+   усреднённый 1 s `ShipSignal`, ни retained bins не являются источником extrema.
+2. Checkpoint сохраняет accumulator вместе с однозначной завершённой границей
+   production interval. Restore продолжает со следующего frame без повторного
+   учёта последнего interval и без reroll. Full run и pause/export/import/resume
+   дают одинаковые duration/integral/mean/min/max.
 3. Reader принимает старый `ship-signatures/1` буквально. Старый paused result
    продолжает v1 без синтетического прошлого; exact stats для него остаются
    unavailable и UI показывает «—». Никакого in-place upgrade/recompute.
 4. `/4` CSV экспортирует retained intervals, channel, unit, mean/min/max/count и
    schema/model/catalog/run metadata. JSON остаётся raw validated result.
+5. RED/green production fixture дробит одну секунду на ненулевой сигнал до
+   внутренней границы (включая CP-04 depletion около `0.45 s`) и иной сигнал после:
+   отдельно проверяются duration-weighted integral/mean и настоящий frame maximum.
+   Тот же результат сохраняется после retention merge и checkpoint continuation;
+   постоянный сигнал не считается достаточной проверкой extrema.
 
 Exit: UI48 mean/max воспроизводятся из сохранённого accumulator независимо от
 retention merge; malformed/mixed versions отклоняются atomically; old v1 literal
@@ -261,9 +276,10 @@ round-trip и resume сохраняются.
    recovery/buffer reachability, stops/repair и causal costs модулей.
 2. Frozen A и выбранный measured B показывают identity/revision/interval/stale,
    только изменившиеся conditions и отдельные passports/details.
-3. IR/EM comparison использует saved stats: mean/max power, reference range by
-   mean/max under each result's observer/profile, A/B/Δ. Missing v1 measurement —
-   «—», measured zero — `0`; различие условий не называется выигрышем/контактом.
+3. IR/EM comparison использует saved frame-level stats: duration-weighted mean и
+   production max power, reference range by mean/max under each result's
+   observer/profile, A/B/Δ. Missing v1 measurement — «—», measured zero — `0`;
+   различие условий не называется выигрышем/контактом.
 4. Old mission/SCU/paid-radar panels остаются byte/behavior-equivalent для old
    models. В `/4` вместо них показываются только actual work/reference-observer
    данные и явная граница модели.
@@ -296,8 +312,8 @@ assets-first/index-last с сохранением rollback record. Public Pages 
 | UI4I-05 | Active owner captured; draft variant/navigation не перенаправляет result/control. Paused locked. Frozen A — отдельный immutable measured snapshot; stale result остаётся доступен | Ownership unit/browser race cases |
 | UI4I-06 | Stable actual channels существуют с первого tick; selected time синхронизирует charts/table/journal, mean/min/max/count и units. Conditional TI не теряется и off не выдаётся за 0 K | Producer/retention tests + browser time/event chain |
 | UI4I-07 | Live/latest показывает charge/fuel/T/buffer/cascade/surfaces/work/R/stops/cooldown из `/4` state/telemetry; historical values не размножают latest snapshot | Selector tests + pause/step/live browser assertions |
-| UI4I-08 | Saved pre-retention IR/EM stats дают mean/max/ranges A/B; unequal observer/profile/T/mode/task/interval visibly limits comparison; zero ≠ missing; no earned-contact claim | Statistics unit + comparison DOM tests |
-| UI4I-09 | Fresh v2-signature checkpoint stats uninterrupted == pause/export/import/resume; old signature-v1 result remains literal/resumable with stats «—»; malformed mixed version rejected atomically | Persistence/IO fixtures + actual Worker resume |
+| UI4I-08 | Saved pre-1s-aggregation IR/EM stats дают duration-weighted mean, настоящий production-frame max и ranges A/B. Intra-second transition (CP-04 depletion) доказывает, что max не равен max секундных средних; unequal observer/profile/T/mode/task/interval visibly limits comparison; zero ≠ missing; no earned-contact claim | Frame statistics unit + comparison DOM tests |
+| UI4I-09 | Fresh v2-signature checkpoint stats uninterrupted == pause/export/import/resume по duration/integral/mean/min/max без повторного frame; те же extrema переживают retention merge. Old signature-v1 result остаётся literal/resumable с stats «—»; malformed mixed version rejected atomically | Intra-second persistence/IO fixtures + actual Worker resume |
 | UI4I-10 | JSON export raw/literal; `/4` CSV has model metadata/units/buckets. Reopen preserves fit/scenario/result/RNG/active continuation; no presentation adapter serialized | JSON digest and CSV round-trip tests |
 | UI4I-11 | 1440/820/390: open→swap→compound conditions→start→time/events/live→freeze A→B→compare→export accessible; page overflow 0, primary targets ≥44 px, no console errors | Playwright whole-user chains + screenshots |
 | UI4I-12 | Old `/1|2|3`, catalog0.2.x, mission/signature UI and stored fixtures unchanged; no fake SCU/flight/contact; normal project verify/type/build/browser PASS | Diff owner list, literal regressions, `.agents/project/verify.sh` |
@@ -314,7 +330,7 @@ QA/Code Review адресуют классы риска:
 - fit/scenario edit частично применяется после validation failure или async race;
 - conditional channel отсутствует, потому что его не было в первом tick;
 - inactive TI отображается как физические `0 K`;
-- retained mean выдаётся за exact saved signal maximum;
+- 1 s или retained mean выдаётся за exact production-frame signal maximum;
 - old `ship-signatures/1` незаметно upgraded/recomputed;
 - общий time selector рассинхронизирует chart/table/journal;
 - familiar shell показывает V2-derived SCU/contact как `/4` measurement;
