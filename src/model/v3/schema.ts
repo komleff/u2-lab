@@ -1,6 +1,6 @@
 import type { ValidationResult } from "../../catalog/schema";
 import type { CandidateCatalogV3, ResolvedInstanceV3, ResolvedShipV3, ShipFitV3, RunSpecV3, StateV3, EnvironmentV3, ModuleItemV3, HullV3, ThermalSurface } from "./types";
-import { CATALOG_V3, MODEL_V3, SCHEMA_V3 } from "./types";
+import { CATALOG_V3, SHIP_MODEL_CATALOG_VERSIONS, MODEL_V3, SCHEMA_V3 } from "./types";
 import type { FieldOrigin } from "../../fitting/types";
 import {OBSERVER_PRESET_IDS} from '../../signatures/presets';
 
@@ -90,15 +90,35 @@ function hullChecks(c:Check,input:unknown,path:string){
   if(c.list(h.builtins,path+".builtins")){const ids=new Set();h.builtins.forEach((b,i)=>{const p=path+".builtins."+i;if(!c.exact(b,p,["id","item"],["role"]))return;c.text(b.id,p+".id");if(ids.has(b.id))c.bad(p+".id","Повтор встроенного экземпляра");ids.add(b.id);itemChecks(c,b.item,p+".item");});}
   c.numericOrigins(h,h.origins,path);
 }
-export function validateCatalogV3(input:unknown):ValidationResult<CandidateCatalogV3>{const c=new Check();if(c.exact(input,"catalog",["version","hulls","items","presets"])){
-  c.choice(input.version,"catalog.version",[CATALOG_V3]);if(c.list(input.hulls,"catalog.hulls")){const ids=new Set();input.hulls.forEach((h:any,i:number)=>{hullChecks(c,h,"catalog.hulls."+i);if(ids.has(h?.id))c.bad("catalog.hulls."+i+".id","Повтор корпуса");ids.add(h?.id);});}
+export function validateCatalogV3(input:unknown):ValidationResult<CandidateCatalogV3>{const c=new Check();if(c.exact(input,"catalog",["version","hulls","items","presets"],["presetOptions"])){
+  c.choice(input.version,"catalog.version",SHIP_MODEL_CATALOG_VERSIONS);if(c.list(input.hulls,"catalog.hulls")){const ids=new Set();input.hulls.forEach((h:any,i:number)=>{hullChecks(c,h,"catalog.hulls."+i);if(ids.has(h?.id))c.bad("catalog.hulls."+i+".id","Повтор корпуса");ids.add(h?.id);});}
   if(!object(input.items))c.bad("catalog.items","Нужен inventory");else for(const[id,item]of Object.entries(input.items)){itemChecks(c,item,"catalog.items."+id);if(id!==(item as any)?.id)c.bad("catalog.items."+id+".id","Inventory key не совпадает с ID");}
   if(!object(input.presets))c.bad("catalog.presets","Нужны пресеты");
+  if(c.list(input.presetOptions,"catalog.presetOptions")) {
+    const ids=new Set<string>();
+    input.presetOptions.forEach((option:any,i:number)=>{
+      const path="catalog.presetOptions."+i;
+      if(!c.exact(option,path,["id","label"]))return;
+      c.text(option.id,path+".id");c.text(option.label,path+".label");
+      if(ids.has(option.id))c.bad(path+".id","Повтор пресета");
+      ids.add(option.id);
+      if(!object(input.presets)||!Object.hasOwn(input.presets,option.id))c.bad(path+".id","Нет пресета в этой edition");
+    });
+    if(object(input.presets))for(const id of Object.keys(input.presets))if(!ids.has(id))c.bad("catalog.presetOptions","Пресет отсутствует в manifest: "+id);
+  }
+  if(!c.errors.length)for(const[id,fit]of Object.entries(input.presets)){
+    const result=validateFitInCatalog(fit,input as CandidateCatalogV3,true);
+    if(!result.ok)c.errors.push(...result.errors.map(e=>({...e,path:"catalog.presets."+id+"."+e.path})));
+  }
 }return c.result(input as CandidateCatalogV3);}
 export function validateShipModelFit(input:unknown,catalog:CandidateCatalogV3,requireRunnable=false):ValidationResult<ShipFitV3>{
-  const c=new Check(),cv=validateCatalogV3(catalog);if(!cv.ok){c.errors.push(...cv.errors);return c.result(input as ShipFitV3);}
+  const cv=validateCatalogV3(catalog);
+  return cv.ok?validateFitInCatalog(input,catalog,requireRunnable):cv;
+}
+function validateFitInCatalog(input:unknown,catalog:CandidateCatalogV3,requireRunnable:boolean):ValidationResult<ShipFitV3>{
+  const c=new Check();
   if(!c.exact(input,"fit",["schemaVersion","fitRevision","catalogVersion","hullId","assignments","instances","localVariants","builtinModes","initial"]))return c.result(input as ShipFitV3);
-  const f=input as ShipFitV3;c.choice(f.schemaVersion,"schemaVersion",["u2-ship-fit/2"]);c.choice(f.catalogVersion,"catalogVersion",[CATALOG_V3]);c.number(f.fitRevision,"fitRevision",1,Infinity,true);
+  const f=input as ShipFitV3;c.choice(f.schemaVersion,"schemaVersion",["u2-ship-fit/2"]);c.choice(f.catalogVersion,"catalogVersion",[catalog.version]);c.number(f.fitRevision,"fitRevision",1,Infinity,true);
   const h=catalog.hulls?.find(h=>h.id===f.hullId);if(!h){c.bad("hullId","Неизвестный корпус");return c.result(f);}
   if(!object(f.assignments)||!object(f.instances)||!object(f.localVariants)||!object(f.builtinModes)){c.bad("fit","Нужны records fitting");return c.result(f);}
   for(const[id,item]of Object.entries(f.localVariants)){itemChecks(c,item,"localVariants."+id);if(item?.id!==id)c.bad("localVariants."+id+".id","Variant key не совпадает с ID");}
@@ -118,8 +138,6 @@ export function compileShipModelFit(input: unknown, catalog: CandidateCatalogV3)
   const fit = input as ShipFitV3;
   const validated = validateShipModelFit(input,catalog,true);
   if (!validated.ok) return validated;
-  if (fit?.schemaVersion !== "u2-ship-fit/2" || fit.catalogVersion !== CATALOG_V3 || catalog.version !== CATALOG_V3)
-    return { ok: false, errors: [{ path: "schemaVersion", code: "SHIP_MODEL_SCHEMA", message: "Нужна явная компиляция fitting в catalog 0.3.0" }] };
   const hull = structuredClone(catalog.hulls.find(h => h.id === fit.hullId));
   if (!hull) return { ok: false, errors: [{ path: "hullId", code: "HULL", message: "Неизвестный корпус" }] };
   const instances: ResolvedInstanceV3[] = hull.builtins.map(b => ({ id: b.id, item: structuredClone(b.item), enabled: fit.builtinModes[b.id]?.enabled ?? true, builtin: true, ...(b.role ? { role: b.role } : {}) }));
@@ -148,7 +166,7 @@ export function compileShipModelFit(input: unknown, catalog: CandidateCatalogV3)
   for(const[id]of Object.entries(bufferCapacityJ))origins['bufferCapacityJ.'+id]=derived('J','installed buffer capacityJ, сохраняется и в выключенном состоянии');
   for(const type of ['universal','bulk','liquid'])origins['cargoCapacityM3.'+type]=derived('m³','sum(installed cargo cargoM3 по типу)');
   for(const sp of ['diesel','hydrogen']){origins['resources.'+sp+'.capacityKg']=derived('kg','sum(enabled operating tank fuelCapacityKg)');origins['resources.'+sp+'.energyJKg']={kind:'experimental',unit:'J/kg',sourceRef:'src/fitting/compile.ts: frozen 0.2.x fuel energy anchor',note:'Явно перенесённый энергетический якорь Лабы, не новый канонический паспорт'};}
-  return { ok: true, value: structuredClone({ catalogVersion: CATALOG_V3, hull, fit, instances, materials, dryMassKg: materials.reduce((n,m) => n+m.massKg,0), heatCapacityJK: materials.reduce((n,m) => n+m.massKg*m.cpJKgK,0), batteryCapacityJ, bufferCapacityJ, cargoCapacityM3, resources, surfaces, origins }) };
+  return { ok: true, value: structuredClone({ catalogVersion: catalog.version, hull, fit, instances, materials, dryMassKg: materials.reduce((n,m) => n+m.massKg,0), heatCapacityJK: materials.reduce((n,m) => n+m.massKg*m.cpJKgK,0), batteryCapacityJ, bufferCapacityJ, cargoCapacityM3, resources, surfaces, origins }) };
 }
 
 function same(a: unknown,b:unknown): boolean {
@@ -162,7 +180,7 @@ function resolvedChecks(c:Check,input:unknown,path:string):input is ResolvedShip
   if(!c.list(s.instances,path+".instances"))return false;
   const ids=new Set<string>(),items:Record<string,ModuleItemV3>={};
   for(const[i,row]of s.instances.entries()){const p=path+".instances."+i;if(!c.exact(row,p,["id","item","enabled","builtin"],["slotId","role"]))continue;c.text(row.id,p+".id");if(ids.has(row.id))c.bad(p+".id","Повтор экземпляра");ids.add(row.id);c.flag(row.enabled,p+".enabled");c.flag(row.builtin,p+".builtin");itemChecks(c,row.item,p+".item");if(row.item)items[row.item.id]=row.item;}
-  const compiled=compileShipModelFit(s.fit,{version:CATALOG_V3,hulls:[s.hull],items,presets:{}});
+  const compiled=compileShipModelFit(s.fit,{version:CATALOG_V3,hulls:[s.hull],items,presets:{},presetOptions:[]});
   if(!compiled.ok)c.errors.push(...compiled.errors.map(e=>({...e,path:path+".fit."+e.path})));
   else for(const key of ["instances","materials","dryMassKg","heatCapacityJK","batteryCapacityJ","bufferCapacityJ","cargoCapacityM3","resources","surfaces"]as const)if(!same(s[key],compiled.value[key]))c.bad(path+"."+key,"Не соответствует installed roster и exclusive bill/stock/surface graph");
   if(c.list(s.surfaces,path+".surfaces")){const seen=new Set();for(const[i,surface]of s.surfaces.entries()){surfaceChecks(c,surface,path+".surfaces."+i);if(seen.has(surface?.id))c.bad(path+".surfaces","Повтор поверхности");seen.add(surface?.id);const owner=surface?.circuitOwner;if(owner?.kind==='pump-radiator'&&!s.instances.some(i=>i.id===owner.instanceId&&i.item.family==='pump-radiator'))c.bad(path+".surfaces."+i+".circuitOwner","Неизвестный владелец контура");}}

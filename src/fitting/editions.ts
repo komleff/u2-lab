@@ -3,17 +3,17 @@ import additions from "./data/modules-0.2.1.json" with { type: "json" };
 import medium from "./data/modules-0.2.3.json" with { type: "json" };
 import baseHulls from "./data/hulls.json" with { type: "json" };
 import shipModelItems from "./data/items-0.3.0.json" with { type: "json" };
+import currentShipModelItems from "./data/items-0.3.1.json" with { type: "json" };
+import { isShipModelCatalogVersion, CURRENT_SHIP_MODEL_CATALOG } from "../model/v3/types";
+export { isShipModelCatalogVersion } from "../model/v3/types";
 import type { CandidateCatalog, ModuleItem, ShipFit, HullProfile } from "./types";
 export function isKnownCatalogVersion(version: unknown): version is CandidateCatalog["version"] {
   return version === "ship-fitting-0.2.0" || version === "ship-fitting-0.2.1" || version === "ship-fitting-0.2.2" || version === "ship-fitting-0.2.3" || version === "ship-fitting-0.2.4" || version === "ship-fitting-0.2.5";
 }
 export function catalogHasItem(version: string, id: string) {
-  if (isShipModelCatalogVersion(version)) return Object.hasOwn(shipModelItems, id);
+  if (isShipModelCatalogVersion(version)) return Object.hasOwn(version === CURRENT_SHIP_MODEL_CATALOG ? currentShipModelItems : shipModelItems, id);
   return isKnownCatalogVersion(version) &&
     (Object.hasOwn(baseItems, id) || (version !== "ship-fitting-0.2.0" && Object.hasOwn(additions, id)) || (["ship-fitting-0.2.3","ship-fitting-0.2.4","ship-fitting-0.2.5"].includes(version) && Object.hasOwn(medium,id)));
-}
-export function isShipModelCatalogVersion(version: unknown): version is "ship-fitting-0.3.0" {
-  return version === "ship-fitting-0.3.0";
 }
 export function hullsForEdition(version: CandidateCatalog["version"]): HullProfile[] {
   if (version === "ship-fitting-0.2.5") {

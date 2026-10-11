@@ -3,6 +3,12 @@ import type { Species } from "../types";
 export const SCHEMA_V3 = "u2-lab/4" as const;
 export const MODEL_V3 = "ship-fitting-ship-model-0.1" as const;
 export const CATALOG_V3 = "ship-fitting-0.3.0" as const;
+export const SHIP_MODEL_CATALOG_VERSIONS = [CATALOG_V3, "ship-fitting-0.3.1"] as const;
+export type ShipModelCatalogVersion = typeof SHIP_MODEL_CATALOG_VERSIONS[number];
+export const CURRENT_SHIP_MODEL_CATALOG = SHIP_MODEL_CATALOG_VERSIONS[1];
+export function isShipModelCatalogVersion(value: unknown): value is ShipModelCatalogVersion {
+  return SHIP_MODEL_CATALOG_VERSIONS.some(version => version === value);
+}
 export type ShipClass = "Civilian" | "Industrial" | "Sport" | "Military" | "Stealth" | "UNKNOWN";
 export type ShipMode = "Efficient" | "Combat" | "Masking";
 export type ReceiverProfile = "positive-only" | "absolute-contrast";
@@ -40,15 +46,15 @@ export type HullV3 = {
   origins: Record<string, FieldOrigin>;
 };
 export type ShipFitV3 = {
-  schemaVersion: "u2-ship-fit/2"; fitRevision: number; catalogVersion: typeof CATALOG_V3;
+  schemaVersion: "u2-ship-fit/2"; fitRevision: number; catalogVersion: ShipModelCatalogVersion;
   hullId: string; assignments: Record<string, string>; instances: Record<string, ModuleInstance>;
   localVariants: Record<string, ModuleItemV3>; builtinModes: Record<string, { enabled: boolean; mode?: string }>;
   initial: { chargeFraction: number; fuelFraction: Record<Species, number> };
 };
-export type CandidateCatalogV3 = { version: typeof CATALOG_V3; hulls: HullV3[]; items: Record<string, ModuleItemV3>; presets: Record<string, ShipFitV3> };
+export type CandidateCatalogV3 = { version: ShipModelCatalogVersion; hulls: HullV3[]; items: Record<string, ModuleItemV3>; presets: Record<string, ShipFitV3>; presetOptions: readonly {id: string; label: string}[] };
 export type ResolvedInstanceV3 = { id: string; item: ModuleItemV3; enabled: boolean; builtin: boolean; slotId?: string; role?: PropulsionRole };
 export type ResolvedShipV3 = {
-  catalogVersion: typeof CATALOG_V3; hull: HullV3; fit: ShipFitV3; instances: ResolvedInstanceV3[];
+  catalogVersion: ShipModelCatalogVersion; hull: HullV3; fit: ShipFitV3; instances: ResolvedInstanceV3[];
   materials: Material[]; dryMassKg: number; heatCapacityJK: number; batteryCapacityJ: number;
   bufferCapacityJ: Record<string, number>; cargoCapacityM3: { universal: number; bulk: number; liquid: number };
   resources: Record<Species, { capacityKg: number; energyJKg: number; tankIds: string[]; consumerIds: string[] }>;
@@ -73,7 +79,7 @@ export type StateV3 = {
   rng: { algorithm: "xorshift32/1"; seed: number; state: number };
 };
 export type RunSpecV3 = {
-  schemaVersion: typeof SCHEMA_V3; modelVersion: typeof MODEL_V3; catalogVersion: typeof CATALOG_V3;
+  schemaVersion: typeof SCHEMA_V3; modelVersion: typeof MODEL_V3; catalogVersion: ShipModelCatalogVersion;
   units: "SI"; approvedBaseline: false; resolvedShip: ResolvedShipV3; origins: Record<string, FieldOrigin>;
   environment: EnvironmentV3; initialState: StateV3; receiverProfile: ReceiverProfile;
   observer: { presetId: string; rangeM: number; aspectDeg: number };

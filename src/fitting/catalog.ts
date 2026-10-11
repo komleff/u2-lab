@@ -8,7 +8,12 @@ import medium from "./data/modules-0.2.3.json" with { type: "json" };
 import shipModelHulls from "./data/hulls-0.3.0.json" with { type: "json" };
 import shipModelItems from "./data/items-0.3.0.json" with { type: "json" };
 import shipModelPresets from "./data/presets-0.3.0.json" with { type: "json" };
-import { CATALOG_V3, type CandidateCatalogV3, type ShipFitV3 } from "../model/v3/types";
+import currentShipModelHulls from "./data/hulls-0.3.1.json" with { type: "json" };
+import currentShipModelItems from "./data/items-0.3.1.json" with { type: "json" };
+import currentShipModelPresets from "./data/presets-0.3.1.json" with { type: "json" };
+import currentShipModelManifest from "./data/preset-manifest-0.3.1.json" with { type: "json" };
+import { isShipModelCatalogVersion, CURRENT_SHIP_MODEL_CATALOG, type ShipModelCatalogVersion, type CandidateCatalogV3, type ShipFitV3 } from "../model/v3/types";
+import { validateCatalogV3 } from "../model/v3/schema";
 import type {
   CandidateCatalog,
   FieldOrigin,
@@ -16,10 +21,18 @@ import type {
   ShipFit,
 } from "./types";
 export function loadCandidateCatalog(version?: CandidateCatalog["version"]): CandidateCatalog;
-export function loadCandidateCatalog(version: typeof CATALOG_V3): CandidateCatalogV3;
+export function loadCandidateCatalog(version: ShipModelCatalogVersion): CandidateCatalogV3;
 export function loadCandidateCatalog(version?: CandidateCatalog["version"]): CandidateCatalog;
-export function loadCandidateCatalog(version: CandidateCatalog["version"] | typeof CATALOG_V3 = "ship-fitting-0.2.3"): CandidateCatalog | CandidateCatalogV3 {
-  if (version === CATALOG_V3) return structuredClone({ version, hulls: shipModelHulls, items: shipModelItems, presets: shipModelPresets }) as unknown as CandidateCatalogV3;
+export function loadCandidateCatalog(version: CandidateCatalog["version"] | ShipModelCatalogVersion = "ship-fitting-0.2.3"): CandidateCatalog | CandidateCatalogV3 {
+  if (isShipModelCatalogVersion(version)) {
+    const checked = validateCatalogV3(version === CURRENT_SHIP_MODEL_CATALOG
+    ? { version, hulls: currentShipModelHulls, items: currentShipModelItems, presets: currentShipModelPresets, presetOptions: currentShipModelManifest }
+    : { version, hulls: shipModelHulls, items: shipModelItems, presets: shipModelPresets, presetOptions: [
+      {id:"sputnik",label:"Спутник"}, {id:"severin-mir",label:"Мир"}, {id:"stealth-reference",label:"Стелс-сборка"},
+    ] });
+    if (!checked.ok) throw new Error("Невалидный каталог " + version + ": " + JSON.stringify(checked.errors));
+    return checked.value;
+  }
   if (!isKnownCatalogVersion(version)) throw new Error("Неизвестная версия каталога: " + version);
   return structuredClone({
     version,
@@ -28,11 +41,12 @@ export function loadCandidateCatalog(version: CandidateCatalog["version"] | type
   }) as unknown as CandidateCatalog;
 }
 export function getPresetFit(id: string, version?: CandidateCatalog["version"]): ShipFit;
-export function getPresetFit(id: string, version: typeof CATALOG_V3): ShipFitV3;
+export function getPresetFit(id: string, version: ShipModelCatalogVersion): ShipFitV3;
 export function getPresetFit(id: string, version?: CandidateCatalog["version"]): ShipFit;
-export function getPresetFit(id: string, version: CandidateCatalog["version"] | typeof CATALOG_V3 = "ship-fitting-0.2.3"): ShipFit | ShipFitV3 {
-  if (version === CATALOG_V3) {
-    const fit = (shipModelPresets as Record<string, unknown>)[id];
+export function getPresetFit(id: string, version: CandidateCatalog["version"] | ShipModelCatalogVersion = "ship-fitting-0.2.3"): ShipFit | ShipFitV3 {
+  if (isShipModelCatalogVersion(version)) {
+    const presets = loadCandidateCatalog(version).presets;
+    const fit = Object.hasOwn(presets, id) ? presets[id] : undefined;
     if (!fit) throw new Error("Неизвестная ship-model сборка: " + id);
     return structuredClone(fit) as ShipFitV3;
   }
