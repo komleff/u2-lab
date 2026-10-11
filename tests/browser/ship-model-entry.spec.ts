@@ -7,6 +7,18 @@ import {createFittingRun,runFittingChunk,fittingResult} from '../../src/runner/f
 const oldCatalog=loadCandidateCatalog('ship-fitting-0.2.5');
 const oldFit=getPresetFit('sputnik',oldCatalog.version);
 const upload=(text:string,name='ship.json')=>({name,mimeType:'application/json',buffer:Buffer.from(text)});
+test('I1 switching models retains the same Lab header, navigation, sections and dock',async({page})=>{
+  await page.goto('/');
+  await expect(page.locator('#fit-status')).toBeVisible();
+  const selectors=['.ui-header','nav[aria-label="Разделы"]','.ui-main','#workspace-fitting','#workspace-conditions','#workspace-compare','#workspace-controls','footer'];
+  await page.evaluate(selectors=>{(window as any).shellNodes=selectors.map(selector=>document.querySelector(selector));},selectors);
+  await page.locator('#ship-model-open').click();await expect(page.locator('#sm-entry')).toBeVisible();
+  for(const selector of ['header','main','footer','nav[aria-label="Разделы"]','.ui-controls'])await expect(page.locator(selector)).toHaveCount(1);
+  expect(await page.evaluate(selectors=>selectors.every((selector,i)=>document.querySelector(selector)===(window as any).shellNodes[i]),selectors)).toBe(true);
+  await page.getByRole('link',{name:'Графики',exact:true}).click();await expect(page.locator('#workspace-charts')).toBeVisible();
+  await page.locator('#sm-back').click();await page.locator('#sm-leave-confirm').click();await expect(page.locator('#fit-status')).toBeVisible();
+  expect(await page.evaluate(selectors=>selectors.every((selector,i)=>document.querySelector(selector)===(window as any).shellNodes[i]),selectors)).toBe(true);
+});
 test('visible entry compiles the actual old Sputnik with unique UI-prefill, then real Worker completes',async({page})=>{
   await page.goto('/?shipModel=experimental');
   await expect(page.getByRole('heading',{name:'Открыть корабль',exact:true})).toBeVisible();
