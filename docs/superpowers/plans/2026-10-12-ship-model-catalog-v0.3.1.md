@@ -69,24 +69,29 @@
 **Files:**
 
 - Modify: `src/model/v3/types.ts`
+- Modify: `src/model/v3/schema.ts` (catalog shape/version acceptance)
 - Modify: `src/fitting/catalog.ts`
 - Modify: `src/fitting/editions.ts`
+- Modify: `src/fitting/compile.ts`
+- Modify: `src/fitting/validate.ts`
 - Create: `src/fitting/data/hulls-0.3.1.json`
 - Create: `src/fitting/data/items-0.3.1.json`
 - Create: `src/fitting/data/presets-0.3.1.json`
 - Create: `src/fitting/data/preset-manifest-0.3.1.json`
 - Create: `tests/fitting/catalog-0.3.1.test.ts`
 - Create: `tests/fitting/catalog-0.3.1-routing.test.ts`
+- Modify: `tests/model-v3/schema.test.ts`
 
 **Interfaces:**
 
 - Produces: `ShipModelCatalogVersion`, `CURRENT_SHIP_MODEL_CATALOG`, `isShipModelCatalogVersion(value)`, and fail-closed `loadCandidateCatalog(version)` / `getPresetFit(id, version)` for 0.3.0 and 0.3.1.
 - Produces: `CandidateCatalogV3.presetOptions: readonly {id:string;label:string}[]`, 14 versioned presets and only S/M 0.3.1 assets.
+- Produces: public `compileFit` / `validateFit` dispatch for every supported V3 version; legacy promotion stamps `targetCatalog.version`.
 - Consumes: unchanged 0.3.0 assets and exact old sources named in spec §3.
 
 - [ ] **Step 1: Write the failing version, manifest and composition tests**
 
-  Assert the supported version tuple is exactly `['ship-fitting-0.3.0','ship-fitting-0.3.1']`, current is 0.3.1, unknown versions fail closed, and 0.3.0 assets/digests are unchanged. Assert exact ordered IDs/labels, exactly 14 presets, no L size, every manifest ID resolves once, and every new preset is stamped 0.3.1.
+  Assert the supported version tuple is exactly `['ship-fitting-0.3.0','ship-fitting-0.3.1']`, current is 0.3.1, unknown versions fail closed, and 0.3.0 assets/digests are unchanged. Assert exact ordered IDs/labels, exactly 14 presets, no L size, every manifest ID resolves once, and every new preset is stamped 0.3.1. Pass 0.3.1 fits through the public `validateFit` and `compileFit` entrypoints, not only direct V3 helpers.
 
 - [ ] **Step 2: Add failing identity tests for all configurations**
 
@@ -98,28 +103,28 @@
 
   Expected: FAIL because 0.3.1 types/assets/routing are absent.
 
-- [ ] **Step 4: Implement the version union and fail-closed loader**
+- [ ] **Step 4: Implement the version union and every public dispatch boundary**
 
-  Replace the singleton version type with explicit previous/current literals. Route catalog and preset loading by the requested version; never fall back to current. Keep the old assets byte/content equivalent.
+  Replace the singleton version type with explicit previous/current literals. Route catalog/preset loading plus `compileFit` and `validateFit` through `isShipModelCatalogVersion`; never fall back to legacy/current based on one literal. In `compileFitToShipModelV01`, stamp the new fit with `targetCatalog.version` and name that version in template errors. Keep old assets byte/content equivalent.
 
 - [ ] **Step 5: Add versioned data with field-level provenance**
 
   Port exact legacy identities; add only V3-required candidate fields via the source order in spec §5. Do not edit 0.3.0/0.2.5 assets. Every hull/item/preset must pass existing material, gate, durability, signature, slot, power/fuel and origin validation.
 
-- [ ] **Step 6: Wire the versioned manifest**
+- [ ] **Step 6: Wire and validate the versioned manifest**
 
-  Load the four 0.3.1 assets only for version 0.3.1. Keep the 0.3.0 preset names/order as a separate literal compatibility manifest.
+  Load the four 0.3.1 assets only for version 0.3.1. Extend `validateCatalogV3` to accept and validate `presetOptions`: exact keys, unique IDs, non-empty labels and one-to-one membership with `presets`. Keep the 0.3.0 preset names/order as a separate literal compatibility manifest.
 
 - [ ] **Step 7: Run compile and source-fidelity tests**
 
   Run: `npx vitest run tests/fitting/catalog-0.3.1-routing.test.ts tests/fitting/catalog-0.3.1.test.ts tests/fitting/catalog-0.3.0.test.ts tests/fitting/source-fidelity.test.ts tests/model-v3/schema.test.ts`
 
-  Expected: PASS.
+  Expected: PASS, including public compile/validate of 0.3.1 and legacy promotion into a 0.3.1 target.
 
 - [ ] **Step 8: Commit**
 
   ```bash
-  git add src/model/v3/types.ts src/fitting/catalog.ts src/fitting/editions.ts src/fitting/data/hulls-0.3.1.json src/fitting/data/items-0.3.1.json src/fitting/data/presets-0.3.1.json src/fitting/data/preset-manifest-0.3.1.json tests/fitting/catalog-0.3.1.test.ts tests/fitting/catalog-0.3.1-routing.test.ts
+  git add src/model/v3/types.ts src/model/v3/schema.ts src/fitting/catalog.ts src/fitting/editions.ts src/fitting/compile.ts src/fitting/validate.ts src/fitting/data/hulls-0.3.1.json src/fitting/data/items-0.3.1.json src/fitting/data/presets-0.3.1.json src/fitting/data/preset-manifest-0.3.1.json tests/fitting/catalog-0.3.1.test.ts tests/fitting/catalog-0.3.1-routing.test.ts tests/model-v3/schema.test.ts
   git commit -m "feat(ship-model): add exact versioned catalog 0.3.1"
   ```
 
