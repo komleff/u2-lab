@@ -77,3 +77,12 @@ test('QA B2 actual mobile Chromium touch390x844 keeps every Compare number+unit 
     const evidence={a:a.runId,b:b.runId,geometry,expanded,errors},path=info.outputPath('qa-touch-geometry-390.json');writeFileSync(path,JSON.stringify(evidence,null,2)+'\n');await info.attach('qa-touch-number-unit-geometry',{path,contentType:'application/json'});
   }finally{await context.close();}
 });
+test('QA B3 fresh actual Sputnik Compare accounts for all10 installed modules including both sensors-thermal without phantom legacy categories',async({page})=>{
+  const {a,b,bText,save}=await qaMeasuredPair(page);expect(a.spec.resolvedShip.instances).toHaveLength(10);expect(a.spec.resolvedShip.instances.filter((i:any)=>i.item.category==='sensors-thermal')).toHaveLength(2);
+  for(const [side,result]of [['a',a],['b',b]] as const){
+    const p=page.locator('#sm-comparison-'+side+' > p').filter({hasText:/^Состав/});await expect(p).toContainText('Сенсоры и тепло: 2');await expect(p).not.toContainText('Контроль сигнатур: 0');
+    const rows=(await p.textContent())!.split(' · ').slice(1).map(row=>{const match=row.match(/^(.+): (\d+)$/);return {label:match?.[1],count:Number(match?.[2])};});
+    expect(rows).toEqual([{label:'Полезная нагрузка',count:2},{label:'Двигатели',count:4},{label:'Питание',count:2},{label:'Сенсоры и тепло',count:2}]);expect(rows.reduce((n,row)=>n+row.count,0)).toBe(result.spec.resolvedShip.instances.length);
+  }
+  await expect(page.locator('#workspace-compare details[open]')).toHaveCount(0);expect(await save()).toBe(bText);
+});

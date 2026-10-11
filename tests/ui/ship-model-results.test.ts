@@ -119,3 +119,26 @@ it('Compare preserves one visible condition-group owner when several observer le
   const a=cp04Result(),b=structuredClone(a);b.spec.observer.aspectDeg=0;b.spec.observer.rangeM=20000;
   const html=shipModelComparison(a,b);expect([...html.matchAll(/data-condition="observer"/g)]).toHaveLength(1);expect(mainLayer(html)).toContain('Ракурс: A 180° → B 0°');expect(mainLayer(html)).toContain('Дальность наблюдателя');
 });
+function compositionRows(html:string){
+  const text=html.match(/<p>Состав · ([\s\S]*?)<\/p>/)?.[1].replace(/<[^>]*>/g,'')??'';
+  return text.split(' · ').map(row=>{const match=row.match(/^(.+): (\d+)$/);return {label:match?.[1],count:Number(match?.[2])};});
+}
+const categoryLabels:Record<string,string>={payload:'Полезная нагрузка',propulsion:'Двигатели',power:'Питание','sensors-thermal':'Сенсоры и тепло'};
+it.each(Object.keys(loadCandidateCatalog('ship-fitting-0.3.0').presets))('QA B3 %s compact composition includes every actual V3 category exactly once, with no phantom legacy zero',id=>{
+  const spec=fixture(id),run=createShipModelRun('QA-roster-'+id,spec);runShipModelChunk(run,1);const r=shipModelResult(run,'paused'),html=shipModelComparison(r,undefined),main=mainLayer(html);
+  expect(main).toContain('Сенсоры и тепло: '+(id==='stealth-reference'?5:2));
+  const rows=compositionRows(html),instances=r.spec.resolvedShip.instances,categories=[...new Set(instances.map(i=>i.item.category))];
+  expect(rows).toHaveLength(categories.length);expect(rows.reduce((n,row)=>n+row.count,0)).toBe(instances.length);
+  for(const category of categories)expect(rows.filter(row=>row.label===categoryLabels[category])).toEqual([{label:categoryLabels[category],count:instances.filter(i=>i.item.category===category).length}]);
+  expect(rows.every(row=>row.count>0)).toBe(true);expect(main).not.toContain('Контроль сигнатур: 0');if(id==='sputnik')expect(instances).toHaveLength(10);
+});
+it('QA B3 disabled installed instances and builtins stay in measured composition instead of disappearing',()=>{
+  const w=workspace();w.loadPreset('sputnik');w.setEnabled('fit:payload-1',false);w.setEnabled('builtin:electric-heater',false);w.updateConditions({durationSeconds:1});
+  const run=createShipModelRun('QA-disabled-roster',w.start('QA-disabled-roster'));runShipModelChunk(run,1);const r=shipModelResult(run);expect(r.spec.resolvedShip.instances.filter(i=>i.builtin)).toHaveLength(2);expect(r.spec.resolvedShip.instances.filter(i=>!i.enabled)).toHaveLength(2);
+  expect(compositionRows(shipModelComparison(r,undefined))).toEqual([{label:'Полезная нагрузка',count:2},{label:'Двигатели',count:4},{label:'Питание',count:2},{label:'Сенсоры и тепло',count:2}]);
+});
+it('QA B3 unknown categories get an escaped truthful fallback and deterministic order independent of roster ordering',()=>{
+  const run=createShipModelRun('QA-future-roster',fixture());runShipModelChunk(run,1);const r=shipModelResult(run,'paused');Object.assign(r.spec.resolvedShip.instances[0].item,{category:'z-future<&>'});Object.assign(r.spec.resolvedShip.instances[1].item,{category:'a-future'});
+  const before=serializeResultSnapshot(r),html=shipModelComparison(r,undefined),rows=compositionRows(html);expect(rows.map(row=>row.label)).toEqual(['Полезная нагрузка','Двигатели','Питание','Сенсоры и тепло','a-future','z-future&lt;&amp;&gt;']);expect(rows.reduce((n,row)=>n+row.count,0)).toBe(10);expect(html).not.toContain('<&>');expect(serializeResultSnapshot(r)).toBe(before);
+  const reversed=structuredClone(r);reversed.spec.resolvedShip.instances.reverse();expect(compositionRows(shipModelComparison(reversed,undefined))).toEqual(rows);
+});

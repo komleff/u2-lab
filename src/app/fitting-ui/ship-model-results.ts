@@ -1,5 +1,6 @@
 import type {RunResultV3} from '../../runner/ship-model-run';
-import {esc,num,compactSI,groupNames} from './presentation';
+import type {CategoryV3} from '../../model/v3/types';
+import {esc,num,compactSI} from './presentation';
 import {passiveDetectionReachM} from './signature-distance';
 import {OBSERVER_PRESET_IDS} from '../../signatures/presets';
 
@@ -36,8 +37,16 @@ export function shipModelResults(r:RunResultV3){
   <details id="sm-ledger"><summary>Ledger, формулы и origins</summary><p>IR field contact не является radiation. Frozen kernel EM split не пересчитывается adapter.</p><pre>${esc(JSON.stringify({telemetry:t,signatures:r.signatures,origins:r.spec.origins},null,2))}</pre></details></section>`;
 }
 export type ShipModelComparisonContext={sourceVariant?:'A'|'B';selectedVariant?:'A'|'B';frozenStale?:boolean;bStale?:boolean};
+const compositionNames:Record<CategoryV3,string>={payload:'Полезная нагрузка',propulsion:'Двигатели',power:'Питание','sensors-thermal':'Сенсоры и тепло'};
+const compositionLabels=new Map<string,string>(Object.entries(compositionNames));
+function compactComposition(r:RunResultV3){
+  const counts=new Map<string,number>();
+  for(const i of r.spec.resolvedShip.instances)counts.set(i.item.category,(counts.get(i.item.category)??0)+1);
+  const order=[...compositionLabels.keys()],rank=(category:string)=>{const index=order.indexOf(category);return index<0?order.length:index;};
+  return [...counts].sort(([a],[b])=>rank(a)-rank(b)||(a<b?-1:a>b?1:0)).map(([category,count])=>`${compositionLabels.get(category)??category}: ${count}`).join(' · ');
+}
 function passport(r:RunResultV3|undefined,side:'a'|'b',variant:string,stale:boolean){
-  const composition=r?(Object.keys(groupNames) as (keyof typeof groupNames)[]).map(category=>`${groupNames[category]}: ${r.spec.resolvedShip.instances.filter(i=>i.item.category===category).length}`).join(' · '):'';
+  const composition=r?compactComposition(r):'';
   const measured=r?{runId:r.runId,modelVersion:r.spec.modelVersion,revision:r.spec.resolvedShip.fit.fitRevision,status:r.status,partial:r.status!=='complete',stale,interval:[r.spec.initialState.timeSeconds,r.state.timeSeconds],signatures:r.signatures,state:{timeSeconds:r.state.timeSeconds,mode:r.state.mode,temperatureK:r.state.temperatureK,chargeJ:r.state.chargeJ,fuelKg:r.state.fuelKg,buffers:r.state.buffers,governor:r.state.governor}}:undefined;
   return `<article id="sm-comparison-${side}" data-run-id="${esc(r?.runId??'')}" data-stale="${stale}"><h3>${side==='a'?'Frozen A':'Выбранный B'} · источник ${variant}</h3>${r?`<p>${esc(r.spec.resolvedShip.hull.label)} · ревизия ${r.spec.resolvedShip.fit.fitRevision} · ${esc(r.status)}${r.status==='complete'?'':' / частичный'} · измерено ${bound(num(r.spec.initialState.timeSeconds)+'–'+num(r.state.timeSeconds,'с'))}</p><p>Состав · ${esc(composition)}</p><p>${stale?'Устарело относительно черновика источника; сохранённые bytes неизменны.':'Соответствует черновику источника.'}</p><details class="measured-passport"><summary>Отдельный паспорт измерения · ${side.toUpperCase()}</summary><p>run ${esc(r.runId)} · ${esc(r.spec.schemaVersion)} / ${esc(r.spec.modelVersion)} · масса ${bound(num(r.spec.resolvedShip.dryMassKg,'кг'))} · C ${bound(num(r.spec.resolvedShip.heatCapacityJK,'J/K'))} · работа ${bound(compactSI(r.metrics.usefulWorkJ,'J'))} · hostHeatW ${bound(compactSI(r.checkpoint.lastTelemetry.hostHeatW,'W'))}</p><p>Начальная T: ${bound(num(r.spec.initialState.temperatureK,'K'))} · режим: ${esc(r.spec.initialState.mode)} · фон ${bound(num(r.spec.environment.radiativeBackgroundK,'K'))} · ${esc(r.spec.receiverProfile)} · observer ${esc(r.spec.observer.presetId)} / ${bound(num(r.spec.observer.rangeM,'м'))} / ${bound(num(r.spec.observer.aspectDeg,'°'))}</p>${moduleCosts(r)}<pre data-measured-passport>${esc(JSON.stringify(measured,null,2))}</pre><h4>Raw snapshot · полные входные условия ${side.toUpperCase()}</h4><pre data-raw-spec>${esc(JSON.stringify(r.spec,null,2))}</pre><p>Retained trace и checkpoint находятся в raw result JSON export, не дублируются в DOM.</p></details>`:side==='a'?'<p>Frozen A: эталон ещё не зафиксирован.</p>':'<p>Выбранный B: нет измерения.</p>'}</article>`;
 }
