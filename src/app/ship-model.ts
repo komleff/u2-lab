@@ -19,7 +19,7 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
   let error='',runId='',commandId=0,ack='',revision=0,fileRead=0,mounted=true;
   let leaving:{text?:string;label:string;revision:number}|undefined;
   const pending=new Map<number,Control>();
-  let freezeRunId:string|undefined;
+  let pendingFreeze:{runId:string;commandId:number}|undefined,snapshotCommandId:number|undefined;
   const sourceCompiled=compileFit(w.source,w.sourceCatalog);
   const templates=Object.fromEntries(Object.entries(w.source.localVariants).map(([id,item])=>{
     const compatible=Object.values(w.catalog.items).filter(t=>t.thermalRole==='ordinary'&&t.family===item.family&&t.size===item.size&&t.formFactor===item.formFactor&&t.propulsionType===item.propulsionType&&t.species===item.species);
@@ -27,7 +27,7 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
   }));
   const el=<T extends HTMLElement=HTMLElement>(id:string)=>root.querySelector<T>('#'+id);
   const act=(fn:()=>void,mutates=true)=>{try{fn();if(mutates)revision++;error='';}catch(e){error=String(e);}if(mounted)render();};
-  const send=(type:Control,payload?:unknown)=>{const id=++commandId;pending.set(id,type);worker.postMessage({runId,commandId:id,type,payload});};
+  const send=(type:Control,payload?:unknown)=>{const id=++commandId;pending.set(id,type);worker.postMessage({runId,commandId:id,type,payload});return id;};
   const download=(name:string,text:string)=>{const url=URL.createObjectURL(new Blob([text],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
   const bind=(id:string,fn:()=>void,mutates=true)=>{const node=el(id);if(node)node.onclick=()=>act(fn,mutates);};
   function requestLeave(text?:string,label='старая модель · редактор оснастки'){
@@ -72,7 +72,7 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
     bind('sm-source',()=>{el<HTMLDetailsElement>('sm-compilation')!.open=true;el('sm-compilation')!.scrollIntoView({block:'nearest'});},false);
     for(const select of root.querySelectorAll<HTMLSelectElement>('[data-sm-template]'))select.onchange=()=>act(()=>{templates[select.dataset.smTemplate!].value=select.value;w.preview=undefined;});
     bind('sm-preview',()=>w.previewCompilation(Object.fromEntries(Object.entries(templates).map(([id,t])=>[id,t.value]))));bind('sm-apply',()=>w.applyCompilation());bind('sm-copy',()=>w.copyToB());
-    bind('sm-freeze',()=>{if(w.active?.status==='paused'){freezeRunId=w.active.runId;send('snapshot');}else if(!w.freeze())throw Error('Эталон доступен для завершённого или paused текущего измерения.');});
+    bind('sm-freeze',()=>{if(w.active?.status==='paused'){pendingFreeze={runId:w.active.runId,commandId:send('snapshot')};}else if(!w.freeze())throw Error('Эталон доступен для завершённого или paused текущего измерения.');});
     el<HTMLSelectElement>('sm-preset')!.onchange=()=>act(()=>{const value=el<HTMLSelectElement>('sm-preset')!.value;if(value)w.loadPreset(value);});el<HTMLSelectElement>('sm-variant')!.onchange=()=>act(()=>w.selectVariant(el<HTMLSelectElement>('sm-variant')!.value as 'A'|'B'));
     el<HTMLSelectElement>('sm-mode')!.onchange=()=>act(()=>w.updateConditions({mode:el<HTMLSelectElement>('sm-mode')!.value as ShipMode}));el<HTMLSelectElement>('sm-profile')!.onchange=()=>act(()=>w.updateConditions({receiverProfile:el<HTMLSelectElement>('sm-profile')!.value as ReceiverProfile}));
     el<HTMLSelectElement>('sm-action')!.onchange=()=>act(()=>w.updateConditions({action:el<HTMLSelectElement>('sm-action')!.value as 'work'|'maneuver'|'recovery'|'idle'}));el<HTMLInputElement>('sm-duty')!.onchange=()=>act(()=>w.updateConditions({duty:Number(el<HTMLInputElement>('sm-duty')!.value)}));
@@ -94,9 +94,10 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
       input.value='';render();
     };
   }
-  worker.onmessage=({data:m})=>{if(!mounted||m.runId!==runId)return;if(m.type==='control-ack'){if(pending.get(m.commandId)!==m.control)return;pending.delete(m.commandId);ack=m.control+' ACK';if(m.control==='pause'||m.control==='step')w.setStatus('paused');if(m.control==='resume')w.setStatus('running');if(['pause','restart','repair'].includes(m.control))send('snapshot');}
+  // Protocol отправляет snapshot сразу после ACK snapshot/cancel: commandId берём из этой пары.
+  worker.onmessage=({data:m})=>{if(!mounted||m.runId!==runId)return;if(m.type==='control-ack'){if(pending.get(m.commandId)!==m.control)return;pending.delete(m.commandId);ack=m.control+' ACK';if(m.control==='snapshot'||m.control==='cancel')snapshotCommandId=m.commandId;if(m.control==='pause'||m.control==='step')w.setStatus('paused');if(m.control==='resume')w.setStatus('running');if(['pause','restart','repair'].includes(m.control))send('snapshot');}
     else if(m.type==='chunk'){const {telemetry,...snapshot}=m.payload;w.acceptResult(snapshot);worker.postMessage({runId,type:'telemetry-ack',chunkId:m.chunkId});}
-    else if(m.type==='complete'||m.type==='snapshot'){const accepted=w.acceptResult(m.payload);if(accepted&&m.type==='snapshot'&&freezeRunId===m.runId){w.freeze();freezeRunId=undefined;}}
+    else if(m.type==='complete'||m.type==='snapshot'){const requestId=m.type==='snapshot'?snapshotCommandId:undefined;if(m.type==='snapshot')snapshotCommandId=undefined;const accepted=w.acceptResult(m.payload);if(accepted&&m.type==='snapshot'&&pendingFreeze&&pendingFreeze.runId===m.runId&&pendingFreeze.commandId===requestId){w.freeze();pendingFreeze=undefined;}}
     else if(m.type==='error'){error=String(m.payload);pending.clear();if(w.active)w.setStatus('paused');}
     render();};
   function destroy(){mounted=false;worker.terminate();}
