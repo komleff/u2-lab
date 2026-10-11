@@ -19,7 +19,9 @@
 ## Target → as-built → gap
 
 База: `d03fb99ac5c34914843baf765edc8b3a9a994bae` / PR #22; новая stacked ветка
-`feat/ship-model-entry-ux`. Текущий preview4197 и его dist остаются неизменными.
+`feat/ship-model-entry-ux`. Уточнение оператора: старый Спутник в текущем экране не запускается
+из-за отказа model toggle; native preset не заменяет исправление этого source flow.
+После адресного smoke исправленная сборка заменяет preview4197; baseline evidence сохраняется.
 
 На первом экране нет `/4` fit, запуск выключен. Рабочий chooser спрятан под
 «Новый native 0.3.0 fit» с raw IDs; importer `/4` смешан с transport controls.
@@ -31,7 +33,9 @@ JSON уже имеет CSS max-height450px: исправить группиро�
 ## Scope и ограничения
 
 - Первым поставить «Открыть корабль»: Спутник, Мир, отдельная Стелс-сборка;
-  видимое открытие JSON; отдельный путь «Подготовить текущую старую сборку» preview → diff → Apply.
+  видимое открытие JSON; текущая старая сборка с человеческим именем и понятным переносом
+  preview → diff → Apply → запуск. Unique compatible template можно предварительно выбрать
+  в форме, неоднозначный выбор остаётся явным; никаких auto-Apply/скрытой миграции.
   Показывать выбранный корабль, тип файла и version badge, не ложный model toggle.
 - Пустой экран объясняет три действия: выбрать/открыть → задать условия → запустить.
   При disabled запуске есть причина и достижимый следующий шаг. Не автозагружать канонический fit.
@@ -76,7 +80,7 @@ UI draft/validated opening если необходимо; `fitting.ts` — exist
 
 | AC | Expected / edge / error | Проверка |
 |---|---|---|
-| UE-01 | Fresh opt-in: понятные Спутник/Мир/Стелс и «Открыть JSON» доступны до technical details; нет ложного model toggle. Выбор видимо меняет owner/version и делает запуск достижимым. | Browser fresh entry, все3 presets; Start → actual Worker complete для короткого опыта; desktop screenshot. |
+| UE-01 | Fresh opt-in: понятные Спутник/Мир/Стелс, текущая старая сборка и «Открыть JSON» доступны до technical details; нет ложного model toggle. Native выбор и перенос именно source старого Спутника делают запуск достижимым, не заменяя source новым reference. | Browser fresh entry, все3 presets; source старого Спутника → preview/diff/Apply → actual Worker complete; desktop screenshot. |
 | UE-02 | `/4` fit/run/result открываются с точным type/version; replay/checkpoint остаются literal. Старый fit/result открываются явно в старой модели; fit → explicit preview/diff/apply → `/4`, source не переписан. | Unit source/literal/atomic; browser реальные file inputs для fit/run/result и legacy fit/result; explicit compile. Не выдавать автоматизацию за OS chooser. |
 | UE-03 | Malformed/future/unsupported/cancelled file, owner change/busy during async read сохраняют прежние draft/result/active. Paused locked; явный переход legacy не теряет `/4` незаметно. Complex task сохранена/readonly, отказ объяснён. | Browser + workspace unit: snapshots до/после, busy/async и invalid; прежние UI-B1/B2 tests. |
 | UE-04 | A/B показывает измеренные initial T/mode обоих; различие T или mode запрещает надпись об одинаковых условиях. Равные условия подтверждаются, old snapshots/export неизменны. | Results unit: equal / onlyT / onlyMode; measured-owner/stale browser regression. |
