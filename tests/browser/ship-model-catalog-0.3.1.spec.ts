@@ -9,6 +9,26 @@ const rows=[
   ['severin-mir-d','Северин Мир · D (дизель)'],['severin-mir-h','Северин Мир · H (водород)'],['severin-mir-e','Северин Мир · E (электро)'],['stealth-reference','Стелс-сборка'],
 ];
 const save=async(page:Page,id:string)=>{const waiting=page.waitForEvent('download');await page.locator('#'+id).click();return readFileSync((await (await waiting).path())!,'utf8');};
+for(const width of [1440,820,390])test.describe(`C031-QA-B1 graph context at ${width}`,()=>{
+  test.use({viewport:{width,height:width===390?844:1000},isMobile:width===390,hasTouch:width===390});
+  test('completed fresh Sputnik exposes the same saved IR/EM distances beside /4 graphs without details',async({page})=>{
+    const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+    await page.goto('/?shipModel=experimental');await expect(page.locator('#sm-preset')).toHaveValue('sputnik-d');await expect(page.locator('#sm-background')).toHaveValue('250');
+    if(width===390)await page.locator('#sm-start').tap();else await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
+    const primary=page.locator('#workspace-overview #sm-detection-distance'),before=await primary.innerHTML(),values=await primary.locator('[data-distance]').evaluateAll(nodes=>nodes.map(n=>({id:n.getAttribute('data-distance'),value:n.getAttribute('data-value'),text:n.textContent})));
+    const saved=await save(page,'sm-save-result'),result=JSON.parse(saved);expect(result.state.timeSeconds).toBe(60);expect(result.spec.environment.radiativeBackgroundK).toBe(250);
+    if(width===390)await page.getByRole('link',{name:'Графики',exact:true}).tap();else await page.getByRole('link',{name:'Графики',exact:true}).click();
+    const card=page.locator('#workspace-charts #sm-chart-detection-distance');await expect(card.getByRole('heading',{name:'Расчётная дальность обнаружения',exact:true})).toBeVisible();
+    await card.getByRole('heading',{name:'Расчётная дальность обнаружения',exact:true}).scrollIntoViewIfNeeded();await expect(card.getByRole('heading',{name:'Расчётная дальность обнаружения',exact:true})).toBeInViewport();
+    await expect(card.locator('[data-distance]')).toHaveCount(6);await expect(card.locator('details')).toHaveCount(0);expect(await card.evaluate(n=>!!n.closest('details'))).toBe(false);
+    expect(await card.locator('[data-distance]').evaluateAll(nodes=>nodes.map(n=>({id:n.getAttribute('data-distance')?.replace('charts:',''),value:n.getAttribute('data-value'),text:n.textContent})))).toEqual(values);
+    for(const text of ['IR','EM','В конце опыта','По среднему сигналу за интервал','Максимальная за интервал','S-dedicated-G1','Ракурс','positive-only','чистом космосе','не фактический контакт'])await expect(card).toContainText(text);
+    await expect(card).toContainText(/\d[\s\S]*(?:км|м)/);await expect(page.locator('#workspace-charts .overview-charts')).toBeVisible();
+    expect(await primary.innerHTML()).toBe(before);expect(await save(page,'sm-save-result')).toBe(saved);
+    const identity=await page.locator('[data-distance]').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('data-distance')));expect(identity).toHaveLength(12);expect(new Set(identity).size).toBe(12);
+    await expect(page.locator('#sm-detection-distance')).toHaveCount(1);await expect(page.locator('#sm-chart-detection-distance')).toHaveCount(1);expect(await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth)).toBe(0);expect(errors).toEqual([]);
+  });
+});
 for(const width of [1440,820,390])test(`current manifest and default are literal at ${width}`,async({page})=>{
   const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
   await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');

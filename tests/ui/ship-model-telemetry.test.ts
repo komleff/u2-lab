@@ -4,11 +4,32 @@ import {selectedBucket} from '../../src/app/fitting-ui/lab-channels';
 import {channelRows,bucketValue} from '../../src/app/fitting-ui/telemetry';
 import {Retention} from '../../src/runner/retention';
 import {shipModelChannelInfo,shipModelChannelRows,shipModelAvailability,shipModelEventMatches} from '../../src/app/fitting-ui/ship-model-channels';
-import {shipModelLabView,shipModelLive} from '../../src/app/fitting-ui/ship-model-lab-view';
+import {shipModelLabView,shipModelLive,shipModelChannelsView} from '../../src/app/fitting-ui/ship-model-lab-view';
 import {createShipModelRun,runShipModelChunk,shipModelResult} from '../../src/runner/ship-model-run';
-import {fixture} from '../model-v3/fixture';
+import {fixture,signatureDepletionFixture} from '../model-v3/fixture';
+import {serializeResultSnapshot} from '../../src/io/fitting-json';
 import {getPresetFit,loadCandidateCatalog} from '../../src/fitting/catalog';
 import {makeShipModelMiningRun} from '../../src/scenarios/fitting';
+
+it.each(['v2','v1','zero'] as const)('C031-QA-B1 graph context exposes saved %s distances, not selected bucket or reconstructed statistics',kind=>{
+  const spec=signatureDepletionFixture(1);if(kind==='zero'){spec.initialState.chargeJ=0;spec.scenario.phases=[{id:'zero',action:'idle',durationSeconds:1,requests:{},environment:null}];}
+  const run=createShipModelRun('chart-range-'+kind,spec);runShipModelChunk(run,1);const r=shipModelResult(run);
+  if(kind==='v1')r.signatures={version:'ship-signatures/1',last:r.signatures.last};
+  for(const b of r.buckets){b.sum.fill(999);b.min.fill(999);b.max.fill(999);}
+  const before=serializeResultSnapshot(r),html=shipModelChannelsView(r,{group:'signals',unit:'W',hidden:new Set(),eventIndex:0,bucketIndex:0});
+  const block=html.match(/<section id="sm-chart-detection-distance"[\s\S]*?<\/section>/)?.[0]??'';
+  expect(block).toContain('Расчётная дальность обнаружения');expect(block).not.toContain('<details');expect(block).toContain('S-dedicated-G1');expect(block).toContain('positive-only');expect(block).toContain('Ракурс');expect(block).toContain('чистом космосе');expect(block).toContain('не фактический контакт');
+  for(const label of ['В конце опыта','По среднему сигналу за интервал','Максимальная за интервал'])expect(block).toContain(label);
+  const value=(id:string)=>block.match(new RegExp('data-distance="charts:'+id+'"[^>]*data-value="([^"]*)"'))?.[1];
+  for(const channel of ['IR','EM'])for(const field of ['current','mean','max'])expect(value(channel+':'+field)).toBeDefined();
+  if(kind==='zero'){for(const channel of ['IR','EM'])for(const field of ['current','mean','max'])expect(value(channel+':'+field)).toBe('0');expect(block).toContain('>0 м</strong>');}
+  else{
+    expect(Number(value('IR:current'))).toBeCloseTo(Math.sqrt(3891.434262156444/(4*Math.PI*0.000274542277)),7);
+    if(kind==='v1'){expect(value('IR:mean')).toBe('');expect(value('EM:max')).toBe('');}
+    else{expect(Number(value('IR:max'))).toBeCloseTo(Math.sqrt(8032.005217677903/(4*Math.PI*0.000274542277)),7);expect(Number(value('IR:mean'))).toBeCloseTo(Math.sqrt(3891.434262156444/(4*Math.PI*0.000274542277)),7);expect(block).toContain('км');}
+  }
+  expect(serializeResultSnapshot(r)).toBe(before);
+});
 
 it('I3 common trace/time helpers consume structural retained data without a V2 spec',()=>{
   const retention=new Retention(['temperatureK']);retention.add(1,{temperatureK:300});retention.add(2,{temperatureK:320});
