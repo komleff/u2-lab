@@ -9,7 +9,7 @@ for(const width of [1440,390,820])test(`native /4 explicit compile, Worker run a
   await page.locator('#sm-apply').click();await page.locator('#sm-duration').fill('3');await page.locator('#sm-start').click();
   await expect(page.locator('#sm-status')).toHaveText('complete',{timeout:15000});await expect(page.locator('#sm-results')).toContainText('u2-lab/4');await expect(page.locator('#sm-results')).toContainText('ship-signatures/2');
   await expect(page.locator('#sm-transport')).toContainText('Снимок');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
-  const download=page.waitForEvent('download');await page.locator('#sm-save-result').click();const file=await download;expect(file.suggestedFilename()).toBe('u2-ship-model-result.json');
+  const download=page.waitForEvent('download');await page.locator('#sm-save-result').click();const file=await download;expect(file.suggestedFilename()).toMatch(/^u2-ship-model-result-A-[0-9a-f]{32}\.json$/);
   await page.locator('#sm-import').setInputFiles((await file.path())!);await expect(page.locator('#sm-status')).toHaveText('complete');await expect(page.locator('#sm-error')).toBeEmpty();
   await page.locator('#sm-back').click();await page.locator('#sm-leave-confirm').click();await expect(page.locator('#fit-status')).toBeVisible();
 });

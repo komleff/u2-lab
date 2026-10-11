@@ -43,6 +43,13 @@ it('I1 freeze refuses a previous measurement during a new run and a cancelled re
   expect(w.freeze()).toBe(true);const frozen=serializeResultSnapshot(w.frozen!);w.updateConditions({durationSeconds:3});const next=createShipModelRun('next',w.start('next'));w.setStatus('paused');
   expect(w.freeze()).toBe(false);runShipModelChunk(next,1);w.acceptResult(shipModelResult(next,'cancelled'));expect(w.freeze()).toBe(false);expect(serializeResultSnapshot(w.frozen!)).toBe(frozen);
 });
+it('I5 frozen source metadata is detached; stale follows its own draft even after a later matching result',()=>{
+  const w=workspace();w.loadPreset('sputnik');w.updateConditions({durationSeconds:2});const run=createShipModelRun('frozen-source-A',w.start('frozen-source-A'));runShipModelChunk(run,1);w.acceptResult(shipModelResult(run,'paused'));w.setStatus('paused');w.selectVariant('B');expect(w.freeze()).toBe(true);
+  const literal=serializeResultSnapshot(w.frozen!),view=w.snapshotForRender();expect(view.frozenSource).toEqual({variantId:'A'});expect(view.frozenStale).toBe(false);view.frozenSource!.variantId='B';expect(w.snapshotForRender().frozenSource!.variantId).toBe('A');
+  runShipModelChunk(run,1);w.acceptResult(shipModelResult(run));w.selectVariant('A');w.updateConditions({backgroundK:250});expect(w.snapshotForRender().frozenStale).toBe(true);
+  const later=createShipModelRun('later-A',w.start('later-A'));runShipModelChunk(later,2);w.acceptResult(shipModelResult(later));expect(w.isStale()).toBe(false);expect(w.snapshotForRender().frozenStale).toBe(true);
+  w.selectVariant('B');expect(w.result).toBeUndefined();expect(w.snapshotForRender().frozenStale).toBe(true);expect(serializeResultSnapshot(w.frozen!)).toBe(literal);
+});
 it('I1 renders one familiar shell with the same navigation and section owners for either model',()=>{
   for(const model of ['legacy','ship-model'] as const){
     const html=workspaceShell({model,headerActions:'',context:'',overview:'',fitting:'<p>draft</p>',conditions:'<p>conditions</p>',comparison:'<p>measurement</p>',more:'',controls:'<button>Run</button>',controlsState:'idle',footer:'model',dialogLabel:'dialog-title'});

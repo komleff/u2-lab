@@ -46,7 +46,9 @@ test('I1 paused A owns controls, export and frozen measurement while navigation 
   await page.locator('#sm-start').click();await page.locator('#sm-variant').selectOption('B');await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
   await expect(page.locator('#sm-test-owner')).toContainText('Активный тест A');await expect(page.locator('#sm-draft-owner')).toContainText('черновик B');
   await expect(page.locator('#sm-measured-owner')).toContainText('Спутник');
+  await expect(page.locator('#sm-save-result')).toBeDisabled();await page.locator('#sm-variant').selectOption('A');
   const saving=page.waitForEvent('download');await page.locator('#sm-save-result').click();const measured=JSON.parse(readFileSync((await (await saving).path())!,'utf8'));
+  await page.locator('#sm-variant').selectOption('B');
   await page.getByRole('link',{name:'Сравнение',exact:true}).click();await page.locator('#sm-freeze').click();await expect(page.locator('#sm-frozen-owner')).toContainText(measured.runId);
   const frozen=await page.locator('#sm-frozen-owner').textContent();
   await expect(page.locator('#sm-preset')).toBeDisabled();await expect(page.locator('#sm-import')).toBeDisabled();await expect(page.locator('#sm-back')).toBeDisabled();await expect(page.locator('#sm-duration')).toBeDisabled();

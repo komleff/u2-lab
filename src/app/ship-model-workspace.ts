@@ -32,6 +32,7 @@ export class ShipModelWorkspace{
   preview?:PromotedFitV3;selected:'A'|'B'='A';
   private activeTest?:ActiveTest;
   private frozenResult?:RunResultV3;
+  private frozenSource?:{variantId:'A'|'B'};
   private comparisonBaseId?:'A'|'B'|'reference';
   private draftRevision={A:0,B:0};
   private replacement?:{variantId:'A'|'B';revision:number;fitLiteral:string;preview:ReplacementPreview};
@@ -54,10 +55,12 @@ export class ShipModelWorkspace{
   // Одна отделённая копия на render: история и captured owner читаются согласованно.
   snapshotForRender(){
     let nextSpec:RunSpecV3|undefined;try{nextSpec=this.prepare();}catch{/* Неполный черновик всё ещё доступен для исправления. */}
-    const data=structuredClone({selected:this.selected,variants:this.variants,active:this.activeTest,frozen:this.frozenResult,baselineId:this.comparisonBaseId,preview:this.preview});
+    const data=structuredClone({selected:this.selected,variants:this.variants,active:this.activeTest,frozen:this.frozenResult,frozenSource:this.frozenSource,baselineId:this.comparisonBaseId,preview:this.preview});
     const v=data.variants[data.selected],r=data.variants[data.active?.variantId??data.selected].result;
+    const source=data.frozenSource&&data.variants[data.frozenSource.variantId],draft=source?.fit?this.draftSpec(source):undefined;
+    const frozenStale=data.frozen?(!draft?.ok||JSON.stringify(data.frozen.spec)!==JSON.stringify(draft.value)):undefined;
     return {selected:data.selected,fit:v.fit,conditions:v.conditions,result:v.result,opened:v.opened??'fit',stale:!!v.result&&!!v.stale,
-      active:data.active,currentResult:r&&(!data.active||r.runId===data.active.runId)?r:undefined,currentStale:!!r&&!!data.variants[data.active?.variantId??data.selected].stale,frozen:data.frozen,baselineId:data.baselineId,preview:data.preview,
+      active:data.active,currentResult:r&&(!data.active||r.runId===data.active.runId)?r:undefined,currentStale:!!r&&!!data.variants[data.active?.variantId??data.selected].stale,frozen:data.frozen,frozenSource:data.frozenSource,frozenStale,baselineId:data.baselineId,preview:data.preview,
       comparison:{A:data.variants.A.result,B:data.variants.B.result},taskEditable:this.taskEditable,nextSpec};
   }
   get taskEditable(){
@@ -132,7 +135,7 @@ export class ShipModelWorkspace{
   freeze(){
     const r=this.currentResult;
     if(!r||(this.activeTest&&this.activeTest.status!=='paused')||!['complete','paused'].includes(r.status))return false;
-    this.frozenResult=structuredClone(r);this.comparisonBaseId='reference';return true;
+    this.frozenResult=structuredClone(r);this.frozenSource={variantId:this.activeTest?.variantId??this.selected};this.comparisonBaseId='reference';return true;
   }
   importDocument(text:string){
     this.idle();const doc=JSON.parse(text);let fit:ShipFitV3,replay:RunSpecV3|undefined,result:RunResultV3|undefined;

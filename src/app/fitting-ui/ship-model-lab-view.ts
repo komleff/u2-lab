@@ -4,7 +4,6 @@ import {selectedBucket,type ChannelState} from './lab-channels';
 import {esc,num,compactSI} from './presentation';
 import {channelStyle,traceChart} from './trace-chart';
 import {shipModelChannelInfo,shipModelChannelRows,shipModelAvailability,availabilityLabel,shipModelGroups,shipModelEventMatches,shipModelEventLabel} from './ship-model-channels';
-import {shipModelResults} from './ship-model-results';
 import {shipModelEffectivePhase} from '../../runner/ship-model-telemetry';
 
 export function shipModelLive(r:RunResultV3){
@@ -36,5 +35,5 @@ export function shipModelJournal(r:RunResultV3,s:ChannelState,filter:string){
   return `<section class="ui-panel"><h2>Journal · события измерения</h2><p id="journal-interval" data-selected-start="${b?.startSeconds??''}" data-selected-end="${b?.endSeconds??''}">Выбранный интервал ${num(b?.startSeconds)}–${num(b?.endSeconds,'с')}; события в нём выделены.</p><details id="fit-journal-details"><summary>События · ${r.events.length}</summary><div class="segments" role="group" aria-label="Фильтр событий">${[['all','Все'],['phase','Фаза / режим'],['thermal','Тепло'],['limit','Ограничения']].map(([id,label])=>`<button data-event-filter="${id}" aria-pressed="${filter===id}">${label}</button>`).join('')}</div><div class="ui-table-scroll" tabindex="0"><table id="fit-events"><thead><tr><th>Время</th><th>Событие</th><th>Причина</th></tr></thead><tbody>${r.events.map((event,index)=>({event,index})).filter(({event})=>shipModelEventMatches(event.kind,filter)).map(({event,index})=>`<tr ${b&&event.timeSeconds>=b.startSeconds&&event.timeSeconds<=b.endSeconds?'class="selected-interval"':''}><td><button data-event-index="${index}">${num(event.timeSeconds,'с')} · ${esc(event.message)}</button></td><td>${esc(shipModelEventLabel(event.kind))}</td><td>${esc(event.message)}</td></tr>`).join('')}</tbody></table></div></details></section>`;
 }
 export function shipModelLabView(r:RunResultV3,s:ChannelState,filter:string){
-  return shipModelLive(r)+shipModelChannelsView(r,s)+shipModelJournal(r,s,filter)+shipModelResults(r);
+  return shipModelLive(r)+shipModelChannelsView(r,s)+shipModelJournal(r,s,filter);
 }
