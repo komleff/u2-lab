@@ -26,8 +26,8 @@ test('completed fresh Sputnik exposes primary saved IR/EM distances without deta
   await expect(card).toContainText(/\d[\s\S]*(?:км|м)/);await expect(card.locator('[data-distance]')).toHaveCount(6);await expect(card.locator('details')).toHaveCount(0);await expect(page.locator('#sm-signature-statistics')).not.toHaveAttribute('open','');
   expect(await card.evaluate(n=>!!n.closest('details'))).toBe(false);
 });
-test('captured and frozen Sputnik A survive next Mir H draft B and atomic import/selection refusal',async({page})=>{
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-duration').fill('120');await page.locator('#sm-duration').press('Tab');await page.locator('#sm-start').click();await expect(page.locator('#sm-live')).toHaveAttribute('data-time',/^[1-9]/);
+for(const width of [1440,820,390])test(`captured and frozen Sputnik A survive next Mir H draft B and atomic import/selection refusal at ${width}`,async({page})=>{
+  await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');await page.locator('#sm-duration').fill('120');await page.locator('#sm-duration').press('Tab');await page.locator('#sm-start').click();await expect(page.locator('#sm-live')).toHaveAttribute('data-time',/^[1-9]/);
   await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');const captured=JSON.parse(await save(page,'sm-save-run'));
   expect(captured.environment.radiativeBackgroundK).toBe(250);expect(captured.resolvedShip.fit).toEqual(getPresetFit('sputnik-d','ship-fitting-0.3.1'));
   await page.locator('#sm-freeze').click();await expect(page.locator('#sm-comparison-a')).toHaveAttribute('data-run-id',/\S+/);const frozen=await page.locator('#sm-comparison-a').textContent();
@@ -37,6 +37,26 @@ test('captured and frozen Sputnik A survive next Mir H draft B and atomic import
   await page.locator('#sm-import').setInputFiles({name:'bad.json',mimeType:'application/json',buffer:Buffer.from('{"schemaVersion":"u2-ship-fit/2","catalogVersion":"ship-fitting-0.3.9"}')});await expect(page.locator('#sm-error')).not.toBeEmpty();expect(JSON.parse(await save(page,'sm-save-run'))).toEqual(next);
   await page.locator('#sm-preset').evaluate(select=>{const option=new Option('Invalid','missing');select.append(option);(select as HTMLSelectElement).value='missing';select.dispatchEvent(new Event('change'));});await expect(page.locator('#sm-error')).not.toBeEmpty();expect(JSON.parse(await save(page,'sm-save-run'))).toEqual(next);
   await page.locator('#sm-variant').selectOption('A');expect(JSON.parse(await save(page,'sm-save-run'))).toEqual(captured);
+});
+for(const width of [1440,820,390])test.describe(`current catalog whole chain at ${width}`,()=>{
+test.use({viewport:{width,height:1000},isMobile:width===390,hasTouch:width===390});
+test(`representative current catalog whole chain exports and reopens literal fit/run/result at ${width}`,async({page})=>{
+  test.setTimeout(60000);const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+  await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');await expect(page.locator('#sm-preset')).toHaveValue('sputnik-d');await expect(page.locator('#sm-background')).toHaveValue('250');
+  for(const id of ['sputnik-e','ermak-h','titan-d','severin-mir-h','stealth-reference']){
+    // Reopened scenarios intentionally own whole-phase editing, not the fresh
+    // shortcut. Start each representative chain from an independent fresh draft.
+    await page.goto('/?shipModel=experimental');await expect(page.locator('#sm-background')).toHaveValue('250');
+    await page.locator('#sm-preset').selectOption(id);await page.locator('#sm-duration').fill('1');if(width===390)await page.locator('#sm-start').tap();else await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
+    await expect(page.locator('#sm-detection-distance')).toBeVisible();await expect(page.locator('#sm-detection-distance')).toContainText('чистом космосе');
+    const documents=[];for(const control of ['sm-save-result','sm-save-run','sm-save-fit'])documents.push({control,text:await save(page,control)});
+    const measured=JSON.parse(documents[0].text);expect(measured.status).toBe('complete');expect(measured.state.timeSeconds).toBe(1);expect(measured.spec.catalogVersion).toBe('ship-fitting-0.3.1');expect(measured.spec.environment.radiativeBackgroundK).toBe(250);expect(measured.spec.resolvedShip.fit).toEqual(getPresetFit(id,'ship-fitting-0.3.1'));
+    for(const document of documents){await page.locator('#sm-import').setInputFiles({name:document.control+'.json',mimeType:'application/json',buffer:Buffer.from(document.text)});await expect(page.locator('#sm-error')).toBeEmpty();expect(await save(page,document.control)).toBe(document.text);}
+    for(const control of ['sm-start','sm-preset','sm-variant','sm-save-fit','sm-save-run']){const box=(await page.locator('#'+control).boundingBox())!;expect(box.height).toBeGreaterThanOrEqual(44);expect(box.width).toBeGreaterThanOrEqual(44);}
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth)).toBe(0);
+  }
+  expect(errors).toEqual([]);
+});
 });
 test('explicit old fit selects only its old versioned manifest and actual version copy',async({page})=>{
   await page.goto('/?shipModel=experimental');await page.locator('#sm-import').setInputFiles({name:'old-v3.json',mimeType:'application/json',buffer:Buffer.from(serializeFit(getPresetFit('sputnik','ship-fitting-0.3.0')))});

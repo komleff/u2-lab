@@ -77,12 +77,16 @@ test('old JSON opens explicitly in old editor only after validation and a leave 
   await expect(page.locator('#fit-edition')).toContainText('ship-fitting-0.2.5');await expect(page.locator('#fit-status')).toBeVisible();
   await page.locator('#ship-model-open').click();await page.locator('#sm-source').click();await page.locator('#sm-preview').click();await page.locator('#sm-apply').click();await expect(page.locator('#sm-start')).toBeEnabled();
 });
-test('/4 fit/run/result file inputs and reexports preserve actual literal documents and show type/version',async({page})=>{
+for(const version of ['ship-fitting-0.3.1','ship-fitting-0.3.0'] as const)test(`/4 ${version} fit/run/result file inputs and reexports preserve actual literal documents and show type/version`,async({page})=>{
   await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
+  if(version==='ship-fitting-0.3.0'){
+    await page.locator('#sm-import').setInputFiles(upload(serializeFit(getPresetFit('sputnik',version))));await page.locator('#sm-background').fill('100');await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
+  }
   const docs: {id:string;text:string;label:string;schema:string}[]=[];
   for(const [id,label,schema]of [['sm-save-result','Результат','u2-lab/4'],['sm-save-run','Опыт','u2-lab/4'],['sm-save-fit','Сборка','u2-ship-fit/2']]){
     const saving=page.waitForEvent('download');await page.locator('#'+id).click();docs.push({id,label,schema,text:readFileSync((await (await saving).path())!,'utf8')});
   }
+  const measured=JSON.parse(docs[0].text);expect(measured.spec.catalogVersion).toBe(version);expect(measured.spec.environment.radiativeBackgroundK).toBe(version==='ship-fitting-0.3.0'?100:250);
   for(const doc of docs){
     await page.locator('#sm-import').setInputFiles(upload(doc.text));await expect(page.locator('#sm-error')).toBeEmpty();await expect(page.locator('#sm-opened')).toContainText(doc.label);await expect(page.locator('#sm-opened')).toContainText(doc.schema);
     const saving=page.waitForEvent('download');await page.locator('#'+doc.id).click();expect(readFileSync((await (await saving).path())!,'utf8')).toBe(doc.text);

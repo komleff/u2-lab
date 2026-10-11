@@ -3,6 +3,31 @@ import {readdirSync} from 'node:fs';
 import {fixture,checkpointFixture,signatureDepletionFixture} from '../model-v3/fixture';
 import {loadCandidateCatalog,getPresetFit} from '../../src/fitting/catalog';
 import {makeShipModelMiningRun} from '../../src/scenarios/fitting';
+test('all fourteen 0.3.1 configurations execute installed propulsion in the native production Worker',async({page})=>{
+  const file=readdirSync('dist/assets').find(n=>n.startsWith('worker-')&&n.endsWith('.js'))!,catalog=loadCandidateCatalog('ship-fitting-0.3.1');
+  const rows=[['sputnik-d','diesel'],['sputnik-e','electric'],['pony-d','diesel'],['ermak-d','diesel'],['ermak-h','hydrogen'],['ermak-e','electric'],['volna-m-h','hydrogen'],['titan-d','diesel'],['titan-h','hydrogen'],['titan-e','electric'],['severin-mir-d','diesel'],['severin-mir-h','hydrogen'],['severin-mir-e','electric'],['stealth-reference','electric']] as const;
+  const inputs=rows.map(([id,family])=>{const made=makeShipModelMiningRun(getPresetFit(id,catalog.version),catalog,{durationSeconds:3,action:'maneuver'});if(!made.ok)throw Error(JSON.stringify(made.errors));return {id,family,spec:made.value};});
+  await page.goto('/?mode=legacy');
+  const results=await page.evaluate(async({file,inputs})=>{
+    const saved:any[]=[];
+    for(const {id,spec}of inputs) saved.push(await new Promise<any>((resolve,reject)=>{
+      const worker=new Worker('/assets/'+file,{type:'module'}),ticks:any[]=[],timer=setTimeout(()=>{worker.terminate();reject(Error(id+' Worker timeout'));},10000);
+      worker.onmessage=({data})=>{
+        if(data.type==='error'){clearTimeout(timer);worker.terminate();reject(Error(id+': '+data.payload));}
+        if(data.type==='chunk'){ticks.push(data.payload.telemetry);worker.postMessage({runId:id,type:'telemetry-ack',chunkId:data.chunkId});}
+        if(data.type==='complete'){clearTimeout(timer);worker.terminate();resolve({result:data.payload,ticks});}
+      };
+      worker.postMessage({runId:id,commandId:1,type:'start',payload:{spec,maxSteps:1}});
+    }));
+    return saved;
+  },{file,inputs});
+  for(let index=0;index<inputs.length;index++){
+    const {id,family,spec}=inputs[index],{result,ticks}=results[index];expect(result.runId).toBe(id);expect(result.status).toBe('complete');expect(result.state.timeSeconds).toBe(3);expect(result.spec).toEqual(spec);expect(ticks).toHaveLength(3);
+    for(const tick of ticks){expect(Object.values(tick).every(v=>typeof v==='number'&&Number.isFinite(v))).toBe(true);for(const engine of spec.resolvedShip.instances.filter(i=>i.item.family==='engine'&&i.role==='march'))expect(tick['actualW:'+engine.id]).toBeGreaterThan(0);}
+    expect(Number.isFinite(result.signatures.last.receiverIrW)).toBe(true);expect(Number.isFinite(result.signatures.last.observedEmW)).toBe(true);
+    if(family==='electric'){expect(result.state.chargeJ).toBeLessThan(spec.initialState.chargeJ);expect(result.state.fuelKg).toEqual(spec.initialState.fuelKg);}else expect(result.state.fuelKg[family]).toBeLessThan(spec.initialState.fuelKg[family]);
+  }
+});
 test('actual Worker /4 starts production branch and ACKs pause while preserving the new state',async({page})=>{
   const file=readdirSync('dist/assets').find(n=>n.startsWith('worker-')&&n.endsWith('.js'))!,spec=fixture();
   await page.goto('/?mode=legacy');
