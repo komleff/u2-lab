@@ -5,7 +5,8 @@
 > Статус работы ведётся только в Beads `ulab-9aa.18`, не checklist этого документа.
 
 **Цель:** ГД без знания внутренних версий выбирает готовый корабль или открывает свой JSON,
-видит, что открыто, и может запустить первый опыт; внедрены UI-A1/A2/A3.
+видит, что открыто, и может запустить первый опыт; восстановлена знакомая визуальная
+иерархия принятого интерфейса Лабы, внедрены UI-A1/A2/A3.
 
 **Основание:** решение оператора 2026-10-11; current owner
 `docs/product/ship-fitting-gd-workspace-v4.md` v0.8 / UI4.8, WF01/03/06/12/13/14;
@@ -68,9 +69,12 @@ UI draft/validated opening если необходимо; `fitting.ts` — exist
 3. A1: у обоих **измеренных** A/B вывести initial T и mode из `result.spec.initialState`.
    Равенство/предупреждение учитывать T/mode вместе с существующими environment/observer/profile/task/duration.
    Не менять immutable snapshots или расчёт ради UI.
-4. A2/A3: отделить основной запуск, transport, файлы, restart/repair; краткие summaries,
-   bounded raw JSON; человекочитаемые массы/единицы/decimals через существующие formatters;
-   небольшой primary accent запуска. Не прятать критические действия/причины отказа за технической свалкой.
+4. A2/A3 и уточнение оператора об утраченном дизайне: восстановить существующий визуальный
+   язык UI4.8 (header/nav, cards/sections, typography, spacing, tokens, заметная primary-кнопка),
+   а не оставлять экспериментальный экран технической простынёй. Отделить основной запуск,
+   transport, файлы, restart/repair; краткие summaries, bounded raw JSON; человекочитаемые
+   массы/единицы/decimals через существующие formatters. Сразу видно, что выбрать и нажать;
+   не прятать критические действия/причины отказа. Это перенос существующего дизайна, не новый art-spec.
 5. GREEN: address tests, typecheck/build, real Worker browser flow и обычный
    `.agents/project/verify.sh` (без обходов). Commit на feature branch, отчёт freeze/diff/commands.
    PM: QA по контракту ниже → один scoped Code Review; blocker fixes тем же Developer,
@@ -84,7 +88,7 @@ UI draft/validated opening если необходимо; `fitting.ts` — exist
 | UE-02 | `/4` fit/run/result открываются с точным type/version; replay/checkpoint остаются literal. Старый fit/result открываются явно в старой модели; fit → explicit preview/diff/apply → `/4`, source не переписан. | Unit source/literal/atomic; browser реальные file inputs для fit/run/result и legacy fit/result; explicit compile. Не выдавать автоматизацию за OS chooser. |
 | UE-03 | Malformed/future/unsupported/cancelled file, owner change/busy during async read сохраняют прежние draft/result/active. Paused locked; явный переход legacy не теряет `/4` незаметно. Complex task сохранена/readonly, отказ объяснён. | Browser + workspace unit: snapshots до/после, busy/async и invalid; прежние UI-B1/B2 tests. |
 | UE-04 | A/B показывает измеренные initial T/mode обоих; различие T или mode запрещает надпись об одинаковых условиях. Равные условия подтверждаются, old snapshots/export неизменны. | Results unit: equal / onlyT / onlyMode; measured-owner/stale browser regression. |
-| UE-05 | Основной workflow/файлы/transport/repair различимы; bounded JSON, читаемые массы, primary запуск. 1440/820/390: ship→conditions→start→result и открытие файлов достижимы, page overflow0, основные targets≥44px; numeric/unit не распадаются. | Browser размерные/DOM assertions, screenshots; PM desktop GD/UX/UI smoke. Manual physical/touch/OS download-import отдельно NOT RUN если недоступны. |
+| UE-05 | Восстановлена визуальная иерархия существующего UI4.8: familiar header/sections/cards, читаемая typography/spacing, акцентированный доступный «Запуск»; ship/open/start распознаются без знания IDs. Файлы/transport/repair различимы; bounded JSON, читаемые массы. 1440/820/390: ship→conditions→start→result и открытие файлов достижимы, page overflow0, основные targets≥44px; numeric/unit не распадаются. | Browser размерные/DOM assertions, screenshots; PM desktop GD/UX/UI smoke со сравнением existing UI4.8. Manual physical/touch/OS download-import отдельно NOT RUN если недоступны. |
 | UE-06 | Physics/catalog/runner/IO-schema/dependencies/guards/старый default unchanged; полная обычная regression PASS. Публичная инструкция соответствует реальным controls, без ложного canonical/server readiness. | Diff allowlist, `.agents/project/verify.sh`, typecheck/build/tests; source/guide сверка. |
 
 **Named risks:** atomic межмодельное открытие; async ownership; случайная потеря draft при навигации;
