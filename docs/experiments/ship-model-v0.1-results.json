@@ -8,7 +8,7 @@
     "src/fitting/data/hulls-0.3.0.json": "fe92013798eb3ac38d83978ed3b87736d5be6b5910a29734eae63878cce3784e",
     "src/fitting/data/items-0.3.0.json": "bdb3d20067e0abdc54e19a469f5e1a33cf386b2453024d982409c869550d1f33",
     "src/fitting/data/presets-0.3.0.json": "3b313105efdd5f11d7c451245edf603ce2ef8838c944be51e816d573310e78c3",
-    "src/io/ship-model-result.ts": "6d09e6159d1c3b22162f16c2c2d4c65d3a02b38972c14ead7f1573d4142202f6",
+    "src/io/ship-model-result.ts": "ec1951e5e720c6c7c7edbc4ca78d0609190499b99f9d35e893f8fe0629a03610",
     "src/model/v3/buffer.ts": "d14b0d07200cef1f2e28b38b955de4c56142e653b42f7786b41865f60df64351",
     "src/model/v3/durability.ts": "e64b6213c3b549d9e66f2e9ab35c481ffc4c80ccddb33ea4f05b793cbcb79c1c",
     "src/model/v3/em-ledger.ts": "a9f1946433dd4f1b6778d7ff3b4cc8174e57768e28d2f558bde2e58f1bac5991",
@@ -21,10 +21,10 @@
     "src/model/v3/thermal-surfaces.ts": "5a0fa42878bffa2de2be4aee76f35f9886eda4ab283c7baefe3c8330cd8f7157",
     "src/model/v3/thermoinverter.ts": "5e49d31484c8a3b86cc0f0dc36ce05c87e51c251be71632d209d61aa29eb6481",
     "src/model/v3/types.ts": "aefc1cf8c3ac27e91021ded512dfb31d98e14d3519dbd8e8970228755f71baf7",
-    "src/runner/ship-model-run.ts": "df45b0ed10c38bde1dea82a94884e46df986c4a7e508c9371398a7df09f44ce8",
+    "src/runner/ship-model-run.ts": "2ef9c7b48fdadd90a96a884e92ce3c7e3a8d7292c54b4da1d8826fce421c2012",
     "src/runner/ship-model-telemetry.ts": "d20f164864f0daef3a331173ad8beaefa7ec7a69130ad29b582739c886f509e4",
     "src/scenarios/fitting.ts": "d9dc1581e113917391c083b2c94e3d60e97dc5f1d11c687d7ecd232b165d2567",
-    "src/signatures/ship-model.ts": "74f2e2e917c97d31000c88128a7818c5e3e14886922f0b217c60c1688cd63a3f",
+    "src/signatures/ship-model.ts": "2686e22d0555bbb997155b41adc8b9526bea6c0a57fe28569ab80742b7b80619",
     "src/signatures/sources.ts": "484f518e5d8026b6a20a9298304a302ba977b475d33f6c405d298fbe7951f16f"
   },
   "rows": [
@@ -329,7 +329,7 @@
           "usefulWorkW": 750150
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 40,
             "intrinsicIrW": 2039682.998773642,
@@ -436,6 +436,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 40,
+            "completedThroughSeconds": 40,
+            "receiverIrW": {
+              "integralJ": 81935682.66474742,
+              "meanW": 2048392.0666186854,
+              "minW": 2034640.0512841041,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 2278.999999999998,
+              "meanW": 56.97499999999995,
+              "minW": 8.6,
+              "maxW": 137.6
+            }
           }
         },
         "events": [
@@ -479,7 +495,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "90954ac9792f4dfe07b8d6a65a4c8537d26190af05b33d85478816dc9f05bb9f"
+      "fullResultSha256": "ce36bc2478fa3b50c064a1ac3fc01192a90a0f8d497726be9cbc117a50f2177d"
     },
     {
       "id": "sputnik-cold-Efficient",
@@ -786,7 +802,7 @@
           "usefulWorkW": 750150
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 40,
             "intrinsicIrW": 1961926.7079271574,
@@ -893,6 +909,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 40,
+            "completedThroughSeconds": 40,
+            "receiverIrW": {
+              "integralJ": 80357549.52180417,
+              "meanW": 2008938.7380451043,
+              "minW": 1956883.7604376199,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 2278.999999999998,
+              "meanW": 56.97499999999995,
+              "minW": 8.6,
+              "maxW": 137.6
+            }
           }
         },
         "events": [
@@ -936,7 +968,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "6f1d580dc548bcf3bdf1123cd5ab1d56c01e5e154908d1b51b975bd3e7be9c6d"
+      "fullResultSha256": "ec7a706001d8f0d88eea69fc2b7ac818cca5eab454bb07cc29d78a77d1e3258f"
     },
     {
       "id": "sputnik-hot-Efficient",
@@ -1243,7 +1275,7 @@
           "usefulWorkW": 750150
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 40,
             "intrinsicIrW": 2163563.459106751,
@@ -1350,6 +1382,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 40,
+            "completedThroughSeconds": 40,
+            "receiverIrW": {
+              "integralJ": 0,
+              "meanW": 0,
+              "minW": 0,
+              "maxW": 0
+            },
+            "observedEmW": {
+              "integralJ": 2278.999999999998,
+              "meanW": 56.97499999999995,
+              "minW": 8.6,
+              "maxW": 137.6
+            }
           }
         },
         "events": [
@@ -1393,7 +1441,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "5fbef31da838639fcf29e0fc6ed93d7649ecdc183ee2ef13c602849054913eeb"
+      "fullResultSha256": "2d0a83bef686b73400e4f8599a64adb98c9ed6281d8041e51cc24247c14cc599"
     },
     {
       "id": "severin-mir-standard-Efficient",
@@ -1696,7 +1744,7 @@
           "usefulWorkW": 3000600
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 40,
             "intrinsicIrW": 8639288.099012583,
@@ -1803,6 +1851,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 40,
+            "completedThroughSeconds": 40,
+            "receiverIrW": {
+              "integralJ": 347342376.40516025,
+              "meanW": 8683559.410129007,
+              "minW": 8617891.50817993,
+              "maxW": 8752542.93748277
+            },
+            "observedEmW": {
+              "integralJ": 9115.999999999993,
+              "meanW": 227.8999999999998,
+              "minW": 34.4,
+              "maxW": 550.4
+            }
           }
         },
         "events": [
@@ -1846,7 +1910,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "c9409448e97d508086e2b12d47f165f38b32c4af73e7ea410f2a1ab41e9b7fe1"
+      "fullResultSha256": "d7261276e4f97e766429795af4c662d8172169ce59c64de390918e293b49ffb3"
     },
     {
       "id": "severin-mir-cold-Efficient",
@@ -2153,7 +2217,7 @@
           "usefulWorkW": 3000600
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 40,
             "intrinsicIrW": 8284189.84074084,
@@ -2260,6 +2324,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 40,
+            "completedThroughSeconds": 40,
+            "receiverIrW": {
+              "integralJ": 340125677.0658631,
+              "meanW": 8503141.926646577,
+              "minW": 8262793.249908185,
+              "maxW": 8752542.93748277
+            },
+            "observedEmW": {
+              "integralJ": 9115.999999999993,
+              "meanW": 227.8999999999998,
+              "minW": 34.4,
+              "maxW": 550.4
+            }
           }
         },
         "events": [
@@ -2303,7 +2383,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "26fba20159ab8332c7bd6ccf81d43146a53bdaf43e68400774bc1b5bad34e3bf"
+      "fullResultSha256": "43a912501f824b9f985b0b69a4ffff2e22b3ff467ac5970d728ef4f315111bb4"
     },
     {
       "id": "severin-mir-hot-Efficient",
@@ -2610,7 +2690,7 @@
           "usefulWorkW": 3000600
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 40,
             "intrinsicIrW": 9205793.271752171,
@@ -2717,6 +2797,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 40,
+            "completedThroughSeconds": 40,
+            "receiverIrW": {
+              "integralJ": 0,
+              "meanW": 0,
+              "minW": 0,
+              "maxW": 0
+            },
+            "observedEmW": {
+              "integralJ": 9115.999999999993,
+              "meanW": 227.8999999999998,
+              "minW": 34.4,
+              "maxW": 550.4
+            }
           }
         },
         "events": [
@@ -2760,7 +2856,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "1323be61a775482e763155024cba0fdb98b82c84cc11e719be39c794d28da6c1"
+      "fullResultSha256": "25b72803b5bd75d64402cc1c1fa0c2c1e4f5ebc20963f8ef10c6c1155c32dce6"
     },
     {
       "id": "generation-1-standard-same-task",
@@ -3020,7 +3116,7 @@
           "usefulWorkW": 750150
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 2064098.949112277,
@@ -3127,6 +3223,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 61828867.69790994,
+              "meanW": 2060962.2565969978,
+              "minW": 2059056.0016227392,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 3022.8385714285732,
+              "meanW": 100.76128571428578,
+              "minW": 100.76128571428573,
+              "maxW": 100.76128571428573
+            }
           }
         },
         "events": [
@@ -3150,7 +3262,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "edabfd923285868d20fca9f30c60f77809c48f3a342a3d40d07be67bd128afb5"
+      "fullResultSha256": "7842ac48c735d612b665fdb9bbc59ae2c1bff57d3b18967ed144602bfc10f8a3"
     },
     {
       "id": "generation-1-standard-harder",
@@ -3410,7 +3522,7 @@
           "usefulWorkW": 1500300
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 60,
             "intrinsicIrW": 2120763.820448606,
@@ -3517,6 +3629,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 60,
+            "completedThroughSeconds": 60,
+            "receiverIrW": {
+              "integralJ": 125362967.9077338,
+              "meanW": 2089382.79846223,
+              "minW": 2062880.7074389947,
+              "maxW": 2115720.872959068
+            },
+            "observedEmW": {
+              "integralJ": 11575.354285714278,
+              "meanW": 192.9225714285713,
+              "minW": 192.92257142857147,
+              "maxW": 192.92257142857147
+            }
           }
         },
         "events": [
@@ -3540,7 +3668,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "daa0551fda1f5d943de6d7af715485fdb1be6392015f45d26173ee7bad4e03ff"
+      "fullResultSha256": "7b950ad589594dc9fe029b1e8b2fa8b7e06ac94ac878d68dd73da1a9af16e793"
     },
     {
       "id": "generation-1-hot-same-task",
@@ -3804,7 +3932,7 @@
           "usefulWorkW": 750150
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 2156839.7239420726,
@@ -3911,6 +4039,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 0,
+              "meanW": 0,
+              "minW": 0,
+              "maxW": 0
+            },
+            "observedEmW": {
+              "integralJ": 3022.8385714285732,
+              "meanW": 100.76128571428578,
+              "minW": 100.76128571428573,
+              "maxW": 100.76128571428573
+            }
           }
         },
         "events": [
@@ -3934,7 +4078,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "730049a866e4d885285f9f98bd8cfd97ddb7a352d31035fae058105eb49fd87e"
+      "fullResultSha256": "bde5be65368cb55141ea547ec8522ae931898c8aae4d3e5a0150259bcc2fc9cd"
     },
     {
       "id": "generation-1-hot-harder",
@@ -4198,7 +4342,7 @@
           "usefulWorkW": 1500300
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 60,
             "intrinsicIrW": 2313041.030022454,
@@ -4305,6 +4449,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 60,
+            "completedThroughSeconds": 60,
+            "receiverIrW": {
+              "integralJ": 0,
+              "meanW": 0,
+              "minW": 0,
+              "maxW": 0
+            },
+            "observedEmW": {
+              "integralJ": 11575.354285714278,
+              "meanW": 192.9225714285713,
+              "minW": 192.92257142857147,
+              "maxW": 192.92257142857147
+            }
           }
         },
         "events": [
@@ -4328,7 +4488,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "c38e4ae9aa33f6e4c2c9f6818da217649abd5e1491374ba0a060f2ca20cf3d88"
+      "fullResultSha256": "a6c83166057cf5c81ee87d848573fedc871fab3ed994d30689575bc64fd9d0f0"
     },
     {
       "id": "generation-1-cold-same-task",
@@ -4592,7 +4752,7 @@
           "usefulWorkW": 750150
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 2005159.8582154182,
@@ -4699,6 +4859,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 60937274.51509684,
+              "meanW": 2031242.4838365614,
+              "minW": 2000116.9107258804,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 3022.8385714285732,
+              "meanW": 100.76128571428578,
+              "minW": 100.76128571428573,
+              "maxW": 100.76128571428573
+            }
           }
         },
         "events": [
@@ -4722,7 +4898,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "b0f8deaf040e554f70605a4de664e374acdb461e4a3475d6181a915b3fdc1bcd"
+      "fullResultSha256": "ce73648761da650b59d22c0aab5796b2860e2c50fbe9304ded58b052b037fc02"
     },
     {
       "id": "generation-1-cold-harder",
@@ -4986,7 +5162,7 @@
           "usefulWorkW": 1500300
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 60,
             "intrinsicIrW": 2000917.326934199,
@@ -5093,6 +5269,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 60,
+            "completedThroughSeconds": 60,
+            "receiverIrW": {
+              "integralJ": 121736007.93528876,
+              "meanW": 2028933.465588146,
+              "minW": 1995874.3794446616,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 11575.354285714278,
+              "meanW": 192.9225714285713,
+              "minW": 192.92257142857147,
+              "maxW": 192.92257142857147
+            }
           }
         },
         "events": [
@@ -5116,7 +5308,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "051336c224732b9c7cc058c7c4dd855ecfbdde663751a8997a062b2e1caebb4c"
+      "fullResultSha256": "f9b3aa1d2628c0b7104e7084c12c2fabf1d93cebb16fe0a57b1b7a7f94c61af1"
     },
     {
       "id": "generation-10-standard-same-task",
@@ -5376,7 +5568,7 @@
           "usefulWorkW": 1275255
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 2054173.9497550735,
@@ -5483,6 +5675,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 61679399.0809598,
+              "meanW": 2055979.9693653265,
+              "minW": 2049131.002265536,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 2999.798249999999,
+              "meanW": 99.99327499999997,
+              "minW": 99.993275,
+              "maxW": 99.993275
+            }
           }
         },
         "events": [
@@ -5506,7 +5714,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "812ecd595f8185fc1aa5004a6b8c405ba73d852a172d80a50e6ec51227c91652"
+      "fullResultSha256": "87586a927682bce7fbd2534c04faf1716707b4464aa108d572cac3442e1e7ecf"
     },
     {
       "id": "generation-10-standard-harder",
@@ -5766,7 +5974,7 @@
           "usefulWorkW": 2550510
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 60,
             "intrinsicIrW": 2080167.5741626616,
@@ -5873,6 +6081,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 60,
+            "completedThroughSeconds": 60,
+            "receiverIrW": {
+              "integralJ": 124142156.20243716,
+              "meanW": 2069035.936707286,
+              "minW": 2062880.7074389947,
+              "maxW": 2075124.626673124
+            },
+            "observedEmW": {
+              "integralJ": 11483.192999999992,
+              "meanW": 191.38654999999986,
+              "minW": 191.38655,
+              "maxW": 191.38655
+            }
           }
         },
         "events": [
@@ -5896,7 +6120,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "bf5eab21b2e1728e79a725c20b96ab9e20f8675631509ed61e78f72ee2878181"
+      "fullResultSha256": "c29b52c0035368f28981d0157f3428a1c78d02e63dc87f49471a6fc0353233d9"
     },
     {
       "id": "generation-10-hot-same-task",
@@ -6160,7 +6384,7 @@
           "usefulWorkW": 1275255
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 2146630.1185065154,
@@ -6267,6 +6491,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 0,
+              "meanW": 0,
+              "minW": 0,
+              "maxW": 0
+            },
+            "observedEmW": {
+              "integralJ": 2999.798249999999,
+              "meanW": 99.99327499999997,
+              "minW": 99.993275,
+              "maxW": 99.993275
+            }
           }
         },
         "events": [
@@ -6290,7 +6530,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "306c9e5779ff812a0e06c78d0f537b8448fd2d8d70ab9e8cf722e4a604e14d7c"
+      "fullResultSha256": "a1f140442fcc8228e96708d2bf2f01d1fcd5ee843d5328aba37aedf95e57201e"
     },
     {
       "id": "generation-10-hot-harder",
@@ -6554,7 +6794,7 @@
           "usefulWorkW": 2550510
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 60,
             "intrinsicIrW": 2270142.7278260705,
@@ -6661,6 +6901,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 60,
+            "completedThroughSeconds": 60,
+            "receiverIrW": {
+              "integralJ": 0,
+              "meanW": 0,
+              "minW": 0,
+              "maxW": 0
+            },
+            "observedEmW": {
+              "integralJ": 11483.192999999992,
+              "meanW": 191.38654999999986,
+              "minW": 191.38655,
+              "maxW": 191.38655
+            }
           }
         },
         "events": [
@@ -6684,7 +6940,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "2e69527f1b2df0e3f2a8170e9c999433f1347477d5d5558b80ed1130578efc14"
+      "fullResultSha256": "5fc8771790a99621bba16d9e80ed9b32a603275d1177272dfbbb5353fe7703eb"
     },
     {
       "id": "generation-10-cold-same-task",
@@ -6948,7 +7204,7 @@
           "usefulWorkW": 1275255
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 1995490.8522052916,
@@ -7055,6 +7311,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 60790426.568619,
+              "meanW": 2026347.5522873,
+              "minW": 1990447.904715754,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 2999.798249999999,
+              "meanW": 99.99327499999997,
+              "minW": 99.993275,
+              "maxW": 99.993275
+            }
           }
         },
         "events": [
@@ -7078,7 +7350,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "ca9f8f272a6e9a213c473d2551471641ed01d11a5beada8f62a0bd9fd20a55b7"
+      "fullResultSha256": "f52fb43ecbb2a85b5409e3dc3d602a375a775c90538c25a267b1525d912c6e0c"
     },
     {
       "id": "generation-10-cold-harder",
@@ -7342,7 +7614,7 @@
           "usefulWorkW": 2550510
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 60,
             "intrinsicIrW": 1962396.4418740442,
@@ -7449,6 +7721,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 60,
+            "completedThroughSeconds": 60,
+            "receiverIrW": {
+              "integralJ": 120557640.33641292,
+              "meanW": 2009294.005606882,
+              "minW": 1957353.4943845067,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 11483.192999999992,
+              "meanW": 191.38654999999986,
+              "minW": 191.38655,
+              "maxW": 191.38655
+            }
           }
         },
         "events": [
@@ -7472,7 +7760,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "95a53863da776bd35360a81b0d10c4cc384b7edd1ad900ef72f80655df1b7579"
+      "fullResultSha256": "1773e59277f9c6276d40af3c60a8cf5734297ceb62184e34f305bc2355503dec"
     },
     {
       "id": "generation-20-standard-same-task",
@@ -7732,7 +8020,7 @@
           "usefulWorkW": 1425285
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 2051485.4126115455,
@@ -7839,6 +8127,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 61638880.551508434,
+              "meanW": 2054629.3517169477,
+              "minW": 2046442.465122008,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 3002.2054477611946,
+              "meanW": 100.07351492537315,
+              "minW": 100.07351492537313,
+              "maxW": 100.07351492537313
+            }
           }
         },
         "events": [
@@ -7862,7 +8166,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "b218c527930c7decf4db217b6a1c6256c5d59bb2672f596a14a6db9301f7d14d"
+      "fullResultSha256": "13863fbd9c6467a2b293dd6dd59715d842c1ea90387132b8a812b4f3d2913047"
     },
     {
       "id": "generation-20-standard-harder",
@@ -8122,7 +8426,7 @@
           "usefulWorkW": 2850570
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 60,
             "intrinsicIrW": 2069245.5662259473,
@@ -8229,6 +8533,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 60,
+            "completedThroughSeconds": 60,
+            "receiverIrW": {
+              "integralJ": 123812740.4785613,
+              "meanW": 2063545.6746426884,
+              "minW": 2062880.7074389947,
+              "maxW": 2064202.6187364096
+            },
+            "observedEmW": {
+              "integralJ": 11492.821791044773,
+              "meanW": 191.5470298507462,
+              "minW": 191.54702985074627,
+              "maxW": 191.54702985074627
+            }
           }
         },
         "events": [
@@ -8252,7 +8572,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "1adbc3aff69cdd1873bbb28fee1209a091eda5ac6fc4a07d224d695e0db872e0"
+      "fullResultSha256": "471dbea345660066814412469e99a56788bc187a390f3ee4ebd3ce151af8c041"
     },
     {
       "id": "generation-20-hot-same-task",
@@ -8516,7 +8836,7 @@
           "usefulWorkW": 1425285
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 2143864.3860810855,
@@ -8623,6 +8943,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 0,
+              "meanW": 0,
+              "minW": 0,
+              "maxW": 0
+            },
+            "observedEmW": {
+              "integralJ": 3002.2054477611946,
+              "meanW": 100.07351492537315,
+              "minW": 100.07351492537313,
+              "maxW": 100.07351492537313
+            }
           }
         },
         "events": [
@@ -8646,7 +8982,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "8d109b89f6587d8ec602d3ba2c7fbdb1ce95846da9ed880473c41e469b79eaae"
+      "fullResultSha256": "2ef7483d0250492ed80a47b99a7f1d3e6d2966be185e80153fdd9cbc379b0c4a"
     },
     {
       "id": "generation-20-hot-harder",
@@ -8910,7 +9246,7 @@
           "usefulWorkW": 2850570
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 60,
             "intrinsicIrW": 2258597.9872938045,
@@ -9017,6 +9353,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 60,
+            "completedThroughSeconds": 60,
+            "receiverIrW": {
+              "integralJ": 0,
+              "meanW": 0,
+              "minW": 0,
+              "maxW": 0
+            },
+            "observedEmW": {
+              "integralJ": 11492.821791044773,
+              "meanW": 191.5470298507462,
+              "minW": 191.54702985074627,
+              "maxW": 191.54702985074627
+            }
           }
         },
         "events": [
@@ -9040,7 +9392,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "f08b48dbf984616b662253b9633955d27d2ad219f888ddd26beac6cb7feb4d46"
+      "fullResultSha256": "c21e4aec6807e2e949421f0722c8d836b455d7e3392bebe1b20acb14c1d87ed5"
     },
     {
       "id": "generation-20-cold-same-task",
@@ -9304,7 +9656,7 @@
           "usefulWorkW": 1425285
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 1992871.6776013975,
@@ -9411,6 +9763,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 60750618.463084586,
+              "meanW": 2025020.6154361528,
+              "minW": 1987828.7301118597,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 3002.2054477611946,
+              "meanW": 100.07351492537315,
+              "minW": 100.07351492537313,
+              "maxW": 100.07351492537313
+            }
           }
         },
         "events": [
@@ -9434,7 +9802,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "2bcb0357f701979f72c71d9a2ef1273ef13e07699d112ae760896e50e480a3bd"
+      "fullResultSha256": "1d6438b41301ea4081d25ea8f5092f460389678bb2c4eea17088a26d06b6ad49"
     },
     {
       "id": "generation-20-cold-harder",
@@ -9698,7 +10066,7 @@
           "usefulWorkW": 2850570
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 60,
             "intrinsicIrW": 1952033.3771052635,
@@ -9805,6 +10173,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 60,
+            "completedThroughSeconds": 60,
+            "receiverIrW": {
+              "integralJ": 120239677.90676783,
+              "meanW": 2003994.6317794637,
+              "minW": 1946990.429615726,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 11492.821791044773,
+              "meanW": 191.5470298507462,
+              "minW": 191.54702985074627,
+              "maxW": 191.54702985074627
+            }
           }
         },
         "events": [
@@ -9828,7 +10212,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "7b0f461f15ac7e701dfbb94de5885bf753155b4eb125d8a98b4236ea1c97562c"
+      "fullResultSha256": "41da7062fb21a3cb4ad24db90c0ee58ff85ff463211bc5705a9db95756ad5ae4"
     },
     {
       "id": "generation-100-standard-same-task",
@@ -10088,7 +10472,7 @@
           "usefulWorkW": 1492798.5
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 2050427.4973720796,
@@ -10195,6 +10579,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 61622933.394803554,
+              "meanW": 2054097.7798267852,
+              "minW": 2045384.5498825419,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 3012.950021459229,
+              "meanW": 100.4316673819743,
+              "minW": 100.43166738197426,
+              "maxW": 100.43166738197426
+            }
           }
         },
         "events": [
@@ -10218,7 +10618,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "9a2d8ae5bbac1d3c55a122ed39f51cfc3756f59ea5c69428b9f92871c32e1986"
+      "fullResultSha256": "c38b2971a18f00b6cbb78e3e3082d9d9cf67004eaea3a2f552f9bcf4ad1a10fd"
     },
     {
       "id": "generation-100-standard-harder",
@@ -10478,7 +10878,7 @@
           "usefulWorkW": 2985597
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 60,
             "intrinsicIrW": 2064956.6077675358,
@@ -10585,6 +10985,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 60,
+            "completedThroughSeconds": 60,
+            "receiverIrW": {
+              "integralJ": 123683268.51936965,
+              "meanW": 2061387.8086561607,
+              "minW": 2059913.660277998,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 11535.800085836925,
+              "meanW": 192.26333476394876,
+              "minW": 192.2633347639485,
+              "maxW": 192.2633347639485
+            }
           }
         },
         "events": [
@@ -10608,7 +11024,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "5eb8de8bda5f37d650bfc115bcc86f1ef08154c6203378c29459ad4fb06a77d9"
+      "fullResultSha256": "39075cb26e358bf928cb3dc0d43f14fa9c6ac4b5eaa536be901d45ac86f85f8f"
     },
     {
       "id": "generation-100-hot-same-task",
@@ -10872,7 +11288,7 @@
           "usefulWorkW": 1492798.5
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 2142776.0835110648,
@@ -10979,6 +11395,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 0,
+              "meanW": 0,
+              "minW": 0,
+              "maxW": 0
+            },
+            "observedEmW": {
+              "integralJ": 3012.950021459229,
+              "meanW": 100.4316673819743,
+              "minW": 100.43166738197426,
+              "maxW": 100.43166738197426
+            }
           }
         },
         "events": [
@@ -11002,7 +11434,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "2d0df257ad50df113c1253c1da7c0cd2629f00c31b3924eb389a01d617b8d2e1"
+      "fullResultSha256": "2f9d9244b607ac569e3289b0f5178a6f5f987fb35759473c634ed80d179db37b"
     },
     {
       "id": "generation-100-hot-harder",
@@ -11266,7 +11698,7 @@
           "usefulWorkW": 2985597
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 60,
             "intrinsicIrW": 2254064.091035751,
@@ -11373,6 +11805,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 60,
+            "completedThroughSeconds": 60,
+            "receiverIrW": {
+              "integralJ": 0,
+              "meanW": 0,
+              "minW": 0,
+              "maxW": 0
+            },
+            "observedEmW": {
+              "integralJ": 11535.800085836925,
+              "meanW": 192.26333476394876,
+              "minW": 192.2633347639485,
+              "maxW": 192.2633347639485
+            }
           }
         },
         "events": [
@@ -11396,7 +11844,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "cdb4249a670f6931678f3182d9975c4e6fb96bc41dcd7daceaf10bac8676d421"
+      "fullResultSha256": "b50e18b46a2c0aae63b4a9588abacd59a3d57cf72c303d06152eb6e8e62832c7"
     },
     {
       "id": "generation-100-cold-same-task",
@@ -11660,7 +12108,7 @@
           "usefulWorkW": 1492798.5
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 1991841.057971448,
@@ -11767,6 +12215,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 60734950.91309253,
+              "meanW": 2024498.363769751,
+              "minW": 1986798.1104819104,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 3012.950021459229,
+              "meanW": 100.4316673819743,
+              "minW": 100.43166738197426,
+              "maxW": 100.43166738197426
+            }
           }
         },
         "events": [
@@ -11790,7 +12254,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "7a245ffe0532563c362daf20fd843114031c2f740b39d4d9a9e8b8799b2e6fce"
+      "fullResultSha256": "712d08208b6a30b13553e28b9f80044b1226185ac009dbbf831651a52788adc0"
     },
     {
       "id": "generation-100-cold-harder",
@@ -12054,7 +12518,7 @@
           "usefulWorkW": 2985597
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 60,
             "intrinsicIrW": 1947963.9787050085,
@@ -12161,6 +12625,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 60,
+            "completedThroughSeconds": 60,
+            "receiverIrW": {
+              "integralJ": 120114707.54594693,
+              "meanW": 2001911.7924324488,
+              "minW": 1942921.0312154712,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 11535.800085836925,
+              "meanW": 192.26333476394876,
+              "minW": 192.2633347639485,
+              "maxW": 192.2633347639485
+            }
           }
         },
         "events": [
@@ -12184,7 +12664,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "1efd8d253a29d05c64b6821335bc6720cdb7e7ab589856c97c39b6964989dd05"
+      "fullResultSha256": "8fff1e3bc50ff6a4a890b58c373a23e3ac409ae50114bdc4da9a55aa6bdef981"
     },
     {
       "id": "stealth-Efficient-maneuver-0.1",
@@ -12483,7 +12963,7 @@
           "usefulWorkW": 0
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 47048.616416004596,
@@ -12551,6 +13031,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 1396051.426475978,
+              "meanW": 46535.04754919927,
+              "minW": 46390.750715443755,
+              "maxW": 46679.54226095793
+            },
+            "observedEmW": {
+              "integralJ": 746.4528421052636,
+              "meanW": 24.881761403508786,
+              "minW": 24.88176140350878,
+              "maxW": 24.88176140350878
+            }
           }
         },
         "events": [
@@ -12574,7 +13070,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "ab65fdddd5d240c9830e9a83a37ed5acb1e425898d09bf92cc6d3fde9e18e78b"
+      "fullResultSha256": "07106037452fb66f2036959b7c9157c2090e6f9c1e8c7466ec2dce3622ee70b6"
     },
     {
       "id": "stealth-Efficient-maneuver-1",
@@ -12873,7 +13369,7 @@
           "usefulWorkW": 0
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 51368.12045147453,
@@ -12941,6 +13437,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 1426131.8776782174,
+              "meanW": 47537.729255940576,
+              "minW": 46390.750715443755,
+              "maxW": 48698.04629642787
+            },
+            "observedEmW": {
+              "integralJ": 6995.484421052635,
+              "meanW": 233.18281403508783,
+              "minW": 233.18281403508774,
+              "maxW": 233.18281403508774
+            }
           }
         },
         "events": [
@@ -12964,7 +13476,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "4c9fac10d28d5a2f62ef8573bb765c08f13857dd8613e90a314ad7a2ee14a972"
+      "fullResultSha256": "b65da2a16aa3554963eddf0c6ead7d29f1c598cba514ef1b89bb6461d226223d"
     },
     {
       "id": "stealth-Masking-maneuver-0.1",
@@ -13263,7 +13775,7 @@
           "usefulWorkW": 0
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 46759.82487043623,
@@ -13331,6 +13843,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 1391861.6515656123,
+              "meanW": 46395.38838552041,
+              "minW": 46390.750715384216,
+              "maxW": 46400.688579957154
+            },
+            "observedEmW": {
+              "integralJ": 746.4528421052636,
+              "meanW": 24.881761403508786,
+              "minW": 24.88176140350878,
+              "maxW": 24.88176140350878
+            }
           }
         },
         "events": [
@@ -13354,7 +13882,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "e71d01d14c23a78af9500fc4b29d2fdb0244f145b6098e43471f82badb30040c"
+      "fullResultSha256": "98ebaa3740ca7ec96d24b40223bda4d26bce45b34565c9322d425c43d6f43b38"
     },
     {
       "id": "stealth-Masking-maneuver-1",
@@ -13653,7 +14181,7 @@
           "usefulWorkW": 0
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 49060.824870449425,
@@ -13721,6 +14249,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 1392817.1390578665,
+              "meanW": 46427.23796859555,
+              "minW": 46390.75071539087,
+              "maxW": 46468.93768653762
+            },
+            "observedEmW": {
+              "integralJ": 6995.484421052635,
+              "meanW": 233.18281403508783,
+              "minW": 233.18281403508774,
+              "maxW": 233.18281403508774
+            }
           }
         },
         "events": [
@@ -13744,7 +14288,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "e7fe6344b9e3fcbb9aa1cfd42f28eef80dc75f6874710797870261b131fc628d"
+      "fullResultSha256": "7175745fa0cce9eb9f1b4b9bf41c3cd28938c1bb1bf8d01618e48f7a5e7d96f3"
     },
     {
       "id": "stealth-Masking-forbidden-work",
@@ -14041,7 +14585,7 @@
           "usefulWorkW": 0
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 46504.15820381368,
@@ -14109,6 +14653,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 1391755.5511373056,
+              "meanW": 46391.85170457685,
+              "minW": 46390.750715384216,
+              "maxW": 46393.10997793206
+            },
+            "observedEmW": {
+              "integralJ": 52.11600000000003,
+              "meanW": 1.737200000000001,
+              "minW": 1.7372,
+              "maxW": 1.7372
+            }
           }
         },
         "events": [
@@ -14282,7 +14842,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "5edf79b4d06c018df385a825d1d1563e65e492c075e7920254446185c0fdf1ba"
+      "fullResultSha256": "9a2a4fbee7c6176ca02da91b7c2c827237c16910d446443c03d2fca60373e125"
     },
     {
       "id": "stealth-Masking-gyro-turn",
@@ -14581,7 +15141,7 @@
           "usefulWorkW": 0
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 46504.158203783154,
@@ -14649,6 +15209,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 1391765.857193668,
+              "meanW": 46392.19523978893,
+              "minW": 46390.75071538295,
+              "maxW": 46393.8461248329
+            },
+            "observedEmW": {
+              "integralJ": 65.01600000000002,
+              "meanW": 2.1672000000000007,
+              "minW": 2.1672000000000002,
+              "maxW": 2.1672000000000002
+            }
           }
         },
         "events": [
@@ -14672,7 +15248,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "025ee913aa75f6050c9aa8b7b67b22e3d98285400a853904a3e0037096610ce3"
+      "fullResultSha256": "b62b55cdf027b08395473f62dbb0818dd441604f1bdc95a1197b7f9adef8952f"
     },
     {
       "id": "stealth-Masking-generator-recurrence",
@@ -15037,7 +15613,7 @@
           "usefulWorkW": 0
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 3,
             "intrinsicIrW": 65264.379165032515,
@@ -15118,6 +15694,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 3,
+            "completedThroughSeconds": 3,
+            "receiverIrW": {
+              "integralJ": 139175.33025035576,
+              "meanW": 46391.77675011859,
+              "minW": 46390.75071540237,
+              "maxW": 46393.828819509654
+            },
+            "observedEmW": {
+              "integralJ": 7.7744,
+              "meanW": 2.591466666666667,
+              "minW": 1.7372,
+              "maxW": 4.3
+            }
           }
         },
         "events": [
@@ -15151,7 +15743,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "aec666a5d143ad96e7ce5b2316be4134404ef8cfe1d2023f4a8286bad766c5a0"
+      "fullResultSha256": "1bf8ea393e95ef1bd1f491f2b1da6b03665508a64b3ccc2206c77ac71c26fecf"
     },
     {
       "id": "stealth-Masking-deferrable-background",
@@ -15464,7 +16056,7 @@
           "usefulWorkW": 0
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 3,
             "intrinsicIrW": 46506.51569043169,
@@ -15532,6 +16124,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 3,
+            "completedThroughSeconds": 3,
+            "receiverIrW": {
+              "integralJ": 139174.60963290924,
+              "meanW": 46391.53654430308,
+              "minW": 46390.7507154138,
+              "maxW": 46393.10820205169
+            },
+            "observedEmW": {
+              "integralJ": 5.211600000000001,
+              "meanW": 1.7372000000000003,
+              "minW": 1.7372,
+              "maxW": 1.7372
+            }
           }
         },
         "events": [
@@ -15555,7 +16163,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "d8916fa919f7cf7f1bc128a449525d3c89dccd0a824b3a6ae9a6d4a2fd921477"
+      "fullResultSha256": "529dadcc26f2524d54a1a1a8704cba6749cd75eafd1507447e4b79209763f700"
     },
     {
       "id": "stealth-Masking-optional-pulse-charge",
@@ -15868,7 +16476,7 @@
           "usefulWorkW": 0
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 3,
             "intrinsicIrW": 46506.51569043169,
@@ -15936,6 +16544,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 3,
+            "completedThroughSeconds": 3,
+            "receiverIrW": {
+              "integralJ": 139174.60963290924,
+              "meanW": 46391.53654430308,
+              "minW": 46390.7507154138,
+              "maxW": 46393.10820205169
+            },
+            "observedEmW": {
+              "integralJ": 5.211600000000001,
+              "meanW": 1.7372000000000003,
+              "minW": 1.7372,
+              "maxW": 1.7372
+            }
           }
         },
         "events": [
@@ -15959,7 +16583,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "36073c46a8a6ee8ac158143b24de3770521ac4bdbc5c5a48d8fba367a27154be"
+      "fullResultSha256": "019b2b6ecbb618b1ac2a5b8adec2ec2d7bdf4b47da4e61f1b648d8fba3d53ed0"
     },
     {
       "id": "military-structural-buffer-aft",
@@ -16231,7 +16855,7 @@
           "usefulWorkW": 1500300
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 3111027.794806272,
@@ -16338,6 +16962,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 90534561.23046447,
+              "meanW": 3017818.707682149,
+              "minW": 3005403.115037292,
+              "maxW": 3044895.8007127605
+            },
+            "observedEmW": {
+              "integralJ": 4127.999999999998,
+              "meanW": 137.59999999999994,
+              "minW": 137.6,
+              "maxW": 137.6
+            }
           }
         },
         "events": [
@@ -16361,7 +17001,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "a03bab88f6168a1a4482495d27ac781291b72d1a8faca84735f767602f240f14"
+      "fullResultSha256": "7a99063afb67c264ff5cf92a549ed3deb725b01f35fea508a66be30a0dc8fa66"
     },
     {
       "id": "surface-10-thermoinverter-S-battery",
@@ -16632,7 +17272,7 @@
           "usefulWorkW": 1293679.6412663334
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 1711050.4207794394,
@@ -16726,6 +17366,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 1152613.3500621598,
+              "meanW": 38420.445002071996,
+              "minW": 14799.607400760604,
+              "maxW": 61503.06245222084
+            },
+            "observedEmW": {
+              "integralJ": 3846.0521351636776,
+              "meanW": 128.20173783878926,
+              "minW": 119.25390403851138,
+              "maxW": 137.63620565887902
+            }
           }
         },
         "events": [
@@ -16754,7 +17410,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "862fbf61c6a1063a9312b72372839f9181afcc379bd361f970521c9ce80cef02"
+      "fullResultSha256": "25a380a4b0a02d770c243cd4b511c5fa00e363b235e0ca0bb158c72ec26fce2e"
     },
     {
       "id": "surface-10-thermoinverter-S-generator",
@@ -17040,7 +17696,7 @@
           "usefulWorkW": 1275260.5432399292
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 1903032.2563717416,
@@ -17147,6 +17803,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 1565044.3761185957,
+              "meanW": 52168.145870619854,
+              "minW": 14799.607400760604,
+              "maxW": 88598.88833515286
+            },
+            "observedEmW": {
+              "integralJ": 3825.3263593146685,
+              "meanW": 127.51087864382228,
+              "minW": 117.91635515698142,
+              "maxW": 137.63620565887902
+            }
           }
         },
         "events": [
@@ -17175,7 +17847,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "88098d33e9ac29c0a693b30226b80edb8a64944dea4f0d2c5a67edc12713ff90"
+      "fullResultSha256": "8df487e41588945c46c99e3050273c91c2a2b908becfd5410a9e0227d2e3d06f"
     },
     {
       "id": "surface-10-pump-radiator-S-battery",
@@ -17448,7 +18120,7 @@
           "usefulWorkW": 1294395.471872104
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 1696998.543630568,
@@ -17542,6 +18214,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 719924.7095971848,
+              "meanW": 23997.49031990616,
+              "minW": 0,
+              "maxW": 47451.185303349455
+            },
+            "observedEmW": {
+              "integralJ": 3846.0166544919925,
+              "meanW": 128.20055514973308,
+              "minW": 119.28384032316022,
+              "maxW": 137.6
+            }
           }
         },
         "events": [
@@ -17570,7 +18258,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "212594cb226d4650604369b861ad67e41c26135ed955cef544514d5308215564"
+      "fullResultSha256": "a4987e881fb91cc968e2af1bba1e7e2ae254e7a02b036d3431f85693f3f3cd66"
     },
     {
       "id": "surface-10-pump-radiator-S-generator",
@@ -17858,7 +18546,7 @@
           "usefulWorkW": 1276441.2022712226
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 1889393.3813485147,
@@ -17965,6 +18653,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 1136930.7999037101,
+              "meanW": 37897.69333012367,
+              "minW": 0,
+              "maxW": 74849.89406093725
+            },
+            "observedEmW": {
+              "integralJ": 3825.9395102814856,
+              "meanW": 127.53131700938285,
+              "minW": 117.98754499160651,
+              "maxW": 137.6
+            }
           }
         },
         "events": [
@@ -17993,7 +18697,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "ca025fa6ab74f987a1f1da83a58cdedaad8b7671cfbbb364b3a190baa481258a"
+      "fullResultSha256": "196e2d58460a5004631d5571c90a87553c17d500f10e3258717a4bc516769f9e"
     },
     {
       "id": "surface-300-thermoinverter-S-battery",
@@ -18264,7 +18968,7 @@
           "usefulWorkW": 1299542.7093905334
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 3061069.1866732864,
@@ -18358,6 +19062,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 13924505.017239707,
+              "meanW": 464150.16724132356,
+              "minW": 441227.47793058853,
+              "maxW": 486542.00124669273
+            },
+            "observedEmW": {
+              "integralJ": 3883.9931106252193,
+              "meanW": 129.46643702084063,
+              "minW": 120.7383015524541,
+              "maxW": 138.66358325034054
+            }
           }
         },
         "events": [
@@ -18386,7 +19106,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "5c3b48caf9c75f5d086dbebdb04cb377f1f9d8273207a7b2482ed509c9a3ae23"
+      "fullResultSha256": "cbe7845e58228e28557d48cd357c9467334f60d709885c267c6da2518bc06663"
     },
     {
       "id": "surface-300-thermoinverter-S-generator",
@@ -18672,7 +19392,7 @@
           "usefulWorkW": 1278624.6017731277
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 3253439.251607159,
@@ -18779,6 +19499,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 14337061.041203244,
+              "meanW": 477902.0347067748,
+              "minW": 441227.47793058853,
+              "maxW": 513641.40936205967
+            },
+            "observedEmW": {
+              "integralJ": 3859.047965083344,
+              "meanW": 128.6349321694448,
+              "minW": 119.13156995374685,
+              "maxW": 138.66358325034054
+            }
           }
         },
         "events": [
@@ -18807,7 +19543,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "5f2ad0d6312fda2cf886334d7945e1fe6086b8cf50d01fd7d75bb56665b8282a"
+      "fullResultSha256": "69760a45b38a3986b034eb06a12c3ffaeee1217baaae9d3a1c616dea6717f42a"
     },
     {
       "id": "surface-300-pump-radiator-S-battery",
@@ -19080,7 +19816,7 @@
           "usefulWorkW": 1272573.3660521908
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 2656867.6455689264,
@@ -19174,6 +19910,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 1250794.1330354123,
+              "meanW": 41693.137767847074,
+              "minW": 0,
+              "maxW": 82340.4601423326
+            },
+            "observedEmW": {
+              "integralJ": 3815.1969871010892,
+              "meanW": 127.17323290336964,
+              "minW": 117.33989300632506,
+              "maxW": 137.6
+            }
           }
         },
         "events": [
@@ -19202,7 +19954,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "bff3899875609a3601b7460d9bc291c6744b51d417483f5cb61dbcc9363bea5f"
+      "fullResultSha256": "985e5b33fd32e1955a96dd27d55b16a4bbcda52a6c22260bbee27426d127ff02"
     },
     {
       "id": "surface-300-pump-radiator-S-generator",
@@ -19490,7 +20242,7 @@
           "usefulWorkW": 1261875.9207387557
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 2862930.8979421044,
@@ -19597,6 +20349,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 1897994.595675278,
+              "meanW": 63266.486522509265,
+              "minW": 0,
+              "maxW": 124797.23513455689
+            },
+            "observedEmW": {
+              "integralJ": 3805.567613183396,
+              "meanW": 126.85225377277987,
+              "minW": 116.71036005938704,
+              "maxW": 137.6
+            }
           }
         },
         "events": [
@@ -19625,7 +20393,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "5ebc6043d2f9c71f2d5c6f1d66decd60d814a8bd0004965d82ad8646005da2fa"
+      "fullResultSha256": "460ed0f8037aedcd9ee23f736d20e6490d508a3a169ef2db31aef3b3624749c6"
     },
     {
       "id": "surface-mixed-ordinary",
@@ -19875,7 +20643,7 @@
           "usefulWorkW": 1500300
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 2067781.828113113,
@@ -19982,6 +20750,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 61884287.49089523,
+              "meanW": 2062809.5830298408,
+              "minW": 2062738.8806235753,
+              "maxW": 2062880.7074389947
+            },
+            "observedEmW": {
+              "integralJ": 4127.999999999998,
+              "meanW": 137.59999999999994,
+              "minW": 137.6,
+              "maxW": 137.6
+            }
           }
         },
         "events": [
@@ -20005,7 +20789,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "e13428e277bdbc303c65fac1d85650b98d4e4831a97c7b140519cc669698f18c"
+      "fullResultSha256": "77c4cc3dc78689c6a9f08cbac3f5f1987953cc550a24c5608bb07474a8400471"
     },
     {
       "id": "surface-mixed-aft",
@@ -20255,7 +21039,7 @@
           "usefulWorkW": 1500300
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
             "intrinsicIrW": 2067781.828113113,
@@ -20362,6 +21146,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 30,
+            "completedThroughSeconds": 30,
+            "receiverIrW": {
+              "integralJ": 59880276.15706964,
+              "meanW": 1996009.2052356547,
+              "minW": 1995940.7923996376,
+              "maxW": 1996078.0264087557
+            },
+            "observedEmW": {
+              "integralJ": 4127.999999999998,
+              "meanW": 137.59999999999994,
+              "minW": 137.6,
+              "maxW": 137.6
+            }
           }
         },
         "events": [
@@ -20385,7 +21185,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "1afa4123a93404d471b980ff5a1f23a81a77d388a70db3fcff6bfbeb308c1619"
+      "fullResultSha256": "fd1a97994eb4c717bd168887d91abb74507be9f5a37cf83f9e5f23fc55f64e67"
     },
     {
       "id": "surface-mixed-hot-common-ti",
@@ -20669,7 +21469,7 @@
           "usefulWorkW": 1500300
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 3,
             "intrinsicIrW": 4914185.474587092,
@@ -20776,6 +21576,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 3,
+            "completedThroughSeconds": 3,
+            "receiverIrW": {
+              "integralJ": 11524545.859274775,
+              "meanW": 3841515.286424925,
+              "minW": 3841009.3767658724,
+              "maxW": 3842021.375185819
+            },
+            "observedEmW": {
+              "integralJ": 494.68466520655363,
+              "meanW": 164.89488840218453,
+              "minW": 164.87772671855848,
+              "maxW": 164.9120446396579
+            }
           }
         },
         "events": [
@@ -20799,7 +21615,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "56bdcbd95de9c5ca404ec98a966895b6ff6ebe8e3e5449a0ff5676b91f26c32b"
+      "fullResultSha256": "8f2eb524d99f7d81ee2bbda29765ba0b703472c4535617f8fd9cab73b1e90cad"
     },
     {
       "id": "buffer-high-short",
@@ -21111,7 +21927,7 @@
           "usefulWorkW": 0
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 10,
             "intrinsicIrW": 48957.380617279756,
@@ -21179,6 +21995,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 10,
+            "completedThroughSeconds": 10,
+            "receiverIrW": {
+              "integralJ": 476103.7783937323,
+              "meanW": 47610.377839373235,
+              "minW": 46390.750715443755,
+              "maxW": 48843.97312889976
+            },
+            "observedEmW": {
+              "integralJ": 17.372,
+              "meanW": 1.7372,
+              "minW": 1.7372,
+              "maxW": 1.7372
+            }
           }
         },
         "events": [
@@ -21252,7 +22084,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "fb6a085c8dd7ec0261d0ce387b3d930e846a034d6f821d7fb4ce45a466e98ee0"
+      "fullResultSha256": "d33dacdb9dc2b0f650b193a6fe21c8219a6cc5fb5f4fa643b144eb9672e7fbe2"
     },
     {
       "id": "buffer-low-long",
@@ -21564,7 +22396,7 @@
           "usefulWorkW": 0
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 100,
             "intrinsicIrW": 46504.158203819316,
@@ -21632,6 +22464,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 100,
+            "completedThroughSeconds": 100,
+            "receiverIrW": {
+              "integralJ": 4641788.916520637,
+              "meanW": 46417.889165206376,
+              "minW": 46390.750715383016,
+              "maxW": 46446.13530685773
+            },
+            "observedEmW": {
+              "integralJ": 173.7200000000001,
+              "meanW": 1.7372000000000012,
+              "minW": 1.7372,
+              "maxW": 1.7372
+            }
           }
         },
         "events": [
@@ -21655,7 +22503,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "507a780d0f234e3a7ed569e427b6b4cc51bdbfaf26168ba54056cf8c93e388a7"
+      "fullResultSha256": "c5434c67ad12fa82781fd8bb27dbcdef457b23782227760986d1dddb8cd36584"
     },
     {
       "id": "buffer-recovery-cold",
@@ -21994,7 +22842,7 @@
           "usefulWorkW": 0
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 120,
             "intrinsicIrW": 41214.61051885531,
@@ -22062,6 +22910,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 120,
+            "completedThroughSeconds": 120,
+            "receiverIrW": {
+              "integralJ": 5240372.757621758,
+              "meanW": 43669.77298018131,
+              "minW": 41101.20303047531,
+              "maxW": 46390.750715443755
+            },
+            "observedEmW": {
+              "integralJ": 208.46400000000014,
+              "meanW": 1.7372000000000012,
+              "minW": 1.7372,
+              "maxW": 1.7372
+            }
           }
         },
         "events": [
@@ -22110,7 +22974,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "61757b2b4fedf214ae4147c4e580b6ebe6e58c7b17ddbb576866432738cf537e"
+      "fullResultSha256": "6acc4203d6c7da4180c3199123374c0fcf91b84c7224d9183ea2d8add2877d1b"
     },
     {
       "id": "buffer-recovery-hot",
@@ -22449,7 +23313,7 @@
           "usefulWorkW": 0
         },
         "signatures": {
-          "version": "ship-signatures/1",
+          "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 120,
             "intrinsicIrW": 59551.88593123725,
@@ -22517,6 +23381,22 @@
                 }
               }
             ]
+          },
+          "statistics": {
+            "durationSeconds": 120,
+            "completedThroughSeconds": 120,
+            "receiverIrW": {
+              "integralJ": 6339106.959935546,
+              "meanW": 52825.891332796215,
+              "minW": 46390.75071540144,
+              "maxW": 59438.47844285725
+            },
+            "observedEmW": {
+              "integralJ": 208.46400000000014,
+              "meanW": 1.7372000000000012,
+              "minW": 1.7372,
+              "maxW": 1.7372
+            }
           }
         },
         "events": [
@@ -23150,7 +24030,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "4c08eeb5359c1bc9af4e524b9a77bfb06e4c65f047baf09ee1f344d00b7db700"
+      "fullResultSha256": "358ae1c3f82c8d13b111169a25a14a7678eb45096590844edb2bcfe64d71a058"
     }
   ]
 }

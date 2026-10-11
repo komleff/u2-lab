@@ -2,6 +2,7 @@ import { getPresetFit, loadCandidateCatalog } from "../../src/fitting/catalog";
 import { compileFit } from "../../src/fitting/compile";
 import type { FieldOrigin } from "../../src/fitting/types";
 import type { RunSpecV3, StateV3 } from "../../src/model/v3/types";
+import {stepV3} from '../../src/model/v3/step';
 export function fixture(id = "sputnik"): RunSpecV3 {
   const catalog = loadCandidateCatalog("ship-fitting-0.3.0"), fit = getPresetFit(id, catalog.version);
   const compiled = compileFit(fit, catalog);
@@ -34,4 +35,13 @@ export function checkpointFixture(){
   i.item.durability.wearPerWorkSecond=0;const m=s.initialState.modules[i.id];m.durabilityR=-0.5;m.firstNegativeCrossing=true;
   for(const[id,b]of Object.entries(s.initialState.buffers)){b.storedJ=100;b.minimumCaptureK=400;s.origins['initialState.buffers.'+id+'.minimumCaptureK']={kind:'experimental',unit:'K',sourceRef:'tests/model-v3/fixture.ts: CP05 initial capture marker'};}
   return {spec:s,instanceId:i.id};
+}
+// CP-04 меняет только явные условия опыта/начальный заряд, не паспорт или ТТХ.
+// Половина секундного запроса в аккумуляторе при η=0.9 даёт depletion в 0.45 s.
+export function signatureDepletionFixture(durationSeconds=4){
+  const s=fixture();s.durationSeconds=durationSeconds;s.environment.radiativeBackgroundK=300;s.observer.aspectDeg=180;
+  s.scenario.phases=[{...s.scenario.phases[0],id:'CP-04-maneuver',action:'maneuver',durationSeconds:1,requests:{'fit:march':1}}];
+  s.origins['scenario.phases.0.requests.fit:march']={kind:'experimental',unit:'1',sourceRef:'tests/model-v3/fixture.ts: signature depletion'};
+  const full=stepV3(s,s.initialState,s.scenario.phases[0].requests,'maneuver');s.initialState.chargeJ=full.telemetry.requestedW*0.5;
+  return s;
 }

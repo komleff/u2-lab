@@ -1,5 +1,9 @@
 import { expect, it } from "vitest";
 import { resolveElectrical } from "../../src/model/v3/power";
+import {stepV3} from '../../src/model/v3/step';
+import {signatureDepletionFixture} from './fixture';
+import {createShipModelRun,runShipModelChunk} from '../../src/runner/ship-model-run';
+import {Retention} from '../../src/runner/retention';
 
 const input = () => ({ chargeJ: 1e9, capacityJ: 1e9, loadW: 1e6, independentSupplyW: 0, generatorMaximumW: 2e6,
   chargeEfficiency: 0.9, dischargeEfficiency: 0.9,batteryChargeFactor:1,batteryDischargeFactor:1, mode: "Efficient" as const, generator: { permission:false, normalOn:false } });
@@ -35,4 +39,21 @@ it("independent supply at low SOC does not arm emergency generation; exit hands 
   expect(resolveElectrical(x).generator.permission).toBe(false);
   x.independentSupplyW=0;x.generator={permission:true,normalOn:true};x.mode="Efficient";
   const r=resolveElectrical(x);expect(r.generator.permission).toBe(false);expect(r.generator.normalOn).toBe(true);expect(r.generatorW).toBeGreaterThanOrEqual(x.loadW);
+});
+it('I4 CP-04 .45s frame extrema precede second averages and survive actual retention merge',()=>{
+  const spec=signatureDepletionFixture(),step=stepV3(spec,spec.initialState,spec.scenario.phases[0].requests,'maneuver');
+  expect(step.frames.map(f=>f.durationSeconds)).toEqual([0.45,0.55]);
+  // Независимая проекция raw frames: stern Lambert = π; пассивные поверхности omni.
+  const ir=step.frames.map(f=>Math.max(0,f.body.radiationW+f.surfaces.rows.reduce((sum,r)=>sum+r.radiationW,0)+f.outwardIr.reduce((sum,r)=>sum+r.contrastW*(r.profile==='aft-directed'?Math.PI:1),0))),em=step.frames.map(f=>f.em.escapedEmW+f.em.intentionalRfW);
+  expect(ir[0]).toBeGreaterThan(ir[1]);expect(em[0]).toBeGreaterThan(em[1]);expect(em[1]).toBe(0);
+  const run=createShipModelRun('CP-04-frames',spec);run.retention=new Retention(run.retention.channels,2);runShipModelChunk(run,1);
+  const stats=(run.signatures as any).statistics;expect(stats).toBeDefined();
+  expect(stats.durationSeconds).toBe(1);expect(stats.completedThroughSeconds).toBe(1);
+  expect(stats.receiverIrW).toMatchObject({minW:ir[1],maxW:ir[0]});expect(stats.receiverIrW.integralJ).toBeCloseTo(ir[0]*0.45+ir[1]*0.55,8);expect(stats.receiverIrW.meanW).toBe(stats.receiverIrW.integralJ);
+  expect(stats.observedEmW).toMatchObject({minW:0,maxW:em[0]});expect(stats.observedEmW.integralJ).toBeCloseTo(em[0]*0.45,8);
+  expect(stats.receiverIrW.maxW).toBeGreaterThan(run.signatures.last!.receiverIrW);expect(stats.observedEmW.maxW).toBeGreaterThan(run.signatures.last!.observedEmW);
+  runShipModelChunk(run,3);expect(run.retention.cadenceSeconds).toBeGreaterThan(1);
+  for(const [name,maximum]of [['receiverIrW',ir[0]],['observedEmW',em[0]]] as const){
+    expect((run.signatures as any).statistics[name].maxW).toBe(maximum);const i=run.retention.channels.indexOf('signal:'+name);expect(maximum).toBeGreaterThan(Math.max(...run.retention.buckets.map(b=>b.max[i])));
+  }
 });

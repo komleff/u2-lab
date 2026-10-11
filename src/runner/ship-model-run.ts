@@ -4,16 +4,16 @@ import {stepV3} from '../model/v3/step';
 import type {TickTelemetry} from '../model/types';
 import {Retention,EventRetention} from './retention';
 import {validateShipModelResult} from '../io/ship-model-result';
-import {observeShipModelStep,SHIP_SIGNATURE_VERSION,type ShipSignal} from '../signatures/ship-model';
+import {observeShipModelStep,SHIP_SIGNATURE_VERSION,createShipSignatureStatistics,accumulateShipModelFrames,type ShipModelSignatures} from '../signatures/ship-model';
 import {shipModelChannelNames,observeShipModelState,shipModelEffectivePhase} from './ship-model-telemetry';
-export type ShipModelSignatures={version:typeof SHIP_SIGNATURE_VERSION;last:ShipSignal|null};
+export type {ShipModelSignatures} from '../signatures/ship-model';
 export type ShipModelMetrics={usefulWorkJ:number;totalResidualJ:number;maximumTemperatureK:number;firstConstraint:string|null};
 export type RunContextV3={runId:string;spec:RunSpecV3;state:StateV3;metrics:ShipModelMetrics;signatures:ShipModelSignatures;retention:Retention;events:EventRetention;done:boolean;last:TickTelemetry};
 export type RunResultV3={runId:string;spec:RunSpecV3;state:StateV3;metrics:ShipModelMetrics;signatures:ShipModelSignatures;channels:string[];buckets:Retention['buckets'];events:ReturnType<EventRetention['items']>;retention:ReturnType<Retention['metadata']>&{totalEvents:number;droppedEvents:number};status:'complete'|'paused'|'cancelled';checkpoint:{version:'ship-checkpoint/1';lastTelemetry:TickTelemetry}};
 export function createShipModelRun(runId:string,input:RunSpecV3):RunContextV3{
   const checked=validateRunSpecV3(input);if(!checked.ok)throw new Error(checked.errors.map(e=>e.path+': '+e.message).join('\n'));
   const spec=structuredClone(checked.value);
-  return {runId,spec,state:structuredClone(spec.initialState),metrics:{usefulWorkJ:0,totalResidualJ:0,maximumTemperatureK:spec.initialState.temperatureK,firstConstraint:null},signatures:{version:SHIP_SIGNATURE_VERSION,last:null},retention:new Retention(shipModelChannelNames(spec)),events:new EventRetention(),done:spec.initialState.timeSeconds>=spec.durationSeconds,last:{}};
+  return {runId,spec,state:structuredClone(spec.initialState),metrics:{usefulWorkJ:0,totalResidualJ:0,maximumTemperatureK:spec.initialState.temperatureK,firstConstraint:null},signatures:{version:SHIP_SIGNATURE_VERSION,last:null,statistics:createShipSignatureStatistics(spec.initialState.timeSeconds)},retention:new Retention(shipModelChannelNames(spec)),events:new EventRetention(),done:spec.initialState.timeSeconds>=spec.durationSeconds,last:{}};
 }
 export function runShipModelChunk(run:RunContextV3,maxSteps:number,wallBudgetMs=Infinity){
   const started=performance.now();let steps=0;
@@ -28,6 +28,7 @@ export function runShipModelChunk(run:RunContextV3,maxSteps:number,wallBudgetMs=
       if(phase.mode!=='Masking')run.state.generator.permission=false;
     }
     const step=stepV3(phase.environment?{...run.spec,environment:phase.environment}:run.spec,run.state,phase.requests,phase.action);
+    if(run.signatures.version===SHIP_SIGNATURE_VERSION)run.signatures.statistics=accumulateShipModelFrames(run.spec,run.signatures.statistics,step);
     run.signatures.last=observeShipModelStep(run.spec,step);
     run.state=step.state;if(effective.fallback)run.state.phaseElapsedSeconds=run.spec.scenario.phases[run.state.phaseIndex].durationSeconds;
     run.last=observeShipModelState(run.spec,run.state,step.telemetry,run.signatures.last,step);run.metrics.usefulWorkJ+=step.telemetry.usefulWorkW;run.metrics.totalResidualJ+=step.telemetry.totalResidualJ;

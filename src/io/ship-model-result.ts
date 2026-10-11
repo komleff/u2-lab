@@ -21,8 +21,27 @@ export function validateShipModelResult(input:unknown):ValidationResult<RunResul
     exactFields(r.checkpoint,['version','lastTelemetry'],'ship checkpoint');
     if(r.checkpoint.version!=='ship-checkpoint/1')bad('checkpoint.version','Неподдерживаемая версия checkpoint');
     if(!object(r.checkpoint.lastTelemetry)||Object.values(r.checkpoint.lastTelemetry).some(v=>!finite(v)))bad('checkpoint.lastTelemetry','Нужен полный конечный kernel telemetry record');
-    exactFields(r.signatures,['version','last'],'ship signatures');
-    if(r.signatures.version!=='ship-signatures/1')bad('signatures.version','Неподдерживаемая версия measured signatures');
+    if(r.signatures?.version==='ship-signatures/2'){
+      exactFields(r.signatures,['version','last','statistics'],'ship signatures v2');
+      const stats=r.signatures.statistics;exactFields(stats,['durationSeconds','completedThroughSeconds','receiverIrW','observedEmW'],'ship signature statistics');
+      const duration=state.value.timeSeconds-spec.value.initialState.timeSeconds,tolerance=1e-9*Math.max(1,duration);
+      if(!finite(stats.durationSeconds)||stats.durationSeconds<0||duration===0&&stats.durationSeconds!==0||Math.abs(stats.durationSeconds-duration)>tolerance||stats.completedThroughSeconds!==state.value.timeSeconds)bad('signatures.statistics','Statistics должны завершаться на собственной production границе');
+      for(const name of ['receiverIrW','observedEmW']){
+        const channel=stats[name];exactFields(channel,['integralJ','meanW','minW','maxW'],'ship signature statistics '+name);
+        if(duration===0){
+          if(channel.integralJ!==0||channel.meanW!==null||channel.minW!==null||channel.maxW!==null)bad('signatures.statistics.'+name,'Пустой интервал не содержит measured mean/extrema');
+        }else{
+          if(![channel.integralJ,channel.meanW,channel.minW,channel.maxW].every(value=>finite(value)&&value>=0))bad('signatures.statistics.'+name,'Нужны конечные неотрицательные measured statistics');
+          else{
+            const wattsTolerance=1e-9*Math.max(1,channel.maxW),joulesTolerance=1e-9*Math.max(1,channel.integralJ);
+            if(channel.minW>channel.maxW||channel.meanW<channel.minW-wattsTolerance||channel.meanW>channel.maxW+wattsTolerance||Math.abs(channel.integralJ-channel.meanW*stats.durationSeconds)>joulesTolerance)bad('signatures.statistics.'+name,'Несогласованные integral/mean/min/max');
+          }
+        }
+      }
+    }else{
+      exactFields(r.signatures,['version','last'],'ship signatures v1');
+      if(r.signatures.version!=='ship-signatures/1')bad('signatures.version','Неподдерживаемая версия measured signatures');
+    }
     if(r.signatures.last===null){if(state.value.timeSeconds!==spec.value.initialState.timeSeconds)bad('signatures.last','Отсутствует сохранённое измерение');}
     else{
       const signal=r.signatures.last;exactFields(signal,['timeSeconds','intrinsicIrW','contrastIrW','receiverIrW','rawEmW','escapedEmW','capturedEmW','observedEmW','irFluxWm2','emFluxWm2','ownAntennaTransmission','ownSensorWorkingW','paths'],'ship signal');
