@@ -8,9 +8,9 @@ import {signatureDepletionFixture,fixture} from '../model-v3/fixture';
 const oldCatalog=loadCandidateCatalog('ship-fitting-0.2.5');
 function workspace(){return new ShipModelWorkspace(getPresetFit('sputnik',oldCatalog.version),oldCatalog);}
 const templates={'reference-retro-engine-diesel-S-single':'engine-diesel-S-single'};
-it('direct model selection refuses the old fit; explicit preview/apply leaves source literal and shows all changes',()=>{
-  const w=workspace(),source=JSON.stringify(w.source);expect(()=>w.selectModel()).toThrow(/compile|компиляц/i);
-  const preview=w.previewCompilation(templates);expect(preview.changes.length).toBeGreaterThan(0);expect(preview.changes.some(c=>c.kind==='origin')).toBe(true);expect(w.fit).toBeUndefined();
+it('source preview leaves independent fresh A and old source literal until explicit apply',()=>{
+  const w=workspace(),source=JSON.stringify(w.source),fresh=JSON.stringify(w.fit);w.selectModel();
+  const preview=w.previewCompilation(templates);expect(preview.changes.length).toBeGreaterThan(0);expect(preview.changes.some(c=>c.kind==='origin')).toBe(true);expect(JSON.stringify(w.fit)).toBe(fresh);
   w.applyCompilation();w.selectModel();expect(w.fit!.schemaVersion).toBe('u2-ship-fit/2');expect(JSON.stringify(w.source)).toBe(source);
 });
 it('new run owns its immutable conditions; A/B keeps real module mass, category, delivered power and heat',()=>{

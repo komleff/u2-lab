@@ -7,6 +7,19 @@ import {createFittingRun,runFittingChunk,fittingResult} from '../../src/runner/f
 const oldCatalog=loadCandidateCatalog('ship-fitting-0.2.5');
 const oldFit=getPresetFit('sputnik',oldCatalog.version);
 const upload=(text:string,name='ship.json')=>({name,mimeType:'application/json',buffer:Buffer.from(text)});
+test('fresh /4 opens independent Sputnik D at 250 K and actual Worker receives those defaults',async({page})=>{
+  await page.goto('/?shipModel=experimental');
+  await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.1');
+  await expect(page.locator('#sm-background')).toHaveValue('250');
+  await expect(page.locator('#sm-draft-owner')).toContainText('фон 250 K');
+  await expect(page.locator('#sm-start')).toBeEnabled();
+  await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();
+  await expect(page.locator('#sm-status')).toHaveText('complete');
+  const saving=page.waitForEvent('download');await page.locator('#sm-save-result').click();
+  const result=JSON.parse(readFileSync((await (await saving).path())!,'utf8'));
+  expect(result.spec.environment.radiativeBackgroundK).toBe(250);
+  expect(result.spec.resolvedShip.fit).toEqual(getPresetFit('sputnik-d','ship-fitting-0.3.1'));
+});
 test('Task2 compatibility selector stays on exactly three old IDs before and after current promotion',async({page})=>{
   await page.goto('/?shipModel=experimental');
   await expect(page.locator('#sm-preset')).toBeVisible();
@@ -32,12 +45,13 @@ test('visible entry compiles the actual old Sputnik with unique UI-prefill, then
   await page.goto('/?shipModel=experimental');
   await expect(page.getByRole('heading',{name:'Открыть корабль',exact:true})).toBeVisible();
   await expect(page.locator('#sm-model')).toHaveCount(0);
-  await expect(page.locator('#sm-source')).toContainText('Спутник');await expect(page.locator('#sm-start')).toBeDisabled();
+  await expect(page.locator('#sm-source')).toContainText('Спутник');await expect(page.locator('#sm-start')).toBeEnabled();
+  const independent=await page.locator('#sm-opened').textContent();
   await page.locator('#sm-source').click();
   await expect(page.locator('[data-sm-template]')).toHaveValue('engine-diesel-S-single');
   await page.locator('#sm-preview').click();await expect(page.locator('#sm-diff')).toContainText('origin');
   await expect(page.locator('#sm-diff-summary')).toContainText('Масса');await expect(page.locator('#sm-diff-summary')).toContainText('кДж/K');expect(await page.locator('#sm-diff').evaluate(el=>(el as HTMLDetailsElement).open)).toBe(false);
-  await expect(page.locator('#sm-start')).toBeDisabled();await page.locator('#sm-apply').click();
+  expect(await page.locator('#sm-opened').textContent()).toBe(independent);await expect(page.locator('#sm-start')).toBeEnabled();await page.locator('#sm-apply').click();
   await expect(page.locator('#sm-opened')).toContainText('u2-ship-fit/2');
   await page.locator('#sm-duration').fill('2');await page.locator('#sm-start').click();
   await expect(page.locator('#sm-status')).toHaveText('complete');await expect(page.locator('#sm-measured-owner')).toContainText('Спутник');
@@ -52,8 +66,9 @@ test('ambiguous source template is not auto-selected or silently applied',async(
   const source=structuredClone(oldFit),item=structuredClone(oldCatalog.items['cargo-universal-S']);item.id='ui-choice-cargo';source.localVariants[item.id]=item;
   await page.goto('/?shipModel=experimental');await page.locator('#sm-import').setInputFiles(upload(serializeFit(source)));await page.locator('#sm-leave-confirm').click();
   await page.locator('#ship-model-open').click();await page.locator('#sm-source').click();
+  const independent=await page.locator('#sm-opened').textContent();
   const choice=page.locator('[data-sm-template="ui-choice-cargo"]');await expect(choice).toHaveValue('');expect(await choice.locator('option').count()).toBe(3);
-  await page.locator('#sm-preview').click();await expect(page.locator('#sm-error')).toContainText('localVariants.ui-choice-cargo');await expect(page.locator('#sm-apply')).toBeDisabled();await expect(page.locator('#sm-start')).toBeDisabled();
+  await page.locator('#sm-preview').click();await expect(page.locator('#sm-error')).toContainText('localVariants.ui-choice-cargo');await expect(page.locator('#sm-apply')).toBeDisabled();await expect(page.locator('#sm-start')).toBeEnabled();expect(await page.locator('#sm-opened').textContent()).toBe(independent);
 });
 test('old JSON opens explicitly in old editor only after validation and a leave decision; malformed leaves /4 intact',async({page})=>{
   await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');

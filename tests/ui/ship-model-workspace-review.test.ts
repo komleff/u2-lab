@@ -7,6 +7,12 @@ import {workspaceShell} from '../../src/app/fitting';
 const catalog=loadCandidateCatalog('ship-fitting-0.2.5');
 const workspace=()=>new ShipModelWorkspace(getPresetFit('sputnik',catalog.version),catalog);
 const templates={'reference-retro-engine-diesel-S-single':'engine-diesel-S-single'};
+it('fresh A owns current Sputnik D at 250 K while the old source remains detached',()=>{
+  const source=getPresetFit('sputnik',catalog.version),literal=JSON.stringify(source),w=new ShipModelWorkspace(source,catalog);
+  expect(w.fit).toEqual(getPresetFit('sputnik-d','ship-fitting-0.3.1'));
+  expect(w.conditions.backgroundK).toBe(250);expect(w.prepare().environment.radiativeBackgroundK).toBe(250);
+  expect(JSON.stringify(w.source)).toBe(literal);source.fitRevision=999;expect(w.source.fitRevision).not.toBe(999);
+});
 it('I1 keeps A as the captured run owner after selecting B during running and paused intervals',()=>{
   const w=workspace();w.loadPreset('sputnik','ship-fitting-0.3.0');w.updateConditions({durationSeconds:3});w.copyToB();w.selectVariant('A');
   const spec=w.start('owner-A'),run=createShipModelRun('owner-A',spec);
@@ -44,7 +50,7 @@ it('I1 freeze refuses a previous measurement during a new run and a cancelled re
   expect(w.freeze()).toBe(false);runShipModelChunk(next,1);w.acceptResult(shipModelResult(next,'cancelled'));expect(w.freeze()).toBe(false);expect(serializeResultSnapshot(w.frozen!)).toBe(frozen);
 });
 it('I5 frozen source metadata is detached; stale follows its own draft even after a later matching result',()=>{
-  const w=workspace();w.loadPreset('sputnik','ship-fitting-0.3.0');w.updateConditions({durationSeconds:2});const run=createShipModelRun('frozen-source-A',w.start('frozen-source-A'));runShipModelChunk(run,1);w.acceptResult(shipModelResult(run,'paused'));w.setStatus('paused');w.selectVariant('B');expect(w.freeze()).toBe(true);
+  const w=workspace();w.loadPreset('sputnik','ship-fitting-0.3.0');w.updateConditions({durationSeconds:2,backgroundK:100});const run=createShipModelRun('frozen-source-A',w.start('frozen-source-A'));runShipModelChunk(run,1);w.acceptResult(shipModelResult(run,'paused'));w.setStatus('paused');w.selectVariant('B');expect(w.freeze()).toBe(true);
   const literal=serializeResultSnapshot(w.frozen!),view=w.snapshotForRender();expect(view.frozenSource).toEqual({variantId:'A'});expect(view.frozenStale).toBe(false);view.frozenSource!.variantId='B';expect(w.snapshotForRender().frozenSource!.variantId).toBe('A');
   runShipModelChunk(run,1);w.acceptResult(shipModelResult(run));w.selectVariant('A');w.updateConditions({backgroundK:250});expect(w.snapshotForRender().frozenStale).toBe(true);
   const later=createShipModelRun('later-A',w.start('later-A'));runShipModelChunk(later,2);w.acceptResult(shipModelResult(later));expect(w.isStale()).toBe(false);expect(w.snapshotForRender().frozenStale).toBe(true);

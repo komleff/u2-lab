@@ -4,7 +4,7 @@
   "serverParity": "NOT RUN",
   "fingerprints": {
     "data/experiments/ship-model-v0.1-generations.json": "af90a881c647895fda6f3af1667320809cce8dd76d89e4e216d47bf46f462c44",
-    "src/experiments/ship-model-v0.1.ts": "402c8bcb5b255bcfb3a35b26717ea779ff564ef78627cf3957de9125fad5caaf",
+    "src/experiments/ship-model-v0.1.ts": "79edec708b2489787285fd3feb403b15058eff8d7b4eb49a89114aec013eed45",
     "src/fitting/data/hulls-0.3.0.json": "fe92013798eb3ac38d83978ed3b87736d5be6b5910a29734eae63878cce3784e",
     "src/fitting/data/items-0.3.0.json": "bdb3d20067e0abdc54e19a469f5e1a33cf386b2453024d982409c869550d1f33",
     "src/fitting/data/presets-0.3.0.json": "3b313105efdd5f11d7c451245edf603ce2ef8838c944be51e816d573310e78c3",
@@ -23,7 +23,7 @@
     "src/model/v3/types.ts": "70315d8215fcb84326c24157ce49019aa0e51b49a464ba94b5e3f0a93df3ca42",
     "src/runner/ship-model-run.ts": "2ef9c7b48fdadd90a96a884e92ce3c7e3a8d7292c54b4da1d8826fce421c2012",
     "src/runner/ship-model-telemetry.ts": "d20f164864f0daef3a331173ad8beaefa7ec7a69130ad29b582739c886f509e4",
-    "src/scenarios/fitting.ts": "d3560c3a6459347b3883b43df7b281022a82410f6f6da7f7090c38f772237158",
+    "src/scenarios/fitting.ts": "22980303293610e689a1ac4a3f3bc6a08fb988be7545c6e70bc7e0d3f3e6011a",
     "src/signatures/ship-model.ts": "2686e22d0555bbb997155b41adc8b9526bea6c0a57fe28569ab80742b7b80619",
     "src/signatures/sources.ts": "484f518e5d8026b6a20a9298304a302ba977b475d33f6c405d298fbe7951f16f"
   },

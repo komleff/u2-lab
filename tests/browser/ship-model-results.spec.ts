@@ -43,7 +43,7 @@ test('I5 actual zero and literal imported v1 have distinct measured DOM, with no
 async function qaMeasuredPair(page:Page,touch=false){
   const action=async(selector:string)=>{const node=page.locator(selector);await node.evaluate(n=>n.scrollIntoView({block:'center'}));if(touch)await node.tap();else await node.click();};
   const save=async()=>{const waiting=page.waitForEvent('download');await action('#sm-save-result');return readFileSync((await (await waiting).path())!,'utf8');};
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');await page.locator('#sm-duration').fill('1');await page.locator('#sm-duration').press('Tab');
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');await page.locator('#sm-background').fill('100');await page.locator('#sm-background').press('Tab');await page.locator('#sm-duration').fill('1');await page.locator('#sm-duration').press('Tab');
   await action('#sm-start');await expect(page.locator('#sm-status')).toHaveText('complete');const aText=await save(),a=JSON.parse(aText);
   expect(a.spec.environment.radiativeBackgroundK).toBe(100);expect(a.spec.observer.aspectDeg).toBe(0);await action('#sm-freeze');await expect(page.locator('#sm-frozen-owner')).toContainText(a.runId);
   await action('#sm-copy');await page.locator('#sm-background').fill('120');await page.locator('#sm-background').press('Tab');await page.locator('#sm-aspect').fill('180');await page.locator('#sm-aspect').press('Tab');

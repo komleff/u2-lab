@@ -8,6 +8,7 @@ import {parseFitJson,parseExperimentJson} from '../io/fitting-json';
 import {parseStoredResultJson} from '../io/fitting-result';
 import type {RunResultV3} from '../runner/ship-model-run';
 import {validateRunSpecV3,validateShipModelFit,compileShipModelFit} from '../model/v3/schema';
+import {DEFAULT_SHIP_MODEL_BACKGROUND_K,DEFAULT_SHIP_MODEL_PRESET_ID} from './ship-model-defaults';
 type Variant={fit?:ShipFitV3;conditions:ShipModelConditions;result?:RunResultV3;replay?:RunSpecV3;scenarioName?:string;stale?:boolean;opened?:'fit'|'run'|'result'};
 type ActiveTest={runId:string;variantId:'A'|'B';fitRevision:number;spec:RunSpecV3;status:'running'|'paused'};
 export type ScenarioEdit=RunSpecV3['scenario']&{durationSeconds:number};
@@ -38,7 +39,7 @@ export class ShipModelWorkspace{
   private comparisonBaseId?:'A'|'B'|'reference';
   private draftRevision={A:0,B:0};
   private replacement?:{variantId:'A'|'B';revision:number;fitLiteral:string;preview:ReplacementPreview};
-  private variants:Record<'A'|'B',Variant>={A:{conditions:{durationSeconds:60,mode:'Efficient',receiverProfile:'positive-only',temperatureK:300,backgroundK:100,observer:{presetId:'S-dedicated-G1',rangeM:16000,aspectDeg:0}}},B:{conditions:{}}};
+  private variants:Record<'A'|'B',Variant>={A:{fit:getPresetFit(DEFAULT_SHIP_MODEL_PRESET_ID,CURRENT_SHIP_MODEL_CATALOG),conditions:{durationSeconds:60,mode:'Efficient',receiverProfile:'positive-only',temperatureK:300,backgroundK:DEFAULT_SHIP_MODEL_BACKGROUND_K,observer:{presetId:'S-dedicated-G1',rangeM:16000,aspectDeg:0}}},B:{conditions:{}}};
   constructor(source:ShipFit,readonly sourceCatalog:CandidateCatalog){this.source=structuredClone(source);}
   private catalogFor(version:unknown){
     if(!isShipModelCatalogVersion(version))throw Error('catalogVersion: Неизвестная версия каталога: '+String(version));
