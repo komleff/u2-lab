@@ -115,6 +115,24 @@ it('I4-R1 lifetime EM minimum cannot exceed compatible latest EM',()=>{
   const saved=cp04Paused();if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');const last=saved.signatures.last!.observedEmW;
   saved.signatures.statistics.observedEmW={integralJ:last*2,meanW:last*2,minW:last*1.5,maxW:last*3};expect(validateShipModelResult(saved).ok).toBe(false);
 });
+it('I4-R1 round2 rejects impossible EM min despite an unrelated enormous max',()=>{
+  const saved=cp04Paused(),before=structuredClone(saved);if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');
+  saved.signatures.statistics.observedEmW={integralJ:1e6,meanW:1e6,minW:1e6,maxW:1e16};
+  expect(saved.signatures.last).toEqual(before.signatures.last);const checked=validateShipModelResult(saved);
+  expect(checked.ok).toBe(false);if(!checked.ok)expect(checked.errors.some(error=>error.path==='signatures.statistics.observedEmW')).toBe(true);
+});
+it('I4-R1 round2 actual Worker refuses impossible EM min while preserving held context and result',()=>{
+  const saved=cp04Paused(),messages:any[]=[],worker=new WorkerController(message=>messages.push(message));
+  worker.handle({runId:'held-owner',commandId:1,type:'start',payload:{checkpoint:saved}});worker.handle({runId:'held-owner',commandId:2,type:'pause'});const heldContext=worker.context!,held=result(heldContext);expect(held.runId).toBe('held-owner');expect(held.state.timeSeconds).toBe(1);
+  const malformed=structuredClone(saved);if(malformed.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');malformed.signatures.statistics.observedEmW={integralJ:1e6,meanW:1e6,minW:1e6,maxW:1e16};
+  worker.handle({runId:'impossible-em-min',commandId:3,type:'start',payload:{checkpoint:malformed}});
+  expect(worker.context).toBe(heldContext);expect(result(worker.context!)).toEqual(held);const errors=messages.filter(message=>message.type==='error');expect(errors).toHaveLength(1);expect(errors[0].runId).toBe('impossible-em-min');
+});
+it.each([{difference:5e-10,accepted:true},{difference:2e-9,accepted:false}])('I4-R1 round2 EM min tolerance is local to compared values: $difference',({difference,accepted})=>{
+  const saved=cp04Paused();if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');
+  // max/integral bounds и internal mean/extrema согласованы; max не задаёт min tolerance.
+  saved.signatures.statistics.observedEmW={integralJ:1e6,meanW:1e6,minW:saved.signatures.last!.observedEmW*(1+difference),maxW:1e16};expect(validateShipModelResult(saved).ok).toBe(accepted);
+});
 it('I4-R1 empty v2 cannot claim a last sample; measured nonempty v2 cannot omit last',()=>{
   const saved=cp04Paused(),empty=shipModelResult(createShipModelRun('empty',saved.spec),'paused');empty.signatures.last=structuredClone(saved.signatures.last);empty.signatures.last!.timeSeconds=0;
   expect(validateShipModelResult(empty).ok).toBe(false);saved.signatures.last=null;expect(validateShipModelResult(saved).ok).toBe(false);

@@ -55,7 +55,8 @@ export function validateShipModelResult(input:unknown):ValidationResult<RunResul
           if(![latest,channel.maxW,channel.integralJ].every(finite))continue;
           // Явный relative tolerance 1e-9 с абсолютным floor 1e-9 W/J.
           const wattsTolerance=1e-9*Math.max(1,Math.abs(latest),Math.abs(channel.maxW)),joulesTolerance=1e-9*Math.max(1,Math.abs(latestIntegralJ),Math.abs(channel.integralJ));
-          if(channel.maxW<latest-wattsTolerance||channel.integralJ<latestIntegralJ-joulesTolerance||name==='observedEmW'&&finite(channel.minW)&&channel.minW>latest+wattsTolerance)bad('signatures.statistics.'+name,'Lifetime statistics не покрывают совместимый последний measured interval');
+          const minimumTolerance=1e-9*Math.max(1,Math.abs(channel.minW),Math.abs(latest));
+          if(channel.maxW<latest-wattsTolerance||channel.integralJ<latestIntegralJ-joulesTolerance||name==='observedEmW'&&finite(channel.minW)&&channel.minW>latest+minimumTolerance)bad('signatures.statistics.'+name,'Lifetime statistics не покрывают совместимый последний measured interval');
           // IR min не ограничивает last: abs/clipping в frames и после
           // секундного averaging различаются; lifetime mean тоже независим.
         }
