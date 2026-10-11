@@ -48,6 +48,18 @@ export function validateShipModelResult(input:unknown):ValidationResult<RunResul
       if(Object.entries(signal).some(([key,value])=>key!=='paths'&&!finite(value))||signal.timeSeconds!==state.value.timeSeconds||signal.ownAntennaTransmission<0||signal.ownAntennaTransmission>1)bad('signatures.last','Нужно конечное измерение собственного времени');
       if(!Array.isArray(signal.paths))throw Error('signatures.paths: нужны сохранённые outward paths');
       const ids=new Set();for(const row of signal.paths){exactFields(row,['id','kind','absoluteIrW','contrastW','projectedContrastW','temperatureK','profile'],'signal path');exactFields(row.profile,['version','kind','aftFraction'],'signal profile');if(typeof row.id!=='string'||ids.has(row.id)||!['body','radiator','engine','generator','h2'].includes(row.kind)||![row.absoluteIrW,row.contrastW,row.projectedContrastW].every(finite)||row.absoluteIrW<0||row.temperatureK!==null&&!finite(row.temperatureK)||row.profile.version!=='radiator-ir/1'||!['omnidirectional','aft-directed'].includes(row.profile.kind)||!finite(row.profile.aftFraction)||row.profile.aftFraction<0||row.profile.aftFraction>1)bad('signatures.paths','Некорректный frozen path/profile');ids.add(row.id);}
+      if(r.signatures.version==='ship-signatures/2'){
+        if(state.value.timeSeconds===spec.value.initialState.timeSeconds)bad('signatures.last','Пустой v2 интервал не содержит последнего measured sample');
+        else for(const name of ['receiverIrW','observedEmW']){
+          const channel=r.signatures.statistics[name],latest=signal[name],latestIntegralJ=latest*spec.value.stepSeconds;
+          if(![latest,channel.maxW,channel.integralJ].every(finite))continue;
+          // Явный relative tolerance 1e-9 с абсолютным floor 1e-9 W/J.
+          const wattsTolerance=1e-9*Math.max(1,Math.abs(latest),Math.abs(channel.maxW)),joulesTolerance=1e-9*Math.max(1,Math.abs(latestIntegralJ),Math.abs(channel.integralJ));
+          if(channel.maxW<latest-wattsTolerance||channel.integralJ<latestIntegralJ-joulesTolerance||name==='observedEmW'&&finite(channel.minW)&&channel.minW>latest+wattsTolerance)bad('signatures.statistics.'+name,'Lifetime statistics не покрывают совместимый последний measured interval');
+          // IR min не ограничивает last: abs/clipping в frames и после
+          // секундного averaging различаются; lifetime mean тоже независим.
+        }
+      }
     }
     if(!Array.isArray(r.channels)||r.channels.some((v:any)=>typeof v!=='string'||!v)||new Set(r.channels).size!==r.channels.length)bad('channels','Нужны уникальные имена каналов');
     exactFields(r.retention,['policy','originalCadenceSeconds','cadenceSeconds','totalTicks','buckets','maxBuckets','estimatedBytes','maxBytes','totalEvents','droppedEvents'],'ship retention');

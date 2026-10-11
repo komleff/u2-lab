@@ -83,3 +83,50 @@ it('I4 malformed v2 statistics and v1/v2 mixed records never replace the live Wo
   for(const mutate of mutations){const malformed=structuredClone(saved);mutate(malformed);expect(validateShipModelResult(malformed).ok).toBe(false);worker.handle({runId:'foreign-owner',commandId:3,type:'start',payload:{checkpoint:malformed}});expect(result(worker.context!)).toEqual(held);}
   expect(messages.filter(message=>message.type==='error')).toHaveLength(mutations.length);
 });
+function cp04Paused(){
+  const run=createShipModelRun('cp04-reader',signatureDepletionFixture());runShipModelChunk(run,1);const saved=shipModelResult(run,'paused');
+  expect(saved.signatures.last!.receiverIrW).toBe(3891.434262156444);expect(saved.signatures.last!.observedEmW).toBe(524.6226315789473);
+  return saved;
+}
+function zeroLifetimeStatistics(saved:ReturnType<typeof cp04Paused>){
+  if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен fresh v2');
+  for(const name of ['receiverIrW','observedEmW'] as const)saved.signatures.statistics[name]={integralJ:0,meanW:0,minW:0,maxW:0};
+}
+it('I4-R1 rejects zero lifetime statistics with literal positive CP-04 last',()=>{
+  const saved=cp04Paused(),before=structuredClone(saved);zeroLifetimeStatistics(saved);
+  expect(saved.signatures.last).toEqual(before.signatures.last);expect(validateShipModelResult(saved).ok).toBe(false);
+});
+it('I4-R1 actual Worker refuses false zero statistics without replacing the held owner',()=>{
+  const saved=cp04Paused();zeroLifetimeStatistics(saved);const messages:any[]=[],worker=new WorkerController(message=>messages.push(message));
+  worker.handle({runId:'held-owner',commandId:1,type:'start',payload:{spec:saved.spec}});worker.handle({runId:'held-owner',commandId:2,type:'pause'});const held=result(worker.context!);
+  worker.handle({runId:'false-statistics-owner',commandId:3,type:'start',payload:{checkpoint:saved}});
+  expect(result(worker.context!).runId).toBe('held-owner');expect(result(worker.context!)).toEqual(held);expect(messages.filter(message=>message.type==='error')).toHaveLength(1);
+});
+it.each(['receiverIrW','observedEmW'] as const)('I4-R1 lifetime max must cover compatible latest %s independently at powered t=3',name=>{
+  const run=createShipModelRun('powered-max',fixture());runShipModelChunk(run,3);const saved=shipModelResult(run,'paused');if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');const last=saved.signatures.last![name];expect(last).toBeGreaterThan(0);
+  // Integral ≥ latest tick и EM min ≤ last; нарушена только lifetime max bound.
+  saved.signatures.statistics[name]={integralJ:last*1.5,meanW:last/2,minW:0,maxW:last*0.75};expect(validateShipModelResult(saved).ok).toBe(false);
+});
+it.each(['receiverIrW','observedEmW'] as const)('I4-R1 lifetime integral must cover the latest actual tick %s',name=>{
+  const saved=cp04Paused();if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');const last=saved.signatures.last![name];
+  saved.signatures.statistics[name]={integralJ:last/2,meanW:last/2,minW:0,maxW:last*2};expect(validateShipModelResult(saved).ok).toBe(false);
+});
+it('I4-R1 lifetime EM minimum cannot exceed compatible latest EM',()=>{
+  const saved=cp04Paused();if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');const last=saved.signatures.last!.observedEmW;
+  saved.signatures.statistics.observedEmW={integralJ:last*2,meanW:last*2,minW:last*1.5,maxW:last*3};expect(validateShipModelResult(saved).ok).toBe(false);
+});
+it('I4-R1 empty v2 cannot claim a last sample; measured nonempty v2 cannot omit last',()=>{
+  const saved=cp04Paused(),empty=shipModelResult(createShipModelRun('empty',saved.spec),'paused');empty.signatures.last=structuredClone(saved.signatures.last);empty.signatures.last!.timeSeconds=0;
+  expect(validateShipModelResult(empty).ok).toBe(false);saved.signatures.last=null;expect(validateShipModelResult(saved).ok).toBe(false);
+});
+it.each(['receiverIrW','observedEmW'] as const)('I4-R1 explicit cross-field tolerance accepts only rounding-sized %s differences',name=>{
+  const saved=cp04Paused();if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');const last=saved.signatures.last![name];
+  // Допустимая floating граница; mean намеренно не равен совместимому last.
+  saved.signatures.statistics[name]={integralJ:last*(1-5e-10),meanW:last*(1-5e-10),minW:0,maxW:last*(1-5e-10)};expect(validateShipModelResult(saved).ok).toBe(true);
+  saved.signatures.statistics[name]={integralJ:last*(1-2e-9),meanW:last*(1-2e-9),minW:0,maxW:last*(1-2e-9)};expect(validateShipModelResult(saved).ok).toBe(false);
+});
+it('I4-R1 IR clipping forbids neither IR min above compatible last nor lifetime mean different from last',()=>{
+  const saved=cp04Paused();saved.spec.receiverProfile='absolute-contrast';if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');const last=saved.signatures.last!.receiverIrW;
+  // Exact: average(abs(frame contrast)); compatible: abs(average contrast).
+  saved.signatures.statistics.receiverIrW={integralJ:last*2,meanW:last*2,minW:last*1.5,maxW:last*3};expect(validateShipModelResult(saved).ok).toBe(true);
+});
