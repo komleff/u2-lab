@@ -1,7 +1,8 @@
 import {test,expect,type Page} from '@playwright/test';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {signatureDepletionFixture} from '../model-v3/fixture';
-import {serializeExperiment,serializeResultSnapshot} from '../../src/io/fitting-json';
+import {serializeFit,serializeExperiment,serializeResultSnapshot} from '../../src/io/fitting-json';
+import {getPresetFit} from '../../src/fitting/catalog';
 import {exportShipModelTelemetryCsv} from '../../src/io/ship-model-csv';
 const download=async(page:Page,id:string)=>{const pending=page.waitForEvent('download');await page.locator('#'+id).click();const file=await pending;return {name:file.suggestedFilename(),text:readFileSync((await file.path())!,'utf8')};};
 const observeWorker=async(page:Page)=>page.addInitScript(()=>{
@@ -13,7 +14,7 @@ const observeWorker=async(page:Page)=>page.addInitScript(()=>{
   const create=URL.createObjectURL;URL.createObjectURL=blob=>{(window as any).exportTypes.push(blob instanceof Blob?blob.type:'');return create(blob);};
 });
 test('I5 actual Worker exports captured active A experiment but refuses result/CSV fallback for empty selected B',async({page})=>{
-  await observeWorker(page);await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');await page.locator('#sm-duration').fill('120');await page.locator('#sm-duration').press('Tab');await page.locator('#sm-start').click();
+  await observeWorker(page);await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-duration').fill('120');await page.locator('#sm-duration').press('Tab');await page.locator('#sm-start').click();
   await expect(page.locator('#sm-live')).toHaveAttribute('data-time',/^[1-9]/);await page.locator('#sm-variant').selectOption('B');await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
   await expect(page.locator('#sm-test-owner')).toContainText('Активный тест A');await expect(page.locator('#sm-save-run')).toBeEnabled();await expect(page.locator('#sm-save-result')).toBeDisabled();await expect(page.locator('#sm-save-csv')).toBeDisabled();
   const captured=await page.evaluate(()=>(window as any).shipStarts.at(-1)),runId=await page.locator('#sm-test-owner').getAttribute('data-run-id'),experiment=await download(page,'sm-save-run');expect(JSON.parse(experiment.text)).toEqual(captured);expect(experiment.name).toContain('A');expect(experiment.name).toContain(runId!);expect(await page.evaluate(()=>(window as any).exportTypes.at(-1))).toBe('application/json');
@@ -43,7 +44,7 @@ test('I5 actual zero and literal imported v1 have distinct measured DOM, with no
 async function qaMeasuredPair(page:Page,touch=false){
   const action=async(selector:string)=>{const node=page.locator(selector);await node.evaluate(n=>n.scrollIntoView({block:'center'}));if(touch)await node.tap();else await node.click();};
   const save=async()=>{const waiting=page.waitForEvent('download');await action('#sm-save-result');return readFileSync((await (await waiting).path())!,'utf8');};
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');await page.locator('#sm-background').fill('100');await page.locator('#sm-background').press('Tab');await page.locator('#sm-duration').fill('1');await page.locator('#sm-duration').press('Tab');
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-import').setInputFiles({name:'literal-0.3.0.json',mimeType:'application/json',buffer:Buffer.from(serializeFit(getPresetFit('sputnik','ship-fitting-0.3.0')))});await page.locator('#sm-background').fill('100');await page.locator('#sm-background').press('Tab');await page.locator('#sm-duration').fill('1');await page.locator('#sm-duration').press('Tab');
   await action('#sm-start');await expect(page.locator('#sm-status')).toHaveText('complete');const aText=await save(),a=JSON.parse(aText);
   expect(a.spec.environment.radiativeBackgroundK).toBe(100);expect(a.spec.observer.aspectDeg).toBe(0);await action('#sm-freeze');await expect(page.locator('#sm-frozen-owner')).toContainText(a.runId);
   await action('#sm-copy');await page.locator('#sm-background').fill('120');await page.locator('#sm-background').press('Tab');await page.locator('#sm-aspect').fill('180');await page.locator('#sm-aspect').press('Tab');
@@ -77,7 +78,7 @@ test('QA B2 actual mobile Chromium touch390x844 keeps every Compare number+unit 
     const evidence={a:a.runId,b:b.runId,geometry,expanded,errors},path=info.outputPath('qa-touch-geometry-390.json');writeFileSync(path,JSON.stringify(evidence,null,2)+'\n');await info.attach('qa-touch-number-unit-geometry',{path,contentType:'application/json'});
   }finally{await context.close();}
 });
-test('QA B3 fresh actual Sputnik Compare accounts for all10 installed modules including both sensors-thermal without phantom legacy categories',async({page})=>{
+test('QA B3 literal 0.3.0 Sputnik Compare accounts for all10 installed modules including both sensors-thermal without phantom legacy categories',async({page})=>{
   const {a,b,bText,save}=await qaMeasuredPair(page);expect(a.spec.resolvedShip.instances).toHaveLength(10);expect(a.spec.resolvedShip.instances.filter((i:any)=>i.item.category==='sensors-thermal')).toHaveLength(2);
   for(const [side,result]of [['a',a],['b',b]] as const){
     const p=page.locator('#sm-comparison-'+side+' > p').filter({hasText:/^Состав/});await expect(p).toContainText('Сенсоры и тепло: 2');await expect(p).not.toContainText('Контроль сигнатур: 0');

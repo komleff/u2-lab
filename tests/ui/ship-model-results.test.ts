@@ -53,6 +53,31 @@ it.each([
 });
 function cp04Result(){const run=createShipModelRun('I5-CP04',signatureDepletionFixture());runShipModelChunk(run,1);return shipModelResult(run,'paused');}
 function displayedValue(html:string,field:string){const match=html.match(new RegExp('data-stat="'+field+'"[^>]*data-value="([^"]*)"'));return match?.[1];}
+const distanceValue=(html:string,id:string)=>html.match(new RegExp('data-distance="'+id+'"[^>]*data-value="([^"]*)"'))?.[1];
+it('primary /4 Overview leads with saved observer IR/EM detection distances; raw watts remain secondary',()=>{
+  const r=cp04Result(),before=serializeResultSnapshot(r),html=shipModelResults(r);
+  const block=html.match(/<section id="sm-detection-distance"[\s\S]*?<\/section>/)?.[0]??'';
+  expect(block).toContain('Расчётная дальность обнаружения');expect(block).toContain('S-dedicated-G1');expect(block).toContain('positive-only');expect(block).toContain('Ракурс');
+  expect(block).toContain('В конце опыта');expect(block).toContain('По среднему сигналу за интервал');expect(block).toContain('Максимальная за интервал');
+  expect(block).toContain('чистом космосе');expect(block).toContain('не фактический контакт');expect(block).not.toContain('Вт');
+  expect(Number(distanceValue(block,'IR:current'))).toBeCloseTo(Math.sqrt(3891.434262156444/(4*Math.PI*0.000274542277)),7);
+  expect(Number(distanceValue(block,'IR:mean'))).toBeCloseTo(Math.sqrt(3891.434262156444/(4*Math.PI*0.000274542277)),7);
+  expect(Number(distanceValue(block,'IR:max'))).toBeCloseTo(Math.sqrt(8032.005217677903/(4*Math.PI*0.000274542277)),7);
+  expect(Number(distanceValue(block,'EM:current'))).toBeCloseTo(Math.sqrt(524.6226315789473/(4*Math.PI*3.592038646e-8)),7);
+  expect(Number(distanceValue(block,'EM:max'))).toBeCloseTo(Math.sqrt(1165.8280701754386/(4*Math.PI*3.592038646e-8)),7);
+  expect(block).toMatch(/\d[\s\S]*км/);expect(html.indexOf('sm-detection-distance')).toBeLessThan(html.indexOf('sm-measured-owner'));
+  expect(html).toMatch(/<details id="sm-signature-statistics"[\s\S]*?Mean[\s\S]*?<\/details>/);expect(serializeResultSnapshot(r)).toBe(before);
+});
+it('primary distance statistics remain missing for v1 while the saved current signal is available',()=>{
+  const r=cp04Result();r.signatures={version:'ship-signatures/1',last:r.signatures.last};const html=shipModelResults(r);
+  expect(Number(distanceValue(html,'IR:current'))).toBeGreaterThan(0);expect(distanceValue(html,'IR:mean')).toBe('');expect(distanceValue(html,'IR:max')).toBe('');
+});
+it('primary detection distances retain measured zero instead of absence',()=>{
+  const spec=signatureDepletionFixture(1);spec.initialState.chargeJ=0;spec.scenario.phases=[{id:'zero',action:'idle',durationSeconds:1,requests:{},environment:null}];
+  const run=createShipModelRun('range-zero',spec);runShipModelChunk(run,1);const html=shipModelResults(shipModelResult(run));
+  for(const channel of ['IR','EM'])for(const field of ['current','mean','max'])expect(distanceValue(html,channel+':'+field)).toBe('0');
+  expect(html).toMatch(/data-distance="IR:current"[^>]*>0 м</);
+});
 it('I5 Overview exposes actual stocks, buffer thermal gate, stops and unavailable module cost without a nominal substitute',()=>{
   const run=createShipModelRun('actual-overview',fixture('stealth-reference'));runShipModelChunk(run,1);const r=shipModelResult(run,'paused'),html=shipModelResults(r);
   expect(html).toContain('data-overview="usefulWorkJ" data-value="'+r.metrics.usefulWorkJ+'"');expect(html).toContain('data-overview="chargeJ" data-value="'+r.state.chargeJ+'"');expect(html).toContain('data-buffer-id="builtin:buffer-S"');expect(html).toContain('температурное условие');

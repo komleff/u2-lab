@@ -24,7 +24,7 @@ test('I1-R1 Freeze waits for its snapshot request after an older pending snapsho
   const deliver=async(messages:any[])=>{await page.evaluate(messages=>{
     const worker=(window as any).controlledWorkers.at(-1);for(const message of messages)worker.deliver(message);
   },messages);};
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');await page.locator('#sm-duration').fill('10');
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-duration').fill('10');
   await page.locator('#sm-duration').press('Tab');await page.locator('#sm-start').click();expect((await command('start')).commandId).toBe(1);
   controller.pump();await deliver(responses.splice(0));
   await page.locator('#sm-pause').click();expect((await command('pause')).commandId).toBe(2);await deliver(responses.splice(0));
@@ -42,7 +42,7 @@ test('I1-R1 Freeze waits for its snapshot request after an older pending snapsho
   expect(current.state.timeSeconds).toBe(2);await expect(page.locator('#sm-frozen-owner')).toContainText(current.runId);
 });
 test('I1 paused A owns controls, export and frozen measurement while navigation selects B',async({page})=>{
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');await page.locator('#sm-duration').fill('120');await page.locator('#sm-copy').click();await page.locator('#sm-variant').selectOption('A');
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-duration').fill('120');await page.locator('#sm-copy').click();await page.locator('#sm-variant').selectOption('A');
   await page.locator('#sm-start').click();await page.locator('#sm-variant').selectOption('B');await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
   await expect(page.locator('#sm-test-owner')).toContainText('Активный тест A');await expect(page.locator('#sm-draft-owner')).toContainText('черновик B');
   await expect(page.locator('#sm-measured-owner')).toContainText('Спутник');
@@ -56,7 +56,7 @@ test('I1 paused A owns controls, export and frozen measurement while navigation 
   await page.locator('#sm-preset').selectOption('stealth-reference');await expect(page.locator('#sm-stale')).toContainText('устарело');expect(await page.locator('#sm-frozen-owner').textContent()).toBe(frozen);
 });
 test('UI-B2 native draft edits visibly keep measured owner until actual new Worker snapshot',async({page})=>{
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
   await expect(page.locator('#sm-measured-owner')).toContainText('Спутник');const measured=await page.locator('#sm-results').textContent();
   const downloading=page.waitForEvent('download');await page.locator('#sm-save-result').click();const original=readFileSync((await (await downloading).path())!,'utf8');
   await page.locator('#sm-preset').selectOption('stealth-reference');await expect(page.locator('#sm-draft-owner')).toContainText('Стелс');await expect(page.locator('#sm-stale')).toContainText('устарело');await expect(page.locator('#sm-measured-owner')).toContainText('Спутник');expect(await page.locator('#sm-results').textContent()).toBe(measured);

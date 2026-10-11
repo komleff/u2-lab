@@ -51,7 +51,7 @@ test('I3-R2 actual Worker preserves raw partial TI but never displays its integr
   await page.locator('#sm-live-details > summary').click();await expect(page.locator('[data-live-instance="fit:signature-1"] td').last()).toHaveText('смешанная доступность · нет полного измерения');
 });
 test('I2 V3 grouped cards expose atomic searchable catalog Apply and incompatible/builtin/request-owner refusals',async({page})=>{
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');await page.locator('#sm-fit > summary').click();
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-fit > summary').click();
   await expect(page.locator('#sm-group-sensors-thermal')).toContainText('Сенсоры и тепло');await expect(page.locator('#sm-slot-signature-1')).toContainText('Тепловые границы');await expect(page.locator('#sm-slot-signature-1')).toContainText('Прочность');
   const before=await downloadRun(page);await page.locator('#sm-slot-signature-2').click();
   await page.locator('#sm-swap-family').selectOption('buffer');await page.locator('#sm-swap-size').selectOption('S');await page.locator('#sm-swap-sort').selectOption('mass-desc');await page.locator('#sm-swap-search').fill('buffer');
@@ -87,7 +87,7 @@ test('I2 imported complex task edits atomically while preserving literal fields 
 test('I2 a late valid JSON import closes a catalog whose slot is absent from the new hull without a page error',async({page})=>{
   const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
   await page.addInitScript(()=>{const original=File.prototype.text;File.prototype.text=function(){return new Promise<string>(resolve=>{original.call(this).then(text=>{(window as any).releaseShipFile=()=>resolve(text);});});};});
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('severin-mir');await page.locator('#sm-fit > summary').click();
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('severin-mir-h');await page.locator('#sm-fit > summary').click();
   await page.locator('#sm-import').setInputFiles({name:'sputnik.json',mimeType:'application/json',buffer:Buffer.from(serializeFit(getPresetFit('sputnik','ship-fitting-0.3.0')))});
   await page.locator('#sm-slot-power-4').click();await expect(page.getByRole('dialog')).toBeVisible();await page.evaluate(()=>(window as any).releaseShipFile());
   await expect(page.locator('#sm-preset')).toHaveValue('sputnik');expect(errors).toEqual([]);await expect(page.getByRole('dialog')).toBeHidden();await expect(page.locator('#sm-start')).toBeEnabled();

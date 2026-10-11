@@ -17,7 +17,7 @@ for(const width of [1440,820,390])test(`UI4I-11 whole native /4 research chain a
     const targets=[];for(const selector of selectors){const box=await page.locator(selector).boundingBox();expect(box,stage+' '+selector).not.toBeNull();expect(box!.width,selector+' width').toBeGreaterThanOrEqual(44);expect(box!.height,selector+' height').toBeGreaterThanOrEqual(44);targets.push({selector,width:box!.width,height:box!.height});}
     expect(errors,stage+' console/page errors').toEqual([]);geometry.push({stage,overflow,targets});
   };
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');
   await expect(page.locator('#workspace-shell')).toHaveAttribute('data-model','ship-model');await expect(page.locator('#workspace-shell header')).toHaveCount(1);await expect(page.locator('.ui-controls')).toHaveCount(1);
   await check('open',['#sm-preset','#sm-source','#sm-start','#sm-variant','#sm-back']);
   await page.locator('#sm-fit > summary').click();await page.locator('#sm-slot-signature-2').click();await page.locator('[data-sm-candidate="buffer-S"]').click();

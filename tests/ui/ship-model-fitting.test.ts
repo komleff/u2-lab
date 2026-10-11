@@ -3,8 +3,13 @@ import {ShipModelWorkspace} from '../../src/app/ship-model-workspace';
 import {getPresetFit,loadCandidateCatalog} from '../../src/fitting/catalog';
 import {serializeExperiment,serializeResultSnapshot} from '../../src/io/fitting-json';
 import {createShipModelRun,runShipModelChunk,shipModelResult} from '../../src/runner/ship-model-run';
+import {shipModelShipView} from '../../src/app/fitting-ui/ship-model-ship-view';
 const sourceCatalog=loadCandidateCatalog('ship-fitting-0.2.5');
 const workspace=()=>{const w=new ShipModelWorkspace(getPresetFit('sputnik',sourceCatalog.version),sourceCatalog);w.loadPreset('sputnik','ship-fitting-0.3.0');return w;};
+it.each(['ship-fitting-0.3.0','ship-fitting-0.3.1'] as const)('ship passport identifies its actual %s fit owner',version=>{
+  const catalog=loadCandidateCatalog(version),fit=getPresetFit(version==='ship-fitting-0.3.0'?'sputnik':'sputnik-d',version);
+  expect(shipModelShipView(fit,catalog,false)).toContain('<span data-sm-catalog-version>'+version+'</span>');
+});
 it('I2 preview leaves fit/measurement untouched and Apply commits only the reviewed clone once',()=>{
   const w=workspace();w.updateConditions({durationSeconds:1});const run=createShipModelRun('measured',w.start('measured'));runShipModelChunk(run,1);w.acceptResult(shipModelResult(run));
   const fit=structuredClone(w.fit),measurement=serializeResultSnapshot(w.result!);
