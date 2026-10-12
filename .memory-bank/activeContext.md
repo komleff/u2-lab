@@ -1,3 +1,13 @@
+# Перенос стека в main, 2026-10-12
+
+До PR #25 `main` содержал только Initial commit; вся работа шла стеком Draft PR #1→#23
+(+#24, влит в #23 оператором). PR #25 `chore/land-stack-to-main` переносит вершину стека
+`6155590` в `main` и добавляет только документы: два cloud-отчёта bootstrap из #1,
+`docs/archive/thermoinverter-radiator-coupling-v0.1.md` (superseded → тепловой насос v0.4)
+и `docs/archive/2026-10-09-pm-context-snapshot/` (незакоммиченный журнал PM 06–09.10).
+#3 и #5 закрыты как вошедшие в стек; #1, #2, #4, #6–#23 закрываются после merge #25.
+Merge — оператор. После merge новые рабочие ветки создаются от `main`.
+
 # Ship-model v0.1 — checkpoint перед независимой проверкой, 2026-10-11
 
 Draft PR22: https://github.com/komleff/u2-lab/pull/22. Актуальные статусы — только
