@@ -13,7 +13,7 @@ function latePumpSpec(durationSeconds=4){
   const c=loadCandidateCatalog('ship-fitting-0.3.0'),fit=getPresetFit('stealth-reference',c.version);
   fit.instances['fit:signature-1'].itemId='thermoinverter-S';
   fit.assignments['signature-2']='fit:signature-2';fit.instances['fit:signature-2']={id:'fit:signature-2',itemId:'radiator-passive-S',enabled:true};
-  const made=makeShipModelMiningRun(fit,c,{durationSeconds,temperatureK:500,phases:[
+  const made=makeShipModelMiningRun(fit,c,{backgroundK:100,durationSeconds,temperatureK:500,phases:[
     {id:'quiet',action:'idle',mode:'Masking',durationSeconds:1,requests:{},environment:null},
     {id:'cool',action:'idle',mode:'Efficient',durationSeconds:1,requests:{},environment:null},
   ],repeat:true});

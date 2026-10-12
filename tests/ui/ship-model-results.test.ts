@@ -8,29 +8,29 @@ import {signatureDepletionFixture,fixture} from '../model-v3/fixture';
 const oldCatalog=loadCandidateCatalog('ship-fitting-0.2.5');
 function workspace(){return new ShipModelWorkspace(getPresetFit('sputnik',oldCatalog.version),oldCatalog);}
 const templates={'reference-retro-engine-diesel-S-single':'engine-diesel-S-single'};
-it('direct model selection refuses the old fit; explicit preview/apply leaves source literal and shows all changes',()=>{
-  const w=workspace(),source=JSON.stringify(w.source);expect(()=>w.selectModel()).toThrow(/compile|компиляц/i);
-  const preview=w.previewCompilation(templates);expect(preview.changes.length).toBeGreaterThan(0);expect(preview.changes.some(c=>c.kind==='origin')).toBe(true);expect(w.fit).toBeUndefined();
+it('source preview leaves independent fresh A and old source literal until explicit apply',()=>{
+  const w=workspace(),source=JSON.stringify(w.source),fresh=JSON.stringify(w.fit);w.selectModel();
+  const preview=w.previewCompilation(templates);expect(preview.changes.length).toBeGreaterThan(0);expect(preview.changes.some(c=>c.kind==='origin')).toBe(true);expect(JSON.stringify(w.fit)).toBe(fresh);
   w.applyCompilation();w.selectModel();expect(w.fit!.schemaVersion).toBe('u2-ship-fit/2');expect(JSON.stringify(w.source)).toBe(source);
 });
 it('new run owns its immutable conditions; A/B keeps real module mass, category, delivered power and heat',()=>{
-  const w=workspace();w.loadPreset('stealth-reference');w.conditions.durationSeconds=2;const s=w.start('ui-A'),run=createShipModelRun('ui-A',s);runShipModelChunk(run,2);w.acceptResult(shipModelResult(run));
+  const w=workspace();w.loadPreset('stealth-reference','ship-fitting-0.3.0');w.conditions.durationSeconds=2;const s=w.start('ui-A'),run=createShipModelRun('ui-A',s);runShipModelChunk(run,2);w.acceptResult(shipModelResult(run));
   const a=w.result!;w.copyToB();w.setEnabled(a.spec.resolvedShip.instances.find(i=>i.item.family==='shielding')!.id,false);
   const next=w.start('ui-B'),b=createShipModelRun('ui-B',next);runShipModelChunk(b,2);w.acceptResult(shipModelResult(b));
   const html=shipModelComparison(a,w.result!);expect(html).toContain('sensors-thermal');expect(html).toContain('кг');expect(html).toContain('hostHeatW');expect(a.spec.resolvedShip.fit).not.toEqual(w.result!.spec.resolvedShip.fit);
   expect(shipModelResults(w.result!)).toContain('u2-lab/4');expect(shipModelResults(w.result!)).toContain('reference');expect(shipModelResults(w.result!)).not.toContain('гарантия скрытности');
 });
 it('native /4 import preserves measured checkpoint, resumes it, rejects future atomically and never migrates old results',()=>{
-  const w=workspace();w.loadPreset('sputnik');w.conditions.durationSeconds=3;const run=createShipModelRun('saved',w.start('saved'));runShipModelChunk(run,1);const saved=shipModelResult(run,'paused');
+  const w=workspace();w.loadPreset('sputnik','ship-fitting-0.3.0');w.conditions.durationSeconds=3;const run=createShipModelRun('saved',w.start('saved'));runShipModelChunk(run,1);const saved=shipModelResult(run,'paused');
   const opened=workspace();opened.importDocument(serializeResultSnapshot(saved));expect(opened.result).toEqual(saved);const checkpoint=opened.startCheckpoint('resume');expect(checkpoint.state).toEqual(saved.state);expect(checkpoint.runId).toBe('resume');
   const before=serializeResultSnapshot(opened.result!);const future=structuredClone(saved);future.state.stateVersion='future' as any;expect(()=>opened.importDocument(serializeResultSnapshot(future))).toThrow();expect(serializeResultSnapshot(opened.result!)).toBe(before);
   expect(()=>workspace().importDocument(JSON.stringify({schemaVersion:'u2-ship-fit/1'}))).toThrow(/стар|old|схем/i);
 });
 it('active test owns controls; equipment, copy and import cannot replace running/paused source',()=>{
-  const w=workspace();w.loadPreset('sputnik');w.start('active');expect(()=>w.loadPreset('mir')).toThrow(/тест/i);expect(()=>w.copyToB()).toThrow(/тест/i);expect(()=>w.setEnabled('fit:march',false)).toThrow(/тест/i);
+  const w=workspace();w.loadPreset('sputnik','ship-fitting-0.3.0');w.start('active');expect(()=>w.loadPreset('mir','ship-fitting-0.3.0')).toThrow(/тест/i);expect(()=>w.copyToB()).toThrow(/тест/i);expect(()=>w.setEnabled('fit:march',false)).toThrow(/тест/i);
 });
 it('UI maneuver asks the same installed march engine in Efficient and Masking; recovery is a distinct real task',()=>{
-  const w=workspace();w.loadPreset('stealth-reference');w.updateConditions({action:'maneuver',duty:0.7});const a=w.prepare();w.updateConditions({mode:'Masking'});const b=w.prepare();
+  const w=workspace();w.loadPreset('stealth-reference','ship-fitting-0.3.0');w.updateConditions({action:'maneuver',duty:0.7});const a=w.prepare();w.updateConditions({mode:'Masking'});const b=w.prepare();
   expect(a.scenario.phases[0].action).toBe('maneuver');expect(Object.keys(a.scenario.phases[0].requests)).toContain('fit:march');expect(a.scenario.phases[0].requests).toEqual(b.scenario.phases[0].requests);
   w.updateConditions({action:'recovery'});expect(w.prepare().scenario.phases[0].requests).toEqual({});
   w.updateConditions({action:'maneuver',maneuverRole:'turn'});expect(w.prepare().scenario.phases[0].requests).toEqual({'fit:turn':0.7});
@@ -40,7 +40,7 @@ it.each([
   ['only initial T',{temperatureK:310},false],
   ['only mode',{mode:'Masking' as const},false],
 ] as const)('measured A/B %s conditions show both initial T/mode without altering snapshots',(_,change,same)=>{
-  const w=workspace();w.loadPreset('stealth-reference');w.updateConditions({durationSeconds:1});
+  const w=workspace();w.loadPreset('stealth-reference','ship-fitting-0.3.0');w.updateConditions({durationSeconds:1});
   const runA=createShipModelRun('A',w.start('A'));runShipModelChunk(runA,1);w.acceptResult(shipModelResult(runA));
   const a=w.result!;w.copyToB();w.updateConditions(change);
   const runB=createShipModelRun('B',w.start('B'));runShipModelChunk(runB,1);w.acceptResult(shipModelResult(runB));
@@ -53,6 +53,31 @@ it.each([
 });
 function cp04Result(){const run=createShipModelRun('I5-CP04',signatureDepletionFixture());runShipModelChunk(run,1);return shipModelResult(run,'paused');}
 function displayedValue(html:string,field:string){const match=html.match(new RegExp('data-stat="'+field+'"[^>]*data-value="([^"]*)"'));return match?.[1];}
+const distanceValue=(html:string,id:string)=>html.match(new RegExp('data-distance="'+id+'"[^>]*data-value="([^"]*)"'))?.[1];
+it('primary /4 Overview leads with saved observer IR/EM detection distances; raw watts remain secondary',()=>{
+  const r=cp04Result(),before=serializeResultSnapshot(r),html=shipModelResults(r);
+  const block=html.match(/<section id="sm-detection-distance"[\s\S]*?<\/section>/)?.[0]??'';
+  expect(block).toContain('Расчётная дальность обнаружения');expect(block).toContain('S-dedicated-G1');expect(block).toContain('positive-only');expect(block).toContain('Ракурс');
+  expect(block).toContain('В конце опыта');expect(block).toContain('По среднему сигналу за интервал');expect(block).toContain('Максимальная за интервал');
+  expect(block).toContain('чистом космосе');expect(block).toContain('не фактический контакт');expect(block).not.toContain('Вт');
+  expect(Number(distanceValue(block,'IR:current'))).toBeCloseTo(Math.sqrt(3891.434262156444/(4*Math.PI*0.000274542277)),7);
+  expect(Number(distanceValue(block,'IR:mean'))).toBeCloseTo(Math.sqrt(3891.434262156444/(4*Math.PI*0.000274542277)),7);
+  expect(Number(distanceValue(block,'IR:max'))).toBeCloseTo(Math.sqrt(8032.005217677903/(4*Math.PI*0.000274542277)),7);
+  expect(Number(distanceValue(block,'EM:current'))).toBeCloseTo(Math.sqrt(524.6226315789473/(4*Math.PI*3.592038646e-8)),7);
+  expect(Number(distanceValue(block,'EM:max'))).toBeCloseTo(Math.sqrt(1165.8280701754386/(4*Math.PI*3.592038646e-8)),7);
+  expect(block).toMatch(/\d[\s\S]*км/);expect(html.indexOf('sm-detection-distance')).toBeLessThan(html.indexOf('sm-measured-owner'));
+  expect(html).toMatch(/<details id="sm-signature-statistics"[\s\S]*?Mean[\s\S]*?<\/details>/);expect(serializeResultSnapshot(r)).toBe(before);
+});
+it('primary distance statistics remain missing for v1 while the saved current signal is available',()=>{
+  const r=cp04Result();r.signatures={version:'ship-signatures/1',last:r.signatures.last};const html=shipModelResults(r);
+  expect(Number(distanceValue(html,'IR:current'))).toBeGreaterThan(0);expect(distanceValue(html,'IR:mean')).toBe('');expect(distanceValue(html,'IR:max')).toBe('');
+});
+it('primary detection distances retain measured zero instead of absence',()=>{
+  const spec=signatureDepletionFixture(1);spec.initialState.chargeJ=0;spec.scenario.phases=[{id:'zero',action:'idle',durationSeconds:1,requests:{},environment:null}];
+  const run=createShipModelRun('range-zero',spec);runShipModelChunk(run,1);const html=shipModelResults(shipModelResult(run));
+  for(const channel of ['IR','EM'])for(const field of ['current','mean','max'])expect(distanceValue(html,channel+':'+field)).toBe('0');
+  expect(html).toMatch(/data-distance="IR:current"[^>]*>0 м</);
+});
 it('I5 Overview exposes actual stocks, buffer thermal gate, stops and unavailable module cost without a nominal substitute',()=>{
   const run=createShipModelRun('actual-overview',fixture('stealth-reference'));runShipModelChunk(run,1);const r=shipModelResult(run,'paused'),html=shipModelResults(r);
   expect(html).toContain('data-overview="usefulWorkJ" data-value="'+r.metrics.usefulWorkJ+'"');expect(html).toContain('data-overview="chargeJ" data-value="'+r.state.chargeJ+'"');expect(html).toContain('data-buffer-id="builtin:buffer-S"');expect(html).toContain('температурное условие');
@@ -133,7 +158,7 @@ it.each(Object.keys(loadCandidateCatalog('ship-fitting-0.3.0').presets))('QA B3 
   expect(rows.every(row=>row.count>0)).toBe(true);expect(main).not.toContain('Контроль сигнатур: 0');if(id==='sputnik')expect(instances).toHaveLength(10);
 });
 it('QA B3 disabled installed instances and builtins stay in measured composition instead of disappearing',()=>{
-  const w=workspace();w.loadPreset('sputnik');w.setEnabled('fit:payload-1',false);w.setEnabled('builtin:electric-heater',false);w.updateConditions({durationSeconds:1});
+  const w=workspace();w.loadPreset('sputnik','ship-fitting-0.3.0');w.setEnabled('fit:payload-1',false);w.setEnabled('builtin:electric-heater',false);w.updateConditions({durationSeconds:1});
   const run=createShipModelRun('QA-disabled-roster',w.start('QA-disabled-roster'));runShipModelChunk(run,1);const r=shipModelResult(run);expect(r.spec.resolvedShip.instances.filter(i=>i.builtin)).toHaveLength(2);expect(r.spec.resolvedShip.instances.filter(i=>!i.enabled)).toHaveLength(2);
   expect(compositionRows(shipModelComparison(r,undefined))).toEqual([{label:'Полезная нагрузка',count:2},{label:'Двигатели',count:4},{label:'Питание',count:2},{label:'Сенсоры и тепло',count:2}]);
 });

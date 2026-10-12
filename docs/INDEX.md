@@ -2,6 +2,7 @@
 
 | Документ | Статус | Область |
 |---|---|---|
+| [Каталог кораблей 0.3.1: работа в модели `/4`](user/ship-model-catalog-0.3.1.md) | пользовательское руководство / экспериментальный каталог | Четырнадцать D/H/E конфигураций, свежий Спутник D/250 K, измеренные дальности и буквальное открытие 0.3.0; не внешний QA или canon |
 | [Передача PM по модернизации U2 Lab](handoffs/2026-10-11-pm-ship-model-handoff.md) | handoff / приёмка STOP, 2026-10-11 | Состояние PR #21–23, реализованное ядро, отвергнутый отдельный UI, ошибки PM и продолжение модернизации существующей Лабы; snapshot, не новый canon или PLAN_READY |
 | [Ship model v0.1 внутри существующей UI4.8](plans/2026-10-11-ship-model-ui4-integration.md) | PRODUCT v1.1 / affected Plan Review follow-up pending | Текущий HOW/VC для единой Lab shell: реальное переоснащение и фазы `/4`, графики/live/time/journal, frozen A/B, production-frame IR/EM statistics и export/reopen; Beads `ulab-9aa.18` |
 | [Понятный вход в новую модель корабля](plans/2026-10-11-ship-model-entry-ux.md) | historical narrow HOW / [PLAN_READY на124ab51](https://github.com/komleff/u2-lab/pull/23#issuecomment-6105341288); полезный entry candidate сохранён, но integration scope superseded | Выбор Спутник/Мир/Стелс, открытие JSON и первый опыт; UI-A1/A2/A3 без полной сохранности WF/UI48 |

@@ -4,9 +4,66 @@ import {WorkerController} from '../../src/runner/protocol';
 import {checkpointFixture,signatureDepletionFixture,fixture} from './fixture';
 import {createShipModelRun,runShipModelChunk,shipModelResult,restoreShipModelRun} from '../../src/runner/ship-model-run';
 import {parseShipModelResultJson,validateShipModelResult} from '../../src/io/ship-model-result';
-import {serializeResultSnapshot} from '../../src/io/fitting-json';
+import {serializeResultSnapshot,serializeExperiment,serializeFit,parseExperimentJson,parseFitJson} from '../../src/io/fitting-json';
 import {Retention} from '../../src/runner/retention';
+import {getPresetFit,loadCandidateCatalog} from '../../src/fitting/catalog';
+import {parseStoredResultJson} from '../../src/io/fitting-result';
+import {ShipModelWorkspace} from '../../src/app/ship-model-workspace';
+import type {ShipModelCatalogVersion} from '../../src/model/v3/types';
 const json=(x:unknown)=>JSON.stringify(x,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v);
+const persistenceWorkspace=()=>{const c=loadCandidateCatalog('ship-fitting-0.2.4');return new ShipModelWorkspace(getPresetFit('sputnik',c.version),c);};
+function literalSnapshot(version:ShipModelCatalogVersion){
+  const s=fixture();s.durationSeconds=3;s.scenario.phases[0].durationSeconds=3;
+  // Авторский численный snapshot остаётся своим источником, не новым preset.
+  s.resolvedShip.hull.label='Сохранённый авторский корпус';s.resolvedShip.hull.hullPowerW+=123;
+  s.resolvedShip.hull.origins.hullPowerW={kind:'experimental',unit:'W',sourceRef:'tests/model-v3/persistence.test.ts: literal saved hull'};
+  const run=createShipModelRun('literal-'+version,s);runShipModelChunk(run,1);const saved=shipModelResult(run,'paused');
+  saved.spec.catalogVersion=version;saved.spec.resolvedShip.catalogVersion=version;saved.spec.resolvedShip.fit.catalogVersion=version;
+  return saved;
+}
+it.each(['run','result'] as const)('Task2 self-contained 0.3.1 %s reader retains authored snapshots independently of workspace',kind=>{
+  const saved=literalSnapshot('ship-fitting-0.3.1'),text=kind==='run'?serializeExperiment(saved.spec):serializeResultSnapshot(saved);
+  const checked=kind==='run'?parseExperimentJson(text):parseStoredResultJson(text);
+  expect(checked.ok,JSON.stringify(checked)).toBe(true);if(!checked.ok)return;
+  expect(JSON.parse(json(checked.value))).toEqual(JSON.parse(text));
+});
+it.each(['ship-fitting-0.3.0','ship-fitting-0.3.1'] as const)('Task2 %s fit/run/result preserve every literal field without current-catalog rebuilding',version=>{
+  const c=loadCandidateCatalog(version),fit=getPresetFit(version==='ship-fitting-0.3.0'?'sputnik':'sputnik-d',version),fitText=serializeFit(fit),w=persistenceWorkspace();
+  const fitParsed=parseFitJson(fitText,c);expect(fitParsed.ok).toBe(true);if(!fitParsed.ok)return;
+  expect(serializeFit(fitParsed.value)).toBe(fitText);expect(w.inspectOpening(fitText).legacy).toBe(false);w.importDocument(fitText);expect(serializeFit(w.fit!)).toBe(fitText);
+  const saved=literalSnapshot(version),runText=serializeExperiment(saved.spec),resultText=serializeResultSnapshot(saved);
+  const runParsed=parseExperimentJson(runText);expect(runParsed.ok,JSON.stringify(runParsed)).toBe(true);if(!runParsed.ok)return;
+  expect(serializeExperiment(runParsed.value)).toBe(runText);w.importDocument(runText);expect(serializeExperiment(w.prepare())).toBe(runText);expect(serializeFit(w.fit!)).toBe(serializeFit(saved.spec.resolvedShip.fit));
+  const parsed=parseStoredResultJson(resultText);expect(parsed.ok,JSON.stringify(parsed)).toBe(true);if(!parsed.ok)return;
+  expect(serializeResultSnapshot(parsed.value)).toBe(resultText);w.importDocument(resultText);expect(serializeResultSnapshot(w.result!)).toBe(resultText);expect(serializeExperiment(w.prepare())).toBe(runText);
+  const resumed=restoreShipModelRun(saved);runShipModelChunk(resumed,2);const workerMessages:any[]=[],worker=new WorkerController(x=>workerMessages.push(x));
+  worker.handle({runId:saved.runId,commandId:1,type:'start',payload:{checkpoint:JSON.parse(resultText),maxSteps:2}});worker.pump();
+  expect(workerMessages.filter(x=>x.type==='error')).toEqual([]);expect(serializeResultSnapshot(workerMessages.find(x=>x.type==='complete')!.payload)).toBe(serializeResultSnapshot(shipModelResult(resumed)));
+});
+it.each([
+  ['catalogVersion','ship-fitting-0.3.1'],['resolvedShip.catalogVersion','ship-fitting-0.3.1'],['resolvedShip.fit.catalogVersion','ship-fitting-0.3.1'],
+  ['catalogVersion','ship-fitting-0.3.2'],['resolvedShip.catalogVersion','ship-fitting-0.3.2'],['resolvedShip.fit.catalogVersion','ship-fitting-0.3.2'],
+])('Task2 mixed/unknown %s=%s rejects at that field and preserves both drafts/results/frozen owner', (path,value)=>{
+  const w=persistenceWorkspace(),saved=literalSnapshot('ship-fitting-0.3.0');w.importDocument(serializeResultSnapshot(saved));expect(w.freeze()).toBe(true);w.copyToB();
+  const before=JSON.stringify(w.snapshotForRender()),bad=structuredClone(saved),keys=path.split('.');let owner:any=bad.spec;for(const key of keys.slice(0,-1))owner=owner[key];owner[keys.at(-1)!]=value;
+  for(const text of [serializeExperiment(bad.spec),serializeResultSnapshot(bad)]){
+    const checked=text.includes('"runId"')?parseStoredResultJson(text):parseExperimentJson(text);
+    expect(checked.ok).toBe(false);if(checked.ok)continue;expect(checked.errors.some(e=>e.path===path),JSON.stringify(checked.errors)).toBe(true);
+    expect(()=>w.inspectOpening(text)).toThrow();expect(()=>w.importDocument(text)).toThrow();expect(JSON.stringify(w.snapshotForRender())).toBe(before);
+  }
+  const messages:any[]=[],worker=new WorkerController(message=>messages.push(message));
+  worker.handle({runId:'held-owner',commandId:1,type:'start',payload:{checkpoint:saved}});worker.handle({runId:'held-owner',commandId:2,type:'pause'});
+  const held=worker.context,heldResult=json(result(held!));worker.handle({runId:'foreign-owner',commandId:3,type:'start',payload:{checkpoint:bad}});
+  expect(worker.context).toBe(held);expect(json(result(worker.context!))).toBe(heldResult);expect(messages.filter(message=>message.type==='error')).toHaveLength(1);
+});
+it('Task2 unsupported fit and version/inventory mismatches never mutate opening owner',()=>{
+  const w=persistenceWorkspace(),saved=literalSnapshot('ship-fitting-0.3.0');w.importDocument(serializeResultSnapshot(saved));w.freeze();const before=JSON.stringify(w.snapshotForRender());
+  const fit=getPresetFit('ermak-d','ship-fitting-0.3.1');
+  for(const version of ['ship-fitting-0.3.0','ship-fitting-0.3.2']){
+    const bad={...fit,catalogVersion:version},text=JSON.stringify(bad);expect(()=>w.importDocument(text)).toThrow();expect(JSON.stringify(w.snapshotForRender())).toBe(before);
+  }
+  expect(parseFitJson(serializeFit(fit),loadCandidateCatalog('ship-fitting-0.3.0')).ok).toBe(false);
+});
 function stoppedAt59(){const {spec,instanceId}=checkpointFixture(),run=createRun('cp05',spec);runChunk(run,59);return {run,saved:result(run),instanceId};}
 it('a /4 result contains a versioned complete checkpoint and literal last request/ledger output',()=>{
   const {run,saved}=stoppedAt59();expect((saved as any).checkpoint?.version).toBe('ship-checkpoint/1');expect((saved as any).checkpoint.lastTelemetry).toEqual(run.last);

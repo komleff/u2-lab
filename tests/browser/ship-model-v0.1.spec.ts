@@ -3,9 +3,9 @@ for(const width of [1440,390,820])test(`native /4 explicit compile, Worker run a
   await page.setViewportSize({width,height:1000});await page.goto('/');
   await page.locator('#ship-model-open').waitFor();expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);expect((await page.locator('header').boundingBox())!.height).toBeLessThanOrEqual(148);
   await page.locator('#ship-model-open').click();await expect(page.locator('#sm-model')).toHaveCount(0);await page.locator('#sm-source').click();
-  await expect(page.locator('#sm-start')).toBeDisabled();await expect(page.locator('#sm-start-reason')).toContainText('перенос');
+  await expect(page.locator('#sm-start')).toBeEnabled();await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.1');const independent=await page.locator('#sm-opened').textContent();
   for(const select of await page.locator('[data-sm-template]').all())await select.selectOption('engine-diesel-S-single');
-  await page.locator('#sm-preview').click();await expect(page.locator('#sm-diff')).toContainText('origin');await expect(page.locator('#sm-start')).toBeDisabled();
+  await page.locator('#sm-preview').click();await expect(page.locator('#sm-diff')).toContainText('origin');await expect(page.locator('#sm-start')).toBeEnabled();expect(await page.locator('#sm-opened').textContent()).toBe(independent);
   await page.locator('#sm-apply').click();await page.locator('#sm-duration').fill('3');await page.locator('#sm-start').click();
   await expect(page.locator('#sm-status')).toHaveText('complete',{timeout:15000});await expect(page.locator('#sm-results')).toContainText('u2-lab/4');await expect(page.locator('#sm-results')).toContainText('ship-signatures/2');
   await expect(page.locator('#sm-transport')).toContainText('Снимок');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);

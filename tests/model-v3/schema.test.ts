@@ -8,6 +8,37 @@ import { createFittingRun } from "../../src/runner/fitting-run";
 import { FittingWorkspace } from "../../src/app/fitting-workspace";
 import { getPresetFit, loadCandidateCatalog } from "../../src/fitting/catalog";
 
+const malformedManifest: [string, (c: any) => void][] = [
+  ["missing", (c: any) => delete c.presetOptions],
+  ["duplicate", (c: any) => c.presetOptions.push({...c.presetOptions[0]})],
+  ["extra-key", (c: any) => c.presetOptions[0].fit = {}],
+  ["empty-label", (c: any) => c.presetOptions[0].label = " "],
+  ["unknown-id", (c: any) => c.presetOptions[0].id = "missing-preset"],
+  ["unlisted", (c: any) => c.presetOptions.pop()],
+];
+it.each(malformedManifest)("catalog manifest %s rejects atomically with an addressed error", (_, mutate) => {
+  const c: any = loadCandidateCatalog("ship-fitting-0.3.0");
+  // Независимый literal выявляет отсутствие manifest-контракта на baseline.
+  c.presetOptions = [{id:"sputnik",label:"Спутник"},{id:"severin-mir",label:"Мир"},{id:"stealth-reference",label:"Стелс-сборка"}];
+  mutate(c); const before = structuredClone(c), result = schema.validateCatalogV3(c);
+  expect(result.ok).toBe(false);
+  if (result.ok) throw Error("invalid manifest accepted");
+  expect(result.errors.some(e => e.path.startsWith("catalog.presetOptions"))).toBe(true);
+  expect(c).toEqual(before);
+});
+it.each([
+  ["version", (c: any): void => { c.presets.sputnik.catalogVersion = "ship-fitting-0.3.1"; }],
+  ["missing-item", (c: any): void => { c.presets.sputnik.instances["fit:march"].itemId = "not-authored"; }],
+  ["not-runnable", (c: any): void => { c.presets.sputnik.instances["fit:power-1"].enabled = false; }],
+])("catalog preset %s cannot enter its valid manifest", (_, mutate) => {
+  const c = loadCandidateCatalog("ship-fitting-0.3.0"); mutate(c);
+  const before = structuredClone(c), result = schema.validateCatalogV3(c);
+  expect(result.ok).toBe(false);
+  if (result.ok) throw Error("invalid preset accepted");
+  expect(result.errors.some(e => e.path.startsWith("catalog.presets.sputnik."))).toBe(true);
+  expect(c).toEqual(before);
+});
+
 const validate = (input: unknown) => { expect(typeof (schema as any).validateRunSpecV3).toBe("function"); return (schema as any).validateRunSpecV3(input); };
 it.each(["positive-only", "absolute-contrast"])("/4 positive parse/serialize keeps the independently selected %s receiver and complete state", profile => {
   const spec = fixture("stealth-reference"); spec.receiverProfile = profile as typeof spec.receiverProfile;

@@ -1,7 +1,7 @@
 import type { ValidationResult } from "../catalog/schema";
 import type { ShipFit, CandidateCatalog, ResolvedShip } from "./types";
 import { validateFit, installedInstances } from "./validate";
-import { fitHull } from "./editions";
+import { fitHull, isShipModelCatalogVersion } from "./editions";
 import { compileShipModelFit } from "../model/v3/schema";
 import type { CandidateCatalogV3, ShipFitV3, ResolvedShipV3 } from "../model/v3/types";
 import type { CompilationChange, PromotedFitV3, ModuleItemV3 } from "../model/v3/types";
@@ -11,7 +11,7 @@ export function compileFit(
   input: ShipFit | ShipFitV3,
   catalog: CandidateCatalog | CandidateCatalogV3,
 ): ValidationResult<ResolvedShip | ResolvedShipV3> {
-  if (catalog.version === "ship-fitting-0.3.0") return compileShipModelFit(input, catalog);
+  if (isShipModelCatalogVersion(catalog.version)) return compileShipModelFit(input, catalog as CandidateCatalogV3);
   const f = input as ShipFit, c = catalog as CandidateCatalog;
   const v = validateFit(f, c);
   if (!v.readiness.canRun)
@@ -87,7 +87,7 @@ export function compileFitToShipModelV01(
     // Нельзя угадать неизвестный SKU или выдать изменённую регуляторную схему за
     // сохранённое измерение. Монтажная/TTX база локального варианта выбирается явно.
     if (!template || template.thermalRole !== "ordinary" || template.family !== item.family || template.size !== item.size || template.formFactor !== item.formFactor || template.propulsionType !== item.propulsionType || template.species !== item.species)
-      return { ok: false, errors: [{ path: "localVariants." + id, code: "PROMOTION_TEMPLATE", message: "Нужен явный совместимый 0.3.0 template для локального ordinary варианта; регулятор требует отдельного авторского снимка" }] };
+      return { ok: false, errors: [{ path: "localVariants." + id, code: "PROMOTION_TEMPLATE", message: `Нужен явный совместимый ${targetCatalog.version} template для локального ordinary варианта; регулятор требует отдельного авторского снимка` }] };
     const variant = structuredClone(template);
     Object.assign(variant, { id, label: item.label, class: item.class, generation: item.generation, materials: structuredClone(item.materials), numerics: structuredClone(item.numerics), gate: structuredClone(item.gate) });
     variant.origins = { ...variant.origins, ...structuredClone(item.origins) };
@@ -96,7 +96,7 @@ export function compileFitToShipModelV01(
     localVariants[id] = variant;
   }
   const fit: ShipFitV3 = {
-    schemaVersion: "u2-ship-fit/2", catalogVersion: "ship-fitting-0.3.0", fitRevision: source.fitRevision + 1,
+    schemaVersion: "u2-ship-fit/2", catalogVersion: targetCatalog.version, fitRevision: source.fitRevision + 1,
     hullId: source.hullId, assignments: structuredClone(source.assignments), instances: structuredClone(source.instances), localVariants,
     builtinModes: structuredClone(source.builtinModes ?? {}),
     initial: { chargeFraction: source.initial.chargeFraction, fuelFraction: { diesel: source.initial.fuelFraction.diesel ?? 0, hydrogen: source.initial.fuelFraction.hydrogen ?? 0 } },

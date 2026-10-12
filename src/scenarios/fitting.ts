@@ -4,15 +4,16 @@ import { compileFit } from "../fitting/compile";
 import type { RunSpecV2, FittingPhase } from "../model/v2/types";
 import { validateRunSpecV2 } from "../model/v2/step";
 import {compileShipModelFit,validateRunSpecV3} from '../model/v3/schema';
-import {SCHEMA_V3,MODEL_V3,CATALOG_V3,type RunSpecV3,type ShipFitV3,type CandidateCatalogV3,type ShipMode,type EnvironmentV3,type ReceiverProfile} from '../model/v3/types';
+import {SCHEMA_V3,MODEL_V3,type RunSpecV3,type ShipFitV3,type CandidateCatalogV3,type ShipMode,type EnvironmentV3,type ReceiverProfile} from '../model/v3/types';
 import {CONTROLLER_CANDIDATES} from '../model/v3/step';
+import {DEFAULT_SHIP_MODEL_BACKGROUND_K} from '../app/ship-model-defaults';
 export type ShipModelConditions={durationSeconds?:number;temperatureK?:number;backgroundK?:number;mode?:ShipMode;receiverProfile?:ReceiverProfile;environment?:EnvironmentV3;observer?:RunSpecV3['observer'];repeat?:boolean;duty?:number;action?:RunSpecV3['scenario']['phases'][number]['action'];maneuverRole?:import('../fitting/types').PropulsionRole;phases?:RunSpecV3['scenario']['phases']};
 // Только fresh-run initialization; сохранённое продолжение не проходит этот builder.
 export function makeShipModelMiningRun(fit:ShipFitV3,catalog:CandidateCatalogV3,x:ShipModelConditions={}):ValidationResult<RunSpecV3>{
   const compiled=compileShipModelFit(fit,catalog);if(!compiled.ok)return compiled;const ship=compiled.value;
   const mode=x.mode??'Efficient',temperatureK=x.temperatureK??300,durationSeconds=x.durationSeconds??60;
-  const spec:RunSpecV3={schemaVersion:SCHEMA_V3,modelVersion:MODEL_V3,catalogVersion:CATALOG_V3,units:'SI',approvedBaseline:false,resolvedShip:ship,origins:{...ship.origins},
-    environment:x.environment??{radiativeBackgroundK:x.backgroundK??100,backgroundSourceId:'lab-radiative-background',thermalField:null,solarFluxWm2:0,solarSourceId:null,energyInputs:[],directHeat:[]},
+  const spec:RunSpecV3={schemaVersion:SCHEMA_V3,modelVersion:MODEL_V3,catalogVersion:catalog.version,units:'SI',approvedBaseline:false,resolvedShip:ship,origins:{...ship.origins},
+    environment:x.environment??{radiativeBackgroundK:x.backgroundK??DEFAULT_SHIP_MODEL_BACKGROUND_K,backgroundSourceId:'lab-radiative-background',thermalField:null,solarFluxWm2:0,solarSourceId:null,energyInputs:[],directHeat:[]},
     receiverProfile:x.receiverProfile??'positive-only',observer:x.observer??{presetId:'S-dedicated-G1',rangeM:16000,aspectDeg:0},
     initialState:{schemaVersion:SCHEMA_V3,modelVersion:MODEL_V3,stateVersion:'ship-state/1',timeSeconds:0,phaseIndex:0,phaseElapsedSeconds:0,mode,maskingEntryTemperatureK:mode==='Masking'?temperatureK:null,temperatureK,chargeJ:ship.batteryCapacityJ*fit.initial.chargeFraction,
       fuelKg:{diesel:ship.resources.diesel.capacityKg*fit.initial.fuelFraction.diesel,hydrogen:ship.resources.hydrogen.capacityKg*fit.initial.fuelFraction.hydrogen},

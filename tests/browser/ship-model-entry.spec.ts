@@ -7,6 +7,19 @@ import {createFittingRun,runFittingChunk,fittingResult} from '../../src/runner/f
 const oldCatalog=loadCandidateCatalog('ship-fitting-0.2.5');
 const oldFit=getPresetFit('sputnik',oldCatalog.version);
 const upload=(text:string,name='ship.json')=>({name,mimeType:'application/json',buffer:Buffer.from(text)});
+test('fresh /4 opens independent Sputnik D at 250 K and actual Worker receives those defaults',async({page})=>{
+  await page.goto('/?shipModel=experimental');
+  await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.1');
+  await expect(page.locator('#sm-background')).toHaveValue('250');
+  await expect(page.locator('#sm-draft-owner')).toContainText('фон 250 K');
+  await expect(page.locator('#sm-start')).toBeEnabled();
+  await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();
+  await expect(page.locator('#sm-status')).toHaveText('complete');
+  const saving=page.waitForEvent('download');await page.locator('#sm-save-result').click();
+  const result=JSON.parse(readFileSync((await (await saving).path())!,'utf8'));
+  expect(result.spec.environment.radiativeBackgroundK).toBe(250);
+  expect(result.spec.resolvedShip.fit).toEqual(getPresetFit('sputnik-d','ship-fitting-0.3.1'));
+});
 test('I1 switching models retains the same Lab header, navigation, sections and dock',async({page})=>{
   await page.goto('/');
   await expect(page.locator('#fit-status')).toBeVisible();
@@ -23,12 +36,13 @@ test('visible entry compiles the actual old Sputnik with unique UI-prefill, then
   await page.goto('/?shipModel=experimental');
   await expect(page.getByRole('heading',{name:'Открыть корабль',exact:true})).toBeVisible();
   await expect(page.locator('#sm-model')).toHaveCount(0);
-  await expect(page.locator('#sm-source')).toContainText('Спутник');await expect(page.locator('#sm-start')).toBeDisabled();
+  await expect(page.locator('#sm-source')).toContainText('Спутник');await expect(page.locator('#sm-start')).toBeEnabled();
+  const independent=await page.locator('#sm-opened').textContent();
   await page.locator('#sm-source').click();
   await expect(page.locator('[data-sm-template]')).toHaveValue('engine-diesel-S-single');
   await page.locator('#sm-preview').click();await expect(page.locator('#sm-diff')).toContainText('origin');
   await expect(page.locator('#sm-diff-summary')).toContainText('Масса');await expect(page.locator('#sm-diff-summary')).toContainText('кДж/K');expect(await page.locator('#sm-diff').evaluate(el=>(el as HTMLDetailsElement).open)).toBe(false);
-  await expect(page.locator('#sm-start')).toBeDisabled();await page.locator('#sm-apply').click();
+  expect(await page.locator('#sm-opened').textContent()).toBe(independent);await expect(page.locator('#sm-start')).toBeEnabled();await page.locator('#sm-apply').click();
   await expect(page.locator('#sm-opened')).toContainText('u2-ship-fit/2');
   await page.locator('#sm-duration').fill('2');await page.locator('#sm-start').click();
   await expect(page.locator('#sm-status')).toHaveText('complete');await expect(page.locator('#sm-measured-owner')).toContainText('Спутник');
@@ -36,18 +50,19 @@ test('visible entry compiles the actual old Sputnik with unique UI-prefill, then
 });
 test('ship change does not disguise an unsupported Masking mode as Efficient or enable an invalid start',async({page})=>{
   await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('stealth-reference');await page.locator('#sm-mode').selectOption('Masking');
-  await page.locator('#sm-preset').selectOption('sputnik');await expect(page.locator('#sm-mode')).toHaveValue('Masking');await expect(page.locator('#sm-start')).toBeDisabled();await expect(page.locator('#sm-start-reason')).toContainText('mode');
+  await page.locator('#sm-preset').selectOption('sputnik-d');await expect(page.locator('#sm-mode')).toHaveValue('Masking');await expect(page.locator('#sm-start')).toBeDisabled();await expect(page.locator('#sm-start-reason')).toContainText('mode');
   await page.locator('#sm-mode').selectOption('Efficient');await expect(page.locator('#sm-start')).toBeEnabled();await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
 });
 test('ambiguous source template is not auto-selected or silently applied',async({page})=>{
   const source=structuredClone(oldFit),item=structuredClone(oldCatalog.items['cargo-universal-S']);item.id='ui-choice-cargo';source.localVariants[item.id]=item;
   await page.goto('/?shipModel=experimental');await page.locator('#sm-import').setInputFiles(upload(serializeFit(source)));await page.locator('#sm-leave-confirm').click();
   await page.locator('#ship-model-open').click();await page.locator('#sm-source').click();
+  const independent=await page.locator('#sm-opened').textContent();
   const choice=page.locator('[data-sm-template="ui-choice-cargo"]');await expect(choice).toHaveValue('');expect(await choice.locator('option').count()).toBe(3);
-  await page.locator('#sm-preview').click();await expect(page.locator('#sm-error')).toContainText('localVariants.ui-choice-cargo');await expect(page.locator('#sm-apply')).toBeDisabled();await expect(page.locator('#sm-start')).toBeDisabled();
+  await page.locator('#sm-preview').click();await expect(page.locator('#sm-error')).toContainText('localVariants.ui-choice-cargo');await expect(page.locator('#sm-apply')).toBeDisabled();await expect(page.locator('#sm-start')).toBeEnabled();expect(await page.locator('#sm-opened').textContent()).toBe(independent);
 });
 test('old JSON opens explicitly in old editor only after validation and a leave decision; malformed leaves /4 intact',async({page})=>{
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');
   await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
   const before=await page.locator('#sm-results').textContent();
   for(const text of ['{','{"schemaVersion":"u2-lab/99"}',JSON.stringify({...oldFit,hullId:'missing'})]){
@@ -62,19 +77,23 @@ test('old JSON opens explicitly in old editor only after validation and a leave 
   await expect(page.locator('#fit-edition')).toContainText('ship-fitting-0.2.5');await expect(page.locator('#fit-status')).toBeVisible();
   await page.locator('#ship-model-open').click();await page.locator('#sm-source').click();await page.locator('#sm-preview').click();await page.locator('#sm-apply').click();await expect(page.locator('#sm-start')).toBeEnabled();
 });
-test('/4 fit/run/result file inputs and reexports preserve actual literal documents and show type/version',async({page})=>{
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
+for(const version of ['ship-fitting-0.3.1','ship-fitting-0.3.0'] as const)test(`/4 ${version} fit/run/result file inputs and reexports preserve actual literal documents and show type/version`,async({page})=>{
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
+  if(version==='ship-fitting-0.3.0'){
+    await page.locator('#sm-import').setInputFiles(upload(serializeFit(getPresetFit('sputnik',version))));await page.locator('#sm-background').fill('100');await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
+  }
   const docs: {id:string;text:string;label:string;schema:string}[]=[];
   for(const [id,label,schema]of [['sm-save-result','Результат','u2-lab/4'],['sm-save-run','Опыт','u2-lab/4'],['sm-save-fit','Сборка','u2-ship-fit/2']]){
     const saving=page.waitForEvent('download');await page.locator('#'+id).click();docs.push({id,label,schema,text:readFileSync((await (await saving).path())!,'utf8')});
   }
+  const measured=JSON.parse(docs[0].text);expect(measured.spec.catalogVersion).toBe(version);expect(measured.spec.environment.radiativeBackgroundK).toBe(version==='ship-fitting-0.3.0'?100:250);
   for(const doc of docs){
     await page.locator('#sm-import').setInputFiles(upload(doc.text));await expect(page.locator('#sm-error')).toBeEmpty();await expect(page.locator('#sm-opened')).toContainText(doc.label);await expect(page.locator('#sm-opened')).toContainText(doc.schema);
     const saving=page.waitForEvent('download');await page.locator('#'+doc.id).click();expect(readFileSync((await (await saving).path())!,'utf8')).toBe(doc.text);
   }
 });
 test('delayed file read cannot replace changed owner or a real paused Worker; cancelled chooser keeps work',async({page})=>{
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik');await page.locator('#sm-duration').fill('60');
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-duration').fill('60');
   await page.evaluate(()=>{const original=File.prototype.text;File.prototype.text=function(){return new Promise<string>(resolve=>{(window as any).releaseFile=async()=>resolve(await original.call(this));});};});
   await page.locator('#sm-import').setInputFiles(upload(serializeFit(oldFit)));await page.locator('#sm-copy').click();
   await page.evaluate(()=>(window as any).releaseFile());await expect(page.locator('#sm-error')).toContainText('изменён');await expect(page.locator('#sm-variant')).toHaveValue('B');await expect(page.locator('#sm-leave')).toHaveCount(0);
@@ -86,7 +105,7 @@ test('delayed file read cannot replace changed owner or a real paused Worker; ca
 test('late file read from old editor cannot replace a newly opened /4 workspace and its measurement',async({page})=>{
   await page.goto('/');await page.evaluate(()=>{const original=File.prototype.text;File.prototype.text=function(){return new Promise<string>(resolve=>{(window as any).releaseFile=async()=>resolve(await original.call(this));});};});
   await page.locator('#fit-import').setInputFiles(upload(serializeFit(getPresetFit('severin-mir','ship-fitting-0.3.0'))));
-  await page.locator('#ship-model-open').click();await page.locator('#sm-preset').selectOption('sputnik');await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
+  await page.locator('#ship-model-open').click();await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
   const before=await page.locator('#sm-results').textContent();await page.evaluate(()=>(window as any).releaseFile());await page.waitForFunction(()=>!document.querySelector('#fit-import'));
   await expect(page.locator('#sm-results')).toBeVisible();expect(await page.locator('#sm-results').textContent()).toBe(before);await expect(page.locator('#sm-opened')).toContainText('Спутник');
 });
@@ -100,7 +119,7 @@ test('old measured result opens as immutable old measurement, not a /4 replay',a
 });
 for(const width of [1440,820,390])test(`familiar ship/open/start hierarchy and all native references at ${width}px`,async({page})=>{
   await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');
-  for(const [id,label]of [['sputnik','Спутник'],['severin-mir','Мир'],['stealth-reference','Стелс']]as const){
+  for(const [id,label]of [['sputnik-d','Спутник'],['severin-mir-h','Мир'],['stealth-reference','Стелс']]as const){
     await page.locator('#sm-preset').selectOption(id);await expect(page.locator('#sm-opened')).toContainText(label);
     await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
   }
