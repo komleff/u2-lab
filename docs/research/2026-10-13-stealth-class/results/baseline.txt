@@ -1,0 +1,68 @@
+stealth-eff-idle-6h: maxT=442.1K first=—
+  0.17h T=304.2K buf=0.00GJ chg=99% IR=5.3kW EM=1.7W
+  1.00h T=325.2K buf=0.00GJ chg=95% IR=8.2kW EM=1.7W
+  3.00h T=374.0K buf=0.00GJ chg=84% IR=17.8kW EM=1.7W
+  6.00h T=442.1K buf=0.00GJ chg=67% IR=38.9kW EM=1.7W
+  meanIR=19.1kW meanEM=1.7W  ranges IR/EM km: S-dedicated-G1 2.4/2.0 | S-3in1-G1 1.6/1.3 | M-dedicated-G1 4.7/3.9 | M-3in1-G1 3.1/2.6
+  last paths: {"body":38910,"engine":0}
+  wall=3s events: 0s phase idle · idle
+
+stealth-eff-idle-24h: maxT=530.8K first=builtin:buffer-S: capacity-limit (2000000000 J)
+  0.17h T=304.2K buf=0.00GJ chg=99% IR=5.3kW EM=1.7W
+  1.00h T=325.2K buf=0.00GJ chg=95% IR=8.2kW EM=1.7W
+  3.00h T=374.0K buf=0.00GJ chg=84% IR=17.8kW EM=1.7W
+  24.00h T=530.8K buf=2.00GJ chg=2% IR=85.6kW EM=0.7W
+  meanIR=60.0kW meanEM=1.3W  ranges IR/EM km: S-dedicated-G1 4.2/1.7 | S-3in1-G1 2.8/1.1 | M-dedicated-G1 8.3/3.4 | M-3in1-G1 5.6/2.3
+  last paths: {"body":85584,"engine":0}
+  wall=11s events: 0s phase idle · idle ; 42370.90014959054s buffer-full builtin:buffer-S: buffer-full ; 42370.90014959054s capacity-limit builtin:buffer-S: capacity-limit (2000000000 J)
+
+sputnik-d-eff-idle-6h: maxT=336.4K first=—
+  0.17h T=305.0K buf=0.00GJ chg=100% IR=239.4kW EM=8.6W
+  1.00h T=322.1K buf=0.00GJ chg=100% IR=345.5kW EM=8.6W
+  3.00h T=334.5K buf=0.00GJ chg=100% IR=434.5kW EM=8.6W
+  6.00h T=336.4K buf=0.00GJ chg=100% IR=448.5kW EM=8.6W
+  meanIR=404.2kW meanEM=8.6W  ranges IR/EM km: S-dedicated-G1 10.8/4.4 | S-3in1-G1 7.2/2.9 | M-dedicated-G1 21.6/8.7 | M-3in1-G1 14.4/5.8
+  last paths: {"body":230202,"radiator":218325,"generator":0,"engine":0}
+  wall=2s events: 0s phase idle · idle
+
+sputnik-e-eff-idle-6h: maxT=301.9K first=—
+  0.17h T=300.2K buf=0.00GJ chg=99% IR=212.6kW EM=8.6W
+  1.00h T=300.9K buf=0.00GJ chg=95% IR=216.7kW EM=8.6W
+  3.00h T=301.7K buf=0.00GJ chg=84% IR=220.8kW EM=8.6W
+  6.00h T=301.9K buf=0.00GJ chg=67% IR=222.0kW EM=8.6W
+  meanIR=219.6kW meanEM=8.6W  ranges IR/EM km: S-dedicated-G1 8.0/4.4 | S-3in1-G1 5.3/2.9 | M-dedicated-G1 16.0/8.7 | M-3in1-G1 10.6/5.8
+  last paths: {"body":113949,"radiator":108070,"engine":0}
+  wall=2s events: 0s phase idle · idle
+
+stealth-mask-idle-6h: maxT=385.2K first=builtin:buffer-S: capacity-limit (2000000000 J)
+  0.17h T=300.0K buf=0.13GJ chg=99% IR=4.8kW EM=1.7W
+  1.00h T=300.0K buf=0.79GJ chg=95% IR=4.8kW EM=1.7W
+  3.00h T=311.9K buf=2.00GJ chg=84% IR=6.3kW EM=1.7W
+  6.00h T=385.2K buf=2.00GJ chg=67% IR=20.5kW EM=1.7W
+  meanIR=8.8kW meanEM=1.7W  ranges IR/EM km: S-dedicated-G1 1.6/2.0 | S-3in1-G1 1.1/1.3 | M-dedicated-G1 3.2/3.9 | M-3in1-G1 2.1/2.6
+  last paths: {"body":20533,"engine":0}
+  wall=3s events: 0s phase idle · idle ; 9104.446252079346s buffer-full builtin:buffer-S: buffer-full ; 9104.446252079346s capacity-limit builtin:buffer-S: capacity-limit (2000000000 J)
+
+stealth-eff-march10-1h: maxT=390.5K first=—
+  0.17h T=315.2K buf=0.00GJ chg=87% IR=6.8kW EM=24.9W
+  1.00h T=390.5K buf=0.00GJ chg=21% IR=21.9kW EM=24.9W
+  1.00h T=390.5K buf=0.00GJ chg=21% IR=21.9kW EM=24.9W
+  meanIR=12.3kW meanEM=24.9W  ranges IR/EM km: S-dedicated-G1 1.9/7.4 | S-3in1-G1 1.3/4.9 | M-dedicated-G1 3.8/14.8 | M-3in1-G1 2.5/9.9
+  last paths: {"body":21929,"engine":0}
+  wall=0s events: 0s phase maneuver · maneuver
+
+stealth-mask-march10-1h: maxT=327.2K first=builtin:buffer-S: capacity-limit (2000000000 J)
+  0.17h T=300.0K buf=0.47GJ chg=87% IR=4.8kW EM=24.9W
+  1.00h T=327.2K buf=2.00GJ chg=21% IR=8.6kW EM=24.9W
+  1.00h T=327.2K buf=2.00GJ chg=21% IR=8.6kW EM=24.9W
+  meanIR=5.3kW meanEM=24.9W  ranges IR/EM km: S-dedicated-G1 1.2/7.4 | S-3in1-G1 0.8/4.9 | M-dedicated-G1 2.5/14.8 | M-3in1-G1 1.7/9.9
+  last paths: {"body":8561,"engine":0}
+  wall=1s events: 0s phase maneuver · maneuver ; 2526.778148831786s buffer-full builtin:buffer-S: buffer-full ; 2526.778148831786s capacity-limit builtin:buffer-S: capacity-limit (2000000000 J)
+
+sputnik-eff-march10-1h: maxT=348.7K first=—
+  0.17h T=311.1K buf=0.00GJ chg=87% IR=275.3kW EM=124.3W
+  1.00h T=348.7K buf=0.00GJ chg=21% IR=548.4kW EM=124.3W
+  1.00h T=348.7K buf=0.00GJ chg=21% IR=548.4kW EM=124.3W
+  meanIR=391.5kW meanEM=124.3W  ranges IR/EM km: S-dedicated-G1 10.7/16.6 | S-3in1-G1 7.1/11.1 | M-dedicated-G1 21.3/33.2 | M-3in1-G1 14.2/22.1
+  last paths: {"body":281483,"radiator":266960,"engine":0}
+  wall=0s events: 0s phase maneuver · maneuver
