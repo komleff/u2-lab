@@ -1,0 +1,431 @@
+{
+  "mode": "CODE_REVIEW / SCOPED_RE_REVIEW",
+  "role": "Independent Reviewer",
+  "model": "Codex; exact provider/deployment model ID unavailable",
+  "sourceSha": "d57ad5bc75c77954e7eefe63fbe5630ca4529c62",
+  "baselineSha": "ac4d01ac96e495a8db63cc85c6b7716358b3bfbe",
+  "rootHeadAtRelease": "7a4cd5ea2b7087cbe33747e25c3d38d1d1476071",
+  "scope": "Only CR-MISSION-B1/B2 closure; exact2 delta and necessary unchanged caller context; no full52 semantic re-review",
+  "reviewedPaths": [
+    {
+      "path": "src/runner/mission.ts",
+      "gitBlob": "47d18e841160df86e905621fed85c46ce6b7794a",
+      "bytes": 22873,
+      "sha256": "cb83fbf0d5070cce73c1804041c03d7a1a94a5b85fb9cf94c3410d8cc4d4a87c"
+    },
+    {
+      "path": "tests/fitting/mission-review-blockers.test.ts",
+      "gitBlob": "6584fda3876abb1753305f454495ded49ecfd929",
+      "bytes": 12837,
+      "sha256": "7e670bc5a5553e6cc273f09872a28ca1573afc0c03bfa4d5111215dd9c6d3020"
+    }
+  ],
+  "wholeContracts": [
+    {
+      "path": "docs/product/ship-fitting-v2.2-mission-brief.md",
+      "bytes": 22131,
+      "sha256": "e0d414eb48be123902fb05af3078e58d87d4c540c54f6bf4892af67da93fd5f4",
+      "literalText": "---\ntitle: \"Ship Fitting v2.2 — событийная добыча и шахтёрский рейс\"\nstatus: accepted\nversion: \"0.3\"\ndate: 2026-10-06\nrelated:\n  - docs/gdd/gdd_u2_ship_fitting_v0.2.md\n  - docs/product/ship-fitting-gd-workspace-v4.md\n  - docs/product/ship-fitting-catalog-0.2.1.md\n---\n\n# Назначение и граница решения\n\nИнструмент для ГД должен сравнивать оснастку по результату настоящего рабочего\nрейса: сколько руды корабль доставил за время опыта, сколько израсходовал топлива\nи H₂, сколько времени добывал, летел и восстанавливался. Фиксированные120 секунд\nдобычи не определяют продолжительность рейса.\n\nПрямое задание оператора возобновляет `ulab-dwi`. Default полного трюма и\nосновной рейс приняты; необязательное уточнение другого режима не блокирует их.\nОператор разрешил дополнять отсутствующие параметры лабораторными гипотезами.\nЭто продуктовое задание; PLAN_READY устанавливается отдельным Plan Review.\nПрежние версии сохраняются для сравнений.\n\nИсполнительные решения PM для этой версии, явно не канонические ТТХ:\n- «До первой остановки» — первое полное прекращение работы выбранной добывающей\n  группы из-за энергии/тепла либо заполнение трюма. Частичная потеря мощности\n  отображается первым ограничением, но сама не прекращает этот режим.\n- V_FA: редактируемая лабораторная опора500м/с; множители1/2/3/4; default Max\n  не использует эту опору. В интерфейсе и provenance указана гипотеза, не ТТХ корпуса.\n- Начальная температура300K в расширенных условиях, переносится между рейсами.\n- Начальный кандидат шага0.1с: становится default только при проверке сходимости\n 0.1/0.05/0.025 (§5/M09). При непрохождении применяется проверенный меньший шаг.\n- Цель относится к сданной руде; обслуживание10с пополняет установленные баки\n  в конце разгрузки, без бесплатного охлаждения/зарядки батарей.\n\n## 1. Принятые входы\n\n| Поле | Значение по умолчанию | Смысл |\n|---|---:|---|\n| Горизонт, с | 3600 | Верхняя граница времени всей миссии, включая перелёт и обслуживание |\n| Фон, K | 100 | Эффективная температура радиационной среды |\n| Выход из добычи | До полного трюма | Второй выбираемый режим — до первой остановки |\n| Плотность руды, кг/м³ | 1500 | Определяет массу фактически загруженной руды |\n| Возврат тепла, доля | 0.35 | Для этого опыта; вопрос о размещении параметра разобран ниже |\n| Цель добычи, SCU | 10000 | Суммарная цель миссии; предложение по учёту — §4 |\n| Физический шаг, с | Проверенный рекомендацией | Кандидат0.1; выбирается по M09, не скорость воспроизведения |\n| Подход, с | 10 | Заданная местная фаза; не подмена времени перелёта |\n| Разгрузка, с | 10 | Обслуживание на станции |\n| Расстояние в одну сторону, км | 100 | От станции до места добычи; обратный путь той же длины |\n| Крейсерская скорость | Max | Выбор: V_FA, ×2, ×3, ×4, Max |\n| Повторять цикл | Да | Новые рейсы до горизонта или достижения цели |\n\nНачальная температура не задана оператором числом; предложенное решение — §3.\nНачальные заряд и запасы топлива берутся из сборки, как в текущем инструменте.\n\n## 2. Рабочий цикл\n\nСтанция → разгон → при необходимости крейсерский участок → торможение до покоя\nу поля → местный подход → добыча → разгон с добытым грузом → крейсерский участок\nпри необходимости → торможение до покоя у станции → разгрузка/заправка → новый рейс.\n\nПервый вылет — без руды. Обратный вылет — с фактически добытым объёмом, включая\nнеполный трюм. После успешной разгрузки следующий вылет снова порожняком.\nВремя добычи получается из числа и фактической мощности лазеров, совместимой\nвместимости, ограничений энергии/тепла и выбранного условия выхода.\n\nВ режиме **до полного трюма** автоматика продолжает работу при снижении\nмощности; обратимые остановки допускают охлаждение/восстановление и возобновление\nдобычи. Топливо и H₂ конечны. Если трюм не заполнен к горизонту, это незавершённая\nдобыча. При необратимой невозможности добывать допускается возврат с уже добытым\nгрузом, если движение возможно; диагноз остаётся видимым.\n\nВ режиме **до первой остановки** используется исполнительная политика выше:\nполное прекращение выбранной группы, не каждое снижение её мощности.\nПотеря возможности движения — отдельный исход; станция не разгружает корабль\nвдали от неё. Необязательный вопрос оператору о более раннем выходе остаётся\nпредложением будущего режима, а не блокером основного рейса.\n\n## 3. Физика и рекомендации по спорным полям\n\n### Перелёт и Max\n\nНа каждом участке масса равна сухой массе сборки + оставшемуся топливу/H₂\n+ фактической массе груза. Маршевые двигатели разгоняют, ретро тормозят;\nрасход и тепло учитываются по установленным изделиям и реально выданной тяге.\nИнерциальный полёт в принятом однородном вакуумном опыте не требует постоянной\nмаршевой тяги; бортовые системы, источники и охлаждение продолжают работать.\n\n**Прямое уточнение оператора:** и при ускорении, и при торможении двигатели\nработают: расходуют своё топливо либо потребляют энергию и выделяют тепло.\nОба участка входят в непрерывный топливный, электрический и тепловой баланс\nкорабля, а не только добавляют время к рейсу. Для электрического привода спрос\nпокрывается реальными источниками/батареями; топливо генератора учитывается\nотдельно от прямого расхода двигателя, без двойного списания. Тепло распределяется\nмежду корпусом и выхлопом по ТТХ. Дефицит питания, температурная защита и исчерпание\nтоплива могут ограничить тягу и изменить время разгона/торможения либо исход рейса.\n\nMax предлагается понимать как отсутствие заданного крейсерского лимита с\nразгоном доступной тягой и своевременным торможением. Это не обещание достичь\nодной паспортной скорости и не поиск самого экономичного маршрута. На коротком\nпути отдельной крейсерской фазы может не быть. Доступная тяга, текущая масса,\nзащита и дистанция влияют на достижимую скорость и время прибытия.\n\nДля движения сохраняется канон U2: p=γmv, γ=1/√(1−v²/c′²), c′=3000м/с\nдля стартовой среды. Ньютоновские расчёты прежних ручных примеров остаются\nприближёнными контрольными оценками, а не полной моделью высоких скоростей.\nРасход топлива не создаёт бесплатный прирост скорости на участке без тяги.\n\n**Лабораторная опора V_FA** описана выше:500м/с, редактируется отдельно,\nпомечается как experimental. Это не утверждение о canonical Flight Assist текущих\nшести корпусов. Разрешены только конечные положительные лимиты ниже c′.\n\n### Возврат тепла\n\nКПД излучателя — свойство лазера: P_beam=η·P_bus; собственное тепло излучателя\nH_emitter=(1−η)·P_bus. Возврат процесса — другая величина:\nH_return=r_return·P_beam, связанная с горячими фрагментами, сбором и перехваченным\nвыбросом. Current mining owner даёт раннюю опору0.30–0.40, но не отдельное точное\nзначение для каждого установленного лабораторного SKU. Насадка/сбор могут влиять\nна возврат; поэтому нельзя объявлять0.35 универсальным неизменным КПД лазера.\n\nПредлагается оставить0.35 как явно подписанную гипотезу процесса в расширенных\nусловиях, а не обязательный основной ввод. Если появятся подтверждённые значения\nконкретных изделий, они должны иметь своё происхождение и отдельную версию.\nТепло генератора, двигателей и насосов считается отдельно, без двойного учёта.\n\n### Начальная температура\n\nФон100K не означает T_ship=100K. В текущем каталоге S/M/L бортовые системы\nпотребляют200/800/3200кВт; их работа и потери источников нагревают корабль.\nРавновесие задаёт равенство собственного нагрева и отвода тепла, а не совпадение\nтемператур. В простом пассивном случае:\nεσA(T_idle⁴−T_env⁴)=H_idle. Активное охлаждение и автоматика меняют это равновесие;\nконечные запасы и циклическое управление не всегда дают единственный стационарный режим.\n\n**Для v2.2:** сохранить явное начальное условие300K в расширенных\nполях, подписав его «Температура при первом вылете», без заявления о вычисленном\nхолостом равновесии. В следующих рейсах температура и заряд продолжаются из\nпредыдущего состояния: разгрузка и заправка не сбрасывают тепло/заряд бесплатно.\nАвтоопределение холостого режима — отдельная согласуемая возможность, не скрытая\nподстановка температуры среды.\n\n### Физический шаг\n\nЭто шаг модельного времени. Default выбирается по M09; кандидат0.1с, меньший при недостаточной сходимости;\nпользовательская скорость ×1/×N/MAX управляет темпом расчёта и не меняет физику.\nИзменять default ради скорости следует только после проверки сходимости новой\nмиссии. Заполнение трюма, прибытие, окончание обслуживания и горизонт должны\nучитываться на границах событий, без округления целого рейса до ближайшего шага.\n\n## 4. Учёт результата и станции\n\nОсновной результат — **сдано SCU**, отдельно **добыто всего** и **остаётся на борту**.\nЦель10000SCU считается по сданному грузу. Руда на обратном пути при\nистечении горизонта не считается доставленной. При малой оставшейся цели допускается\nпоследний неполный трюм с возвратом для сдачи.\n\nПродолжительность рейса измеряется от вылета до окончания разгрузки. Повторение\nвыключено — один полный рейс, ограниченный общим горизонтом. Расход топлива и H₂\nна доставленную SCU при нулевой доставке отображается «нет данных», не нулём.\nПоказаны завершённые рейсы, незавершённый участок, добыча/полёт/сервис/восстановление,\nпервое ограничение, время и массы вылета/возврата, максимальная фактическая скорость.\n\nВозможность заправки на станции уже задана оператором ранее. Для v2.2:\nв конце10с обслуживания восполнять установленные топливные контуры до их ёмкости,\nвести отдельный накопленный учёт полученного топлива. Это модель обслуживания\nдля сравнения фиттинга, а не утверждение о скорости реального заправщика.\nБереговое питание, автоматическая полная зарядка и мгновенное охлаждение не включены\nв эту рекомендацию. Их наличие нельзя подразумевать из одного слова «станция».\n\n## 5. Приёмка\n\n- M01: defaults соответствуют таблице; рабочий режим не использует скрытые120с.\n- M02: 1/2/3 лазера и разные трюмы дают измеренное событийное заполнение;\n  partial throttle/полная остановка различаются согласно принятой политике.\n- M03: пустой и гружёный перелёты используют свои массы, марш/ретро, реальные\n  расход и тепло; короткий путь не обязан достичь заданного крейсерского лимита.\n  Раздельные проверки разгона и торможения для топливного и электрического\n  привода подтверждают расход по фактической работе и интеграл тепловых потоков;\n  электрический привод меняет баланс источников/батарей, а тепло влияет на\n  температуру и защиту. Крейсерский участок без тяги не списывает маршевый расход;\n  работа бортовых систем, источников и охлаждения учитывается и на нём.\n- M04: прибыть/разгрузиться можно лишь у станции после торможения; нулевое топливо\n  не вызывает телепортацию, бесплатную остановку или бесконечную выдачу ресурса.\n- M05: повторение, заправка, малая цель и горизонт посреди любого участка сохраняют\n  баланс добытого/сданного/бортового груза, расхода/пополнения и времени.\n- M06: температура/заряд переносятся между рейсами, старое исходное300K не\n  применяется на каждом цикле. Invalid inputs отклоняются атомарно.\n- M07: старые fit/run/result остаются воспроизводимыми в своей численной модели;\n  новый режим явно отличим от прежнего заданного лабораторного цикла.\n- M08: genuine LAN запуск, Pause/Step/Resume/Cancel, active/next/reference,\n  графики, сравнение и fresh result открытие сохраняют рабочие цепочки v4.\n- M09: новые flight/work/service events и метрики проверены контрольными расчётами,\n  сходимостью по шагу и балансами; no invented winner в сравнении трёх Pony-фитов.\n\n## 6. Источники, границы и следующий шаг\n\nU2 source read: local main0fe06927ab496918b3547f43412134c100a6e0b4;\nMemory→llms→INDEX/ADR-INDEX→overview§16→профильные owners.\nADR-0016/0018 — сила/полная масса/релятивистская динамика; ADR-0043 — общая\nтемпература и радиационный баланс; gdd_laser_energy_productivity_and_recovery_balance\nv1.0 §§2/4/5/11 — луч, производительность, возврат и восстановление.\nСтарые force-grid/cargo/laser anchors каталога0.2.1 этим brief не пересматриваются.\n\nДо реализации: короткий HOW/Verification Contract → один independent Plan Review →\nодин Developer/QA/Reviewer. Default миссия не блокируется optional уточнением.\nИстория старых QA/review не переписывается. Счётчик самоаудита сейчас1/3;\nподготовка brief не отдельный review/QA цикл.\nВне scope: redesign страницы, игровой автопилот/навигация/ворота/столкновения,\nрынок/денежная окупаемость, обнаружение, новая модель износа и протокол игры.\n\n## Глоссарий\n\nSCU — кубический метр груза в этой модели. V_FA — мягкий линейный лимит помощника\nполёта; не сила тяги. Горизонт — максимальное время всего опыта. Физический шаг —\nинтервал численного продвижения модели. Равновесие — режим без среднего изменения\nтемпературы. Max — перелёт без заданного крейсерского ограничения при сохранении\nфизической возможности торможения. Сданная руда — груз завершённого обслуживания,\nкоторый больше не находится на корабле.\n"
+    },
+    {
+      "path": "docs/product/ship-fitting-medium-modules.md",
+      "bytes": 13078,
+      "sha256": "e6088c0a48434674634d6c0f5c7a57347b6c33245ad66c5d5a15ecb8bce91b70",
+      "literalText": "---\ntitle: \"Ship Fitting — недостающие модули M и электрические гибриды\"\nstatus: accepted scope / plan proposed\nversion: \"1.0\"\ndate: 2026-10-06\nrelated:\n  - docs/product/ship-fitting-catalog-0.2.1.md\n  - docs/plans/2026-10-06-pony-signature-slot.md\n---\n\n# Задача и граница\n\nОператор: «Нужны модули М для полноценного тестирования средних кораблей».\nРанее разрешены недостающие лабораторные ТТХ с явным обозначением допущений.\nВ текущем каталоге M engine/generator/tank/battery/cargo/mining уже есть.\nНужно дополнить существующие семейства, без изменения моделей и прежних изделий.\nClass/Generation наследуются от соответствующего S reference; Industrial/Civilian\nкорпуса не меняют свойства установленного SKU. National/weapon/sensor families\nне добавляются этим поручением.\n\nСледующий шаг после Пони0.2.2: new catalog0.2.3 добавляет5SKU.\nПрежние0.2.0/0.2.1/0.2.2 сохраняют свои inventory/hull/preset snapshots.\nНовый0.2.3 наследует однослотового Пони0.2.2. Штатные mounts питания/сигнатур\nостаются прежними; новые M-модули доступны для осознанного fitting в совместимых\nслотах. Штатные лазеры сохраняют принятую размерную/классовую принадлежность.\n\n## Принятое расширение E-архитектуры\n\nОператор отдельно разрешил Power diesel/H₂ tanks и generators на электрических\nкораблях для гибридного питания и H₂-охлаждения. После рекомендации сохранить\nдополнительный H₂-контур на дизельных кораблях ответил «ок».\n\nВ new0.2.3 E profiles Power slots принимают battery/solar/generator/tank с обычными\nограничениями размера. Propulsion остаётся только Electric, единым для всех четырёх\nролей. Баки/генераторы не меняют тип двигателей; один Diesel ledger и один H₂ ledger\nучитывают свои actual consumers отдельно. H₂ generator и cooler могут пользоваться\nодним установленным криобаком и конкурируют за конечный запас. Дополнительных слотов,\nскрытых запасов или cargo→fuel автоперелива нет. Корпуса A этим решением не меняются.\nOld0.2.0/.1/.2 E profiles сохраняют прежнюю совместимость и численные снимки.\n\nЭто разрешение закрывает для Лабы explicit E architecture follow-up из current U2\nslot delta0.1 §8. Diesel + auxiliary H₂ остаётся уже принятым правилом delta§2,\nmulti-fuel GDD0.1 §§2–5: однородный propulsion, отдельные utility circuits.\n\n# MF-01: лабораторные численные опоры\n\nВсе числа ниже — **derived/experimental lab candidates**, не утверждённые\nпроизводственные SKU U2. Опора: actual S items каталога0.2.1 и default Size-step\nTTX Master1.4 §4. Масса/площадь/ёмкость/поток ×4; удельные величины, температуры,\nКПД, gate, chemistry и material cp не умножаются. Специальных generation/class\nмножителей поверх S reference нет.\n\n| Новый ID / размер | Сухая масса | Численные параметры SI | Class/G |\n|---|---:|---|---|\n| radiator-active-M | 5400kg | effective area3528m²; auxiliary1200000W | Civilian/G2 |\n| buffer-M | 20000kg | capacity8000000000J; max transfer80000000W; absorb290K/release280K | Civilian/G1 |\n| h2-cooler-M | 3400kg | cooling cap80000000W; auxiliary200000W; specific heat export10000000J/kg | Civilian/G2 |\n| thermoinverter-M | 3800kg | core cap80000000W; hot side800K; effective area1764m²; COP efficiency0.5 | Civilian/G4 |\n| solar-M | 4000kg | collecting area400m²; efficiency0.25 | Civilian/G1 |\n\nРадиационные поля текущей Лабы уже содержат emissivity в effective area;\nповторно умножать их на0.9 нельзя. Physical active M area3920m² соответствует\neffective3528m² при ε0.9. Солнечная collecting area — отдельная геометрическая\nвеличина, не радиатор и не сила солнечного ветра.\n\nЭто последовательно масштабированные варианты **текущей модели Лабы**, позволяющие\nсравнивать размер при сохранении удельных свойств. M buffer6GJ/8t в module TTX\ncontract§8.2 — другой balance-first-cut; он не подменяет выбранный MF-01 variant.\nРецепты/материалы/thermal gates остаются explicit lab hypotheses, не BOM closure.\nУ термоинвертора сохраняется текущий lumped hot-side area model Лабы; соответствие\nновому каноническому pooled-radiator controller этим добавлением не заявляется.\n\nCurrent U2 source read main0fe06927ab496918b3547f43412134c100a6e0b4:\nINDEX→TTX Master1.4 §4; thermal palette0.3 §§3–6; hot-environment/TI0.2 §§2–5;\nmodule TTX contract0.3 §8.2. Source refs каждого нового поля указывают MF-01,\nbase S ID и формулу/унаследованное значение. UI раскрывает этот provenance.\nArchitecture source: slot delta0.1 §§1–4/8 и multi-fuel GDD0.1 §§2–5 по тому же INDEX.\n\n# HOW, проверки и поставка\n\nAs-built: Pony source3265a6870578d409586b416eb0adfabff3b9a574; те же\nproduct blobs перенесены в основную копию0de894d67085dabe641488fd2a69ed964d8ccd9e.\nKnown editions .0/.1/.2 выбираются через editions.ts/fitHull. Catalog .2 содержит\n45 SKU; civilian-M — единственный текущий E hull, Power4×M допускает только\nbattery/solar. validate.ts дополнительно запрещает E/A operating-fuel modules.\nПоэтому нужны и additive inventory, и versioned E capability: одного списка\nмодулей недостаточно. Найден CR-PONY-B1: known snapshot может иметь extra resolved\nmodule при legal nested fit. Исправление и его affected QA/scoped closure принадлежат\nulab-yj7; M runtime ждёт его завершения (Beads ulab-w6w зависит от ulab-yj7).\nSource baseline перед кодом — финальный Pony .2 checkpoint;\nmain остаётся9469d3e8998dada5ec3a6f99712fae8345fb3f7f, merge не требуется.\n\nPRODUCT — module parameters и принятое расширение совместимости E. Один существующий\nDeveloper после завершения Pony delta, один independent Plan Review, QA и scoped\nCode Review. Без новых kernel/controller algorithms, schema, migrations, зависимостей\nили скрытого переоснащения. План/VC не готов к коду до independent PLAN_READY.\n\n1. Additive data5SKU и registration/default0.2.3. Сохранить all prior catalogs,\n   наследование Pony1slot и unchanged presets кроме edition stamp. До кода сохранить\n   baseline0.2.2 digests. Existing kernel/controller/Worker unchanged.\n   Новый data/modules-0.2.3.json; inventory явно .0=40, .1/.2=45, .3=50.\n   catalogHasItem не должен открывать новые SKU всем версиям через условие !=.0.\n   hullsForEdition наследует Pony1slot в .3, сохраняя прежние .0/.1/.2 profiles.\n2. Versioned E capability/Power allowlists и focused validation: E engines only\n   Electric; compatible utility generators/tanks разрешены только new profiles.\n   Declared-edition hull resolver сохраняет old E ограничения, включая import.\n   Расширение задаётся в профиле корпуса new .3; A и старые E profiles не получают\n   его автоматически. Known-import проверяет объявленный каталог, а не доверяет\n   разрешению из вложенного снимка. Existing C05 local variants остаются явными\n   пользовательскими изделиями, не способом незаметно пополнить old global inventory.\n3. Targeted TDD для MF01–MF04/HY01–HY02: числа MF-01, compatibility, actual compile\n   bill/C, species/power/heat ledgers и исторические объекты. Unknown fixture использует\n   действительно unregistered edition, не только номер следующего релиза.\n   Normal guard, immutable build; changed owners fitting data/types/editions/catalog/\n   validate и relevant tests, UI только для отображения existing family/provenance.\n4. QA MF01–MF04/HY01–HY02 на exact candidate и genuine LAN, затем scoped Review;\n   короткие reports/evidence. PM обновляет owned4188 и публикует результат.\n   Старые артефакты и стенды сохраняются.\n\n| Адрес | Ожидаемая проверка |\n|---|---|\n| MF01 | Ровно5 новых M SKU с указанными числами/units/Class/G/origins; все прежние45items неизменны. M slots принимают их по existing family/architecture rules; S slot Пони не принимает M. |\n| MF02 | Actual compile dry mass/C/bill включает installed modules однократно; buffer лишь хранит конечное тепло, active pump потребляет энергию, H₂ расходует конечный Power tank без скрытого запаса, TI имеет electrical/hot-side balance, solar output зависит от света. Cold/off/exhausted случаи не создают ресурсов. |\n| MF03 | Known0.2.0/.1/.2 fit/run/result сохраняют stamp/inventory/численные snapshots; новые global IDs под старым stamp без явного допустимого localVariant отклоняются, imports атомарны. C05 explicit local variants сохраняются. Current Pony сохраняет1slot, Industrial S3; matching laser presets и defaults0.2.1/.2 не откатываются. |\n| MF04 | LAN: medium hull→выбор M cooling/power→short run→analysis→export→fresh reopen; видны actual M IDs и lab provenance. Графики/сравнение/active-next/reference/conditions сохраняют ownership. Mobile viewport не выдаётся за physical tablet QA. |\n| HY01 | New Civilian M E принимает Diesel/H₂ generators и Power tanks, H₂ cooler имеет реальный источник. Все4 E roles остаются electric; chemical/mixed propulsion отклонён. Old E и A ограничения сохраняются; false old stamp/unknown/malformed import атомарно отклонён. |\n| HY02 | Actual E+diesel generator/tank+H₂ cooler/cryotank fixture, E+H₂ generator/cooler shared tank и D+auxiliaryH₂: расход каждого species по purpose ledger, auxiliary draw/heat, fuel mass входят в баланс. Без нужного бака Start incomplete; с пустым баком consumer не производит/не охлаждает бесплатно. Нет трат H₂ электрическими двигателями или Diesel водородным cooler. |\n\nSelf-check: нет скрытого масштабирования КПД, удельной энтальпии, температур и\ngeneration; конечные capacity/resource/available-power gates сохранены. Проверяется\nполная цепочка нового fitting, без повторных12h/H3600/matrix passes.\nRollback — сохранённый immutable0.2.2 dist; пользовательские файлы не переписываются.\n"
+    },
+    {
+      "path": "docs/plans/2026-10-06-mission-medium-delivery.md",
+      "bytes": 15024,
+      "sha256": "dd585d3d481312c7b4286cedef80127ed0d864b4f35b7eaacfc4205c41e1bc53",
+      "literalText": "---\ntitle: \"v2.2 — основной шахтёрский рейс и M-модули\"\nstatus: proposed\nversion: \"1.2\"\ndate: 2026-10-06\nrelated:\n  - docs/product/ship-fitting-v2.2-mission-brief.md\n  - docs/product/ship-fitting-medium-modules.md\n---\n\n# План реализации шахтёрского рейса и каталога M\n\n**Цель:** дать оператору рабочую версию для сравнения оснастки по доставке руды\nс реальным перелётом и предоставить пять отсутствующих семейств M-модулей.\nWHAT: mission brief v0.3 и medium-modules MF01–04/HY01–02; числа с provenance.\nPRODUCT. Один существующий Developer, QA, Reviewer. Beads — единственный tracker.\n\n## Target → as-built → gap\n\nСейчас `makeMiningRun`/`phaseAtV2` задают120с добычи и10с «полёта» без координат.\nТяга/расход/тепло уже рассчитываются в `stepV2`, но поступательного движения нет.\nСтарые45 SKU не содержат пяти M-семейств; medium contract прошёл Plan Review.\nPony CR-PONY-B1 исправлен bbe3fc, affected QA/scoped closure должны закончиться\nдо DEV_RELEASE этой поставки. Основной рейс — первый runtime milestone;\nM/HY — второй в том же кандидате, без отдельного UI redesign.\n\n## Архитектура и границы\n\n- Старый `ship-fitting-ledger-0.2` и legacy запускаются прежним алгоритмом.\n  Новый явный model tag `ship-fitting-mission-0.2.2` в том же JSON envelope\n  `u2-lab/2`. Новый import не переименовывает и не пересчитывает старые snapshots.\n- Новый контроллер рейса в `src/runner/mission.ts`, движение в\n  `src/model/v2/flight.ts`, фабрика `makeMissionRun` в `src/scenarios/mission.ts`.\n  Общие energy/fuel/thermal вычисления только через `stepV2`, не второй баланс.\n  `src/runner/fitting-run.ts` dispatch по model tag; protocol/Worker commands прежние.\n- `src/model/v2/types.ts`: расширение spec/state/metrics для миссии, старые объекты\n  без новых обязательных полей. `src/model/v2/step.ts` и `src/io/fitting-json.ts`:\n  валидация двух известных численных моделей, конечные SI inputs, atomic refusal.\n- `src/runner/mining-metrics.ts`: дополнительные mission metrics; старые сохранены.\n  `src/app/fitting-ui/conditions.ts`, `src/app/fitting-workspace.ts`,\n  `src/app/fitting-session.ts`: новый default/экспорт/условия/воспроизводимость/сравнение.\n  `src/app/fitting-ui/lab-view.ts`, `src/app/fitting.ts`: поля и видимые результаты,\n  без удаления шести графиков, таблицы, журнала, фиксированного сравнения и файлов.\n- M/HY owners и точные значения — неизменный medium contract; новая edition0.2.3,\n  old45+5=50 SKU, old0.2.0/.1/.2 и authored local variants сохраняются.\n- Никаких ворот, collision/IFCS, игрового автопилота, цен, обнаружения, переработки\n  GDD, новых fuel species или UI из трёх экранов. Никакого merge/main update.\n\n## Движение и события\n\nОдномерная положительная координата участка0→distance; на обратном участке новая\nлокальная координата, масса остаётся фактической. c′=3000м/с; p=γmv.\nЗапрос march/retro идёт к установленным двигателям; impulse берётся из их\nфактической `forceN:<instanceId>` telemetry, с учётом питания, защиты и запаса.\nНа coasting изменение массы не создаёт ускорения: пересчитать p из прежней v и\nтекущей массы до приложения импульса. Никакого отдельного списания топлива.\n\nПри constant m/F контрольная stopping distance = m·c′²/F_retro·(γ−1).\nКонтроллер учитывает изменяющуюся массу/доступную тягу и выбирает торможение до\nконца пути. Нельзя «достигнуть станции» принудительным обнулением v или перемещением\nпри исчерпании топлива. Пробный прогноз шага не коммитит расход/тепло дважды.\nДопустимое численное совмещение последнего event: ошибка позиции≤1м и скорости\n≤0.1м/с при наличии реального тормозного импульса; event должен сходиться по шагу.\nЕсли торможение/питание потеряно, показать незавершённый/невозможный рейс и настоящий\nstate, не unload. Max — максимально доступная тяга до момента нужного торможения,\nбез заданного cruise cap; остальные caps — V_FA×1/2/3/4, editable lab V_FA500м/с.\n\nСобытийные состояния: outbound → approach → mining → inbound → service.\nOutbound/inbound содержат acceleration/coast/braking. Approach10с — местная\nоперация без поступательного перелёта; lab requests strafe=.1/turn=.1, не march=1\nв стоящем корабле; пометить эту манёвровую гипотезу в spec/provenance/журнале.\nНулевое время approach/service допустимо; нулевое расстояние пропускает обе\nflight legs и не создаёт тягу/расход на них. Mining requests — выбранные лазеры,\nне фиксированная duration. До полного совместимого рудного трюма либо остатка\ndelivery target; временное gate recovery продолжает миссию. First-stop policy:\nпервое полное прекращение выбранной группы после запроса work, включая невозможность\nначать из-за heat/power, либо fullhold; частичное throttling — только limiter.\nПри необратимом resource stop default допускает возврат с добытым грузом.\nБез лазеров/compatible ore hold run readiness объясняет причину, не зависает.\n\nService запускается только после физического возвращения к станции; unload/refuel\nкоммитятся в конце10с, не на входе. Добыто = сдано + на борту (initial cargo0).\nБаки до capacity, cumulative received separately; батарея и T не сбрасываются.\nRepeat=false завершает один рейс; repeat=true — horizon/доставленная цель.\nГоризонт посреди участка сохраняет незавершённое состояние, груз и запасы.\n\n## Реализация — проверяемые шаги\n\n1. Developer RED tests `tests/fitting/mission-flight.test.ts`: constant force\n   analytic relativistic acceleration/braking, no-thrust mass change, triangular\n   short trip/capped coast, unequal march/retro, depleted fuel/no arrival.\n   Реализовать flight helpers и контроллер на реальной telemetry; GREEN.\n2. RED `tests/fitting/mission-cycle.test.ts`: empty/loaded actual masses,\n   fullhold variable duration1/2/3 lasers, first-stop vs partial loss, recovery,\n   distance0, target smaller than hold, repeat/refuel/service endpoint/horizon.\n   Реализовать makeMissionRun + tag dispatch/validation/metric events; GREEN.\n3. RED `tests/fitting/mission-io.test.ts`: spec/result round-trip, active/next,\n   invalid input atomic refusal, old .0/.1/.2 replay digests identical.\n   Новые поля distance/speed/stop policy входят в сравнение условий; масса/число\n   лазеров/ёмкость разных fit — переменные сравнения, не причина запрета.\n   В mission comparison начальные запасы сравнивать по fractions, не kg двух\n   разных баков. Старое сравнение timed experiences остаётся прежним.\n4. M/HY implement по уже PlanReady medium contract: data0.2.3/editions/validate,\n   finite typed stocks, no hidden tank installation; unit positives/negatives.\n5. UI: свежая сборка default mission H3600/distance100km/Max/fullhold/repeat;\n   workSeconds/brakingSeconds/idleSeconds только для импортированного old timed\n   опыта. Fullhold/first-stop selectors и speed; расширенные density/return/T/dt/\n   labV_FA. Видимые сдано/добыто/на борту, SCU/hour и fuel/H₂ per delivered SCU,\n   elapsed flight/mining/service/recovery, текущий участок, first limiter, peak v.\n   Footer: «U2 Ship Fitting v2.2 · интерфейс v4 · каталог0.2.3».\n   Native changing conditions→первое нажатие Start запускает Worker; никакого\n   Tab workaround в новой цепочке. Достаточно сохранять stable event targets.\n6. Developer normal guard/type/build/meaningful tests. Сходимость и замеры ниже.\n   Immutable extracted dist/ZIP и source/blob manifest одним штатным рецептом.\n   PM проверяет manifests/changed blobs, QA поведение; упаковку трижды не проверяют.\n   Старые servers/artifacts сохранить; PM поднимает intermediate на свободном\n   LAN порту по готовому extract, затем QA и один scoped Review.\n\n## Verification Contract\n\n| AC | Expected/edge/error и method |\n|---|---|\n| M01 | Свежий UI defaults по brief, hidden120s отсутствует; native conditions→Start с первого клика. Invalid distance/cap≥c′/dt≤0/NaN refuse atomically. |\n| M02 | Fill time зависит от actual selected lasers/hold;1/2/3 cases плюс recovery/full first-stop, partial loss продолжает группу; deterministic step/event assertions. |\n| M03 | По отдельности march и retro chemical/electric расходуют typed stocks/charge и дают своё тепло; фактическая тяга определяет trajectory. Analytic constant-m anchor relative≤0.2%; zero-thrust inertia; loaded/empty masses differ. |\n| M04 | Нельзя unload/refuel вдали/на скорости; shortage/horizon сохраняют cargo/state. Negative depleted/zero propulsion fixtures и station v/position assertions. |\n| M05 | Добыто=сдано+на борту; initial+received−consumed=remaining отдельно для diesel/H₂; repeat0/1, малая target, horizon в каждом участке; continuous T/charge. |\n| M06 | Export/import numeric mission snapshots reproduces state/metrics; false-known roster B1 and invalid model/fields atomically refused; no current numeric recompilation. |\n| M07 | Старые versioned fit/run/result legal/numerically unchanged, old timed mode clearly labelled; golden oracle/digests, fresh browser import. |\n| M08 | LAN desktop1440 и touch390: edit M fit→first-click Start→pause/step/resume/cancel→restart→graphs/table/events→freeze A→edit B→compare→export→fresh open result без run. Navigation accessible while running; original continuous layout. No UI asset redesign. |\n| M09 | Pony A/B/C H3600: существующие presets1/2/3 сохраняют enabled builtin:laser UNKNOWN/G0(1MW,η.35) +0/1/2 removable `pony-removable-laser-S-G0` с теми же ТТХ; workGroup включает builtin и эти removable IDs. Всего2 payload slots. A2×`cargo-bulk-S`24 +builtin hold12=60SCU, B1×bulkS24+builtin12=36SCU, C0bulkS+builtin12=12SCU; one passive sig. Не mixed Industrial/G2 и не3 removable; near0/100km/far1000km results+timings recorded. No predetermined winning fit. Convergence default dt.1 vs.05/.025 on representative completed voyage and near limiter: delivered/mined/fuel within1%, arrival/mining events within0.5с and no different final stop outcome; choose smaller dt if fail. H3600 wall/steps + short baseline recorded, no unjustified12h matrix. |\n| MF01–04/HY01–02 | Exact medium contract values/50SKU/provenance/versioned compatibility, compound CivilianM fixtures full mining+hydrogen cooling/hybrid, shared finite H₂ ledger, negative old E/size/class, native catalog M filter/install/run/export. |\n\nReview Focus: arrival without retro; horizon during unload; no thrust mass loss;\nknown numeric snapshot vs forged roster; comparing different capacities/fit hulls.\nКаждый риск имеет cases в шагах1–3 и соответствующую строку AC.\n\n## QA/Review/finalize и rollback\n\nBudget5 PRODUCT: Plan Review → QA → Code Review; оставшиеся два только affected\nblocker fix. M contract Review уже проведён, новый Plan Review — только новый\nmission HOW/VC и integration seam, не повтор thermal catalogue authority.\nQA source = оба whole contracts + этот plan; signed case/AC/method/evidence table.\nScoped Review: changed mission runtime/IO/default/UI seams + M additions, named\nrisks M03/04/06/07. Не повторять broad catalog baseline и unrelated advisory.\nNormal checks current HEAD, reviewed blob/content equivalence после импорта.\nRollback: прежние numeric tags/editions и immutable servers/artifacts остаются;\nпри blocker новый кандидат не становится final accepted, старые ссылки действуют.\nСчётчик selfaudit PM_ERR/DOC_PR каждые3 завершённых Review/QA+triage.\nНе закрывать work items по готовности плана. Acceptance означает реальные M\nв каталоге и реально выполняемый рейс, с явными not-tested areas.\n"
+    },
+    {
+      "path": ".overgate-runtime/mission-medium-code-review-contract.md",
+      "bytes": 10132,
+      "sha256": "7a23c35ed111b930e36909be8cec71b5564da096107186964c94c620b7926d58",
+      "literalText": "# CODE REVIEW CONTRACT — рейс и M/HY v2.2\n\nPM: Codex; режим PRODUCT. Один scoped Reviewer после независимой QA; это не повтор Plan Review и не новое продуктовое проектирование. Запуск только по отдельному CODE_REVIEW_RELEASE с exact final runtime SHA/source/build fingerprint и report QA. Earlydraft1 на4189 — не release для этого Review.\n\nЦель: новый основной опыт действительно считает пустой перелёт со станции, добычу по событийной политике, гружёный возврат и обслуживание; новый каталог0.2.3 содержит50 SKU и разрешает принятые E-utility hybrids без бесплатных ресурсов. Проверить соответствие принятому WHAT и отсутствие регрессии старых численных редакций/рабочих сценариев.\n\nAcceptance surface: все M01–M09 из HOW/VC и MF01–MF04/HY01–HY02 из medium contract, плюс обязательные invariant/IO правила принятого mission brief. Whole contracts:\n- docs/plans/2026-10-06-mission-medium-delivery.md v1.2,15024B SHA256 dd585d3d481312c7b4286cedef80127ed0d864b4f35b7eaacfc4205c41e1bc53.\n- docs/product/ship-fitting-v2.2-mission-brief.md v0.3,22131B SHA256 e0d414eb48be123902fb05af3078e58d87d4c540c54f6bf4892af67da93fd5f4.\n- docs/product/ship-fitting-medium-modules.md,13078B SHA256 e6088c0a48434674634d6c0f5c7a57347b6c33245ad66c5d5a15ecb8bce91b70.\nPlan Review0B0A опубликован PR9 (6012814932 M/HY,6013199860 integration), первичный PLAN-MISSION-B1 closed v1.2. Не пересматривать accepted WHAT как advisory.\n\nChanged runtime surface будет задан точным final manifest/changedPaths при release. Известные owners: new src/model/v2/flight.ts, src/runner/mission.ts, src/scenarios/mission.ts; shared step/types, runner/fitting-run/mining-metrics; fitting catalog/editions/types/validate/newmodules; fitting-result IO; app conditions/workspace/session/ship/lab/compare/result-context. Tests принадлежат Developer. PM интегрирует exact source blobs, не меняя смысл.\n\nNamed correctness risks IN:\n1. Motion берёт actual force из единого stepV2; p=γmv,c′=3000, current mass. Fuel/charge/exhaust/host heat считаются один раз при march/retro. Coast при потере массы не получает бесплатной скорости. Ноль топлива/заряда и thermal gate не создают фиктивного arrival. Phase completion только при real position/velocity endpoint; impossible return остаётся честным stranded/partial outcome.\n2. Boundary/event dt, tiny clock remainder и нулевая дистанция/фазы: нет бесконечного цикла, произвольного teleport/reset скорости/ресурсов или двойного physics step. Проверить convergence evidence .1/.05/.025 без зеркалирования кода. Runtime default dt только verified. Horizon/goal/cancel/firststop/fullhold не теряют реальную добычу и ресурсную историю.\n3. Fullhold означает динамическое заполнение совместимого трюма; firststop — полная остановка selected group. Partial throttle отдельно limiter, не firststop. Восстановление T/charge непрерывно; station service unload/refuel в конце фазы только после настоящего возврата, нет free charge/T reset. Delivered/mined/onboard/received/consumed не смешиваются; нулевой delivered знаменатель noData/null.\n4. New model tag/wire/parser — новые endpoint-complete результаты ≤H валидны; старый model complete==H и численные snapshots .0/.1/.2 не расширены. Exact resolved roster known editions сохраняет закрытый CR-PONY-B1; forged phantom/missing/duplicate mounts и физически невозможные значения отказываются атомарно, genuine local numeric variants сохраняются.\n5. New catalog.3 only:50 SKU, пять M профилей с extensive S×4 и Cp470. Эффективная площадь уже с ε; не удваивать коэффициент. E tanks/solar/generators — утилиты, четыре propulsion модуля Electric; D auxiliary H₂ и принятые размеры/Power mounts. Distinct diesel/H₂, generator+cooler расходуют один finite shared H₂. Не создавать ресурсы/баки/груз автоматически; не переписывать old editions.\n6. Immutable active A / editable next B, условия commit на первый Start без Tab, pause/step/resume/cancel/restart, import/export fit/local variant/new-old result, compare по общим conditions/начальным долям на разных корпусах. Нельзя потерять continuous v4 графики/таблицу/события/навигацию/reference A. Desktop/touch plain LAN без localhost-only crypto.\n7. M09 реальные Pony два removable payload slots + enabled built-in G0: A/B/C1/2/3 total homogeneous lasers, 2/1/0 bulk24 and hold60/36/12. Численная \"оправданность\" по delivered/time/fuel/H₂/downtime/recovery, без денежной модели/предопределённого победителя. Не требовать arrival/успешной доставки от stranded конфигураций.\n\nOUT: redesign UI/Claude asset fidelity, detection/signatures beyond accepted fitting slots, экономические цены/окупаемость, routing/IFCS/навигация, canonical V_FA/temperature/route guesses, новые корпуса, изменение принятых M коэффициентов, historical ulab-w7j replay duration blur bug вне новых M01/M08; физический Xiaomi, native OverGate, bootstrap/base/main merge/PublicPages acceptance. Старые версии остаются доступными. Advisory не становится задачей автоматически.\n\nMethod: Reviewer independently read actual changed blobs + necessary current owner context, QA scope/results and developer deterministic evidence. Собственный адресный counterexample только при named risk; не повторять полный build/9H3600/whole browser campaign/ZIP proof. Source hashes + whole contract text bind report по ADR3.29; exact report+evidence artifacts immutable, подпись actual role/model/SHA, PASS/FAIL, BLOCKER vs ADVISORY, NOT TESTED. Контент-эквивалентные metadata/head движения не требуют повторного полного ревью.\n\nBudget: one combined QA и one Code Review после Plan Reviews; до max5 per product item остаются affected QA и scoped re-review только по настоящему blocker. Selfaudit PM_ERR/DOC_PR после ближайшего QA+триажа3/3 до Code Review. Merge делает оператор; PR9 остаётся Draft/base-dependent.\n\n## Уточнённая acceptance surface после прямого операторского FAIL\n\nОператорский repro: Sputnik1CivilianSlaser+bulkS+2activeSradiators+Sbattery;\nCivilianM2lasers+bulk192+thermoinverters. Явные рабочие допущения: default100km,\nMax/fullhold/repeat/H3600; сохраняется неуказанный presetPower, уM TIcount2.\nНельзя выдавать эти допущения за exact JSON оператора. Первый старый draft и\nsnapshot9a фиксируют FAIL: после1–2рейсов earlyexit; generic fuelzero при запасах;\nthermal overshoot объявлялся terminalstranded. Green oracle accepted это неверно.\nКонтракт требует своевременного торможения/реального repeat, не IFCS framework.\n\nДополнительные проверки тех же M01/M03/M05/M08/M09: x>D приv>0 и временные\nthermal/power gates не доказывают irreversibility. Simple1D control продолжает\nactual impulse/recovery/correction до realstationstop илиH. Signed coordinate/v\nкоррекции валидны только newtag, fabs(v)<c′/finite; старые numeric parser domains\nи golden snapshots не расширяются. No free momentum/position/resource resets.\nФактический пройденный путь/peak speed учитывает возвратную коррекцию честно.\n\nMeaningfulAC: подходящий repeatfit завершает>=3 services и продолжает доH3600,\nкаждыйunload/refuel толькоatrealstationzeroV; не менятьoracleнаaccept arbitrary\nstranded. Большойтрюм можетнеуспетьзаполнитьсякH, battery-onlyбезисточникаможет\nдействительноисчерпатьзаряд — это не universal guarantee любойплохойсборке.\nUI firstlimiter/events опираютсянаenabled consumer species/current bus иreal\nenergy. EmptyunusedH₂≠dieselfailure; returnedrefilledH₂≠electric rechargeбезgen.\nCargo full — полезныйcapacity insight 'Трюм заполнен → возврат', не terminalfault.\nНетrawmining/cargoкодов/противоречивыхgenericresource фраз; actualterminationreason\nH/goal/cancel/доказаннаянеобратимаяпричина различимы от temporarythrottle/recovery.\n"
+    }
+  ],
+  "contentFingerprint": "bc266ffd8c1878610024ed8c12dc19a888c891b0a77abf7244dd8214727d744d",
+  "recipe": "SHA256 UTF8 sorted2 pathNULGitBlobLF + whole literal mission brief, medium, HOW/VC, Review Contract in listed order, without added separators",
+  "payloadBytes": 60515,
+  "carryover51": [
+    {
+      "path": "src/app/fitting-session.ts",
+      "gitBlob": "25ecc128e00f18bdb6072e50b9b73cb965b6bbc7",
+      "bytes": 1181,
+      "sha256": "6094eedaac324c72072d39e95aecf67d66e0fadbb8a4c42f888524dba3f92829"
+    },
+    {
+      "path": "src/app/fitting-ui/compare-view.ts",
+      "gitBlob": "ba0328613cd7f59e64f70ddfb909988dba363e59",
+      "bytes": 12279,
+      "sha256": "2867c22c83f117479fdb74a791c6ca93b5d6383a0755f7341a6f0dacc6f32e79"
+    },
+    {
+      "path": "src/app/fitting-ui/conditions.ts",
+      "gitBlob": "1c1441c112e44afc7d827b287516883e41428525",
+      "bytes": 1134,
+      "sha256": "d2544a0a093e451333630578274230f953b274917afb797fca5250f15b3ab128"
+    },
+    {
+      "path": "src/app/fitting-ui/lab-view.ts",
+      "gitBlob": "640b9b2c80bcb783498b5a17ad6b4fa32f37dbc3",
+      "bytes": 20790,
+      "sha256": "8b178eda95bcc8ce6e46ff1610c4e9a12b51da067d7afa3b7f1112a10cda6018"
+    },
+    {
+      "path": "src/app/fitting-ui/result-context.ts",
+      "gitBlob": "1c8b5f496f05a4a13c22a51522672c8f584af326",
+      "bytes": 2305,
+      "sha256": "1aa453226408c36e3213037d2e91e4aa60dd5d94329fca68b5fd6bfeac86e44c"
+    },
+    {
+      "path": "src/app/fitting-ui/ship-view.ts",
+      "gitBlob": "7ffd0043441ed3b3901824fc61d8a1f273149ba0",
+      "bytes": 11901,
+      "sha256": "d27f738718b1e1809167c2baee1df8436ff17bd268f379bd1fb8de1e287e1d05"
+    },
+    {
+      "path": "src/app/fitting-workspace.ts",
+      "gitBlob": "a4af25f45febd1f411bd393b33f2cf08844b70f8",
+      "bytes": 11552,
+      "sha256": "5ee72d17945db57b5004c5ca764bad51ad3ab3297c2f1d4ed5df1be6b6047d99"
+    },
+    {
+      "path": "src/app/fitting.ts",
+      "gitBlob": "5f660f219e170964cdd5852c576bf1feb6f3aa4e",
+      "bytes": 36529,
+      "sha256": "5f9391820ad65754cdb7ecc15f24381a7992835417761ebd95bc02909ddcf3ae"
+    },
+    {
+      "path": "src/fitting/cargo.ts",
+      "gitBlob": "db9202aaf0d083f7241e22bdd05fdbe3ca7a7fa0",
+      "bytes": 1841,
+      "sha256": "2cd6ff1a703bba56c76b6eef3b5c1f34b1119cdba53c78a149a20c1eafec8c6e"
+    },
+    {
+      "path": "src/fitting/catalog.ts",
+      "gitBlob": "fa81e316f44cfd566daf1d77d10e4ac2e649b41c",
+      "bytes": 7796,
+      "sha256": "0513d8e98906025dd962d6e8ee0e60869df3e769d76a3cccd3d8604cb26268f5"
+    },
+    {
+      "path": "src/fitting/compile.ts",
+      "gitBlob": "04775389b8d37311eac2c4aec03202de1aa554cf",
+      "bytes": 2232,
+      "sha256": "9fb88bf4f64ea98b952f437f9c17360f5688fc885efd7bad20c987ab21e22048"
+    },
+    {
+      "path": "src/fitting/data/hulls.json",
+      "gitBlob": "e3e58cae57d5868f3459c444f6543590899f1939",
+      "bytes": 69392,
+      "sha256": "3261b2219b39f187db7666f1af16b4685ab32b62bc4af640ddeafd8d9e00cef4"
+    },
+    {
+      "path": "src/fitting/data/modules-0.2.3.json",
+      "gitBlob": "ace19995aafc18b9df177f2976f0207a11b40e02",
+      "bytes": 26895,
+      "sha256": "7fb46f47018a8af5f8bbf2bf22fb4cc13ce61e472e4df35d89cdbe845b032832"
+    },
+    {
+      "path": "src/fitting/data/modules.json",
+      "gitBlob": "8eeab46d4aea4b8bd665f5b1a9538cf3ff00547d",
+      "bytes": 184545,
+      "sha256": "de854469f7b71799dde7a1fdea4ca00aab8a704337b8255f257a03cb48feea70"
+    },
+    {
+      "path": "src/fitting/editions.ts",
+      "gitBlob": "e373cab37124f3d8299d901aa508c53b20708869",
+      "bytes": 2994,
+      "sha256": "08bd17ee76753a1509368c4f01dab56ecfba4c44a27f93b4df0f4238f6cc22bd"
+    },
+    {
+      "path": "src/fitting/types.ts",
+      "gitBlob": "0ab3bf366142bf1f9f4a134f425241586fdc01f6",
+      "bytes": 3462,
+      "sha256": "fb9c66b1d7f044e47bc9cb0eb35b399011e191b0c5e315cd8a958924f924d1cd"
+    },
+    {
+      "path": "src/fitting/validate.ts",
+      "gitBlob": "000958a724d7bd95beea15edcaeab546b304fbaa",
+      "bytes": 12239,
+      "sha256": "3a5c208d2885b3b539f276772d819c71af67498fbe37199cc4a2767b6541b1e3"
+    },
+    {
+      "path": "src/io/fitting-json.ts",
+      "gitBlob": "ef679f906db0d7a090919f872aaa15f59e0c0f0d",
+      "bytes": 5884,
+      "sha256": "671df84ffcf47ba8344a50b186b85440441cfce39017cdaa7831197bab4e4346"
+    },
+    {
+      "path": "src/io/fitting-result.ts",
+      "gitBlob": "0b379d110ec715a2b9d85152fc96df3ea8ff9c28",
+      "bytes": 18892,
+      "sha256": "af685d4269268483668708944ff93f5043a96bcaf1dc882b89b9588737c01913"
+    },
+    {
+      "path": "src/model/scheduler.ts",
+      "gitBlob": "79dfea044f13c224c65c8a914fd9f04c5c75ea3f",
+      "bytes": 1150,
+      "sha256": "91dade9b95e522e3e902684437e82a98a2fe9ef79ff53bf940edd8ddbc4943d0"
+    },
+    {
+      "path": "src/model/v2/flight.ts",
+      "gitBlob": "cccf715b9d01b4de661ff9c63c85ec082aa0c722",
+      "bytes": 1890,
+      "sha256": "48d52527867ebd18edf6ffb64eef5a645befd092b8f27b0dc2ab6a3af8c92e5f"
+    },
+    {
+      "path": "src/model/v2/physics.ts",
+      "gitBlob": "ab8a765826db1f035769327ee3a0a526d5ff73af",
+      "bytes": 27065,
+      "sha256": "d300e9d643126b60b3e3bd6892ccd42bce7ecf4c3f7f30f50c264388a9d0fbf5"
+    },
+    {
+      "path": "src/model/v2/step.ts",
+      "gitBlob": "994ae16fc5fdf4b37418090eebeabd30ee92fc02",
+      "bytes": 19167,
+      "sha256": "87b37381f18f75fa10328a25ebad1ae44523dc6daed15a7321a5d04445930efa"
+    },
+    {
+      "path": "src/model/v2/types.ts",
+      "gitBlob": "19a05b116ffcf07e9fa64330210a1498dceee712",
+      "bytes": 3822,
+      "sha256": "a7cad08cc4a26ec5a510c9b368687f97a0e125cfc57b6ff24b8da679fd220baa"
+    },
+    {
+      "path": "src/runner/fitting-run.ts",
+      "gitBlob": "8cda108e5bae4bdc1346a6848202e395b988fe05",
+      "bytes": 6500,
+      "sha256": "873cc1eb47f61ac3a80cdcf70a122295258b7287802fe6232e67e6f623107089"
+    },
+    {
+      "path": "src/runner/mining-metrics.ts",
+      "gitBlob": "00f3bb2a2a05c380049bc80e32934da80df76fbd",
+      "bytes": 8981,
+      "sha256": "edec3faf9440a5d6a8b69f34c5ec31da5c51f6646984433cd8a0c7a16cb724f3"
+    },
+    {
+      "path": "src/runner/protocol.ts",
+      "gitBlob": "7d6b7a95e2c11c775e4ce961c1a350f582d77268",
+      "bytes": 3096,
+      "sha256": "8aaf94aff43af6ecad7efb8db3708d6516764e8e27abcf9dde95e6ac3b37aba4"
+    },
+    {
+      "path": "src/runner/run.ts",
+      "gitBlob": "8145e6149237b37148c37056d0c8966f8f918daf",
+      "bytes": 8166,
+      "sha256": "36aa3cdc9765899d375cf3f5c9e6a16b190079a778c48d790bbbb9fb9b33f859"
+    },
+    {
+      "path": "src/scenarios/fitting.ts",
+      "gitBlob": "090591f787693d6c894ba718bcfae999dc074901",
+      "bytes": 5022,
+      "sha256": "0314034856f465db41f783023fa21dae8206b514317b834f877fc1039f368ab3"
+    },
+    {
+      "path": "src/scenarios/mission.ts",
+      "gitBlob": "74477c64f762000b4ba9bbecb416a46c4215f4e3",
+      "bytes": 4219,
+      "sha256": "4826e4ef557cc40b9b9496be752c3dc48a036782d7087f9b7f1042f24e16a862"
+    },
+    {
+      "path": "tests/browser/catalog-0.2.1.spec.ts",
+      "gitBlob": "726357a348e9b8d2e08e1b78ebd25bda2d481c0c",
+      "bytes": 7237,
+      "sha256": "6de0d4f9c7b51baa14bac3be5b359cc0fcf26a2c9afa93dbe56985e665ee73d6"
+    },
+    {
+      "path": "tests/browser/claude-ui-fixes.spec.ts",
+      "gitBlob": "d1b3724a99ec5aecf293413db84e928c253a6af2",
+      "bytes": 12614,
+      "sha256": "584d84bf9f63a5a0481cefeabdb5776d247460efb37270b746ac6430d9821e2e"
+    },
+    {
+      "path": "tests/browser/claude-ui-review.spec.ts",
+      "gitBlob": "21a9e4a446e8cd90fb8c1e28d6a694ae5c8b5c4d",
+      "bytes": 5740,
+      "sha256": "9ce76448cb91c2de732fa24afbd81526161a8b9e3769359bea281d2685a099c9"
+    },
+    {
+      "path": "tests/browser/claude-ui.spec.ts",
+      "gitBlob": "28a394fa6e4f7a65e6f5488a95b98dee4bbb2294",
+      "bytes": 8436,
+      "sha256": "62131aaa1dec73f757e7fed93a81e0ace2d68623eadeaa5291c648d2e0218d20"
+    },
+    {
+      "path": "tests/browser/fitting.spec.ts",
+      "gitBlob": "a2052f0269aecd9ccf19d7a10d4c5d79a113d96c",
+      "bytes": 17673,
+      "sha256": "6fc16926731dd91db0f103f37ab44a6dd43dc3b46a84f7a3516996126a5bd20b"
+    },
+    {
+      "path": "tests/browser/gd-workspace-v4.spec.ts",
+      "gitBlob": "a1070fb73f7def478fb41c6b02ea637151903be5",
+      "bytes": 19582,
+      "sha256": "dc5c8496292e8c8acc46a3d1e933b39d525eab69e01ea1457aafe475fa381fa1"
+    },
+    {
+      "path": "tests/browser/mission-medium.spec.ts",
+      "gitBlob": "6a541d79fb4b839d624940154517d5c597da9026",
+      "bytes": 10279,
+      "sha256": "4ec2b09eb5bb669c4ecea584368de882f3df8af34139da758f6c737c33c99ebb"
+    },
+    {
+      "path": "tests/browser/pony-signature-slot.spec.ts",
+      "gitBlob": "75b867f7e3ab3dd6c2b9f07f598a36d7115e9cc7",
+      "bytes": 8384,
+      "sha256": "fe2a97db50a8e3ebdbb0ec88845478074d9836f57d0f924d1a853cf3f438b4a0"
+    },
+    {
+      "path": "tests/browser/timed-draft.ts",
+      "gitBlob": "a53c2d6c9d3d06d4b61791109033711b3aefdb9b",
+      "bytes": 942,
+      "sha256": "e01e831017544d2bf646abb1315dc149a85989e3dffd22abfa0bd8c37e65fcbf"
+    },
+    {
+      "path": "tests/fitting/catalog-0.2.1.test.ts",
+      "gitBlob": "2c4293719322449962640a981a0b7b0dbddf081e",
+      "bytes": 7866,
+      "sha256": "1098c5c12e951971536e13eb1f70ff288224b9da1fcedc60aa720fafecc24ea2"
+    },
+    {
+      "path": "tests/fitting/catalog-editions.test.ts",
+      "gitBlob": "f202073486c2e3e4424c94a93627ec8ed47bcc47",
+      "bytes": 5675,
+      "sha256": "6c464654ae5c7e26b06ce893ba16bcbeebddb6070abfce485992653564d6efd5"
+    },
+    {
+      "path": "tests/fitting/fixtures/catalog-0.2.2-digests.json",
+      "gitBlob": "4f5c6b3cd50fa8e05cc091ffea0b3d848d1cd3d4",
+      "bytes": 3836,
+      "sha256": "19e32f99ae73fe29041c1c9db7b13ae5d6bed516586a3a06158be9e3ddc6b6f5"
+    },
+    {
+      "path": "tests/fitting/medium-hybrid.test.ts",
+      "gitBlob": "296fec7e71ccf17a7e30b7fe53a76e63c3843b89",
+      "bytes": 8185,
+      "sha256": "218d47eb75bb6d1a152777ad8c109709d6450641e2cfc6bed8a42199d2b37c05"
+    },
+    {
+      "path": "tests/fitting/mission-convergence.test.ts",
+      "gitBlob": "67e7f550fd7159cd0c8183b2583273decfafba91",
+      "bytes": 2615,
+      "sha256": "f2ef319dcb7d4e557bd0b76b19c1143c60dda6950600683e5129377232f04c25"
+    },
+    {
+      "path": "tests/fitting/mission-cycle.test.ts",
+      "gitBlob": "416462461c89ba0ccc28e53442d1144d14ae0e36",
+      "bytes": 7384,
+      "sha256": "1c4aacad4823ddfa43238d0b0e79c612a8862b0704632b379de53abe25e3b02c"
+    },
+    {
+      "path": "tests/fitting/mission-flight.test.ts",
+      "gitBlob": "71dbe0ecf240d9097700dcd5787688f436c0be8d",
+      "bytes": 3756,
+      "sha256": "28bcc0670a3d9a20b26d1d4181af3a83fa8d145e5adaefb14ab547c94cd4a59d"
+    },
+    {
+      "path": "tests/fitting/mission-io.test.ts",
+      "gitBlob": "a46027404fc0538d32f233eda019cd9bd9f713bd",
+      "bytes": 4546,
+      "sha256": "0dd58ce3fb2dad2f30e47cfef6202d7af8a97b1493946ba2fce702679b876daa"
+    },
+    {
+      "path": "tests/fitting/mission-pony-observations.test.ts",
+      "gitBlob": "5b5bf6f4ab878d4bf901d15b7608eb16a58af232",
+      "bytes": 3748,
+      "sha256": "13e6235b7ab96f94569bc5fb6349827faed42fc2612feec0172601960d35fed2"
+    },
+    {
+      "path": "tests/fitting/mission-recovery.test.ts",
+      "gitBlob": "919ddfe697400c989e746c56dc3289f1e8fcc474",
+      "bytes": 7412,
+      "sha256": "9e28c7a0fff901a935dac0c6c71e3eba0a0da124193a171c3f6be7dd3535349e"
+    },
+    {
+      "path": "tests/fitting/mission-workspace.test.ts",
+      "gitBlob": "54580621dfe39d35a3ee50950c3d8e99ad7f0047",
+      "bytes": 2975,
+      "sha256": "159dfad6defae0730a7f769b7f21533963f01516c7a7a1fb83cff38e176bfcf5"
+    },
+    {
+      "path": "tests/fitting/pony-signature-slot.test.ts",
+      "gitBlob": "0ea0a998dee0c2572f917a0cc91ce4a4f40323f5",
+      "bytes": 16263,
+      "sha256": "c1cf59edff6a84d2dee9cc8949d52f0dd1ea8220379645c7bfa982734a66aa6b"
+    }
+  ],
+  "carryover51RowFingerprint": "3f5f59583b880b3de0507facab816ad9c48c675f6e6b4f9168cb1a224ca0717c",
+  "carryoverMethod": "Independently checked all51 current bytes/SHA/blob against previous signed binding and d57 Git blobs; whole4 texts byte-identical to R1. Carryover only, not full fresh semantic review.",
+  "previousReview": {
+    "path": "docs/reviews/2026-10-06-mission-medium-code-review-r1.md",
+    "sha256": "4eda66a61f662f3c2e70cb89fde4ef1db55c7c496974366445682561fc233ac9"
+  },
+  "previousBinding": {
+    "path": "docs/reviews/2026-10-06-mission-medium-code-review-r1-reviewed-paths.json",
+    "sha256": "06c8ceb812b6fbda8090250df1c2dd7480eb8c74afee789111992c1cdabf40fe"
+  },
+  "release": {
+    "path": ".overgate-runtime/mission-medium-code-review-release-r2.json",
+    "bytes": 14393,
+    "sha256": "7c35e77d1352bb64dcc00d3b0323e8b1faa6fcc5c157270144aedb0b655c0e89"
+  },
+  "QA": {
+    "path": "docs/reviews/2026-10-06-mission-medium-qa-affected-r2.md",
+    "bytes": 12318,
+    "sha256": "e6cb9a76f130be77d1bf772c3c92cd3dcd6cde10a62d4b9fd7677b1c670a6320",
+    "sourceBinding": "docs/reviews/2026-10-06-mission-medium-qa-affected-r2-source-binding.json",
+    "ownFingerprint": "09369dc5795b5601e91f8eb491b99eda8a0869be38000008b133e6bafa31a636"
+  },
+  "rawEvidence": [
+    {
+      "path": ".overgate-runtime/mission-medium-review-r2-probe.mjs",
+      "bytes": 3471,
+      "sha256": "5191af040f2da9ca686b375df98636df119ae02dcaabf2bbf68bebb52ea57ca3"
+    },
+    {
+      "path": ".overgate-runtime/mission-medium-review-r2-probe.json",
+      "bytes": 2785515,
+      "sha256": "13580629b8610b5afade1d8715c89a0253bb0ab56ddf960646b4c8e5b60a40f3"
+    }
+  ],
+  "ownChecks": [
+    "Exact2 current/d57 and51 R1 carryover rows + whole4 literal equality",
+    "Changed mission delta and full durable20-test file read; necessary recordStep/transition/runner context carried by equality",
+    "Original R1 sealed hot/cold solar snapshots parser accepted; hot H5/mining/cycles0, cold actual100MW/delivered.01",
+    "Original R1 zero-first-stop snapshot: finite20ms and defaultInfinity chunks return1step/t.1; direct idle kernel ledger exact; H5/cycles0",
+    "Own output native result parser accepts all measured controls"
+  ],
+  "findings": [
+    {
+      "id": "CR-MISSION-B1",
+      "classification": "BLOCKER in R1",
+      "closure": "CLOSED",
+      "source": "src/runner/mission.ts:110"
+    },
+    {
+      "id": "CR-MISSION-B2",
+      "classification": "BLOCKER in R1",
+      "closure": "CLOSED",
+      "source": "src/runner/mission.ts:231"
+    }
+  ],
+  "verdict": "APPROVED",
+  "openBlockers": 0,
+  "advisories": 0,
+  "notRun": [
+    "Full52/15AC semantic review or QA repeat",
+    "Full guard/build/unit/browser suite",
+    "9H3600/12h/matrices/physical/native/public/base/main",
+    "Fresh own LAN/browser/long-run/Sputnik execution",
+    "Package/source155/ZIP/HTTP bulk proof",
+    "New station checkbox/full-battery feature, outside current frozen scope"
+  ],
+  "signedReport": {
+    "path": ".overgate-runtime/2026-10-06-mission-medium-code-review-r2.md",
+    "bytes": 7258,
+    "sha256": "06a8e5f5e66ac6fb5f68902dbfc9fc30d9097507fa0c9bf0007cf202efeee8dc"
+  }
+}

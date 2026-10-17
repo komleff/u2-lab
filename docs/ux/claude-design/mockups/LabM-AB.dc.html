@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Power &amp; Heat Lab mobile — сравнение A/B</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=PT+Sans+Narrow:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#141210}
+.m *{box-sizing:border-box}
+.m h2,.m p,.m dl,.m dd{margin:0}
+.m :focus-visible{outline:2px solid #4DA6FF;outline-offset:2px}
+.m .disp{font-family:'PT Sans Narrow','Arial Narrow',sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;line-height:1.05}
+.m .lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#a3906f}
+.m .sub{font-size:13px;color:#a3906f}
+.m .sq{display:inline-block;width:9px;height:9px;flex:none}
+.m .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 12px;border:1px solid #5a4a34;border-radius:3px;background:#1A1815;color:#e8dcc6;font:inherit;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;text-decoration:none}
+.m .seg{display:flex;border:1px solid #5a4a34;border-radius:3px;overflow:hidden}
+.m .seg button{flex:1 1 0;min-height:44px;background:#1A1815;border:0;border-right:1px solid #3a3226;color:#c9b795;font:inherit;font-size:13px}
+.m .seg button:last-child{border-right:0}
+.m .seg .on{background:#3A2818;color:#FFAA33}
+.m .row{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr);gap:8px;padding:8px 0;border-bottom:1px solid #241f18;font-size:13px;align-items:baseline}
+</style>
+</helmet>
+<div class="m" style="width: 390px; height: 844px; display: flex; flex-direction: column; background: #141210; color: #e8dcc6; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 14px; line-height: 1.45; font-variant-numeric: tabular-nums">
+<header style="flex: none; display: flex; align-items: center; gap: 8px; height: 56px; padding: 0 10px; background: linear-gradient(#26211B, #1C1815); border-bottom: 2px solid #4a3f30">
+<a class="btn" href="LabM-Run.dc.html" aria-label="Назад к обзору теста">← Назад</a>
+<h2 class="disp" style="font-size: 20px; color: #F2EDE0">Сравнение A / B</h2>
+</header>
+<div style="flex: 1 1 auto; overflow-y: auto; padding: 12px 16px; display: flex; flex-direction: column; gap: 12px">
+<div class="seg" role="group" aria-label="Вид сравнения"><button type="button" class="on" aria-pressed="true">Рядом</button><button type="button" aria-pressed="false">Только A</button><button type="button" aria-pressed="false">Только B</button></div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<div style="padding: 10px 12px; background: #211B12; border: 1px solid #6a4a26; border-radius: 3px"><span class="lbl" style="color: #FFAA33">A · сборка 12</span><div style="font-size: 13px">3 × Civil S/G1</div></div>
+<div style="padding: 10px 12px; background: #16232B; border: 1px solid #245158; border-radius: 3px"><span class="lbl" style="color: #4DA6FF">B · сборка 13</span><div style="font-size: 13px">Лазер 3 → Industrial S/G2</div></div>
+</div>
+<div style="display: flex; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid #3d5a33; background: #182015; border-radius: 3px; font-size: 13px"><span class="sq" style="background: #5F9E4E" aria-hidden="true"></span>Одинаковые сырьё, среда, фазы, горизонт и начальные запасы</div>
+<section aria-label="Метрики A и B">
+<div class="row" style="border-bottom-color: #5a4a34"><span class="lbl">Метрика</span><span class="lbl" style="color: #FFAA33">A</span><span class="lbl" style="color: #4DA6FF">B</span></div>
+<div class="row"><span class="sub">SCU/ч</span><b style="color: #F2EDE0">144</b><b style="color: #F2EDE0">148 <span class="sub">▲4</span></b></div>
+<div class="row"><span class="sub">Добыча за цикл</span><span>12 SCU</span><span>12,3 SCU</span></div>
+<div class="row"><span class="sub">Использование</span><span>21,3 %</span><span>21,0 %</span></div>
+<div class="row"><span class="sub">Дизель, кг/SCU</span><span>4,0</span><span>4,1</span></div>
+<div class="row"><span class="sub">H₂, кг/SCU</span><span>0,50</span><span>0,52</span></div>
+<div class="row"><span class="sub">Простой</span><span>29 с</span><span>33 с</span></div>
+<div class="row"><span class="sub">Восстановление</span><span>6,4 с</span><span>6,9 с</span></div>
+<div class="row"><span class="sub">Первое ограничение</span><span>Питание 18,2 с</span><span>Питание 14,2 с</span></div>
+</section>
+<p class="sub" style="color: #c9b795">B добывает на 4 SCU/ч больше, но раньше упирается в питание и дольше простаивает. Общего рейтинга нет.</p>
+<span class="sub" style="display: inline-flex; align-self: flex-start; padding: 2px 8px; border: 1px solid #6b5a1e; color: #E5C23A">DEMO — только иллюстрация интерфейса</span>
+</div>
+<div style="flex: none; padding: 10px 16px calc(12px + env(safe-area-inset-bottom)); background: #0E0D0B; border-top: 1px solid #3a3226; display: flex; gap: 8px">
+<a class="btn" href="Main.dc.html" style="flex: 1 1 0">⇄ Оснастка</a>
+<button class="btn" type="button" style="flex: 1 1 0; background: #FFAA33; border-color: #FFAA33; color: #141210; font-weight: 600; min-height: 48px">Запуск B заново</button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

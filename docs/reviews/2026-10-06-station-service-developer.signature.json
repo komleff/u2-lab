@@ -1,0 +1,11 @@
+{
+  "schema": "u2-lab-developer-attestation/v1",
+  "role": "Developer",
+  "model": "Codex, GPT-6 family; exact provider identifier not exposed",
+  "sourceHead": "a625c79c5fbc8cfc706c87d0631fc0204c1689fb",
+  "report": "2026-10-06-station-service-developer.md",
+  "reportBytes": 8276,
+  "reportSha256": "a72ebbdd5d578774bc6b64ecf73a6b81a749fe5e58d72c74dd10569584bd9d25",
+  "attestation": "Authored and sealed by the sole Developer; hash attestation, not a public-key digital signature",
+  "sealedUtc": "2026-10-06T12:59:47.124853+00:00"
+}

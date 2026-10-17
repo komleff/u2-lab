@@ -1,0 +1,128 @@
+{
+  "role": "independent QA",
+  "model": "Codex; exact provider model ID unavailable",
+  "candidate": "ec2593157a0ed478e8cfa69cec6c71d860790180",
+  "countMeaning": "15 source AC addresses; two whole chains plus named slices, not15 fullcampaigns or a product test-count",
+  "rows": [
+    {
+      "case": "M01",
+      "sourceAC": "HOW VC M01; brief§1/defaults",
+      "method": "Fresh UI defaults и genuine field input→first native pointer/tap Start без Tab; invalid D/cap/dt validators",
+      "result": "PASS",
+      "actual": "H3600/D100km/Max/fullhold/repeat/T300/dt.1; first Start sends immutable current spec; invalid negatives refused",
+      "evidence": "W1-LAN1440-corrected.json; W2-LAN390-corrected.json; slices-output.log"
+    },
+    {
+      "case": "M02",
+      "sourceAC": "HOW work-policy / VC M02",
+      "method": "Actual 1/2/3 laser small-target controls; first-stop zero/partial power; fullhold thermal recovery; missing group/ore-capacity negatives",
+      "result": "PASS",
+      "actual": "Ideal .1SCU fill6.857142857/3.428571429/2.285714286s; partial positive output continues; thermal stop recovers1142.588897s; no fake cargo terminal",
+      "evidence": "ideal-1/2/3-result.json; first-stop-partial-power-result.json; zero-delivery-corrected-result.json; fullhold-thermal-recovery-extended-result.json; remaining-corrected-output.log"
+    },
+    {
+      "case": "M03",
+      "sourceAC": "brief§3; HOW motion / VC M03",
+      "method": "Independent relativistic constant-m anchor; no-force changed-m coast; real capped coast; separate chemical/electric march/retro step",
+      "result": "PASS",
+      "actual": "v99.9444906979m/s,x499.8611882181m,stop1249.6529705452m; actual cap10m/s; typed fuel and electric load-host heat counted once",
+      "evidence": "api-resume-output.log; capped-coast-result.json; chemical/electric-march/retro-step.json; oracle-corrections.json"
+    },
+    {
+      "case": "M04",
+      "sourceAC": "HOW station invariant / VC M04",
+      "method": "Actual horizon inside all5 stages, zero-propulsion negative, station-arrival/service boundary checks",
+      "result": "PASS",
+      "actual": "H clips actual stage/cargo, delivered0 enroute; zero thrust strands at x0; short voyages arrive after braking before service",
+      "evidence": "horizon-outbound/approach/mining/inbound/service-result.json; zero-thrust-result.json; W1-api-summary.json"
+    },
+    {
+      "case": "M05",
+      "sourceAC": "brief§4; HOW service / VC M05",
+      "method": "Single-voyage small target and service pre/end states; repeated physical H3600 fixtures; cargo/mass/typed fuel balances",
+      "result": "PASS",
+      "actual": "Only service end unloads/refuels; initial+received−consumed=remaining; mined=delivered+aboard; T/charge continue; real early complete and actualH preserved",
+      "evidence": "service-boundary-summary.json; W1/W2-api-result.json; five H3600 summaries; long-checks.json"
+    },
+    {
+      "case": "M06",
+      "sourceAC": "HOW IO / VC M06; CR-PONY-B1",
+      "method": "Native measured result fresh-open exact; API field/state/roster malformed refusal; native genuine old partial ghost refusal with A/next/result bytes",
+      "result": "PASS",
+      "actual": "Complete-before-H mission opens without rerun; bad distance/speed/cargo/roster refused atomically; known resolved ghost cannot bypass; signed correction legal only new model context",
+      "evidence": "W1/W2-LAN*-freshresult.json; linked-compare-old-open-LAN390.json; bad-*-rejected.json; api-resume-output.log"
+    },
+    {
+      "case": "M07",
+      "sourceAC": "HOW compatibility / VC M07",
+      "method": "Own saved .0/.1/.2 timed specs rerun, state/metrics compare to pre-mission oracles; native fresh old result",
+      "result": "PASS",
+      "actual": "All numerical values exact; old timed mode/model/phase fields remain labelled; old early complete rejected; local authored values exact after canonical-key comparison",
+      "evidence": "golden-0.2.0/0.2.1/0.2.2/local-oldtimed-result.json; fresh-old-timed-labelled-LAN390.json; oracle-corrections.json"
+    },
+    {
+      "case": "M08",
+      "sourceAC": "HOW native workflow / VC M08",
+      "method": "Two whole LAN1440/touch390 chains plus linked measured B-vs-frozenA; first-click, running navigation, pause/step/resume/cancel, restart, analysis and native exports",
+      "result": "PASS",
+      "actual": "One genuine Worker; immutable activeA/editable nextB; paused freeze then cancel before restart; real terminalservice; measured graphs/events/compare; Unicode downloads/fresh analysis/atomic refusal work",
+      "evidence": "browser-results.json; linked-browser-results.json; W1/W2-LAN*-corrected*.json and screenshots"
+    },
+    {
+      "case": "M09",
+      "sourceAC": "HOW VC M09 homogeneous G0 / convergence",
+      "method": "Own B100km/H3600 and C100km feasible-repeat control; compact completed voyage .1/.05/.025 and partial-power near-limiter refinement",
+      "result": "PASS",
+      "actual": "B36SCU/1service and C≈36SCU/3services continue toH; compact event Δ≤7.11e−7s and fuel Δ≤7.58e−8 relative; same outcomes; no winner asserted",
+      "evidence": "Pony2/3-H3600-summary.json; convergence-analysis.json; near-limiter-.1/.05/.025-result.json; remaining-checks.json"
+    },
+    {
+      "case": "MF01",
+      "sourceAC": "medium contract MF01",
+      "method": "Inventory editions and all5M explicit material/SI/class/G comparison to sealed independent source table; 45 previous profiles comparison",
+      "result": "PASS",
+      "actual": "Counts40/45/45/50; M extensive values/Cp470 exact; all45 prior item objects equal",
+      "evidence": "api-output-initial.log; W1/W2-fit.json; preparation/analytical-oracles.json"
+    },
+    {
+      "case": "MF02",
+      "sourceAC": "medium contract MF02",
+      "method": "Common kernel finite M buffer/TI/H2/solar and off/dark/empty controls; independent effective-area radiation calculation and dry bill",
+      "result": "PASS",
+      "actual": "8GJ/80MW bounds; solar100kW at1000W/m²; H2 purpose sums match one stock; TI rejection≥cold export; radiation uses3528 once; aux1.2MW",
+      "evidence": "shared-h2-step.json; slices-output.log; rad-step.json; final-slices-output.log"
+    },
+    {
+      "case": "MF03",
+      "sourceAC": "medium contract MF03",
+      "method": "Old stamp rejects new globalM; old profiles/known roster/own local numeric snapshots preserved",
+      "result": "PASS",
+      "actual": "Old .0/.1/.2 reject thermoinverter-M globalID; authored old local replay exact; no silent edition upgrade",
+      "evidence": "final-slices-output.log; oracle-corrections.json; old golden results; fresh-old-timed-labelled-LAN390.json"
+    },
+    {
+      "case": "MF04",
+      "sourceAC": "medium contract MF04",
+      "method": "Actual native compatible M filters/cards/install across two genuine LAN fits, real mission/analysis/native files/fresh result",
+      "result": "PASS",
+      "actual": "All5newM selectable in existing compatible slots with visible provenance; genuine measured outcome and roundtrip without implicit rerun",
+      "evidence": "W1-LAN1440-corrected.json; W2-LAN390-corrected.json; browser-results.json"
+    },
+    {
+      "case": "HY01",
+      "sourceAC": "medium contract HY01",
+      "method": "Legal .3 E diesel/H2 utility fits; oldE/mixed chemical propulsion/missingcryotank negatives",
+      "result": "PASS",
+      "actual": "All4electric drives retained; .3utility installation legal; oldE/chemical mixed refused; missing tank incomplete; no hidden resource",
+      "evidence": "api-output-initial.log; W1/W2-fit.json; W1/W2-api-result.json"
+    },
+    {
+      "case": "HY02",
+      "sourceAC": "medium contract HY02",
+      "method": "Actual E+Diesel+H2 cooler, E+sharedH2 generator/cooler, D+auxH2 step; H2gen long branch and human source summary",
+      "result": "PASS",
+      "actual": "Separate typed purpose ledgers; shared finiteH2; D engine consumesDiesel, coolerH2; refuel does not recharge battery; delivered0 denominator null",
+      "evidence": "shared-h2-step.json; D-aux-H2-step.json; operator-CivilianM-H2-summary.json; operator-summaries-LAN390.json"
+    }
+  ]
+}

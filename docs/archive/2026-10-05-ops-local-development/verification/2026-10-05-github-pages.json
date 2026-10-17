@@ -1,0 +1,88 @@
+{
+  "verified_at_utc": "2026-10-05T05:42:33.660492+00:00",
+  "source_commit": "0332d3be2eb318d60b801c2b9e4cd50c31b3edf2",
+  "artifact_commit": "443af7b7d003909f267227cdef8408d56a21e311",
+  "main_unchanged": "9469d3e8998dada5ec3a6f99712fae8345fb3f7f",
+  "pages": {
+    "url": "https://api.github.com/repos/komleff/u2-lab/pages",
+    "status": "built",
+    "cname": null,
+    "custom_404": false,
+    "html_url": "https://komleff.github.io/u2-lab/",
+    "build_type": "legacy",
+    "source": {
+      "branch": "gh-pages",
+      "path": "/"
+    },
+    "public": true,
+    "protected_domain_state": null,
+    "pending_domain_unverified_at": null,
+    "https_enforced": true
+  },
+  "deployment": {
+    "conclusion": "success",
+    "headSha": "443af7b7d003909f267227cdef8408d56a21e311",
+    "status": "completed",
+    "url": "https://github.com/komleff/u2-lab/actions/runs/37268755843"
+  },
+  "manifest": {
+    ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "assets/index-CavnPbNn.js": "a95f557052edcebd72ed477770e5f73a444f48115af8de40c82706c789c7cef4",
+    "assets/index-Dxj0OWO0.css": "f4d9a2023754cb76f0699df20c7c997bb8f9ff6e7bd7b5e229027f9beba4854e",
+    "assets/worker-B2b-BfUr.js": "c71797fb56f7e395bc69cdb686398ead8fe2a621d72a61535a65df5d0746a8c5",
+    "index.html": "39f533150336f9da904cc33947f72e1e80a7c056d4c254a7f63a858184b84e17"
+  },
+  "public_digests": {
+    "assets/index-CavnPbNn.js": {
+      "http_success": true,
+      "sha256": "a95f557052edcebd72ed477770e5f73a444f48115af8de40c82706c789c7cef4",
+      "bytes": 84171
+    },
+    "assets/index-Dxj0OWO0.css": {
+      "http_success": true,
+      "sha256": "f4d9a2023754cb76f0699df20c7c997bb8f9ff6e7bd7b5e229027f9beba4854e",
+      "bytes": 6550
+    },
+    "assets/worker-B2b-BfUr.js": {
+      "http_success": true,
+      "sha256": "c71797fb56f7e395bc69cdb686398ead8fe2a621d72a61535a65df5d0746a8c5",
+      "bytes": 25971
+    },
+    "index.html": {
+      "http_success": true,
+      "sha256": "39f533150336f9da904cc33947f72e1e80a7c056d4c254a7f63a858184b84e17",
+      "bytes": 467
+    }
+  },
+  "local_smoke": {
+    "url": "http://127.0.0.1:4174/u2-lab/",
+    "placement": "/u2-lab/",
+    "s_m_14s": "PASS",
+    "comparison": "PASS",
+    "viewport": 390,
+    "scrollWidth": 390,
+    "requests": [
+      "http://127.0.0.1:4174/u2-lab/",
+      "http://127.0.0.1:4174/u2-lab/assets/index-CavnPbNn.js",
+      "http://127.0.0.1:4174/u2-lab/assets/index-Dxj0OWO0.css",
+      "http://127.0.0.1:4174/u2-lab/assets/worker-B2b-BfUr.js"
+    ],
+    "pageErrors": [],
+    "failedRequests": []
+  },
+  "public_smoke": {
+    "url": "https://komleff.github.io/u2-lab/",
+    "s_m_14s": "PASS",
+    "comparison": "PASS",
+    "viewport": 390,
+    "scrollWidth": 390,
+    "requests": [
+      "https://komleff.github.io/u2-lab/",
+      "https://komleff.github.io/u2-lab/assets/index-CavnPbNn.js",
+      "https://komleff.github.io/u2-lab/assets/index-Dxj0OWO0.css",
+      "https://komleff.github.io/u2-lab/assets/worker-B2b-BfUr.js"
+    ],
+    "pageErrors": [],
+    "failedRequests": []
+  }
+}

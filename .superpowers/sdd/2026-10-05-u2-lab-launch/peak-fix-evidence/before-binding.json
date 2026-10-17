@@ -1,0 +1,42 @@
+{
+  "commit": "820a21dbc2fbe21ee72e79385cd6a5d7a80e0551",
+  "scope": "single named B1/P13 within-base-dt peak-cycle",
+  "result": "FAIL",
+  "testedPaths": [
+    {
+      "path": "src/catalog/presets.ts",
+      "blob": "1c9a44b72efe7d744c4e47b2f7fe4f36fcffb0b3"
+    },
+    {
+      "path": "src/catalog/schema.ts",
+      "blob": "64a55b20f1b0810073858af41d8a3a191b4cb726"
+    },
+    {
+      "path": "src/model/step.ts",
+      "blob": "60b40f07d897a2cab1434bb5624f6007ee30d880"
+    },
+    {
+      "path": "src/model/thermal-gates.ts",
+      "blob": "55b0cd91c368016f2485d3ccbb3924ab915d0e3d"
+    },
+    {
+      "path": "src/model/types.ts",
+      "blob": "c53489d96d93d88d2d92f4884e332ef322f7003f"
+    },
+    {
+      "path": "src/runner/metrics.ts",
+      "blob": "135debf2467490b48675eab204b71cf828a45ef4"
+    },
+    {
+      "path": "src/runner/run.ts",
+      "blob": "7a95f8491164f5b861916a984d778163a3ec4579"
+    }
+  ],
+  "sourceVCsha256": "68d0112709a0fb35ad4ee69284a88ab0778739fb28f4828a669dac3f820aff24",
+  "canonicalSevenPathPlusEntireVC": "6d0505eef0eea318100a78ef4a6108814ebfee753017075af5a83a58a9b9a8e8",
+  "evidenceSha256": {
+    "peak-cycle.mjs": "b46931e07d8f06620b68852d2e71014cd46fe73e5a3de04032f7e04c5a748275",
+    "peak-cycle.json": "2ae30d7ce7dd9e9d6eaeeebe592bec9bb14ecaaf6a051038f262e1aefce118ff"
+  },
+  "metadataReportUnchanged": true
+}

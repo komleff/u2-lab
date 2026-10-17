@@ -1,0 +1,383 @@
+{
+  "role": "independent QA",
+  "model": "Codex; exact provider model ID unavailable",
+  "result": "PASS",
+  "candidate": "bbe3fc9914109dfa2b671666fb0585bdcb38337c",
+  "namedFinding": "CR-PONY-B1",
+  "findingResult": "CLOSED affected methods",
+  "counts": {
+    "affectedRiskRows": 4,
+    "apiInternalAssertions": 81,
+    "browserInternalAssertions": 25,
+    "wholeNativeLanChains": 1,
+    "freshOpenSlices": 2,
+    "browserContexts": 3,
+    "productFail": 0
+  },
+  "sourceContentFingerprint": "6a566b9f33552376df169bb84793c9fe9cb4b85e9bc7d83a5b863d2bb7da8544",
+  "sourceContentFingerprintMethod": "SHA256 sorted3pathNULgitBlobLF + literal wholePonyPlan + literalwholeC05product",
+  "fullArtifactProof": "Inherited PM TEST_RELEASE; no duplicate137/package/HTTP proof",
+  "report": {
+    "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/report.md",
+    "bytes": 10539,
+    "sha256": "05af0ccd3f768eb522aaf59d46eb4e9847c763f882244019c00e71a36c35204f"
+  },
+  "rawFileCount": 44,
+  "rawFingerprintMethod": "SHA256 UTF8 sortedrelativepath+NUL+fileSHA256+LF",
+  "rawFingerprint": "c3dcf91d0bfd1fac6a7e1942f36f52808757c9a8824174020e411c9bc84ef195",
+  "rawFiles": [
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/LAN390-atomic-refusal-export.png",
+      "relativePath": "LAN390-atomic-refusal-export.png",
+      "bytes": 98864,
+      "sha256": "0638f846e63d8f012db7ec45e9838f9663350319f1decd93e330d61029db059d",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/LAN390-authored-old-reference.png",
+      "relativePath": "LAN390-authored-old-reference.png",
+      "bytes": 83817,
+      "sha256": "5269e9cbe0dc1cb1f87a762530b48b0dfe47933cec50c39f4f6e69e50613d814",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/LAN390-authored-roundtrip.json",
+      "relativePath": "LAN390-authored-roundtrip.json",
+      "bytes": 410929,
+      "sha256": "bb8be5b40990f3a5b09ddf36e8943e45aff997969a4c50f0668af724ca20f03c",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/LAN390-refusal-chain.json",
+      "relativePath": "LAN390-refusal-chain.json",
+      "bytes": 211528,
+      "sha256": "342fcd67d57c41f86eb6486ed18f04dd2a6bdc0211ba58a4bf0a6df2eaffeedc",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/api-error.json",
+      "relativePath": "api-error.json",
+      "bytes": 705,
+      "sha256": "3cba826b9ac238f94610ca3daf5bd36b39cbc4a6234dea8c9e267baec67f3a9c",
+      "classification": "harness-history"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/api-results.json",
+      "relativePath": "api-results.json",
+      "bytes": 38262,
+      "sha256": "fae04216fda34817b0f566465e2e5e7ec203219477c5d86abe0c205eb0e299dd",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/api.log",
+      "relativePath": "api.log",
+      "bytes": 18,
+      "sha256": "93cdf322ad2dfe6501300a060eab1e73aba5d73b85a5cb787300095aa6b72c00",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/api.mjs",
+      "relativePath": "api.mjs",
+      "bytes": 8409,
+      "sha256": "f6e0ec9588a1c37c398153f0e086d352de977e87866f442035a1da570bdd91af",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/authored-run.json",
+      "relativePath": "authored-run.json",
+      "bytes": 410930,
+      "sha256": "0a3786e7296d5b96ed5bf094ca245783dea97a152095d454a8ff98c9cfb7a160",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/baseline-B-fit.json",
+      "relativePath": "baseline-B-fit.json",
+      "bytes": 35950,
+      "sha256": "2c374b70e831a3dfd8bb8244101e985ba064f3d20d6156de9d40865333d996c3",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/baseline-B-result.json",
+      "relativePath": "baseline-B-result.json",
+      "bytes": 413972,
+      "sha256": "a33c92d57e69705890f51fe23b89f5fdd3fe850da5069cd4691434534317cefd",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/baseline-B-run.json",
+      "relativePath": "baseline-B-run.json",
+      "bytes": 361277,
+      "sha256": "f25cdfb26d9abf4c3047ff7313cf5392a7b5ee4cb689562dff9c784e5d815a9c",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/binding.json",
+      "relativePath": "binding.json",
+      "bytes": 3379,
+      "sha256": "b5e4f4c1bbc5204c92293babfb0adb0930de32d3dba4f2027992c3bf3641359f",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/browser-harness-error.txt",
+      "relativePath": "browser-harness-error.txt",
+      "bytes": 200,
+      "sha256": "4981480e3226608bd7f26cb6b4dc8dd84c1f86a96eb3a175fe427cf5a644d610",
+      "classification": "harness-history"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/browser-results.json",
+      "relativePath": "browser-results.json",
+      "bytes": 7647,
+      "sha256": "a86e72cf8310f5968bf7a2beedbcc44a5ba8a4b56a5a00f12cfe97f46d763cd7",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/browser.log",
+      "relativePath": "browser.log",
+      "bytes": 135,
+      "sha256": "a9fbc4f0b552761767de6358917c31df5578b5ca8e0fb73ef283357ba3c7db8b",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/browser.mjs",
+      "relativePath": "browser.mjs",
+      "bytes": 6959,
+      "sha256": "0cfa38fa9a04f85b5065e772843c4743ed310d82078e4828fccafe27c15fbae4",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/cache/deps/_metadata.json",
+      "relativePath": "cache/deps/_metadata.json",
+      "bytes": 146,
+      "sha256": "bec028ddcf4d724983e91b12785c2b8e87954068b8c911eca84148353f743ebc",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/cache/deps/package.json",
+      "relativePath": "cache/deps/package.json",
+      "bytes": 23,
+      "sha256": "3ca9d4afd21425087cf31893b8f9f63c81b0b8408db5e343ca76e5f8aa26ab9a",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/fresh-local-new.2-analysis.png",
+      "relativePath": "fresh-local-new.2-analysis.png",
+      "bytes": 67578,
+      "sha256": "ca9b44aa4be5b323637516150437edc561eaf9e8f76f6780ed7e0297d1673e1d",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/fresh-local-new.2-result-roundtrip.json",
+      "relativePath": "fresh-local-new.2-result-roundtrip.json",
+      "bytes": 398563,
+      "sha256": "993f4b342ee4a1f26fd198b5b2b1ea035c72cecb608c11115f1e2a0aa37397fa",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/fresh-local-new.2-result.json",
+      "relativePath": "fresh-local-new.2-result.json",
+      "bytes": 65990,
+      "sha256": "524a2c94e4bd0737177b468c7f2503be629648a17483604ee2b599dc2d999ed8",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/fresh-old.0-run-roundtrip.json",
+      "relativePath": "fresh-old.0-run-roundtrip.json",
+      "bytes": 378735,
+      "sha256": "eaa8eeeaac7d5e0da726bc6eefcdf646522077c1460383ee17d459ccbdb5d90e",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/fresh-old.0-run.json",
+      "relativePath": "fresh-old.0-run.json",
+      "bytes": 52634,
+      "sha256": "2b7c4e07941970b108ed993d44b592088e935cfe606b95b7da16421980414fb3",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/local-fit.json",
+      "relativePath": "local-fit.json",
+      "bytes": 40069,
+      "sha256": "d0d9dafcd4463711736436bec6326cc1fc3cdf54d1d0c72b1b1b8bed5d4e0177",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/local-result.json",
+      "relativePath": "local-result.json",
+      "bytes": 398564,
+      "sha256": "f689ec7e112e98eddfcc3d52da9bbbc29e09eeec293d77129607600965e4e857",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/local-run.json",
+      "relativePath": "local-run.json",
+      "bytes": 367560,
+      "sha256": "27c88d452510af89958cd1e9dd3eee18b6a682bb36135cc5063ed7e20e99f91e",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/original-closed-F3-LAN390-refusal-chain.json",
+      "relativePath": "original-closed-F3-LAN390-refusal-chain.json",
+      "bytes": 50016,
+      "sha256": "c10675c3a297eabdb380d2bfd500aafb848af5007c9c3204fbc939a842812672",
+      "classification": "harness-history"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/original-closed-F3-browser-harness-error.txt",
+      "relativePath": "original-closed-F3-browser-harness-error.txt",
+      "bytes": 200,
+      "sha256": "4981480e3226608bd7f26cb6b4dc8dd84c1f86a96eb3a175fe427cf5a644d610",
+      "classification": "harness-history"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/original-closed-F3-browser.log",
+      "relativePath": "original-closed-F3-browser.log",
+      "bytes": 242,
+      "sha256": "ff877b045bad0466059969ac80122f883bb7867ff79ce93ddb7cf713da9ca4aa",
+      "classification": "harness-history"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/original-closed-F3-browser.mjs",
+      "relativePath": "original-closed-F3-browser.mjs",
+      "bytes": 6940,
+      "sha256": "68fb6478736059ac8371b9443e62a278ad262dbac87288d89b231cf750301155",
+      "classification": "harness-history"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/original-zero-phase-api-error.json",
+      "relativePath": "original-zero-phase-api-error.json",
+      "bytes": 705,
+      "sha256": "3cba826b9ac238f94610ca3daf5bd36b39cbc4a6234dea8c9e267baec67f3a9c",
+      "classification": "harness-history"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/original-zero-phase-api.log",
+      "relativePath": "original-zero-phase-api.log",
+      "bytes": 727,
+      "sha256": "43ceada4c66e63c6202c00d117e9eb04647dfe9017a9e736e36bd3dbfc0ee58e",
+      "classification": "harness-history"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/original-zero-phase-api.mjs",
+      "relativePath": "original-zero-phase-api.mjs",
+      "bytes": 8404,
+      "sha256": "0936a718ffdd07e2f8e716a4a461735a2e7a7b6179d7e4f671a5b66aa371e045",
+      "classification": "harness-history"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/rejected-result-false-fit.json",
+      "relativePath": "rejected-result-false-fit.json",
+      "bytes": 35950,
+      "sha256": "2c374b70e831a3dfd8bb8244101e985ba064f3d20d6156de9d40865333d996c3",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/rejected-result-false-result.json",
+      "relativePath": "rejected-result-false-result.json",
+      "bytes": 413972,
+      "sha256": "a33c92d57e69705890f51fe23b89f5fdd3fe850da5069cd4691434534317cefd",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/rejected-result-false-run.json",
+      "relativePath": "rejected-result-false-run.json",
+      "bytes": 361277,
+      "sha256": "f25cdfb26d9abf4c3047ff7313cf5392a7b5ee4cb689562dff9c784e5d815a9c",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/rejected-run-false-fit.json",
+      "relativePath": "rejected-run-false-fit.json",
+      "bytes": 35950,
+      "sha256": "2c374b70e831a3dfd8bb8244101e985ba064f3d20d6156de9d40865333d996c3",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/rejected-run-false-result.json",
+      "relativePath": "rejected-run-false-result.json",
+      "bytes": 413972,
+      "sha256": "a33c92d57e69705890f51fe23b89f5fdd3fe850da5069cd4691434534317cefd",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/rejected-run-false-run.json",
+      "relativePath": "rejected-run-false-run.json",
+      "bytes": 361277,
+      "sha256": "f25cdfb26d9abf4c3047ff7313cf5392a7b5ee4cb689562dff9c784e5d815a9c",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/rejected-run-true-fit.json",
+      "relativePath": "rejected-run-true-fit.json",
+      "bytes": 35950,
+      "sha256": "2c374b70e831a3dfd8bb8244101e985ba064f3d20d6156de9d40865333d996c3",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/rejected-run-true-result.json",
+      "relativePath": "rejected-run-true-result.json",
+      "bytes": 413972,
+      "sha256": "a33c92d57e69705890f51fe23b89f5fdd3fe850da5069cd4691434534317cefd",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/rejected-run-true-run.json",
+      "relativePath": "rejected-run-true-run.json",
+      "bytes": 361277,
+      "sha256": "f25cdfb26d9abf4c3047ff7313cf5392a7b5ee4cb689562dff9c784e5d815a9c",
+      "classification": "own-affected-evidence"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-r1/util.mjs",
+      "relativePath": "util.mjs",
+      "bytes": 8129,
+      "sha256": "fdb739b575ddd7460beeca8fc9cc80debde1cabf61232e8af834b81baa66d072",
+      "classification": "own-affected-evidence"
+    }
+  ],
+  "preservedHistoryOutputsAndPrep": [
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/qa-execution-r1.md",
+      "bytes": 14089,
+      "sha256": "c0ed14deaeb2c09d17c4c9f3cb51c6c81e4cd6fc308d87c13cb0899c89498e29"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/qa-evidence-r1.json",
+      "bytes": 50743,
+      "sha256": "ba5985660f8d93041176791cb51cedec145b83faa837ae7ee203c31c71b82c22"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-prep/plan.md",
+      "bytes": 2733,
+      "sha256": "2050b98c5aba983df1d600aa8c2e272c84f0b8a4791526c73fb88a2a7090390d"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-prep/manifest.json",
+      "bytes": 2191,
+      "sha256": "c7cf736bcc35557a2c071f2cd5658c528cff2db224ad4313a4a31e1b6ce66eb9"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-prep/partial-forge-run.json",
+      "bytes": 410854,
+      "sha256": "183b6eaf1e0400278913e3ef2b0576f79d63d5e9c13befc97d7e1132583d46b7",
+      "expected": "REFUSE known0.2.2 before state mutation; runtime NOT RUN"
+    },
+    {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/pony-signature-slot-qa/affected-b1-prep/partial-forge-result.json",
+      "bytes": 468533,
+      "sha256": "b460e6c4bfc2e646fe5c3a59369d3a302d350cde5d61953b8d4404639ab315bc",
+      "expected": "REFUSE known0.2.2 before state mutation; runtime NOT RUN"
+    }
+  ],
+  "carryover": "Original P01-P05 ownQA inherited by actual only3pathdelta; parser affected surfaces freshly addressed, not allP01-P05 rerun. Oldraw not rehashed.",
+  "harnessHistory": "Zero-duration phase positive and closedF3 read failed in private probes; originals preserved, corrected executions PASS. No productfailure.",
+  "notTested": [
+    "ulab-w7j unchanged concern OUT",
+    "physical/native/public/base/fullproduct gates",
+    "full137/tar/HTTP/guard/12h/H3600/matrix/oldfullQA",
+    "mission/Mmodules/balance/detection"
+  ],
+  "sealedAtUtc": "2026-10-06T08:54:17.986426+00:00",
+  "sourceFreeze": "RELEASED",
+  "qaStage": "IDLE"
+}

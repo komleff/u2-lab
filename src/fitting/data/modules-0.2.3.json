@@ -1,0 +1,843 @@
+{
+  "radiator-active-M": {
+    "id": "radiator-active-M",
+    "label": "Активный радиатор M",
+    "family": "radiator",
+    "category": "signature",
+    "size": "M",
+    "formFactor": "single",
+    "generation": 2,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 5400,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "areaM2": 3528,
+      "auxW": 1200000
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.areaM2": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; radiator-active-S; base U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§4",
+        "unit": "m²",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "derivation": "radiator-active-S.areaM2: 882 × 4"
+      },
+      "numerics.auxW": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; radiator-active-S; base U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§4",
+        "unit": "W",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "derivation": "radiator-active-S.auxW: 300000 × 4"
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; radiator-active-S",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX candidate, не закрытый производственный BOM",
+        "range": [
+          4050.0,
+          6750.0
+        ],
+        "derivation": "1350 kg × 4; cp 470 intensive unchanged"
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      },
+      "class": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; radiator-active-S",
+        "unit": "class",
+        "derivation": "radiator-active-S: inherit Civilian, no extra multiplier",
+        "note": "Laboratory family variant"
+      },
+      "generation": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; radiator-active-S",
+        "unit": "G",
+        "derivation": "radiator-active-S: inherit 2, no extra multiplier",
+        "note": "Laboratory family variant"
+      }
+    },
+    "class": "Civilian"
+  },
+  "buffer-M": {
+    "id": "buffer-M",
+    "label": "Тепловой буфер M",
+    "family": "buffer",
+    "category": "signature",
+    "size": "M",
+    "formFactor": "single",
+    "generation": 1,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 20000,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "capacityJ": 8000000000.0,
+      "coolingW": 80000000.0,
+      "absorbAboveK": 290,
+      "releaseBelowK": 280
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.capacityJ": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; buffer-S; base U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5",
+        "unit": "J",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "derivation": "buffer-S.capacityJ: 2000000000.0 × 4"
+      },
+      "numerics.coolingW": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; buffer-S; base U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5",
+        "unit": "W",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "derivation": "buffer-S.coolingW: 20000000.0 × 4"
+      },
+      "numerics.absorbAboveK": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; buffer-S; base U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5",
+        "unit": "K",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          217.5,
+          362.5
+        ],
+        "derivation": "buffer-S.absorbAboveK: intensive value 290 unchanged"
+      },
+      "numerics.releaseBelowK": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; buffer-S; base U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5",
+        "unit": "K",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          210.0,
+          350.0
+        ],
+        "derivation": "buffer-S.releaseBelowK: intensive value 280 unchanged"
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; buffer-S",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX candidate, не закрытый производственный BOM",
+        "range": [
+          15000.0,
+          25000.0
+        ],
+        "derivation": "5000 kg × 4; cp 470 intensive unchanged"
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      },
+      "class": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; buffer-S",
+        "unit": "class",
+        "derivation": "buffer-S: inherit Civilian, no extra multiplier",
+        "note": "Laboratory family variant"
+      },
+      "generation": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; buffer-S",
+        "unit": "G",
+        "derivation": "buffer-S: inherit 1, no extra multiplier",
+        "note": "Laboratory family variant"
+      }
+    },
+    "class": "Civilian"
+  },
+  "h2-cooler-M": {
+    "id": "h2-cooler-M",
+    "label": "H₂ охладитель M",
+    "family": "h2",
+    "category": "signature",
+    "size": "M",
+    "formFactor": "single",
+    "generation": 2,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 3400,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "coolingW": 80000000.0,
+      "auxW": 200000,
+      "qJKg": 10000000.0
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.coolingW": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; h2-cooler-S; base U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§6",
+        "unit": "W",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          60000000.0,
+          100000000.0
+        ],
+        "derivation": "h2-cooler-S.coolingW: 20000000.0 × 4"
+      },
+      "numerics.auxW": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; h2-cooler-S; base U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§6",
+        "unit": "W",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "derivation": "h2-cooler-S.auxW: 50000 × 4"
+      },
+      "numerics.qJKg": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; h2-cooler-S; base U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§6",
+        "unit": "J/kg",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          7500000.0,
+          12500000.0
+        ],
+        "derivation": "h2-cooler-S.qJKg: intensive value 10000000.0 unchanged"
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; h2-cooler-S",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX candidate, не закрытый производственный BOM",
+        "range": [
+          2550.0,
+          4250.0
+        ],
+        "derivation": "850 kg × 4; cp 470 intensive unchanged"
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      },
+      "class": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; h2-cooler-S",
+        "unit": "class",
+        "derivation": "h2-cooler-S: inherit Civilian, no extra multiplier",
+        "note": "Laboratory family variant"
+      },
+      "generation": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; h2-cooler-S",
+        "unit": "G",
+        "derivation": "h2-cooler-S: inherit 2, no extra multiplier",
+        "note": "Laboratory family variant"
+      }
+    },
+    "class": "Civilian",
+    "species": "hydrogen"
+  },
+  "thermoinverter-M": {
+    "id": "thermoinverter-M",
+    "label": "Термоинвертор M",
+    "family": "thermoinverter",
+    "category": "signature",
+    "size": "M",
+    "formFactor": "single",
+    "generation": 4,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 3800,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "coolingW": 80000000.0,
+      "hotK": 800,
+      "areaM2": 1764,
+      "copEfficiency": 0.5
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.coolingW": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; thermoinverter-S; base lab:engineering-candidate-01",
+        "unit": "W",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          60000000.0,
+          100000000.0
+        ],
+        "derivation": "thermoinverter-S.coolingW: 20000000.0 × 4"
+      },
+      "numerics.hotK": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; thermoinverter-S; base lab:engineering-candidate-01",
+        "unit": "K",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          600.0,
+          1000.0
+        ],
+        "derivation": "thermoinverter-S.hotK: intensive value 800 unchanged"
+      },
+      "numerics.areaM2": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; thermoinverter-S; base lab:engineering-candidate-01",
+        "unit": "m²",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          1323.0,
+          2205.0
+        ],
+        "derivation": "thermoinverter-S.areaM2: 441 × 4"
+      },
+      "numerics.copEfficiency": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; thermoinverter-S; base lab:engineering-candidate-01",
+        "unit": "1",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          0.375,
+          0.625
+        ],
+        "derivation": "thermoinverter-S.copEfficiency: intensive value 0.5 unchanged"
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; thermoinverter-S",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX candidate, не закрытый производственный BOM",
+        "range": [
+          2850.0,
+          4750.0
+        ],
+        "derivation": "950 kg × 4; cp 470 intensive unchanged"
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      },
+      "class": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; thermoinverter-S",
+        "unit": "class",
+        "derivation": "thermoinverter-S: inherit Civilian, no extra multiplier",
+        "note": "Laboratory family variant"
+      },
+      "generation": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; thermoinverter-S",
+        "unit": "G",
+        "derivation": "thermoinverter-S: inherit 4, no extra multiplier",
+        "note": "Laboratory family variant"
+      }
+    },
+    "class": "Civilian"
+  },
+  "solar-M": {
+    "id": "solar-M",
+    "label": "Солнечная панель M",
+    "family": "solar",
+    "category": "power",
+    "size": "M",
+    "formFactor": "single",
+    "generation": 1,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 4000,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "areaM2": 400,
+      "efficiency": 0.25
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.areaM2": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; solar-S; base lab:engineering-candidate-01",
+        "unit": "m²",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          300.0,
+          500.0
+        ],
+        "derivation": "solar-S.areaM2: 100 × 4"
+      },
+      "numerics.efficiency": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; solar-S; base lab:engineering-candidate-01",
+        "unit": "1",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          0.1875,
+          0.3125
+        ],
+        "derivation": "solar-S.efficiency: intensive value 0.25 unchanged"
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; solar-S",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX candidate, не закрытый производственный BOM",
+        "range": [
+          3000.0,
+          5000.0
+        ],
+        "derivation": "1000 kg × 4; cp 470 intensive unchanged"
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      },
+      "class": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; solar-S",
+        "unit": "class",
+        "derivation": "solar-S: inherit Civilian, no extra multiplier",
+        "note": "Laboratory family variant"
+      },
+      "generation": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; solar-S",
+        "unit": "G",
+        "derivation": "solar-S: inherit 1, no extra multiplier",
+        "note": "Laboratory family variant"
+      }
+    },
+    "class": "Civilian"
+  }
+}

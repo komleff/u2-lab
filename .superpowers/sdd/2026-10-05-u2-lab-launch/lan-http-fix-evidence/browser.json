@@ -1,0 +1,16 @@
+{
+  "capabilities": {
+    "origin": "http://u2-lab-lan.test:4173",
+    "secure": false,
+    "randomUUID": "undefined",
+    "getRandomValues": "function"
+  },
+  "starts": [
+    "ae1e4a46cca41fa8db7e034933300a2a",
+    "5028cca7b8241da4083f3f5946c0a2a7",
+    "a48699b17e9428b7a16bbae10ff4badd"
+  ],
+  "errors": [],
+  "chromium": "153.0.8010.0",
+  "mapping": "Identical own dist assets fulfilled at a non-local HTTP origin; actual secure-context settings unchanged; physical LAN device not tested"
+}

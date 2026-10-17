@@ -1,0 +1,10 @@
+src/catalog/presets.ts 1c9a44b72efe7d744c4e47b2f7fe4f36fcffb0b3
+src/catalog/schema.ts 64a55b20f1b0810073858af41d8a3a191b4cb726
+src/model/step.ts 1ac60444582b26ff610eba6e3cd943c51a3a4285
+src/model/thermal-gates.ts 55b0cd91c368016f2485d3ccbb3924ab915d0e3d
+src/model/types.ts e317006703d9f63a88018b13d26ac93c4648a749
+src/runner/metrics.ts 7f43b033a956174d01d2ebb0249cdda118adb470
+src/runner/run.ts 1a1e929ae19ce829fd21cb8fbc85ed181113dd33
+tests/peak-cycle.test.ts e0c0f3efc81e9a4231f9a7c382344a7967e9d505
+
+sha256(sorted path SP git-blob-id LF + exact VC bytes): d0b46f628590c49393e39ecead3818aef09faafde6f29919036330f139441fa3

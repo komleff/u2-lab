@@ -1,0 +1,47 @@
+{
+  "schema": "u2-scenario/1",
+  "units": "SI",
+  "status": "EXPERIMENTAL",
+  "scenario": {
+    "name": "Добыча → возвращение → разгрузка",
+    "repeat": true,
+    "targetWork": 12,
+    "phases": [
+      {
+        "id": "approach",
+        "durationSeconds": 10,
+        "action": "approach",
+        "duty": 1
+      },
+      {
+        "id": "mining",
+        "durationSeconds": 800,
+        "action": "work",
+        "duty": 1
+      },
+      {
+        "id": "return",
+        "durationSeconds": 10,
+        "action": "return",
+        "duty": 0.4
+      },
+      {
+        "id": "unload",
+        "durationSeconds": 10,
+        "action": "service",
+        "duty": 0,
+        "service": {
+          "refuel": false,
+          "unload": true,
+          "charge": false
+        }
+      },
+      {
+        "id": "recovery",
+        "durationSeconds": 970,
+        "action": "recovery",
+        "duty": 0
+      }
+    ]
+  }
+}

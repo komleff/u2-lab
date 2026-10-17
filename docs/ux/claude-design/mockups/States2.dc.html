@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Ship Fitting v2 — пограничные состояния</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=PT+Sans+Narrow:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#141210}
+.s *{box-sizing:border-box}
+.s h1,.s h3,.s p,.s dl,.s dd{margin:0}
+.s :focus-visible{outline:2px solid #4DA6FF;outline-offset:2px}
+.s .disp{font-family:'PT Sans Narrow','Arial Narrow',sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;line-height:1.05}
+.s .lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#a3906f}
+.s .sub{font-size:13px;color:#a3906f}
+.s .case{display:flex;flex-direction:column;gap:12px;padding:14px 16px 16px;background:#1A1815;border:1px solid #3a3226;border-radius:3px}
+.s .sq{display:inline-block;width:9px;height:9px;flex:none}
+.s .ok{background:#5F9E4E}.s .warn{background:#E5C23A}.s .err{background:#D23B2C}.s .off{background:#5a4a34}
+.s .btn{display:inline-flex;align-items:center;justify-content:center;min-height:36px;padding:0 12px;border:1px solid #5a4a34;border-radius:3px;background:#1A1815;color:#e8dcc6;font:inherit;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.s .btn-p{background:#FFAA33;border-color:#FFAA33;color:#141210;font-weight:600;box-shadow:0 3px 0 #c98a29}
+.s .btn:disabled{background:#17150F;border-style:dashed;border-color:#3a3226;color:#5a4a34;box-shadow:none}
+.s .chip{display:inline-flex;align-items:center;height:22px;padding:0 7px;border:1px solid #3a3226;border-radius:2px;font-size:12px;color:#c9b795;white-space:nowrap}
+.s .cell{background:#201d19;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.s .val{font-size:15px;font-weight:600;color:#F2EDE0;display:flex;gap:8px;align-items:center}
+.s .tile{padding:12px 14px;background:#211B12;border:1px solid #6a4a26;border-radius:3px;display:flex;flex-direction:column;gap:2px}
+.s .ln{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:7px 0;border-bottom:1px solid #241f18;font-size:13px}
+.s .ln dt{color:#c9b795}
+.s .ln dd{text-align:right;color:#F2EDE0}
+.s .row{display:flex;gap:10px;align-items:center;padding:10px 12px;background:#201d19;border:1px solid #3a3226;border-radius:3px;font-size:13px}
+</style>
+</helmet>
+<div class="s" style="width: 1440px; min-height: 1200px; padding: 32px; background: #141210; color: #e8dcc6; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 14px; line-height: 1.45; font-variant-numeric: tabular-nums; display: flex; flex-direction: column; gap: 20px">
+<div style="display: flex; align-items: baseline; gap: 16px">
+<h1 class="disp" style="font-size: 36px; color: #F2EDE0">v2 · пограничные состояния</h1>
+<span class="sub">Фрагменты экрана; неполная сборка, тест идёт и задача не завершена — на отдельных экранах v2</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+<section class="case" aria-label="Ошибка сценария">
+<span class="lbl">1 · Тест не запускается: ошибка сценария</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: #3a3226; border: 1px solid #3a3226">
+<div class="cell"><span class="lbl">Монтаж</span><span class="val"><span class="sq ok" aria-hidden="true"></span>Совместим</span></div>
+<div class="cell"><span class="lbl">Комплектность</span><span class="val"><span class="sq ok" aria-hidden="true"></span>Готова</span></div>
+<div class="cell" style="grid-column: span 2"><span class="lbl">Тест</span><span class="val"><span class="sq warn" aria-hidden="true"></span>Не запускается</span><span style="font-size: 13px">Лазер 3 не входит в группу добычи, но в фазе «добыча» получает запрос 100 %.</span></div>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><button class="btn btn-p" type="button">Добавить Лазер 3 в группу</button><button class="btn" type="button">Обнулить его запрос</button></div>
+<p class="sub">Сборка при этом исправна — ошибка в условиях теста, поэтому её исправляют там же.</p>
+</section>
+<section class="case" aria-label="Совпавшие ограничения">
+<span class="lbl">2 · Совпавшие ограничения</span>
+<div class="tile"><span class="val" style="font-size: 20px; color: #E5C23A"><span class="sq warn" aria-hidden="true"></span>Питание + Тепло · 42,0 с</span><span class="sub">одновременно, в пределах одного шага расчёта</span></div>
+<dl>
+<div class="ln"><dt>Питание</dt><dd>снижение выдачи 42,0–150 с · 108 с</dd></div>
+<div class="ln"><dt>Тепло</dt><dd>3 стопа внутри этого интервала · 21 с</dd></div>
+<div class="ln"><dt>Вынужденный простой</dt><dd>21 с · только стопы</dd></div>
+<div class="ln"><dt>Частичное снижение</dt><dd>87 с = 108 − 21 · не дважды</dd></div>
+</dl>
+</section>
+<section class="case" aria-label="Сравнение A и B">
+<span class="lbl">3 · Сравнение A / B · условия отличаются</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+<div class="cell" style="border: 1px solid #6a4a26; background: #211B12"><span class="lbl" style="color: #FFAA33">A · 3 лазера</span><span class="val" style="font-size: 22px">144 SCU/ч</span><span class="sub">12 SCU · использование 21,3 %</span></div>
+<div class="cell" style="background: #17150F"><span class="lbl">B · 2 лазера</span><span class="val">Не запускался</span><button class="btn" type="button" style="align-self: flex-start; margin-top: 4px">Запустить B</button></div>
+</div>
+<details style="padding: 10px 12px; border: 1px solid #6b5a1e; background: #211B12; border-radius: 3px">
+<summary style="display: flex; gap: 10px; align-items: center; cursor: pointer; list-style: none; min-height: 28px"><span class="sq warn" aria-hidden="true"></span><b>Условия отличаются</b><span class="sub" style="margin-left: auto">2 отличия ▼</span></summary>
+<ul style="margin: 8px 0 0; padding-left: 18px; font-size: 13px"><li>B: начальный заряд 60 % вместо 100 %</li><li>B: повышенный тепловой фон</li></ul>
+</details>
+</section>
+<section class="case" aria-label="Нулевой выход">
+<span class="lbl">4 · Нулевой выход · заряд 0 %, генератора нет</span>
+<dl>
+<div class="ln"><dt>Добыча</dt><dd>0 SCU · 0 SCU/ч</dd></div>
+<div class="ln"><dt>Дизель, кг/SCU</dt><dd style="color: #c9b795">не определено · израсходовано 7,2 кг (двигатели)</dd></div>
+<div class="ln"><dt>H₂, кг/SCU</dt><dd style="color: #c9b795">не определено · израсходовано 0 кг</dd></div>
+<div class="ln"><dt>Использование оснастки</dt><dd>0,0 %</dd></div>
+<div class="ln"><dt>Первое ограничение</dt><dd>Питание · 0,0 с</dd></div>
+<div class="ln"><dt>Восстановление</dt><dd>Не восстановилась за время теста</dd></div>
+</dl>
+<p class="sub">На единицу расход не определён — добычи нет, поэтому показан абсолютный расход за тест: перелёт всё равно стоит топлива. Использование определено — группа лазеров задана.</p>
+</section>
+<section class="case" aria-label="Ошибка импорта">
+<span class="lbl">5 · Ошибка импорта</span>
+<div role="alert" class="row" style="border-color: #D23B2C; background: #1F120E"><span class="sq err" aria-hidden="true"></span><span><b>Импорт не выполнен.</b> Файл не распознан как сборка u2-lab (неизвестная ревизия каталога).</span></div>
+<div class="row"><span class="sq ok" aria-hidden="true"></span>Сборка 12 и результат теста остались на экране.</div>
+</section>
+<section class="case" aria-label="Несовместимое изделие в окне замены">
+<span class="lbl">6 · Окно замены · несовместимое изделие</span>
+<div class="row" style="border: 1px dashed #3a3226; background: #17150F; flex-direction: column; align-items: flex-start; gap: 4px"><b style="color: #F2EDE0">Дизельный движитель S</b><span style="display: flex; gap: 8px; align-items: center"><span class="sq err" aria-hidden="true"></span>⃠ Нужен парный движитель</span></div>
+<div class="row" style="border: 1px dashed #3a3226; background: #17150F; flex-direction: column; align-items: flex-start; gap: 4px"><b style="color: #F2EDE0">Водородная пара S</b><span style="display: flex; gap: 8px; align-items: center"><span class="sq err" aria-hidden="true"></span>⃠ Нельзя смешивать прямые дизельные и водородные движители</span></div>
+<div style="display: flex; gap: 8px"><button class="btn" type="button">Отмена</button><button class="btn btn-p" type="button" disabled="disabled">Применить замену</button></div>
+</section>
+<section class="case" aria-label="Встроенное с режимами">
+<span class="lbl">7 · Встроенное с режимами · Civilian M</span>
+<div class="row" style="border-left: 3px solid #5a4a34; background: repeating-linear-gradient(135deg, #1c1916 0 8px, #191714 8px 16px)">
+<span style="display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid #5a4a34; border-radius: 3px; flex: none"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#c9b795" stroke-width="1.5" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1"></rect><path d="M5 7V5a3 3 0 0 1 6 0v2"></path></svg></span>
+<span style="flex: 1 1 auto"><span class="lbl" style="display: block; color: #c9b795">Встроено · заменить нельзя</span><b style="color: #F2EDE0">Аккумулятор корпуса</b></span>
+<button class="btn" type="button">Режимы</button>
+</div>
+<p class="sub">Вместо «Заменить» — «Режимы», если у встроенной системы они есть.</p>
+</section>
+<section class="case" aria-label="Каталог без результатов">
+<span class="lbl">8 · Окно замены · ничего не найдено</span>
+<div class="row" style="background: #0E0D0B; border-color: #5a4a34">реактор</div>
+<div class="row" style="flex-direction: column; align-items: flex-start; gap: 8px"><b>Ничего не найдено по «реактор»</b><span class="sub">Для «Лазер 3 — Payload M» нет изделий с таким названием.</span><button class="btn" type="button">Сбросить поиск и фильтры</button></div>
+</section>
+<section class="case" aria-label="Цель достигнута">
+<span class="lbl">9 · Цель достигнута</span>
+<div class="tile" style="background: #182015; border-color: #3d5a33"><span class="val" style="font-size: 20px"><span class="sq ok" aria-hidden="true"></span>Задача выполнена · 48 из 48 SCU</span><span class="sub">за 1 012 с · первое ограничение: не выявлено за этот тест</span></div>
+<p class="sub">Успех — зелёный и словами; «не выявлено» не означает, что ограничения нет в принципе.</p>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1200}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

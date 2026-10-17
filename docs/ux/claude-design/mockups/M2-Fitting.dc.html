@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Ship Fitting v2 mobile — системы</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=PT+Sans+Narrow:wght@700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#141210}
+.m *{box-sizing:border-box}
+.m h1,.m h2,.m p{margin:0}
+.m :focus-visible{outline:2px solid #4DA6FF;outline-offset:2px}
+.m .disp{font-family:'PT Sans Narrow','Arial Narrow',sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;line-height:1.05}
+.m .lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#a3906f}
+.m .sub{font-size:13px;color:#a3906f}
+.m .sq{display:inline-block;width:9px;height:9px;flex:none}
+.m .ok{background:#5F9E4E}.m .warn{background:#E5C23A}
+.m .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;border:1px solid #5a4a34;border-radius:3px;background:#1A1815;color:#e8dcc6;font:inherit;font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;text-decoration:none}
+.m .btn-p{background:#FFAA33;border-color:#FFAA33;color:#141210;font-weight:600;box-shadow:0 3px 0 #c98a29}
+.m .chip{display:inline-flex;align-items:center;height:22px;padding:0 7px;border-radius:2px;font-size:12px;background:#3A2818;border:1px solid #6a4a26;color:#FFAA33;font-weight:600;white-space:nowrap}
+.m .tab{flex:none;min-height:44px;padding:0 14px;background:#1A1815;border:1px solid #3a3226;border-radius:3px;color:#c9b795;font:inherit;font-size:13px}
+.m .tab-on{border-color:#FFAA33;color:#FFAA33;background:#211B12}
+.m .grp{display:flex;align-items:center;gap:10px;min-height:44px;width:100%;padding:0;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.m .mod{display:flex;flex-direction:column;gap:6px;padding:10px 12px;background:#201d19;border:1px solid #3a3226;border-left:3px solid #FFAA33;border-radius:3px;color:inherit;font:inherit;text-align:left;width:100%;cursor:pointer;text-decoration:none}
+.m .sz{display:inline-flex;align-items:center;justify-content:center;min-width:32px;height:32px;border-radius:3px;background:#FFAA33;color:#141210;font-weight:600;font-size:13px;flex:none}
+.m .big{font-size:20px;font-weight:600;color:#FFAA33;white-space:nowrap}
+.m .bar{height:8px;background:#2e2820;box-shadow:inset 0 0 0 1px #5a4a34;border-radius:1px;overflow:hidden}
+.m .bar i{display:block;height:8px}
+</style>
+</helmet>
+<div class="m" style="width: 390px; height: 844px; display: flex; flex-direction: column; background: #141210; color: #e8dcc6; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 14px; line-height: 1.45; font-variant-numeric: tabular-nums">
+<header style="flex: none; display: flex; align-items: center; gap: 10px; height: 56px; padding: 0 16px; background: linear-gradient(#26211B, #1C1815); border-bottom: 2px solid #4a3f30">
+<span class="disp" style="font-size: 18px; color: #FFAA33; border: 1px solid #FFAA33; padding: 2px 6px; border-radius: 2px; background: #2A1A12">U2</span>
+<span class="disp" style="font-size: 22px; color: #F2EDE0">Ship Fitting</span>
+<button class="btn" type="button" aria-label="Меню: импорт, сохранение, сброс" style="margin-left: auto; min-width: 44px; padding: 0 12px">☰</button>
+</header>
+<section aria-label="Итог сборки" style="flex: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: #3a3226; border-bottom: 1px solid #3a3226">
+<div style="background: #1A1815; padding: 8px 14px"><div class="lbl">Комплектность</div><div style="font-weight: 600; color: #F2EDE0; display: flex; gap: 8px; align-items: center"><span class="sq ok" aria-hidden="true"></span>Готова</div></div>
+<div style="background: #1A1815; padding: 8px 14px"><div class="lbl">Тест</div><div style="font-weight: 600; color: #F2EDE0; display: flex; gap: 8px; align-items: center"><span class="sq ok" aria-hidden="true"></span>Завершён</div></div>
+<div style="background: #1A1815; padding: 8px 14px"><div class="lbl">Добыча · тест</div><div style="font-weight: 600; color: #F2EDE0; font-size: 18px">144 SCU/ч</div></div>
+<div style="background: #1A1815; padding: 8px 14px"><div class="lbl">Ограничение</div><div style="font-weight: 600; color: #F2EDE0; display: flex; gap: 8px; align-items: center"><span class="sq warn" aria-hidden="true"></span>Питание 18,2 с</div></div>
+</section>
+<div style="flex: 1 1 auto; overflow-y: auto; padding: 14px 16px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<img src="/_blob/dfe74e4e22f670faf56a2a65544ec721" alt="Демирмаш Титан — концепт-арт" width="358" height="120" style="width: 100%; height: 120px; object-fit: contain; display: block; background: #0E0D0B; border: 1px solid #241f18; border-radius: 2px">
+<div class="sub" style="color: #c9b795">Демирмаш · Demirmash</div>
+<h1 class="disp" style="font-size: 34px; color: #F2EDE0">Титан</h1>
+<div style="display: flex; gap: 6px; flex-wrap: wrap"><span class="chip">M</span><span class="chip">Industrial</span><span class="chip">Добыча</span><span class="chip">48 SCU</span></div>
+</div>
+<div role="group" aria-label="Сборки" style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px">
+<button class="tab tab-on" type="button" aria-pressed="true">A · 3 лазера</button><button class="tab" type="button" aria-pressed="false">B · 2 лазера</button><button class="tab" type="button" aria-pressed="false">C · 1 лазер</button><button class="tab" type="button" aria-label="Добавить вариант">+</button>
+</div>
+<section aria-label="Полезная нагрузка" style="display: flex; flex-direction: column; gap: 8px">
+<h2 style="margin: 0"><button class="grp" type="button" aria-expanded="true"><span class="sq ok" aria-hidden="true"></span><span class="disp" style="font-size: 20px; color: #F2EDE0">Полезная нагрузка</span><span class="sub">3 / 3 · +1 встр.</span><span class="lbl" style="margin-left: auto" aria-hidden="true">▲</span></button></h2>
+<div aria-label="Встроенный универсальный трюм, заменить нельзя" style="display: flex; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid #3a3226; border-left: 3px solid #5a4a34; border-radius: 3px; background: repeating-linear-gradient(135deg, #1c1916 0 8px, #191714 8px 16px)">
+<span style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 1px solid #5a4a34; border-radius: 3px; flex: none"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#c9b795" stroke-width="1.5" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1"></rect><path d="M5 7V5a3 3 0 0 1 6 0v2"></path></svg></span>
+<span style="flex: 1 1 auto; min-width: 0"><span class="lbl" style="display: block; color: #c9b795">Встроено · заменить нельзя</span><b style="color: #F2EDE0">Универсальный трюм</b></span>
+<span style="font-size: 20px; font-weight: 600; color: #c9b795; white-space: nowrap">48 SCU</span>
+</div>
+<a class="mod" href="M2-Swap.dc.html" aria-label="Заменить: Лазер 1">
+<span style="display: flex; gap: 10px; align-items: center"><span class="sz">S</span><span style="flex: 1 1 auto; min-width: 0"><span class="lbl" style="display: block">Payload · 1 · слот M</span><b style="color: #F2EDE0">Лазер 1 · Civil S/G1</b></span><span class="big">3,0 МВт</span></span>
+<span style="display: flex; gap: 8px; align-items: center"><span style="font-size: 11px; color: #a3906f; border: 1px solid #3a3226; padding: 0 4px">тест</span><span class="bar" style="flex: 1 1 auto"><i style="width: 42%; background: #2EC4D9"></i></span><span style="font-size: 12px; color: #c9b795">ср. 42 % запроса</span></span>
+</a>
+<a class="mod" href="M2-Swap.dc.html" aria-label="Заменить: Лазер 2">
+<span style="display: flex; gap: 10px; align-items: center"><span class="sz">S</span><span style="flex: 1 1 auto; min-width: 0"><span class="lbl" style="display: block">Payload · 2 · слот M</span><b style="color: #F2EDE0">Лазер 2 · Civil S/G1</b></span><span class="big">3,0 МВт</span></span>
+<span style="display: flex; gap: 8px; align-items: center"><span class="bar" style="flex: 1 1 auto"><i style="width: 42%; background: #2EC4D9"></i></span><span style="font-size: 12px; color: #c9b795">ср. 42 % запроса</span></span>
+</a>
+<a class="mod" href="M2-Swap.dc.html" aria-label="Заменить: Лазер 3" style="border-color: #4DA6FF; border-left-color: #4DA6FF; background: #16232B">
+<span style="display: flex; gap: 10px; align-items: center"><span class="sz">S</span><span style="flex: 1 1 auto; min-width: 0"><span class="lbl" style="display: block; color: #4DA6FF">Payload · 3 · слот M</span><b style="color: #F2EDE0">Лазер 3 · Civil S/G1</b></span><span class="big">3,0 МВт</span></span>
+<span style="display: flex; gap: 8px; align-items: center"><span class="bar" style="flex: 1 1 auto"><i style="width: 42%; background: #2EC4D9"></i></span><span style="font-size: 12px; color: #c9b795">ср. 42 % запроса</span></span>
+</a>
+</section>
+<button class="btn" type="button" style="justify-content: flex-start; gap: 10px" aria-expanded="false"><span class="sq ok" aria-hidden="true"></span>Двигатели · 4 / 4 · все роли на месте<span style="margin-left: auto">▼</span></button>
+<section aria-label="Питание" style="display: flex; flex-direction: column; gap: 8px">
+<h2 style="margin: 0"><button class="grp" type="button" aria-expanded="true"><span class="sq ok" aria-hidden="true"></span><span class="disp" style="font-size: 20px; color: #F2EDE0">Питание</span><span class="sub">4 / 5</span><span class="lbl" style="margin-left: auto" aria-hidden="true">▲</span></button></h2>
+<a class="mod" href="M2-Swap.dc.html" aria-label="Заменить: дизельный генератор M">
+<span style="display: flex; gap: 10px; align-items: center"><span class="sz">M</span><span style="flex: 1 1 auto; min-width: 0"><span class="lbl" style="display: block">Питание · 1 · слот M</span><b style="color: #F2EDE0">Дизельный генератор M</b></span><span class="big">8,0 МВт</span></span>
+<span style="display: flex; gap: 8px; align-items: center"><span class="bar" style="flex: 1 1 auto"><i style="width: 55%; background: #FFAA33"></i></span><span style="font-size: 12px; color: #c9b795">в среднем 55 %</span></span>
+</a>
+<a class="mod" href="M2-Swap.dc.html" aria-label="Заменить: аккумулятор S">
+<span style="display: flex; gap: 10px; align-items: center"><span class="sz">S</span><span style="flex: 1 1 auto; min-width: 0"><span class="lbl" style="display: block">Питание · 2 · слот M</span><b style="color: #F2EDE0">Аккумулятор S</b></span><span class="big" style="color: #7d6f59">[МДж]</span></span>
+<span style="display: flex; gap: 8px; align-items: center"><span class="bar" style="flex: 1 1 auto"><i style="width: 100%; background: #2EC4D9"></i></span><span style="font-size: 12px; color: #c9b795">исчерпан 18,2 · заряжен к 70,5 с</span></span>
+</a>
+</section>
+<section aria-label="Свёрнутые системы" style="display: flex; flex-direction: column; gap: 4px">
+<button class="btn" type="button" style="justify-content: flex-start; gap: 10px" aria-expanded="false"><span class="sq ok" aria-hidden="true"></span>Контроль сигнатур · 4 / 4<span style="margin-left: auto">▼</span></button>
+<a class="btn" href="M2-Compare.dc.html" style="justify-content: flex-start; gap: 10px">Сравнение A / B / C<span style="margin-left: auto">→</span></a>
+<a class="btn" href="LabM-Run.dc.html" style="justify-content: flex-start; gap: 10px">Power &amp; Heat · лаборатория<span style="margin-left: auto">→</span></a>
+</section>
+</div>
+<div style="flex: none; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: #0E0D0B; border-top: 1px solid #3a3226; display: flex; align-items: center; gap: 12px">
+<div style="flex: 1 1 auto; min-width: 0"><div class="lbl">Сборка 12 · готова</div><div class="sub" style="color: #c9b795">тест завершён · 12 SCU</div></div>
+<button class="btn btn-p" type="button" style="min-height: 48px">Запустить снова</button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

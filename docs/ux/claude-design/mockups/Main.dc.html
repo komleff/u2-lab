@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Ship Fitting v2 — системы и окно замены</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=PT+Sans+Narrow:wght@700&amp;family=Noto+Sans+SC:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#141210}
+.v2{--amber:#FFAA33;--amber-p:#c98a29;--cyan:#2EC4D9;--azure:#4DA6FF;--green:#5F9E4E;--yellow:#E5C23A;--warn:#D23B2C;--surface:#1A1815;--card:#201d19;--sunken:#17150F;--deep:#0E0D0B;--amber-tint:#211B12;--azure-tint:#16232B;--amber-soft:#3A2818;--b:#5a4a34;--b-dim:#3a3226;--b-faint:#241f18;--text:#e8dcc6;--muted:#a3906f;--dim:#7d6f59;--faint:#5a4a34;--soft:#c9b795;--bright:#F2EDE0;font-family:'IBM Plex Mono','Noto Sans SC',ui-monospace,Menlo,monospace;font-size:14px;line-height:1.45;color:var(--text);background:#141210;font-variant-numeric:tabular-nums}
+.v2 *{box-sizing:border-box}
+.v2 h1,.v2 h2,.v2 h3,.v2 p{margin:0}
+.v2 :focus-visible{outline:2px solid var(--azure);outline-offset:2px}
+.disp{font-family:'PT Sans Narrow','Arial Narrow',sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;line-height:1.05}
+.lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.sub{font-size:13px;color:var(--muted)}
+.ph{color:var(--muted)}
+.t-warn{color:var(--yellow)}
+.panel{background:var(--surface);border:1px solid var(--b-dim);border-radius:3px}
+.sq{display:inline-block;width:9px;height:9px;flex:none}
+.sq-run{background:var(--cyan)}
+.btn-s{min-height:36px;padding:0 10px;font-size:12px}
+.sq-ok{background:var(--green)}.sq-warn{background:var(--yellow)}.sq-err{background:var(--warn)}.sq-off{background:var(--faint)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:36px;padding:0 14px;border:1px solid var(--b);border-radius:3px;background:var(--surface);color:var(--text);font:inherit;font-size:13px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--amber);color:var(--bright)}
+.btn-p{background:var(--amber);border-color:var(--amber);color:#141210;font-weight:600;box-shadow:0 3px 0 var(--amber-p)}
+.btn-p:hover{color:#141210;background:#ffb84f}
+.btn-x{border-color:var(--b);color:var(--text)}
+.btn:disabled{background:var(--sunken);border-style:dashed;border-color:var(--b-dim);color:var(--faint);box-shadow:none;cursor:not-allowed}
+.chip{display:inline-flex;align-items:center;height:22px;padding:0 7px;border:1px solid var(--b-dim);border-radius:2px;font-size:12px;color:var(--soft);white-space:nowrap}
+.tab{min-height:44px;padding:0 16px;background:var(--surface);border:1px solid var(--b-dim);border-radius:3px;color:var(--soft);font:inherit;font-size:13px;cursor:pointer}
+.tab-on{border-color:var(--amber);color:var(--amber);background:var(--amber-tint)}
+.cell{background:var(--surface);padding:10px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.val{font-size:17px;font-weight:600;display:flex;align-items:center;gap:8px;color:var(--bright);flex-wrap:wrap;min-width:0;overflow-wrap:anywhere}
+.mod{display:flex;flex-direction:column;gap:8px;padding:12px 14px;background:var(--card);border:1px solid var(--b-dim);border-left:3px solid var(--amber);border-radius:3px}
+.mod-empty{border-left-color:var(--faint);background:var(--sunken)}
+.mod-err{border-color:var(--warn);border-left-color:var(--warn)}
+.mod-lock{border-left:3px solid var(--b);border-color:var(--b-dim);background:repeating-linear-gradient(135deg,#1c1916 0 8px,#191714 8px 16px)}
+.lockb{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid var(--b);border-radius:3px;flex:none}
+.mod-on{border-color:var(--azure);border-left-color:var(--azure);background:var(--azure-tint)}
+.sz{display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;padding:0 6px;border-radius:3px;background:var(--amber);color:#141210;font-weight:600;font-size:14px;flex:none}
+.sz-off{background:transparent;border:1px solid var(--b);color:var(--muted)}
+.modbtn{display:flex;flex-direction:column;gap:1px;padding:0;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer;min-height:44px}
+.modbtn:hover .mname{color:var(--amber)}
+.mname{font-size:16px;font-weight:600;color:var(--bright)}
+.big{font-size:24px;font-weight:600;color:var(--amber);line-height:1.05;white-space:nowrap}
+.big.ph{color:var(--dim)}
+.srow{display:flex;align-items:center;gap:12px;width:100%;min-height:68px;padding:8px 12px 8px 0;background:var(--card);border:1px solid var(--b-dim);border-radius:3px;color:inherit;font:inherit;text-align:left;cursor:pointer;overflow:hidden}
+.rg{position:absolute;width:44px;height:44px;display:flex;align-items:center;justify-content:center;padding:0;border-radius:4px;background:#211B12;border:2px solid #FFAA33;color:#FFAA33;cursor:pointer;font:inherit}
+.rg:hover{background:#3A2818}
+.rg-empty{background:#141210;border:1px dashed #5a4a34;color:#5a4a34}
+.rg-err{background:#1F120E;border:2px solid #D23B2C;color:#e8dcc6}
+.rg-lock{background:#1c1916;border:1px solid #5a4a34;color:#c9b795;cursor:default}
+.rg-on{border-color:#4DA6FF;background:#16232B;color:#cfe6f5}
+.rg:disabled{opacity:1}
+.rgcal{position:absolute;right:2px;bottom:0;font-size:10px;font-weight:600;line-height:1.2}
+.srow:hover{border-color:var(--b)}
+.srow:hover .act{background:var(--amber-soft)}
+.srow-lock{cursor:default;border-color:var(--b-dim);background:repeating-linear-gradient(135deg,#1c1916 0 8px,#191714 8px 16px)}
+.srow-lock:hover{border-color:var(--b-dim)}
+.cal-lock{background:transparent;border-right:1px solid var(--b);color:var(--soft)}
+.rbody{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:4px}
+.rrole{display:flex;gap:8px;align-items:center;min-width:0}
+.rtrim{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.rslot{height:18px;font-size:11px;flex:none}
+.rname{font-weight:600;color:var(--bright);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rsec{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rmeas{display:flex;align-items:center;gap:8px;min-width:0}
+.rexp{height:16px;font-size:10px;padding:0 4px;flex:none}
+.rmt{font-size:11px;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:0 1 auto}
+.rside{flex:none;display:flex;flex-direction:column;align-items:flex-end;align-self:stretch;min-width:88px;max-width:120px;gap:1px}
+.rhl{font-size:11px;text-align:right;line-height:1.2;max-width:120px}
+.nav{display:inline-flex;align-items:center;padding:0 14px;border-bottom:2px solid transparent;color:var(--soft);font-size:13px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+.nav:hover{color:var(--bright)}
+.nav-on{color:var(--amber);border-bottom-color:var(--amber)}
+.act{margin-top:auto;display:inline-flex;align-items:center;height:24px;padding:0 8px;border:1px solid #6a4a26;border-radius:2px;color:var(--amber);font-size:11px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.act-lock{border-color:var(--b-dim);color:var(--muted)}
+.srow-on{border-color:var(--azure);background:var(--azure-tint)}
+.srow-err{border-color:var(--warn)}
+.srow-empty{background:var(--sunken)}
+.cal{align-self:stretch;margin:-8px 0;display:flex;align-items:center;justify-content:center;min-width:40px;background:var(--amber-soft);border-right:1px solid #6a4a26;color:var(--amber);font-size:18px;font-weight:600}
+.cal-off{background:transparent;border-right:1px dashed var(--b);color:var(--muted)}
+.cal-err{background:#1F120E;border-right:1px solid var(--warn);color:var(--text)}
+.rv{font-size:17px;font-weight:600;color:var(--amber);white-space:nowrap}
+.rv.ph{color:var(--dim)}
+.bar{height:8px;background:#2e2820;box-shadow:inset 0 0 0 1px #5a4a34;border-radius:1px;overflow:hidden}
+.bar i{display:block;height:8px}
+.seg{display:inline-flex;border:1px solid var(--b);border-radius:3px;overflow:hidden}
+.seg button{min-height:36px;padding:0 12px;background:var(--surface);border:0;color:var(--soft);font:inherit;font-size:13px;cursor:pointer}
+.seg .on{background:var(--amber-soft);color:var(--amber)}
+.ovl{position:fixed;inset:0;z-index:20;background:rgba(9,8,7,.8);display:flex;justify-content:center;align-items:flex-start;padding:56px 24px;overflow:auto}
+.dlg{width:100%;max-width:1280px;background:var(--surface);border:1px solid var(--b);border-radius:4px;display:flex;flex-direction:column}
+.grid{display:grid;align-items:center;gap:8px}
+.th-btn{min-height:32px;padding:0;background:none;border:0;color:var(--muted);font:inherit;font-size:12px;letter-spacing:.1em;text-transform:uppercase;text-align:right;cursor:pointer}
+.th-btn:hover{color:var(--bright)}
+.th-on{color:var(--amber)}
+.th-plain{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:right}
+.row{width:100%;padding:10px 14px;background:var(--card);border:1px solid transparent;border-radius:3px;color:inherit;font:inherit;text-align:right;cursor:pointer}
+.row:hover{border-color:var(--b)}
+.row-inst{border-color:#6a4a26;background:var(--amber-tint)}
+.row-sel{border:2px solid var(--azure);background:var(--azure-tint);padding:9px 13px}
+.row-off{border:1px dashed var(--b-dim);background:var(--sunken);color:var(--muted)}
+.cell-on{color:var(--bright);font-weight:600}
+.dl{display:block;font-size:12px;color:var(--soft);font-weight:400}
+</style>
+</helmet>
+<div class="v2" style="min-height: 100vh; padding-bottom: 40px">
+<header style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap; min-height: 64px; padding: 0 24px; background: linear-gradient(#26211B, #1C1815); border-bottom: 2px solid #4a3f30">
+<span class="disp" style="font-size: 22px; color: #FFAA33; border: 1px solid #FFAA33; padding: 3px 8px; border-radius: 2px; background: #2A1A12">U2</span>
+<span class="disp" style="font-size: 26px; color: #F2EDE0">Ship Fitting</span>
+<nav aria-label="Разделы" style="display: flex; gap: 2px; align-self: stretch">
+<a class="nav nav-on" href="#fit" aria-current="page">Оснастка</a>
+<a class="nav" href="Lab.dc.html">Power &amp; Heat</a>
+<a class="nav" href="#cmp">Сравнение</a>
+</nav>
+<div style="margin-left: auto; display: flex; gap: 10px; align-items: center; flex-wrap: wrap">
+<span class="chip" style="color: #E5C23A; border-color: #6b5a1e">Демо-данные · иллюстративно</span>
+<span class="lbl">Сборка {{rev}}</span>
+<button class="btn" type="button">Импорт</button>
+<button class="btn" type="button">Сохранить</button>
+</div>
+</header>
+<sc-if value="{{showImpErr}}" hint-placeholder-val="{{false}}">
+<div style="max-width: 1440px; margin: 12px auto 0; padding: 0 24px">
+<div role="alert" style="display: flex; gap: 10px; align-items: center; padding: 10px 14px; border: 1px solid #D23B2C; background: #1F120E; border-radius: 3px; font-size: 13px">
+<span class="sq sq-err" aria-hidden="true"></span>
+<span style="flex: 1 1 auto"><b>Импорт не выполнен.</b> Файл не распознан как сборка u2-lab (неизвестная ревизия каталога). Сборка {{rev}} и результат теста остались без изменений.</span>
+<button class="btn btn-s" type="button" onClick="{{closeImp}}" aria-label="Закрыть сообщение об ошибке импорта">✕</button>
+</div>
+</div>
+</sc-if>
+<section aria-label="Итог сборки и теста" style="position: sticky; top: 0; z-index: 5; max-width: 1440px; margin: 12px auto 0; padding: 0 24px">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(168px, 1fr)); gap: 1px; background: #3a3226; border: 1px solid #3a3226; border-radius: 3px; box-shadow: 0 2px 0 #0E0D0B">
+<div class="cell"><span class="lbl">Задача</span><span class="val">Добыча</span><span class="sub">{{f.task}}</span></div>
+<div class="cell"><span class="lbl">Сборка</span><span class="val"><span class="{{f.complSq}}" aria-hidden="true"></span>{{f.compl}}</span><span class="{{f.stockCls}}">{{f.stock}}</span></div>
+<div class="cell"><span class="lbl">Тест</span><span class="val"><span class="{{f.expSq}}" aria-hidden="true"></span>{{f.exp}}</span><span class="sub">{{f.expSub}}</span></div>
+<div class="cell"><span class="lbl">Первое ограничение</span><span class="val"><span class="{{f.limSq}}" aria-hidden="true"></span>{{f.lim}}</span><span class="sub">{{f.limSub}}</span></div>
+<div class="cell" style="grid-column: span 2; flex-direction: row; align-items: center; gap: 14px; flex-wrap: wrap">
+<div style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 2px">
+<span class="lbl">Добыча · {{f.outScope}}</span>
+<span style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap"><b style="font-size: 28px; color: #F2EDE0; line-height: 1.05">{{f.rate}}</b><span class="sub">{{f.out}}</span><sc-if value="{{f.stale}}" hint-placeholder-val="{{false}}"><span class="chip" style="color: #E5C23A; border-color: #6b5a1e">устарел</span></sc-if></span>
+<span class="sub">{{f.k}}</span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px">
+<button class="btn btn-p" type="button" onClick="{{onRun}}" disabled="{{f.runOff}}" style="min-height: 44px; padding: 0 20px">{{f.runLbl}}</button>
+<sc-if value="{{f.runOff}}" hint-placeholder-val="{{false}}"><span class="sub" style="max-width: 240px; text-align: right">⃠ {{f.runWhy}}</span></sc-if>
+</div>
+</div>
+</div>
+<sc-if value="{{f.editNote}}" hint-placeholder-val="{{false}}">
+<div style="margin-top: 8px; display: flex; gap: 10px; align-items: center; padding: 8px 14px; border: 1px solid #245158; background: #16232B; color: #cfe6f5; border-radius: 3px; font-size: 13px"><span class="sq" style="background: #4DA6FF" aria-hidden="true"></span>Тест использует сборку {{runRev}}. Изменения сохранены в сборке {{rev}} и применятся в следующем запуске.</div>
+</sc-if>
+</section>
+<div style="max-width: 1440px; margin: 0 auto; padding: 16px 24px 0; display: flex; flex-direction: column; gap: 12px">
+<label class="panel" style="display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 14px">
+<span class="lbl">Корпус и пресет</span>
+<select aria-label="Корпус и пресет" style="flex: 1 1 auto; min-height: 48px; background: transparent; border: 0; color: #F2EDE0; font: inherit; font-size: 16px; font-weight: 600">
+<option>Демирмаш Титан · пресет «3 лазера»</option>
+<option>Демирмаш Титан · пресет «2 лазера»</option>
+<option>Civilian M · пресет «электро»</option>
+<option>Спутник · пресет «1 S-лазер»</option>
+<option>Diesel Pony · встроенный лазер</option>
+</select>
+</label>
+<div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: stretch">
+<div style="flex: 2 1 720px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<sc-if value="{{heroFlat}}" hint-placeholder-val="{{true}}">
+<section class="panel" aria-label="Корабль" style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 10px 16px">
+<figure style="margin: 0; flex: none; display: flex; flex-direction: column; gap: 2px">
+<img src="/_blob/dfe74e4e22f670faf56a2a65544ec721" alt="Демирмаш Титан — концепт-арт" width="230" height="100" style="width: 230px; height: 100px; object-fit: contain; display: block; background: #0E0D0B; border: 1px solid #241f18; border-radius: 2px">
+<figcaption class="sub" style="font-size: 11px">концепт-арт · альманах</figcaption>
+</figure>
+<div style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+<span class="lbl" style="color: #c9b795">Демирмаш / Demirmash</span>
+<span style="display: flex; align-items: baseline; gap: 12px"><h1 class="disp" style="font-size: 38px; color: #F2EDE0">Титан</h1><span class="lbl">Titan</span></span>
+<div style="display: flex; gap: 6px; flex-wrap: wrap">
+<span class="chip" style="background: #3A2818; border-color: #6a4a26; color: #FFAA33; font-weight: 600">M</span>
+<span class="chip" style="background: #3A2818; border-color: #6a4a26; color: #FFAA33; font-weight: 600">Industrial</span>
+<span class="chip" style="background: #3A2818; border-color: #6a4a26; color: #FFAA33; font-weight: 600">Энергосхема U</span>
+<span class="chip" style="color: #E5C23A; border-color: #6b5a1e">лаб. профиль Industrial M · экспериментальный</span>
+</div>
+</div>
+<dl style="margin: 0; display: flex; gap: 22px; flex-wrap: wrap; font-size: 13px">
+<div><dt class="lbl">Оболочка</dt><dd style="margin: 0">140 т · гипотеза</dd></div>
+<div><dt class="lbl">Сухая / текущая</dt><dd style="margin: 0" class="ph">[расчёт] т</dd></div>
+<div><dt class="lbl">Трюм</dt><dd style="margin: 0">{{cargoTotal}} SCU</dd></div>
+<div><dt class="lbl">Номинал питания</dt><dd style="margin: 0">лазеры {{pwrNom}} · генератор 8,0 МВт</dd></div>
+</dl>
+<div style="margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap">
+<button class="btn btn-s" type="button">Сбросить к пресету</button>
+<button class="btn btn-s" type="button">Экспорт сборки</button>
+</div>
+</section>
+</sc-if>
+<sc-if value="{{heroRing}}" hint-placeholder-val="{{false}}">
+<section class="panel" aria-label="Корабль и схема модулей" style="display: flex; flex-wrap: wrap; gap: 20px; padding: 16px; align-items: stretch">
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<span class="lbl" style="color: #c9b795">Демирмаш / Demirmash</span>
+<span style="display: flex; align-items: baseline; gap: 12px"><h1 class="disp" style="font-size: 44px; color: #F2EDE0">Титан</h1><span class="lbl">Titan</span></span>
+<div style="display: flex; gap: 6px; flex-wrap: wrap">
+<span class="chip" style="background: #3A2818; border-color: #6a4a26; color: #FFAA33; font-weight: 600">M</span>
+<span class="chip" style="background: #3A2818; border-color: #6a4a26; color: #FFAA33; font-weight: 600">Industrial</span>
+<span class="chip" style="background: #3A2818; border-color: #6a4a26; color: #FFAA33; font-weight: 600">Энергосхема U</span>
+<span class="chip" style="color: #E5C23A; border-color: #6b5a1e">лаб. профиль Industrial M · экспериментальный</span>
+</div>
+<dl style="margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px; font-size: 13px">
+<div><dt class="lbl">Оболочка</dt><dd style="margin: 0">140 т · гипотеза</dd></div>
+<div><dt class="lbl">Сухая / текущая</dt><dd style="margin: 0" class="ph">[расчёт] т</dd></div>
+<div><dt class="lbl">Трюм</dt><dd style="margin: 0">{{cargoTotal}} SCU</dd></div>
+<div><dt class="lbl">Номинал питания</dt><dd style="margin: 0">лазеры {{pwrNom}} · генератор 8,0 МВт</dd></div>
+<div><dt class="lbl">Встроено</dt><dd style="margin: 0">универсальный трюм 48 SCU</dd></div>
+</dl>
+<div style="margin-top: auto; display: flex; gap: 8px; flex-wrap: wrap">
+<button class="btn btn-s" type="button">Сбросить к пресету</button>
+<button class="btn btn-s" type="button">Экспорт сборки</button>
+</div>
+</div>
+<div style="flex: 0 0 440px; display: flex; flex-direction: column; gap: 8px; align-items: center">
+<div role="group" aria-label="Схема размещения модулей" style="position: relative; width: 440px; height: 440px">
+<svg width="440" height="440" viewBox="0 0 440 440" aria-hidden="true" style="position: absolute; inset: 0">
+<defs><clipPath id="ringclip"><circle cx="220" cy="220" r="150"></circle></clipPath></defs>
+<circle cx="220" cy="220" r="214" fill="#0E0D0B" stroke="#3a3226" stroke-width="1"></circle>
+<g clip-path="url(#ringclip)" stroke="#2b251d" stroke-width="1"><path d="M70 100H370M70 140H370M70 180H370M70 220H370M70 260H370M70 300H370M70 340H370M100 70V370M140 70V370M180 70V370M220 70V370M260 70V370M300 70V370M340 70V370"></path></g>
+<circle cx="220" cy="220" r="150" fill="none" stroke="#3a3226" stroke-width="1"></circle>
+<circle cx="220" cy="220" r="175" fill="none" stroke="#241f18" stroke-width="30"></circle>
+<sc-for list="{{ring.arcs}}" as="a" hint-placeholder-count="4"><path d="{{a.d}}" fill="none" stroke="{{a.c}}" stroke-width="30" stroke-linecap="butt"></path></sc-for>
+</svg>
+<img src="/_blob/dfe74e4e22f670faf56a2a65544ec721" alt="Демирмаш Титан — концепт-арт из альманаха" width="200" height="88" style="position: absolute; left: 120px; top: 176px; width: 200px; height: 88px; object-fit: contain">
+<sc-for list="{{ring.labels}}" as="l" hint-placeholder-count="4"><span class="lbl" style="position: absolute; left: {{l.x}}px; top: {{l.y}}px; transform: translate(-50%, -50%) rotate({{l.r}}deg); font-size: 11px; color: #c9b795; white-space: nowrap; background: #0E0D0B; padding: 0 4px">{{l.t}}</span></sc-for>
+<sc-for list="{{ring.slots}}" as="s" hint-placeholder-count="16"><button type="button" class="{{s.cls}}" style="left: {{s.x}}px; top: {{s.y}}px" onClick="{{s.open}}" aria-label="{{s.aria}}" disabled="{{s.lock}}"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="{{s.icon}}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"></path></svg><span class="rgcal">{{s.cal}}</span></button></sc-for>
+</div>
+<div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; font-size: 11px" class="sub">
+<span style="display: inline-flex; gap: 6px; align-items: center"><span style="width: 12px; height: 12px; border: 2px solid #FFAA33; background: #211B12"></span>установлено</span>
+<span style="display: inline-flex; gap: 6px; align-items: center"><span style="width: 12px; height: 12px; border: 1px dashed #5a4a34"></span>свободно</span>
+<span style="display: inline-flex; gap: 6px; align-items: center"><span style="width: 12px; height: 12px; border: 1px solid #5a4a34; background: #1c1916"></span>встроено</span>
+<span style="display: inline-flex; gap: 6px; align-items: center"><span style="width: 12px; height: 12px; border: 2px solid #4DA6FF"></span>выбрано</span>
+<span>· нажмите слот, чтобы заменить</span>
+</div>
+</div>
+</section>
+</sc-if>
+<div role="group" aria-label="Варианты для сравнения" style="display: flex; gap: 8px; flex-wrap: wrap">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="3"><button class="{{t.cls}}" type="button" onClick="{{t.pick}}" aria-pressed="{{t.on}}">{{t.t}}</button></sc-for>
+<button class="tab" type="button" aria-label="Добавить вариант">+ Вариант</button>
+</div>
+</div>
+</div>
+</div>
+<div style="max-width: 1440px; margin: 16px auto 0; padding: 0 24px; display: flex; flex-direction: column; gap: 16px">
+<section id="fit" class="panel" aria-label="Полезная нагрузка" style="padding: 6px 16px 16px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-height: 52px">
+<span class="{{pl.sq}}" aria-hidden="true"></span>
+<h2 class="disp" style="font-size: 24px; color: #F2EDE0">Полезная нагрузка</h2>
+<span class="chip">{{pl.count}}</span>
+<span class="sub">{{pl.note}}</span>
+<span style="margin-left: auto; display: flex; gap: 18px; flex-wrap: wrap">
+<sc-for list="{{pl.tot}}" as="t" hint-placeholder-count="3"><span style="display: flex; flex-direction: column; align-items: flex-end"><b style="color: #FFAA33; font-size: 18px; white-space: nowrap">{{t.v}}</b><span class="lbl">{{t.k}}</span></span></sc-for>
+</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 8px">
+<div class="srow srow-lock" role="group" aria-label="Встроенный универсальный трюм, заменить нельзя">
+<span class="cal cal-lock" title="Встроено: заменить нельзя"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#c9b795" stroke-width="1.5" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1"></rect><path d="M5 7V5a3 3 0 0 1 6 0v2"></path></svg></span>
+<span class="rbody">
+<span class="rrole"><span class="lbl rtrim" style="color: #c9b795">Встроено · заменить нельзя</span></span>
+<span class="rname">Универсальный трюм</span>
+<span class="rsec">Демирмаш · масса — гипотеза LAB-BUILTIN-CARGO-01 · слот не занимает</span>
+<sc-if value="{{measOn}}" hint-placeholder-val="{{true}}"><span class="rmeas"><span class="chip rexp">тест</span><span class="bar" style="flex: 1 1 auto; min-width: 40px"><i style="width: 25%; background: #c9b795"></i></span><span class="rmt">до 12 из 48 SCU</span></span></sc-if>
+</span>
+<span class="rside">
+<span class="rv" style="color: #c9b795">48 SCU</span>
+<span class="lbl rhl">объём</span>
+<span class="act act-lock">встроено</span>
+</span>
+</div>
+<sc-for list="{{pl.mods}}" as="m" hint-placeholder-count="3">
+<button class="{{m.rcls}}" type="button" onClick="{{m.open}}">
+<span class="{{m.calCls}}">{{m.cal}}</span>
+<span class="rbody">
+<span class="rrole"><span class="lbl rtrim">{{m.role}}</span><span class="chip rslot">{{m.slotLbl}}</span></span>
+<span class="rname">{{m.title}}</span>
+<span class="rsec">{{m.sec}}</span>
+<sc-if value="{{m.hasMeas}}" hint-placeholder-val="{{false}}"><span class="rmeas" style="opacity: {{m.measOp}}"><span class="chip rexp">тест</span><span class="bar" style="flex: 1 1 auto; min-width: 40px"><i style="width: {{m.pct}}%; background: {{m.barC}}"></i></span><span class="rmt">{{m.meas}}</span></span></sc-if>
+</span>
+<span class="rside">
+<span class="{{m.valCls}}">{{m.head}}</span>
+<span class="lbl rhl">{{m.headL}}</span>
+<span class="act">⇄ {{m.btn}}</span>
+</span>
+</button>
+</sc-for>
+</div>
+</section>
+<section class="panel" aria-label="Двигатели" style="padding: 6px 14px 14px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-height: 48px">
+<span class="{{eng.sq}}" aria-hidden="true"></span>
+<h2 class="disp" style="font-size: 22px; color: #F2EDE0">Двигатели</h2>
+<span class="chip">{{eng.count}}</span>
+<span class="sub">четыре обязательные роли у любого корпуса · прямые дизельные</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 8px">
+<sc-for list="{{eng.mods}}" as="m" hint-placeholder-count="4">
+<button class="{{m.rcls}}" type="button" onClick="{{m.open}}">
+<span class="{{m.calCls}}">{{m.cal}}</span>
+<span class="rbody">
+<span class="rrole"><span class="lbl rtrim">{{m.role}}</span><span class="chip rslot">{{m.slotLbl}}</span></span>
+<span class="rname">{{m.title}}</span>
+<span class="rsec">{{m.sec}}</span>
+<sc-if value="{{m.hasMeas}}" hint-placeholder-val="{{false}}"><span class="rmeas" style="opacity: {{m.measOp}}"><span class="chip rexp">тест</span><span class="bar" style="flex: 1 1 auto; min-width: 40px"><i style="width: {{m.pct}}%; background: {{m.barC}}"></i></span><span class="rmt">{{m.meas}}</span></span></sc-if>
+</span>
+<span class="rside">
+<span class="{{m.valCls}}">{{m.head}}</span>
+<span class="lbl rhl">{{m.headL}}</span>
+<span class="act">⇄ {{m.btn}}</span>
+</span>
+</button>
+</sc-for>
+</div>
+</section>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 16px; align-items: stretch">
+<sc-for list="{{sup}}" as="sy" hint-placeholder-count="2">
+<section class="panel" aria-label="{{sy.title}}" style="padding: 6px 14px 14px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; align-items: center; gap: 10px; min-height: 48px">
+<span class="{{sy.sq}}" aria-hidden="true"></span>
+<h2 class="disp" style="font-size: 22px; color: #F2EDE0">{{sy.title}}</h2>
+<span class="chip">{{sy.count}}</span>
+<span class="sub" style="margin-left: auto">{{sy.note}}</span>
+</div>
+<sc-for list="{{sy.mods}}" as="m" hint-placeholder-count="4">
+<button class="{{m.rcls}}" type="button" onClick="{{m.open}}">
+<span class="{{m.calCls}}">{{m.cal}}</span>
+<span class="rbody">
+<span class="rrole"><span class="lbl rtrim">{{m.role}}</span><span class="chip rslot">{{m.slotLbl}}</span></span>
+<span class="rname">{{m.title}}</span>
+<span class="rsec">{{m.sec}}</span>
+<sc-if value="{{m.hasMeas}}" hint-placeholder-val="{{false}}"><span class="rmeas" style="opacity: {{m.measOp}}"><span class="chip rexp">тест</span><span class="bar" style="flex: 1 1 auto; min-width: 40px"><i style="width: {{m.pct}}%; background: {{m.barC}}"></i></span><span class="rmt">{{m.meas}}</span></span></sc-if>
+</span>
+<span class="rside">
+<span class="{{m.valCls}}">{{m.head}}</span>
+<span class="lbl rhl">{{m.headL}}</span>
+<span class="act">⇄ {{m.btn}}</span>
+</span>
+</button>
+</sc-for>
+<div style="margin-top: auto; padding-top: 10px; border-top: 1px solid #3a3226; display: flex; flex-direction: column; gap: 6px">
+<div style="display: flex; justify-content: space-between; gap: 8px; font-size: 13px"><span class="lbl">{{sy.footK}}</span><span class="{{sy.footCls}}">{{sy.footV}}</span></div>
+<sc-if value="{{sy.hasBar}}" hint-placeholder-val="{{true}}"><div class="bar"><i style="width: {{sy.footPct}}%; background: {{sy.footC}}"></i></div></sc-if>
+</div>
+</section>
+</sc-for>
+</div>
+</div>
+<div style="max-width: 1440px; margin: 16px auto 0; padding: 0 24px; display: flex; flex-direction: column; gap: 12px">
+<div style="margin-top: 20px"><dc-import name="PH" exp="{{phExp}}" hint-size="100%,1000px"></dc-import></div>
+</div>
+<sc-if value="{{hasModal}}" hint-placeholder-val="{{false}}">
+<div class="ovl">
+<section class="dlg" role="dialog" aria-modal="true" aria-label="{{md.title}}">
+<div style="display: flex; align-items: center; gap: 12px; padding: 18px 22px 8px">
+<span style="color: #FFAA33; font-size: 22px" aria-hidden="true">⇄</span>
+<h2 class="disp" style="font-size: 28px; color: #F2EDE0">{{md.title}}</h2>
+<button class="btn" type="button" onClick="{{close}}" aria-label="Закрыть окно замены" style="margin-left: auto; min-width: 44px; min-height: 44px; padding: 0">✕</button>
+</div>
+<div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-end; padding: 8px 22px 12px">
+<label style="flex: 1 1 360px; display: flex; flex-direction: column; gap: 6px">
+<span class="lbl">Поиск</span>
+<input type="search" placeholder="{{md.ph}}" value="{{q}}" onChange="{{onQ}}" style="min-height: 44px; padding: 0 12px; background: #0E0D0B; border: 1px solid #5a4a34; border-radius: 3px; color: #e8dcc6; font: inherit">
+</label>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span class="lbl">Семейство</span>
+<div class="seg" role="group" aria-label="Фильтр семейства">
+<sc-for list="{{md.fams}}" as="o" hint-placeholder-count="3"><button type="button" class="{{o.cls}}" onClick="{{o.set}}" aria-pressed="{{o.on}}">{{o.t}}</button></sc-for>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span class="lbl">Калибр</span>
+<div class="seg" role="group" aria-label="Фильтр калибра">
+<sc-for list="{{md.cals}}" as="o" hint-placeholder-count="3"><button type="button" class="{{o.cls}}" onClick="{{o.set}}" aria-pressed="{{o.on}}">{{o.t}}</button></sc-for>
+</div>
+</div>
+</div>
+<div style="overflow-x: auto; padding: 0 22px">
+<div style="min-width: 1080px; display: flex; flex-direction: column; gap: 6px">
+<div class="grid" style="grid-template-columns: {{md.grid}}; padding: 0 14px">
+<span class="th-plain" style="text-align: left">Изделие</span>
+<sc-for list="{{md.head}}" as="h" hint-placeholder-count="7">
+<sc-if value="{{h.can}}" hint-placeholder-val="{{true}}"><button type="button" class="{{h.cls}}" onClick="{{h.sort}}" aria-label="{{h.aria}}">{{h.t}}</button></sc-if>
+<sc-if value="{{h.cant}}" hint-placeholder-val="{{false}}"><span class="th-plain">{{h.t}}</span></sc-if>
+</sc-for>
+</div>
+<sc-for list="{{md.rows}}" as="r" hint-placeholder-count="6">
+<button type="button" class="{{r.cls}}" onClick="{{r.choose}}" aria-label="{{r.aria}}" aria-pressed="{{r.sel}}">
+<span class="grid" style="grid-template-columns: {{md.grid}}">
+<span style="display: flex; gap: 10px; align-items: center; text-align: left; min-width: 0">
+<span class="{{r.szCls}}">{{r.cal}}</span>
+<span style="display: flex; flex-direction: column; min-width: 0">
+<span style="display: flex; gap: 8px; align-items: center"><b style="color: #F2EDE0; font-size: 15px">{{r.name}}</b><sc-if value="{{r.inst}}" hint-placeholder-val="{{false}}"><span class="chip" style="height: 20px; color: #FFAA33; border-color: #6a4a26">✓ Установлено</span></sc-if></span>
+<span class="sub">{{r.kind}}</span>
+<sc-if value="{{r.off}}" hint-placeholder-val="{{false}}"><span style="font-size: 13px; color: #e8dcc6; display: flex; gap: 8px; align-items: center"><span class="sq sq-err" aria-hidden="true"></span>⃠ {{r.reason}}</span></sc-if>
+</span>
+</span>
+<sc-for list="{{r.cells}}" as="c" hint-placeholder-count="7">
+<span class="{{c.cls}}">{{c.v}}<sc-if value="{{c.hasD}}" hint-placeholder-val="{{false}}"><span class="dl">{{c.d}}</span></sc-if></span>
+</sc-for>
+</span>
+</button>
+</sc-for>
+<sc-if value="{{md.empty}}" hint-placeholder-val="{{false}}"><div class="sub" style="padding: 24px 14px">Ничего не найдено. Измените поиск или фильтры.</div></sc-if>
+</div>
+</div>
+<div style="margin: 14px 22px 0; padding: 12px 14px; border: 1px solid #245158; background: #16232B; border-radius: 3px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center">
+<sc-if value="{{md.noPick}}" hint-placeholder-val="{{false}}"><span class="sub" style="color: #cfe6f5">Выберите строку — здесь появится «Сейчас → После» для всего корабля.</span></sc-if>
+<sc-if value="{{md.pickOk}}" hint-placeholder-val="{{true}}">
+<span class="lbl" style="color: #4DA6FF">{{md.pickName}}</span>
+<sc-for list="{{md.diff}}" as="d" hint-placeholder-count="4"><span style="font-size: 13px"><span class="sub">{{d.k}} </span><span class="{{d.cls}}">{{d.v}}</span></span></sc-for>
+<span class="sub" style="flex-basis: 100%">Номинальные параметры, не результат работы. Выигрыш подтверждается отдельным тестом.</span>
+<sc-if value="{{md.hasWarn}}" hint-placeholder-val="{{false}}"><span class="t-warn" style="flex-basis: 100%; font-size: 13px">▲ {{md.warn}}</span></sc-if>
+</sc-if>
+<sc-if value="{{md.hasRmWarn}}" hint-placeholder-val="{{false}}"><span class="sub" style="flex-basis: 100%">«Снять изделие»: {{md.rmWarn}}</span></sc-if>
+<sc-if value="{{md.pickBad}}" hint-placeholder-val="{{false}}"><span style="display: flex; gap: 10px; align-items: center"><span class="sq sq-err" aria-hidden="true"></span><b>{{md.pickName}}</b> не подходит: {{md.badReason}}. Сборка не изменится.</span></sc-if>
+</div>
+<div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding: 16px 22px 20px">
+<span class="sub"><b style="color: #FFAA33">{{md.okN}}</b> {{md.countTxt}}<br>Метки источника у изделий — черновая разметка макета, сверить с каталогом U2.</span>
+<span style="margin-left: auto; display: flex; gap: 10px; flex-wrap: wrap">
+<button class="btn btn-x" type="button" onClick="{{remove}}" disabled="{{md.noCur}}">Снять изделие</button>
+<button class="btn" type="button" onClick="{{close}}">Отмена</button>
+<sc-if value="{{md.canAll}}" hint-placeholder-val="{{false}}"><label style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 6px; font-size: 13px; color: #c9b795; cursor: pointer"><input type="checkbox" checked="{{md.all}}" onChange="{{toggleAll}}" style="width: 18px; height: 18px; accent-color: #FFAA33">Во все 3 слота Payload</label></sc-if>
+<button class="btn btn-p" type="button" onClick="{{apply}}" disabled="{{md.applyOff}}">{{md.applyLbl}}</button>
+</span>
+</div>
+</section>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"view":{"editor":"enum","options":["result","incomplete","running","paused","notfinished"],"default":"result","section":"Состояние"},"importError":{"editor":"boolean","default":false,"section":"Состояние"},"zeroStock":{"editor":"boolean","default":false,"section":"Состояние"},"swapOpen":{"editor":"boolean","default":false,"section":"Состояние"},"heroRing":{"editor":"boolean","default":true,"section":"Шапка: круг (v2.1) или плоская (v2.0)"},"$preview":{"width":1440,"height":3900}}'>
+class Component extends DCLogic {
+  db() {
+    if (this._db) return this._db;
+    const it = (id, fam, name, kind, cal, k2, v2, x) => Object.assign({ id, fam, name, kind, cal, k2, v2, mass: '[т]', prov: 'Гипотеза' }, x || {});
+    const cat = {
+      pay: [
+        it('c1', 'laser', 'Civil S/G1', 'Лазер добывающий', 'S', 'Потребление', '3,0 МВт', { prov: 'Из U2', mw: 3, rate: 225, scu: 0 }),
+        it('c2', 'laser', 'Industrial S/G2', 'Лазер добывающий', 'S', 'Потребление', '3,4 МВт', { prov: 'Из U2', mw: 3.4, rate: 255, scu: 0 }),
+        it('c3', 'laser', 'Industrial M/G2', 'Лазер добывающий', 'M', 'Потребление', '[МВт]', { mw: null, rate: null, scu: 0 }),
+        it('c4', 'cargo', 'BulkHold S', 'Грузовой навалочный', 'S', 'Объём', '24 SCU', { prov: 'Из U2', mass: '1,8 т', mw: 0, rate: 0, scu: 24 }),
+        it('c5', 'cargo', 'Universal S', 'Грузовой универсальный', 'S', 'Объём', '12 SCU', { prov: 'Из U2', mass: '8,945 т', mw: 0, rate: 0, scu: 12 }),
+        it('c6', 'cargo', 'BulkHold M', 'Грузовой навалочный', 'M', 'Объём', '192 SCU', { prov: 'Расчёт', mw: 0, rate: 0, scu: 192 }),
+        it('c7', 'cargo', 'Universal M', 'Грузовой универсальный', 'M', 'Объём', '96 SCU', { prov: 'Расчёт', mw: 0, rate: 0, scu: 96 })
+      ],
+      engP: [
+        it('d1', 'diesel', 'Дизельная пара XS', 'Движитель парный · дизель', 'XS', 'Тяга', '[кН]'),
+        it('d2', 'diesel', 'Дизельная пара S', 'Движитель парный · дизель', 'S', 'Тяга', '[кН]'),
+        it('d3', 'el', 'Электрическая пара S', 'Движитель парный · электро', 'S', 'Питание', 'от сети'),
+        it('d4', 'diesel', 'Дизельный движитель S', 'Движитель одиночный · дизель', 'S', 'Тяга', '[кН]', { off: 'Нужен парный движитель' }),
+        it('d5', 'diesel', 'Дизельная пара M', 'Движитель парный · дизель', 'M', 'Тяга', '[кН]', { off: 'Калибр больше слота' }),
+        it('d6', 'h2', 'Водородная пара S', 'Движитель парный · H₂', 'S', 'Тяга', '[кН]', { off: 'Нельзя смешивать прямые дизельные и водородные движители' })
+      ],
+      engS: [
+        it('d7', 'diesel', 'Дизельный движитель S', 'Движитель одиночный · дизель', 'S', 'Тяга', '[кН]'),
+        it('d8', 'diesel', 'Дизельный движитель M', 'Движитель одиночный · дизель', 'M', 'Тяга', '[кН]'),
+        it('d9', 'el', 'Электрический движитель M', 'Движитель одиночный · электро', 'M', 'Питание', 'от сети'),
+        it('d10', 'h2', 'Водородный движитель M', 'Движитель одиночный · H₂', 'M', 'Тяга', '[кН]', { off: 'Нельзя смешивать прямые дизельные и водородные движители' }),
+        it('d11', 'diesel', 'Дизельная пара M', 'Движитель парный · дизель', 'M', 'Тяга', '[кН]', { off: 'Роль принимает одиночный движитель' })
+      ],
+      pwr: [
+        it('g1', 'gen', 'Дизельный генератор S', 'Генератор', 'S', 'Выработка', '[МВт]'),
+        it('g2', 'gen', 'Дизельный генератор M', 'Генератор', 'M', 'Выработка', '8,0 МВт', { prov: 'Из U2' }),
+        it('g3', 'gen', 'H₂ генератор S', 'Генератор · топливный элемент', 'S', 'Выработка', '[МВт]'),
+        it('g4', 'acc', 'Аккумулятор S', 'Аккумулятор', 'S', 'Ёмкость', '[МДж]'),
+        it('g5', 'acc', 'Аккумулятор M', 'Аккумулятор', 'M', 'Ёмкость', '[МДж]'),
+        it('g6', 'tank', 'Дизельный бак M', 'Ходовой бак', 'M', 'Топливо', '[кг]'),
+        it('g7', 'tank', 'Криобак H₂ S', 'Вспомогательный бак', 'S', 'H₂', '[кг]'),
+        it('g8', 'solar', 'Солнечная панель S', 'Источник', 'S', 'Выработка', '[МВт]')
+      ],
+      sig: [
+        it('r1', 'rad', 'Пассивный радиатор S', 'Радиатор', 'S', 'Площадь', '[м²]'),
+        it('r2', 'rad', 'Пассивный радиатор M', 'Радиатор', 'M', 'Площадь', '[м²]'),
+        it('r3', 'rad', 'Активный радиатор S', 'Радиатор', 'S', 'Потребление', '[МВт]'),
+        it('r4', 'buf', 'Тепловой буфер S', 'Буфер', 'S', 'Ёмкость', '[МДж]'),
+        it('r5', 'cool', 'H₂ охладитель S', 'Охладитель · расходует H₂', 'S', 'H₂', 'из криобака'),
+        it('r6', 'inv', 'Термоинвертор S', 'Термоинвертор', 'S', 'Потребление', '[МВт]')
+      ]
+    };
+    const byId = {};
+    const MK = { c1: 'Северин', c2: 'Blackwell', c3: 'Dingheng 鼎衡', c4: 'Демирмаш', c5: 'Merritt', c6: 'Демирмаш', c7: 'Wanjia 万家',
+      d1: 'Демирмаш', d2: 'Демирмаш', d3: 'Merritt', d4: 'Демирмаш', d5: 'Демирмаш', d6: 'Dingheng 鼎衡', d7: 'Демирмаш', d8: 'Демирмаш', d9: 'Blackwell', d10: 'Dingheng 鼎衡', d11: 'Демирмаш',
+      g1: 'Северин', g2: 'Демирмаш', g3: 'Wanjia 万家', g4: 'Северин', g5: 'Blackwell', g6: 'Демирмаш', g7: 'Dingheng 鼎衡', g8: 'Merritt',
+      r1: 'Северин', r2: 'Демирмаш', r3: 'Blackwell', r4: 'Wanjia 万家', r5: 'Dingheng 鼎衡', r6: 'Тензор' };
+    Object.keys(cat).forEach(k => cat[k].forEach(x => { byId[x.id] = x; x.maker = MK[x.id] || '—'; }));
+    const S = (g, role, sc, c, cur, req, n) => ({ g, role, sc, cat: c, cur, req, n });
+    const slots = {
+      e1: S('eng', 'Марш', 'M', 'engS', 'd8', 1), e2: S('eng', 'Торможение', 'M', 'engS', 'd8', 1),
+      e3: S('eng', 'Стрейф — пара', 'S', 'engP', 'd2', 1), e4: S('eng', 'Поворот — пара', 'S', 'engP', 'd1', 1),
+      p1: S('pwr', 'Питание · 1', 'M', 'pwr', 'g2', 0), p2: S('pwr', 'Питание · 2', 'M', 'pwr', 'g4', 0),
+      p3: S('pwr', 'Питание · 3', 'M', 'pwr', 'g6', 0), p4: S('pwr', 'Питание · 4', 'M', 'pwr', 'g7', 0),
+      p5: S('pwr', 'Питание · 5', 'M', 'pwr', null, 0),
+      l1: S('pay', 'Payload · 1', 'M', 'pay', 'c1', 0, 1), l2: S('pay', 'Payload · 2', 'M', 'pay', 'c1', 0, 2),
+      l3: S('pay', 'Payload · 3', 'M', 'pay', 'c1', 0, 3),
+      s1: S('sig', 'Сигнатуры · 1', 'M', 'sig', 'r2', 0), s2: S('sig', 'Сигнатуры · 2', 'M', 'sig', 'r3', 0),
+      s3: S('sig', 'Сигнатуры · 3', 'M', 'sig', 'r4', 0), s4: S('sig', 'Сигнатуры · 4', 'M', 'sig', 'r5', 0)
+    };
+    this._db = { cat, byId, slots };
+    return this._db;
+  }
+  renderVals() {
+    const P = this.props || {}, st = this.state || {}, D = this.db();
+    const set = o => this.setState(o);
+    const view = P.view || 'result';
+    const VAR = {
+      A: { t: 'A · 3 лазера', rm: [], out: '12 SCU за цикл', rate: '144 SCU/ч', k: '21,3 %', lim: 'Питание · 18,2 с', limSub: 'аккумулятор исчерпан' },
+      B: { t: 'B · 2 лазера', rm: ['l3'], out: '11,5 SCU за цикл', rate: '138 SCU/ч', k: '30,7 %', lim: 'Тепло · 74,0 с', limSub: 'первый тепловой стоп' },
+      C: { t: 'C · 1 лазер', rm: ['l2', 'l3'], out: '9 SCU за цикл', rate: '108 SCU/ч', k: '48,0 %', lim: 'Тепло · 96,0 с', limSub: 'первый тепловой стоп' }
+    };
+    const vk = st.vk || 'A', V = VAR[vk];
+    const applied = st.applied || ((view === 'running' || view === 'paused') ? { l3: 'c2' } : {});
+    const rev = 12 + (st.revAdd != null ? st.revAdd : (Object.keys(applied).length ? 1 : 0));
+    const runRev = st.runRev || 12;
+    const exp = st.exp || ({ incomplete: 'none', running: 'running', paused: 'paused', notfinished: 'nf' }[view] || 'done');
+    const live = exp === 'running' || exp === 'paused';
+    const slotId = st.modal !== undefined ? st.modal : (P.swapOpen ? 'l3' : null);
+    const pick = st.pick !== undefined ? st.pick : (P.swapOpen ? 'c4' : null);
+    const cur = id => ((id in applied) ? applied[id] : ((V.rm.indexOf(id) >= 0 || (view === 'incomplete' && id === 'e3')) ? null : D.slots[id].cur));
+    const item = id => (id ? D.byId[id] : null);
+    const f1 = n => (Math.round(n * 10) / 10).toFixed(1).replace('.', ',');
+    const pay = ['l1', 'l2', 'l3'];
+    const sumMw = pay.reduce((a, id) => { const x = item(cur(id)); return a + (x && x.mw ? x.mw : 0); }, 0);
+    const cargoMod = pay.reduce((a, id) => { const x = item(cur(id)); return a + (x && x.scu ? x.scu : 0); }, 0);
+    const missNames = Object.keys(D.slots).filter(id => D.slots[id].req && !cur(id)).map(id => '«' + D.slots[id].role + '»');
+    const accOk = ['p1', 'p2', 'p3', 'p4', 'p5'].some(id => { const x = item(cur(id)); return x && x.fam === 'acc'; });
+    if (!accOk) missNames.push('аккумулятор');
+    const complete = missNames.length === 0;
+    const stale = rev > runRev;
+    const showMeas = vk === 'A' && exp !== 'none';
+    const MEAS = {
+      l1: [42, 'в среднем 42 % запроса', '#2EC4D9'], l2: [42, 'в среднем 42 % запроса', '#2EC4D9'], l3: [42, 'в среднем 42 % запроса', '#2EC4D9'],
+      p1: [55, 'в среднем 55 % · 100 % с 0 до 45 с', '#FFAA33'], p2: [100, 'исчерпан 18,2 с · заряжен к 70,5 с', '#2EC4D9'], p3: [96, 'осталось 96 %', '#FFAA33'], p4: [94, 'осталось 94 %', '#c9b795'],
+      s1: [63, '63 % отвода тепла', '#FFAA33'], s2: [27, '27 % отвода', '#FFAA33'], s3: [100, 'полон 61–150 с', '#E5C23A'], s4: [10, '10 % отвода · H₂ 6,0 кг', '#FFAA33']
+    };
+    const mod = id => {
+      const s = D.slots[id], x = item(cur(id)), changed = id in applied, m = showMeas ? MEAS[id] : null;
+      const eng = s.g === 'eng' && x;
+      const title = !x ? 'Пусто' : (s.g === 'pay' ? (x.fam === 'laser' ? 'Лазер ' : 'Груз ') + s.n + ' · ' + x.name : x.name);
+      let sec = !x ? (s.req ? '⃠ Обязательный слот — сборка неполная' : 'Свободный слот · необязательный') : 'масса ' + x.mass;
+      if (x && s.g === 'pay' && x.fam === 'laser') sec = 'номинал ' + (x.rate == null ? '[расчёт]' : x.rate + ' SCU/ч') + ' · ' + sec;
+      if (eng) sec = 'тяга ' + x.v2 + ' · масса ' + x.mass;
+      if (x) sec = x.maker + ' · ' + sec;
+      const head = !x ? '—' : (eng ? ({ diesel: 'дизель', el: 'электро', h2: 'H₂' }[x.fam] || x.fam) : x.v2);
+      const headL = !x ? '' : (eng ? (x.kind.indexOf('парный') >= 0 ? 'пара' : 'одиночный') : (x.k2 === 'Потребление' ? 'номинал' : x.k2.toLowerCase()));
+      const okHead = x && head.charAt(0) !== '[';
+      return { role: s.role, sc: s.sc, cal: x ? x.cal : '—', szCls: x ? 'sz' : 'sz sz-off', title, kind: x ? x.kind + ' · ' + x.prov : 'Нажмите «Установить»',
+        head, headL, headCls: okHead ? 'big' : 'big ph', sec, filled: !!x, btn: x ? 'Заменить' : 'Установить',
+        slotLbl: 'слот ' + s.sc, calLbl: 'изделие ' + (x ? x.cal : ''),
+        hasMeas: !!(x && (m || (changed && showMeas))), measOp: stale ? '0.45' : '1', pct: changed ? 0 : (m ? m[0] : 0),
+        meas: changed ? 'не измерено — изменено после теста' : (m ? m[1] + (stale ? ' · устарело' : '') : ''), barC: m ? m[2] : '#5a4a34',
+        cls: 'mod' + (!x ? (s.req ? ' mod-err' : ' mod-empty') : '') + (slotId === id ? ' mod-on' : ''),
+        rcls: 'srow' + (slotId === id ? ' srow-on' : (!x ? (s.req ? ' srow-err' : ' srow-empty') : '')),
+        calCls: x ? 'cal' : (s.req ? 'cal cal-err' : 'cal cal-off'), valCls: okHead ? 'rv' : 'rv ph', noMeas: !(x && (m || (changed && showMeas))),
+        open: () => set({ modal: id, pick: null, q: '', fam: 'all', cal: 'all', sortK: null, dir: null }), aria: 'Заменить: ' + (s.g === 'pay' ? title : s.role) };
+    };
+    const sys = (title, ids, note, grid) => {
+      const miss = ids.some(id => D.slots[id].req && !cur(id));
+      return { title, note, grid, sq: miss ? 'sq sq-err' : 'sq sq-ok', count: ids.filter(id => cur(id)).length + ' / ' + ids.length, mods: ids.map(mod) };
+    };
+    const rateSum = pay.reduce((a, id) => { const x = item(cur(id)); return a + (x && x.rate ? x.rate : 0); }, 0);
+    const pl = Object.assign(sys('Полезная нагрузка', pay, '', ''), {
+      count: pay.filter(id => cur(id)).length + ' / 3 сменных · 1 встроенный',
+      tot: [{ k: 'потребление', v: f1(sumMw) + ' МВт' }, { k: 'номинал добычи', v: rateSum + ' SCU/ч' }, { k: 'трюм', v: (48 + cargoMod) + ' SCU' }]
+    });
+    const foot = (k, v, pct, c, cls, bar) => ({ footK: k, footV: v, footPct: pct, footC: c, footCls: cls || '', hasBar: bar !== false });
+    const measNote = !showMeas ? 'полоски теста появятся после запуска' : (live ? 'полоски — прошлый завершённый тест; идёт новый' : 'полоски — тест сборки ' + runRev + (stale ? ' · сборка изменена, данные устарели' : ''));
+    pl.note = measNote;
+    const eng = sys('Двигатели', ['e1', 'e2', 'e3', 'e4'], '', '');
+    const sup = [
+      Object.assign(sys('Питание', ['p1', 'p2', 'p3', 'p4', 'p5'], measNote, ''), foot('Номинал · лазеры и генератор', 'лазеры ' + f1(sumMw) + ' МВт · генератор 8,0 МВт', 0, '#7d6f59', '', false)),
+      Object.assign(sys('Контроль сигнатур', ['s1', 's2', 's3', 's4'], 'Тепловое оборудование; обнаружение пока не рассчитывается', ''), foot('Тепло · тест сборки ' + runRev, showMeas ? '4 остановки · 29 с без добычи' : 'появится после теста', 0, '#7d6f59', '', false))
+    ];
+    const FX = {
+      done: { exp: 'Завершён', expSq: 'sq sq-ok', expSub: stale ? 'результат сборки ' + runRev + ' · сейчас ' + rev : 'цикл 300 с · сборка ' + runRev, lim: V.lim, limSq: 'sq sq-warn', limSub: V.limSub, out: V.out, rate: V.rate, outScope: 'тест', k: 'Использование добывающей оснастки ' + V.k },
+      running: { exp: 'Выполняется', expSq: 'sq sq-run', expSub: '100 из 300 с · сборка ' + runRev, lim: 'Питание · 18,2 с', limSq: 'sq sq-warn', limSub: 'уже измерено в этом тесте', out: '10,0 SCU пока', rate: '—', outScope: 'идёт тест', k: 'темп и использование — после цикла' },
+      paused: { exp: 'Пауза', expSq: 'sq sq-off', expSub: '100 из 300 с · сборка ' + runRev, lim: 'Питание · 18,2 с', limSq: 'sq sq-warn', limSub: 'уже измерено в этом тесте', out: '10,0 SCU пока', rate: '—', outScope: 'пауза', k: 'темп и использование — после цикла' },
+      nf: { exp: 'Задача не завершена', expSq: 'sq sq-warn', expSub: 'горизонт 600 с · цель 48 SCU', lim: 'Питание · 18,2 с', limSq: 'sq sq-warn', limSub: 'затем тепло · с 45,0 с', out: '31,6 из 48 SCU', rate: '189,6 SCU/ч', outScope: 'наблюдаемый горизонт', k: 'Использование добывающей оснастки 28,1 % · горизонт' },
+      none: { exp: 'Ещё не запускался', expSq: 'sq sq-off', expSub: 'сборка ' + rev, lim: '—', limSq: 'sq sq-off', limSub: 'появится после теста', out: '', rate: '—', outScope: 'нет данных', k: 'нет данных до первого теста' }
+    };
+    const zero = view === 'incomplete' || !!P.zeroStock;
+    const f = Object.assign({}, FX[exp], {
+      task: exp === 'nf' ? 'LAB-ORE-01 · трюм 48 SCU · горизонт 600 с' : 'LAB-ORE-01 · цикл 300 с · ' + V.t,
+      mount: 'Совместим', mountSq: 'sq sq-ok', mountSub: 'ошибок размещения нет',
+      compl: complete ? 'Готова' : 'Не хватает: ' + missNames.join(', '), complSq: complete ? 'sq sq-ok' : 'sq sq-err',
+      stock: zero ? '▲ H₂ 0 % — не блокирует запуск' : 'монтаж совместим · запасы 100 %', stockCls: zero ? 'sub t-warn' : 'sub',
+      stale: exp === 'done' && stale,
+      runLbl: { none: 'Запустить тест', done: 'Запустить снова', nf: 'Запустить снова', running: 'Пауза', paused: 'Продолжить' }[exp],
+      runOff: !complete && !live, runWhy: 'Не установлено обязательное: ' + missNames.join(', '),
+      editNote: live && stale
+    });
+    const tabs = Object.keys(VAR).map(k => ({ t: VAR[k].t, on: k === vk, cls: k === vk ? 'tab tab-on' : 'tab', pick: () => set({ vk: k, applied: {}, modal: null, pick: null }) }));
+    const FI = { laser: 'M3 12h10M13 8v8M16 12h5M18 9l3 3-3 3', cargo: 'M4 8l8-4 8 4v8l-8 4-8-4zM4 8l8 4 8-4M12 12v8', diesel: 'M5 8h8l4-3v14l-4-3H5zM17 9h3M17 15h3',
+      el: 'M5 8h8l4-3v14l-4-3H5zM10 9l-2 3h3l-2 3', h2: 'M5 8h8l4-3v14l-4-3H5zM8 10v4M11 10v4M8 12h3', gen: 'M13 3L6 14h5l-1 7 7-11h-5z', acc: 'M4 8h14v8H4zM18 11h2v2h-2zM7 11v2M10 11v2',
+      tank: 'M7 5h10v14H7zM7 9h10M7 15h10', solar: 'M3 8h18l-3 8H6zM9 8l-1 8M15 8l1 8', rad: 'M5 4v16M9 4v16M13 4v16M17 4v16M3 12h18', buf: 'M4 7h16M4 12h16M4 17h16',
+      cool: 'M12 3v18M4 8l16 8M20 8L4 16', inv: 'M4 12h6l2-5 2 10 2-5h4' };
+    const LOCK = 'M6 11h12v9H6zM8 11V8a4 4 0 0 1 8 0v3', EMPTY = 'M8 12h8M12 8v8';
+    const C0 = 220, RR = 175, rad = a => a * Math.PI / 180;
+    const pos = a => ({ x: Math.round(C0 + RR * Math.cos(rad(a)) - 22), y: Math.round(C0 + RR * Math.sin(rad(a)) - 22) });
+    const RG = [['hold', 1, 240], ['l1', 0, 260], ['l2', 0, 280], ['l3', 0, 300], ['p1', 0, 324], ['p2', 0, 342], ['p3', 0, 0], ['p4', 0, 18], ['p5', 0, 36],
+      ['s1', 0, 60], ['s2', 0, 80], ['s3', 0, 100], ['s4', 0, 120], ['e1', 0, 150], ['e2', 0, 170], ['e3', 0, 190], ['e4', 0, 210]];
+    const ringSlots = RG.map(([id, b, a]) => {
+      const p = pos(a);
+      if (b) return { x: p.x, y: p.y, cls: 'rg rg-lock', icon: LOCK, cal: '', lock: true, aria: 'Встроенный универсальный трюм, заменить нельзя', open: () => {} };
+      const s = D.slots[id], x = item(cur(id)), m = mod(id);
+      return { x: p.x, y: p.y, cls: 'rg' + (slotId === id ? ' rg-on' : (!x ? (s.req ? ' rg-err' : ' rg-empty') : '')), icon: x ? (FI[x.fam] || EMPTY) : EMPTY,
+        cal: x ? x.cal : s.sc, lock: false, aria: (x ? 'Заменить: ' : 'Установить: ') + s.role + (x ? ' — ' + x.name : ' — пусто'), open: m.open };
+    });
+    const arc = (a1, a2, c) => ({ c, d: 'M' + (C0 + RR * Math.cos(rad(a1))).toFixed(1) + ' ' + (C0 + RR * Math.sin(rad(a1))).toFixed(1) + ' A' + RR + ' ' + RR + ' 0 0 1 ' + (C0 + RR * Math.cos(rad(a2))).toFixed(1) + ' ' + (C0 + RR * Math.sin(rad(a2))).toFixed(1) });
+    const ring = {
+      slots: ringSlots,
+      arcs: [arc(229, 311, '#4a3318'), arc(313, 407, '#17323a'), arc(49, 131, '#332d22'), arc(139, 221, '#29241d')],
+      labels: [{ t: 'Полезная нагрузка', x: 220, y: 100, r: 0 }, { t: 'Питание', x: 340, y: 220, r: 90 }, { t: 'Сигнатуры', x: 220, y: 344, r: 0 }, { t: 'Двигатели', x: 100, y: 220, r: -90 }]
+    };
+    const out = { rev, runRev, pl, eng, sup, f, tabs, phExp: exp, measOn: showMeas, ring, heroRing: P.heroRing !== false, heroFlat: P.heroRing === false, cargoTotal: 48 + cargoMod, pwrNom: f1(sumMw) + ' МВт', hasModal: !!slotId, md: {}, q: st.q || '',
+      showImpErr: !!P.importError && !st.impClosed, closeImp: () => set({ impClosed: true }),
+      onRun: () => { if (exp === 'running') set({ exp: 'paused' }); else if (exp === 'paused') set({ exp: 'running' }); else if (complete) set({ exp: 'running', runRev: rev }); } };
+    if (slotId) Object.assign(out, this.modal(slotId, pick, st, set, { D, cur, item, f1, sumMw, cargoMod, applied, pay }));
+    return out;
+  }
+  modal(slotId, pick, st, set, X) {
+    const { D, cur, item, f1, sumMw, cargoMod, applied, pay } = X;
+    const s = D.slots[slotId], all = D.cat[s.cat], curId = cur(slotId), cx = item(curId), isPay = s.g === 'pay';
+    const q = (st.q || '').trim().toLowerCase(), fam = st.fam || 'all', calF = st.cal || 'all';
+    const sortK = st.sortK || (isPay ? 'rate' : 'name'), dir = st.dir || -1;
+    const capNow = 48 + cargoMod;
+    const metr = x => { const a = cx || { mw: 0, scu: 0 }; return { mw: x.mw, rate: x.rate, scu: x.scu || 0, pwr: x.mw == null ? null : sumMw - (a.mw || 0) + x.mw, cap: capNow - (a.scu || 0) + (x.scu || 0) }; };
+    let list = all.filter(x => (fam === 'all' || x.fam === fam) && (calF === 'all' || x.cal === calF) && (!q || (x.name + ' ' + x.kind).toLowerCase().indexOf(q) >= 0));
+    list = list.slice().sort((a, b) => {
+      if (!!a.off !== !!b.off) return a.off ? 1 : -1;
+      if (sortK === 'name') return a.name.localeCompare(b.name, 'ru');
+      const va = metr(a)[sortK], vb = metr(b)[sortK];
+      return ((va == null ? -1e9 : va) - (vb == null ? -1e9 : vb)) * dir;
+    });
+    const base = cx ? metr(cx) : null;
+    const fmt = { mw: v => (v == null ? '[МВт]' : f1(v) + ' МВт'), rate: v => (v == null ? '[расчёт]' : v + ' SCU/ч'), scu: v => (v ? v + ' SCU' : '—'), pwr: v => (v == null ? '[расчёт]' : f1(v) + ' МВт'), cap: v => v + ' SCU' };
+    const dl = (k, v) => {
+      if (!base || v == null || base[k] == null) return '';
+      const d = v - base[k];
+      if (Math.abs(d) < 1e-9) return '= как сейчас';
+      return (d > 0 ? '▲ ' : '▼ ') + (k === 'mw' || k === 'pwr' ? f1(Math.abs(d)) : Math.round(Math.abs(d)));
+    };
+    const cols = isPay ? [['mw', 'Потребление'], ['rate', 'Номинал добычи'], ['scu', 'Объём модуля'], ['mass', 'Масса'], ['pwr', 'Лазеры после, ном.'], ['cap', 'Трюм после'], ['prov', 'Источник']] : [['k2', 'Параметр'], ['mass', 'Масса'], ['prov', 'Источник']];
+    const sortable = k => isPay && ['mw', 'rate', 'scu', 'pwr', 'cap'].indexOf(k) >= 0;
+    const head = cols.map(([k, t]) => ({ t: t + (sortK === k ? (dir < 0 ? ' ▼' : ' ▲') : ''), cls: 'th-btn' + (sortK === k ? ' th-on' : ''), can: sortable(k), cant: !sortable(k), aria: 'Сортировать: ' + t, sort: () => set({ sortK: k, dir: sortK === k ? -dir : -1 }) }));
+    const rows = list.map(x => {
+      const m = metr(x), inst = x.id === curId, sel = x.id === pick, off = !!x.off;
+      const cells = cols.map(([k]) => {
+        let v, cls = '';
+        if (k === 'mass') { v = x.mass; cls = x.mass === '[т]' ? 'ph' : ''; }
+        else if (k === 'prov') { v = x.prov; cls = 'sub'; }
+        else if (k === 'k2') { v = x.k2 + ': ' + x.v2; cls = x.v2.charAt(0) === '[' ? 'ph' : ''; }
+        else { v = fmt[k](m[k]); if (v.charAt(0) === '[') cls = 'ph'; }
+        if (k === sortK) cls += ' cell-on';
+        const d = (k === sortK && !inst && !off) ? dl(k, m[k]) : '';
+        return { v, cls, d, hasD: !!d };
+      });
+      return { name: x.name, kind: x.maker + ' · ' + x.kind, cal: x.cal, szCls: off ? 'sz sz-off' : 'sz', cells, inst, off, sel, reason: x.off || '',
+        cls: 'row' + (inst ? ' row-inst' : '') + (sel ? ' row-sel' : '') + (off ? ' row-off' : ''),
+        aria: x.name + (inst ? ', установлено' : '') + (off ? ', не подходит: ' + x.off : ''), choose: () => { if (!inst) set({ pick: x.id }); } };
+    });
+    const famNames = { laser: 'Лазеры', cargo: 'Грузовые', diesel: 'Дизель', el: 'Электро', h2: 'H₂', gen: 'Генераторы', acc: 'Аккумуляторы', tank: 'Баки', solar: 'Солнечные', rad: 'Радиаторы', buf: 'Буферы', cool: 'Охладители', inv: 'Инверторы' };
+    const fams = [{ v: 'all', t: 'Все' }];
+    all.forEach(x => { if (!fams.some(o => o.v === x.fam)) fams.push({ v: x.fam, t: famNames[x.fam] || x.fam }); });
+    const cals = [{ v: 'all', t: 'Все' }];
+    ['XS', 'S', 'M'].forEach(c => { if (all.some(x => x.cal === c)) cals.push({ v: c, t: c }); });
+    const px = item(pick), pickOk = !!(px && !px.off && px.id !== curId), pickBad = !!(px && px.off);
+    let diff = [];
+    if (pickOk && isPay) {
+      const m = metr(px), a = base || { mw: 0, rate: 0, cap: capNow, pwr: sumMw };
+      diff = [
+        { k: 'Потребление', v: fmt.mw(a.mw) + ' → ' + fmt.mw(m.mw), cls: '' },
+        { k: 'Номинал', v: fmt.rate(a.rate) + ' → ' + fmt.rate(m.rate), cls: '' },
+        { k: 'Трюм', v: capNow + ' → ' + m.cap + ' SCU', cls: '' },
+        { k: 'Лазеры, номинал', v: f1(sumMw) + ' → ' + fmt.pwr(m.pwr), cls: '' },
+        { k: 'Масса', v: (cx ? cx.mass : '—') + ' → ' + px.mass, cls: '' }
+      ];
+    } else if (pickOk) {
+      diff = [{ k: px.k2, v: (cx ? cx.v2 : '—') + ' → ' + px.v2, cls: '' }, { k: 'Масса', v: (cx ? cx.mass : '—') + ' → ' + px.mass, cls: '' }];
+    }
+    const okN = list.filter(x => !x.off).length, offN = list.length - okN;
+    const label = isPay && cx ? (cx.fam === 'laser' ? 'Лазер ' : 'Груз ') + s.n : s.role;
+    let warn = '';
+    if (pickOk && isPay && st.all && px.fam !== 'laser') warn = 'Во всех трёх слотах не останется лазеров — добыча этой сборки станет нулевой.';
+    else if (pickOk && isPay && px.fam !== 'laser' && pay.filter(id => { const y = item(cur(id)); return y && y.fam === 'laser' && id !== slotId; }).length === 0) warn = 'Это последний лазер — добыча станет нулевой.';
+    const reqSlot = s.req || (cx && cx.fam === 'acc');
+    const after = (o) => ({ applied: o, revAdd: (st.revAdd || 0) + 1, modal: null, pick: null });
+    return {
+      md: {
+        title: (cx ? 'Заменить: ' : 'Установить: ') + label + (isPay ? ' — Payload ' : ' — слот ') + s.sc,
+        warn, hasWarn: !!warn, rmWarn: reqSlot ? 'Слот обязательный: после снятия сборка станет неполной, запуск будет недоступен.' : '', hasRmWarn: !!reqSlot && !!cx, ph: 'Поиск среди изделий для слота ' + s.sc + '…',
+        fams: fams.map(o => ({ t: o.t, on: fam === o.v, cls: fam === o.v ? 'on' : '', set: () => set({ fam: o.v }) })),
+        cals: cals.map(o => ({ t: o.t, on: calF === o.v, cls: calF === o.v ? 'on' : '', set: () => set({ cal: o.v }) })),
+        grid: isPay ? 'minmax(260px, 2.4fr) repeat(7, minmax(96px, 1fr))' : 'minmax(260px, 2.4fr) repeat(3, minmax(140px, 1fr))',
+        head, rows, empty: rows.length === 0, okN, countTxt: 'изделий подходят слоту ' + s.sc + (offN ? ' · ' + offN + ' не подходят' : ''),
+        noPick: !px || px.id === curId, pickOk, pickBad, pickName: px ? px.name : '', badReason: px && px.off ? px.off : '', diff,
+        canAll: isPay, all: isPay && !!st.all, applyLbl: isPay && st.all ? 'Применить замену во все 3' : 'Применить замену', applyOff: !pickOk, noCur: !cx
+      },
+      close: () => set({ modal: null, pick: null }),
+      onQ: e => set({ q: e.target.value }),
+      toggleAll: () => set({ all: !st.all }),
+      apply: () => {
+        if (!pickOk) return;
+        const o = Object.assign({}, applied);
+        (isPay && st.all ? pay : [slotId]).forEach(id => { o[id] = px.id; });
+        set(after(o));
+      },
+      remove: () => set(after(Object.assign({}, applied, { [slotId]: null })))
+    };
+  }
+}
+</script>
+</body>
+</html>

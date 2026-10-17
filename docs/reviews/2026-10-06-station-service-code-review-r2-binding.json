@@ -1,0 +1,181 @@
+{
+  "schema": "independent-scoped-code-review-binding-v1",
+  "mode": "CODE_REVIEW",
+  "role": "Independent Reviewer",
+  "session": "/root/fitting_adversarial_review",
+  "model": "Codex, GPT-6 family per environment; exact serving/deployment ID unavailable",
+  "source_commit": "86dee5da9e8a9c45723b7e9a476b8b16bfb98f2b",
+  "baseline_commit": "a625c79c5fbc8cfc706c87d0631fc0204c1689fb",
+  "work_item": "ulab-558",
+  "scope": "CR-ST-B1 closure only; call5/5; no new full Review",
+  "reviewed_paths": [
+    {
+      "path": "docs/plans/2026-10-06-station-service.md",
+      "kind": "whole-plan",
+      "gitBlobSha1": "6d183268888b1fe8a01f6c147c91a56220f84a78",
+      "sha256": "05f63be7874e759af7b95f01c35de28692aad4922350562b509dd49e136b20aa",
+      "bytes": 7955
+    },
+    {
+      "path": "src/io/fitting-result.ts",
+      "gitBlobSha1": "01ab516e159b062891d33c61dbcdfe472fc6961a",
+      "bytes": 19996,
+      "sha256": "656e10a7397aecda0f66c16df9f936cffdfae4b9fea95200cd9e9257094d3749"
+    },
+    {
+      "path": "tests/fitting/station-service.test.ts",
+      "gitBlobSha1": "2d6ff253887d7301ea41c1e6947832ae6ae326b6",
+      "bytes": 10308,
+      "sha256": "0648189b05ab57997a98847f046a8bef1518d2ac410d2af2152f8f89fb784f96"
+    }
+  ],
+  "whole_contract": {
+    "path": "docs/plans/2026-10-06-station-service.md",
+    "bytes": 7955,
+    "sha256": "05f63be7874e759af7b95f01c35de28692aad4922350562b509dd49e136b20aa"
+  },
+  "content_fingerprint": "3777a410e8915519f9612fa7d635a74f5324bacd4682b96ec4eb2307e019bbd3",
+  "canonical_bytes": 8380,
+  "fingerprint_recipe": "SHA256(UTF8 JSON ensure_ascii=false, sort_keys=true, separators=(comma,colon) of {paths:sorted [path,gitBlobSha1] for 2 delta+plan, whole_contracts:[{path,text:literal entire plan}]})",
+  "source3_fp_independently_verified": "76bfc9aa33ca24f79697b50a368822f7f731b419752963c2cd80fe0a0112b8eb",
+  "carryover": {
+    "original_report": ".overgate-runtime/2026-10-06-station-service-code-review-r1.md",
+    "original_report_sha256": "3ad919c0b722bde2fb5fc138ae4293460c2ef0cccbe25af4bfab617a12e15b2d",
+    "paths": [
+      {
+        "path": "docs/plans/2026-10-06-station-service.md",
+        "kind": "whole-plan",
+        "gitBlobSha1": "6d183268888b1fe8a01f6c147c91a56220f84a78",
+        "sha256": "05f63be7874e759af7b95f01c35de28692aad4922350562b509dd49e136b20aa",
+        "bytes": 7955
+      },
+      {
+        "path": "src/app/fitting-ui/conditions.ts",
+        "kind": "changed-source",
+        "gitBlobSha1": "7239338ea68548886b1760f6f1747e230de93e6a",
+        "sha256": "5d57fa07faacb96a8f0270013f4767f5960122bd83dd7d98f25c7e3363562714",
+        "bytes": 1434
+      },
+      {
+        "path": "src/app/fitting-ui/lab-view.ts",
+        "kind": "changed-source",
+        "gitBlobSha1": "26e03e15d82a2228ab86a8409846557973e13368",
+        "sha256": "afffe15177ff9b3f7860f2f06fb8fd5bff6df7682093977915be96afcbb5655a",
+        "bytes": 21729
+      },
+      {
+        "path": "src/app/fitting-ui/result-context.ts",
+        "kind": "changed-source",
+        "gitBlobSha1": "c77ba25c2c51c97cd6934df96bfebee0d198d98d",
+        "sha256": "6d3637b88e911940242588000d811021024950a0903091c6888895bbd2e546c5",
+        "bytes": 2685
+      },
+      {
+        "path": "src/app/fitting-workspace.ts",
+        "kind": "changed-source",
+        "gitBlobSha1": "6e08be9485c931da6a51bbda35a965147a869d40",
+        "sha256": "75996f442e32df267db93d5baec7e72a0ef2a17ed960cbe7203d6d1e0c7482e3",
+        "bytes": 11700
+      },
+      {
+        "path": "src/app/fitting.ts",
+        "kind": "changed-source",
+        "gitBlobSha1": "94eaefd164f91b40a623cb2c688b6aad5f39752f",
+        "sha256": "d50bb38a3b0cbc53a5c8c432f80367febfb4722bba15cfe515d0af4f6f801380",
+        "bytes": 36740
+      },
+      {
+        "path": "src/model/v2/step.ts",
+        "kind": "changed-source",
+        "gitBlobSha1": "6e20ef50d3f04cee61e40fe6714149a66892ba82",
+        "sha256": "0e58798a5714c5e853c8a49759e1f2bf809ea05125348b930ca8a02c4b8f8b12",
+        "bytes": 19406
+      },
+      {
+        "path": "src/model/v2/types.ts",
+        "kind": "changed-source",
+        "gitBlobSha1": "8e59a3dc04e6bc7c78a877c44d1a038fd9c76899",
+        "sha256": "03b9143923cdb08204a977fe6c81e529cc4d2040b6bb2e1c87b8afc9fa1c15e2",
+        "bytes": 3880
+      },
+      {
+        "path": "src/runner/mining-metrics.ts",
+        "kind": "changed-source",
+        "gitBlobSha1": "659a3f598def1085736ba2b936b141042763b2cf",
+        "sha256": "de0d382578a9209e3065c518bed9257b0cec46d1fb5c200fad1852d20956e7c4",
+        "bytes": 9007
+      },
+      {
+        "path": "src/runner/mission.ts",
+        "kind": "changed-source",
+        "gitBlobSha1": "f3ee60fe63befc1c7dd03abc80a7baad7685a4d5",
+        "sha256": "061d904dd00ea80781f403a5fe62338be7e2a20c59a81d3b69316ecc6aa6770c",
+        "bytes": 24206
+      },
+      {
+        "path": "src/scenarios/mission.ts",
+        "kind": "changed-source",
+        "gitBlobSha1": "a07eddb9e18dacaf68e4badaa03e7aa19f5cab5f",
+        "sha256": "107566e6bfc81224f865691d92fa0c0f7deb8bddf9d341e24cee66c98b00ae42",
+        "bytes": 4957
+      },
+      {
+        "path": "tests/browser/station-service.spec.ts",
+        "kind": "changed-source",
+        "gitBlobSha1": "77e59d4cf407cfd03c7c123858a9f60f61d24974",
+        "sha256": "a01efb29f2c64f9df1627cedefae003d8afecf39e41b73498b47011a54236f48",
+        "bytes": 5090
+      },
+      {
+        "path": "tests/fitting/fixtures/station-service-old.json",
+        "kind": "changed-source",
+        "gitBlobSha1": "86f60cd22f27d91ca51a50767da809da8d8e122d",
+        "sha256": "9a6402ac53efc5973b7655130431b231dd089ae58d98185e2c69231a3b1fa524",
+        "bytes": 286672
+      },
+      {
+        "path": "tests/fitting/mission-cycle.test.ts",
+        "kind": "changed-source",
+        "gitBlobSha1": "a33428c89ae8b6fa7ffb36cd84c47901570a53f2",
+        "sha256": "624966dd6499467d1ddecb5cb10a223288bc041e678a7e8435f5d4fb5a963b4c",
+        "bytes": 7550
+      },
+      {
+        "path": "tests/fitting/mission-review-blockers.test.ts",
+        "kind": "changed-source",
+        "gitBlobSha1": "2fc76430c59648154e08c10a36dcb9e809c8f723",
+        "sha256": "131db04f8339c3ec0aca76bfeea3bab6e31466dd560a1e1d3c665d764111e67b",
+        "bytes": 12971
+      }
+    ],
+    "equality": "All 15 independently verified Git-blob equal a625→86; root current bytes equal86. No repeated semantic full review."
+  },
+  "necessary_caller_context": "src/app/fitting-workspace.ts:255–265; parser failure returns before fit/conditions/replay/result mutation; frozenA separate unchanged owner",
+  "own_checks": "Read-only actual 2-file diff, isolated D/H2 test logic, surrounding finite/balance/error return and atomic workspace caller; no tests/probes executed",
+  "inherited_evidence": {
+    "qa_report": {
+      "path": ".overgate-runtime/station-service-qa/affected-b1/execution-r1/report.md",
+      "bytes": 6601,
+      "sha256": "be6bff33f21d83ee4e293a9cf8fc184d51feb975c828b456a33b6a5cff2749d3",
+      "verdict": "B1-01–04 PASS;13 API and7 native assertions;0 runner steps/Worker Starts"
+    },
+    "qa_binding": {
+      "path": ".overgate-runtime/station-service-qa/affected-b1/execution-r1/source-binding.json",
+      "bytes": 7078,
+      "sha256": "827285b9c4fed0f21d0d9f7e1135f4f2eda26d535081bf34db16254c7670e41c",
+      "fp": "a3fa8ca109e15acb5f0110bd58d5ad5a769a6e2f17846a4e5fc4923025fb28d2"
+    },
+    "legacy_positive": "QA authored full numerical snapshot, opening/schema control only; no fresh physical replay claim",
+    "developer_guard": "457 unit/47 browser+1 inherited SKIP; external evidence only",
+    "build17_fp": "cd7c227ad4150f707b6b1d2e79d71e9bc54dd3db1f33db33c3d5b5b2798a9ba4; inherited PM/QA, not rebuilt"
+  },
+  "findings": {
+    "closed": [
+      "CR-ST-B1"
+    ],
+    "open_blockers": [],
+    "advisory": []
+  },
+  "verdict": "APPROVED",
+  "source_freeze": "RELEASED after seal/readback"
+}

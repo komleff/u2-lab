@@ -1,0 +1,63 @@
+{
+  "method": "Captured before mission/M code from exact 7a4cd5e product-equivalent bbe3fc; model old ledger, H2/dt1, runId old022:<preset>",
+  "sourceSha": "7a4cd5ea2b7087cbe33747e25c3d38d1d1476071",
+  "catalog": "74cb2f684f93ee82d27ee7f63e71bf8abfb4762c826f3aa8ca7591c2a8328ae4",
+  "rows": {
+    "pony:1": {
+      "fit": "2d4543d3c1f318b77a74b56414df94bcbe3e4d53343c55ff367133da336fdf6d",
+      "spec": "732cbb679d70d989f00f357c337d350ad33446c20d3298e011c8a37b53a4e709",
+      "zero": "6a941cc910c65682922ff08e91ba39430de43f3c3a3b1b886cf931efb76d1a6e",
+      "partial": "7a22d7261b32f0ac72aa36c35c948a501e774549641ac773d547de91c62628c1",
+      "complete": "017dd35ef2e96d87cd385e602cbb7310b3c25d1257a747c3a6cc5cf94a2c759e"
+    },
+    "pony:2": {
+      "fit": "1eed7703682698bcdc0106c8cbdf83b2794ce9cba55c527b4464496ebb6c447f",
+      "spec": "bdbc0d07175045f4a05060aa564b96af399c46c4786d37b0e5b1f36f10618637",
+      "zero": "955b2ece1faa7769081dfe7fb4ef35d350fab13ef8db6be39c209a32e32cfe94",
+      "partial": "458118f4bc07d0daffcf92452e1a60b8591be96ffcd1a42f25042057388c0be6",
+      "complete": "4b8af6a532e37e5f0198927aa8f8fafb37e332cd81e61c92d79fa6d4ddcb8f2e"
+    },
+    "pony:3": {
+      "fit": "c4855afc1071143ea118649a8565d71f5b3106cf12eb02d96db7d7d0c088c581",
+      "spec": "047a0e2100bd5ea8d4d867c0b40026f6fdc74eb8d56d47415de060c4225c6db1",
+      "zero": "468861b46560a86352d5c12dcf38c3a8b7ae75cc66d26e97e729256ff42dd390",
+      "partial": "a9c1c28640139dc8fbba0bdf3ce0e207310fc3552db71a5ec161c6d7a86f6259",
+      "complete": "f00e9fc05d84b08f369c7d2b092a91168fcb49e0d0870c9b759005b2d78287c0"
+    },
+    "sputnik:1": {
+      "fit": "85a337faa4309951165c45682efb57e5e8f61743d72f521638dfa122ed37951d",
+      "spec": "a863b01788674ac33b73c84a313d89cdd70ba7abd3b92e9f0c29c66eba5312d9",
+      "zero": "ad04d656bf4d59f929adb45d9f34456bf7ae0ca1b1795f4e4bb12f2fef64aa3a",
+      "partial": "9e8a891b87c3f4849f8ae73789ec18c384b55c639c6af6351d6db9b5a6e79243",
+      "complete": "3defba644f39623cb8edd3a9f6a5aba2ab08b72718fac95aea66e0afcc4195ea"
+    },
+    "industrial-S:1": {
+      "fit": "869487dd708917950c999301f53af98ad9aa8160ae0d92a042bfd97f79c07c36",
+      "spec": "e3acfb1fc32f648aa919b1c9ff611a0c7dddfc74be1051329948b0fa22b805b7",
+      "zero": "d957e91967d857e03a9d181826f7c1189957fc24c695970576c40fcc3a8d6e21",
+      "partial": "402b0ab233dc8a4dbbc9e407d87d2fb360b628581f78c1b2fcef085ef72d8838",
+      "complete": "05785788583999db0bc941b8f3ed8bff8e152476cf13c373b6c9c3f7f31905b8"
+    },
+    "industrial-M:1": {
+      "fit": "c8d160c99696967df8fb934e8518313ec96f975baa9ace0d21fe955d419151f8",
+      "spec": "00780060d6b9a82045292364faaba35c2f2ff9948cb3247b442b993523db4fe5",
+      "zero": "b32f521306b6eeff8ebf6f57a112cec243fc465f9333dd38c1b615e830444193",
+      "partial": "71bec5c5417725e6722221f2b8b0524b588e5845db18e964b1cd76f4761a0f8d",
+      "complete": "0989a240763e5fb39b816e9d6a398ce110bfa2f7b776ae82a465f0feb78c3e49"
+    },
+    "industrial-L:1": {
+      "fit": "709726080e5a46bef46d42f736e4a2d51397b1610619a53938b5b9bdecdd2829",
+      "spec": "5cede37b87fd53a1deeba34c2c43d3a778640db5a8151dd3adde6e3095223675",
+      "zero": "524e932be9d796e3475d5df34ae5b15fd0c046067a619f40bc4452cf3a575863",
+      "partial": "541d9a1a14ed61d4d8ca4df1d75dfef19b0f67e200ea4f2c96037890dbc73da5",
+      "complete": "45ef2f432d7f13032d3b3872dda4639fd65ddd17ef2a86a17ed64f367d93578d"
+    },
+    "civilian-M:1": {
+      "fit": "78440cee54752b0e3b29c241d8a96a71f7b13bc757f67a07645046f839527628",
+      "spec": "7cd4f2efce71d5290070475c22db80c019460eac15231cf092135a8d9c78ba8a",
+      "zero": "c0fa3ed6dd6bbe5927b8de1b5dc584a4291f6c3bdb669e8320d437b5411fc6c1",
+      "partial": "c2959db28dcbabd007c6a007763bb2d362395b14ddee0896ed6e1fca80e33809",
+      "complete": "ac518bd6f30b274a2fbea8c108842b44f14815dc37754c345115e5cd439c9cda"
+    }
+  }
+}

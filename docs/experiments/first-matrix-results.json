@@ -1,0 +1,1260 @@
+[
+  {
+    "size": "S",
+    "environment": "cold",
+    "scenario": "work",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 4.500900000000028,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 39.86710963454243
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 330.1113156337678,
+      "energyResidualJ": 0.00015888531925156713,
+      "sourceEnergyJ": 540000000,
+      "beamEnergyJ": 450090000,
+      "thrustImpulseNs": 0
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 3221666666.6665077,
+      "temperatureK": 330.1113156337678,
+      "fuelKg": {
+        "diesel": 5960.132890365458
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 4.500900000000028,
+      "usefulWork": 4.500900000000028,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": true
+    }
+  },
+  {
+    "size": "S",
+    "environment": "cold",
+    "scenario": "idle",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 0.0615233166172402
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 299.998875857376,
+      "energyResidualJ": 1.6123522073030472e-8,
+      "sourceEnergyJ": 833333.3333332827,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 0
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 3682500000,
+      "temperatureK": 296.70349127389505,
+      "fuelKg": {
+        "diesel": 5999.938476683383
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "S",
+    "environment": "cold",
+    "scenario": "stress",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 500.0865233178047
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 316.7156904370133,
+      "energyResidualJ": 0.0000018384307622909546,
+      "sourceEnergyJ": 833333.3333332827,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 885000000
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 3682500000,
+      "temperatureK": 316.7156904370133,
+      "fuelKg": {
+        "diesel": 5499.913476682195
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "S",
+    "environment": "hot",
+    "scenario": "work",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 4.500900000000028,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 39.86710963454243
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 383.73970289127635,
+      "energyResidualJ": 0.000158995040692389,
+      "sourceEnergyJ": 540000000,
+      "beamEnergyJ": 450090000,
+      "thrustImpulseNs": 0
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 3221666666.6665077,
+      "temperatureK": 383.73970289127635,
+      "fuelKg": {
+        "diesel": 5960.132890365458
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 4.500900000000028,
+      "usefulWork": 4.500900000000028,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": true
+    }
+  },
+  {
+    "size": "S",
+    "environment": "hot",
+    "scenario": "idle",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 0.0615233166172402
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 350.6674505614804,
+      "energyResidualJ": 6.156915333122015e-8,
+      "sourceEnergyJ": 833333.3333332827,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 0
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 3682500000,
+      "temperatureK": 350.6674505614804,
+      "fuelKg": {
+        "diesel": 5999.938476683383
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "S",
+    "environment": "hot",
+    "scenario": "stress",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 500.0865233178047
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 370.4845620878952,
+      "energyResidualJ": -8.130446076393127e-7,
+      "sourceEnergyJ": 833333.3333332827,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 885000000
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 3682500000,
+      "temperatureK": 370.4845620878952,
+      "fuelKg": {
+        "diesel": 5499.913476682195
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "S",
+    "environment": "solar",
+    "scenario": "work",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 4.500900000000028,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 39.86710963454243
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 330.94625246487465,
+      "energyResidualJ": 0.0001588852610439062,
+      "sourceEnergyJ": 550207500,
+      "beamEnergyJ": 450090000,
+      "thrustImpulseNs": 0
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 3231874166.6665077,
+      "temperatureK": 330.94625246487465,
+      "fuelKg": {
+        "diesel": 5960.132890365458
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "pv": false,
+        "tank:diesel": false
+      },
+      "cargo": 4.500900000000028,
+      "usefulWork": 4.500900000000028,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": true
+    }
+  },
+  {
+    "size": "S",
+    "environment": "solar",
+    "scenario": "idle",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 0
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 299.99915239500166,
+      "energyResidualJ": -1.1394149623811245e-8,
+      "sourceEnergyJ": 10207500,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 0
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 3682500000,
+      "temperatureK": 297.5145819615388,
+      "fuelKg": {
+        "diesel": 6000
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "pv": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "S",
+    "environment": "solar",
+    "scenario": "stress",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 500.02500000118744
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 317.5241925208869,
+      "energyResidualJ": 0.0000010542571544647217,
+      "sourceEnergyJ": 10207500,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 885000000
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 3682500000,
+      "temperatureK": 317.5241925208869,
+      "fuelKg": {
+        "diesel": 5499.974999998813
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "pv": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "S",
+    "environment": "em",
+    "scenario": "work",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 4.500900000000028,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 39.86710963454243
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 338.2855212525171,
+      "energyResidualJ": 0.00015905883628875017,
+      "sourceEnergyJ": 840000000,
+      "beamEnergyJ": 450090000,
+      "thrustImpulseNs": 0
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 3521666666.6665077,
+      "temperatureK": 338.2855212525171,
+      "fuelKg": {
+        "diesel": 5960.132890365458
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 4.500900000000028,
+      "usefulWork": 4.500900000000028,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "S",
+    "environment": "em",
+    "scenario": "idle",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 0
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 304.89528994554104,
+      "energyResidualJ": 7.558264769613743e-8,
+      "sourceEnergyJ": 300000000,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 0
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 3682500000,
+      "temperatureK": 304.89528994554104,
+      "fuelKg": {
+        "diesel": 6000
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "S",
+    "environment": "em",
+    "scenario": "stress",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 500.02500000118744
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 324.8808792514703,
+      "energyResidualJ": 9.099021553993225e-7,
+      "sourceEnergyJ": 300000000,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 885000000
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 3682500000,
+      "temperatureK": 324.8808792514703,
+      "fuelKg": {
+        "diesel": 5499.974999998813
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "M",
+    "environment": "cold",
+    "scenario": "work",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3001,
+      "usefulWork": 18.00360000000013,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": 199.960007998392,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 159.46843853816972
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 330.11131563376847,
+      "energyResidualJ": 0.0006356807425618172,
+      "sourceEnergyJ": 2160000000.000002,
+      "beamEnergyJ": 1800360000.0000017,
+      "thrustImpulseNs": 0,
+      "targetCheckpoint": {
+        "ticks": 2000,
+        "usefulWork": 12,
+        "firstConstraintSeconds": null,
+        "forcedDowntimeSeconds": 0,
+        "recoverySeconds": null,
+        "nextActionReadySeconds": null,
+        "firstTargetSeconds": 199.960007998392,
+        "firstSortieSeconds": null,
+        "fuelConsumedKg": {
+          "diesel": 106.29103415194913
+        },
+        "coolantConsumedKg": 0,
+        "maxTemperatureK": 320.25214791918944,
+        "energyResidualJ": 0.0004235731903463602,
+        "sourceEnergyJ": 1439712057.5884733,
+        "beamEnergyJ": 1199999999.9999926,
+        "thrustImpulseNs": 0
+      }
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 12886666666.666029,
+      "temperatureK": 330.11131563376847,
+      "fuelKg": {
+        "diesel": 23840.53156146183
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 18.00360000000013,
+      "usefulWork": 18.00360000000013,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": true
+    }
+  },
+  {
+    "size": "M",
+    "environment": "cold",
+    "scenario": "idle",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 0.2460932664689608
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 299.998875857376,
+      "energyResidualJ": 6.449408829212189e-8,
+      "sourceEnergyJ": 3333333.333333131,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 0
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 14730000000,
+      "temperatureK": 296.70349127389505,
+      "fuelKg": {
+        "diesel": 23999.75390673353
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "M",
+    "environment": "cold",
+    "scenario": "stress",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 1495.236093272979
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 311.66783403407965,
+      "energyResidualJ": 0.000007275491952896118,
+      "sourceEnergyJ": 3333333.333333131,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 2646000000
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 14730000000,
+      "temperatureK": 311.66783403407965,
+      "fuelKg": {
+        "diesel": 22504.76390672702
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "M",
+    "environment": "hot",
+    "scenario": "work",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3001,
+      "usefulWork": 18.00360000000013,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": 199.960007998392,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 159.46843853816972
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 383.73970289127703,
+      "energyResidualJ": 0.0006361166015267372,
+      "sourceEnergyJ": 2160000000.000002,
+      "beamEnergyJ": 1800360000.0000017,
+      "thrustImpulseNs": 0,
+      "targetCheckpoint": {
+        "ticks": 2000,
+        "usefulWork": 12,
+        "firstConstraintSeconds": null,
+        "forcedDowntimeSeconds": 0,
+        "recoverySeconds": null,
+        "nextActionReadySeconds": null,
+        "firstTargetSeconds": 199.960007998392,
+        "firstSortieSeconds": null,
+        "fuelConsumedKg": {
+          "diesel": 106.29103415194913
+        },
+        "coolantConsumedKg": 0,
+        "maxTemperatureK": 356.4833716375071,
+        "energyResidualJ": 0.00042386166751384735,
+        "sourceEnergyJ": 1439712057.5884733,
+        "beamEnergyJ": 1199999999.9999926,
+        "thrustImpulseNs": 0
+      }
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 12886666666.666029,
+      "temperatureK": 383.73970289127703,
+      "fuelKg": {
+        "diesel": 23840.53156146183
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 18.00360000000013,
+      "usefulWork": 18.00360000000013,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": true
+    }
+  },
+  {
+    "size": "M",
+    "environment": "hot",
+    "scenario": "idle",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 0.2460932664689608
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 350.6674505614804,
+      "energyResidualJ": 2.462766133248806e-7,
+      "sourceEnergyJ": 3333333.333333131,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 0
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 14730000000,
+      "temperatureK": 350.6674505614804,
+      "fuelKg": {
+        "diesel": 23999.75390673353
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "M",
+    "environment": "hot",
+    "scenario": "stress",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 1495.236093272979
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 365.48756420196815,
+      "energyResidualJ": 0.000007703900337219238,
+      "sourceEnergyJ": 3333333.333333131,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 2646000000
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 14730000000,
+      "temperatureK": 365.48756420196815,
+      "fuelKg": {
+        "diesel": 22504.76390672702
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "M",
+    "environment": "solar",
+    "scenario": "work",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3001,
+      "usefulWork": 18.00360000000013,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": 199.960007998392,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 159.46843853816972
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 330.3200615306241,
+      "energyResidualJ": 0.0006337793311104178,
+      "sourceEnergyJ": 2170207500.000002,
+      "beamEnergyJ": 1800360000.0000017,
+      "thrustImpulseNs": 0,
+      "targetCheckpoint": {
+        "ticks": 2000,
+        "usefulWork": 12,
+        "firstConstraintSeconds": null,
+        "forcedDowntimeSeconds": 0,
+        "recoverySeconds": null,
+        "nextActionReadySeconds": null,
+        "firstTargetSeconds": 199.960007998392,
+        "firstSortieSeconds": null,
+        "fuelConsumedKg": {
+          "diesel": 106.29103415194913
+        },
+        "coolantConsumedKg": 0,
+        "maxTemperatureK": 320.3927505995462,
+        "energyResidualJ": 0.00042287237010896206,
+        "sourceEnergyJ": 1446515696.8606188,
+        "beamEnergyJ": 1199999999.9999926,
+        "thrustImpulseNs": 0
+      }
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 12896874166.66603,
+      "temperatureK": 330.3200615306241,
+      "fuelKg": {
+        "diesel": 23840.53156146183
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "pv": false,
+        "tank:diesel": false
+      },
+      "cargo": 18.00360000000013,
+      "usefulWork": 18.00360000000013,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": true
+    }
+  },
+  {
+    "size": "M",
+    "environment": "solar",
+    "scenario": "idle",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 0
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 299.99893771223464,
+      "energyResidualJ": -8.731149137020111e-8,
+      "sourceEnergyJ": 10207500,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 0
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 14730000000,
+      "temperatureK": 296.88492154993696,
+      "fuelKg": {
+        "diesel": 24000
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "pv": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "M",
+    "environment": "solar",
+    "scenario": "stress",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 1494.989999995596
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 311.84883725894184,
+      "energyResidualJ": 0.0000016391277313232422,
+      "sourceEnergyJ": 10207500,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 2646000000
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 14730000000,
+      "temperatureK": 311.84883725894184,
+      "fuelKg": {
+        "diesel": 22505.010000004404
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "pv": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "M",
+    "environment": "em",
+    "scenario": "work",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3001,
+      "usefulWork": 18.00360000000013,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": 199.960007998392,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 159.46843853816972
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 332.1560039629286,
+      "energyResidualJ": 0.0006347588496282697,
+      "sourceEnergyJ": 2460000000.0000024,
+      "beamEnergyJ": 1800360000.0000017,
+      "thrustImpulseNs": 0,
+      "targetCheckpoint": {
+        "ticks": 2000,
+        "usefulWork": 12,
+        "firstConstraintSeconds": null,
+        "forcedDowntimeSeconds": 0,
+        "recoverySeconds": null,
+        "nextActionReadySeconds": null,
+        "firstTargetSeconds": 199.960007998392,
+        "firstSortieSeconds": null,
+        "fuelConsumedKg": {
+          "diesel": 106.29103415194913
+        },
+        "coolantConsumedKg": 0,
+        "maxTemperatureK": 321.629495837741,
+        "energyResidualJ": 0.0004233878571540117,
+        "sourceEnergyJ": 1639672065.5868726,
+        "beamEnergyJ": 1199999999.9999926,
+        "thrustImpulseNs": 0
+      }
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 13186666666.66603,
+      "temperatureK": 332.1560039629286,
+      "fuelKg": {
+        "diesel": 23840.53156146183
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 18.00360000000013,
+      "usefulWork": 18.00360000000013,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": true
+    }
+  },
+  {
+    "size": "M",
+    "environment": "em",
+    "scenario": "idle",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 0
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 299.99956721349554,
+      "energyResidualJ": 2.0983861759305e-8,
+      "sourceEnergyJ": 300000000,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 0
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 14730000000,
+      "temperatureK": 298.73106552669816,
+      "fuelKg": {
+        "diesel": 24000
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  },
+  {
+    "size": "M",
+    "environment": "em",
+    "scenario": "stress",
+    "durationSeconds": 300,
+    "stepSeconds": 0.1,
+    "modelVersion": "radiative-host-ledger-0.1",
+    "catalogVersion": "intake-0.1",
+    "metrics": {
+      "ticks": 3000,
+      "usefulWork": 0,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": null,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 1494.989999995596
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 313.69061444199644,
+      "energyResidualJ": 0.0000017024576663970947,
+      "sourceEnergyJ": 300000000,
+      "beamEnergyJ": 0,
+      "thrustImpulseNs": 2646000000
+    },
+    "final": {
+      "timeSeconds": 300,
+      "chargeJ": 14730000000,
+      "temperatureK": 313.69061444199644,
+      "fuelKg": {
+        "diesel": 22505.010000004404
+      },
+      "buffersJ": {},
+      "gates": {
+        "generator": false,
+        "engine": false,
+        "laser": false,
+        "passive": false,
+        "tank:diesel": false
+      },
+      "cargo": 0,
+      "usefulWork": 0,
+      "phaseKey": "0:0",
+      "constraints": [],
+      "sourceRecovery": false
+    }
+  }
+]

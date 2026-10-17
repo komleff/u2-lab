@@ -1,0 +1,13 @@
+{
+  "version": "observer-view-0.1",
+  "passive": [],
+  "radar": [
+    {
+      "channel": "radar",
+      "pulseId": 1,
+      "measuredRangeM": 16000,
+      "receivedAtS": 10.666666666666666,
+      "freshness": "fresh"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "repository": "komleff/u2",
+  "commit": "cdc490e3517c8455f662f82579c45813cdbb9a76",
+  "route": [
+    "docs/INDEX.md",
+    "docs/architecture/ADR-INDEX.md"
+  ],
+  "capturedOn": "2026-10-05",
+  "owners": [
+    {
+      "path": "docs/architecture/ADR-INDEX.md",
+      "blob": "7c35609e0eba70ef54807f4726e8bc359e20767c",
+      "version": "0.89",
+      "status": "primary"
+    },
+    {
+      "path": "docs/brand/u2_power_budget_doctrine.md",
+      "blob": "e89f5d29768d8c99c8f5e2cd39815b61942a6ed0",
+      "version": "0.1-r3",
+      "status": "active"
+    },
+    {
+      "path": "docs/specs/spec_power_components_v0.1.md",
+      "blob": "bc9a55064e389566f6e8009cb02b71fe712d4b26",
+      "version": "0.1-r11",
+      "status": "active"
+    },
+    {
+      "path": "docs/specs/spec_power_load_v0.1.md",
+      "blob": "a2922380369432406e904f2807fcd383d5b99696",
+      "version": "0.5-r4",
+      "status": "active"
+    },
+    {
+      "path": "docs/brand/u2_engine_thermal_doctrine.md",
+      "blob": "23b51fed623851a80c4d4e1f450545924f311fe5",
+      "version": "0.2.6",
+      "status": "active"
+    },
+    {
+      "path": "docs/gdd/gdd_automatic_power_thermal_scheduler_v0.1_draft.md",
+      "blob": "c3ef70b0d5cfb7bc38e305637190c2b6de0b8e7d",
+      "version": "0.2",
+      "status": "active"
+    },
+    {
+      "path": "docs/gdd/gdd_hull_class_governor_architecture_v0.1_draft.md",
+      "blob": "55bfa441fbb31ebe0a7e69e1199c00c1fe064002",
+      "version": "0.2",
+      "status": "active"
+    },
+    {
+      "path": "docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md",
+      "blob": "7b9125cf6166d09d1a3ca9e3736cbe3422e6c7e5",
+      "version": "0.3",
+      "status": "active"
+    },
+    {
+      "path": "docs/gdd/gdd_hot_environment_thermoinverter_balance_v0.1_draft.md",
+      "blob": "d71edffe43cce1a34a4633aa41188cad0b7e0224",
+      "version": "0.2",
+      "status": "active"
+    },
+    {
+      "path": "docs/gdd/gdd_generator_thermal_topology_v0.1_draft.md",
+      "blob": "74018a9e2519862babed3fe44e5a399bdf0716be",
+      "version": "0.1",
+      "status": "active"
+    },
+    {
+      "path": "docs/gdd/gdd_thermal_progression_work_cycle_reframe_v0.1_draft.md",
+      "blob": "91f95f1b4aca6a927d633869d53347067a55a058",
+      "version": "0.4",
+      "status": "active"
+    },
+    {
+      "path": "docs/specs/balance/spec_ship_module_ttx_master_v0.1_draft.md",
+      "blob": "e0a1b437a4f0fa4a7a1b7335138013c3281bf1a0",
+      "version": "1.4",
+      "status": "active"
+    },
+    {
+      "path": "docs/architecture/ADR-0043-Thermodynamics-And-Motoresurs.md",
+      "blob": "8d580d6fce6002206e28445b2a1d267c5671f6ec",
+      "version": "1.6",
+      "status": "active"
+    },
+    {
+      "path": "docs/architecture/ADR-0045-Unified-Accumulator-Model.md",
+      "blob": "f14a396772e86e961688afd740807b988828c5f7",
+      "version": "1.0",
+      "status": "active"
+    },
+    {
+      "path": "docs/architecture/ADR-0036-Sector-Fields-Environment.md",
+      "blob": "926b3f184a47911d4bd2e4a8869ab4eb74e93137",
+      "version": "1.3",
+      "status": "active"
+    },
+    {
+      "path": "docs/architecture/ADR-0037-Solar-Sail-And-Cross-Section.md",
+      "blob": "a53c12f6a8b3ad3cead806d3b7a8d631fd929f97",
+      "version": "1.1",
+      "status": "active"
+    }
+  ]
+}

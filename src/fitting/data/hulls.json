@@ -1,0 +1,2535 @@
+[
+  {
+    "id": "sputnik",
+    "label": "Спутник",
+    "size": "S",
+    "generation": 1,
+    "architecture": "U",
+    "slots": [
+      {
+        "id": "march",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "march",
+        "formFactor": "single"
+      },
+      {
+        "id": "retro",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "retro",
+        "formFactor": "single"
+      },
+      {
+        "id": "strafe",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "strafe",
+        "formFactor": "pair"
+      },
+      {
+        "id": "turn",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "turn",
+        "formFactor": "pair"
+      },
+      {
+        "id": "power-1",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-2",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-3",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-1",
+        "category": "payload",
+        "size": "S",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-2",
+        "category": "payload",
+        "size": "S",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-1",
+        "category": "signature",
+        "size": "S",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-2",
+        "category": "signature",
+        "size": "S",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      }
+    ],
+    "builtins": [
+      {
+        "id": "builtin:cargo",
+        "item": {
+          "id": "builtin-cargo-sputnik",
+          "label": "Встроенный универсальный трюм",
+          "family": "cargo",
+          "category": "payload",
+          "size": "S",
+          "formFactor": "single",
+          "generation": 1,
+          "generationState": "authored",
+          "materials": [
+            {
+              "id": "LAB-STEEL-MIX",
+              "massKg": 2377.3876192041307,
+              "cpJKgK": 470,
+              "contents": "dry",
+              "origin": {
+                "kind": "experimental",
+                "sourceRef": "lab:LAB-STEEL-MIX-01",
+                "unit": "kg; J/(kg·K)",
+                "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+                "range": [
+                  350,
+                  900
+                ]
+              }
+            }
+          ],
+          "numerics": {
+            "cargoM3": 6
+          },
+          "gate": {
+            "low": 200,
+            "workLow": 250,
+            "restartLow": 260,
+            "workHigh": 500,
+            "restartHigh": 480,
+            "high": 550
+          },
+          "origins": {
+            "numerics.cargoM3": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_ship_cargo_payload_and_dimensions.md:profile",
+              "unit": "m³ = SCU",
+              "note": "Явный authored reference; нет automatic Class/G multipliers"
+            },
+            "gate.low": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.high": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "materials.0.massKg": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-BUILTIN-CARGO-01",
+              "unit": "kg",
+              "note": "6V^(2/3) ×120kg/m²",
+              "range": [
+                1584.9250794694206,
+                3169.850158938841
+              ]
+            },
+            "materials.0.cpJKgK": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-STEEL-MIX-01",
+              "unit": "J/(kg·K)",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                350,
+                900
+              ]
+            }
+          },
+          "class": "Civilian",
+          "cargoType": "universal"
+        }
+      }
+    ],
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 42500,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "hullPowerW": 200000,
+    "hullRadiationM2": 456.45,
+    "origins": {
+      "materials.0.massKg": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_s_hull_dry_mass_closure_v0.1_draft.md§shell",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          31875.0,
+          53125.0
+        ]
+      },
+      "hullPowerW": {
+        "kind": "experimental",
+        "sourceRef": "lab:hotel-load-candidate",
+        "unit": "W",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "hullRadiationM2": {
+        "kind": "experimental",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§2",
+        "unit": "m²",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      }
+    },
+    "class": "Civilian"
+  },
+  {
+    "id": "pony",
+    "label": "Дизельный Пони",
+    "size": "S",
+    "generation": 0,
+    "architecture": "D",
+    "slots": [
+      {
+        "id": "march",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "march",
+        "formFactor": "single"
+      },
+      {
+        "id": "retro",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "retro",
+        "formFactor": "single"
+      },
+      {
+        "id": "strafe",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "strafe",
+        "formFactor": "pair"
+      },
+      {
+        "id": "turn",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "turn",
+        "formFactor": "pair"
+      },
+      {
+        "id": "power-1",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-2",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-3",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-1",
+        "category": "payload",
+        "size": "S",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-2",
+        "category": "payload",
+        "size": "S",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-1",
+        "category": "signature",
+        "size": "S",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-2",
+        "category": "signature",
+        "size": "S",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      }
+    ],
+    "builtins": [
+      {
+        "id": "builtin:cargo",
+        "item": {
+          "id": "builtin-cargo-pony",
+          "label": "Встроенный универсальный трюм",
+          "family": "cargo",
+          "category": "payload",
+          "size": "S",
+          "formFactor": "single",
+          "generation": 0,
+          "generationState": "authored",
+          "materials": [
+            {
+              "id": "LAB-STEEL-MIX",
+              "massKg": 3773.867607660811,
+              "cpJKgK": 470,
+              "contents": "dry",
+              "origin": {
+                "kind": "experimental",
+                "sourceRef": "lab:LAB-STEEL-MIX-01",
+                "unit": "kg; J/(kg·K)",
+                "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+                "range": [
+                  350,
+                  900
+                ]
+              }
+            }
+          ],
+          "numerics": {
+            "cargoM3": 12
+          },
+          "gate": {
+            "low": 200,
+            "workLow": 250,
+            "restartLow": 260,
+            "workHigh": 500,
+            "restartHigh": 480,
+            "high": 550
+          },
+          "origins": {
+            "numerics.cargoM3": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_ship_cargo_payload_and_dimensions.md:profile",
+              "unit": "m³ = SCU",
+              "note": "Явный authored reference; нет automatic Class/G multipliers"
+            },
+            "gate.low": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.high": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "materials.0.massKg": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-BUILTIN-CARGO-01",
+              "unit": "kg",
+              "note": "6V^(2/3) ×120kg/m²",
+              "range": [
+                2515.9117384405404,
+                5031.823476881081
+              ]
+            },
+            "materials.0.cpJKgK": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-STEEL-MIX-01",
+              "unit": "J/(kg·K)",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                350,
+                900
+              ]
+            }
+          },
+          "class": "UNKNOWN",
+          "cargoType": "universal"
+        }
+      },
+      {
+        "id": "builtin:tank",
+        "item": {
+          "id": "pony-tank",
+          "label": "Встроенный бак соларки",
+          "family": "tank",
+          "category": "power",
+          "size": "S",
+          "formFactor": "single",
+          "generation": 0,
+          "generationState": "authored",
+          "materials": [
+            {
+              "id": "LAB-STEEL-MIX",
+              "massKg": 600,
+              "cpJKgK": 470,
+              "contents": "dry",
+              "origin": {
+                "kind": "experimental",
+                "sourceRef": "lab:LAB-STEEL-MIX-01",
+                "unit": "kg; J/(kg·K)",
+                "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+                "range": [
+                  350,
+                  900
+                ]
+              }
+            }
+          ],
+          "numerics": {
+            "fuelCapacityKg": 12000
+          },
+          "gate": {
+            "low": 200,
+            "workLow": 250,
+            "restartLow": 260,
+            "workHigh": 500,
+            "restartHigh": 480,
+            "high": 550
+          },
+          "origins": {
+            "numerics.fuelCapacityKg": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_survival_starting_ship_v0.1_draft.md§4/7",
+              "unit": "kg",
+              "note": "Явный authored reference; нет automatic Class/G multipliers"
+            },
+            "gate.low": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.high": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "materials.0.massKg": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_survival_starting_ship_v0.1_draft.md§4/7",
+              "unit": "kg",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                450.0,
+                750.0
+              ]
+            },
+            "materials.0.cpJKgK": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-STEEL-MIX-01",
+              "unit": "J/(kg·K)",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                350,
+                900
+              ]
+            }
+          },
+          "class": "UNKNOWN",
+          "species": "diesel"
+        }
+      },
+      {
+        "id": "builtin:laser",
+        "item": {
+          "id": "pony-laser",
+          "label": "Встроенный лазер S/G0",
+          "family": "mining",
+          "category": "payload",
+          "size": "S",
+          "formFactor": "single",
+          "generation": 0,
+          "generationState": "authored",
+          "materials": [
+            {
+              "id": "LAB-STEEL-MIX",
+              "massKg": 2200,
+              "cpJKgK": 470,
+              "contents": "dry",
+              "origin": {
+                "kind": "experimental",
+                "sourceRef": "lab:LAB-STEEL-MIX-01",
+                "unit": "kg; J/(kg·K)",
+                "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+                "range": [
+                  350,
+                  900
+                ]
+              }
+            }
+          ],
+          "numerics": {
+            "powerW": 1000000.0,
+            "efficiency": 0.35
+          },
+          "gate": {
+            "low": 200,
+            "workLow": 250,
+            "restartLow": 260,
+            "workHigh": 500,
+            "restartHigh": 480,
+            "high": 550
+          },
+          "origins": {
+            "numerics.powerW": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_survival_pony_power_buffer_balance_v0.1_draft.md§7",
+              "unit": "W",
+              "note": "Явный authored reference; нет automatic Class/G multipliers"
+            },
+            "numerics.efficiency": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_survival_pony_power_buffer_balance_v0.1_draft.md§7",
+              "unit": "1",
+              "note": "Явный authored reference; нет automatic Class/G multipliers"
+            },
+            "gate.low": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.high": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "materials.0.massKg": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_survival_pony_power_buffer_balance_v0.1_draft.md§7",
+              "unit": "kg",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                1650.0,
+                2750.0
+              ]
+            },
+            "materials.0.cpJKgK": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-STEEL-MIX-01",
+              "unit": "J/(kg·K)",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                350,
+                900
+              ]
+            }
+          },
+          "class": "UNKNOWN"
+        }
+      }
+    ],
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 35000,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "hullPowerW": 200000,
+    "hullRadiationM2": 456.45,
+    "origins": {
+      "materials.0.massKg": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_survival_starting_ship_v0.1_draft.md§7",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          26250.0,
+          43750.0
+        ]
+      },
+      "hullPowerW": {
+        "kind": "experimental",
+        "sourceRef": "lab:hotel-load-candidate",
+        "unit": "W",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "hullRadiationM2": {
+        "kind": "experimental",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§2",
+        "unit": "m²",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      }
+    },
+    "class": "UNKNOWN"
+  },
+  {
+    "id": "industrial-S",
+    "label": "Industrial S",
+    "size": "S",
+    "generation": 2,
+    "architecture": "U",
+    "slots": [
+      {
+        "id": "march",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "march",
+        "formFactor": "single"
+      },
+      {
+        "id": "retro",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "retro",
+        "formFactor": "single"
+      },
+      {
+        "id": "strafe",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "strafe",
+        "formFactor": "pair"
+      },
+      {
+        "id": "turn",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "turn",
+        "formFactor": "pair"
+      },
+      {
+        "id": "power-1",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-2",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-3",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-4",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-1",
+        "category": "payload",
+        "size": "S",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-2",
+        "category": "payload",
+        "size": "S",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-1",
+        "category": "signature",
+        "size": "S",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-2",
+        "category": "signature",
+        "size": "S",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-3",
+        "category": "signature",
+        "size": "S",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      }
+    ],
+    "builtins": [
+      {
+        "id": "builtin:cargo",
+        "item": {
+          "id": "builtin-cargo-industrial-S",
+          "label": "Встроенный универсальный трюм",
+          "family": "cargo",
+          "category": "payload",
+          "size": "S",
+          "formFactor": "single",
+          "generation": 2,
+          "generationState": "authored",
+          "materials": [
+            {
+              "id": "LAB-STEEL-MIX",
+              "massKg": 3773.867607660811,
+              "cpJKgK": 470,
+              "contents": "dry",
+              "origin": {
+                "kind": "experimental",
+                "sourceRef": "lab:LAB-STEEL-MIX-01",
+                "unit": "kg; J/(kg·K)",
+                "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+                "range": [
+                  350,
+                  900
+                ]
+              }
+            }
+          ],
+          "numerics": {
+            "cargoM3": 12
+          },
+          "gate": {
+            "low": 200,
+            "workLow": 250,
+            "restartLow": 260,
+            "workHigh": 500,
+            "restartHigh": 480,
+            "high": 550
+          },
+          "origins": {
+            "numerics.cargoM3": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_ship_cargo_payload_and_dimensions.md:profile",
+              "unit": "m³ = SCU",
+              "note": "Явный authored reference; нет automatic Class/G multipliers"
+            },
+            "gate.low": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.high": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "materials.0.massKg": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-BUILTIN-CARGO-01",
+              "unit": "kg",
+              "note": "6V^(2/3) ×120kg/m²",
+              "range": [
+                2515.9117384405404,
+                5031.823476881081
+              ]
+            },
+            "materials.0.cpJKgK": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-STEEL-MIX-01",
+              "unit": "J/(kg·K)",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                350,
+                900
+              ]
+            }
+          },
+          "class": "Industrial",
+          "cargoType": "universal"
+        }
+      }
+    ],
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 35000,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "hullPowerW": 200000,
+    "hullRadiationM2": 456.45,
+    "origins": {
+      "materials.0.massKg": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_s_hull_dry_mass_closure_v0.1_draft.md§shell",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          26250.0,
+          43750.0
+        ]
+      },
+      "hullPowerW": {
+        "kind": "experimental",
+        "sourceRef": "lab:hotel-load-candidate",
+        "unit": "W",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "hullRadiationM2": {
+        "kind": "experimental",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§2",
+        "unit": "m²",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      }
+    },
+    "class": "Industrial"
+  },
+  {
+    "id": "civilian-M",
+    "label": "Civilian M",
+    "size": "M",
+    "generation": 1,
+    "architecture": "E",
+    "slots": [
+      {
+        "id": "march",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "march",
+        "formFactor": "single"
+      },
+      {
+        "id": "retro",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "retro",
+        "formFactor": "single"
+      },
+      {
+        "id": "strafe",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "strafe",
+        "formFactor": "pair"
+      },
+      {
+        "id": "turn",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "turn",
+        "formFactor": "pair"
+      },
+      {
+        "id": "power-1",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-2",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-3",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-4",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-1",
+        "category": "payload",
+        "size": "M",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-2",
+        "category": "payload",
+        "size": "M",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-3",
+        "category": "payload",
+        "size": "M",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-1",
+        "category": "signature",
+        "size": "M",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-2",
+        "category": "signature",
+        "size": "M",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-3",
+        "category": "signature",
+        "size": "M",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      }
+    ],
+    "builtins": [
+      {
+        "id": "builtin:cargo",
+        "item": {
+          "id": "builtin-cargo-civilian-M",
+          "label": "Встроенный универсальный трюм",
+          "family": "cargo",
+          "category": "payload",
+          "size": "M",
+          "formFactor": "single",
+          "generation": 1,
+          "generationState": "authored",
+          "materials": [
+            {
+              "id": "LAB-STEEL-MIX",
+              "massKg": 5990.641410389484,
+              "cpJKgK": 470,
+              "contents": "dry",
+              "origin": {
+                "kind": "experimental",
+                "sourceRef": "lab:LAB-STEEL-MIX-01",
+                "unit": "kg; J/(kg·K)",
+                "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+                "range": [
+                  350,
+                  900
+                ]
+              }
+            }
+          ],
+          "numerics": {
+            "cargoM3": 24
+          },
+          "gate": {
+            "low": 200,
+            "workLow": 250,
+            "restartLow": 260,
+            "workHigh": 500,
+            "restartHigh": 480,
+            "high": 550
+          },
+          "origins": {
+            "numerics.cargoM3": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_ship_cargo_payload_and_dimensions.md:profile",
+              "unit": "m³ = SCU",
+              "note": "Явный authored reference; нет automatic Class/G multipliers"
+            },
+            "gate.low": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.high": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "materials.0.massKg": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-BUILTIN-CARGO-01",
+              "unit": "kg",
+              "note": "6V^(2/3) ×120kg/m²",
+              "range": [
+                3993.760940259656,
+                7987.521880519312
+              ]
+            },
+            "materials.0.cpJKgK": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-STEEL-MIX-01",
+              "unit": "J/(kg·K)",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                350,
+                900
+              ]
+            }
+          },
+          "class": "Civilian",
+          "cargoType": "universal"
+        }
+      },
+      {
+        "id": "builtin:battery",
+        "item": {
+          "id": "battery-M",
+          "label": "Аккумулятор M",
+          "family": "battery",
+          "category": "power",
+          "size": "M",
+          "formFactor": "single",
+          "generation": 1,
+          "generationState": "authored",
+          "materials": [
+            {
+              "id": "LAB-STEEL-MIX",
+              "massKg": 24000,
+              "cpJKgK": 470,
+              "contents": "dry",
+              "origin": {
+                "kind": "experimental",
+                "sourceRef": "lab:LAB-STEEL-MIX-01",
+                "unit": "kg; J/(kg·K)",
+                "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+                "range": [
+                  350,
+                  900
+                ]
+              }
+            }
+          ],
+          "numerics": {
+            "capacityJ": 58919999999.99999
+          },
+          "gate": {
+            "low": 200,
+            "workLow": 250,
+            "restartLow": 260,
+            "workHigh": 500,
+            "restartHigh": 480,
+            "high": 550
+          },
+          "origins": {
+            "numerics.capacityJ": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_s_power_class_specialization_balance_v0.1_draft.md§4",
+              "unit": "J",
+              "note": "Явный authored reference; нет automatic Class/G multipliers"
+            },
+            "gate.low": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.high": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "materials.0.massKg": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_s_power_class_specialization_balance_v0.1_draft.md§4",
+              "unit": "kg",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                18000.0,
+                30000.0
+              ]
+            },
+            "materials.0.cpJKgK": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-STEEL-MIX-01",
+              "unit": "J/(kg·K)",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                350,
+                900
+              ]
+            }
+          },
+          "class": "Civilian"
+        }
+      }
+    ],
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 170000,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "hullPowerW": 800000,
+    "hullRadiationM2": 1825.8,
+    "origins": {
+      "materials.0.massKg": {
+        "kind": "experimental",
+        "sourceRef": "lab:shell-size-recipe",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          127500.0,
+          212500.0
+        ]
+      },
+      "hullPowerW": {
+        "kind": "experimental",
+        "sourceRef": "lab:hotel-load-candidate",
+        "unit": "W",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "hullRadiationM2": {
+        "kind": "experimental",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§2",
+        "unit": "m²",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      }
+    },
+    "class": "Civilian"
+  },
+  {
+    "id": "industrial-M",
+    "label": "Industrial M",
+    "size": "M",
+    "generation": 2,
+    "architecture": "U",
+    "slots": [
+      {
+        "id": "march",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "march",
+        "formFactor": "single"
+      },
+      {
+        "id": "retro",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "retro",
+        "formFactor": "single"
+      },
+      {
+        "id": "strafe",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "strafe",
+        "formFactor": "pair"
+      },
+      {
+        "id": "turn",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "turn",
+        "formFactor": "pair"
+      },
+      {
+        "id": "power-1",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-2",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-3",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-4",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-5",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-1",
+        "category": "payload",
+        "size": "M",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-2",
+        "category": "payload",
+        "size": "M",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-3",
+        "category": "payload",
+        "size": "M",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-1",
+        "category": "signature",
+        "size": "M",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-2",
+        "category": "signature",
+        "size": "M",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-3",
+        "category": "signature",
+        "size": "M",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-4",
+        "category": "signature",
+        "size": "M",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      }
+    ],
+    "builtins": [
+      {
+        "id": "builtin:cargo",
+        "item": {
+          "id": "builtin-cargo-industrial-M",
+          "label": "Встроенный универсальный трюм",
+          "family": "cargo",
+          "category": "payload",
+          "size": "M",
+          "formFactor": "single",
+          "generation": 2,
+          "generationState": "authored",
+          "materials": [
+            {
+              "id": "LAB-STEEL-MIX",
+              "massKg": 9509.550476816523,
+              "cpJKgK": 470,
+              "contents": "dry",
+              "origin": {
+                "kind": "experimental",
+                "sourceRef": "lab:LAB-STEEL-MIX-01",
+                "unit": "kg; J/(kg·K)",
+                "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+                "range": [
+                  350,
+                  900
+                ]
+              }
+            }
+          ],
+          "numerics": {
+            "cargoM3": 48
+          },
+          "gate": {
+            "low": 200,
+            "workLow": 250,
+            "restartLow": 260,
+            "workHigh": 500,
+            "restartHigh": 480,
+            "high": 550
+          },
+          "origins": {
+            "numerics.cargoM3": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_ship_cargo_payload_and_dimensions.md:profile",
+              "unit": "m³ = SCU",
+              "note": "Явный authored reference; нет automatic Class/G multipliers"
+            },
+            "gate.low": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.high": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "materials.0.massKg": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-BUILTIN-CARGO-01",
+              "unit": "kg",
+              "note": "6V^(2/3) ×120kg/m²",
+              "range": [
+                6339.700317877682,
+                12679.400635755364
+              ]
+            },
+            "materials.0.cpJKgK": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-STEEL-MIX-01",
+              "unit": "J/(kg·K)",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                350,
+                900
+              ]
+            }
+          },
+          "class": "Industrial",
+          "cargoType": "universal"
+        }
+      }
+    ],
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 140000,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "hullPowerW": 800000,
+    "hullRadiationM2": 1825.8,
+    "origins": {
+      "materials.0.massKg": {
+        "kind": "experimental",
+        "sourceRef": "lab:shell-size-recipe",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          105000.0,
+          175000.0
+        ]
+      },
+      "hullPowerW": {
+        "kind": "experimental",
+        "sourceRef": "lab:hotel-load-candidate",
+        "unit": "W",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "hullRadiationM2": {
+        "kind": "experimental",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§2",
+        "unit": "m²",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      }
+    },
+    "class": "Industrial"
+  },
+  {
+    "id": "industrial-L",
+    "label": "Industrial L",
+    "size": "L",
+    "generation": 2,
+    "architecture": "U",
+    "slots": [
+      {
+        "id": "march",
+        "category": "propulsion",
+        "size": "L",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "march",
+        "formFactor": "single"
+      },
+      {
+        "id": "retro",
+        "category": "propulsion",
+        "size": "L",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "retro",
+        "formFactor": "single"
+      },
+      {
+        "id": "strafe",
+        "category": "propulsion",
+        "size": "L",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "strafe",
+        "formFactor": "pair"
+      },
+      {
+        "id": "turn",
+        "category": "propulsion",
+        "size": "L",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "turn",
+        "formFactor": "pair"
+      },
+      {
+        "id": "power-1",
+        "category": "power",
+        "size": "L",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-2",
+        "category": "power",
+        "size": "L",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-3",
+        "category": "power",
+        "size": "L",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-4",
+        "category": "power",
+        "size": "L",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-5",
+        "category": "power",
+        "size": "L",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-6",
+        "category": "power",
+        "size": "L",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-1",
+        "category": "payload",
+        "size": "L",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-2",
+        "category": "payload",
+        "size": "L",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-3",
+        "category": "payload",
+        "size": "L",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-4",
+        "category": "payload",
+        "size": "L",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-1",
+        "category": "signature",
+        "size": "L",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-2",
+        "category": "signature",
+        "size": "L",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-3",
+        "category": "signature",
+        "size": "L",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-4",
+        "category": "signature",
+        "size": "L",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-5",
+        "category": "signature",
+        "size": "L",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      }
+    ],
+    "builtins": [
+      {
+        "id": "builtin:cargo",
+        "item": {
+          "id": "builtin-cargo-industrial-L",
+          "label": "Встроенный универсальный трюм",
+          "family": "cargo",
+          "category": "payload",
+          "size": "L",
+          "formFactor": "single",
+          "generation": 2,
+          "generationState": "authored",
+          "materials": [
+            {
+              "id": "LAB-STEEL-MIX",
+              "massKg": 23962.56564155793,
+              "cpJKgK": 470,
+              "contents": "dry",
+              "origin": {
+                "kind": "experimental",
+                "sourceRef": "lab:LAB-STEEL-MIX-01",
+                "unit": "kg; J/(kg·K)",
+                "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+                "range": [
+                  350,
+                  900
+                ]
+              }
+            }
+          ],
+          "numerics": {
+            "cargoM3": 192
+          },
+          "gate": {
+            "low": 200,
+            "workLow": 250,
+            "restartLow": 260,
+            "workHigh": 500,
+            "restartHigh": 480,
+            "high": 550
+          },
+          "origins": {
+            "numerics.cargoM3": {
+              "kind": "canonical",
+              "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_ship_cargo_payload_and_dimensions.md:profile",
+              "unit": "m³ = SCU",
+              "note": "Явный authored reference; нет automatic Class/G multipliers"
+            },
+            "gate.low": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartLow": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.workHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.restartHigh": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "gate.high": {
+              "kind": "experimental",
+              "sourceRef": "lab:gate-candidate-01",
+              "unit": "K",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                200,
+                570
+              ]
+            },
+            "materials.0.massKg": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-BUILTIN-CARGO-01",
+              "unit": "kg",
+              "note": "6V^(2/3) ×120kg/m²",
+              "range": [
+                15975.04376103862,
+                31950.08752207724
+              ]
+            },
+            "materials.0.cpJKgK": {
+              "kind": "experimental",
+              "sourceRef": "lab:LAB-STEEL-MIX-01",
+              "unit": "J/(kg·K)",
+              "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+              "range": [
+                350,
+                900
+              ]
+            }
+          },
+          "class": "Industrial",
+          "cargoType": "universal"
+        }
+      }
+    ],
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 560000,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "hullPowerW": 3200000,
+    "hullRadiationM2": 7303.2,
+    "origins": {
+      "materials.0.massKg": {
+        "kind": "experimental",
+        "sourceRef": "lab:shell-size-recipe",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          420000.0,
+          700000.0
+        ]
+      },
+      "hullPowerW": {
+        "kind": "experimental",
+        "sourceRef": "lab:hotel-load-candidate",
+        "unit": "W",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "hullRadiationM2": {
+        "kind": "experimental",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§2",
+        "unit": "m²",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      }
+    },
+    "class": "Industrial"
+  }
+]

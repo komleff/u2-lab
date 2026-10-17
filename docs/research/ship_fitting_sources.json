@@ -1,0 +1,255 @@
+{
+  "source_repository": "https://github.com/komleff/u2",
+  "source_commit": "cdc490e3517c8455f662f82579c45813cdbb9a76",
+  "captured_on": "2026-10-05",
+  "method": "docs/INDEX.md and ADR-INDEX registered candidates, then direct related/owner links; git show frozen commit; no archive keyword search",
+  "scope": "metadata and paraphrased design findings; no full private GDD replication",
+  "sources": [
+    {
+      "path": "docs/specs/balance/spec_ship_module_ttx_master_v0.1_draft.md",
+      "blob": "e0a1b437a4f0fa4a7a1b7335138013c3281bf1a0",
+      "lifecycle_version": "active / 1.4",
+      "route": "llms:ТТХ модулей; INDEX62/90"
+    },
+    {
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/README.md",
+      "blob": "a1ac502186b4991e66cf4fc83dded09d8b806ccf",
+      "lifecycle_version": "primary / 1.1",
+      "route": "llms:Данные ТТХ; INDEX94; Master"
+    },
+    {
+      "path": "docs/specs/spec_ship_slots_v0.7.md",
+      "blob": "3d9f260dbc20ad965efcb31fda0bbc7f56fb467e",
+      "lifecycle_version": "active / 0.8-r14",
+      "route": "INDEX 278; §2–3,6–9,10,12"
+    },
+    {
+      "path": "docs/specs/spec_ship_slots_multifuel_thermal_delta_v0.1.md",
+      "blob": "9047b951d026ee1d947daba01dcd4bf6fcd5e782",
+      "lifecycle_version": "active / 0.1",
+      "route": "INDEX 306; §1–7; explicit narrow supersedes"
+    },
+    {
+      "path": "docs/specs/spec_ship_dimensions_v1.0.md",
+      "blob": "4494c746a038cb635f18086180d4ddbec4992009",
+      "lifecycle_version": "primary / 1.2",
+      "route": "overview§16.2; INDEX60/205"
+    },
+    {
+      "path": "docs/gdd/gdd_ship_cargo_payload_and_dimensions.md",
+      "blob": "002f34cb7f40cf065df6367b8576db8b16b49c21",
+      "lifecycle_version": "primary / 1.7",
+      "route": "overview§16.1; INDEX62/105"
+    },
+    {
+      "path": "docs/gdd/gdd_hull_specialization_and_industrial_ships_v0.1_draft.md",
+      "blob": "e79ed6519be831f7cd0e40cc902d3e09b48f3bc4",
+      "lifecycle_version": "active / 0.2",
+      "route": "overview§16.1; INDEX63/216"
+    },
+    {
+      "path": "docs/gdd/gdd_survival_starting_ship_v0.1_draft.md",
+      "blob": "1937ef2188c8a55608046a966c1fa3e73d02b527",
+      "lifecycle_version": "active / 1.4",
+      "route": "overview§16.1; cargo related; INDEX272"
+    },
+    {
+      "path": "docs/specs/spec_engine_force_grid_v0.1.md",
+      "blob": "fb8622925bdb0bb676ab2ee43e94ac52a96eda23",
+      "lifecycle_version": "active / 0.1-r13",
+      "route": "Master related / family override; INDEX393"
+    },
+    {
+      "path": "docs/specs/spec_power_components_v0.1.md",
+      "blob": "bc9a55064e389566f6e8009cb02b71fe712d4b26",
+      "lifecycle_version": "active / 0.1-r11",
+      "route": "Master related / family override; INDEX394"
+    },
+    {
+      "path": "docs/specs/spec_power_load_v0.1.md",
+      "blob": "a2922380369432406e904f2807fcd383d5b99696",
+      "lifecycle_version": "active / 0.5-r4",
+      "route": "moduleTTX related; INDEX395"
+    },
+    {
+      "path": "docs/specs/spec_module_ttx_contract_v0.1.md",
+      "blob": "107922682804556cbc76384d9bec7c9f168e6725",
+      "lifecycle_version": "active / 0.3",
+      "route": "force-grid related; INDEX304"
+    },
+    {
+      "path": "docs/specs/balance/spec_ship_module_ttx_generation_national_v0.1_draft.md",
+      "blob": "e790b4af7d11f52d6e4c2b4d1fe61fa31a964e0d",
+      "lifecycle_version": "active / 1.1",
+      "route": "llms:Generation/National; INDEX92"
+    },
+    {
+      "path": "docs/gdd/gdd_s_power_class_specialization_balance_v0.1_draft.md",
+      "blob": "fa3a033cd7e7e4db305c3d1ec883f85137e2b16d",
+      "lifecycle_version": "active / 1.0",
+      "route": "dry-mass related; INDEX103"
+    },
+    {
+      "path": "docs/gdd/gdd_s_hull_dry_mass_closure_v0.1_draft.md",
+      "blob": "f92a6e6f908e4148d8278776a4238d9e462cba2f",
+      "lifecycle_version": "active / 0.4",
+      "route": "cargo related; INDEX102"
+    },
+    {
+      "path": "docs/gdd/gdd_laser_energy_productivity_and_recovery_balance_v0.1_draft.md",
+      "blob": "bc8dc47eff0e9fe16179e407f9f92ad1d66f8b3d",
+      "lifecycle_version": "active / 1.0",
+      "route": "family override; INDEX99"
+    },
+    {
+      "path": "docs/gdd/gdd_generator_thermal_topology_v0.1_draft.md",
+      "blob": "74018a9e2519862babed3fe44e5a399bdf0716be",
+      "lifecycle_version": "active / 0.1",
+      "route": "power components§5.2 link; INDEX238"
+    },
+    {
+      "path": "docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md",
+      "blob": "7b9125cf6166d09d1a3ca9e3736cbe3422e6c7e5",
+      "lifecycle_version": "active / 0.3",
+      "route": "multi-fuel delta related; INDEX274"
+    },
+    {
+      "path": "docs/brand/u2_engine_types_doctrine.md",
+      "blob": "7725b9be494d6bb399a20e7a4f3d80a9fc81568c",
+      "lifecycle_version": "active / 0.6",
+      "route": "llms/slots/force related; INDEX71/72/147"
+    },
+    {
+      "path": "docs/brand/u2_power_budget_doctrine.md",
+      "blob": "e89f5d29768d8c99c8f5e2cd39815b61942a6ed0",
+      "lifecycle_version": "active / 0.1-r3",
+      "route": "power/moduleTTX related"
+    },
+    {
+      "path": "docs/specs/ship_naming/catalog_ship_master_registry_v1.0.md",
+      "blob": "b84caebc70654bc23fbbdbae0a47d3a6a2177c7d",
+      "lifecycle_version": "draft / 1.3",
+      "route": "special series related; dimensions naming dependency"
+    },
+    {
+      "path": "docs/specs/ship_naming/catalog_ships_russian_v1.0.md",
+      "blob": "af6157297e004f5bd5f2207ec624dd4b1281f8e5",
+      "lifecycle_version": "draft / 1.5",
+      "route": "cargo§11 linked"
+    },
+    {
+      "path": "docs/specs/ship_naming/catalog_ship_special_series_v1.0.md",
+      "blob": "5530fa15502e353e076bbbf49befaa7fc5a6a7ae",
+      "lifecycle_version": "draft / 1.2",
+      "route": "slots§10.2 linked"
+    },
+    {
+      "path": "docs/architecture/ADR-0016-Flight-Model-TTX-Not-IFCS.md",
+      "blob": "a2dbf3c385d762250853ca39159a5e949b2f0b76",
+      "lifecycle_version": "active / 1.3",
+      "route": "ADR-INDEX / Master"
+    },
+    {
+      "path": "docs/architecture/ADR-0041-Ship-Size-Grid-One-Axis-And-Scaling-Law.md",
+      "blob": "1a7bf9469ecb9b6ed5aead19d80109749f38deec",
+      "lifecycle_version": "active / 1.5",
+      "route": "ADR-INDEX / slots/dimensions"
+    },
+    {
+      "path": "docs/architecture/ADR-0043-Thermodynamics-And-Motoresurs.md",
+      "blob": "8d580d6fce6002206e28445b2a1d267c5671f6ec",
+      "lifecycle_version": "active / 1.6",
+      "route": "ADR-INDEX / thermal owner"
+    },
+    {
+      "path": "docs/architecture/ADR-0045-Unified-Accumulator-Model.md",
+      "blob": "f14a396772e86e961688afd740807b988828c5f7",
+      "lifecycle_version": "active / 1.0",
+      "route": "ADR-INDEX / accumulator owner"
+    },
+    {
+      "path": "docs/architecture/ADR-0049-Config-Schema-Hulls-Modules-Sectors.md",
+      "blob": "25293b252e664eeb2e1121167c09f95b93270ef4",
+      "lifecycle_version": "active / 0.5",
+      "route": "ADR-INDEX; authoring/runtime boundary, mass, built-in identity"
+    },
+    {
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/module_families.csv",
+      "blob": "6e28e71d91b6ca6b4f0765e37233f09c13c62fa1",
+      "lifecycle_version": "CSV authoring data / filename-pinned",
+      "route": "README§1"
+    },
+    {
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/family_owner_overrides_v0.1.csv",
+      "blob": "8940f9d1296e1e0d0f14bb1bfbce6bca8fc30030",
+      "lifecycle_version": "CSV authoring data / filename-pinned",
+      "route": "README§1/2"
+    },
+    {
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/ttx_axes_v0.2.csv",
+      "blob": "8b056b5c41ac0610350b8b54c50d3d37645e1bdd",
+      "lifecycle_version": "CSV authoring data / filename-pinned",
+      "route": "README§1/2"
+    },
+    {
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/generation_laws.csv",
+      "blob": "b9d637283a7005e674170112b30a9b7cc69a4e5b",
+      "lifecycle_version": "CSV authoring data / filename-pinned",
+      "route": "README§1/3"
+    },
+    {
+      "path": "docs/brand/u2_outfitting_doctrine.md",
+      "blob": "628cdc62733071c97287e3ebdea49deaaefd44bb",
+      "lifecycle_version": "active / 0.6-r7",
+      "route": "INDEX 61,146; §2,7–9,11–12,15–16"
+    },
+    {
+      "path": "docs/specs/spec_ship_fitting_instances_v0.1.md",
+      "blob": "60177b30a84bcb9dbd227afe5ce48d13ab8aa1a6",
+      "lifecycle_version": "active / 0.9",
+      "route": "INDEX 305; §1–2,6–10"
+    },
+    {
+      "path": "docs/specs/spec_fit_blueprints_catalog_v0.1.md",
+      "blob": "b060d94d6ff17eddf9b699c4f3700bc3cbda1182",
+      "lifecycle_version": "active / 0.7",
+      "route": "INDEX 303; §1–4,6–10"
+    },
+    {
+      "path": "docs/specs/spec_station_outfitting_services_v0.1.md",
+      "blob": "d22fa99a4bae01be20d79def890450457b65cc4b",
+      "lifecycle_version": "active / 0.15",
+      "route": "INDEX 307; station/ownership boundary, не lab workflow"
+    },
+    {
+      "path": "docs/specs/ui/spec_ux_master_architecture_v0.1.md",
+      "blob": "043809cd3a6b7bdf509ce06460f1bbce942e16da",
+      "lifecycle_version": "active / 0.7",
+      "route": "INDEX 513; §2,4,7.6,8.7,9–10,12"
+    },
+    {
+      "path": "docs/specs/ui/spec_ux_master_user_flow_v0.1.md",
+      "blob": "de25d2a842622a5401f7f3f143fb17a609c9bcb1",
+      "lifecycle_version": "active / 0.6",
+      "route": "INDEX 512; §10 service loop"
+    },
+    {
+      "path": "docs/specs/ui/spec_station_screens_uitoolkit_v0.1.md",
+      "blob": "9dde495fbc73016336237bad104e37ea87e58b89",
+      "lifecycle_version": "active / 0.16",
+      "route": "INDEX 525; «Что видит игрок», §5.3"
+    },
+    {
+      "path": "docs/brand/u2_brand_bible_v0.3.md",
+      "blob": "56f01e4a2f5d62538e3a60cb09436b86f3e96d37",
+      "lifecycle_version": "primary / 0.4.0",
+      "route": "INDEX 130; §2.2,3,4.6–4.7,8"
+    },
+    {
+      "path": "docs/architecture/ADR-0026-Base-Outfitting-Reuse.md",
+      "blob": "6831c52fd4cf56318dab5e894be2f214ab5912f8",
+      "lifecycle_version": "active / 0.5",
+      "route": "ADR-INDEX; reuse/slot compatibility/duplicates"
+    }
+  ]
+}

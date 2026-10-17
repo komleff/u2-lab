@@ -1,0 +1,65 @@
+{
+  "fixture": "12h real S mining kernel",
+  "ticks": 4320033,
+  "buckets": 43200,
+  "channels": 42,
+  "bytes": 87782400,
+  "wallMs": 132595.329222,
+  "metrics": {
+    "ticks": 4320033,
+    "usefulWork": 287.99999998510106,
+    "firstConstraintSeconds": null,
+    "forcedDowntimeSeconds": 0,
+    "recoverySeconds": null,
+    "nextActionReadySeconds": null,
+    "firstTargetSeconds": 809.8400319918533,
+    "firstSortieSeconds": 819.8400319918442,
+    "fuelConsumedKg": {
+      "diesel": 5299.332360088376
+    },
+    "coolantConsumedKg": 0,
+    "maxTemperatureK": 492.0529367883149,
+    "energyResidualJ": -0.07214139105025236,
+    "sourceEnergyJ": 64107202559.87655,
+    "beamEnergyJ": 28799999999.95835,
+    "thrustImpulseNs": 1002525735.3400437,
+    "targetCheckpoint": {
+      "ticks": 80985,
+      "usefulWork": 12,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": 809.8400319918533,
+      "firstSortieSeconds": null,
+      "fuelConsumedKg": {
+        "diesel": 122.96058490686846
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 376.58406652688814,
+      "energyResidualJ": 0.004238227875816847,
+      "sourceEnergyJ": 1439739835.3641782,
+      "beamEnergyJ": 1199999999.998265,
+      "thrustImpulseNs": 29500000
+    },
+    "sortieCheckpoint": {
+      "ticks": 81985,
+      "usefulWork": 12,
+      "firstConstraintSeconds": null,
+      "forcedDowntimeSeconds": 0,
+      "recoverySeconds": null,
+      "nextActionReadySeconds": null,
+      "firstTargetSeconds": 809.8400319918533,
+      "firstSortieSeconds": 819.8400319918442,
+      "fuelConsumedKg": {
+        "diesel": 130.9564885616419
+      },
+      "coolantConsumedKg": 0,
+      "maxTemperatureK": 377.2006199532496,
+      "energyResidualJ": 0.004132323635190005,
+      "sourceEnergyJ": 1457739835.3641782,
+      "beamEnergyJ": 1199999999.998265,
+      "thrustImpulseNs": 41300000
+    }
+  }
+}

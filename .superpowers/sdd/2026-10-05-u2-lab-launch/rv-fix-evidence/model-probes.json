@@ -1,0 +1,156 @@
+{
+  "B1": {
+    "coarse": {
+      "temperatureK": 342.27663792362966,
+      "fuelKg": {},
+      "energyJ": 15772.336207637034,
+      "residualJ": 6.252776074688882e-13,
+      "events": []
+    },
+    "half": {
+      "temperatureK": 342.27663792863365,
+      "fuelKg": {},
+      "energyJ": 15772.336207136634,
+      "residualJ": 3.979039320256561e-13,
+      "events": []
+    },
+    "fine": {
+      "temperatureK": 342.2766380666977,
+      "fuelKg": {},
+      "energyJ": 15772.33619333018,
+      "residualJ": 7.69273533762771e-13,
+      "events": []
+    },
+    "halfStepRelativeEnergy": 3.1726457029887425e-11,
+    "refinedRelativeEnergy": 9.070852614727827e-10
+  },
+  "B2": {
+    "coarse": {
+      "temperatureK": 500,
+      "fuelKg": {
+        "d": 9.9
+      },
+      "energyJ": 0,
+      "residualJ": 0,
+      "events": [
+        {
+          "timeSeconds": 1,
+          "kind": "thermal-stop",
+          "message": "tank:d: тепловая остановка при 500.000 K"
+        },
+        {
+          "timeSeconds": 2,
+          "kind": "constraint",
+          "message": "Недостаток электропитания / тепловой лимит|Тепловая защита"
+        }
+      ]
+    },
+    "fine": {
+      "temperatureK": 499.99999999997635,
+      "fuelKg": {
+        "d": 9.900000000000233
+      },
+      "energyJ": 2.3646917757247365e-9,
+      "residualJ": 0,
+      "events": [
+        {
+          "timeSeconds": 1.0000000000000007,
+          "kind": "thermal-stop",
+          "message": "tank:d: тепловая остановка при 500.000 K"
+        },
+        {
+          "timeSeconds": 1.0000000000000007,
+          "kind": "constraint",
+          "message": "Тепловая защита"
+        },
+        {
+          "timeSeconds": 1.0010000000000006,
+          "kind": "constraint",
+          "message": "Недостаток электропитания / тепловой лимит|Тепловая защита"
+        }
+      ]
+    }
+  },
+  "B2shared": {
+    "temperatureK": 500,
+    "fuelKg": {
+      "d": 9.8
+    },
+    "energyJ": 0,
+    "residualJ": 0,
+    "events": [
+      {
+        "timeSeconds": 1,
+        "kind": "thermal-stop",
+        "message": "tank:d: тепловая остановка при 500.000 K"
+      },
+      {
+        "timeSeconds": 2,
+        "kind": "constraint",
+        "message": "Недостаток электропитания / тепловой лимит|Тепловая защита"
+      }
+    ]
+  },
+  "B2restart": {
+    "coarse": {
+      "temperatureK": 470.324795360776,
+      "fuelKg": {
+        "d": 9.864496553659297
+      },
+      "energyJ": 3135.272187092749,
+      "residualJ": 5.684341886080802e-14,
+      "events": [
+        {
+          "timeSeconds": 0,
+          "kind": "thermal-stop",
+          "message": "tank:d: тепловая остановка при 501.000 K"
+        },
+        {
+          "timeSeconds": 0.3224827682964866,
+          "kind": "thermal-restart",
+          "message": "tank:d: возобновление при 490.000 K"
+        },
+        {
+          "timeSeconds": 1,
+          "kind": "constraint",
+          "message": "Недостаток электропитания / тепловой лимит"
+        }
+      ]
+    },
+    "fine": {
+      "temperatureK": 470.3247953789539,
+      "fuelKg": {
+        "d": 9.864496553751534
+      },
+      "energyJ": 3135.272185228981,
+      "residualJ": 0,
+      "events": [
+        {
+          "timeSeconds": 0,
+          "kind": "thermal-stop",
+          "message": "tank:d: тепловая остановка при 501.000 K"
+        },
+        {
+          "timeSeconds": 0.001,
+          "kind": "constraint",
+          "message": "Недостаток электропитания / тепловой лимит|Тепловая защита"
+        },
+        {
+          "timeSeconds": 0.3224827687560949,
+          "kind": "thermal-restart",
+          "message": "tank:d: возобновление при 490.000 K"
+        },
+        {
+          "timeSeconds": 0.32300000000000023,
+          "kind": "constraint",
+          "message": "Недостаток электропитания / тепловой лимит"
+        },
+        {
+          "timeSeconds": 0.32400000000000023,
+          "kind": "recovered",
+          "message": "Ограничения сняты"
+        }
+      ]
+    }
+  }
+}

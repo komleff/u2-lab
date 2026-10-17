@@ -1,0 +1,175 @@
+{
+  "role": "independent QA",
+  "model": "Codex; exact provider model ID unavailable",
+  "sourceSha": "86dee5da9e8a9c45723b7e9a476b8b16bfb98f2b",
+  "baselineSourceSha": "a625c79c5fbc8cfc706c87d0631fc0204c1689fb",
+  "actualHead": "86dee5da9e8a9c45723b7e9a476b8b16bfb98f2b",
+  "actualDelta": [
+    "src/io/fitting-result.ts",
+    "tests/fitting/station-service.test.ts"
+  ],
+  "affectedNecessaryOwners": [
+    {
+      "path": "src/app/fitting-workspace.ts",
+      "gitBlob": "6e08be9485c931da6a51bbda35a965147a869d40",
+      "bytes": 11700,
+      "sha256": "75996f442e32df267db93d5baec7e72a0ef2a17ed960cbe7203d6d1e0c7482e3",
+      "equalsInitialQA": true
+    },
+    {
+      "path": "src/app/fitting.ts",
+      "gitBlob": "94eaefd164f91b40a623cb2c688b6aad5f39752f",
+      "bytes": 36740,
+      "sha256": "d50bb38a3b0cbc53a5c8c432f80367febfb4722bba15cfe515d0af4f6f801380",
+      "equalsInitialQA": true
+    },
+    {
+      "path": "src/io/fitting-result.ts",
+      "gitBlob": "01ab516e159b062891d33c61dbcdfe472fc6961a",
+      "bytes": 19996,
+      "sha256": "656e10a7397aecda0f66c16df9f936cffdfae4b9fea95200cd9e9257094d3749",
+      "equalsInitialQA": false
+    }
+  ],
+  "wholeAcceptedPlan": {
+    "path": "/Users/komleff/Documents/GitHub/u2-lab/docs/plans/2026-10-06-station-service.md",
+    "bytes": 7955,
+    "sha256": "05f63be7874e759af7b95f01c35de28692aad4922350562b509dd49e136b20aa"
+  },
+  "wholeFindingSource": {
+    "path": "/Users/komleff/Documents/GitHub/u2-lab/docs/reviews/2026-10-06-station-service-code-review-r1.md",
+    "bytes": 8278,
+    "sha256": "3ad919c0b722bde2fb5fc138ae4293460c2ef0cccbe25af4bfab617a12e15b2d"
+  },
+  "ownContentFingerprint": "a3fa8ca109e15acb5f0110bd58d5ad5a769a6e2f17846a4e5fc4923025fb28d2",
+  "recipe": "SHA256 UTF8 sorted3 path NUL gitBlob LF +literalwhole7955BPlan +literalwholeReviewerReport",
+  "initialQA": {
+    "report": {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/execution-r1/report.md",
+      "bytes": 8019,
+      "sha256": "8be3d53d0d975d34c6d5f52f7cfdf29aca856ce6b1804e7581a988ad47a31c14"
+    },
+    "binding": {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/execution-r1/source-binding.json",
+      "bytes": 9251,
+      "sha256": "96f4c72f78c60b6281f1dc0093987f42fb5404585c1a1a464b873190f8ab0923"
+    },
+    "historicalScope": "ST01–06 sourcea625 FP6260; new OFF fuel counterexample not covered by initial own methods",
+    "unchangedNecessaryOwners": [
+      {
+        "path": "src/app/fitting-ui/conditions.ts",
+        "gitBlob": "7239338ea68548886b1760f6f1747e230de93e6a",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/app/fitting-ui/lab-view.ts",
+        "gitBlob": "26e03e15d82a2228ab86a8409846557973e13368",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/app/fitting-ui/result-context.ts",
+        "gitBlob": "c77ba25c2c51c97cd6934df96bfebee0d198d98d",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/app/fitting-workspace.ts",
+        "gitBlob": "6e08be9485c931da6a51bbda35a965147a869d40",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/app/fitting.ts",
+        "gitBlob": "94eaefd164f91b40a623cb2c688b6aad5f39752f",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/fitting/catalog.ts",
+        "gitBlob": "fa81e316f44cfd566daf1d77d10e4ac2e649b41c",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/fitting/data/modules.json",
+        "gitBlob": "8eeab46d4aea4b8bd665f5b1a9538cf3ff00547d",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/fitting/validate.ts",
+        "gitBlob": "000958a724d7bd95beea15edcaeab546b304fbaa",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/io/fitting-json.ts",
+        "gitBlob": "ef679f906db0d7a090919f872aaa15f59e0c0f0d",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/model/v2/flight.ts",
+        "gitBlob": "cccf715b9d01b4de661ff9c63c85ec082aa0c722",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/model/v2/physics.ts",
+        "gitBlob": "ab8a765826db1f035769327ee3a0a526d5ff73af",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/model/v2/step.ts",
+        "gitBlob": "6e20ef50d3f04cee61e40fe6714149a66892ba82",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/model/v2/types.ts",
+        "gitBlob": "8e59a3dc04e6bc7c78a877c44d1a038fd9c76899",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/runner/fitting-run.ts",
+        "gitBlob": "8cda108e5bae4bdc1346a6848202e395b988fe05",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/runner/mining-metrics.ts",
+        "gitBlob": "659a3f598def1085736ba2b936b141042763b2cf",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/runner/mission.ts",
+        "gitBlob": "f3ee60fe63befc1c7dd03abc80a7baad7685a4d5",
+        "equalsInitialQA": true
+      },
+      {
+        "path": "src/scenarios/mission.ts",
+        "gitBlob": "a07eddb9e18dacaf68e4badaa03e7aa19f5cab5f",
+        "equalsInitialQA": true
+      }
+    ],
+    "carryoverBasis": "17/18 prior runtime owner blobs equal; parser sole runtime delta +1 OFF fuel guard. Previous runtime behavior claims remain historical evidence, not fresh re-execution."
+  },
+  "preparedMethods": {
+    "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/affected-b1/preparation/cases.md",
+    "bytes": 2721,
+    "sha256": "ad93582e70b28d61cc75f11cdb9c4f006a7c50309b79e8d032bdfcb6ae27250b"
+  },
+  "fixtureRecipes": {
+    "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/station-service-qa/affected-b1/preparation/fixture-recipes.json",
+    "bytes": 3803,
+    "sha256": "47850c22b864be9191cceced8817b26b829dcdb4efbe580c548ed780116d7d6b"
+  },
+  "externalDeveloperReportReadAfterOwnMeasurements": {
+    "path": "/Users/komleff/Documents/GitHub/u2-lab-claude-ui/.overgate-runtime/2026-10-06-station-service-developer-fix-r1.md",
+    "bytes": 4985,
+    "sha256": "3272fd16a75bfd1c8641c3defd1e8c7417f757f45e1da4c456180ea73c30ab54"
+  },
+  "PMArtifactInherited": {
+    "root": "/Users/komleff/Documents/GitHub/u2-lab-claude-ui/.overgate-runtime/station-service-v2.2-candidate-fix-r1",
+    "served": "extracted/dist",
+    "sourceRows": 3,
+    "sourceFingerprint": "76bfc9aa33ca24f79697b50a368822f7f731b419752963c2cd80fe0a0112b8eb",
+    "buildAssets": 17,
+    "buildFingerprint": "cd7c227ad4150f707b6b1d2e79d71e9bc54dd3db1f33db33c3d5b5b2798a9ba4",
+    "ownPackagingRepeat": false,
+    "ZIP": "not created"
+  },
+  "nativeURL": "http://192.168.68.65:4195/?v=station-fix-86dee5d",
+  "ownRuntimeScope": "13 API parser/workspace assertions and7 native import-only assertions across four risk addresses; no runner steps/Start/measurement frames",
+  "legacyControlDisclosure": "Authored full result from own previously measured absent state/metrics/events/spec plus matching OFF trace and ON fuel-stock columns. Not a newly executed runner result."
+}

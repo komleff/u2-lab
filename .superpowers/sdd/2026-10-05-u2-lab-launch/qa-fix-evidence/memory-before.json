@@ -1,0 +1,17 @@
+[
+  {
+    "id": "IP18 retained storage cap with admitted larger channel count",
+    "ac": "P10",
+    "result": "FAIL",
+    "error": "Error: ≤128MiB retained budget exceeded while declared estimate remains below limit; no schema channel cap and duration has no12h cap",
+    "evidence": {
+      "channels": 98,
+      "buckets": 50000,
+      "maxBuckets": 50000,
+      "estimatedBytes": 130400000,
+      "actualRetainedHeapPlusArrayBufferDelta": 151318080,
+      "limitBytes": 134217728,
+      "numericBytes": 117600000
+    }
+  }
+]

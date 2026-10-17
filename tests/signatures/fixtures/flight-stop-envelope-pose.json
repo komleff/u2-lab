@@ -1,0 +1,170 @@
+{
+  "version": "signature-flight-fixture-0.1",
+  "scope": "actual_coupling_reproduction_not_importable_checkpoint",
+  "specReference": "performance-S-input.json",
+  "state": {
+    "schemaVersion": "u2-lab/3",
+    "timeSeconds": 1596.337791466758,
+    "chargeJ": 8106523662.797741,
+    "temperatureK": 520.0260397109357,
+    "fuelKg": {
+      "diesel": 11779.576319312146,
+      "hydrogen": 0.047114889098984
+    },
+    "buffersJ": {},
+    "gates": {
+      "builtin:laser": false,
+      "fit:march": false,
+      "fit:retro": false,
+      "fit:strafe": false,
+      "fit:turn": false,
+      "fit:power-2": false,
+      "fit:signature-1": false,
+      "fit:payload-1": false,
+      "tank:diesel": false,
+      "tank:hydrogen": false
+    },
+    "cargo": 35.99999999999776,
+    "cargoM3": {
+      "ore": 36
+    },
+    "currentMassKg": 126564.37887386205,
+    "usefulWork": 72,
+    "extractedByInstanceM3": {
+      "builtin:laser": 11.745425180196806,
+      "fit:payload-1": 60.254574819807026
+    },
+    "consumptionKg": {
+      "diesel:generator:fit:power-2": 40.7285332870789,
+      "diesel:propulsion:fit:march": 235.17050864020734,
+      "diesel:propulsion:fit:retro": 221.51686382080902,
+      "diesel:propulsion:fit:strafe": 0.6416372071226274,
+      "diesel:propulsion:fit:turn": 0.6416372071226274,
+      "hydrogen:cooler:fit:signature-1": 1013.772749441619
+    },
+    "limitations": {
+      "builtin:cargo": {
+        "power": false,
+        "thermal": false,
+        "resource": false,
+        "cargo": false
+      },
+      "builtin:tank": {
+        "power": false,
+        "thermal": false,
+        "resource": false,
+        "cargo": false
+      },
+      "builtin:laser": {
+        "power": false,
+        "thermal": false,
+        "resource": false,
+        "cargo": false
+      },
+      "fit:march": {
+        "power": false,
+        "thermal": false,
+        "resource": false,
+        "cargo": false
+      },
+      "fit:retro": {
+        "power": false,
+        "thermal": false,
+        "resource": false,
+        "cargo": false
+      },
+      "fit:strafe": {
+        "power": false,
+        "thermal": false,
+        "resource": false,
+        "cargo": false
+      },
+      "fit:turn": {
+        "power": false,
+        "thermal": false,
+        "resource": false,
+        "cargo": false
+      },
+      "fit:power-1": {
+        "power": false,
+        "thermal": false,
+        "resource": false,
+        "cargo": false
+      },
+      "fit:power-2": {
+        "power": false,
+        "thermal": false,
+        "resource": false,
+        "cargo": false
+      },
+      "fit:signature-1": {
+        "power": false,
+        "thermal": false,
+        "resource": false,
+        "cargo": false
+      },
+      "fit:payload-1": {
+        "power": false,
+        "thermal": false,
+        "resource": false,
+        "cargo": false
+      },
+      "fit:payload-2": {
+        "power": false,
+        "thermal": false,
+        "resource": false,
+        "cargo": false
+      },
+      "fit:power-3": {
+        "power": false,
+        "thermal": false,
+        "resource": false,
+        "cargo": false
+      }
+    },
+    "phaseKey": "mission:inbound",
+    "constraints": [
+      "Тепловое снижение тяги/выдачи; охлаждение и восстановление продолжаются"
+    ],
+    "cyclesCompleted": 1,
+    "miningStopSeconds": null,
+    "mission": {
+      "stage": "inbound",
+      "flightMode": "acceleration",
+      "positionM": 96891.40189757032,
+      "velocityMS": 186.14168139605587,
+      "stageStartedSeconds": 1405.7569370655606,
+      "tripStartedSeconds": 782.651991849397,
+      "outboundMassKg": 73418.2130196608,
+      "inboundMassKg": 126894.54166904699,
+      "peakVelocityMS": 1386.508989419275,
+      "deliveredM3": 36,
+      "receivedFuelKg": {
+        "diesel": 278.2754994629995,
+        "hydrogen": 380.36228433027395
+      },
+      "receivedChargeJ": 1877149087.126276,
+      "elapsed": {
+        "flight": 744.0921915036389,
+        "approach": 19.999999999998334,
+        "mining": 822.2455999628171,
+        "service": 9.99999999999773,
+        "recovery": 2.5011104298755527e-11
+      },
+      "firstLimiter": {
+        "timeSeconds": 511.9663849363072,
+        "phase": "mining",
+        "instanceIds": [
+          "fit:payload-1"
+        ],
+        "causes": [
+          "power"
+        ],
+        "message": "Недостаточно доступной электрической мощности; заряд 8290.983 МДж; источники 0.450 МВт, запрос 4.610 МВт"
+      },
+      "terminalReason": null
+    },
+    "sourceRecovery": true
+  },
+  "windowSeconds": 1
+}

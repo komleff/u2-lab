@@ -1,0 +1,59 @@
+{
+  "version": "0.1.1",
+  "sha256": "2738ebf9b24a2f4694c9705e72afc228db5391962622f5457c3b9a02fea72c1c",
+  "bytes": 40075,
+  "files": 6,
+  "crc": "PASS",
+  "distDigestVerification": "PASS",
+  "sourceCandidate": "fead162208d1e7d1918f36d8f51089110e924c51",
+  "browserSmoke": {
+    "status": "PASS",
+    "sourceCandidate": "fead162208d1e7d1918f36d8f51089110e924c51",
+    "browserVersion": "153.0.8010.0",
+    "serve": "python3 http.server bound0.0.0.0:4273",
+    "checks": [
+      "static packaged dist",
+      "S/M14s completed",
+      "A/B visible",
+      "two independent local contexts",
+      "390px no horizontal overflow",
+      "same-origin runtime requests",
+      "no page exceptions"
+    ],
+    "requestCount": 4,
+    "externalRequests": [],
+    "physicalSecondLANDevice": "NOT RUN"
+  },
+  "httpOriginSmoke": {
+    "sourceCandidate": "fead162208d1e7d1918f36d8f51089110e924c51",
+    "browser": "153.0.8010.0",
+    "mapping": "Non-local HTTP origin uses identical own dist files via browser request interception; actual secure-context settings unchanged",
+    "results": [
+      {
+        "capabilities": {
+          "origin": "http://127.0.0.1:4274",
+          "secure": true,
+          "randomUUID": "function",
+          "getRandomValues": "function"
+        },
+        "completed": true,
+        "status": "Завершён",
+        "errors": []
+      },
+      {
+        "capabilities": {
+          "origin": "http://u2-lab-lan.test:4274",
+          "secure": false,
+          "randomUUID": "undefined",
+          "getRandomValues": "function"
+        },
+        "completed": true,
+        "status": "Завершён",
+        "errors": []
+      }
+    ]
+  },
+  "evidenceOwner": "PM actual packed/extracted artifact verification",
+  "physicalXiaomi": "NOT RUN",
+  "fullOperatorAcceptance": "NOT CLAIMED"
+}

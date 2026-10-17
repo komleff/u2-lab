@@ -1,0 +1,203 @@
+{
+  "sputnik": {
+    "schemaVersion": "u2-ship-fit/2",
+    "fitRevision": 1,
+    "catalogVersion": "ship-fitting-0.3.0",
+    "hullId": "sputnik",
+    "assignments": {
+      "march": "fit:march",
+      "retro": "fit:retro",
+      "strafe": "fit:strafe",
+      "turn": "fit:turn",
+      "power-1": "fit:power-1",
+      "power-2": "fit:power-2",
+      "payload-1": "fit:payload-1",
+      "signature-1": "fit:signature-1"
+    },
+    "instances": {
+      "fit:march": {
+        "id": "fit:march",
+        "itemId": "engine-electric-S-single",
+        "enabled": true
+      },
+      "fit:retro": {
+        "id": "fit:retro",
+        "itemId": "engine-electric-S-single",
+        "enabled": true
+      },
+      "fit:strafe": {
+        "id": "fit:strafe",
+        "itemId": "engine-electric-S-pair",
+        "enabled": true
+      },
+      "fit:turn": {
+        "id": "fit:turn",
+        "itemId": "engine-electric-S-pair",
+        "enabled": true
+      },
+      "fit:power-1": {
+        "id": "fit:power-1",
+        "itemId": "battery-S",
+        "enabled": true
+      },
+      "fit:power-2": {
+        "id": "fit:power-2",
+        "itemId": "solar-S",
+        "enabled": true
+      },
+      "fit:payload-1": {
+        "id": "fit:payload-1",
+        "itemId": "mining-civil-S",
+        "enabled": true
+      },
+      "fit:signature-1": {
+        "id": "fit:signature-1",
+        "itemId": "radiator-passive-S",
+        "enabled": true
+      }
+    },
+    "localVariants": {},
+    "builtinModes": {},
+    "initial": {
+      "chargeFraction": 1,
+      "fuelFraction": {
+        "diesel": 1,
+        "hydrogen": 1
+      }
+    }
+  },
+  "severin-mir": {
+    "schemaVersion": "u2-ship-fit/2",
+    "fitRevision": 1,
+    "catalogVersion": "ship-fitting-0.3.0",
+    "hullId": "severin-mir",
+    "assignments": {
+      "march": "fit:march",
+      "retro": "fit:retro",
+      "strafe": "fit:strafe",
+      "turn": "fit:turn",
+      "power-1": "fit:power-1",
+      "power-2": "fit:power-2",
+      "payload-1": "fit:payload-1",
+      "signature-1": "fit:signature-1"
+    },
+    "instances": {
+      "fit:march": {
+        "id": "fit:march",
+        "itemId": "engine-electric-M-single",
+        "enabled": true
+      },
+      "fit:retro": {
+        "id": "fit:retro",
+        "itemId": "engine-electric-M-single",
+        "enabled": true
+      },
+      "fit:strafe": {
+        "id": "fit:strafe",
+        "itemId": "engine-electric-M-pair",
+        "enabled": true
+      },
+      "fit:turn": {
+        "id": "fit:turn",
+        "itemId": "engine-electric-M-pair",
+        "enabled": true
+      },
+      "fit:power-1": {
+        "id": "fit:power-1",
+        "itemId": "battery-M",
+        "enabled": true
+      },
+      "fit:power-2": {
+        "id": "fit:power-2",
+        "itemId": "solar-M",
+        "enabled": true
+      },
+      "fit:payload-1": {
+        "id": "fit:payload-1",
+        "itemId": "mining-civil-M",
+        "enabled": true
+      },
+      "fit:signature-1": {
+        "id": "fit:signature-1",
+        "itemId": "radiator-passive-M",
+        "enabled": true
+      }
+    },
+    "localVariants": {},
+    "builtinModes": {},
+    "initial": {
+      "chargeFraction": 1,
+      "fuelFraction": {
+        "diesel": 1,
+        "hydrogen": 1
+      }
+    }
+  },
+  "stealth-reference": {
+    "schemaVersion": "u2-ship-fit/2",
+    "fitRevision": 1,
+    "catalogVersion": "ship-fitting-0.3.0",
+    "hullId": "stealth-reference",
+    "assignments": {
+      "march": "fit:march",
+      "retro": "fit:retro",
+      "strafe": "fit:strafe",
+      "turn": "fit:turn",
+      "power-1": "fit:power-1",
+      "power-2": "fit:power-2",
+      "payload-1": "fit:payload-1",
+      "signature-1": "fit:signature-1"
+    },
+    "instances": {
+      "fit:march": {
+        "id": "fit:march",
+        "itemId": "engine-electric-S-single",
+        "enabled": true
+      },
+      "fit:retro": {
+        "id": "fit:retro",
+        "itemId": "engine-electric-S-single",
+        "enabled": true
+      },
+      "fit:strafe": {
+        "id": "fit:strafe",
+        "itemId": "engine-electric-S-pair",
+        "enabled": true
+      },
+      "fit:turn": {
+        "id": "fit:turn",
+        "itemId": "gyrodyne-S",
+        "enabled": true
+      },
+      "fit:power-1": {
+        "id": "fit:power-1",
+        "itemId": "battery-S",
+        "enabled": true
+      },
+      "fit:power-2": {
+        "id": "fit:power-2",
+        "itemId": "solar-S",
+        "enabled": true
+      },
+      "fit:payload-1": {
+        "id": "fit:payload-1",
+        "itemId": "mining-civil-S",
+        "enabled": true
+      },
+      "fit:signature-1": {
+        "id": "fit:signature-1",
+        "itemId": "shielding-S",
+        "enabled": true
+      }
+    },
+    "localVariants": {},
+    "builtinModes": {},
+    "initial": {
+      "chargeFraction": 1,
+      "fuelFraction": {
+        "diesel": 1,
+        "hydrogen": 1
+      }
+    }
+  }
+}

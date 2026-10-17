@@ -1,0 +1,228 @@
+{
+  "source": "komleff/overgate",
+  "sourceSha": "633937250fa8f47b49f928c1d8781ab17fe8c8e3",
+  "driver": {
+    "exit": 124,
+    "limitSeconds": 180,
+    "result": "TIMEOUT",
+    "logSha256": "10f83ac74c934e26372afaadc64bc597241ccb2302ec4ff4070d442dc42ddbe8"
+  },
+  "resume": {
+    "limitSecondsPerGroup": 120,
+    "workers": 3
+  },
+  "groups": [
+    {
+      "group": "structure",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "bounded-driver-before-timeout",
+      "logSha256": "6f938f57c9babacbdf0306a4eb088cb6f62df3be034682272cd896ad040ef4e4"
+    },
+    {
+      "group": "structural-mutations",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "bounded-driver-before-timeout",
+      "logSha256": "275cf39bc844387974ac06c44e29db1bbdd0aef3e243eba952f0d6d924818ade"
+    },
+    {
+      "group": "closure-mutations",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "bounded-driver-before-timeout",
+      "logSha256": "ed1e29dd56ad8e5433c1d64458e1aee3148e3c4fc825ff0e316e3da64d2d4894"
+    },
+    {
+      "group": "pre-bash-dispatch",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "bounded-driver-before-timeout",
+      "logSha256": "46add3ff8b42bba984807cb875e0331a89e81b4325f9f5061b4057517b7f0687"
+    },
+    {
+      "group": "activation",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "bounded-driver-before-timeout",
+      "logSha256": "b3945fde2241abcc2e80997392ab1c3a9ed78fde2014f54e5e4cbbdaefc6bc20"
+    },
+    {
+      "group": "mutation-guard",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "bounded-driver-before-timeout",
+      "logSha256": "45647815796bff34ca6032bd2ddef8b62996d9a08e2830667e3b86ef8b13a983"
+    },
+    {
+      "group": "classifier",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "bounded-driver-before-timeout",
+      "logSha256": "8457e57bcf35828e3b92be86b2628699d698e8e2a2f7256925cd323aed63322f"
+    },
+    {
+      "group": "commit-gate",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "bounded-driver-before-timeout",
+      "logSha256": "eb6a9845b64292f68ce0e4223a6def31d7f21392b62304e89855c84bb89ad466"
+    },
+    {
+      "group": "readiness",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "bounded-driver-before-timeout",
+      "logSha256": "a3e4aa85cbe9e30017ad746b48ce915a84e0e13c7bb75976bcd62ea40ccf13de"
+    },
+    {
+      "group": "publisher",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "bounded-driver-before-timeout",
+      "logSha256": "11eed210626567f273031c4973b334dc92160cc49498291fd6b18e73a3afd437"
+    },
+    {
+      "group": "python-launcher",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "bounded-driver-before-timeout",
+      "logSha256": "d0173d96598b509f67e01e091f3b23f5c918941c0efd03e176908a743cbf07f4"
+    },
+    {
+      "group": "with-timeout",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "bounded-driver-before-timeout",
+      "logSha256": "80f47aa452cf7e8056eeeb2d6faeccdd7a36ea0fab0d6c8b533ed5a171d9c19b"
+    },
+    {
+      "group": "with-timeout-transparency",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "bounded-driver-before-timeout",
+      "logSha256": "9e6c0d4d8281aaf6cf0a06758987371c616be14d0a1c59f4efee4a4c7d58b1e2"
+    },
+    {
+      "group": "merge-gate-script-run-parity",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "bounded-driver-before-timeout",
+      "logSha256": "a8a90651aadfd2d1c665b177222124b981ea83d4183eca6a74d491bcfc7c4862"
+    },
+    {
+      "group": "merge-gate-parse-completeness",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "original-command-in-bounded-resume",
+      "logSha256": "d8347f828c5f27409c2a9989ccee3a592f26b6402f1cbdd06c0e7e05700caeb0"
+    },
+    {
+      "group": "merge-gate-parse-budget",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "original-command-in-bounded-resume",
+      "logSha256": "d6753ae33dcc0e30fcd080a2b000614a70f6c8a838cf15269a2c8dad87224660"
+    },
+    {
+      "group": "gate-arithmetic-expansion",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "original-command-in-bounded-resume",
+      "logSha256": "73d1732441e3ac7256eca4d8f0d14118c2d5eaa2385286c7bf5f454f368dd19b"
+    },
+    {
+      "group": "gate-heredoc-delimiter",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "original-command-in-bounded-resume",
+      "logSha256": "ee3c904b763c2cc61e9f9886d69c588fc23fbe3407202b85ce6f9e9fcbb57b58"
+    },
+    {
+      "group": "gate-line-continuation-parity",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "original-command-in-bounded-resume",
+      "logSha256": "47f5f3691295f2b36391f9e5806d7dad0ab6616b9e822cb6ae27a6330e859f47"
+    },
+    {
+      "group": "shell-grammar-single-source",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "original-command-in-bounded-resume",
+      "logSha256": "95c700fa4b4cb8887f2d178e88409573d969c1d409c8b6c3a606db2863b65f11"
+    },
+    {
+      "group": "module-resolution-closure",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "original-command-in-bounded-resume",
+      "logSha256": "21dcfec32abdd50e8bd2fe2257c48b2fab4f0b73420378e5fc4e8094dda843a1"
+    },
+    {
+      "group": "finalize-triage-parse",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "original-command-in-bounded-resume",
+      "logSha256": "f842e5fbb4beb044834dee4a202249e9a07985ff58500b34c77a98e6b1c7b8dc"
+    },
+    {
+      "group": "bd-read",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "original-command-in-bounded-resume",
+      "logSha256": "a6140b31a508a5859b6831ebb35cd6d1b0a9dd50724ed57a1d6758bed4e9784c"
+    },
+    {
+      "group": "bd-wt",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "original-command-in-bounded-resume",
+      "logSha256": "9643f30739c685cd47c25142248a8c348363be6375b64f664bcfdabab67c1cfd"
+    },
+    {
+      "group": "merge-gate-parse-complexity",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "original-command-in-bounded-resume",
+      "logSha256": "9ef2ca8880a82e9627d70917f4614ad7a2cf5decafe9ec315699050e8206b6ee"
+    },
+    {
+      "group": "readiness-declaration-corpus",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "original-command-in-bounded-resume",
+      "logSha256": "54f3205509cfde03077ffd18cbcf89780d6220d63db055c2c182787479ff94f0"
+    },
+    {
+      "group": "readiness-policy-complexity",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "original-command-in-bounded-resume",
+      "logSha256": "d88279533fbdb7ddb2335deba9d3fcd6d83b5b342adb48fd70c62b000c67db27"
+    },
+    {
+      "group": "finalizer-validator",
+      "result": "PASS",
+      "exit": 0,
+      "execution": "original-command-in-bounded-resume",
+      "logSha256": "1aec13a35eae5b4f75e207ece7b306655e3c295218949da889b8b5e8a33315b2"
+    }
+  ],
+  "earlierSeparateEvidence": [
+    {
+      "group": "install-fresh-upgrade-rollback",
+      "result": "PASS",
+      "passedTests": 26,
+      "evidence": "Prior PM tool execution / bootstrap-evidence.md; raw log not retained"
+    },
+    {
+      "group": "bd-sync",
+      "result": "PASS",
+      "passedTests": 23,
+      "evidence": "Prior PM tool execution / bootstrap-evidence.md; fixture remotes only"
+    }
+  ],
+  "nativeHookActivation": "NOT RUN",
+  "singleDriverCompletion": "NOT COMPLETED"
+}

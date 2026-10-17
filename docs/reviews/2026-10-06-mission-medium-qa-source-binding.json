@@ -1,0 +1,240 @@
+{
+  "role": "independent QA",
+  "model": "Codex; exact provider model ID unavailable",
+  "testedSourceSha": "ec2593157a0ed478e8cfa69cec6c71d860790180",
+  "currentHeadAtBinding": "132ba8d7516c124e379dc29f36dcaefce577f5fc",
+  "scope": "27 runtime owner paths actually exercised by API/native browser; binding is not a full source audit",
+  "testedPaths": [
+    {
+      "path": "src/app/fitting-session.ts",
+      "gitBlob": "25ecc128e00f18bdb6072e50b9b73cb965b6bbc7",
+      "bytes": 1181,
+      "sha256": "6094eedaac324c72072d39e95aecf67d66e0fadbb8a4c42f888524dba3f92829",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/app/fitting-ui/compare-view.ts",
+      "gitBlob": "ba0328613cd7f59e64f70ddfb909988dba363e59",
+      "bytes": 12279,
+      "sha256": "2867c22c83f117479fdb74a791c6ca93b5d6383a0755f7341a6f0dacc6f32e79",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/app/fitting-ui/conditions.ts",
+      "gitBlob": "1c1441c112e44afc7d827b287516883e41428525",
+      "bytes": 1134,
+      "sha256": "d2544a0a093e451333630578274230f953b274917afb797fca5250f15b3ab128",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/app/fitting-ui/lab-channels.ts",
+      "gitBlob": "e1309c468dab24db894a243322587cd84e837b8c",
+      "bytes": 5123,
+      "sha256": "7b53abda05c0d9bba8780038f025c4040d66bacfaa315db3e4262a5e0552a1dc",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/app/fitting-ui/lab-view.ts",
+      "gitBlob": "640b9b2c80bcb783498b5a17ad6b4fa32f37dbc3",
+      "bytes": 20790,
+      "sha256": "8b178eda95bcc8ce6e46ff1610c4e9a12b51da067d7afa3b7f1112a10cda6018",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/app/fitting-ui/result-context.ts",
+      "gitBlob": "1c8b5f496f05a4a13c22a51522672c8f584af326",
+      "bytes": 2305,
+      "sha256": "1aa453226408c36e3213037d2e91e4aa60dd5d94329fca68b5fd6bfeac86e44c",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/app/fitting-ui/ship-view.ts",
+      "gitBlob": "7ffd0043441ed3b3901824fc61d8a1f273149ba0",
+      "bytes": 11901,
+      "sha256": "d27f738718b1e1809167c2baee1df8436ff17bd268f379bd1fb8de1e287e1d05",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/app/fitting-ui/swap-dialog.ts",
+      "gitBlob": "007d2c3459fb6d3265ee344946f6d002e51c22bd",
+      "bytes": 13109,
+      "sha256": "273b79a4f5f2e1bec60fa3faf4af9dcf38b1fc945a5930ae78989ff4beb94cb7",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/app/fitting-workspace.ts",
+      "gitBlob": "a4af25f45febd1f411bd393b33f2cf08844b70f8",
+      "bytes": 11552,
+      "sha256": "5ee72d17945db57b5004c5ca764bad51ad3ab3297c2f1d4ed5df1be6b6047d99",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/app/fitting.ts",
+      "gitBlob": "5f660f219e170964cdd5852c576bf1feb6f3aa4e",
+      "bytes": 36529,
+      "sha256": "5f9391820ad65754cdb7ecc15f24381a7992835417761ebd95bc02909ddcf3ae",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/fitting/catalog.ts",
+      "gitBlob": "fa81e316f44cfd566daf1d77d10e4ac2e649b41c",
+      "bytes": 7796,
+      "sha256": "0513d8e98906025dd962d6e8ee0e60869df3e769d76a3cccd3d8604cb26268f5",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/fitting/compile.ts",
+      "gitBlob": "04775389b8d37311eac2c4aec03202de1aa554cf",
+      "bytes": 2232,
+      "sha256": "9fb88bf4f64ea98b952f437f9c17360f5688fc885efd7bad20c987ab21e22048",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/fitting/data/modules-0.2.3.json",
+      "gitBlob": "ace19995aafc18b9df177f2976f0207a11b40e02",
+      "bytes": 26895,
+      "sha256": "7fb46f47018a8af5f8bbf2bf22fb4cc13ce61e472e4df35d89cdbe845b032832",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/fitting/editions.ts",
+      "gitBlob": "e373cab37124f3d8299d901aa508c53b20708869",
+      "bytes": 2994,
+      "sha256": "08bd17ee76753a1509368c4f01dab56ecfba4c44a27f93b4df0f4238f6cc22bd",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/fitting/validate.ts",
+      "gitBlob": "000958a724d7bd95beea15edcaeab546b304fbaa",
+      "bytes": 12239,
+      "sha256": "3a5c208d2885b3b539f276772d819c71af67498fbe37199cc4a2767b6541b1e3",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/io/fitting-json.ts",
+      "gitBlob": "ef679f906db0d7a090919f872aaa15f59e0c0f0d",
+      "bytes": 5884,
+      "sha256": "671df84ffcf47ba8344a50b186b85440441cfce39017cdaa7831197bab4e4346",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/io/fitting-result.ts",
+      "gitBlob": "0b379d110ec715a2b9d85152fc96df3ea8ff9c28",
+      "bytes": 18892,
+      "sha256": "af685d4269268483668708944ff93f5043a96bcaf1dc882b89b9588737c01913",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/model/v2/flight.ts",
+      "gitBlob": "cccf715b9d01b4de661ff9c63c85ec082aa0c722",
+      "bytes": 1890,
+      "sha256": "48d52527867ebd18edf6ffb64eef5a645befd092b8f27b0dc2ab6a3af8c92e5f",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/model/v2/physics.ts",
+      "gitBlob": "ab8a765826db1f035769327ee3a0a526d5ff73af",
+      "bytes": 27065,
+      "sha256": "d300e9d643126b60b3e3bd6892ccd42bce7ecf4c3f7f30f50c264388a9d0fbf5",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/model/v2/step.ts",
+      "gitBlob": "994ae16fc5fdf4b37418090eebeabd30ee92fc02",
+      "bytes": 19167,
+      "sha256": "87b37381f18f75fa10328a25ebad1ae44523dc6daed15a7321a5d04445930efa",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/model/v2/types.ts",
+      "gitBlob": "19a05b116ffcf07e9fa64330210a1498dceee712",
+      "bytes": 3822,
+      "sha256": "a7cad08cc4a26ec5a510c9b368687f97a0e125cfc57b6ff24b8da679fd220baa",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/runner/fitting-run.ts",
+      "gitBlob": "8cda108e5bae4bdc1346a6848202e395b988fe05",
+      "bytes": 6500,
+      "sha256": "873cc1eb47f61ac3a80cdcf70a122295258b7287802fe6232e67e6f623107089",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/runner/mining-metrics.ts",
+      "gitBlob": "00f3bb2a2a05c380049bc80e32934da80df76fbd",
+      "bytes": 8981,
+      "sha256": "edec3faf9440a5d6a8b69f34c5ec31da5c51f6646984433cd8a0c7a16cb724f3",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/runner/mission.ts",
+      "gitBlob": "90a4e29d02e6506908df41ca8b68dbede2af4513",
+      "bytes": 21420,
+      "sha256": "5859092e70fd66ca689465e5454215cf3d6b2c0477a7fb19ca33b0ab2661f035",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/runner/worker.ts",
+      "gitBlob": "7a74cd0f2a16999ff195aee1c24fc095d948a447",
+      "bytes": 257,
+      "sha256": "9d48e345cceedb6ade2f73766341e751714f84fcb6d93fbffda100c7bf8347be",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/scenarios/fitting.ts",
+      "gitBlob": "090591f787693d6c894ba718bcfae999dc074901",
+      "bytes": 5022,
+      "sha256": "0314034856f465db41f783023fa21dae8206b514317b834f877fc1039f368ab3",
+      "currentBytesEqual": true
+    },
+    {
+      "path": "src/scenarios/mission.ts",
+      "gitBlob": "74477c64f762000b4ba9bbecb416a46c4215f4e3",
+      "bytes": 4219,
+      "sha256": "4826e4ef557cc40b9b9496be752c3dc48a036782d7087f9b7f1042f24e16a862",
+      "currentBytesEqual": true
+    }
+  ],
+  "wholeContracts": [
+    {
+      "path": "docs/product/ship-fitting-v2.2-mission-brief.md",
+      "bytes": 22131,
+      "sha256": "e0d414eb48be123902fb05af3078e58d87d4c540c54f6bf4892af67da93fd5f4"
+    },
+    {
+      "path": "docs/product/ship-fitting-medium-modules.md",
+      "bytes": 13078,
+      "sha256": "e6088c0a48434674634d6c0f5c7a57347b6c33245ad66c5d5a15ecb8bce91b70"
+    },
+    {
+      "path": "docs/plans/2026-10-06-mission-medium-delivery.md",
+      "bytes": 15024,
+      "sha256": "dd585d3d481312c7b4286cedef80127ed0d864b4f35b7eaacfc4205c41e1bc53"
+    }
+  ],
+  "operatorRiskContract": {
+    "path": "/Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/mission-medium-code-review-contract.md",
+    "bytes": 10132,
+    "sha256": "7a23c35ed111b930e36909be8cec71b5564da096107186964c94c620b7926d58"
+  },
+  "ownContentFingerprint": "99f8c3da58783dd84f9640c404933e52fd43e3961b6f0d5f7c340657d6723ae3",
+  "method": "SHA256 UTF8 sorted27 pathNULgitBlobLF + literal whole brief + medium + HOW + current review-contract/operator-clarification bytes, in that order",
+  "candidateManifests": {
+    "source-manifest.json": {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab-claude-ui/.overgate-runtime/mission-medium-v2.2-candidate-fix-r1/source-manifest.json",
+      "bytes": 62680,
+      "sha256": "5d07e23ccb4bd8778fbbf200577a7b897cb56ccce9f0d80b3dd06d45ea93d6bf"
+    },
+    "build-manifest.json": {
+      "path": "/Users/komleff/Documents/GitHub/u2-lab-claude-ui/.overgate-runtime/mission-medium-v2.2-candidate-fix-r1/build-manifest.json",
+      "bytes": 3334,
+      "sha256": "1a6562977fb431eb47f8ae276e23281e162d053e3b68ff93cc524db9ef141ce4"
+    }
+  },
+  "PMInheritedPackaging": {
+    "sourceFingerprint": "b1b6ef6e8f62ca6893fe29fc2b5f42e1f53c778410d55b29208dfc7eb0ce3fa5",
+    "buildFingerprint": "7a83cd4428ff5705b21a4379fc5538d73a901a9519dffdb26fee4b35b701c907",
+    "ZIP": "53952652de99049555028638de8dbf86688a2be2864b9dbff5eee595d4c99cf5",
+    "noOwnBulkProofRepeated": true
+  }
+}

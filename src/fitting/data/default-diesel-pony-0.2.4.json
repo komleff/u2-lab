@@ -1,0 +1,1068 @@
+{
+  "schemaVersion": "u2-ship-fit/1",
+  "fitRevision": 27,
+  "catalogVersion": "ship-fitting-0.2.3",
+  "hullId": "pony",
+  "assignments": {
+    "march": "fit:march",
+    "retro": "fit:retro",
+    "strafe": "fit:strafe",
+    "turn": "fit:turn",
+    "power-1": "fit:power-1",
+    "power-2": "fit:power-2",
+    "signature-1": "fit:signature-1",
+    "payload-1": "fit:payload-1",
+    "payload-2": "fit:payload-2"
+  },
+  "instances": {
+    "fit:march": {
+      "id": "fit:march",
+      "itemId": "pony-engine-march",
+      "enabled": true
+    },
+    "fit:retro": {
+      "id": "fit:retro",
+      "itemId": "pony-engine-retro",
+      "enabled": true
+    },
+    "fit:strafe": {
+      "id": "fit:strafe",
+      "itemId": "pony-engine-strafe",
+      "enabled": true
+    },
+    "fit:turn": {
+      "id": "fit:turn",
+      "itemId": "pony-engine-turn",
+      "enabled": true
+    },
+    "fit:power-1": {
+      "id": "fit:power-1",
+      "itemId": "pony-battery",
+      "enabled": true
+    },
+    "fit:power-2": {
+      "id": "fit:power-2",
+      "itemId": "pony-generator",
+      "enabled": true
+    },
+    "fit:signature-1": {
+      "id": "fit:signature-1",
+      "itemId": "radiator-passive-S",
+      "enabled": true
+    },
+    "fit:payload-1": {
+      "id": "fit:payload-1",
+      "itemId": "mining-industrial-S",
+      "enabled": true
+    },
+    "fit:payload-2": {
+      "id": "fit:payload-2",
+      "itemId": "cargo-bulk-S",
+      "enabled": true
+    }
+  },
+  "localVariants": {
+    "pony-battery": {
+      "id": "pony-battery",
+      "label": "Аккумулятор XS",
+      "family": "battery",
+      "category": "power",
+      "size": "XS",
+      "formFactor": "single",
+      "generation": 0,
+      "generationState": "authored",
+      "materials": [
+        {
+          "id": "LAB-STEEL-MIX",
+          "massKg": 1500,
+          "cpJKgK": 470,
+          "contents": "dry",
+          "origin": {
+            "kind": "experimental",
+            "sourceRef": "lab:LAB-STEEL-MIX-01",
+            "unit": "kg; J/(kg·K)",
+            "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+            "range": [
+              350,
+              900
+            ]
+          }
+        }
+      ],
+      "numerics": {
+        "capacityJ": 10000000000
+      },
+      "gate": {
+        "low": 200,
+        "workLow": 250,
+        "restartLow": 260,
+        "workHigh": 500,
+        "restartHigh": 480,
+        "high": 550
+      },
+      "origins": {
+        "numerics.capacityJ": {
+          "kind": "derived",
+          "unit": "J",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_survival_pony_power_buffer_balance_v0.1_draft.md§1",
+          "derivation": "9e9 / 0.9 = 10e9 stored J; usable anchor после discharge efficiency",
+          "note": "UNKNOWN/G0 anchor; сухой bill XS остаётся лабораторной гипотезой"
+        },
+        "gate.low": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.workLow": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.restartLow": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.workHigh": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.restartHigh": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.high": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "materials.0.massKg": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_s_power_class_specialization_balance_v0.1_draft.md§4",
+          "unit": "kg",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            1125,
+            1875
+          ]
+        },
+        "materials.0.cpJKgK": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      },
+      "class": "UNKNOWN"
+    },
+    "pony-generator": {
+      "id": "pony-generator",
+      "label": "Генератор diesel XS",
+      "family": "generator",
+      "category": "power",
+      "size": "XS",
+      "formFactor": "single",
+      "generation": 0,
+      "generationState": "authored",
+      "materials": [
+        {
+          "id": "LAB-STEEL-MIX",
+          "massKg": 400,
+          "cpJKgK": 470,
+          "contents": "dry",
+          "origin": {
+            "kind": "experimental",
+            "sourceRef": "lab:LAB-STEEL-MIX-01",
+            "unit": "kg; J/(kg·K)",
+            "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+            "range": [
+              350,
+              900
+            ]
+          }
+        }
+      ],
+      "numerics": {
+        "powerW": 500000,
+        "efficiency": 0.35,
+        "exportFraction": 0.45,
+        "pathEfficiency": 0.9
+      },
+      "gate": {
+        "low": 200,
+        "workLow": 250,
+        "restartLow": 260,
+        "workHigh": 500,
+        "restartHigh": 480,
+        "high": 550
+      },
+      "origins": {
+        "numerics.powerW": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_s_power_class_specialization_balance_v0.1_draft.md§2–3; gdd_generator_thermal_topology§2–3",
+          "unit": "W",
+          "note": "Явный authored reference; нет automatic Class/G multipliers"
+        },
+        "numerics.efficiency": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_s_power_class_specialization_balance_v0.1_draft.md§2–3; gdd_generator_thermal_topology§2–3",
+          "unit": "1",
+          "note": "Явный authored reference; нет automatic Class/G multipliers"
+        },
+        "numerics.exportFraction": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_s_power_class_specialization_balance_v0.1_draft.md§2–3; gdd_generator_thermal_topology§2–3",
+          "unit": "1",
+          "note": "Явный authored reference; нет automatic Class/G multipliers"
+        },
+        "numerics.pathEfficiency": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_s_power_class_specialization_balance_v0.1_draft.md§2–3; gdd_generator_thermal_topology§2–3",
+          "unit": "1",
+          "note": "Явный authored reference; нет automatic Class/G multipliers",
+          "range": [
+            0.675,
+            1.125
+          ]
+        },
+        "gate.low": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.workLow": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.restartLow": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.workHigh": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.restartHigh": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.high": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "materials.0.massKg": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_s_power_class_specialization_balance_v0.1_draft.md§2–3; gdd_generator_thermal_topology§2–3",
+          "unit": "kg",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            300,
+            500
+          ]
+        },
+        "materials.0.cpJKgK": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      },
+      "class": "UNKNOWN",
+      "species": "diesel"
+    },
+    "pony-engine-march": {
+      "id": "pony-engine-march",
+      "label": "diesel S · одиночный",
+      "family": "engine",
+      "category": "propulsion",
+      "size": "S",
+      "formFactor": "single",
+      "generation": 0,
+      "generationState": "authored",
+      "materials": [
+        {
+          "id": "LAB-STEEL-MIX",
+          "massKg": 2650,
+          "cpJKgK": 470,
+          "contents": "dry",
+          "origin": {
+            "kind": "experimental",
+            "sourceRef": "lab:LAB-STEEL-MIX-01",
+            "unit": "kg; J/(kg·K)",
+            "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+            "range": [
+              350,
+              900
+            ]
+          }
+        }
+      ],
+      "numerics": {
+        "forceN": 2950000,
+        "alpha": 5.65e-7,
+        "efficiency": 0.32,
+        "pathEfficiency": 0.95,
+        "hostFraction": 0.7,
+        "powerW": 0
+      },
+      "gate": {
+        "low": 200,
+        "workLow": 250,
+        "restartLow": 260,
+        "workHigh": 500,
+        "restartHigh": 480,
+        "high": 550
+      },
+      "origins": {
+        "numerics.forceN": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "N",
+          "note": "Явный authored reference; нет automatic Class/G multipliers"
+        },
+        "numerics.alpha": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "kg/(N·s)",
+          "note": "Явный authored reference; нет automatic Class/G multipliers"
+        },
+        "numerics.efficiency": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "1",
+          "note": "Явный authored reference; нет automatic Class/G multipliers",
+          "range": [
+            0.24,
+            0.4
+          ]
+        },
+        "numerics.pathEfficiency": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "1",
+          "note": "Явный authored reference; нет automatic Class/G multipliers",
+          "range": [
+            0.7124999999999999,
+            1.1875
+          ]
+        },
+        "numerics.hostFraction": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "1",
+          "note": "Явный authored reference; нет automatic Class/G multipliers",
+          "range": [
+            0.5249999999999999,
+            0.875
+          ]
+        },
+        "numerics.powerW": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "W",
+          "note": "Явный authored reference; нет automatic Class/G multipliers"
+        },
+        "gate.low": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.workLow": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.restartLow": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.workHigh": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.restartHigh": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.high": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "materials.0.massKg": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "kg",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            1987.5,
+            3312.5
+          ]
+        },
+        "materials.0.cpJKgK": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      },
+      "class": "UNKNOWN",
+      "species": "diesel",
+      "propulsionType": "diesel"
+    },
+    "pony-engine-retro": {
+      "id": "pony-engine-retro",
+      "label": "Референсный ретро · diesel S · одиночный",
+      "family": "engine",
+      "category": "propulsion",
+      "size": "S",
+      "formFactor": "single",
+      "generation": 0,
+      "generationState": "authored",
+      "materials": [
+        {
+          "id": "LAB-STEEL-MIX",
+          "massKg": 1060,
+          "cpJKgK": 470,
+          "contents": "dry",
+          "origin": {
+            "kind": "derived",
+            "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2; база: U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+            "unit": "kg",
+            "derivation": "pony-engine-retro: 2650 × 0.4; гражданский reference назад/вперёд = 0.38/0.95",
+            "note": "Явный локальный вариант лабораторного preset; пропорциональный bill и power сохранены как допущение. Это не коэффициент роли для любого SKU. Cp остаётся отдельной экспериментальной гипотезой исходного bill.",
+            "range": [
+              795,
+              1325
+            ]
+          }
+        }
+      ],
+      "numerics": {
+        "forceN": 1180000,
+        "alpha": 5.65e-7,
+        "efficiency": 0.32,
+        "pathEfficiency": 0.95,
+        "hostFraction": 0.7,
+        "powerW": 0
+      },
+      "gate": {
+        "low": 200,
+        "workLow": 250,
+        "restartLow": 260,
+        "workHigh": 500,
+        "restartHigh": 480,
+        "high": 550
+      },
+      "origins": {
+        "numerics.forceN": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2; база: U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "N",
+          "derivation": "pony-engine-retro: 2950000 × 0.4; гражданский reference назад/вперёд = 0.38/0.95",
+          "note": "Явный локальный вариант лабораторного preset; пропорциональный bill и power сохранены как допущение. Это не коэффициент роли для любого SKU."
+        },
+        "numerics.alpha": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "kg/(N·s)",
+          "note": "Явный authored reference; нет automatic Class/G multipliers"
+        },
+        "numerics.efficiency": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "1",
+          "note": "Явный authored reference; нет automatic Class/G multipliers",
+          "range": [
+            0.24,
+            0.4
+          ]
+        },
+        "numerics.pathEfficiency": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "1",
+          "note": "Явный authored reference; нет automatic Class/G multipliers",
+          "range": [
+            0.7124999999999999,
+            1.1875
+          ]
+        },
+        "numerics.hostFraction": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "1",
+          "note": "Явный authored reference; нет automatic Class/G multipliers",
+          "range": [
+            0.5249999999999999,
+            0.875
+          ]
+        },
+        "numerics.powerW": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2; база: U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "W",
+          "derivation": "pony-engine-retro: 0 × 0.4; гражданский reference назад/вперёд = 0.38/0.95",
+          "note": "Явный локальный вариант лабораторного preset; пропорциональный bill и power сохранены как допущение. Это не коэффициент роли для любого SKU."
+        },
+        "gate.low": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.workLow": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.restartLow": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.workHigh": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.restartHigh": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.high": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "materials.0.massKg": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2; база: U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "kg",
+          "derivation": "pony-engine-retro: 2650 × 0.4; гражданский reference назад/вперёд = 0.38/0.95",
+          "note": "Явный локальный вариант лабораторного preset; пропорциональный bill и power сохранены как допущение. Это не коэффициент роли для любого SKU.",
+          "range": [
+            795,
+            1325
+          ]
+        },
+        "materials.0.cpJKgK": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      },
+      "class": "UNKNOWN",
+      "species": "diesel",
+      "propulsionType": "diesel"
+    },
+    "pony-engine-strafe": {
+      "id": "pony-engine-strafe",
+      "label": "diesel S · пара",
+      "family": "engine",
+      "category": "propulsion",
+      "size": "S",
+      "formFactor": "pair",
+      "generation": 0,
+      "generationState": "authored",
+      "materials": [
+        {
+          "id": "LAB-STEEL-MIX",
+          "massKg": 650,
+          "cpJKgK": 470,
+          "contents": "dry",
+          "origin": {
+            "kind": "experimental",
+            "sourceRef": "lab:LAB-STEEL-MIX-01",
+            "unit": "kg; J/(kg·K)",
+            "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+            "range": [
+              350,
+              900
+            ]
+          }
+        }
+      ],
+      "numerics": {
+        "forceN": 737500,
+        "alpha": 5.65e-7,
+        "efficiency": 0.32,
+        "pathEfficiency": 0.95,
+        "hostFraction": 0.7,
+        "powerW": 0
+      },
+      "gate": {
+        "low": 200,
+        "workLow": 250,
+        "restartLow": 260,
+        "workHigh": 500,
+        "restartHigh": 480,
+        "high": 550
+      },
+      "origins": {
+        "numerics.forceN": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "N",
+          "note": "Явный authored reference; нет automatic Class/G multipliers"
+        },
+        "numerics.alpha": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "kg/(N·s)",
+          "note": "Явный authored reference; нет automatic Class/G multipliers"
+        },
+        "numerics.efficiency": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "1",
+          "note": "Явный authored reference; нет automatic Class/G multipliers",
+          "range": [
+            0.24,
+            0.4
+          ]
+        },
+        "numerics.pathEfficiency": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "1",
+          "note": "Явный authored reference; нет automatic Class/G multipliers",
+          "range": [
+            0.7124999999999999,
+            1.1875
+          ]
+        },
+        "numerics.hostFraction": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "1",
+          "note": "Явный authored reference; нет automatic Class/G multipliers",
+          "range": [
+            0.5249999999999999,
+            0.875
+          ]
+        },
+        "numerics.powerW": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "W",
+          "note": "Явный authored reference; нет automatic Class/G multipliers"
+        },
+        "gate.low": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.workLow": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.restartLow": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.workHigh": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.restartHigh": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.high": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "materials.0.massKg": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "kg",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            487.5,
+            812.5
+          ]
+        },
+        "materials.0.cpJKgK": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      },
+      "class": "UNKNOWN",
+      "species": "diesel",
+      "propulsionType": "diesel"
+    },
+    "pony-engine-turn": {
+      "id": "pony-engine-turn",
+      "label": "diesel S · пара",
+      "family": "engine",
+      "category": "propulsion",
+      "size": "S",
+      "formFactor": "pair",
+      "generation": 0,
+      "generationState": "authored",
+      "materials": [
+        {
+          "id": "LAB-STEEL-MIX",
+          "massKg": 650,
+          "cpJKgK": 470,
+          "contents": "dry",
+          "origin": {
+            "kind": "experimental",
+            "sourceRef": "lab:LAB-STEEL-MIX-01",
+            "unit": "kg; J/(kg·K)",
+            "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+            "range": [
+              350,
+              900
+            ]
+          }
+        }
+      ],
+      "numerics": {
+        "forceN": 737500,
+        "alpha": 5.65e-7,
+        "efficiency": 0.32,
+        "pathEfficiency": 0.95,
+        "hostFraction": 0.7,
+        "powerW": 0
+      },
+      "gate": {
+        "low": 200,
+        "workLow": 250,
+        "restartLow": 260,
+        "workHigh": 500,
+        "restartHigh": 480,
+        "high": 550
+      },
+      "origins": {
+        "numerics.forceN": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "N",
+          "note": "Явный authored reference; нет automatic Class/G multipliers"
+        },
+        "numerics.alpha": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "kg/(N·s)",
+          "note": "Явный authored reference; нет automatic Class/G multipliers"
+        },
+        "numerics.efficiency": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "1",
+          "note": "Явный authored reference; нет automatic Class/G multipliers",
+          "range": [
+            0.24,
+            0.4
+          ]
+        },
+        "numerics.pathEfficiency": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "1",
+          "note": "Явный authored reference; нет automatic Class/G multipliers",
+          "range": [
+            0.7124999999999999,
+            1.1875
+          ]
+        },
+        "numerics.hostFraction": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "1",
+          "note": "Явный authored reference; нет automatic Class/G multipliers",
+          "range": [
+            0.5249999999999999,
+            0.875
+          ]
+        },
+        "numerics.powerW": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "W",
+          "note": "Явный authored reference; нет automatic Class/G multipliers"
+        },
+        "gate.low": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.workLow": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.restartLow": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.workHigh": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.restartHigh": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "gate.high": {
+          "kind": "experimental",
+          "sourceRef": "lab:gate-candidate-01",
+          "unit": "K",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            200,
+            570
+          ]
+        },
+        "materials.0.massKg": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "kg",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            487.5,
+            812.5
+          ]
+        },
+        "materials.0.cpJKgK": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      },
+      "class": "UNKNOWN",
+      "species": "diesel",
+      "propulsionType": "diesel"
+    }
+  },
+  "initial": {
+    "chargeFraction": 1,
+    "fuelFraction": {
+      "diesel": 1,
+      "hydrogen": 1
+    }
+  }
+}

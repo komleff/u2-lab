@@ -1,0 +1,28 @@
+{
+  "sha256": "a3b64a96fac04534b44fc01837088ca6ce91a359b89c41028ad141009ca9d479",
+  "bytes": 39859,
+  "files": 6,
+  "crc": "PASS",
+  "distDigestVerification": "PASS",
+  "sourceCandidate": "d469d5d8adcda69f1aefe958628d81c43a347ca7",
+  "browserSmoke": {
+    "status": "PASS",
+    "sourceCandidate": "d469d5d8adcda69f1aefe958628d81c43a347ca7",
+    "browserVersion": "153.0.8010.0",
+    "serve": "python3 http.server bound0.0.0.0:4273",
+    "checks": [
+      "static packaged dist",
+      "S/M14s completed",
+      "A/B visible",
+      "two independent local contexts",
+      "390px no horizontal overflow",
+      "same-origin runtime requests",
+      "no page exceptions"
+    ],
+    "requestCount": 4,
+    "externalRequests": [],
+    "physicalSecondLANDevice": "NOT RUN"
+  },
+  "evidenceOwner": "PM actual packaged/extracted artifact verification",
+  "fullOperatorAcceptance": "NOT CLAIMED"
+}

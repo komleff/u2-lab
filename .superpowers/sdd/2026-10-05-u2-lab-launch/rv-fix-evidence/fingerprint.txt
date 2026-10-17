@@ -1,0 +1,6 @@
+src/app/main.ts 855e4091df7d657aff0b03ed40b57bf66af2e050
+src/model/step.ts 60b40f07d897a2cab1434bb5624f6007ee30d880
+tests/browser/lab.spec.ts 76d7fd4026b7e18f0a90a0dc223438c4a55efe7b
+tests/review-regressions.test.ts cbcec8a835be44f56e9fcfe4d6bd0a97f760de2f
+
+sha256(sorted path SP git-blob-id LF + exact VC bytes): 3c50d8d27786ba102263d9d66d60cb42ab8b802dd0dfcfa09d83efd4d38c308c

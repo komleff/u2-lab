@@ -1,0 +1,222 @@
+{
+  "role": "independent QA, QA_ROLE v2.1",
+  "model": "Codex; exact provider model ID unavailable",
+  "signedAtUTC": "2026-10-05T23:41:15.487580+00:00",
+  "head": "c62e3fa2744e2ff2962c0e2483ef4e77d9857d2d",
+  "runtimeSource": "30a1c9b0953bf61723cd8a9deb570044e1f26862",
+  "bindingFingerprint": "f3c824596bfbbf26b1ec96c0c67296f244b3de19522e22437b296bd2b4e7e515",
+  "artifact": {
+    "root": ".overgate-runtime/claude-design-ui-v0.2-candidate-fix-r3-final3",
+    "manifestSHA256": "3bb5209b9d00b9bf5352d1e44e12c78400382b0d47e41c69a59e5f426a4eccf2",
+    "ZIP_SHA256": "c6e89e0a38bcb0ca8cabe4897aef92d5faef0dfc69ab44a5f3191e0b6cd85ef2",
+    "distDigest": "59bb555e2c59875be0d0242d2c382c94bacc59e3bfaf059e2b59cb78cc255beb",
+    "source68Fingerprint": "9aeb826a6c3cd9ff69860b1debcf30a7414fabb3247933973901a9e2facedefd"
+  },
+  "files": [
+    {
+      "path": ".overgate-runtime/qa-cr-ui-assemble-r4.py",
+      "bytes": 25358,
+      "sha256": "8afc2e93c81e683a233ed587978b701e0d3513d9a0b7518319e62d37a36a9482"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-binding-r4-final.log",
+      "bytes": 582,
+      "sha256": "1edf7a33c7b0e4bf8e4b441fd7d1ea62c96edba7a869a074dfdef7379fa848b3"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-binding-r4.json",
+      "bytes": 75693,
+      "sha256": "4ed558d0a809ede3aef7e30412d0452895ed2fb19d33cfb150d003e7f54ffc18"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-binding-r4.log",
+      "bytes": 582,
+      "sha256": "1edf7a33c7b0e4bf8e4b441fd7d1ea62c96edba7a869a074dfdef7379fa848b3"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-binding-r4.py",
+      "bytes": 7268,
+      "sha256": "8c1ef06ac3dc62178b3c247b7bee48bd46116e7808984c12bd8b950c4f43821f"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-boundary-r4-initial.log",
+      "bytes": 1671,
+      "sha256": "16043b4f71104d78da8834ec2bf74a1081c5a1af36e2def85fac5b06ae8f8541"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-boundary-r4-initial.mjs",
+      "bytes": 7189,
+      "sha256": "8060c21e97314e283be07598843b652d488536d9dff85633845e2329d94a1cec"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-boundary-r4.json",
+      "bytes": 2346,
+      "sha256": "f2890ded338005207065bc032eaf0dc247386d80739b1b5f67cc994d7185d090"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-boundary-r4.log",
+      "bytes": 1884,
+      "sha256": "43673bca61bd2899401dc80a6f1cf68e9d7f0c1a27bab3b66b3919b1773c2dce"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-boundary-r4.mjs",
+      "bytes": 7161,
+      "sha256": "8d9d9a5391b1bea4669d0ae842ea1df1ff5e530cb776911f26cdb828e95a2de1"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-browser-r4-initial.json",
+      "bytes": 5036,
+      "sha256": "e804d5aecf60dd6c9c5b0645739f2aa664a0e7053f4c424b5b2dea8d68d13237"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-browser-r4-initial.log",
+      "bytes": 1762,
+      "sha256": "6f751bb52e9339d508a2c037b935cb6bf1de9b7b42a85a8fdda9bfc8280152d2"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-browser-r4-initial.mjs",
+      "bytes": 18197,
+      "sha256": "5c1a8c4ad11fb42127832e85d56536090fec6aba4acfd9dcfce0ca87dcc47e3f"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-browser-r4.json",
+      "bytes": 44282,
+      "sha256": "e59b0929fdb707debad96acc5f4466ddd1bd6711c89f19df3420cf7a4179e7f8"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-browser-r4.log",
+      "bytes": 335,
+      "sha256": "441c49b4406bf543bc0c2bffc1ff3a173a8a48443c3b81af1dc6a2c34becee6f"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-browser-r4.mjs",
+      "bytes": 18696,
+      "sha256": "3a09cd814622c5d5ede5d46ce31a2b91bb76450847f3a663950b0c22ff158c7a"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-case-results-r4.json",
+      "bytes": 42407,
+      "sha256": "c0125103e11f00daf08437e7a25e2d4043c1a5b7e9398b2d126729f0394cea87"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-channel-metadata-r4.json",
+      "bytes": 12113,
+      "sha256": "ac3902f8cdd8b60f8730d60824c12038d6ab30f2b638679eeee0e22e0fa31da2"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-channel-metadata-r4.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-channel-metadata-r4.mjs",
+      "bytes": 763,
+      "sha256": "69abc3d56eed7215e6580380495cc3039b07bc2e83c016ba90734dd5d827022a"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-delta-r4.txt",
+      "bytes": 769,
+      "sha256": "31cf17720422a363012778fc7eae20b84b08d0bff2049d0d8d61bb2b5a5e1110"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-fixtures-r4.json",
+      "bytes": 620577,
+      "sha256": "7c0abf1155b4187f4384f2ff7d4e3027f3056e7ce78b632bc3b8b31a62c4afdd"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-genuine-long-hidden-r4.json",
+      "bytes": 19004548,
+      "sha256": "920a61ebf202cde49066d60bb77c264102d3ec2dc539a7985f871bcb09ce9efd"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-genuine-long-visible-r4.json",
+      "bytes": 19004548,
+      "sha256": "3893813fceb89a6356b81a99d28763d39b37c6cd26dd079e9e95c83fe5cf87b1"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-harness-corrections-r4.json",
+      "bytes": 1008,
+      "sha256": "047e267fa8fa43ab071e68350ff8d04353b2f71fdae9185c80af2998fa8a9777"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-old-short-result-r4.json",
+      "bytes": 260445,
+      "sha256": "66cc28c0752ae5030d770f4f083059263ec4ac2f87c5120227a2aefb1bfae833"
+    },
+    {
+      "path": ".overgate-runtime/qa-cr-ui-runtime-delta-r4.diff",
+      "bytes": 37104,
+      "sha256": "b9940b1f26bd2780500d13041397bb5e1443af13e118d9e85971f59393835a1e"
+    }
+  ],
+  "fileCount": 27,
+  "reportsExcludedToAvoidCircularHash": [
+    "claude-design-ui-qa-affected-r4.md",
+    "claude-design-ui-qa-affected-r4-evidence.json"
+  ],
+  "preparedSourceFirstPlan": [
+    {
+      "path": ".overgate-runtime/claude-design-ui-qa-cr-affected-plan-r4.md",
+      "bytes": 7148,
+      "sha256": "739511322f554e499d00f0a8f20029abf7d9450ff1e860230432356648d21d84"
+    },
+    {
+      "path": ".overgate-runtime/claude-design-ui-qa-cr-affected-plan-r4.json",
+      "bytes": 14107,
+      "sha256": "676ac76fb41a4ac9997a23e1f637df837f1506ef6d9f4fc15a4b2f27c97d094f"
+    }
+  ],
+  "priorReports": [
+    {
+      "path": ".overgate-runtime/claude-design-ui-qa-execution-r1.md",
+      "bytes": 40343,
+      "sha256": "d0492e963e0bf74d1b1ecb2513ea8391aab474d2e278f4abf3606208b931b571"
+    },
+    {
+      "path": ".overgate-runtime/claude-design-ui-qa-affected-r2.md",
+      "bytes": 25706,
+      "sha256": "2635f044e7cff48f1717eab5bb90d4f936741579f6c316797f9c54044f6c96e5"
+    },
+    {
+      "path": ".overgate-runtime/claude-design-ui-qa-affected-r3.md",
+      "bytes": 12019,
+      "sha256": "afcab438443f095a6cbe9cf54cd20ebfeb6e5982a321d0eb79d5ca3048b1c123"
+    }
+  ],
+  "priorManifests": [
+    {
+      "path": ".overgate-runtime/claude-design-ui-qa-r1-evidence.json",
+      "bytes": 11908,
+      "sha256": "0188258dbb55681569aa3c89df5cba13796c36547cb74a7b5cfd7ca7d5ab51dc"
+    },
+    {
+      "path": ".overgate-runtime/claude-design-ui-qa-affected-r2-evidence.json",
+      "bytes": 11836,
+      "sha256": "e0780679b6e14d014621b34e0c1742e73c92abbbbe9c9da8753e18d78a354943"
+    },
+    {
+      "path": ".overgate-runtime/claude-design-ui-qa-affected-r3-evidence.json",
+      "bytes": 5023,
+      "sha256": "409d5064daed47a8470887b4b5db177cb5679ebe900540b024706442a8409c0e"
+    }
+  ],
+  "prior127FilesUnchanged": true,
+  "findingSource": {
+    "path": ".overgate-runtime/claude-design-ui-code-review-r1.md",
+    "bytes": 40081,
+    "sha256": "caa8f3eb0a89c35f4426d660e5a6bb0d57f3aa256389ab637bae3c3777abaddc"
+  },
+  "ledger": {
+    "path": ".overgate-runtime/qa-cr-ui-case-results-r4.json",
+    "bytes": 42407,
+    "sha256": "c0125103e11f00daf08437e7a25e2d4043c1a5b7e9398b2d126729f0394cea87"
+  },
+  "bindingEvidence": {
+    "path": ".overgate-runtime/qa-cr-ui-binding-r4.json",
+    "bytes": 75693,
+    "sha256": "4ed558d0a809ede3aef7e30412d0452895ed2fb19d33cfb150d003e7f54ffc18"
+  },
+  "rawHarnessOutcomesPreserved": true,
+  "sourceExpectedUnchanged": true,
+  "signature": "independent QA, same session; Codex; exact provider model ID unavailable; SHA256 file seal, not a cryptographic identity signature"
+}

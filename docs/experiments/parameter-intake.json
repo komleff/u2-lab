@@ -1,0 +1,2001 @@
+{
+  "schema": "u2-lab.catalog-intake",
+  "catalog_version": "0.1",
+  "created_on": "2026-10-05",
+  "repository": "komleff/u2",
+  "commit": "cdc490e3517c8455f662f82579c45813cdbb9a76",
+  "purpose": "Read-only source intake for approved U2 Lab v0.1 scope; two complete experimental numerical fixtures, no approved-ship claim",
+  "route": [
+    "docs/INDEX.md",
+    "docs/architecture/ADR-INDEX.md",
+    "named active owner",
+    "explicit dependency"
+  ],
+  "units": "SI: kg,W,J,K,s,N,m²; source t×1000,MW×1e6,GJ×1e9,MJ/K×1e6",
+  "sources": {
+    "s0": {
+      "id": "s0",
+      "path": "docs/INDEX.md",
+      "blob": "03c17eb1d098b881df946d0e91c9f76e4d4fd943",
+      "version": "2.244",
+      "status": "primary",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s1": {
+      "id": "s1",
+      "path": "docs/architecture/ADR-INDEX.md",
+      "blob": "7c35609e0eba70ef54807f4726e8bc359e20767c",
+      "version": "0.89",
+      "status": "primary",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s2": {
+      "id": "s2",
+      "path": "docs/architecture/ADR-0043-Thermodynamics-And-Motoresurs.md",
+      "blob": "8d580d6fce6002206e28445b2a1d267c5671f6ec",
+      "version": "1.6",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s3": {
+      "id": "s3",
+      "path": "docs/architecture/ADR-0045-Unified-Accumulator-Model.md",
+      "blob": "f14a396772e86e961688afd740807b988828c5f7",
+      "version": "1.0",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s4": {
+      "id": "s4",
+      "path": "docs/architecture/ADR-0041-Ship-Size-Grid-One-Axis-And-Scaling-Law.md",
+      "blob": "1a7bf9469ecb9b6ed5aead19d80109749f38deec",
+      "version": "1.5",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s5": {
+      "id": "s5",
+      "path": "docs/specs/spec_power_components_v0.1.md",
+      "blob": "bc9a55064e389566f6e8009cb02b71fe712d4b26",
+      "version": "0.1-r11",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s6": {
+      "id": "s6",
+      "path": "docs/specs/spec_power_load_v0.1.md",
+      "blob": "a2922380369432406e904f2807fcd383d5b99696",
+      "version": "0.5-r4",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s7": {
+      "id": "s7",
+      "path": "docs/brand/u2_engine_thermal_doctrine.md",
+      "blob": "23b51fed623851a80c4d4e1f450545924f311fe5",
+      "version": "0.2.6",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s8": {
+      "id": "s8",
+      "path": "docs/specs/spec_engine_force_grid_v0.1.md",
+      "blob": "fb8622925bdb0bb676ab2ee43e94ac52a96eda23",
+      "version": "0.1-r13",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s9": {
+      "id": "s9",
+      "path": "docs/specs/spec_module_ttx_contract_v0.1.md",
+      "blob": "107922682804556cbc76384d9bec7c9f168e6725",
+      "version": "0.3",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s10": {
+      "id": "s10",
+      "path": "docs/gdd/gdd_s_power_class_specialization_balance_v0.1_draft.md",
+      "blob": "fa3a033cd7e7e4db305c3d1ec883f85137e2b16d",
+      "version": "1.0",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s11": {
+      "id": "s11",
+      "path": "docs/gdd/gdd_generator_thermal_topology_v0.1_draft.md",
+      "blob": "74018a9e2519862babed3fe44e5a399bdf0716be",
+      "version": "0.1",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s12": {
+      "id": "s12",
+      "path": "docs/gdd/gdd_automatic_power_thermal_scheduler_v0.1_draft.md",
+      "blob": "c3ef70b0d5cfb7bc38e305637190c2b6de0b8e7d",
+      "version": "0.2",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s13": {
+      "id": "s13",
+      "path": "docs/gdd/gdd_hull_class_governor_architecture_v0.1_draft.md",
+      "blob": "55bfa441fbb31ebe0a7e69e1199c00c1fe064002",
+      "version": "0.2",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s14": {
+      "id": "s14",
+      "path": "docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md",
+      "blob": "7b9125cf6166d09d1a3ca9e3736cbe3422e6c7e5",
+      "version": "0.3",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s15": {
+      "id": "s15",
+      "path": "docs/gdd/gdd_hot_environment_thermoinverter_balance_v0.1_draft.md",
+      "blob": "d71edffe43cce1a34a4633aa41188cad0b7e0224",
+      "version": "0.2",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s16": {
+      "id": "s16",
+      "path": "docs/gdd/gdd_ship_material_profiles_v0.1_draft.md",
+      "blob": "fdb91e6fc992322907147c3917d1d1f0440e046f",
+      "version": "0.5",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s17": {
+      "id": "s17",
+      "path": "docs/gdd/gdd_thermal_progression_work_cycle_reframe_v0.1_draft.md",
+      "blob": "91f95f1b4aca6a927d633869d53347067a55a058",
+      "version": "0.4",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s18": {
+      "id": "s18",
+      "path": "docs/specs/balance/spec_ship_module_ttx_master_v0.1_draft.md",
+      "blob": "e0a1b437a4f0fa4a7a1b7335138013c3281bf1a0",
+      "version": "1.4",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s19": {
+      "id": "s19",
+      "path": "docs/specs/balance/spec_ship_module_ttx_generation_national_v0.1_draft.md",
+      "blob": "e790b4af7d11f52d6e4c2b4d1fe61fa31a964e0d",
+      "version": "1.1",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s20": {
+      "id": "s20",
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/README.md",
+      "blob": "a1ac502186b4991e66cf4fc83dded09d8b806ccf",
+      "version": "1.1",
+      "status": "primary",
+      "route": "INDEX → TTX Master §2 → compact README → named CSV",
+      "fetched": true
+    },
+    "s21": {
+      "id": "s21",
+      "path": "docs/data/README_ship_module_ttx.md",
+      "blob": "1bfe3adfe08b9ea26f0a8e35f82696c21df64108",
+      "version": "1.0",
+      "status": "active",
+      "route": "INDEX → domain owner/README → named CSV",
+      "fetched": true
+    },
+    "s22": {
+      "id": "s22",
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/ttx_axes_v0.2.csv",
+      "blob": "8b056b5c41ac0610350b8b54c50d3d37645e1bdd",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → TTX Master §2 → compact README → named CSV",
+      "fetched": true
+    },
+    "s23": {
+      "id": "s23",
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/thermal_profiles.csv",
+      "blob": "902f34612d2a3997b6e890e73d2092a5a903a41d",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → TTX Master §2 → compact README → named CSV",
+      "fetched": true
+    },
+    "s24": {
+      "id": "s24",
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/family_owner_overrides_v0.1.csv",
+      "blob": "8940f9d1296e1e0d0f14bb1bfbce6bca8fc30030",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → TTX Master §2 → compact README → named CSV",
+      "fetched": true
+    },
+    "s25": {
+      "id": "s25",
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/class_recipe_overrides_v0.1.csv",
+      "blob": "d2cf144e261c71027f90803f36ece42b59d0b319",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → TTX Master §2 → compact README → named CSV",
+      "fetched": true
+    },
+    "s26": {
+      "id": "s26",
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/generation_laws.csv",
+      "blob": "b9d637283a7005e674170112b30a9b7cc69a4e5b",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → TTX Master §2 → compact README → named CSV",
+      "fetched": true
+    },
+    "s27": {
+      "id": "s27",
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/base_recipe_anchors_v0.2.csv",
+      "blob": "ce7de0beaf9524b92943587026082484186cf4f7",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → TTX Master §2 → compact README → named CSV",
+      "fetched": true
+    },
+    "s28": {
+      "id": "s28",
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/material_derivation_rules.csv",
+      "blob": "b16dd011f91f238a8a86acff6d8d19155994c59b",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → TTX Master §2 → compact README → named CSV",
+      "fetched": true
+    },
+    "s29": {
+      "id": "s29",
+      "path": "docs/data/ship_storage_tank_construction_first_slice_v0.1.csv",
+      "blob": "95f68bb9e02e9e39d26ba671d8111b80908f7182",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → domain owner/README → named CSV",
+      "fetched": true
+    },
+    "s30": {
+      "id": "s30",
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/component_material_anchors_first_loop_v0.1.csv",
+      "blob": "a83b7111b2d2afa20f80426daab476e88e1703ae",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → TTX Master §2 → compact README → named CSV",
+      "fetched": true
+    },
+    "s31": {
+      "id": "s31",
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/component_mass_reference_v0.1.csv",
+      "blob": "6084c728a7c005acab4cfa7d2feaaed390f5b61b",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → TTX Master §2 → compact README → named CSV",
+      "fetched": true
+    },
+    "s32": {
+      "id": "s32",
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/first_loop_production_closure_v0.1.csv",
+      "blob": "63f4c04c2868b71ac17f2bf70aa77aed527e4504",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → TTX Master §2 → compact README → named CSV",
+      "fetched": true
+    },
+    "s33": {
+      "id": "s33",
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/radiator_passive_first_slice_v0.1.csv",
+      "blob": "0bb3ff06f4462dea0aad77acfedc13ed847a7f06",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → TTX Master §2 → compact README → named CSV",
+      "fetched": true
+    },
+    "s34": {
+      "id": "s34",
+      "path": "docs/gdd/gdd_laser_energy_productivity_and_recovery_balance_v0.1_draft.md",
+      "blob": "bc8dc47eff0e9fe16179e407f9f92ad1d66f8b3d",
+      "version": "1.0",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s35": {
+      "id": "s35",
+      "path": "docs/gdd/gdd_ship_material_physics_s_g1_civilian_balance_v0.1_draft.md",
+      "blob": "0c0583b86e244ff5fb6564a81450fffdacc96c44",
+      "version": "0.2",
+      "status": "reference",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s36": {
+      "id": "s36",
+      "path": "docs/gdd/gdd_ship_material_class_generation_model_v0.1_draft.md",
+      "blob": "83e727f189b8cbcfe3ecab3951cc376ae93c4a1c",
+      "version": "0.6",
+      "status": "reference",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s37": {
+      "id": "s37",
+      "path": "docs/gdd/gdd_survival_pony_power_buffer_balance_v0.1_draft.md",
+      "blob": "3fa0592835604487574ebfc295efe6eb32a57a08",
+      "version": "0.6",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s38": {
+      "id": "s38",
+      "path": "docs/gdd/gdd_survival_pony_propulsion_thermal_balance_v0.1_draft.md",
+      "blob": "6c23fcb385a9f7d10f0722b21ec2a4eac71d975c",
+      "version": "0.6",
+      "status": "active",
+      "route": "INDEX → thematic owner",
+      "fetched": true
+    },
+    "s39": {
+      "id": "s39",
+      "path": "docs/gdd/data/ship_module_ttx_master_v0.1/hydrogen_tank_curve.csv",
+      "blob": "4dea99cd987b9a3362a3d755f4b0e24cb0081ef1",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → TTX Master §2 → compact README → named CSV",
+      "fetched": true
+    },
+    "s40": {
+      "id": "s40",
+      "path": "docs/data/ship_hydrogen_generator_first_slice_v0.1.csv",
+      "blob": "f9fa8692087da7abdc8f38b28ef388aaa8374749",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → domain owner/README → named CSV",
+      "fetched": true
+    },
+    "s41": {
+      "id": "s41",
+      "path": "docs/data/ship_hull_governor_profile_v0.1.csv",
+      "blob": "d363af36cac31c54563096a9e9e5830f87e03ba3",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → domain owner/README → named CSV",
+      "fetched": true
+    },
+    "s42": {
+      "id": "s42",
+      "path": "docs/data/ship_background_process_profile_v0.1.csv",
+      "blob": "9aab95f28ff7cf07d88045f4244b2258a603cae1",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → domain owner/README → named CSV",
+      "fetched": true
+    },
+    "s43": {
+      "id": "s43",
+      "path": "docs/data/ship_module_operation_policy_v0.1.csv",
+      "blob": "f9a0dec31c1191bde227c9ec83ff71ba3394a299",
+      "version": null,
+      "status": "row-specific",
+      "route": "INDEX → domain owner/README → named CSV",
+      "fetched": true
+    }
+  },
+  "parameters": [
+    {
+      "id": "generator_diesel.S.Civilian.G1.dry_mass",
+      "value": 1600,
+      "unit": "kg",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s10",
+          "section": "§2"
+        },
+        {
+          "source_id": "s25",
+          "section": "generator_diesel,Civilian,G1"
+        }
+      ],
+      "notes": "working first-unlock design anchor, not immutable physical constant"
+    },
+    {
+      "id": "generator_diesel.S.Civilian.G1.rated_electrical_output",
+      "value": 2000000,
+      "unit": "W",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s10",
+          "section": "§2"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "generator_diesel.M.Civilian.G1.dry_mass",
+      "value": 6400,
+      "unit": "kg",
+      "origin": "derived",
+      "refs": [
+        {
+          "source_id": "s10",
+          "section": "§3"
+        }
+      ],
+      "notes": "1600×4; family-specific explicit law"
+    },
+    {
+      "id": "generator_diesel.M.Civilian.G1.rated_electrical_output",
+      "value": 8000000,
+      "unit": "W",
+      "origin": "derived",
+      "refs": [
+        {
+          "source_id": "s10",
+          "section": "§3"
+        }
+      ],
+      "notes": "2e6×4; not old2.7MW average"
+    },
+    {
+      "id": "accumulator.G1.specific_stored_energy",
+      "value": 2455000,
+      "unit": "J/kg",
+      "origin": "derived",
+      "refs": [
+        {
+          "source_id": "s10",
+          "section": "§4"
+        },
+        {
+          "source_id": "s18",
+          "section": "§6"
+        }
+      ],
+      "notes": "p(1)=0.07; e=2.455MJ/kg; GenerationState={majorGeneration:1,minorStage:0}"
+    },
+    {
+      "id": "accumulator.usable_fraction",
+      "value": 0.9,
+      "unit": "1",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s10",
+          "section": "§4"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "generator_diesel.first_slice.efficiency",
+      "value": 0.35,
+      "unit": "1",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s5",
+          "section": "§5.1"
+        },
+        {
+          "source_id": "s11",
+          "section": "§4,§9"
+        }
+      ],
+      "notes": "low-tech working anchor; exact G1 efficiency endpoints not closed; preset selects this as an experimental frozen G1 value"
+    },
+    {
+      "id": "generator_diesel.self_export_fraction",
+      "value": 0.45,
+      "unit": "1",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s11",
+          "section": "§2,§5,§9"
+        },
+        {
+          "source_id": "s10",
+          "section": "§2"
+        }
+      ],
+      "notes": "fraction of own waste, tuning anchor; never removes pre-existing host heat"
+    },
+    {
+      "id": "diesel.chemical_specific_energy",
+      "value": 43000000,
+      "unit": "J/kg",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s5",
+          "section": "§2.3, related engine-types chemical input"
+        }
+      ],
+      "notes": "not13.76MJ/kg useful propulsion density"
+    },
+    {
+      "id": "diesel.reference_propulsion_alpha",
+      "value": 5.65e-07,
+      "unit": "kg/(N s)",
+      "origin": "experimental",
+      "refs": [
+        {
+          "source_id": "s5",
+          "section": "§3.2,§4.1"
+        }
+      ],
+      "notes": "Sourced low-tech calibration 0.565 kg/(MN s) × 1e-6 = 5.65e-7 kg/(N s), spec_power_components §3.2/§4.1. Reuse for G1 is explicit proposal X2: exact G1 efficiency-specific alpha remains unresolved."
+    },
+    {
+      "id": "hull_background.S",
+      "value": 2500,
+      "unit": "W",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s6",
+          "section": "§5,§6"
+        }
+      ],
+      "notes": "protected intrinsic hull background; not Pony hotel/passive0.20MW scenario"
+    },
+    {
+      "id": "hull_background.M",
+      "value": 10000,
+      "unit": "W",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s6",
+          "section": "§5,§6"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "Civilian.source_on_soc",
+      "value": 0.9,
+      "unit": "1",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s41",
+          "section": "Civilian row"
+        },
+        {
+          "source_id": "s13",
+          "section": "§2"
+        }
+      ],
+      "notes": "source auto ON at/below threshold, OFF100%; no per-module player threshold"
+    },
+    {
+      "id": "Civilian.source_off_soc",
+      "value": 1,
+      "unit": "1",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s41",
+          "section": "Civilian row"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "Background.soc_floor",
+      "value": 0.8,
+      "unit": "1",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s12",
+          "section": "§5"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "Background.temperature_margin",
+      "value": 10,
+      "unit": "K",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s12",
+          "section": "§6"
+        }
+      ],
+      "notes": "below lowest operational module upper working limit; not additional class privilege"
+    },
+    {
+      "id": "Background.propulsion_fuel_floor",
+      "value": 0.2,
+      "unit": "1",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s12",
+          "section": "§7"
+        }
+      ],
+      "notes": "Active may consume reserve; unattended source may not"
+    },
+    {
+      "id": "radiation.sigma_SB",
+      "value": 5.670374419e-08,
+      "unit": "W/(m² K⁴)",
+      "origin": "derived",
+      "refs": [
+        {
+          "source_id": "s2",
+          "section": "v1.3 radiative amendment"
+        }
+      ],
+      "notes": "standard SI Stefan–Boltzmann constant; Q=Kσ(T_ship⁴−T_env,eff⁴), signed"
+    },
+    {
+      "id": "radiator_passive.S.G0.area",
+      "value": 490,
+      "unit": "m²",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s33",
+          "section": "radiator_passive,S,Civilian,G0"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "radiator_passive.S.G0.emissivity",
+      "value": 0.9,
+      "unit": "1",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s33",
+          "section": "radiator_passive,S,Civilian,G0"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "radiator_passive.S.G0.mass",
+      "value": 750,
+      "unit": "kg",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s32",
+          "section": "radiator_passive S/Civilian/G0"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "mining_laser.S.G1.rated_bus",
+      "value": 3000000,
+      "unit": "W",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s34",
+          "section": "§4"
+        }
+      ],
+      "notes": "supersedes aggregate budget shortcut0.6MW, f_emit0.35 is old generic slice; current laser eta is separate"
+    },
+    {
+      "id": "mining_laser.G1.beam_fraction",
+      "value": 0.5001,
+      "unit": "1",
+      "origin": "derived",
+      "refs": [
+        {
+          "source_id": "s34",
+          "section": "§2"
+        }
+      ],
+      "notes": "0.5001; beam=actual_bus×eta, host=actual_bus×(1−eta)"
+    },
+    {
+      "id": "tank_diesel.S.G0.dry_mass",
+      "value": 300,
+      "unit": "kg",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s29",
+          "section": "tank_diesel row"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "tank_diesel.M.G0.dry_mass",
+      "value": 1200,
+      "unit": "kg",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s29",
+          "section": "tank_diesel dry_mass_series_t M"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "tank_diesel.S.fuel_capacity",
+      "value": 6000,
+      "unit": "kg",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s29",
+          "section": "tank_diesel reference_capacity"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "tank_diesel.M.fuel_capacity",
+      "value": 24000,
+      "unit": "kg",
+      "origin": "derived",
+      "refs": [
+        {
+          "source_id": "s29",
+          "section": "tank_diesel size_construction_rule"
+        }
+      ],
+      "notes": "6000×4"
+    },
+    {
+      "id": "tank_diesel.S.G0.C_i",
+      "value": 134837.5,
+      "unit": "J/K",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s29",
+          "section": "tank_diesel C_i_reference_MJ_per_K"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "tank_diesel.S.G0.T_work_high",
+      "value": 500,
+      "unit": "K",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s29",
+          "section": "tank_diesel row"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "tank_diesel.S.G0.T_crit_high",
+      "value": 570,
+      "unit": "K",
+      "origin": "canonical",
+      "refs": [
+        {
+          "source_id": "s29",
+          "section": "tank_diesel row"
+        }
+      ],
+      "notes": ""
+    }
+  ],
+  "exact_recipes": [
+    {
+      "family": "engine_march",
+      "size": "S",
+      "generation": 1,
+      "mass_kg": 2631.579,
+      "recipe_mass_kg": 2650,
+      "bom": "C03@S×2+C04@S×2+C05@S×2+C09@S×4+C02@S×1",
+      "materials_kg": {
+        "Steel": 2040,
+        "Plastic": 310,
+        "Copper": 180,
+        "Glass": 120
+      },
+      "status": "PRODUCTION_COMPLETE exact authored S slice",
+      "source": {
+        "source_id": "s32",
+        "section": "engine_march row"
+      },
+      "note": "Neutral reference; not exact national variant; discrete recipe rounding does not replace protected propulsion mass"
+    },
+    {
+      "family": "engine_retro",
+      "size": "S",
+      "generation": 1,
+      "mass_kg": 1052.632,
+      "recipe_mass_kg": 1050,
+      "bom": "C03@S×1+C04@XS×2+C05@S×1+C09@XS×2+C02@XS×2",
+      "materials_kg": {
+        "Steel": 910,
+        "Plastic": 65,
+        "Copper": 60,
+        "Glass": 15
+      },
+      "status": "PRODUCTION_COMPLETE exact authored S slice",
+      "source": {
+        "source_id": "s32",
+        "section": "engine_retro row"
+      },
+      "note": "Neutral reference; not exact national variant; discrete recipe rounding does not replace protected propulsion mass"
+    },
+    {
+      "family": "engine_strafe_pair",
+      "size": "S",
+      "generation": 1,
+      "mass_kg": 657.895,
+      "recipe_mass_kg": 650,
+      "bom": "C03@XS×2+C04@XS×1+C05@XS×1+C09@XS×1+C02@S×1",
+      "materials_kg": {
+        "Steel": 555,
+        "Plastic": 70,
+        "Copper": 17.5,
+        "Glass": 7.5
+      },
+      "status": "PRODUCTION_COMPLETE exact authored S slice",
+      "source": {
+        "source_id": "s32",
+        "section": "engine_strafe_pair row"
+      },
+      "note": "Neutral reference; not exact national variant; discrete recipe rounding does not replace protected propulsion mass"
+    },
+    {
+      "family": "engine_turn_pair",
+      "size": "S",
+      "generation": 1,
+      "mass_kg": 657.895,
+      "recipe_mass_kg": 650,
+      "bom": "same paired hardware as strafe",
+      "materials_kg": {
+        "Steel": 555,
+        "Plastic": 70,
+        "Copper": 17.5,
+        "Glass": 7.5
+      },
+      "status": "PRODUCTION_COMPLETE exact authored S slice",
+      "source": {
+        "source_id": "s32",
+        "section": "engine_turn_pair row"
+      },
+      "note": "Neutral reference; not exact national variant; discrete recipe rounding does not replace protected propulsion mass"
+    },
+    {
+      "family": "mining_laser",
+      "size": "S",
+      "generation": 1,
+      "mass_kg": 2200,
+      "recipe_mass_kg": 2200,
+      "bom": "C11@S×2+C08@S×2+C05@S×2+C09@S×2+C02@S×2",
+      "materials_kg": {
+        "Steel": 1140,
+        "Plastic": 200,
+        "Copper": 280,
+        "Glass": 580
+      },
+      "status": "PRODUCTION_COMPLETE exact authored S slice",
+      "source": {
+        "source_id": "s32",
+        "section": "mining_laser row"
+      },
+      "note": "Neutral reference; not exact national variant; discrete recipe rounding does not replace protected propulsion mass"
+    },
+    {
+      "family": "radiator_passive",
+      "size": "S",
+      "generation": 0,
+      "mass_kg": 750,
+      "recipe_mass_kg": 750,
+      "bom": "C04@S+C05@S+C02@S",
+      "materials_kg": {
+        "Iron": 710,
+        "Copper": 40
+      },
+      "status": "PRODUCTION_COMPLETE exact authored S slice",
+      "source": {
+        "source_id": "s32",
+        "section": "radiator_passive row"
+      },
+      "note": "Neutral reference; not exact national variant; discrete recipe rounding does not replace protected propulsion mass"
+    },
+    {
+      "family": "generator_diesel",
+      "size": "S",
+      "generation": 1,
+      "mass_kg": 1600,
+      "bom": "C03@S+C04@S+C06@S+C09@S+C02@S",
+      "source": {
+        "source_id": "s25",
+        "section": "generator_diesel,Civilian,G1"
+      },
+      "status": "CLOSED Class recipe",
+      "material_gap": "C06 G1 exact material flattening not read; do not invent remainder"
+    },
+    {
+      "family": "accumulator",
+      "size": "S",
+      "generation": 1,
+      "mass_kg": 6000,
+      "bom": "C07@S×5+C08@S×2+C02@S×2",
+      "source": {
+        "source_id": "s25",
+        "section": "accumulator,Civilian,G1"
+      },
+      "status": "CLOSED Class recipe",
+      "material_gap": "C07 G1 exact material flattening not read"
+    }
+  ],
+  "source_candidate_materials": {
+    "status": "experimental reference engineering anchors, not canonical material calibration",
+    "cp_j_per_kg_k": {
+      "Steel": 470,
+      "Plastic": 2200,
+      "Glass": 830,
+      "Copper": 385,
+      "Iron": 450,
+      "Nickel": 443
+    },
+    "refs": [
+      {
+        "source_id": "s35",
+        "section": "§2"
+      }
+    ],
+    "S_hull_first_fit_kg": {
+      "Steel": 36125,
+      "Plastic": 4250,
+      "Glass": 1700,
+      "Copper": 425
+    },
+    "S_baseline_whole_dry_bill_kg": {
+      "Steel": 41789,
+      "Plastic": 5020,
+      "Glass": 1981,
+      "Copper": 860,
+      "Iron": 1188,
+      "Nickel": 63
+    },
+    "note": "Reference whole bill50.9t refers to reference five-product build; do not use as exact material flattening of selected complete fixtures."
+  },
+  "candidate_thermal_profiles": {
+    "source": {
+      "source_id": "s23",
+      "section": "civil_precision,civil_general,civil_rugged"
+    },
+    "status": "candidate upper limits, not accepted module SKU bounds",
+    "Civilian_G1": {
+      "precision": {
+        "work_high_k": 470,
+        "crit_high_k": 510
+      },
+      "general": {
+        "work_high_k": 510,
+        "crit_high_k": 570
+      },
+      "rugged": {
+        "work_high_k": 570,
+        "crit_high_k": 700
+      }
+    },
+    "additional_experimental_lower_and_restart": {
+      "general": {
+        "work_low_k": 200,
+        "crit_low_k": 150,
+        "restart_low_k": 180,
+        "work_high_k": 510,
+        "crit_high_k": 570,
+        "restart_high_k": 550
+      },
+      "rugged": {
+        "work_low_k": 200,
+        "crit_low_k": 150,
+        "restart_low_k": 180,
+        "work_high_k": 570,
+        "crit_high_k": 700,
+        "restart_high_k": 680
+      },
+      "tank_G0": {
+        "work_low_k": 200,
+        "crit_low_k": 150,
+        "restart_low_k": 180,
+        "work_high_k": 500,
+        "crit_high_k": 570,
+        "restart_high_k": 550
+      }
+    }
+  },
+  "S_survival_baseline": {
+    "identity": {
+      "name": "Diesel Pony",
+      "size": "S",
+      "generation_state": {
+        "majorGeneration": 0,
+        "minorStage": 0
+      },
+      "class": "UNKNOWN",
+      "national": "UNKNOWN"
+    },
+    "approved_whole_ship_K_rad_m2": 225,
+    "C_ship_j_per_k": 21200000,
+    "C_source_status": "physical-scale first-fit",
+    "source": [
+      {
+        "source_id": "s38",
+        "section": "§4,§5,§9"
+      },
+      {
+        "source_id": "s37",
+        "section": "§1–§5"
+      }
+    ],
+    "generator_XS_rated_w": 500000,
+    "source_useful_fraction": 0.9,
+    "source_useful_cap_w": 450000,
+    "normal_hotel_passive_w": 200000,
+    "mining_useful_bus_w": 1200000,
+    "mining_laser_useful_bus_w": 1000000,
+    "usable_accumulator_j": 9000000000,
+    "source_on_mining_host_w": 1411000,
+    "generator_hot_exhaust_w": 418000,
+    "current_thin_work_high_k": 460,
+    "current_thin_crit_high_k": 500,
+    "warning": "S G0 Pony is separate Survival identity. Civilian source90→100%, G1 recipe, battery chemistry and generic hull proxy537m² cannot be silently assigned."
+  },
+  "thermal_palette": {
+    "source": {
+      "source_id": "s14",
+      "section": "§3–§8"
+    },
+    "S": {
+      "passive": {
+        "dry_mass_kg": 750,
+        "area_m2": 490,
+        "emissivity": 0.9,
+        "power_w": 0
+      },
+      "active": {
+        "dry_mass_kg": 1350,
+        "area_m2": 980,
+        "emissivity": 0.9,
+        "pump_useful_cap_w": 300000
+      },
+      "buffer": {
+        "installed_mass_kg": 5000,
+        "sealed_water_kg": 4500,
+        "capacity_j": 2000000000,
+        "max_absorb_release_w": 20000000,
+        "power_w": 0
+      },
+      "h2_cooler": {
+        "dry_mass_kg": 850,
+        "aux_useful_w": 50000,
+        "aux_host_heat_w": 56000,
+        "efficient": {
+          "q_j_per_kg": 10000000,
+          "host_cap_w": 20000000
+        },
+        "cold_stealth_only": {
+          "q_j_per_kg": 3000000,
+          "host_cap_w": 10000000
+        },
+        "resource": "compatible Power H2 cryotank shared with source/propulsion; cargo never auto-feeds"
+      },
+      "thermoinverter": {
+        "dry_mass_kg": 950,
+        "core_host_cap_w": 20000000,
+        "eta_heat_pump": 0.5,
+        "hot_side_max_k": 800,
+        "source": {
+          "source_id": "s15",
+          "section": "§3–§6"
+        },
+        "constraint": "COP=.5*T_ship/(T_hot−T_ship); Q_rad_real_area≥Q_host+Q_host/COP; cap20MW is not promised ship cooling"
+      }
+    },
+    "note": "Palette bespoke owner overrides compact buffer2t/0.8GJ and active900K_rad candidate; M variants unclosed."
+  },
+  "hydrogen_current_curve": {
+    "generation": 5,
+    "status": "explicit authoritative numeric curve; material/thermal proof PHYSICAL_BLOCKER",
+    "S": {
+      "dry_mass_kg": 6650.887832,
+      "fuel_capacity_kg": 633.45758
+    },
+    "M": {
+      "dry_mass_kg": 24125.654735,
+      "fuel_capacity_kg": 3647.570429
+    },
+    "refs": [
+      {
+        "source_id": "s39",
+        "section": "S/M G5 rows"
+      },
+      {
+        "source_id": "s29",
+        "section": "tank_hydrogen"
+      }
+    ],
+    "note": "Do not replace with old S5.74t/0.56t or M21.8t/3.4t reference table. H2 Generator rated=.55 matching Diesel at same mass; own self-export0."
+  },
+  "experimental_proposals": [
+    {
+      "id": "X1",
+      "fields": [
+        "generator.eta_gen_G1",
+        "generator.eta_useful_path"
+      ],
+      "values": {
+        "eta_gen_G1": 0.35,
+        "eta_useful_path": 0.9
+      },
+      "reason": "Exact G1 generator efficiency/path endpoints not closed; freeze low-tech/Pony anchors for lab",
+      "refs": [
+        {
+          "source_id": "s5",
+          "section": "§5.1"
+        },
+        {
+          "source_id": "s37",
+          "section": "§1,§5"
+        }
+      ]
+    },
+    {
+      "id": "X2",
+      "fields": [
+        "propulsion.alpha_G1",
+        "propulsion.useful_fraction",
+        "propulsion.host_share_of_nonuseful"
+      ],
+      "values": {
+        "alpha_G1": 5.65e-07,
+        "useful_fraction": 0.32,
+        "host_share_of_nonuseful": 0.05
+      },
+      "reason": "G0/reference propulsion heat endpoints are not proved Civilian G1; preserve explicit experimental heat ledger",
+      "refs": [
+        {
+          "source_id": "s5",
+          "section": "§2.3,§3.2"
+        },
+        {
+          "source_id": "s38",
+          "section": "§2"
+        }
+      ],
+      "coefficient_origin": "experimental reuse of source-calibrated low-tech anchor; G1 canon unclosed"
+    },
+    {
+      "id": "X3",
+      "fields": [
+        "hull.K_rad_S",
+        "hull.K_rad_M",
+        "ship.C_S",
+        "ship.C_M"
+      ],
+      "values": {
+        "K_rad_S": 456.45,
+        "K_rad_M": 1825.8,
+        "C_S_J_per_K": 35659900,
+        "C_M_J_per_K": 142639600
+      },
+      "reason": "S area/emissivity first proxy is not exact hull SKU; S C baseline reference33.22MJ/K; M geometry/inertia closure absent. M thermal values are deliberate extrapolation, not universal canon",
+      "refs": [
+        {
+          "source_id": "s14",
+          "section": "§2"
+        },
+        {
+          "source_id": "s35",
+          "section": "§1–§4"
+        }
+      ]
+    },
+    {
+      "id": "X4",
+      "fields": [
+        "thermal thresholds"
+      ],
+      "values": {
+        "general": {
+          "work_low_k": 200,
+          "crit_low_k": 150,
+          "restart_low_k": 180,
+          "work_high_k": 510,
+          "crit_high_k": 570,
+          "restart_high_k": 550
+        },
+        "rugged": {
+          "work_low_k": 200,
+          "crit_low_k": 150,
+          "restart_low_k": 180,
+          "work_high_k": 570,
+          "crit_high_k": 700,
+          "restart_high_k": 680
+        },
+        "tank_G0": {
+          "work_low_k": 200,
+          "crit_low_k": 150,
+          "restart_low_k": 180,
+          "work_high_k": 500,
+          "crit_high_k": 570,
+          "restart_high_k": 550
+        }
+      },
+      "reason": "civil_general/rugged upper limits are candidate; lower corridor/restart values are lab proposals; tank G0 upper500/570 are sourced, rest not",
+      "refs": [
+        {
+          "source_id": "s23",
+          "section": "civil_general,civil_rugged rows"
+        },
+        {
+          "source_id": "s7",
+          "section": "temperature corridor/restart"
+        },
+        {
+          "source_id": "s29",
+          "section": "tank_diesel row"
+        }
+      ]
+    },
+    {
+      "id": "X5",
+      "fields": [
+        "M.mining_laser.bus",
+        "M.mining_laser.mass",
+        "M.radiator.area",
+        "M.radiator.mass",
+        "M.cargo_hold.capacity"
+      ],
+      "values": {
+        "laser_bus_w": 12000000,
+        "laser_mass_kg": 8800,
+        "radiator_area_m2": 1960,
+        "radiator_mass_kg": 3000,
+        "cargo_scu": 48
+      },
+      "reason": "Default ordinary family Size law is design-authoring rule; exact M laser/radiator construction is not closed. Lab freezes S×4 extrapolation and exposes these fields",
+      "refs": [
+        {
+          "source_id": "s18",
+          "section": "§4,§11,§14"
+        },
+        {
+          "source_id": "s32",
+          "section": "S-only slice"
+        },
+        {
+          "source_id": "s29",
+          "section": "cargo_hold_universal size law"
+        }
+      ]
+    },
+    {
+      "id": "X6",
+      "fields": [
+        "Background.headroom_curve",
+        "simulation.start",
+        "simulation.duration",
+        "protected_background.when_empty"
+      ],
+      "values": {
+        "headroom_curve": "linear clamp((SoC−0.8)/0.2,0,1)",
+        "start_temperature_k": 300,
+        "start_soc": 1,
+        "env_k": 100,
+        "duration_s": 1800,
+        "dt_s": 0.1,
+        "protected_background_when_empty": "limited to actual available supply; cannot create energy"
+      },
+      "reason": "Scheduler defines monotonic gradual rise, not exact interpolation; initial state, duration and time step are experiment settings",
+      "refs": [
+        {
+          "source_id": "s12",
+          "section": "§5"
+        },
+        {
+          "source_id": "s6",
+          "section": "§6"
+        }
+      ]
+    },
+    {
+      "id": "X7",
+      "fields": [
+        "accumulator.charge_efficiency",
+        "accumulator.discharge_efficiency",
+        "accumulator.minimum_stored_energy_j",
+        "thermal.extra_environment_heat_w"
+      ],
+      "values": {
+        "charge_efficiency": 1,
+        "discharge_efficiency": 0.9,
+        "minimum_stored_energy_j": 0,
+        "extra_environment_heat_w": 0
+      },
+      "reason": "Lab bookkeeping closes absent charge-path/minimum endpoints; selected usable0.9 is implemented once via discharge efficiency. No extra environmental heat beyond T_env,eff in cold fixtures."
+    }
+  ],
+  "configurations": [
+    {
+      "id": "lab-s-civilian-g1-diesel-exp-v0.1",
+      "label": "S Civilian/G1 — экспериментальная lab configuration",
+      "status": "EXPERIMENTAL_RUNNABLE_PARAMETER_SET_NOT_APPROVED_SKU",
+      "catalog_version": "0.1",
+      "model_version": "radiative-host-ledger-0.1",
+      "identity": {
+        "size": "S",
+        "hull_class": "Civilian",
+        "generation_state": {
+          "majorGeneration": 1,
+          "minorStage": 0
+        },
+        "national_scope": "Neutral_baseline_reference_no_exact_school_claim",
+        "governor": "Balanced"
+      },
+      "initial": {
+        "temperature_k": 300,
+        "env_temperature_k": 100,
+        "soc": 1,
+        "fuel_kg": 6000,
+        "buffer_energy_j": 0
+      },
+      "simulation": {
+        "dt_s": 0.1,
+        "duration_s": 1800
+      },
+      "hull": {
+        "dry_mass_kg": 42500,
+        "background_w": 2500,
+        "K_rad_m2": 456.45,
+        "C_baseline_J_per_K": 27900000,
+        "mass_source": {
+          "source_id": "s8",
+          "section": "§8.8 Civilian dry hull S/M"
+        },
+        "thermal_origin": "experimental X3"
+      },
+      "propulsion": {
+        "fuel": "diesel",
+        "package_dry_mass_kg": 5000,
+        "march_force_n": 2950000,
+        "retro_force_ratio": 0.4,
+        "strafe_force_ratio": 0.25,
+        "turn_force_ratio": 0.25,
+        "alpha_kg_per_n_s": 5.65e-07,
+        "useful_fraction": 0.32,
+        "host_fraction_of_waste": 0.05,
+        "threshold_profile": "rugged",
+        "thermal_origin": "experimental X2",
+        "mass_force_source": {
+          "source_id": "s8",
+          "section": "§8.1,§8.2,§8.8"
+        },
+        "alpha_origin": "experimental X2; sourced low-tech alpha, exact G1 unresolved",
+        "alpha_source": {
+          "source_id": "s5",
+          "section": "§3.2,§4.1",
+          "source_value": 0.565,
+          "source_unit": "kg/(MN s)",
+          "conversion": "divide by 1e6 N/MN"
+        }
+      },
+      "generator": {
+        "size": "S",
+        "rated_electrical_w": 2000000,
+        "dry_mass_kg": 1600,
+        "eta_gen": 0.35,
+        "eta_useful_path": 0.9,
+        "self_export_fraction": 0.45,
+        "source_on_soc": 0.9,
+        "source_off_soc": 1,
+        "fuel": "diesel",
+        "threshold_profile": "general",
+        "canonical_anchor_refs": [
+          {
+            "source_id": "s10",
+            "section": "§2–§3"
+          },
+          {
+            "source_id": "s11",
+            "section": "§2"
+          }
+        ],
+        "efficiency_origin": "experimental X1"
+      },
+      "accumulator": {
+        "size": "XS",
+        "dry_mass_kg": 1500,
+        "stored_specific_energy_j_per_kg": 2455000,
+        "stored_capacity_j": 3682500000,
+        "usable_fraction": 0.9,
+        "usable_capacity_j": 3314250000,
+        "initial_stored_energy_j": 3682500000,
+        "threshold_profile": "general",
+        "refs": [
+          {
+            "source_id": "s10",
+            "section": "§4"
+          },
+          {
+            "source_id": "s25",
+            "section": "Civilian accumulator; caliber shift"
+          }
+        ],
+        "minimum_stored_energy_j": 0,
+        "charge_efficiency": 1,
+        "discharge_efficiency": 0.9,
+        "efficiency_note": "Explicit lab bookkeeping proposal: generator useful-path0.9 is separate; charge1; discharge0.9 equals usable fraction once, not a second extra0.9 multiplier. All losses enter host."
+      },
+      "tank": {
+        "size": "S",
+        "fuel_capacity_kg": 6000,
+        "initial_fuel_kg": 6000,
+        "dry_mass_kg": 300,
+        "thermal_profile": "tank_G0",
+        "generation_state": {
+          "majorGeneration": 0,
+          "minorStage": 0
+        },
+        "contents_in_C_ship": false,
+        "source": {
+          "source_id": "s29",
+          "section": "tank_diesel"
+        }
+      },
+      "mining_laser": {
+        "size": "S",
+        "dry_mass_kg": 2200,
+        "request_bus_w": 3000000,
+        "beam_efficiency": 0.5001,
+        "operation_policy": "Active",
+        "threshold_profile": "general",
+        "origin": "canonical working anchors + experimental thermal profiles",
+        "refs": [
+          {
+            "source_id": "s34",
+            "section": "§2,§4"
+          }
+        ]
+      },
+      "radiator_passive": {
+        "size": "S",
+        "generation_state": {
+          "majorGeneration": 0,
+          "minorStage": 0
+        },
+        "dry_mass_kg": 750,
+        "area_m2": 490,
+        "emissivity": 0.9,
+        "K_rad_m2": 441,
+        "power_w": 0,
+        "origin": "canonical exact S first slice"
+      },
+      "cargo_hold_universal": {
+        "size": "S",
+        "dry_mass_kg": 1200,
+        "capacity_scu": 12,
+        "contents_in_C_ship": false,
+        "refs": [
+          {
+            "source_id": "s29",
+            "section": "cargo_hold_universal"
+          }
+        ]
+      },
+      "thermal": {
+        "C_ship_j_per_k": 35659900,
+        "K_rad_total_m2": 897.45,
+        "buffer_capacity_j": 0,
+        "h2_cooler_host_cap_w": 0,
+        "thermoinverter_host_cap_w": 0,
+        "thresholds": {
+          "general": {
+            "work_low_k": 200,
+            "crit_low_k": 150,
+            "restart_low_k": 180,
+            "work_high_k": 510,
+            "crit_high_k": 570,
+            "restart_high_k": 550
+          },
+          "rugged": {
+            "work_low_k": 200,
+            "crit_low_k": 150,
+            "restart_low_k": 180,
+            "work_high_k": 570,
+            "crit_high_k": 700,
+            "restart_high_k": 680
+          },
+          "tank_G0": {
+            "work_low_k": 200,
+            "crit_low_k": 150,
+            "restart_low_k": 180,
+            "work_high_k": 500,
+            "crit_high_k": 570,
+            "restart_high_k": 550
+          }
+        },
+        "origin": "experimental X3/X4; approximate reference C plus exact added material bills with reference cp",
+        "components_counted_once": true,
+        "extra_environment_heat_w": 0
+      },
+      "scheduler": {
+        "background_soc_floor": 0.8,
+        "background_fuel_floor_fraction": 0.2,
+        "background_temperature_margin_k": 10,
+        "background_requested_bus_w": 0,
+        "background_policy": "none fitted; arithmetic coverage may use separate synthetic load marked experimental",
+        "headroom_curve": "linear",
+        "active_deficit_policy": "proportional",
+        "local_capacitor_recovery_bus_w": 0,
+        "refs": [
+          {
+            "source_id": "s12",
+            "section": "§2–§7"
+          }
+        ]
+      },
+      "mass_ledger": {
+        "dry_total_kg": 55050,
+        "full_fuel_total_kg": 61050,
+        "origin": "sum concrete selected module masses; no cargo/fuel thermal-capacity credit"
+      },
+      "scenario": [
+        {
+          "t_start_s": 0,
+          "t_end_s": 10,
+          "action": "march",
+          "throttle": 1
+        },
+        {
+          "t_start_s": 10,
+          "t_end_s": 600,
+          "action": "mining",
+          "throttle": 1
+        },
+        {
+          "t_start_s": 600,
+          "t_end_s": 610,
+          "action": "retro",
+          "throttle": 1
+        },
+        {
+          "t_start_s": 610,
+          "t_end_s": 1800,
+          "action": "idle",
+          "throttle": 0
+        }
+      ],
+      "experimental_fields": [
+        "X1",
+        "X2",
+        "X3",
+        "X4",
+        "X6",
+        "X7"
+      ],
+      "approved_baseline": false,
+      "slot_validation": "NOT_DONE; lab numeric fixture, not full fitted production/runtime SKU"
+    },
+    {
+      "id": "lab-m-civilian-g1-diesel-exp-v0.1",
+      "label": "M Civilian/G1 — экспериментальная lab configuration",
+      "status": "EXPERIMENTAL_RUNNABLE_PARAMETER_SET_NOT_APPROVED_SKU",
+      "catalog_version": "0.1",
+      "model_version": "radiative-host-ledger-0.1",
+      "identity": {
+        "size": "M",
+        "hull_class": "Civilian",
+        "generation_state": {
+          "majorGeneration": 1,
+          "minorStage": 0
+        },
+        "national_scope": "Neutral_baseline_reference_no_exact_school_claim",
+        "governor": "Balanced"
+      },
+      "initial": {
+        "temperature_k": 300,
+        "env_temperature_k": 100,
+        "soc": 1,
+        "fuel_kg": 24000,
+        "buffer_energy_j": 0
+      },
+      "simulation": {
+        "dt_s": 0.1,
+        "duration_s": 1800
+      },
+      "hull": {
+        "dry_mass_kg": 170000,
+        "background_w": 10000,
+        "K_rad_m2": 1825.8,
+        "C_baseline_J_per_K": 111600000,
+        "mass_source": {
+          "source_id": "s8",
+          "section": "§8.8 Civilian dry hull S/M"
+        },
+        "thermal_origin": "experimental X3"
+      },
+      "propulsion": {
+        "fuel": "diesel",
+        "package_dry_mass_kg": 20000,
+        "march_force_n": 8820000,
+        "retro_force_ratio": 0.4,
+        "strafe_force_ratio": 0.25,
+        "turn_force_ratio": 0.25,
+        "alpha_kg_per_n_s": 5.65e-07,
+        "useful_fraction": 0.32,
+        "host_fraction_of_waste": 0.05,
+        "threshold_profile": "rugged",
+        "thermal_origin": "experimental X2",
+        "mass_force_source": {
+          "source_id": "s8",
+          "section": "§8.1,§8.2,§8.8"
+        },
+        "alpha_origin": "experimental X2; sourced low-tech alpha, exact G1 unresolved",
+        "alpha_source": {
+          "source_id": "s5",
+          "section": "§3.2,§4.1",
+          "source_value": 0.565,
+          "source_unit": "kg/(MN s)",
+          "conversion": "divide by 1e6 N/MN"
+        }
+      },
+      "generator": {
+        "size": "M",
+        "rated_electrical_w": 8000000,
+        "dry_mass_kg": 6400,
+        "eta_gen": 0.35,
+        "eta_useful_path": 0.9,
+        "self_export_fraction": 0.45,
+        "source_on_soc": 0.9,
+        "source_off_soc": 1,
+        "fuel": "diesel",
+        "threshold_profile": "general",
+        "canonical_anchor_refs": [
+          {
+            "source_id": "s10",
+            "section": "§2–§3"
+          },
+          {
+            "source_id": "s11",
+            "section": "§2"
+          }
+        ],
+        "efficiency_origin": "experimental X1"
+      },
+      "accumulator": {
+        "size": "S",
+        "dry_mass_kg": 6000,
+        "stored_specific_energy_j_per_kg": 2455000,
+        "stored_capacity_j": 14730000000,
+        "usable_fraction": 0.9,
+        "usable_capacity_j": 13257000000,
+        "initial_stored_energy_j": 14730000000,
+        "threshold_profile": "general",
+        "refs": [
+          {
+            "source_id": "s10",
+            "section": "§4"
+          },
+          {
+            "source_id": "s25",
+            "section": "Civilian accumulator; caliber shift"
+          }
+        ],
+        "minimum_stored_energy_j": 0,
+        "charge_efficiency": 1,
+        "discharge_efficiency": 0.9,
+        "efficiency_note": "Explicit lab bookkeeping proposal: generator useful-path0.9 is separate; charge1; discharge0.9 equals usable fraction once, not a second extra0.9 multiplier. All losses enter host."
+      },
+      "tank": {
+        "size": "M",
+        "fuel_capacity_kg": 24000,
+        "initial_fuel_kg": 24000,
+        "dry_mass_kg": 1200,
+        "thermal_profile": "tank_G0",
+        "generation_state": {
+          "majorGeneration": 0,
+          "minorStage": 0
+        },
+        "contents_in_C_ship": false,
+        "source": {
+          "source_id": "s29",
+          "section": "tank_diesel"
+        }
+      },
+      "mining_laser": {
+        "size": "M",
+        "dry_mass_kg": 8800,
+        "request_bus_w": 12000000,
+        "beam_efficiency": 0.5001,
+        "operation_policy": "Active",
+        "threshold_profile": "general",
+        "origin": "experimental X5",
+        "refs": [
+          {
+            "source_id": "s34",
+            "section": "§2,§4"
+          }
+        ]
+      },
+      "radiator_passive": {
+        "size": "M",
+        "generation_state": {
+          "majorGeneration": 0,
+          "minorStage": 0
+        },
+        "dry_mass_kg": 3000,
+        "area_m2": 1960,
+        "emissivity": 0.9,
+        "K_rad_m2": 1764,
+        "power_w": 0,
+        "origin": "experimental X5"
+      },
+      "cargo_hold_universal": {
+        "size": "M",
+        "dry_mass_kg": 4800,
+        "capacity_scu": 48,
+        "contents_in_C_ship": false,
+        "refs": [
+          {
+            "source_id": "s29",
+            "section": "cargo_hold_universal"
+          }
+        ]
+      },
+      "thermal": {
+        "C_ship_j_per_k": 142639600,
+        "K_rad_total_m2": 3589.8,
+        "buffer_capacity_j": 0,
+        "h2_cooler_host_cap_w": 0,
+        "thermoinverter_host_cap_w": 0,
+        "thresholds": {
+          "general": {
+            "work_low_k": 200,
+            "crit_low_k": 150,
+            "restart_low_k": 180,
+            "work_high_k": 510,
+            "crit_high_k": 570,
+            "restart_high_k": 550
+          },
+          "rugged": {
+            "work_low_k": 200,
+            "crit_low_k": 150,
+            "restart_low_k": 180,
+            "work_high_k": 570,
+            "crit_high_k": 700,
+            "restart_high_k": 680
+          },
+          "tank_G0": {
+            "work_low_k": 200,
+            "crit_low_k": 150,
+            "restart_low_k": 180,
+            "work_high_k": 500,
+            "crit_high_k": 570,
+            "restart_high_k": 550
+          }
+        },
+        "origin": "experimental X3/X4; approximate reference C plus exact added material bills with reference cp",
+        "components_counted_once": true,
+        "extra_environment_heat_w": 0
+      },
+      "scheduler": {
+        "background_soc_floor": 0.8,
+        "background_fuel_floor_fraction": 0.2,
+        "background_temperature_margin_k": 10,
+        "background_requested_bus_w": 0,
+        "background_policy": "none fitted; arithmetic coverage may use separate synthetic load marked experimental",
+        "headroom_curve": "linear",
+        "active_deficit_policy": "proportional",
+        "local_capacitor_recovery_bus_w": 0,
+        "refs": [
+          {
+            "source_id": "s12",
+            "section": "§2–§7"
+          }
+        ]
+      },
+      "mass_ledger": {
+        "dry_total_kg": 220200,
+        "full_fuel_total_kg": 244200,
+        "origin": "sum concrete selected module masses; no cargo/fuel thermal-capacity credit"
+      },
+      "scenario": [
+        {
+          "t_start_s": 0,
+          "t_end_s": 10,
+          "action": "march",
+          "throttle": 1
+        },
+        {
+          "t_start_s": 10,
+          "t_end_s": 600,
+          "action": "mining",
+          "throttle": 1
+        },
+        {
+          "t_start_s": 600,
+          "t_end_s": 610,
+          "action": "retro",
+          "throttle": 1
+        },
+        {
+          "t_start_s": 610,
+          "t_end_s": 1800,
+          "action": "idle",
+          "throttle": 0
+        }
+      ],
+      "experimental_fields": [
+        "X1",
+        "X2",
+        "X3",
+        "X4",
+        "X6",
+        "X5",
+        "X7"
+      ],
+      "approved_baseline": false,
+      "slot_validation": "NOT_DONE; lab numeric fixture, not full fitted production/runtime SKU"
+    }
+  ],
+  "equations": {
+    "source": "P_fuel=P_generator_electric/eta_gen; m_diesel_gen=P_fuel*dt/43e6; H_waste=P_fuel−P_generator_electric; H_gen_host=.55*H_waste; P_gen_export=.45*H_waste; selected useful-path loss=.1*P_generator_electric enters host",
+    "accumulator": "Track one common Q_acc stored J. Discharge useful contribution=eta_discharge*(−dQ/dt); do not apply usable_fraction twice. Charge/discharge/path losses enter host. Local caps only if fitted.",
+    "propulsion": "m_diesel_prop=alpha*abs(F_actual)*dt; P_fuel=m_dot*43e6; selected useful=.32P_fuel; selected host=.05*(P_fuel−P_useful); outward exhaust=(1−.05)*(P_fuel−P_useful); chemical propulsion has zero fake electrical draw",
+    "laser": "P_beam=eta_laser*P_bus_actual; H_laser=(1−eta_laser)*P_bus_actual; no second old f_emit multiplier",
+    "radiation": "Q_rad=ΣK_i*sigma*(T_ship^4−T_env,eff^4); signed; net C_ship*dT/dt=H_host+H_env−Q_rad−H2_pickup−TI_pickup−buffer_absorb+buffer_release",
+    "h2": "m_H2=(Q_host+H_aux)*dt/q; bound host request/cap/shared remaining physical mass; never count same cryotank twice",
+    "background": "Allocate after Active/local-cap recovery and battery recovery. Never make background consume common Q_acc; within-step actual source/fuel/thermal/SoC headroom must hold. below80% zero; between80–100 use explicitly experimental linear headroom share.",
+    "thermal_protection": "Per module compare one T_ship against low/high limits; shut down at <=crit_low or >=crit_high; restart only inside hysteresis band; ordinary Civilian has no thermal override"
+  },
+  "conflicts_resolved": [
+    "Current S power Class owner2.00MW rated and explicit×4→M8.00MW outrank old power_load0.68/2.7MW average; average is scenario demand, not generator cap.",
+    "Current e_acc(G) supersedes universal6.84MJ/kg early unlock. G1=.07 maturity→2.455MJ/kg; XS1.5t→stored3.6825GJ,usable3.31425GJ.",
+    "Palette natural T⁴ surfaces replace constant6/12MW cooling; those ratings only700K cold reference.",
+    "Passive Heat Buffer palette5t/2GJ/20MW outranks generic compact2t/.8GJ for this first slice; generic candidates never replace bespoke owners.",
+    "Current laser CivilS/G1 3MW and eta=.5001 replace aggregate budget derived.6MW shortcut/old.35 emitted fraction for this authored laser.",
+    "Current H2 square-cube curve is explicit and not M=S×4.",
+    "S Pony accepted K225 and UNKNOWN class stay separate from Civilian hull proxy456.45."
+  ],
+  "gaps": [
+    {
+      "id": "G1",
+      "fields": [
+        "complete S/M hull material ledger",
+        "C_ship"
+      ],
+      "impact": "Both compiled fixtures experimental; exact C/material closure is missing. reference cp and first-fit C cannot certify full SKU."
+    },
+    {
+      "id": "G2",
+      "fields": [
+        "low thermal corridor",
+        "restart hysteresis",
+        "tau_restart",
+        "wear rates",
+        "R"
+      ],
+      "impact": "Upper candidate profiles plus low/restart proposals support reversible thermal gating only; durability simulation is not numerically closed; do not invent canonical wear."
+    },
+    {
+      "id": "G3",
+      "fields": [
+        "exact M mining laser/radiator/geometry/thermal TTX"
+      ],
+      "impact": "M explicit experiment extends selected individual families; full M preset is not universally scaled canon."
+    },
+    {
+      "id": "G4",
+      "fields": [
+        "G1 Diesel eta law",
+        "G1 propulsion heat/alpha national refinement",
+        "electrical charge path"
+      ],
+      "impact": "Use exposed frozen low-tech proposals; no exact national SKU claim."
+    },
+    {
+      "id": "G5",
+      "fields": [
+        "slot layout validation",
+        "runtime configs projection"
+      ],
+      "impact": "Design-authoring intake only; no approved fitted hull or runtime registration."
+    },
+    {
+      "id": "G6",
+      "fields": [
+        "H2/TI candidate finished module material thermal proof"
+      ],
+      "impact": "Not enabled in two minimal fixtures; palette values kept for future experiments."
+    },
+    {
+      "id": "G7",
+      "fields": [
+        "Background actual process power/heat/throughput"
+      ],
+      "impact": "No real Background family fitted for S/M, current owner L+ processes. Synthetic Background stress signal must be experimental, never pretend real refineryS/M."
+    }
+  ],
+  "verification": {
+    "json_syntax": "PASS json.loads after correction",
+    "source_fetch_failures": [],
+    "runtime_tests": "NOT_RUN; intake only",
+    "repository_writes": "only two ignored intake files",
+    "private_gdd_copy": "No wholesale content; extracted numeric facts and provenance only",
+    "numeric_invariants": {
+      "status": "PASS",
+      "checked": "positive finite consumable alpha; exact SI conversion; parameter/proposal/both configuration consistency; nonzero full-march consumption; positive sigma; nonzero cold radiation",
+      "source_conversion": {
+        "source_value_kg_per_MN_s": 0.565,
+        "SI_value_kg_per_N_s": 5.65e-07
+      },
+      "results": [
+        {
+          "configuration": "lab-s-civilian-g1-diesel-exp-v0.1",
+          "status": "PASS",
+          "alpha_positive_finite": true,
+          "alpha_fields_equal": true,
+          "full_march_fuel_flow_kg_per_s": 1.66675,
+          "fuel_consumed_at_full_march_10s_kg": 16.6675,
+          "sigma_positive_finite": true,
+          "radiation_300K_to_100K_w": 407110.20178652403
+        },
+        {
+          "configuration": "lab-m-civilian-g1-diesel-exp-v0.1",
+          "status": "PASS",
+          "alpha_positive_finite": true,
+          "alpha_fields_equal": true,
+          "full_march_fuel_flow_kg_per_s": 4.9833,
+          "fuel_consumed_at_full_march_10s_kg": 49.833,
+          "sigma_positive_finite": true,
+          "radiation_300K_to_100K_w": 1628440.8071460961
+        }
+      ],
+      "small_coefficient_preservation": "No blanket near-integer rounding. Preserve nonzero small floats through JSON serialization."
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "schema": "independent-plan-review-binding-v1",
+  "role": "Independent Reviewer",
+  "session": "/root/fitting_adversarial_review",
+  "mode": "PLAN_REVIEW",
+  "model": "Codex; GPT-6 family per environment, exact serving/deployment ID not exposed",
+  "source_commit": "3ced4ba1fd69df6f7c03d298d340ee69593113dd",
+  "runtime_baseline": "d57ad5bc75c77954e7eefe63fbe5630ca4529c62",
+  "work_item": "ulab-558",
+  "contract": {
+    "path": "docs/plans/2026-10-06-station-service.md",
+    "git_blob": "6d183268888b1fe8a01f6c147c91a56220f84a78",
+    "bytes": 7955,
+    "sha256": "05f63be7874e759af7b95f01c35de28692aad4922350562b509dd49e136b20aa",
+    "coverage": "entire document including ST01–ST06"
+  },
+  "reviewed_paths": [
+    {
+      "path": "src/app/fitting-ui/conditions.ts",
+      "git_blob": "1c1441c112e44afc7d827b287516883e41428525",
+      "bytes": 1134,
+      "sha256": "d2544a0a093e451333630578274230f953b274917afb797fca5250f15b3ab128",
+      "reviewed_surface": "conditionsFromSpec/readback; whole file",
+      "baseline_equal": true
+    },
+    {
+      "path": "src/app/fitting-ui/lab-view.ts",
+      "git_blob": "640b9b2c80bcb783498b5a17ad6b4fa32f37dbc3",
+      "bytes": 20790,
+      "sha256": "8b178eda95bcc8ce6e46ff1610c4e9a12b51da067d7afa3b7f1112a10cda6018",
+      "reviewed_surface": "conditions controls and result summary",
+      "baseline_equal": true
+    },
+    {
+      "path": "src/app/fitting-ui/result-context.ts",
+      "git_blob": "1c8b5f496f05a4a13c22a51522672c8f584af326",
+      "bytes": 2305,
+      "sha256": "1aa453226408c36e3213037d2e91e4aa60dd5d94329fca68b5fd6bfeac86e44c",
+      "reviewed_surface": "measured identity and comparison; whole file",
+      "baseline_equal": true
+    },
+    {
+      "path": "src/app/fitting-workspace.ts",
+      "git_blob": "a4af25f45febd1f411bd393b33f2cf08844b70f8",
+      "bytes": 11552,
+      "sha256": "5ee72d17945db57b5004c5ca764bad51ad3ab3297c2f1d4ed5df1be6b6047d99",
+      "reviewed_surface": "prepare/replay ownership, freeze and atomic import",
+      "baseline_equal": true
+    },
+    {
+      "path": "src/io/fitting-result.ts",
+      "git_blob": "0b379d110ec715a2b9d85152fc96df3ea8ff9c28",
+      "bytes": 18892,
+      "sha256": "af685d4269268483668708944ff93f5043a96bcaf1dc882b89b9588737c01913",
+      "reviewed_surface": "mission result validation and old optional fields",
+      "baseline_equal": true
+    },
+    {
+      "path": "src/model/v2/step.ts",
+      "git_blob": "994ae16fc5fdf4b37418090eebeabd30ee92fc02",
+      "bytes": 19167,
+      "sha256": "87b37381f18f75fa10328a25ebad1ae44523dc6daed15a7321a5d04445930efa",
+      "reviewed_surface": "resolved battery invariant and mission validation only",
+      "baseline_equal": true
+    },
+    {
+      "path": "src/model/v2/types.ts",
+      "git_blob": "19a05b116ffcf07e9fa64330210a1498dceee712",
+      "bytes": 3822,
+      "sha256": "a7cad08cc4a26ec5a510c9b368687f97a0e125cfc57b6ff24b8da679fd220baa",
+      "reviewed_surface": "mission config/state declarations",
+      "baseline_equal": true
+    },
+    {
+      "path": "src/runner/mining-metrics.ts",
+      "git_blob": "00f3bb2a2a05c380049bc80e32934da80df76fbd",
+      "bytes": 8981,
+      "sha256": "edec3faf9440a5d6a8b69f34c5ec31da5c51f6646984433cd8a0c7a16cb724f3",
+      "reviewed_surface": "mission metrics shape and existing consumption counters",
+      "baseline_equal": true
+    },
+    {
+      "path": "src/runner/mission.ts",
+      "git_blob": "47d18e841160df86e905621fed85c46ce6b7794a",
+      "bytes": 22873,
+      "sha256": "cb83fbf0d5070cce73c1804041c03d7a1a94a5b85fb9cf94c3410d8cc4d4a87c",
+      "reviewed_surface": "service endpoint, transition clock, metrics synchronization and retained stocks",
+      "baseline_equal": true
+    },
+    {
+      "path": "src/scenarios/mission.ts",
+      "git_blob": "74477c64f762000b4ba9bbecb416a46c4215f4e3",
+      "bytes": 4219,
+      "sha256": "4826e4ef557cc40b9b9496be752c3dc48a036782d7087f9b7f1042f24e16a862",
+      "reviewed_surface": "mission factory, defaults, conditions comparison; whole file",
+      "baseline_equal": true
+    }
+  ],
+  "content_fingerprint": "54e67e5a8d764126bffd02969eeb617a2f4356fb8d3f24b943934a23494a4fdb",
+  "canonical_bytes": 8967,
+  "fingerprint_recipe": "SHA256(UTF-8 JSON, ensure_ascii=false, sort_keys=true, separators=(comma,colon), of {paths: sorted [path,git_blob] pairs for these 10 owners plus plan, whole_contracts:[{path,text: entire UTF-8 plan including frontmatter and trailing newline}]})",
+  "checks": {
+    "whole_plan_hash_verified": true,
+    "current_owners_equal_d57": true,
+    "runtime_tests_run": false
+  },
+  "verdict": "PLAN_READY",
+  "blockers": 0,
+  "advisory": 1,
+  "source_freeze": "RELEASED after sealed readback"
+}

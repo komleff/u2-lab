@@ -1,0 +1,169 @@
+{
+  "role": "Independent Reviewer / CODE_REVIEW",
+  "model": "Codex; exact provider/model ID unavailable",
+  "sourceSha": "545c7229b8a2359b001568888dcb6073921b8baa",
+  "developerSha": "bbe3fc9914109dfa2b671666fb0585bdcb38337c",
+  "binding": {
+    "path": ".overgate-runtime/pony-slot-code-review-fix-r1-binding.json",
+    "bytes": 17293,
+    "sha256": "eeaee8bcf86d67b0392f63d3bbd556d983cf0b8e83f9ee33dabcadfec8fb6f1b",
+    "canonicalBytes": 16569,
+    "fingerprint": "55bb0cf865db2de21163c1821466cceb41863a7bc6f0c0b9aa848a37efa2fb28",
+    "algorithm": "UTF8 canonical JSON contract sorted keys compact ensure_ascii=false noLF"
+  },
+  "reviewedPaths": [
+    {
+      "path": "src/io/fitting-json.ts",
+      "blob": "ef679f906db0d7a090919f872aaa15f59e0c0f0d",
+      "bytes": 5884,
+      "sha256": "671df84ffcf47ba8344a50b186b85440441cfce39017cdaa7831197bab4e4346"
+    },
+    {
+      "path": "tests/fitting/pony-signature-slot.test.ts",
+      "blob": "ebed61b4f8b37dbd13f0b29fa4c0ab0316150e4c",
+      "bytes": 16006,
+      "sha256": "14ad8048ead9780c6731cad3dd6fd95a541b043d565c65abb982a75be0e75ab2"
+    },
+    {
+      "path": "tests/browser/pony-signature-slot.spec.ts",
+      "blob": "882afa979341ee43f135c5f483d1a434cd8f2846",
+      "bytes": 8229,
+      "sha256": "7d09e1f1f9283a94f6364ab4b25920080cff4635c0035d6e8a54dbbb7179ccd3"
+    }
+  ],
+  "carry14BlobsChecked": [
+    {
+      "path": "src/app/fitting-ui/presentation.ts",
+      "blob": "0eb0452ce8e5582102113555e85acfaf2d4e8323",
+      "bytes": 7763,
+      "sha256": "00fa1e89f007227336d50897dc4ea42ffc46da7655efa932a799d11d2b4ad771"
+    },
+    {
+      "path": "src/app/fitting-ui/ship-view.ts",
+      "blob": "e56fd5c0df80ab29f11175fd90b98b17a025f21e",
+      "bytes": 11406,
+      "sha256": "911facabac0b19c66f15fac05e82ef82012008d9799228e8620049f1e5eead9e"
+    },
+    {
+      "path": "src/app/fitting-ui/swap-dialog.ts",
+      "blob": "007d2c3459fb6d3265ee344946f6d002e51c22bd",
+      "bytes": 13109,
+      "sha256": "273b79a4f5f2e1bec60fa3faf4af9dcf38b1fc945a5930ae78989ff4beb94cb7"
+    },
+    {
+      "path": "src/app/fitting-workspace.ts",
+      "blob": "ce856fbd54b73a0b01504b8d68f893ca774ec132",
+      "bytes": 11125,
+      "sha256": "c4aa7fca9818909dec710c021151f18db75332f8e901bc4cc38cf3308be612a5"
+    },
+    {
+      "path": "src/app/fitting.ts",
+      "blob": "8162393a1ec9555523b0e27f4cec2ced65d3762d",
+      "bytes": 35432,
+      "sha256": "fac7438c980a558ab71b52656f0a82332cd6bb835de24fe201e360230e8e44bb"
+    },
+    {
+      "path": "src/fitting/catalog.ts",
+      "blob": "dd42b8ef2d2b5a6d9511437e503ca178dedc3ad8",
+      "bytes": 7648,
+      "sha256": "2757cb0e7cece5c0d1ff1e8e18d49e8084a5cb18d88d65effdb1a03719ee869a"
+    },
+    {
+      "path": "src/fitting/compile.ts",
+      "blob": "04775389b8d37311eac2c4aec03202de1aa554cf",
+      "bytes": 2232,
+      "sha256": "9fb88bf4f64ea98b952f437f9c17360f5688fc885efd7bad20c987ab21e22048"
+    },
+    {
+      "path": "src/fitting/editions.ts",
+      "blob": "963b895e4af3bbd7bff7ee2bbf917d6684db0dcc",
+      "bytes": 2420,
+      "sha256": "789aa7d4b664cad9d98fc31ed4d1ade088a3afdab8cce92e14d332a8f83f452d"
+    },
+    {
+      "path": "src/fitting/types.ts",
+      "blob": "52e087931186fd5911317459ace3ef62e0cc140d",
+      "bytes": 3439,
+      "sha256": "24c27c074d2ad84368e96c63f6f64f4eaf7d9a7e16fc6c525d72c9bc6e7da2b6"
+    },
+    {
+      "path": "src/fitting/validate.ts",
+      "blob": "99945b6f72f97159af150f57a29d782f2d3a5240",
+      "bytes": 12171,
+      "sha256": "d5dac96f8ec94bf30827dd08d1833277ab29860f4800fc9806c3e715bf293ee6"
+    },
+    {
+      "path": "tests/browser/catalog-0.2.1.spec.ts",
+      "blob": "dcd004617ef2e8bf60dd0f315b017e5ca01c4a55",
+      "bytes": 6539,
+      "sha256": "458fa7aa8471f05576fa0de7dbab73d12a09447b9d04217b00052ba59cbe6ba6"
+    },
+    {
+      "path": "tests/fitting/catalog-0.2.1.test.ts",
+      "blob": "465c776b3d214ef7e18efcebe53483c3ae35b9e8",
+      "bytes": 7854,
+      "sha256": "9e7a8be7b81bb8808cbb1d496f9fe64224c8df8f33709f3fcd31d0f048c357fe"
+    },
+    {
+      "path": "tests/fitting/catalog-editions.test.ts",
+      "blob": "0a6ce7b1518930c52a35a43ecc87aadb5664b3f3",
+      "bytes": 5669,
+      "sha256": "8e89c4775de9ec8c675f5ee7f3cef9b451efd972530e63b04ccbc9e0f811ac8f"
+    },
+    {
+      "path": "tests/fitting/fixtures/catalog-0.2.1-pony-digests.json",
+      "blob": "730f0cec1f612df2eb37be097e0658fad578eeb0",
+      "bytes": 1885,
+      "sha256": "472ce0482ab532366161289dbe8bc584c5b6fba96031893fdbaec9560e8d279b"
+    }
+  ],
+  "wholeContracts": [
+    {
+      "path": "docs/plans/2026-10-06-pony-signature-slot.md",
+      "bytes": 7821,
+      "sha256": "36b0498e16b163a44b5fb843ea2cb814cc7f1a2fa654d77edef4a5be538e7319"
+    },
+    {
+      "path": "docs/product/ship-fitting-catalog-0.2.1.md",
+      "bytes": 7363,
+      "sha256": "a5c55604317116c29734c4f4775d541d3109879d918f63df857281bcc8aa89a7"
+    }
+  ],
+  "evidenceReadAndHashVerified": [
+    {
+      "path": ".overgate-runtime/2026-10-06-pony-signature-slot-developer-fix-r1.md",
+      "bytes": 7853,
+      "sha256": "f8c534b29797280b120ab53fa642e04e729d22a5b7e76c857f608c529fc7ff7c"
+    },
+    {
+      "path": ".overgate-runtime/pony-signature-slot-qa/affected-b1-r1/report.md",
+      "bytes": 10539,
+      "sha256": "05af0ccd3f768eb522aaf59d46eb4e9847c763f882244019c00e71a36c35204f"
+    },
+    {
+      "path": ".overgate-runtime/pony-signature-slot-qa/affected-b1-r1/evidence-manifest.json",
+      "bytes": 19048,
+      "sha256": "226e68c93a3766abbec966a86bc6a97f4718d67d4a2ed80aded88c31d2998702"
+    }
+  ],
+  "ownProbe": {
+    "command": "source /Users/komleff/Documents/GitHub/u2-lab/.overgate-runtime/env.sh\nnode --experimental-transform-types --import /tmp/claude-ui-review-loader.mjs --input-type=module <<'JS'\nimport {loadCandidateCatalog,getPresetFit} from './src/fitting/catalog.ts';\nimport {makeMiningRun} from './src/scenarios/fitting.ts';\nimport {parseExperimentJson} from './src/io/fitting-json.ts';\nimport {parseResultJson} from './src/io/fitting-result.ts';\nimport {createRun,runChunk,result} from './src/runner/run.ts';\nimport {FittingWorkspace} from './src/app/fitting-workspace.ts';\nconst old='ship-fitting-0.2.1', next='ship-fitting-0.2.2';\nconst wire=x=>JSON.stringify(x,(_,v)=>ArrayBuffer.isView(v)?Array.from(v):v);\nconst c=loadCandidateCatalog(old), f=getPresetFit('pony:2',old);\nc.hulls.find(h=>h.id==='pony').hullPowerW=123;\nconst original=makeMiningRun(f,c,{durationSeconds:1}); if(!original.ok)throw Error(wire(original));\nconst control=original.value, legal=parseExperimentJson(wire(control));\nconst forged=structuredClone(control); forged.catalogVersion=forged.resolvedShip.fit.catalogVersion=next;\nconst removedId=forged.resolvedShip.fit.assignments['signature-2']; delete forged.resolvedShip.fit.assignments['signature-2']; delete forged.resolvedShip.fit.instances[removedId];\nconst run=createRun('review-P04-closure',forged);runChunk(run,20000);const measured=result(run);\nconst w=new FittingWorkspace(getPresetFit('pony:1'),loadCandidateCatalog());const before=wire(w.snapshot());\nconst experiment=parseExperimentJson(wire(forged)), replayOptIn=parseExperimentJson(wire(forged),{allowSnapshotReplay:true}), parsedResult=parseResultJson(wire(measured)), admission=w.importDocument(wire(measured));\nconsole.log(JSON.stringify({authoredOldAccepted:legal.ok,authoredOldPowerPreserved:legal.ok&&legal.value.resolvedShip.hull.hullPowerW===123,authoredOldExact:legal.ok&&wire(legal.value)===wire(control),hiddenBufferJ:measured.state.buffersJ[removedId],forgedExperimentAccepted:experiment.ok,forgedOptInAccepted:replayOptIn.ok,forgedResultAccepted:parsedResult.ok,forgedWorkspaceAccepted:admission.ok,workspaceChanged:before!==wire(w.snapshot()),refusal:experiment.ok?[]:experiment.errors},null,2));\nJS",
+    "result": {
+      "chunk_id": "1c3326",
+      "wall_time_seconds": 0.1194285,
+      "exit_code": 0,
+      "original_token_count": 183,
+      "output": "{\n  \"authoredOldAccepted\": true,\n  \"authoredOldPowerPreserved\": true,\n  \"authoredOldExact\": true,\n  \"hiddenBufferJ\": 19999999.999999985,\n  \"forgedExperimentAccepted\": false,\n  \"forgedOptInAccepted\": false,\n  \"forgedResultAccepted\": false,\n  \"forgedWorkspaceAccepted\": false,\n  \"workspaceChanged\": false,\n  \"refusal\": [\n    {\n      \"path\": \"resolvedShip.hull\",\n      \"code\": \"RESOLVED_MOUNT\",\n      \"message\": \"Монтажный профиль корпуса не соответствует объявленной редакции fitting\"\n    }\n  ]\n}\n(node:22950) ExperimentalWarning: Transform Types is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+    }
+  },
+  "verdict": "APPROVED",
+  "closedFinding": "CR-PONY-B1",
+  "notRun": [
+    "full17semantic repeat",
+    "137/package/HTTP/guard",
+    "fullP01–P05/matrix/12h",
+    "physical/public/native/main",
+    "ulab-w7j",
+    "mission/Mruntime"
+  ]
+}

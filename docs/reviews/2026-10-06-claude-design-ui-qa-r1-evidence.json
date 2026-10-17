@@ -1,0 +1,332 @@
+{
+  "version": 1,
+  "role": "independent QA",
+  "model": "Codex; exact provider model ID unavailable",
+  "sealedAt": "2026-10-05T20:44:12.406995+00:00",
+  "candidate": "3e9501556f7c37945b7ff8f8c588b3c4405f9a75",
+  "runtimeSource": "ab8353d91d1ce3584549b780e66699118e575c56",
+  "contentFingerprint": "b9edfd197506d84a10a18a8954b7a8f1ce4505290715f43aeac9bf72b3bfa7eb",
+  "result": "FAIL",
+  "caseCounts": {
+    "PASS": 54,
+    "FAIL": 17,
+    "NOT RUN": 1
+  },
+  "defectGroupCount": 11,
+  "worktree": "/Users/komleff/Documents/GitHub/u2-lab-claude-ui",
+  "rule": "SHA256 exact bytes; report excluded to avoid circular hash; raw corrected harness outputs retained",
+  "files": [
+    {
+      "path": ".overgate-runtime/claude-design-ui-qa-case-plan.md",
+      "bytes": 41314,
+      "sha256": "543593e375c5f65aa99f230ccc1e06cca4be2e43c6f89f157355a25e8338815e",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/claude-design-ui-v0.2-candidate/artifact-manifest.json",
+      "bytes": 2285,
+      "sha256": "f833fbceb60e861e6acd94f28cbfa9aece3ac3560190d5ed5c96ee7d9c7bb5d9",
+      "privateReadonly": false
+    },
+    {
+      "path": ".overgate-runtime/claude-design-ui-v0.2-candidate/build-manifest.json",
+      "bytes": 3370,
+      "sha256": "cacc49f0ae0be7d517fcb195b5d9f6fd938159fa06109cddc9a3ba29f19c765a",
+      "privateReadonly": false
+    },
+    {
+      "path": ".overgate-runtime/claude-design-ui-v0.2-candidate/source-manifest.json",
+      "bytes": 32188,
+      "sha256": "48d9cfba15c17937b6b1038fef43b48212f43461ec53214d2a277a78f8a5efad",
+      "privateReadonly": false
+    },
+    {
+      "path": ".overgate-runtime/claude-design-ui-v0.2-candidate/u2-lab-claude-design-ui-v0.2.zip",
+      "bytes": 511518,
+      "sha256": "7131c5006194ab952e68f19a2ae5e85e88f65143c55f6d9e3b26d0e424c39cba",
+      "privateReadonly": false
+    },
+    {
+      "path": ".overgate-runtime/claude-design-ui-v0.2-candidate/unchanged-experiments.json",
+      "bytes": 422,
+      "sha256": "8dc1fdc36c59d76bd956179d9627cdaadc7a7ea76184b04b01248ffb7a24b376",
+      "privateReadonly": false
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-1440-fitting.png",
+      "bytes": 315944,
+      "sha256": "ca56888cf0731b6f1b64ee4facf000f54b893a7969844f77ed54679c3c179011",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-1440-lab.png",
+      "bytes": 230635,
+      "sha256": "9665dd52b9030e9242ce61d06f7257f16f9b251d7b7110584646dd2fc2ec58e4",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-390-fitting.png",
+      "bytes": 185591,
+      "sha256": "48beab785f066a6d966437dd22d56872073ec2d1aed370931e91de54bcbd4149",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-390-lab.png",
+      "bytes": 218054,
+      "sha256": "179019fe202c767288906e35bddcbe4c116702908905f9478d9daa598653a059",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-assemble.py",
+      "bytes": 17793,
+      "sha256": "4e4970867ed64d0218dae0707ee69ec312e688c307dc884c8c3fc1f47c42c98e",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-binding.json",
+      "bytes": 69234,
+      "sha256": "0f4910c157d8bd61b2f22e868b68a8aea4101d25ca4f4f68507e37f74b973cae",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-binding.py",
+      "bytes": 5809,
+      "sha256": "34cb23eaf98f0ee3103b002ffa6f501bad76be76234c41ae596415cb2ded4b3a",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-browser-followup.json",
+      "bytes": 12299,
+      "sha256": "8564d0f928aefe41cfce7e25be5fc9a5dc313e6502b67b076adfb844b405a072",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-browser-followup.log",
+      "bytes": 885,
+      "sha256": "d5c9b0f9b5c1394f47bc59489c14cb3611b133083b0fec0ff3edef0f63782cd2",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-browser-followup.mjs",
+      "bytes": 13752,
+      "sha256": "023cb536e98768e9d1edf8473c96a50bfd2a79d99a0ed61ebab88047f5ab2e83",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-browser.json",
+      "bytes": 67874,
+      "sha256": "03705dcc1894fe8d681d63a9557385d52a7a2e0f722d834774610fae06a43f21",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-browser.log",
+      "bytes": 22109,
+      "sha256": "157dfb005cf7459b5d88dbb63aec6ff1c47033089c5cd849439502e4857a2cec",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-browser.mjs",
+      "bytes": 26284,
+      "sha256": "337600239f837ed631378f94798edc51406e88d9bc3c6c75fbc6bcd7b0555f34",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-case-results.json",
+      "bytes": 228217,
+      "sha256": "a4dcaadd50f66d24716549fe3705faa072b1d0e24a1ce2cfd34e9cb4181c338d",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-compare-mobile.json",
+      "bytes": 395,
+      "sha256": "8e0738ba891d5127f8b696e11299c565898c985aaf0dd419154aa9e01db905fd",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-corrections.json",
+      "bytes": 2867,
+      "sha256": "cffb4be2f3f2e63a5e0a30dc9e541a596c48bc0fb9baaeda3c4fc6c6f57145a5",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-corrections.mjs",
+      "bytes": 4676,
+      "sha256": "3f359c5e51174ec9a794182e3d4e956a4f5cda9305ad332ec93f2d0eedec9eaf",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-early.json",
+      "bytes": 4299,
+      "sha256": "8b3a02d4688fef157d87515a3d00b3f7f4193d3fa24e3593b764883fc2d06049",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-early.mjs",
+      "bytes": 1834,
+      "sha256": "0b147881ffc45edfa7de6f651dedb1fcf38e82fa4d1abd486f83f46528cbc1b6",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-event-adapter.json",
+      "bytes": 305632,
+      "sha256": "9d9a590ab186d9a062f7225365b069f59cb53d8f27486633fecb798c8552cb80",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-event-adapter.mjs",
+      "bytes": 908,
+      "sha256": "7fef28a3e3ff7439dbb35a4f3fb2025583b9203e5846ef5d85014f24988750ea",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-final-functional.json",
+      "bytes": 4500,
+      "sha256": "48979273dd08784a31d671dd09d96ec9ed0224cd075aed92be848dcd3f1697cf",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-final-functional.log",
+      "bytes": 5353,
+      "sha256": "b90a80b6aeec31adde0b2f946311039966a51e4c1440e6fd80f8a4ce92ba7fab",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-final-functional.mjs",
+      "bytes": 7198,
+      "sha256": "4e3f39b24da0f0263c8936d4617e540f3211d8dc036b592c5ebaa192cd5d12da",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-final-integrity.json",
+      "bytes": 513,
+      "sha256": "702b57adb6b76aae1717e61d106fcfe2a8780afcf4c6c165bcca16e0cc384ccd",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-fixtures.json",
+      "bytes": 7476757,
+      "sha256": "b875587de3a1583637d4a866b11e2454a2d52192c9a9d41cb25639ba3c4554af",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-functional.json",
+      "bytes": 27948,
+      "sha256": "70b2d5eef04d37a6a1326b98b688302d12ca5ae99723c7b1bb51b50d9064e7d9",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-functional.log",
+      "bytes": 3306,
+      "sha256": "346846f6a422cab6f83a8da5af72efec1ae604531d51262b9a50a25e55b753d9",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-functional.mjs",
+      "bytes": 30950,
+      "sha256": "34f76f771f37c562b720a564c3bb5610e1a6ca119a79580e39e17a7297babaff",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-guard.log",
+      "bytes": 8038,
+      "sha256": "fe211413e0e636963075fdefab3e24ffba450d12922ed0ddb9905a9bc631dd29",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-initial.json",
+      "bytes": 22008,
+      "sha256": "33b389dfe37c71c0e2d4415460d6461f2797797a7ae40c496d555c39a8bdd686",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-initial.mjs",
+      "bytes": 1707,
+      "sha256": "19a37bde19a43998fae932cb7c96346c230670cd76d590ab978b9e837562135c",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-lab-breakpoints.json",
+      "bytes": 854,
+      "sha256": "ccec409022a1622d789676dfd5a3ce07b645d191de8e888ec5463702e635b49c",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-loader.mjs",
+      "bytes": 262,
+      "sha256": "040fd506d19d96b4653f74bcfa63be3c6bb16757fd366fb1641a65713e110ce4",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-preparation-integrity.json",
+      "bytes": 1054,
+      "sha256": "0e0e2a9130ab513ab76d1979c296d536830d54ca322efbf1e2096bc6abb198b6",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-report.py",
+      "bytes": 24147,
+      "sha256": "fe3e85ecd5b8f390ce274ab262ee2d21c64a1cbaeb047cfc0c593791586362b7",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-reset-diagnostic.json",
+      "bytes": 822,
+      "sha256": "4b3f83f01097f560ed1450893a3c14a256204d0ec1f87f48f49237109b149057",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-reset-diagnostic.mjs",
+      "bytes": 5075,
+      "sha256": "e6d3f7a2675a9e9166264fc7f5f04bcb7e03ce2f8b519428b719ce2f3a703b80",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-reset-repro.json",
+      "bytes": 1226,
+      "sha256": "9d4451f73c18525988fe7e79532610cacbe946ba447511de5d7a23306f32cc52",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-reset-three-origins.json",
+      "bytes": 835,
+      "sha256": "da1a2cbbc2552ac4a4530df6f4da3052ebaafb852c37141f92ca93030b8accbd",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-source-binding.json",
+      "bytes": 19185,
+      "sha256": "7f17c3eac0846225e3c29dfadd82c518568f98abfa4abdea26644fbb8a462e35",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-stale-bar-repro.json",
+      "bytes": 585,
+      "sha256": "89d51b827750ec2f36ff697bb93176433a54cb944497e0582f39e1b7a33c5d2b",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-touch-geometry.json",
+      "bytes": 3975,
+      "sha256": "bf3fa6832be79df275ec0168bad2db79d1edffd25b2d81b68aa86c4ad233f5a9",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-touch-geometry.mjs",
+      "bytes": 5303,
+      "sha256": "79d70a21a3ed0f3ebc08419c12e177e766a695e8da2ca1f22b64c1c881ed12ac",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-touch-reset.json",
+      "bytes": 222,
+      "sha256": "8c3351455f99c5f3ee4654ea75202330a0cca4e4d7d0f9d07d29fa978d2bca44",
+      "privateReadonly": true
+    },
+    {
+      "path": ".overgate-runtime/qa-claude-ui-touch-reset.mjs",
+      "bytes": 4891,
+      "sha256": "ed2bad067bd34e36680271653a1000a370d875a8c96756da3508cd515ed1467a",
+      "privateReadonly": true
+    }
+  ]
+}

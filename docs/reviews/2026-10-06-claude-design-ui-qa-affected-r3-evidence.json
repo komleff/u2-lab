@@ -1,0 +1,127 @@
+{
+  "role": "independent QA, QA_ROLE v2.1",
+  "model": "Codex; exact provider model ID unavailable",
+  "head": "1d6dd472706572f36d5aaf993d694bdaa078fae2",
+  "runtimeSource": "c8f8b36ee300fa0adf9c739755efab9f05ddd265",
+  "signedAtUTC": "2026-10-05T22:14:26.949120+00:00",
+  "scopeVerdict": "TARGETED PASS — D12 CLOSED",
+  "fileCount": 20,
+  "files": [
+    {
+      "path": ".overgate-runtime/qa-d12-ui-assemble-r3.py",
+      "bytes": 17426,
+      "sha256": "e3f15c9ff2ad42c3f71ed8cebdf318d41e36cab7f84047e24066fb667fadbc03"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-binding-r3-final.log",
+      "bytes": 778,
+      "sha256": "0601e685411bce6b1ada940f7a8a7c9e8be719830c5990347eb9c421b7a28229"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-binding-r3-initial.py",
+      "bytes": 9440,
+      "sha256": "5d12892e060a000c78c345a004116f8f7a0c59d1dc3a19b347d93cb1a5c027ea"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-binding-r3-second.py",
+      "bytes": 9788,
+      "sha256": "edab9b1c04582876530759f50c513c287342799305027317a292315e412ef456"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-binding-r3.json",
+      "bytes": 72941,
+      "sha256": "6ad91b8aeab4419cb8d0a09b9c7bef94058039abd68102e58e4b73d392db8483"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-binding-r3.log",
+      "bytes": 778,
+      "sha256": "0601e685411bce6b1ada940f7a8a7c9e8be719830c5990347eb9c421b7a28229"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-binding-r3.py",
+      "bytes": 9756,
+      "sha256": "a529bf77998ceee56b4c8509f6a20989c67e5ee7cdbd870ed9fd9d283622d9e1"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-browser-r3-initial.json",
+      "bytes": 28115,
+      "sha256": "19c7b2bd6751d305b321560bb7668e0a79fa883a0b16675f8e84af269ff8af1d"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-browser-r3-initial.log",
+      "bytes": 4132,
+      "sha256": "4bc76df55a21953365cac48624c0c9416a94e79494a670c3e9e0793c5850efd4"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-browser-r3-initial.mjs",
+      "bytes": 11514,
+      "sha256": "8848e7e9a5aea63ea4522d06149248ecf1787735aaa95de0baf09b450790fade"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-browser-r3.json",
+      "bytes": 54714,
+      "sha256": "d8f8ea35d929d764d5f367ab8275c2870b2445d10ad953c1e11e8011068705a8"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-browser-r3.log",
+      "bytes": 368,
+      "sha256": "01ea4770b97fe7c2e42d64f034cbf6d4e29d539fba0b9e8f4ef952fadcd1a5e2"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-browser-r3.mjs",
+      "bytes": 11736,
+      "sha256": "b8df416d95e0a5d2a680a74ef7c0dc1e1693def393d60c8c923f44865d34dc36"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-case-results-r3.json",
+      "bytes": 35491,
+      "sha256": "6a66510e270eb96c4440633947a4c837a90a5caa8b1358a1170027280880f5aa"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-delta-initial-r3.txt",
+      "bytes": 1031,
+      "sha256": "d1a04e0069749c65de9d87a06d3043de2a78a8d11e89d8cfa911a544c3323242"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-delta-r3.diff",
+      "bytes": 360,
+      "sha256": "faed4709068184d93da31109686bca9f323214218cda902d4f2857a31f272ceb"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-delta-r3.txt",
+      "bytes": 483,
+      "sha256": "c821ff02fc1779c8cfe16ced8d60175e20c4888cd552386965bd9e2a5c253257"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-harness-corrections-r3.json",
+      "bytes": 1397,
+      "sha256": "950007971040880d50519f92cc0644c25e35a5a03fc0b5d4461cce53665918d1"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-methods-r3.json",
+      "bytes": 3101,
+      "sha256": "87430a46b8b2a6cd9dc93a603383aae2411cdf22f493f03bd875e59759237a01"
+    },
+    {
+      "path": ".overgate-runtime/qa-d12-ui-runtime-delta-initial-r3.diff",
+      "bytes": 76567,
+      "sha256": "e1518f18334d5829616e60f07ce3df0be148c6f6f0ab7410d293058dbd007201"
+    }
+  ],
+  "bindingSHA256": "6ad91b8aeab4419cb8d0a09b9c7bef94058039abd68102e58e4b73d392db8483",
+  "ledgerSHA256": "6a66510e270eb96c4440633947a4c837a90a5caa8b1358a1170027280880f5aa",
+  "oldHistory": {
+    "initial52Unchanged": true,
+    "r2ReportSHA256": "2635f044e7cff48f1717eab5bb90d4f936741579f6c316797f9c54044f6c96e5",
+    "r2ManifestSHA256": "e0780679b6e14d014621b34e0c1742e73c92abbbbe9c9da8753e18d78a354943",
+    "r2Files55Unchanged": true
+  },
+  "artifact": {
+    "path": ".overgate-runtime/claude-design-ui-v0.2-candidate-fix-r2",
+    "manifestSHA256": "f6594ea71008aa32708947a5f7e9e68c47bc64c5fc8684f00a6484e670b84803",
+    "ZIP_SHA256": "fe45e0fde7c17b147b66253cdc18d832392bad90f59f7f67279d18c440998e29",
+    "distDigestSHA256": "eb127afa9fa367effd37308388293528322ba58a8a9c886c528ae691cfdcec2d",
+    "source66Fingerprint": "bb9639216d1a582680bf8475d578bddb9d739c95ac6b88cad4633ea8fa040593"
+  },
+  "scope": "Only priorD12 UI16-03/UI18-02/UI18-03 +linkedUI15-02,4original IDs;3phoneorigins and1desktop positiveworkflow, no42/72/12h rerun"
+}

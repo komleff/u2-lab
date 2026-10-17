@@ -1,0 +1,35 @@
+import type { ShipConfig, ModelState, LabEvent } from "./types";
+export function updateThermalGates(
+  ship: ShipConfig,
+  state: ModelState,
+): LabEvent[] {
+  const events: LabEvent[] = [];
+  for (const m of [
+    ...ship.modules,
+    ...ship.tanks
+      .filter((t) => t.gate)
+      .map((t) => ({ id: `tank:${t.id}`, gate: t.gate! })),
+  ]) {
+    const previous = state.gates[m.id] ?? false;
+    let stopped = previous;
+    if (
+      state.temperatureK <= m.gate.low + 1e-9 ||
+      state.temperatureK >= m.gate.high - 1e-9
+    )
+      stopped = true;
+    else if (
+      previous &&
+      state.temperatureK >= m.gate.restartLow &&
+      state.temperatureK <= m.gate.restartHigh
+    )
+      stopped = false;
+    state.gates[m.id] = stopped;
+    if (previous !== stopped)
+      events.push({
+        timeSeconds: state.timeSeconds,
+        kind: stopped ? "thermal-stop" : "thermal-restart",
+        message: `${m.id}: ${stopped ? "тепловая остановка" : "возобновление"} при ${state.temperatureK.toFixed(3)} K`,
+      });
+  }
+  return events;
+}
