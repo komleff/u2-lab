@@ -3,9 +3,10 @@ import type { Species } from "../types";
 export const SCHEMA_V3 = "u2-lab/4" as const;
 export const MODEL_V3 = "ship-fitting-ship-model-0.1" as const;
 export const CATALOG_V3 = "ship-fitting-0.3.0" as const;
-export const SHIP_MODEL_CATALOG_VERSIONS = [CATALOG_V3, "ship-fitting-0.3.1"] as const;
+export const SHIP_MODEL_CATALOG_VERSIONS = [CATALOG_V3, "ship-fitting-0.3.1", "ship-fitting-0.3.2"] as const;
 export type ShipModelCatalogVersion = typeof SHIP_MODEL_CATALOG_VERSIONS[number];
-export const CURRENT_SHIP_MODEL_CATALOG = SHIP_MODEL_CATALOG_VERSIONS[1];
+// Откат новой версии — смена текущей; файлы и запись версии остаются читаемыми.
+export const CURRENT_SHIP_MODEL_CATALOG = SHIP_MODEL_CATALOG_VERSIONS[2];
 export function isShipModelCatalogVersion(value: unknown): value is ShipModelCatalogVersion {
   return SHIP_MODEL_CATALOG_VERSIONS.some(version => version === value);
 }

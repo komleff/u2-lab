@@ -11,15 +11,16 @@ import { makeShipModelMiningRun } from "../../src/scenarios/fitting";
 import { createShipModelRun, runShipModelChunk, shipModelResult } from "../../src/runner/ship-model-run";
 import { parseStoredResultJson } from "../../src/io/fitting-result";
 
-const next = "ship-fitting-0.3.1";
-it("supported V3 versions are explicit, current is 0.3.1, and old default stays literal", () => {
-  expect((versions as any).SHIP_MODEL_CATALOG_VERSIONS).toEqual(["ship-fitting-0.3.0", "ship-fitting-0.3.1"]);
-  expect((versions as any).CURRENT_SHIP_MODEL_CATALOG).toBe("ship-fitting-0.3.1");
+const next = "ship-fitting-0.3.1", current = "ship-fitting-0.3.2";
+it("supported V3 versions are explicit, current is 0.3.2, and old default stays literal", () => {
+  expect((versions as any).SHIP_MODEL_CATALOG_VERSIONS).toEqual(["ship-fitting-0.3.0", "ship-fitting-0.3.1", "ship-fitting-0.3.2"]);
+  expect((versions as any).CURRENT_SHIP_MODEL_CATALOG).toBe(current);
   expect(isShipModelCatalogVersion("ship-fitting-0.3.0")).toBe(true);
   expect(isShipModelCatalogVersion("ship-fitting-0.3.1")).toBe(true);
+  expect(isShipModelCatalogVersion("ship-fitting-0.3.2")).toBe(true);
   expect(loadCandidateCatalog().version).toBe("ship-fitting-0.2.3");
 });
-it.each(["ship-fitting-0.3.2", "ship-fitting-0.3", "", null])("unknown version %s never falls back", version => {
+it.each(["ship-fitting-0.3.3", "ship-fitting-0.3", "", null])("unknown version %s never falls back", version => {
   expect(isShipModelCatalogVersion(version)).toBe(false);
   expect(() => loadCandidateCatalog(version as never)).toThrow("Неизвестная версия каталога");
   expect(() => getPresetFit("sputnik-d", version as never)).toThrow("Неизвестная версия каталога");
@@ -36,7 +37,7 @@ it("public entrypoints dispatch the new version; inventory and presets stay vers
   expect(() => getPresetFit("sputnik", next)).toThrow("Неизвестная ship-model сборка");
   expect(() => getPresetFit("sputnik-d", "ship-fitting-0.3.0")).toThrow("Неизвестная ship-model сборка");
   expect(validateFit(f, loadCandidateCatalog("ship-fitting-0.3.0")).valid).toBe(false);
-  const unknown = structuredClone(c); (unknown as any).version = "ship-fitting-0.3.2";
+  const unknown = structuredClone(c); (unknown as any).version = "ship-fitting-0.3.3";
   expect(compileFit(f, unknown).ok).toBe(false);
   expect(validateFit(f, unknown).valid).toBe(false);
 });
@@ -62,18 +63,20 @@ const workspace = () => {
 };
 it("workspace new presets and legacy promotion use current, without changing explicit old selection", () => {
   const w = workspace(); w.loadPreset("sputnik-d");
-  expect(w.fit!.catalogVersion).toBe(next); expect(w.catalog.version).toBe(next);
-  expect(w.prepare().catalogVersion).toBe(next);
+  expect(w.fit!.catalogVersion).toBe(current); expect(w.catalog.version).toBe(current);
+  expect(w.prepare().catalogVersion).toBe(current);
+  w.loadPreset("sputnik-d", next);
+  expect(serializeFit(w.fit!)).toBe(serializeFit(getPresetFit("sputnik-d", next))); expect(w.prepare().catalogVersion).toBe(next);
   w.loadPreset("sputnik", oldVersion);
   expect(serializeFit(w.fit!)).toBe(serializeFit(getPresetFit("sputnik", oldVersion)));
   const before = serializeFit(w.fit!);
-  for (const select of [() => w.loadPreset("sputnik"), () => w.loadPreset("sputnik-d", oldVersion), () => w.loadPreset("sputnik-d", "ship-fitting-0.3.2" as never)]) {
+  for (const select of [() => w.loadPreset("sputnik"), () => w.loadPreset("sputnik-d", oldVersion), () => w.loadPreset("sputnik-d", "ship-fitting-0.3.3" as never)]) {
     expect(select).toThrow(); expect(serializeFit(w.fit!)).toBe(before);
   }
   const promoted = w.previewCompilation({ "reference-retro-engine-diesel-S-single": "engine-diesel-S-single" });
-  expect(promoted.fit.catalogVersion).toBe(next); w.applyCompilation(); expect(w.prepare().catalogVersion).toBe(next);
+  expect(promoted.fit.catalogVersion).toBe(current); w.applyCompilation(); expect(w.prepare().catalogVersion).toBe(current);
 });
-it.each([oldVersion, next] as const)("fresh scenario builder stamps every owner %s", version => {
+it.each([oldVersion, next, current] as const)("fresh scenario builder stamps every owner %s", version => {
   const c = loadCandidateCatalog(version), f = getPresetFit(version === oldVersion ? "sputnik" : "sputnik-d", version);
   const built = makeShipModelMiningRun(f, c, { durationSeconds: 3 });
   expect(built.ok, JSON.stringify(built)).toBe(true); if (!built.ok) return;

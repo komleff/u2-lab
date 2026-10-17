@@ -149,7 +149,9 @@ function chooseControls(spec:RunSpecV3,state:StateV3,requests:Record<string,numb
     for(let i=0;i<32;i++){const middle=(lo+hi)/2,trial=flows(spec,state,requests,apply({...c},s,middle),env),effect=(trial.netHeatW-before)*sign;if(effect<requested)lo=middle;else hi=middle;}
     c=apply(c,s,hi);
   }
-  return {controls:c,coolingStageId:direction==='cooling'?allocation.regulatingStageId:null,heatingStageId:direction==='heating'?allocation.regulatingStageId:null,recoveringBuffer:recovery,incompatible:false,heatingUnavailable:direction==='heating'&&allocation.regulatingStageId===null};
+  // Диагноз — только когда средств прогрева действительно нет: исправное средство
+  // выше своей уставки не включено, но и не отсутствует.
+  return {controls:c,coolingStageId:direction==='cooling'?allocation.regulatingStageId:null,heatingStageId:direction==='heating'?allocation.regulatingStageId:null,recoveringBuffer:recovery,incompatible:false,heatingUnavailable:direction==='heating'&&candidates.every(s=>s.maximumW<=0)};
 }
 
 export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,number>,action:PhaseAction='work'){
