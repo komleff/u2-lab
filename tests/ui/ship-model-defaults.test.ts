@@ -5,7 +5,7 @@ import {shipModelConditions} from '../../src/app/fitting-ui/ship-model-condition
 import {makeMiningRun,makeShipModelMiningRun} from '../../src/scenarios/fitting';
 import {serializeExperiment,serializeResultSnapshot} from '../../src/io/fitting-json';
 import {createShipModelRun,runShipModelChunk,shipModelResult} from '../../src/runner/ship-model-run';
-const old=loadCandidateCatalog('ship-fitting-0.2.5'),current=loadCandidateCatalog('ship-fitting-0.3.1');
+const old=loadCandidateCatalog('ship-fitting-0.2.5'),current=loadCandidateCatalog('ship-fitting-0.3.2');
 const workspace=()=>new ShipModelWorkspace(getPresetFit('sputnik',old.version),old);
 const unwrap=<T>(r:{ok:true;value:T}|{ok:false;errors:unknown[]}):T=>{if(!r.ok)throw Error(JSON.stringify(r.errors));return r.value;};
 it('fresh builder supplies 250 K, while explicit 100 K remains an authored condition',()=>{
