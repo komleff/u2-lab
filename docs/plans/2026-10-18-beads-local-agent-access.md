@@ -1,7 +1,7 @@
 ---
 title: "Beads — самостоятельный доступ локальных агентов (embedded + beads-backup)"
 status: proposed
-version: "0.2"
+version: "0.3"
 date: 2026-10-18
 tags: [plan, beads, pipeline, worktree, critical]
 ---
@@ -67,7 +67,9 @@ v0.2 — исправлены B1–B4 Plan Review r1 и учтены A1–A8 (с
      search blocked children create q update close reopen dep comment comments note label`.
      Всё прочее и пустая подкоманда → rc=2, bd не вызван;
    - в worktree база и проверка сервера — по функции режима из п. 1;
-   - прежние отказы (`--db`, неизвестный глобальный флаг) сохраняются; export/import/dolt
+   - флаги `--db`, `-C`/`--directory`, `--global` отклоняются **в любой позиции** аргументов
+     (cobra принимает persistent-флаги и после подкоманды), а не только до подкоманды;
+   - прежние отказы (неизвестный глобальный флаг до подкоманды) сохраняются; export/import/dolt
      отклоняются как не входящие в allowlist, с прежним текстом-подсказкой про sync-скрипты.
 3. `scripts/bd-apply-intents.sh` шаг 4 — проверка сервера только для `server`; для
    `embedded` — существование каталога базы. Остальные шаги, guards, engine не меняются.
@@ -76,7 +78,7 @@ v0.2 — исправлены B1–B4 Plan Review r1 и учтены A1–A8 (с
    прежние результаты.
 5. `.claude/rules/beads.md` (policy `preserve`) — три класса окружения, точка входа
    `scripts/bd-wt.sh`, раздел «Порядок синхронизации» (ниже).
-6. `AGENTS.md` (policy `preserve`) — замена ровно строк 28–32 (текст ниже).
+6. `AGENTS.md` (policy `preserve`) — замена ровно строк 28–31 (текст ниже).
 7. `.claude/settings.json` (policy `settings`) — четыре allow-правила (ниже); `deny`, hooks,
    прочие ключи без изменений.
 8. `docs/verification/beads-wrapper-drift.json` — drift managed-файлов: пути, blob из
@@ -84,7 +86,9 @@ v0.2 — исправлены B1–B4 Plan Review r1 и учтены A1–A8 (с
    `managed_policy` и от C4 cloud amendment (C4 был AC его Task 1) — только для
    `scripts/bd-wt.sh` и `scripts/lib/bd-env.sh`; остальной managed inventory неизменен.
    Upgrade OverGate на этих файлах остановится конфликтом «project override», а не
-   перезапишет их — их судьба решается upstream-задачей.
+   перезапишет их — их судьба решается upstream-задачей. В
+   `docs/verification/cloud-tooling-provenance.json` обновить target blob
+   `scripts/bd-apply-intents.sh` (после правки шага 4) со ссылкой на этот PR.
 9. Beads: очередь `.bd-intents/beads-agent-access.jsonl` — note/comment к `ulab-oz6` и
    upstream-задача OverGate; новой задачи-дубля нет.
 10. Memory Bank: `activeContext.md` — одна запись.
@@ -103,7 +107,8 @@ v0.2 — исправлены B1–B4 Plan Review r1 и учтены A1–A8 (с
 checkout пишут локальные агенты.
 
 - Локальные агенты **не** запускают `bd-sync-restore.sh`, `bd-sync-export.sh`,
-  `bd-apply-intents.sh` (их нет в allowlist и allow-правилах).
+  `bd-apply-intents.sh`. В auto mode их нет в allow-правилах; в остальных режимах действует
+  прежнее `Bash(*)`, и защита — этот текст правил (deny для них — отдельное решение оператора).
 - Оператор выполняет restore/apply/export только в **тишине**: локальные агенты в этот момент
   не пишут в Beads.
 - **Export-first.** Есть неопубликованные локальные записи → сначала `bd-sync-export.sh`, потом
@@ -117,9 +122,10 @@ checkout пишут локальные агенты.
 
 ## Предлагаемый текст для `AGENTS.md`
 
-Заменить **только** строки 28–32 (от «Cloud — read-snapshot/write-intents…» до
+Заменить **только** строки 28–31 (от «Cloud — read-snapshot/write-intents…» до
 «`scripts/bd-sync-restore.sh` / `scripts/bd-sync-export.sh` и `origin/beads-backup`.»).
-Строка 27 и строки 33–41 сохраняются дословно.
+Строка 27 и строки 32–41 (начиная с «Не писать Dolt или JSONL руками…») сохраняются
+дословно.
 
 ```text
 Доступ по классу окружения (ADR-0042, адаптация Lab для embedded, `.claude/rules/beads.md`):
@@ -152,7 +158,10 @@ Bash(scripts/bd-read.sh *)   Bash(bash scripts/bd-read.sh *)
 4. `.agents/project/verify.sh` на macOS — PASS.
 5. QA по AC → один scoped Code Review → finalize → operator merge.
 6. Оператор после merge: live smoke AC-9; применение очереди этого PR — штатным trusted
-   applier из `main` (после merge шаг 4 работает), в тишине и после export-first.
+   applier из `main` (после merge шаг 4 работает), в тишине и после export-first, с явным
+   путём очереди (в каталоге их несколько). Отступление от lifecycle README (обычно apply
+   pre-merge): applier до merge этого PR нерабочий. Follow-up — `git rm`
+   `.bd-intents/beads-agent-access.jsonl` из `main` отдельным PR после apply.
 
 ## Verification Contract
 
@@ -161,9 +170,9 @@ Bash(scripts/bd-read.sh *)   Bash(bash scripts/bd-read.sh *)
 | AC-1 | Linked worktree, main `dolt_mode: embedded`, каталог `.beads/embeddeddolt` есть → `bd --db <main>/.beads/embeddeddolt <args>` с аргументами без изменений; pid/port не требуются | тест, заглушка `BD_BIN` |
 | AC-2 | Main `dolt_mode: server` → `.beads/dolt`; без живого сервера rc=3, с живым (`BD_ENV_ASSUME_DOLT_ALIVE=1`) — `--db <main>/.beads/dolt` | тест |
 | AC-3 | Fail-closed: нет/нечитаем/невалиден `metadata.json`, пустой/неизвестный `dolt_mode`, нет каталога базы → rc≠0, сообщение с путём, bd не вызван | тест |
-| AC-4 | Каждая подкоманда allowlist проходит; `delete config init sql batch prune purge flatten gc compact admin rename-prefix migrate bootstrap export import dolt`, пустая подкоманда, `--db`, неизвестный глобальный флаг, `-C`/`--directory`, `--ignore-schema-skew` → rc=2, bd не вызван — в основном checkout и в worktree, в обоих режимах | тест |
+| AC-4 | Каждая подкоманда allowlist проходит; `delete config init sql batch prune purge flatten gc compact admin rename-prefix migrate bootstrap export import dolt`, пустая подкоманда, неизвестный глобальный флаг, `--ignore-schema-skew`, а также `--db`, `-C`/`--directory`, `--global` в любой позиции (например `list -C /other`) → rc=2, bd не вызван — в основном checkout и в worktree, в обоих режимах | тест |
 | AC-5 | Основной checkout, разрешённая подкоманда → `exec bd <args>` без `--db` | тест |
-| AC-6 | `beads.md`: три класса, точка входа `bd-wt.sh`, раздел «Порядок синхронизации» со всеми пунктами, пометка «адаптация Lab»; облачные запреты не ослаблены. `AGENTS.md`: изменены только стр. 28–32; присутствуют строки single-writer, «в hosted Work не запускать bd/Dolt, applier wrapper, export и не пушить beads-backup», строки 33–41 дословно; `check-bootstrap.py` PASS | QA, чтение + diff |
+| AC-6 | `beads.md`: три класса, точка входа `bd-wt.sh`, раздел «Порядок синхронизации» со всеми пунктами, пометка «адаптация Lab»; облачные запреты не ослаблены. `AGENTS.md`: изменены только стр. 28–31; присутствуют строки single-writer, «в hosted Work не запускать bd/Dolt, applier wrapper, export и не пушить beads-backup», стр. 32–41 дословно (включая «Не писать Dolt или JSONL руками…»); `check-bootstrap.py` PASS | QA, чтение + diff |
 | AC-7 | `settings.json`: добавлены ровно четыре правила; `deny`, hooks и прочие ключи побайтно прежние; JSON валиден | тест/diff |
 | AC-8 | `verify.sh` включает новые тесты и проходит на macOS bash 3.2; лексическая проверка U2-3ukfq по изменённым shell-файлам — 0 находок | verify |
 | AC-9 | Оператор, после merge, отдельное evidence: агент Claude Code в auto mode без prompt/denial выполняет из worktree и из основного checkout `scripts/bd-wt.sh ready` (совпадает с `bd ready` оператора) и одну безвредную запись — `scripts/bd-wt.sh comment ulab-oz6 "<smoke>"`, затем `show` подтверждает; `scripts/bd-wt.sh delete ulab-oz6` → rc=2, задача на месте | live smoke |
@@ -200,3 +209,11 @@ Rollback: `git revert` PR. База не мигрируется; записи а
 - A1/A2/A3: закрывает `ulab-oz6`, applier шаг 4 в scope (AC-11), путь посадки очереди.
 - A4: drift-файл, явное отступление от C4; формулировка про конфликт upgrade.
 - A5–A8: пометка «адаптация Lab», парсер `python3`, edge cases, измеримый критерий риска.
+
+## Изменения v0.3 (affected recheck v0.2)
+
+- B2 остаток: замена `AGENTS.md` — стр. 28–31, стр. 32–41 дословно; AC-6 исправлен.
+- A1: `--db`, `-C/--directory`, `--global` отклоняются в любой позиции (Scope 2, AC-4).
+- A2: уточнено, что allow-ограничение действует только в auto mode.
+- A3: обновление `cloud-tooling-provenance.json` для applier.
+- A4: посадка очереди после merge с явным путём и follow-up `git rm`.
