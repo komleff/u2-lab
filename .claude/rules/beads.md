@@ -39,8 +39,10 @@ checkout или git-worktree), оператор (синхронизация). К
 - Обёртка пропускает только allowlist подкоманд: `ready show list search blocked children
   create q update close reopen dep comment comments note label`. Всё прочее (`delete`,
   `config`, `sql`, `init`, `export`, `import`, `dolt` и т.д.), пустая подкоманда, а также
-  `--db`, `-C`/`--directory`, `--global`, `--ignore-schema-skew` в любой позиции → rc=2 до
-  запуска bd. Значение аргумента, точно равное такому флагу, тоже отклоняется (fail-closed).
+  `--db`, `-C`/`--directory`, `--global`, `--ignore-schema-skew`, `--repo` в любой позиции →
+  rc=2 до запуска bd. Значение аргумента, точно равное такому флагу, тоже отклоняется, как и
+  любой однодефисный токен с буквой `C` (связки `-qC`, слитное `-C/x`, значение вроде
+  `-Critical`) — осознанный fail-closed.
 - В worktree обёртка сама подставляет `--db` основной базы по `dolt_mode`: `embedded` →
   `.beads/embeddeddolt`, `server` → `.beads/dolt` и живой dolt-сервер. Нет/невалиден
   `metadata.json`, неизвестный режим или нет каталога базы → отказ, bd не вызывается.

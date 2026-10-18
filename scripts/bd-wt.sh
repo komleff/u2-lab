@@ -9,7 +9,7 @@
 # В ЛЮБОМ окружении проходит только allowlist подкоманд: агенту разрешено звать обёртку
 # без подтверждения (.claude/settings.json), поэтому всё прочее — export/import/dolt,
 # delete, config, sql и т.д. — отклоняется до запуска bd. Флаги --db, -C/--directory,
-# --global, --ignore-schema-skew отклоняются в любой позиции аргументов.
+# --global, --ignore-schema-skew, --repo отклоняются в любой позиции аргументов.
 #
 # Usage: scripts/bd-wt.sh <подкоманда из allowlist> [аргументы]  (BD_BIN=... — стаб для тестов)
 set -euo pipefail
@@ -24,12 +24,14 @@ BD_BIN="${BD_BIN:-bd}"
 # persistent-флаги и после подкоманды (`list -C /other`). Сравнение по целым токенам, поэтому
 # значение аргумента, точно равное такому флагу (`create --title -C`), тоже отклоняется —
 # осознанный fail-closed. Короткий -C ловится и слитно (-C/x), и в связке (-qC).
+# --repo (локальный флаг `create`) направляет запись в чужую базу или создаёт новую .beads
+# вне синхронизации — тоже обход основной базы.
 for a in "$@"; do
   case "$a" in
     --db|--db=*)
       echo "ERROR: не передавайте --db в bd-wt — обёртка ставит его сама." >&2
       exit 2 ;;
-    --directory|--directory=*|--global|--global=*|--ignore-schema-skew|--ignore-schema-skew=*)
+    --directory|--directory=*|--global|--global=*|--ignore-schema-skew|--ignore-schema-skew=*|--repo|--repo=*)
       echo "ERROR: флаг '${a}' нельзя через bd-wt — он меняет базу или каталог bd (fail-closed)." >&2
       exit 2 ;;
     --*) ;;

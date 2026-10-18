@@ -49,6 +49,10 @@ const FORBIDDEN_ARGS = [
   ['create', '--title', '-C'],
   ['comment', 'ulab-1', '--global'],
   ['note', 'ulab-1', '--db'],
+  // `create --repo <путь>` пишет в чужую базу или создаёт новую `.beads` вне синхронизации.
+  ['create', '--repo', '/other', 'x'],
+  ['create', '--repo=/other', 'x'],
+  ['create', 'x', '--repo', '/other'],
 ];
 
 function cleanEnv(extra = {}) {
