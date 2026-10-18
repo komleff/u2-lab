@@ -15,9 +15,10 @@ const configurations=[
   ['titan-d','diesel'],['titan-h','hydrogen'],['titan-e','electric'],
   ['severin-mir-d','diesel'],['severin-mir-h','hydrogen'],['severin-mir-e','electric'],['stealth-reference','electric'],
 ] as const;
-const catalog=loadCandidateCatalog('ship-fitting-0.3.1');
-it.each(configurations)('%s actual Worker completes installed %s propulsion with finite measured output',(id,family)=>{
-  const fit=getPresetFit(id,catalog.version),compiled=compileShipModelFit(fit,catalog);
+// Тот же список конфигураций у 0.3.1 и текущей 0.3.2.
+const cases=(['ship-fitting-0.3.1','ship-fitting-0.3.2'] as const).flatMap(version=>configurations.map(([id,family])=>[version,id,family] as const));
+it.each(cases)('%s %s actual Worker completes installed %s propulsion with finite measured output',(version,id,family)=>{
+  const catalog=loadCandidateCatalog(version),fit=getPresetFit(id,catalog.version),compiled=compileShipModelFit(fit,catalog);
   expect(compiled.ok,JSON.stringify(compiled)).toBe(true);if(!compiled.ok)return;
   const made=makeShipModelMiningRun(fit,catalog,{durationSeconds:3,action:'maneuver'});
   expect(made.ok,JSON.stringify(made)).toBe(true);if(!made.ok)return;
