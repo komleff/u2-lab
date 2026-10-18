@@ -38,6 +38,10 @@ export type ModuleItemV3 = {
   operationPolicy?: "critical" | "deferrable-background" | "optional-pulse-charge";
 };
 export type SlotV3 = { id: string; category: CategoryV3; size: Size; families: FamilyV3[]; mandatory: boolean; role?: PropulsionRole; formFactor: "single" | "pair" };
+// Профиль школы корпуса (документ класса §6): только первичные оси. Числа — явные, с origins корпуса.
+export type SchoolProfileV3 = {
+  lossFactor: number; thrustFactors: { march: number; retro: number; strafe: number }; emLeakageFactor: number;
+};
 export type HullV3 = {
   id: string; label: string; size: "S" | "M" | "L"; class: ShipClass; generation: number;
   architecture: "U" | "D" | "H" | "E" | "A"; slots: SlotV3[];
@@ -45,6 +49,12 @@ export type HullV3 = {
   hullPowerW: number; bodyExchangeAreaM2: number; bodyEmissivity: number;
   hullPassiveRadiator: ThermalSurface | null; modes: ShipMode[];
   origins: Record<string, FieldOrigin>;
+  schoolProfile?: SchoolProfileV3;
+};
+// Производные значения профиля, вычисленные при компиляции; без профиля поля нет.
+export type ResolvedSchoolV3 = {
+  hullPowerW: number; emLeakageFactor: number;
+  numerics: Record<string, { efficiency: number; forceN?: number }>;
 };
 export type ShipFitV3 = {
   schemaVersion: "u2-ship-fit/2"; fitRevision: number; catalogVersion: ShipModelCatalogVersion;
@@ -60,6 +70,7 @@ export type ResolvedShipV3 = {
   bufferCapacityJ: Record<string, number>; cargoCapacityM3: { universal: number; bulk: number; liquid: number };
   resources: Record<Species, { capacityKg: number; energyJKg: number; tankIds: string[]; consumerIds: string[] }>;
   surfaces: ThermalSurface[]; origins: Record<string, FieldOrigin>;
+  school?: ResolvedSchoolV3;
 };
 export type EnvironmentV3 = {
   radiativeBackgroundK: number; backgroundSourceId: string;

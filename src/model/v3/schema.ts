@@ -1,5 +1,5 @@
 import type { ValidationResult } from "../../catalog/schema";
-import type { CandidateCatalogV3, ResolvedInstanceV3, ResolvedShipV3, ShipFitV3, RunSpecV3, StateV3, EnvironmentV3, ModuleItemV3, HullV3, ThermalSurface } from "./types";
+import type { CandidateCatalogV3, ResolvedInstanceV3, ResolvedShipV3, ResolvedSchoolV3, ShipFitV3, RunSpecV3, StateV3, EnvironmentV3, ModuleItemV3, HullV3, ThermalSurface } from "./types";
 import { SHIP_MODEL_CATALOG_VERSIONS, MODEL_V3, SCHEMA_V3 } from "./types";
 import type { FieldOrigin } from "../../fitting/types";
 import {OBSERVER_PRESET_IDS} from '../../signatures/presets';
@@ -81,13 +81,17 @@ function itemChecks(c: Check, input: unknown, path: string) {
   if(c.list(m.surfaces,path+".surfaces")){const ids=new Set();m.surfaces.forEach((s,i)=>{surfaceChecks(c,s,path+".surfaces."+i,m.family);if(ids.has(s?.id))c.bad(path+".surfaces","Повтор поверхности");ids.add(s?.id);});if(["radiator","pump-radiator"].includes(m.family)&&!m.surfaces.length)c.bad(path+".surfaces","Радиатору нужна собственная площадь");if(!["radiator","pump-radiator"].includes(m.family)&&m.surfaces.length)c.bad(path+".surfaces","Это изделие не создаёт радиаторную поверхность");}
   c.numericOrigins(m,m.origins,path);
 }
+// Без множителя КПД не пересчитывается: нейтральный профиль не сдвигает η даже на ulp.
+const schoolEfficiency=(eta:number,k:number)=>k===1?eta:1-(1-eta)*k;
 function hullChecks(c:Check,input:unknown,path:string){
-  if(!c.exact(input,path,["id","label","size","class","generation","architecture","slots","builtins","materials","hullPowerW","bodyExchangeAreaM2","bodyEmissivity","hullPassiveRadiator","modes","origins"]))return;
+  if(!c.exact(input,path,["id","label","size","class","generation","architecture","slots","builtins","materials","hullPowerW","bodyExchangeAreaM2","bodyEmissivity","hullPassiveRadiator","modes","origins"],["schoolProfile"]))return;
   const h=input as HullV3;c.text(h.id,path+".id");c.text(h.label,path+".label");c.choice(h.size,path+".size",["S","M","L"]);c.choice(h.class,path+".class",classes);c.choice(h.architecture,path+".architecture",["U","D","H","E","A"]);c.number(h.generation,path+".generation",0,Infinity,true);c.number(h.hullPowerW,path+".hullPowerW");c.positive(h.bodyExchangeAreaM2,path+".bodyExchangeAreaM2");c.number(h.bodyEmissivity,path+".bodyEmissivity",Number.MIN_VALUE,1);materialChecks(c,h.materials,path+".materials");
   if(h.hullPassiveRadiator!==null){surfaceChecks(c,h.hullPassiveRadiator,path+".hullPassiveRadiator");if(h.hullPassiveRadiator?.active||h.hullPassiveRadiator?.closable||!h.hullPassiveRadiator?.builtin||h.hullPassiveRadiator?.circuitOwner.kind!=="common-ti")c.bad(path+".hullPassiveRadiator","Собственный passive radiator несъёмен, открыт и допускается к общему TI");}
   if(c.list(h.modes,path+".modes")){h.modes.forEach((m,i)=>c.choice(m,path+".modes."+i,modes));if(!h.modes.includes("Efficient")||new Set(h.modes).size!==h.modes.length)c.bad(path+".modes","Нужен Efficient без повторов");}
   if(c.list(h.slots,path+".slots")){const ids=new Set();h.slots.forEach((s,i)=>{const p=path+".slots."+i;if(!c.exact(s,p,["id","category","size","families","mandatory","formFactor"],["role"]))return;c.text(s.id,p+".id");if(ids.has(s.id))c.bad(p+".id","Повтор слота");ids.add(s.id);c.choice(s.category,p+".category",categories);c.choice(s.size,p+".size",sizes.slice(0,-1));c.flag(s.mandatory,p+".mandatory");c.choice(s.formFactor,p+".formFactor",["single","pair"]);if(c.list(s.families,p+".families"))s.families.forEach((f,j)=>c.choice(f,p+".families."+j,families));if(s.role!==undefined)c.choice(s.role,p+".role",["march","retro","strafe","turn"]);});}
   if(c.list(h.builtins,path+".builtins")){const ids=new Set();h.builtins.forEach((b,i)=>{const p=path+".builtins."+i;if(!c.exact(b,p,["id","item"],["role"]))return;c.text(b.id,p+".id");if(ids.has(b.id))c.bad(p+".id","Повтор встроенного экземпляра");ids.add(b.id);itemChecks(c,b.item,p+".item");});}
+  // Профиль школы: потери и тяга — множители > 0, утечка EM корпуса — доля в (0, 1].
+  if(h.schoolProfile!==undefined&&c.exact(h.schoolProfile,path+".schoolProfile",["lossFactor","thrustFactors","emLeakageFactor"])){const p=h.schoolProfile,sp=path+".schoolProfile";c.positive(p.lossFactor,sp+".lossFactor");c.number(p.emLeakageFactor,sp+".emLeakageFactor",Number.MIN_VALUE,1);if(c.exact(p.thrustFactors,sp+".thrustFactors",["march","retro","strafe"]))for(const role of ["march","retro","strafe"]as const)c.positive(p.thrustFactors[role],sp+".thrustFactors."+role);}
   c.numericOrigins(h,h.origins,path);
 }
 export function validateCatalogV3(input:unknown):ValidationResult<CandidateCatalogV3>{const c=new Check();if(c.exact(input,"catalog",["version","hulls","items","presets"],["presetOptions"])){
@@ -129,6 +133,7 @@ function validateFitInCatalog(input:unknown,catalog:CandidateCatalogV3,requireRu
   if(c.exact(f.initial,"initial",["chargeFraction","fuelFraction"])){c.number(f.initial.chargeFraction,"initial.chargeFraction",0,1);if(c.exact(f.initial.fuelFraction,"initial.fuelFraction",["diesel","hydrogen"]))for(const sp of ['diesel','hydrogen']as const)c.number(f.initial.fuelFraction[sp],"initial.fuelFraction."+sp,0,1);}
   const installed=[...h.builtins.map(b=>b.item),...roster],engines=installed.filter(m=>m.family==='engine');if(new Set(engines.map(m=>m.propulsionType)).size>1)c.bad("instances","Все двигательные роли должны иметь один propulsion type");
   for(const m of engines)if((['E','A'].includes(h.architecture)&&m.propulsionType!=='electric')||(['D','H'].includes(h.architecture)&&!['electric',h.architecture==='D'?'diesel':'hydrogen'].includes(m.propulsionType!)))c.bad('instances','Несовместимый с architecture propulsion type');
+  if(h.schoolProfile)for(const m of installed)if(['engine','generator'].includes(m.family)&&!(schoolEfficiency(m.numerics.efficiency,h.schoolProfile.lossFactor)>0))c.bad('hull.schoolProfile.lossFactor','Множитель потерь школы даёт КПД ≤ 0: '+m.id);
   const enabled=[...h.builtins.filter(b=>f.builtinModes[b.id]?.enabled!==false).map(b=>b.item),...Object.values(f.instances).filter(i=>i?.enabled).map(i=>f.localVariants[i.itemId]??catalog.items[i.itemId]).filter(Boolean)];
   if(requireRunnable){for(const s of h.slots.filter(s=>s.mandatory))if(!f.assignments[s.id])c.bad("assignments."+s.id,"Не установлен обязательный модуль");if(!enabled.some(m=>m.family==='battery'))c.bad("instances","Нужен включённый аккумулятор");for(const m of enabled)if(m.species&&m.family!=='tank'&&!enabled.some(t=>t.family==='tank'&&t.species===m.species))c.bad("instances","Потребителю нужен включённый operating tank");}
   return c.result(f);
@@ -166,7 +171,25 @@ export function compileShipModelFit(input: unknown, catalog: CandidateCatalogV3)
   for(const[id]of Object.entries(bufferCapacityJ))origins['bufferCapacityJ.'+id]=derived('J','installed buffer capacityJ, сохраняется и в выключенном состоянии');
   for(const type of ['universal','bulk','liquid'])origins['cargoCapacityM3.'+type]=derived('m³','sum(installed cargo cargoM3 по типу)');
   for(const sp of ['diesel','hydrogen']){origins['resources.'+sp+'.capacityKg']=derived('kg','sum(enabled operating tank fuelCapacityKg)');origins['resources.'+sp+'.energyJKg']={kind:'experimental',unit:'J/kg',sourceRef:'src/fitting/compile.ts: frozen 0.2.x fuel energy anchor',note:'Явно перенесённый энергетический якорь Лабы, не новый канонический паспорт'};}
-  return { ok: true, value: structuredClone({ catalogVersion: catalog.version, hull, fit, instances, materials, dryMassKg: materials.reduce((n,m) => n+m.massKg,0), heatCapacityJK: materials.reduce((n,m) => n+m.massKg*m.cpJKgK,0), batteryCapacityJ, bufferCapacityJ, cargoCapacityM3, resources, surfaces, origins }) };
+  const school=resolveSchool(hull,instances,origins);
+  return { ok: true, value: structuredClone({ catalogVersion: catalog.version, hull, fit, instances, materials, dryMassKg: materials.reduce((n,m) => n+m.massKg,0), heatCapacityJK: materials.reduce((n,m) => n+m.massKg*m.cpJKgK,0), batteryCapacityJ, bufferCapacityJ, cargoCapacityM3, resources, surfaces, origins, ...(school ? { school } : {}) }) };
+}
+// Профиль школы применяется к роли слота и семейству, не к конкретному изделию: паспорт
+// модуля и его масса остаются данными модуля. Без профиля — прежний корабль без новых полей.
+function resolveSchool(hull:HullV3,instances:ResolvedInstanceV3[],origins:Record<string,FieldOrigin>):ResolvedSchoolV3|undefined{
+  const profile=hull.schoolProfile;if(!profile)return undefined;
+  const why=(unit:string,derivation:string):FieldOrigin=>({kind:'derived',unit,sourceRef:'src/model/v3/schema.ts: compileShipModelFit; hull.schoolProfile',derivation});
+  const numerics:ResolvedSchoolV3['numerics']={};
+  for(const i of instances){
+    if(i.item.family!=='engine'&&i.item.family!=='generator')continue;
+    const role=i.item.family==='engine'&&(i.role==='march'||i.role==='retro'||i.role==='strafe')?i.role:null;
+    numerics[i.id]={efficiency:schoolEfficiency(i.item.numerics.efficiency,profile.lossFactor),...(role?{forceN:i.item.numerics.forceN*profile.thrustFactors[role]}:{})};
+    origins['school.numerics.'+i.id+'.efficiency']=why('1','1 − (1 − numerics.efficiency) · schoolProfile.lossFactor');
+    if(role)origins['school.numerics.'+i.id+'.forceN']=why('N','numerics.forceN · schoolProfile.thrustFactors.'+role+'; масса модуля не масштабируется');
+  }
+  origins['school.hullPowerW']=why('W','hull.hullPowerW · schoolProfile.lossFactor');
+  origins['school.emLeakageFactor']=why('1','hull.schoolProfile.emLeakageFactor; escaped = raw · T_экрана · k');
+  return {hullPowerW:hull.hullPowerW*profile.lossFactor,emLeakageFactor:profile.emLeakageFactor,numerics};
 }
 
 function same(a: unknown,b:unknown): boolean {
@@ -174,15 +197,15 @@ function same(a: unknown,b:unknown): boolean {
   return JSON.stringify(ordered(a))===JSON.stringify(ordered(b));
 }
 function resolvedChecks(c:Check,input:unknown,path:string):input is ResolvedShipV3{
-  if(!c.exact(input,path,["catalogVersion","hull","fit","instances","materials","dryMassKg","heatCapacityJK","batteryCapacityJ","bufferCapacityJ","cargoCapacityM3","resources","surfaces","origins"]))return false;
+  if(!c.exact(input,path,["catalogVersion","hull","fit","instances","materials","dryMassKg","heatCapacityJK","batteryCapacityJ","bufferCapacityJ","cargoCapacityM3","resources","surfaces","origins"],["school"]))return false;
   const s=input as ResolvedShipV3;c.choice(s.catalogVersion,path+".catalogVersion",SHIP_MODEL_CATALOG_VERSIONS);hullChecks(c,s.hull,path+".hull");
-  for(const key of ['dryMassKg','heatCapacityJK','batteryCapacityJ','bufferCapacityJ','cargoCapacityM3','resources']as const)c.numericOrigins(s[key],s.origins,path+'.'+key,key);
+  for(const key of ['dryMassKg','heatCapacityJK','batteryCapacityJ','bufferCapacityJ','cargoCapacityM3','resources','school']as const)c.numericOrigins(s[key],s.origins,path+'.'+key,key);
   if(!c.list(s.instances,path+".instances"))return false;
   const ids=new Set<string>(),items:Record<string,ModuleItemV3>={};
   for(const[i,row]of s.instances.entries()){const p=path+".instances."+i;if(!c.exact(row,p,["id","item","enabled","builtin"],["slotId","role"]))continue;c.text(row.id,p+".id");if(ids.has(row.id))c.bad(p+".id","Повтор экземпляра");ids.add(row.id);c.flag(row.enabled,p+".enabled");c.flag(row.builtin,p+".builtin");itemChecks(c,row.item,p+".item");if(row.item)items[row.item.id]=row.item;}
   const compiled=compileShipModelFit(s.fit,{version:s.catalogVersion,hulls:[s.hull],items,presets:{},presetOptions:[]});
   if(!compiled.ok)c.errors.push(...compiled.errors.map(e=>({...e,path:path+".fit."+e.path})));
-  else for(const key of ["instances","materials","dryMassKg","heatCapacityJK","batteryCapacityJ","bufferCapacityJ","cargoCapacityM3","resources","surfaces"]as const)if(!same(s[key],compiled.value[key]))c.bad(path+"."+key,"Не соответствует installed roster и exclusive bill/stock/surface graph");
+  else for(const key of ["instances","materials","dryMassKg","heatCapacityJK","batteryCapacityJ","bufferCapacityJ","cargoCapacityM3","resources","surfaces","school"]as const)if(!same(s[key],compiled.value[key]))c.bad(path+"."+key,"Не соответствует installed roster и exclusive bill/stock/surface graph");
   if(c.list(s.surfaces,path+".surfaces")){const seen=new Set();for(const[i,surface]of s.surfaces.entries()){surfaceChecks(c,surface,path+".surfaces."+i);if(seen.has(surface?.id))c.bad(path+".surfaces","Повтор поверхности");seen.add(surface?.id);const owner=surface?.circuitOwner;if(owner?.kind==='pump-radiator'&&!s.instances.some(i=>i.id===owner.instanceId&&i.item.family==='pump-radiator'))c.bad(path+".surfaces."+i+".circuitOwner","Неизвестный владелец контура");}}
   return true;
 }
