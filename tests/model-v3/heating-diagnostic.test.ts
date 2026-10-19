@@ -64,7 +64,9 @@ it('ST2-04 Спутник 0.3.2 с buffer-S и сменным нагревате
   expect(rows.filter(unavailable).map(r=>r.state.timeSeconds)).toEqual([]);
   expect(rows[0].telemetry.bufferReleaseW).toBeGreaterThan(0);expect(rows[0].state.governor.recoveringBuffer).toBe(true);
   // Траектория проходит прежнюю ложную полосу: буфер пуст, печь исправна, но ещё не нужна.
-  const band=rows.filter((r,i)=>i>0&&r.state.buffers[buffer.id].storedJ===0&&rows[i-1].state.temperatureK>corridor.coldK+2*delta&&rows[i-1].state.temperatureK<=corridor.coldK+3*delta);
+  const emptyCrossing=rows.find((r,i)=>i>0&&rows[i-1].state.buffers[buffer.id].storedJ>0&&r.state.buffers[buffer.id].storedJ===0)!;
+  expect(emptyCrossing).toBeDefined();expect(emptyCrossing.telemetry.bufferReleaseW).toBeGreaterThan(0);expect(emptyCrossing.telemetry.bufferCaptureW).toBe(0);expect(emptyCrossing.state.governor.heatingStageId).toBe('buffer-release');expect(emptyCrossing.telemetry.deliveredW).toBe(rows[0].telemetry.deliveredW);
+  const band=rows.filter((r,i)=>i>0&&rows[i-1].state.buffers[buffer.id].storedJ===0&&r.state.buffers[buffer.id].storedJ===0&&rows[i-1].state.temperatureK>corridor.coldK+2*delta&&rows[i-1].state.temperatureK<=corridor.coldK+3*delta);
   expect(band.length).toBeGreaterThan(100);for(const r of band)expect(r.state.governor.heatingStageId).toBeNull();
   // Дизельный Спутник: печь на топливе первой (её нет), электронагреватель держит cold+δ.
   const heated=rows.filter(r=>r.state.governor.heatingStageId==='electric-heater');expect(heated.length).toBeGreaterThan(100);

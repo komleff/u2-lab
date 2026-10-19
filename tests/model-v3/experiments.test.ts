@@ -9,6 +9,12 @@ import {parseShipModelResultJson} from '../../src/io/ship-model-result';
 import {validateRunSpecV3} from '../../src/model/v3/schema';
 const digest=(x:unknown)=>createHash('sha256').update(JSON.stringify(x)).digest('hex');
 const artifact='docs/experiments/ship-model-v0.1-results.json';
+it('ST1-09 neutral matrix rows remain byte-identical to accepted WI3 base8318877',()=>{
+  // Отпечаток снят с фактических строк принятого base, не вычислен из новых ожиданий.
+  const affected=new Set(['stealth-Efficient-maneuver-0.1','stealth-Efficient-maneuver-1','military-structural-buffer-aft','buffer-recovery-cold','buffer-recovery-hot']);
+  const neutral=executeExperiments().filter(row=>!affected.has(row.id));expect(neutral).toHaveLength(50);
+  expect(digest(neutral)).toBe('339ddbc59adbc777809b4a3ae5ad8272e2c6d74200e6ceb5652b3b7861937a76');
+});
 it('experimental matrix actually runs both reference cycles, fields, modes, generations and installation trade-offs',()=>{
   const rows=executeExperiments();expect(rows.length).toBeGreaterThanOrEqual(30);
   for(const row of rows){expect(row.measured.status).toBe('complete');expect(row.measured.retention.totalTicks).toBe(row.input.durationSeconds);expect(Number.isFinite(row.measured.metrics.totalResidualJ)).toBe(true);expect(Math.abs(row.measured.metrics.totalResidualJ)).toBeLessThan(1);expect(row.fullResultSha256).toMatch(/^[0-9a-f]{64}$/);}

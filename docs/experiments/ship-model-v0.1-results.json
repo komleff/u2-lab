@@ -9,14 +9,14 @@
     "src/fitting/data/items-0.3.0.json": "bdb3d20067e0abdc54e19a469f5e1a33cf386b2453024d982409c869550d1f33",
     "src/fitting/data/presets-0.3.0.json": "3b313105efdd5f11d7c451245edf603ce2ef8838c944be51e816d573310e78c3",
     "src/io/ship-model-result.ts": "f90354be590f50230bf5c4785ef09055a6438fbf5c12a95832c7b5f97bfaa8bc",
-    "src/model/v3/buffer.ts": "d14b0d07200cef1f2e28b38b955de4c56142e653b42f7786b41865f60df64351",
+    "src/model/v3/buffer.ts": "d81b57bfd2dc809206a18d4223aa85384c12d255a0f9f4b48f7a99cf4d6b9024",
     "src/model/v3/durability.ts": "e64b6213c3b549d9e66f2e9ab35c481ffc4c80ccddb33ea4f05b793cbcb79c1c",
     "src/model/v3/em-ledger.ts": "24f2488cffeca3bb7c7b9b5af6d6b40fd112d871303c51ab88f138f208b300d0",
     "src/model/v3/heating.ts": "f24fc93e040685039e66abedad9f5bae3fe6a08fdc5423006a55486590535538",
     "src/model/v3/power.ts": "d72336dc0848ea653d8b50b94776f9f836597801b32f95512d9e16e52e6a2e53",
     "src/model/v3/random.ts": "698b3ebe27c01e340cb6bd1650ab49285109ba85aa703829898b6f34065672b4",
     "src/model/v3/schema.ts": "6420522c8e99bf0701c4bb9b61e1a1b97b69fc2043d1bcf18d28b6d47e900e8b",
-    "src/model/v3/step.ts": "35cca0d15a2572457907d98f707107e4f418170c338b6041e02d8fc3cb706ddf",
+    "src/model/v3/step.ts": "e7c68703f8959063b378fea68cbb199a699cf4762f5a3339acf79aab8e17cee1",
     "src/model/v3/thermal-control.ts": "acdee22c9dcd5663684164eb0603c38318900e138e6be5632a1968dd578b3e56",
     "src/model/v3/thermal-surfaces.ts": "5a0fa42878bffa2de2be4aee76f35f9886eda4ab283c7baefe3c8330cd8f7157",
     "src/model/v3/thermoinverter.ts": "5e49d31484c8a3b86cc0f0dc36ce05c87e51c251be71632d209d61aa29eb6481",
@@ -12691,7 +12691,7 @@
           "phaseElapsedSeconds": 30,
           "mode": "Efficient",
           "maskingEntryTemperatureK": null,
-          "temperatureK": 450.72103557412095,
+          "temperatureK": 450.67630379137097,
           "chargeJ": 14633559064.327467,
           "fuelKg": {
             "diesel": 0,
@@ -12840,8 +12840,8 @@
         },
         "metrics": {
           "usefulWorkJ": 0,
-          "totalResidualJ": 1.7462298274040222e-8,
-          "maximumTemperatureK": 450.72103557412095,
+          "totalResidualJ": 1.641456037759781e-8,
+          "maximumTemperatureK": 450.67630379137097,
           "firstConstraint": null
         },
         "lastTelemetry": {
@@ -12927,24 +12927,24 @@
           "hostHeatW": 796348.8862697853,
           "independentAcceptedW": 0,
           "intentionalRfW": 0,
-          "netHeatW": 749669.3440088275,
-          "radiationW": 46679.54226095793,
+          "netHeatW": 703025.708445571,
+          "radiationW": 93323.17782421432,
           "rawEmW": 124.4088070175439,
           "rejectedIndependentW": 0,
           "requestedW": 2893228.070175439,
           "signal:capturedEmW": 99.52704561403512,
-          "signal:contrastIrW": 46679.54226095793,
+          "signal:contrastIrW": 93323.17782421432,
           "signal:emFluxWm2": 7.734483047268667e-9,
           "signal:escapedEmW": 24.88176140350878,
-          "signal:intrinsicIrW": 47048.616416004596,
-          "signal:irFluxWm2": 0.000014510312289254852,
+          "signal:intrinsicIrW": 93805.65946764099,
+          "signal:irFluxWm2": 0.00002900946299954621,
           "signal:observedEmW": 24.88176140350878,
           "signal:ownAntennaTransmission": 0.8,
           "signal:ownSensorWorkingW": 0,
           "signal:rawEmW": 124.4088070175439,
-          "signal:receiverIrW": 46679.54226095793,
+          "signal:receiverIrW": 93323.17782421432,
           "signal:timeSeconds": 30,
-          "temperatureK": 450.72103557412095,
+          "temperatureK": 450.67630379137097,
           "thermalStopped:builtin:buffer-S": 0,
           "thermalStopped:builtin:cargo": 0,
           "thermalStopped:builtin:electric-heater": 0,
@@ -12959,21 +12959,21 @@
           "thermalStopped:fit:strafe": 0,
           "thermalStopped:fit:turn": 0,
           "tiCoolingW": 0,
-          "totalResidualJ": 5.820766091346741e-10,
+          "totalResidualJ": 8.149072527885437e-10,
           "usefulWorkW": 0
         },
         "signatures": {
           "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
-            "intrinsicIrW": 47048.616416004596,
-            "contrastIrW": 46679.54226095793,
-            "receiverIrW": 46679.54226095793,
+            "intrinsicIrW": 93805.65946764099,
+            "contrastIrW": 93323.17782421432,
+            "receiverIrW": 93323.17782421432,
             "rawEmW": 124.4088070175439,
             "escapedEmW": 24.88176140350878,
             "capturedEmW": 99.52704561403512,
             "observedEmW": 24.88176140350878,
-            "irFluxWm2": 0.000014510312289254852,
+            "irFluxWm2": 0.00002900946299954621,
             "emFluxWm2": 7.734483047268667e-9,
             "ownAntennaTransmission": 0.8,
             "ownSensorWorkingW": 0,
@@ -12981,9 +12981,9 @@
               {
                 "id": "body",
                 "kind": "body",
-                "absoluteIrW": 46792.94974933793,
-                "contrastW": 46679.54226095793,
-                "projectedContrastW": 46679.54226095793,
+                "absoluteIrW": 93549.99280097432,
+                "contrastW": 93323.17782421432,
+                "projectedContrastW": 93323.17782421432,
                 "temperatureK": null,
                 "profile": {
                   "version": "radiator-ir/1",
@@ -13036,10 +13036,10 @@
             "durationSeconds": 30,
             "completedThroughSeconds": 30,
             "receiverIrW": {
-              "integralJ": 1396051.426475978,
-              "meanW": 46535.04754919927,
-              "minW": 46390.750715443755,
-              "maxW": 46679.54226095793
+              "integralJ": 2791565.5012537683,
+              "meanW": 93052.1833751256,
+              "minW": 92781.50143088751,
+              "maxW": 93323.17782421432
             },
             "observedEmW": {
               "integralJ": 746.4528421052636,
@@ -13070,7 +13070,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "07106037452fb66f2036959b7c9157c2090e6f9c1e8c7466ec2dce3622ee70b6"
+      "fullResultSha256": "f1ed2d52d94a6db5d93e88776248673357512ab087e08fce5d324556a277f5d4"
     },
     {
       "id": "stealth-Efficient-maneuver-1",
@@ -13097,7 +13097,7 @@
           "phaseElapsedSeconds": 30,
           "mode": "Efficient",
           "maskingEntryTemperatureK": null,
-          "temperatureK": 455.66967634392086,
+          "temperatureK": 455.62398098247843,
           "chargeJ": 13826190643.274858,
           "fuelKg": {
             "diesel": 0,
@@ -13246,8 +13246,8 @@
         },
         "metrics": {
           "usefulWorkJ": 0,
-          "totalResidualJ": -8.102506399154663e-8,
-          "maximumTemperatureK": 455.66967634392086,
+          "totalResidualJ": -8.475035429000854e-8,
+          "maximumTemperatureK": 455.62398098247843,
           "firstConstraint": null
         },
         "lastTelemetry": {
@@ -13333,24 +13333,24 @@
           "hostHeatW": 5943504.497497856,
           "independentAcceptedW": 0,
           "intentionalRfW": 0,
-          "netHeatW": 5894806.451201428,
-          "radiationW": 48698.04629642787,
+          "netHeatW": 5846146.237637937,
+          "radiationW": 97358.2598599183,
           "rawEmW": 1165.9140701754386,
           "rejectedIndependentW": 0,
           "requestedW": 27114280.701754387,
           "signal:capturedEmW": 932.7312561403509,
-          "signal:contrastIrW": 48698.04629642787,
+          "signal:contrastIrW": 97358.2598599183,
           "signal:emFluxWm2": 7.24847607378172e-8,
           "signal:escapedEmW": 233.18281403508774,
-          "signal:intrinsicIrW": 51368.12045147453,
-          "signal:irFluxWm2": 0.00001513776325584856,
+          "signal:intrinsicIrW": 100141.74150334497,
+          "signal:irFluxWm2": 0.000030263766225646982,
           "signal:observedEmW": 233.18281403508774,
           "signal:ownAntennaTransmission": 0.8,
           "signal:ownSensorWorkingW": 0,
           "signal:rawEmW": 1165.9140701754386,
-          "signal:receiverIrW": 48698.04629642787,
+          "signal:receiverIrW": 97358.2598599183,
           "signal:timeSeconds": 30,
-          "temperatureK": 455.66967634392086,
+          "temperatureK": 455.62398098247843,
           "thermalStopped:builtin:buffer-S": 0,
           "thermalStopped:builtin:cargo": 0,
           "thermalStopped:builtin:electric-heater": 0,
@@ -13372,14 +13372,14 @@
           "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
-            "intrinsicIrW": 51368.12045147453,
-            "contrastIrW": 48698.04629642787,
-            "receiverIrW": 48698.04629642787,
+            "intrinsicIrW": 100141.74150334497,
+            "contrastIrW": 97358.2598599183,
+            "receiverIrW": 97358.2598599183,
             "rawEmW": 1165.9140701754386,
             "escapedEmW": 233.18281403508774,
             "capturedEmW": 932.7312561403509,
             "observedEmW": 233.18281403508774,
-            "irFluxWm2": 0.00001513776325584856,
+            "irFluxWm2": 0.000030263766225646982,
             "emFluxWm2": 7.24847607378172e-8,
             "ownAntennaTransmission": 0.8,
             "ownSensorWorkingW": 0,
@@ -13387,9 +13387,9 @@
               {
                 "id": "body",
                 "kind": "body",
-                "absoluteIrW": 48811.45378480787,
-                "contrastW": 48698.04629642787,
-                "projectedContrastW": 48698.04629642787,
+                "absoluteIrW": 97585.0748366783,
+                "contrastW": 97358.2598599183,
+                "projectedContrastW": 97358.2598599183,
                 "temperatureK": null,
                 "profile": {
                   "version": "radiator-ir/1",
@@ -13442,10 +13442,10 @@
             "durationSeconds": 30,
             "completedThroughSeconds": 30,
             "receiverIrW": {
-              "integralJ": 1426131.8776782174,
-              "meanW": 47537.729255940576,
-              "minW": 46390.750715443755,
-              "maxW": 48698.04629642787
+              "integralJ": 2851707.0755439345,
+              "meanW": 95056.90251813114,
+              "minW": 92781.50143088751,
+              "maxW": 97358.2598599183
             },
             "observedEmW": {
               "integralJ": 6995.484421052635,
@@ -13476,7 +13476,7 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "b65da2a16aa3554963eddf0c6ead7d29f1c598cba514ef1b89bb6461d226223d"
+      "fullResultSha256": "ad95f24bf3e6fae1273883b2e6a60397429183d71ee8870278b35d727a1c6142"
     },
     {
       "id": "stealth-Masking-maneuver-0.1",
@@ -16608,7 +16608,7 @@
           "phaseElapsedSeconds": 30,
           "mode": "Combat",
           "maskingEntryTemperatureK": null,
-          "temperatureK": 498.3397994081852,
+          "temperatureK": 489.595823336213,
           "chargeJ": 14623333333.333338,
           "fuelKg": {
             "diesel": 0,
@@ -16616,8 +16616,8 @@
           },
           "buffers": {
             "structural-buffer": {
-              "storedJ": 20000000,
-              "minimumCaptureK": 499.32545197972524
+              "storedJ": 298048934.54071134,
+              "minimumCaptureK": 489.9999999998541
             }
           },
           "governor": {
@@ -16742,7 +16742,7 @@
         },
         "metrics": {
           "usefulWorkJ": 45009000,
-          "totalResidualJ": 2.3283064365386963e-10,
+          "totalResidualJ": -4.656612873077393e-10,
           "maximumTemperatureK": 500,
           "firstConstraint": null
         },
@@ -16770,7 +16770,7 @@
           "actualW:fit:turn": 0,
           "actualW:structural-buffer": 0,
           "bufferCaptureW": 0,
-          "bufferJ:structural-buffer": 20000000,
+          "bufferJ:structural-buffer": 298048934.54071134,
           "bufferReleaseW": 0,
           "capturedEmW": 0,
           "chargeJ": 14623333333.333338,
@@ -16819,26 +16819,26 @@
           "hostHeatW": 2055117.9555555554,
           "independentAcceptedW": 0,
           "intentionalRfW": 0,
-          "netHeatW": -1050866.8917611786,
-          "radiationW": 3105984.847316734,
+          "netHeatW": -838052.49780479,
+          "radiationW": 2893170.453360345,
           "rawEmW": 137.6,
           "rejectedIndependentW": 0,
           "requestedW": 3200000,
           "signal:capturedEmW": 0,
-          "signal:contrastIrW": 3005403.115037292,
+          "signal:contrastIrW": 2799480.332421707,
           "signal:emFluxWm2": 4.277289095594687e-8,
           "signal:escapedEmW": 137.6,
-          "signal:intrinsicIrW": 3111027.794806272,
-          "signal:irFluxWm2": 0.0009342280502772758,
+          "signal:intrinsicIrW": 2898213.4008498834,
+          "signal:irFluxWm2": 0.0008702170566278458,
           "signal:observedEmW": 137.6,
           "signal:ownAntennaTransmission": 1,
           "signal:ownSensorWorkingW": 0,
           "signal:rawEmW": 137.6,
-          "signal:receiverIrW": 3005403.115037292,
+          "signal:receiverIrW": 2799480.332421707,
           "signal:timeSeconds": 30,
           "surfaceOpen:fit:signature-1:panel": 1,
           "surfaceOpen:hull:passive-radiator": 1,
-          "temperatureK": 498.3397994081852,
+          "temperatureK": 489.595823336213,
           "thermalStopped:builtin:cargo": 0,
           "thermalStopped:builtin:electric-heater": 0,
           "thermalStopped:fit:march": 0,
@@ -16851,21 +16851,21 @@
           "thermalStopped:fit:turn": 0,
           "thermalStopped:structural-buffer": 0,
           "tiCoolingW": 0,
-          "totalResidualJ": 0,
+          "totalResidualJ": -2.3283064365386963e-10,
           "usefulWorkW": 1500300
         },
         "signatures": {
           "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 30,
-            "intrinsicIrW": 3111027.794806272,
-            "contrastIrW": 3005403.115037292,
-            "receiverIrW": 3005403.115037292,
+            "intrinsicIrW": 2898213.4008498834,
+            "contrastIrW": 2799480.332421707,
+            "receiverIrW": 2799480.332421707,
             "rawEmW": 137.6,
             "escapedEmW": 137.6,
             "capturedEmW": 0,
             "observedEmW": 137.6,
-            "irFluxWm2": 0.0009342280502772758,
+            "irFluxWm2": 0.0008702170566278458,
             "emFluxWm2": 4.277289095594687e-8,
             "ownAntennaTransmission": 1,
             "ownSensorWorkingW": 0,
@@ -16873,9 +16873,9 @@
               {
                 "id": "body",
                 "kind": "body",
-                "absoluteIrW": 1596703.9263949206,
-                "contrastW": 1594115.683991368,
-                "projectedContrastW": 1594115.683991368,
+                "absoluteIrW": 1487479.0654049914,
+                "contrastW": 1484890.8230014388,
+                "projectedContrastW": 1484890.8230014388,
                 "temperatureK": null,
                 "profile": {
                   "version": "radiator-ir/1",
@@ -16886,10 +16886,10 @@
               {
                 "id": "hull:passive-radiator",
                 "kind": "radiator",
-                "absoluteIrW": 125931.29882838679,
-                "contrastW": 125727.16534930278,
-                "projectedContrastW": 25145.43306986055,
-                "temperatureK": 498.3734079276801,
+                "absoluteIrW": 117316.78465238186,
+                "contrastW": 117112.65117329785,
+                "projectedContrastW": 23422.530234659567,
+                "temperatureK": 489.62262568761554,
                 "profile": {
                   "version": "radiator-ir/1",
                   "kind": "aft-directed",
@@ -16899,10 +16899,10 @@
               {
                 "id": "fit:signature-1:panel",
                 "kind": "radiator",
-                "absoluteIrW": 1388392.5695829643,
-                "contrastW": 1386141.9979760633,
-                "projectedContrastW": 1386141.9979760633,
-                "temperatureK": 498.3734079276801,
+                "absoluteIrW": 1293417.55079251,
+                "contrastW": 1291166.979185609,
+                "projectedContrastW": 1291166.979185609,
+                "temperatureK": 489.62262568761554,
                 "profile": {
                   "version": "radiator-ir/1",
                   "kind": "omnidirectional",
@@ -16967,9 +16967,9 @@
             "durationSeconds": 30,
             "completedThroughSeconds": 30,
             "receiverIrW": {
-              "integralJ": 90534561.23046447,
-              "meanW": 3017818.707682149,
-              "minW": 3005403.115037292,
+              "integralJ": 86041521.28964029,
+              "meanW": 2868050.7096546763,
+              "minW": 2799480.332421707,
               "maxW": 3044895.8007127605
             },
             "observedEmW": {
@@ -16985,6 +16985,86 @@
             "timeSeconds": 0,
             "kind": "phase",
             "message": "work · work"
+          },
+          {
+            "timeSeconds": 1,
+            "kind": "buffer-recovery-start",
+            "message": "structural-buffer: buffer-recovery-start (20000000 J)"
+          },
+          {
+            "timeSeconds": 16,
+            "kind": "recovery-not-releasing",
+            "message": "structural-buffer: recovery-not-releasing (298048934.54071134 J)"
+          },
+          {
+            "timeSeconds": 17,
+            "kind": "recovery-not-releasing",
+            "message": "structural-buffer: recovery-not-releasing (298048934.54071134 J)"
+          },
+          {
+            "timeSeconds": 18,
+            "kind": "recovery-not-releasing",
+            "message": "structural-buffer: recovery-not-releasing (298048934.54071134 J)"
+          },
+          {
+            "timeSeconds": 19,
+            "kind": "recovery-not-releasing",
+            "message": "structural-buffer: recovery-not-releasing (298048934.54071134 J)"
+          },
+          {
+            "timeSeconds": 20,
+            "kind": "recovery-not-releasing",
+            "message": "structural-buffer: recovery-not-releasing (298048934.54071134 J)"
+          },
+          {
+            "timeSeconds": 21,
+            "kind": "recovery-not-releasing",
+            "message": "structural-buffer: recovery-not-releasing (298048934.54071134 J)"
+          },
+          {
+            "timeSeconds": 22,
+            "kind": "recovery-not-releasing",
+            "message": "structural-buffer: recovery-not-releasing (298048934.54071134 J)"
+          },
+          {
+            "timeSeconds": 23,
+            "kind": "recovery-not-releasing",
+            "message": "structural-buffer: recovery-not-releasing (298048934.54071134 J)"
+          },
+          {
+            "timeSeconds": 24,
+            "kind": "recovery-not-releasing",
+            "message": "structural-buffer: recovery-not-releasing (298048934.54071134 J)"
+          },
+          {
+            "timeSeconds": 25,
+            "kind": "recovery-not-releasing",
+            "message": "structural-buffer: recovery-not-releasing (298048934.54071134 J)"
+          },
+          {
+            "timeSeconds": 26,
+            "kind": "recovery-not-releasing",
+            "message": "structural-buffer: recovery-not-releasing (298048934.54071134 J)"
+          },
+          {
+            "timeSeconds": 27,
+            "kind": "recovery-not-releasing",
+            "message": "structural-buffer: recovery-not-releasing (298048934.54071134 J)"
+          },
+          {
+            "timeSeconds": 28,
+            "kind": "recovery-not-releasing",
+            "message": "structural-buffer: recovery-not-releasing (298048934.54071134 J)"
+          },
+          {
+            "timeSeconds": 29,
+            "kind": "recovery-not-releasing",
+            "message": "structural-buffer: recovery-not-releasing (298048934.54071134 J)"
+          },
+          {
+            "timeSeconds": 30,
+            "kind": "recovery-not-releasing",
+            "message": "structural-buffer: recovery-not-releasing (298048934.54071134 J)"
           }
         ],
         "retention": {
@@ -16996,12 +17076,12 @@
           "maxBuckets": 37617,
           "estimatedBytes": 107040,
           "maxBytes": 134217728,
-          "totalEvents": 1,
+          "totalEvents": 17,
           "droppedEvents": 0
         },
         "status": "complete"
       },
-      "fullResultSha256": "7a99063afb67c264ff5cf92a549ed3deb725b01f35fea508a66be30a0dc8fa66"
+      "fullResultSha256": "221df3753a6cfe54f511a7d322771e643acb14c44f7dd7456479949401e4d8da"
     },
     {
       "id": "surface-10-thermoinverter-S-battery",
@@ -22570,7 +22650,7 @@
           "phaseElapsedSeconds": 119,
           "mode": "Efficient",
           "maskingEntryTemperatureK": null,
-          "temperatureK": 436.5135527186685,
+          "temperatureK": 424.16944657338405,
           "chargeJ": 14703066666.66664,
           "fuelKg": {
             "diesel": 0,
@@ -22620,7 +22700,7 @@
               "thermalStopped": false
             },
             "builtin:shell-S": {
-              "durabilityR": 0.9998799999999967,
+              "durabilityR": 0.9998799999999965,
               "firstNegativeCrossing": false,
               "emergencyExposureSeconds": 0,
               "cooldownSeconds": 0,
@@ -22701,7 +22781,7 @@
               "thermalStopped": false
             },
             "fit:signature-1": {
-              "durabilityR": 0.9998799999999967,
+              "durabilityR": 0.9998799999999965,
               "firstNegativeCrossing": false,
               "emergencyExposureSeconds": 0,
               "cooldownSeconds": 0,
@@ -22719,7 +22799,7 @@
         },
         "metrics": {
           "usefulWorkJ": 0,
-          "totalResidualJ": 2.3283064365386963e-10,
+          "totalResidualJ": -1.1059455573558807e-7,
           "maximumTemperatureK": 450,
           "firstConstraint": "builtin:buffer-S: empty (0 J)"
         },
@@ -22774,13 +22854,13 @@
           "durabilityR:builtin:cargo": 1,
           "durabilityR:builtin:electric-heater": 1,
           "durabilityR:builtin:ram-S": 1,
-          "durabilityR:builtin:shell-S": 0.9998799999999967,
+          "durabilityR:builtin:shell-S": 0.9998799999999965,
           "durabilityR:fit:march": 1,
           "durabilityR:fit:payload-1": 1,
           "durabilityR:fit:power-1": 1,
           "durabilityR:fit:power-2": 1,
           "durabilityR:fit:retro": 1,
-          "durabilityR:fit:signature-1": 0.9998799999999967,
+          "durabilityR:fit:signature-1": 0.9998799999999965,
           "durabilityR:fit:strafe": 1,
           "durabilityR:fit:turn": 1,
           "durabilityStopped:builtin:buffer-S": 0,
@@ -22798,7 +22878,7 @@
           "durabilityStopped:fit:turn": 0,
           "engineIrExportW": 0,
           "escapedEmW": 1.7372,
-          "fieldW": 3464749.3963003787,
+          "fieldW": 5948421.858998158,
           "fuelKg:diesel": 0,
           "fuelKg:hydrogen": 0,
           "generatorW": 0,
@@ -22806,24 +22886,24 @@
           "hostHeatW": 224442.70724444443,
           "independentAcceptedW": 0,
           "intentionalRfW": 0,
-          "netHeatW": -3281407.8920864095,
-          "radiationW": 41101.20303047531,
+          "netHeatW": -5797303.600864776,
+          "radiationW": 73324.44911106267,
           "rawEmW": 8.686,
           "rejectedIndependentW": 0,
           "requestedW": 202000,
           "signal:capturedEmW": 6.9488,
-          "signal:contrastIrW": 41101.20303047531,
+          "signal:contrastIrW": 73324.44911106267,
           "signal:emFluxWm2": 5.400077483188293e-10,
           "signal:escapedEmW": 1.7372,
-          "signal:intrinsicIrW": 41214.61051885531,
-          "signal:irFluxWm2": 0.00001277628833852292,
+          "signal:intrinsicIrW": 73551.26408782267,
+          "signal:irFluxWm2": 0.00002279286821389796,
           "signal:observedEmW": 1.7372,
           "signal:ownAntennaTransmission": 0.8,
           "signal:ownSensorWorkingW": 0,
           "signal:rawEmW": 8.686,
-          "signal:receiverIrW": 41101.20303047531,
+          "signal:receiverIrW": 73324.44911106267,
           "signal:timeSeconds": 120,
-          "temperatureK": 436.5135527186685,
+          "temperatureK": 424.16944657338405,
           "thermalStopped:builtin:buffer-S": 0,
           "thermalStopped:builtin:cargo": 0,
           "thermalStopped:builtin:electric-heater": 0,
@@ -22838,21 +22918,21 @@
           "thermalStopped:fit:strafe": 0,
           "thermalStopped:fit:turn": 0,
           "tiCoolingW": 0,
-          "totalResidualJ": 0,
+          "totalResidualJ": -9.313225746154785e-10,
           "usefulWorkW": 0
         },
         "signatures": {
           "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 120,
-            "intrinsicIrW": 41214.61051885531,
-            "contrastIrW": 41101.20303047531,
-            "receiverIrW": 41101.20303047531,
+            "intrinsicIrW": 73551.26408782267,
+            "contrastIrW": 73324.44911106267,
+            "receiverIrW": 73324.44911106267,
             "rawEmW": 8.686,
             "escapedEmW": 1.7372,
             "capturedEmW": 6.9488,
             "observedEmW": 1.7372,
-            "irFluxWm2": 0.00001277628833852292,
+            "irFluxWm2": 0.00002279286821389796,
             "emFluxWm2": 5.400077483188293e-10,
             "ownAntennaTransmission": 0.8,
             "ownSensorWorkingW": 0,
@@ -22860,9 +22940,9 @@
               {
                 "id": "body",
                 "kind": "body",
-                "absoluteIrW": 41214.61051885531,
-                "contrastW": 41101.20303047531,
-                "projectedContrastW": 41101.20303047531,
+                "absoluteIrW": 73551.26408782267,
+                "contrastW": 73324.44911106267,
+                "projectedContrastW": 73324.44911106267,
                 "temperatureK": null,
                 "profile": {
                   "version": "radiator-ir/1",
@@ -22915,10 +22995,10 @@
             "durationSeconds": 120,
             "completedThroughSeconds": 120,
             "receiverIrW": {
-              "integralJ": 5240372.757621758,
-              "meanW": 43669.77298018131,
-              "minW": 41101.20303047531,
-              "maxW": 46390.750715443755
+              "integralJ": 9839388.630495053,
+              "meanW": 81994.90525412544,
+              "minW": 46390.750715443755,
+              "maxW": 92781.50143080288
             },
             "observedEmW": {
               "integralJ": 208.46400000000014,
@@ -22950,12 +23030,17 @@
             "message": "Masking → Efficient"
           },
           {
-            "timeSeconds": 1.3082333789798544,
+            "timeSeconds": 1,
+            "kind": "buffer-recovery-start",
+            "message": "builtin:buffer-S: buffer-recovery-start (1178051.9597232342 J)"
+          },
+          {
+            "timeSeconds": 1.1497205433750364,
             "kind": "buffer-empty",
             "message": "builtin:buffer-S: buffer-empty"
           },
           {
-            "timeSeconds": 1.3082333789798544,
+            "timeSeconds": 1.1497205433750364,
             "kind": "empty",
             "message": "builtin:buffer-S: empty (0 J)"
           }
@@ -22969,12 +23054,12 @@
           "maxBuckets": 35246,
           "estimatedBytes": 456960,
           "maxBytes": 134217728,
-          "totalEvents": 6,
+          "totalEvents": 7,
           "droppedEvents": 0
         },
         "status": "complete"
       },
-      "fullResultSha256": "6acc4203d6c7da4180c3199123374c0fcf91b84c7224d9183ea2d8add2877d1b"
+      "fullResultSha256": "c27e83727c2cf264db35b01056ce3760ea070bfa91843d02e14937be26dab35e"
     },
     {
       "id": "buffer-recovery-hot",
@@ -23041,7 +23126,7 @@
           "phaseElapsedSeconds": 119,
           "mode": "Efficient",
           "maskingEntryTemperatureK": null,
-          "temperatureK": 478.9249442174088,
+          "temperatureK": 489.99999999989996,
           "chargeJ": 14703066666.66664,
           "fuelKg": {
             "diesel": 0,
@@ -23049,12 +23134,12 @@
           },
           "buffers": {
             "builtin:buffer-S": {
-              "storedJ": 1178051.9597232342,
+              "storedJ": 423218068.45255196,
               "minimumCaptureK": 449.9999999998976
             }
           },
           "governor": {
-            "coolingStageId": null,
+            "coolingStageId": "buffer-absorb",
             "heatingStageId": null,
             "recoveringBuffer": true
           },
@@ -23190,8 +23275,8 @@
         },
         "metrics": {
           "usefulWorkJ": 0,
-          "totalResidualJ": -1.1059455573558807e-7,
-          "maximumTemperatureK": 478.9249442174088,
+          "totalResidualJ": 2.3283064365386963e-10,
+          "maximumTemperatureK": 490.4133013231544,
           "firstConstraint": null
         },
         "lastTelemetry": {
@@ -23221,8 +23306,8 @@
           "actualW:fit:signature-1": 1000,
           "actualW:fit:strafe": 0,
           "actualW:fit:turn": 0,
-          "bufferCaptureW": 0,
-          "bufferJ:builtin:buffer-S": 1178051.9597232342,
+          "bufferCaptureW": 18633286.88312322,
+          "bufferJ:builtin:buffer-S": 423218068.45255196,
           "bufferReleaseW": 0,
           "capturedEmW": 6.9488,
           "chargeJ": 14703066666.66664,
@@ -23269,7 +23354,7 @@
           "durabilityStopped:fit:turn": 0,
           "engineIrExportW": 0,
           "escapedEmW": 1.7372,
-          "fieldW": -6851999.147243014,
+          "fieldW": -12785244.07875147,
           "fuelKg:diesel": 0,
           "fuelKg:hydrogen": 0,
           "generatorW": 0,
@@ -23277,24 +23362,24 @@
           "hostHeatW": 224442.70724444443,
           "independentAcceptedW": 0,
           "intentionalRfW": 0,
-          "netHeatW": 7017003.376044601,
-          "radiationW": 59438.47844285725,
+          "netHeatW": -5754324.59142503,
+          "radiationW": 130724.49429772576,
           "rawEmW": 8.686,
           "rejectedIndependentW": 0,
           "requestedW": 202000,
           "signal:capturedEmW": 6.9488,
-          "signal:contrastIrW": 59438.47844285725,
+          "signal:contrastIrW": 130724.49429772576,
           "signal:emFluxWm2": 5.400077483188293e-10,
           "signal:escapedEmW": 1.7372,
-          "signal:intrinsicIrW": 59551.88593123725,
-          "signal:irFluxWm2": 0.00001847642119930038,
+          "signal:intrinsicIrW": 130951.30927448576,
+          "signal:irFluxWm2": 0.00004063564345834246,
           "signal:observedEmW": 1.7372,
           "signal:ownAntennaTransmission": 0.8,
           "signal:ownSensorWorkingW": 0,
           "signal:rawEmW": 8.686,
-          "signal:receiverIrW": 59438.47844285725,
+          "signal:receiverIrW": 130724.49429772576,
           "signal:timeSeconds": 120,
-          "temperatureK": 478.9249442174088,
+          "temperatureK": 489.99999999989996,
           "thermalStopped:builtin:buffer-S": 0,
           "thermalStopped:builtin:cargo": 0,
           "thermalStopped:builtin:electric-heater": 0,
@@ -23309,21 +23394,21 @@
           "thermalStopped:fit:strafe": 0,
           "thermalStopped:fit:turn": 0,
           "tiCoolingW": 0,
-          "totalResidualJ": -9.313225746154785e-10,
+          "totalResidualJ": 0,
           "usefulWorkW": 0
         },
         "signatures": {
           "version": "ship-signatures/2",
           "last": {
             "timeSeconds": 120,
-            "intrinsicIrW": 59551.88593123725,
-            "contrastIrW": 59438.47844285725,
-            "receiverIrW": 59438.47844285725,
+            "intrinsicIrW": 130951.30927448576,
+            "contrastIrW": 130724.49429772576,
+            "receiverIrW": 130724.49429772576,
             "rawEmW": 8.686,
             "escapedEmW": 1.7372,
             "capturedEmW": 6.9488,
             "observedEmW": 1.7372,
-            "irFluxWm2": 0.00001847642119930038,
+            "irFluxWm2": 0.00004063564345834246,
             "emFluxWm2": 5.400077483188293e-10,
             "ownAntennaTransmission": 0.8,
             "ownSensorWorkingW": 0,
@@ -23331,9 +23416,9 @@
               {
                 "id": "body",
                 "kind": "body",
-                "absoluteIrW": 59551.88593123725,
-                "contrastW": 59438.47844285725,
-                "projectedContrastW": 59438.47844285725,
+                "absoluteIrW": 130951.30927448576,
+                "contrastW": 130724.49429772576,
+                "projectedContrastW": 130724.49429772576,
                 "temperatureK": null,
                 "profile": {
                   "version": "radiator-ir/1",
@@ -23386,10 +23471,10 @@
             "durationSeconds": 120,
             "completedThroughSeconds": 120,
             "receiverIrW": {
-              "integralJ": 6339106.959935546,
-              "meanW": 52825.891332796215,
-              "minW": 46390.75071540144,
-              "maxW": 59438.47844285725
+              "integralJ": 13931322.125126086,
+              "meanW": 116094.35104271739,
+              "minW": 46390.750715443755,
+              "maxW": 130969.21444732817
             },
             "observedEmW": {
               "integralJ": 208.46400000000014,
@@ -23421,599 +23506,494 @@
             "message": "Masking → Efficient"
           },
           {
+            "timeSeconds": 1,
+            "kind": "buffer-recovery-start",
+            "message": "builtin:buffer-S: buffer-recovery-start (1178051.9597232342 J)"
+          },
+          {
             "timeSeconds": 2,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "no-cooling-headroom",
+            "message": "builtin:buffer-S: no-cooling-headroom (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 3,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 4,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 5,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 6,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 7,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 8,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 9,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 10,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 11,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 12,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 13,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 14,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 15,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 16,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 17,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 18,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 19,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 20,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 21,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 22,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 23,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 24,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 25,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 26,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 27,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 28,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 29,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 30,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 31,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 32,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 33,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 34,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 35,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 36,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 37,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 38,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 39,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 40,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 41,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 42,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 43,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 44,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 45,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 46,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 47,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 48,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 49,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 50,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 51,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 52,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 53,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 54,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 55,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 56,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 57,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 58,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 59,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 60,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 61,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 62,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 63,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 64,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 65,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 66,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 67,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 68,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 69,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 70,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 71,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 72,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 73,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 74,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 75,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 76,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 77,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 78,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 79,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 80,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 81,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 82,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 83,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 84,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 85,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 86,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 87,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 88,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 89,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 90,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (1178051.9597232342 J)"
           },
           {
             "timeSeconds": 91,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 92,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 93,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (36885199.64925945 J)"
           },
           {
             "timeSeconds": 94,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 95,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 96,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (75518486.52772605 J)"
           },
           {
             "timeSeconds": 97,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 98,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 99,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (114151773.41084927 J)"
           },
           {
             "timeSeconds": 100,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 101,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 102,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (152785060.28931588 J)"
           },
           {
             "timeSeconds": 103,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 104,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 105,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (191418347.1677825 J)"
           },
           {
             "timeSeconds": 106,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 107,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 108,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (230051634.0509057 J)"
           },
           {
             "timeSeconds": 109,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 110,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 111,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (268684920.9293723 J)"
           },
           {
             "timeSeconds": 112,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 113,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 114,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (307318207.8124955 J)"
           },
           {
             "timeSeconds": 115,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 116,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 117,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (345951494.69096214 J)"
           },
           {
             "timeSeconds": 118,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 119,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
-          },
-          {
-            "timeSeconds": 120,
-            "kind": "hotter-than-capture",
-            "message": "builtin:buffer-S: hotter-than-capture (1178051.9597232342 J)"
+            "kind": "recovery-not-releasing",
+            "message": "builtin:buffer-S: recovery-not-releasing (384584781.56942874 J)"
           }
         ],
         "retention": {
@@ -24025,12 +24005,12 @@
           "maxBuckets": 35246,
           "estimatedBytes": 456960,
           "maxBytes": 134217728,
-          "totalEvents": 123,
+          "totalEvents": 102,
           "droppedEvents": 0
         },
         "status": "complete"
       },
-      "fullResultSha256": "358ae1c3f82c8d13b111169a25a14a7678eb45096590844edb2bcfe64d71a058"
+      "fullResultSha256": "749254a56a156ecbc9dcb5429094835932ebe611de9862fe5e15bedb8881cba9"
     }
   ]
 }
