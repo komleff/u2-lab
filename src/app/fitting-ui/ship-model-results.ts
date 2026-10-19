@@ -30,7 +30,11 @@ function moduleCosts(r:RunResultV3){
 function bufferRecovery(r:RunResultV3){
   return Object.entries(r.state.buffers).map(([id,b])=>{
     const events=r.events.filter(e=>e.message.startsWith(id+': '));
-    const empty=events.findLast(e=>e.kind==='buffer-empty'),start=empty?events.findLast(e=>e.kind==='buffer-recovery-start'&&e.timeSeconds<=empty.timeSeconds):undefined;
+    const emptyIndex=events.findLastIndex(e=>e.kind==='buffer-empty'),empty=emptyIndex<0?undefined:events[emptyIndex];
+    const previousEmptyIndex=events.findLastIndex((e,index)=>index<emptyIndex&&e.kind==='buffer-empty');
+    // Общий recovery может продолжаться из-за другого буфера. После прошлого
+    // empty этот буфер обязан иметь своё новое начало; старое относится к иному циклу.
+    const start=empty?events.findLast((e,index)=>index>previousEmptyIndex&&index<emptyIndex&&e.kind==='buffer-recovery-start'&&e.timeSeconds<=empty.timeSeconds):undefined;
     const cause=events.findLast(e=>['no-cooling-headroom','hotter-than-capture','recovery-not-releasing','power-limit'].includes(e.kind));
     // Prefix и ring tail могут принадлежать разным циклам. При потере событий
     // нельзя доказать, что найденное начало относится к последнему опустошению.

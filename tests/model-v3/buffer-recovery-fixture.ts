@@ -21,3 +21,17 @@ export function civilianRecoveryFixture(){
   const made=makeShipModelMiningRun(f,c,{durationSeconds:1200,temperatureK:495,backgroundK:250,action:'work'});
   if(!made.ok)throw Error(JSON.stringify(made.errors));return made.value;
 }
+// CR-WI1-B1: законная сборка, новый пик после первого опустошения A.
+// Второй буфер сохраняет общий recoveringBuffer между двумя циклами A.
+export function repeatedBufferRecoveryFixture(twoBuffers=true,durationSeconds=20000){
+  const c=loadCandidateCatalog('ship-fitting-0.3.2'),f=getPresetFit('sputnik-d',c.version),a='fit:signature-1',b='fit:signature-2';
+  f.instances[a].itemId='buffer-S';
+  if(twoBuffers){f.assignments['signature-2']=b;f.instances[b]={id:b,itemId:'buffer-S',enabled:true};}
+  const made=makeShipModelMiningRun(f,c,{durationSeconds,temperatureK:400,backgroundK:250,action:'idle'});
+  if(!made.ok)throw Error(JSON.stringify(made.errors));const s=made.value;
+  s.initialState.buffers[a]={storedJ:1e4,minimumCaptureK:300};if(twoBuffers)s.initialState.buffers[b]={storedJ:1e9,minimumCaptureK:300};
+  const hot=structuredClone(s.environment);hot.directHeat=[{sourceId:'new-peak',powerW:s.resolvedShip.heatCapacityJK*100}];
+  s.scenario.phases=[{id:'first-release',action:'idle',durationSeconds:1,requests:{},environment:null},{id:'new-peak',action:'work',durationSeconds:2,requests:{},environment:hot},{id:'second-release',action:'idle',durationSeconds:durationSeconds-3,requests:{},environment:null}];
+  const annotate=(v:unknown,p='')=>{if(typeof v==='number')s.origins[p]={kind:'experimental',unit:'SI',sourceRef:'CR-WI1-B1 exact production repeated buffer recovery probe'};else if(v&&typeof v==='object')for(const[k,x]of Object.entries(v))if(!['origins','origin','resolvedShip'].includes(k))annotate(x,p?p+'.'+k:k);};annotate(s);
+  return s;
+}

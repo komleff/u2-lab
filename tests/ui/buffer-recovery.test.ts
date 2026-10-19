@@ -1,5 +1,7 @@
 import {expect,it} from 'vitest';
-import {civilianRecoveryFixture,stealthRecoveryFixture} from '../model-v3/buffer-recovery-fixture';
+import {civilianRecoveryFixture,stealthRecoveryFixture,repeatedBufferRecoveryFixture} from '../model-v3/buffer-recovery-fixture';
+import {serializeResultSnapshot} from '../../src/io/fitting-json';
+import {parseShipModelResultJson} from '../../src/io/ship-model-result';
 import {EventRetention} from '../../src/runner/retention';
 import {createShipModelRun,runShipModelChunk,shipModelResult} from '../../src/runner/ship-model-run';
 import {shipModelResults} from '../../src/app/fitting-ui/ship-model-results';
@@ -10,6 +12,20 @@ it('ST1-06 result reports actual full recovery interval from retained production
   expect(result.state.buffers['fit:signature-1'].storedJ).toBe(0);
   expect(result.events.some(e=>e.kind==='buffer-recovery-start')).toBe(true);
   expect(shipModelResults(result)).toMatch(/data-recovery-seconds="[0-9.]+"/);
+});
+for(const twoBuffers of [true,false])it(`CR-WI1-B1 production empty→recapture→empty ${twoBuffers?'with another continuing debt has no false cross-cycle interval':'with a fresh recovery start keeps the second measured interval'}`,()=>{
+  const spec=repeatedBufferRecoveryFixture(twoBuffers),run=createShipModelRun('b1-repeat',spec),a='fit:signature-1',b='fit:signature-2';
+  runShipModelChunk(run,1);expect(run.state.buffers[a].storedJ).toBe(0);const first=structuredClone(run.state.buffers);
+  runShipModelChunk(run,2);expect(run.state.buffers[a].storedJ).toBeGreaterThan(0);const recapture=structuredClone(run.state.buffers);
+  if(twoBuffers)expect(run.state.buffers[b].storedJ).toBeGreaterThan(0);
+  while(run.state.buffers[a].storedJ>0&&!run.done)runShipModelChunk(run,1);
+  const result=shipModelResult(run),events=result.events.filter(e=>e.message.startsWith(a+': ')),starts=events.filter(e=>e.kind==='buffer-recovery-start'),empties=events.filter(e=>e.kind==='buffer-empty');
+  expect(result.retention.droppedEvents).toBe(0);expect(result.state.buffers[a].storedJ).toBe(0);expect(empties).toHaveLength(2);expect(Math.abs(result.metrics.totalResidualJ)).toBeLessThan(1);
+  const literal=serializeResultSnapshot(result),parsed=parseShipModelResultJson(literal);expect(parsed.ok).toBe(true);if(!parsed.ok)return;expect(serializeResultSnapshot(parsed.value)).toBe(literal);
+  const html=shipModelResults(parsed.value),row=html.match(new RegExp('<p data-buffer-id="'+a+'">.*?</p>'))![0];
+  console.log('WI1_B1_PROBE',JSON.stringify({twoBuffers,first,recapture,ticks:run.state.timeSeconds,events:events.filter(e=>['buffer-recovery-start','buffer-empty'].includes(e.kind)),dropped:result.retention.droppedEvents,row,residual:result.metrics.totalResidualJ}));
+  if(twoBuffers){expect(starts).toHaveLength(1);expect(result.state.buffers[b].storedJ).toBeGreaterThan(0);expect(/data-recovery-seconds=/.test(row)).toBe(false);expect(row.includes('длительность восстановления в сохранённых событиях отсутствует')).toBe(true);}
+  else{expect(starts).toHaveLength(2);expect(starts[1].timeSeconds).toBeGreaterThan(empties[0].timeSeconds);expect(row.includes(`data-recovery-seconds="${empties[1].timeSeconds-starts[1].timeSeconds}"`)).toBe(true);}
 });
 it('ST1-06 truncated two-cycle event history cannot pair a retained old start with a newer empty',()=>{
   const s=civilianRecoveryFixture(),run=createShipModelRun('truncated',s),result=shipModelResult(run,'paused'),history=new EventRetention(),id='fit:signature-1';
