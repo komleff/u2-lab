@@ -23,11 +23,15 @@ type PhaseAction=RunSpecV3['scenario']['phases'][number]['action'];
 
 function flows(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,c:Controls,env:EnvironmentV3){
   const ship=spec.resolvedShip,T=state.temperatureK;
+  // Профиль школы уже вычислен при компиляции: подменяются только КПД, тяга и собственные нужды.
+  // Без профиля — исходный объект numerics и прежняя hullPowerW.
+  const school=ship.school,hullPowerW=school?.hullPowerW??ship.hull.hullPowerW;
+  const numerics=(i:typeof ship.instances[number])=>school?.numerics[i.id]?{...i.item.numerics,...school.numerics[i.id]}:i.item.numerics;
   const availability=Object.fromEntries(ship.instances.map(i=>[i.id,i.enabled?thermalAvailability(i.item,state.modules[i.id],T,ship.hull.class,state.mode).factor:0]));
   const duty=Object.fromEntries(ship.instances.map(i=>[i.id,authorizedDuty(i.item,state.mode,requests[i.id]??(['sensor','shielding','shell'].includes(i.item.family)?1:0)).duty*availability[i.id]]));
   const consumers=ship.instances.filter(i=>['mining','engine','sensor','shielding','shell','gyrodyne','radar','transmitter'].includes(i.item.family));
   const electricalConsumers=consumers.filter(i=>i.item.family!=='engine'||i.item.propulsionType==='electric');
-  const baseLoad=ship.hull.hullPowerW+electricalConsumers.reduce((n,i)=>n+(i.item.numerics.powerW??0)*duty[i.id],0);
+  const baseLoad=hullPowerW+electricalConsumers.reduce((n,i)=>n+(i.item.numerics.powerW??0)*duty[i.id],0);
   const solar=ship.instances.filter(i=>i.item.family==='solar').map(i=>({i,powerW:env.solarFluxWm2*i.item.numerics.areaM2*i.item.numerics.efficiency*availability[i.id]}));
   const solarW=solar.reduce((n,x)=>n+x.powerW,0),externalW=env.energyInputs.filter(x=>x.representation==='electric').reduce((n,x)=>n+x.powerW,0),independentSupplyW=solarW+externalW;
   const generators=ship.instances.filter(i=>i.item.family==='generator'&&state.fuelKg[i.item.species!]>0);
@@ -49,7 +53,7 @@ function flows(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,c:Con
     const surfaces=ship.surfaces.filter(s=>(s.circuitOwner.kind==='common-ti'?'common-ti':s.circuitOwner.instanceId)===owner&&open[s.id]).map(s=>({...s,areaM2:s.areaM2*panelDuty(s.id)}));
     // Несколько common TI делят один circuit: только первый установленный владеет им.
     if(i.item.family==='thermoinverter'&&pumps.find(p=>p.item.family==='thermoinverter')!==i)return {i,owner,result:solveThermoinverter({...n,temperatureK:T,backgroundK:env.radiativeBackgroundK,field:env.thermalField,surfaces:[],maximumBusPowerW:0,maximumCoolingW:0,copEfficiency:n.copEfficiency,driveEfficiency:n.driveEfficiency,evaporatorConductanceWPerK:n.evaporatorConductanceWPerK,condenserConductanceWPerK:n.condenserConductanceWPerK,maximumHotK:n.maximumHotK,requestedCoolingW:0,sourceHeatPerBusW:0})};
-    const sourceHeatPerBusW=generatorMaximumW>0?generators.reduce((sum,g)=>{const p=g.item.numerics;return sum+p.powerW*availability[g.id]/generatorMaximumW*((1/p.pathEfficiency-1)+(1/p.efficiency-1)*(1-p.exportFraction)/p.pathEfficiency);},0):1/CONTROLLER_CANDIDATES.dischargeEfficiency-1;
+    const sourceHeatPerBusW=generatorMaximumW>0?generators.reduce((sum,g)=>{const p=numerics(g);return sum+p.powerW*availability[g.id]/generatorMaximumW*((1/p.pathEfficiency-1)+(1/p.efficiency-1)*(1-p.exportFraction)/p.pathEfficiency);},0):1/CONTROLLER_CANDIDATES.dischargeEfficiency-1;
     const result=solveThermoinverter({temperatureK:T,backgroundK:env.radiativeBackgroundK,field:env.thermalField,surfaces,maximumBusPowerW:n.maximumBusPowerW*availability[i.id]*fraction,maximumCoolingW:n.maximumCoolingW*availability[i.id],copEfficiency:n.copEfficiency,driveEfficiency:n.driveEfficiency,evaporatorConductanceWPerK:n.evaporatorConductanceWPerK,condenserConductanceWPerK:n.condenserConductanceWPerK,maximumHotK:Math.min(n.maximumHotK,i.item.gate.high),requestedCoolingW:n.maximumCoolingW*availability[i.id]*c.ti,sourceHeatPerBusW});
     return {i,owner,result};
   });
@@ -63,13 +67,13 @@ function flows(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,c:Con
   // Delivered budget уже ограничен температурой источника. Повторный ledger
   // снимает только фактический оплаченный запрос, не derate его второй раз.
   const el=electrical(baseLoad*fraction+fixedAux+tiBus,1);
-  const stages:ActualElectricalStage[]=[{id:'hull',kind:'consumer_input',actualW:ship.hull.hullPowerW*fraction},{id:'battery-in',kind:'battery_charge',actualW:el.batteryInputW},{id:'battery-out',kind:'battery_discharge',actualW:el.batteryOutputW}];
-  let hostLossBudgetW=ship.hull.hullPowerW*fraction+el.converterLossW,usefulWorkW=0,exportW=0,chemicalW=0,intentionalRfW=0;
+  const stages:ActualElectricalStage[]=[{id:'hull',kind:'consumer_input',actualW:hullPowerW*fraction},{id:'battery-in',kind:'battery_charge',actualW:el.batteryInputW},{id:'battery-out',kind:'battery_discharge',actualW:el.batteryOutputW}];
+  let hostLossBudgetW=hullPowerW*fraction+el.converterLossW,usefulWorkW=0,exportW=0,chemicalW=0,intentionalRfW=0;
   const fuelRate={diesel:0,hydrogen:0},actualW:Record<string,number>={},working:Record<string,number>={},outwardIr:OutwardIrPath[]=[];let engineIrExportW=0;
-  for(const i of generators){const n=i.item.numerics,bus=generatorMaximumW>0?el.generatorW*n.powerW*availability[i.id]/generatorMaximumW:0,chem=bus/n.pathEfficiency/n.efficiency,waste=chem-bus/n.pathEfficiency;
+  for(const i of generators){const n=numerics(i),bus=generatorMaximumW>0?el.generatorW*n.powerW*availability[i.id]/generatorMaximumW:0,chem=bus/n.pathEfficiency/n.efficiency,waste=chem-bus/n.pathEfficiency;
     chemicalW+=chem;fuelRate[i.item.species!]+=chem/ship.resources[i.item.species!].energyJKg;exportW+=waste*n.exportFraction;hostLossBudgetW+=bus*(1/n.pathEfficiency-1)+waste*(1-n.exportFraction);actualW[i.id]=bus;working[i.id]=bus/n.powerW;stages.push({id:i.id,kind:'generator_output',actualW:bus});
     const ir=generatorIr(i.item.species!,waste*n.exportFraction);outwardIr.push({id:i.id,kind:'generator',absoluteIrW:ir,contrastW:ir,profile:'aft-directed'});}
-  for(const i of consumers){const n=i.item.numerics;
+  for(const i of consumers){const n=numerics(i);
     if(i.item.family==='engine'&&i.item.propulsionType!=='electric'){
       const sp=i.item.propulsionType as 'diesel'|'hydrogen',mass=state.fuelKg[sp]>0?n.forceN*n.alpha*duty[i.id]:0,chem=mass*ship.resources[sp].energyJKg,useful=chem*n.efficiency*n.pathEfficiency,waste=chem-useful;
       chemicalW+=chem;fuelRate[sp]+=mass;exportW+=useful+waste*(1-n.hostFraction);hostLossBudgetW+=waste*n.hostFraction;actualW[i.id]=chem;working[i.id]=mass>0?duty[i.id]:0;
@@ -94,7 +98,7 @@ function flows(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,c:Con
   const acceptedFraction=independentSupplyW>0?el.independentAcceptedW/independentSupplyW:0;
   const solarHeatW=solar.reduce((n,s)=>n+s.powerW*acceptedFraction*(1/s.i.item.numerics.efficiency-1),0);hostLossBudgetW+=solarHeatW;
   const shields=ship.instances.filter(i=>i.item.family==='shielding'&&availability[i.id]>0&&fraction>0).map(i=>i.item.numerics.emTransmission);
-  const em=coupledEm(stages,hostLossBudgetW,shields,intentionalRfW);
+  const em=coupledEm(stages,hostLossBudgetW,shields,intentionalRfW,school?.emLeakageFactor);
   const shellFraction=ship.instances.filter(i=>i.item.family==='shell'&&availability[i.id]>0&&fraction>0).reduce((n,i)=>Math.min(1,n+i.item.numerics.managedBodyFraction),0);
   const body=exchangeAt(ship.hull.bodyExchangeAreaM2*(1-shellFraction),ship.hull.bodyEmissivity,T,env.radiativeBackgroundK,env.thermalField);
   const circuitTemperatures=Object.fromEntries(actualPumps.filter(p=>p.result.running).map(p=>[p.owner,p.result.hotK]));
