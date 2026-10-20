@@ -202,7 +202,7 @@ it.each(['receiverIrW','observedEmW'] as const)('I4-R1 explicit cross-field tole
   saved.signatures.statistics[name]={integralJ:last*(1-2e-9),meanW:last*(1-2e-9),minW:0,maxW:last*(1-2e-9)};expect(validateShipModelResult(saved).ok).toBe(false);
 });
 it('I4-R1 IR clipping forbids neither IR min above compatible last nor lifetime mean different from last',()=>{
-  const saved=cp04Paused();saved.spec.receiverProfile='absolute-contrast';if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');const last=saved.signatures.last!.receiverIrW;
+  const saved=cp04Paused();saved.spec.receiverProfile='absolute-contrast';if(saved.referenceMeasurements)saved.referenceMeasurements.receiverProfile='absolute-contrast';if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');const last=saved.signatures.last!.receiverIrW;
   // Exact: average(abs(frame contrast)); compatible: abs(average contrast).
   saved.signatures.statistics.receiverIrW={integralJ:last*2,meanW:last*2,minW:last*1.5,maxW:last*3};expect(validateShipModelResult(saved).ok).toBe(true);
 });

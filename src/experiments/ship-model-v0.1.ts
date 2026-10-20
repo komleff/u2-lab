@@ -48,10 +48,10 @@ export function buildExperimentalCases():Case[]{
 }
 export function executeExperiments(){return buildExperimentalCases().map(c=>{
   const run=createShipModelRun(c.id,c.spec);runShipModelChunk(run,c.spec.durationSeconds);const result=shipModelResult(run);
-  return {id:c.id,input:c.input,measured:{state:result.state,metrics:result.metrics,lastTelemetry:result.checkpoint.lastTelemetry,signatures:result.signatures,events:result.events,retention:result.retention,status:result.status},fullResultSha256:hash(serializeResultSnapshot(result))};
+  return {id:c.id,input:c.input,measured:{state:result.state,metrics:result.metrics,lastTelemetry:result.checkpoint.lastTelemetry,signatures:result.signatures,events:result.events,retention:result.retention,status:result.status},referenceMeasurements:result.referenceMeasurements,fullResultSha256:hash(serializeResultSnapshot(result))};
 });}
 export function experimentFingerprints(){
-  const files=[...readdirSync('src/model/v3').filter(n=>n.endsWith('.ts')).map(n=>'src/model/v3/'+n),'src/runner/ship-model-run.ts','src/runner/ship-model-telemetry.ts','src/signatures/ship-model.ts','src/signatures/sources.ts','src/scenarios/fitting.ts','src/io/ship-model-result.ts','src/experiments/ship-model-v0.1.ts','data/experiments/ship-model-v0.1-generations.json',...['items','hulls','presets'].map(n=>'src/fitting/data/'+n+'-0.3.0.json')].sort();
+  const files=[...readdirSync('src/model/v3').filter(n=>n.endsWith('.ts')).map(n=>'src/model/v3/'+n),'src/runner/ship-model-run.ts','src/runner/ship-model-telemetry.ts','src/signatures/ship-model.ts','src/signatures/ship-reference.ts','src/signatures/sources.ts','src/scenarios/fitting.ts','src/io/ship-model-result.ts','src/experiments/ship-model-v0.1.ts','data/experiments/ship-model-v0.1-generations.json',...['items','hulls','presets'].map(n=>'src/fitting/data/'+n+'-0.3.0.json')].sort();
   return Object.fromEntries(files.map(path=>[path,hash(readFileSync(path,'utf8'))]));
 }
 function isolatedStockSpec(){

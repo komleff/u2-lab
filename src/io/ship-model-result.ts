@@ -2,15 +2,17 @@ import type {ValidationResult} from '../catalog/schema';
 import type {RunResultV3} from '../runner/ship-model-run';
 import {validateRunSpecV3,validateStateV3} from '../model/v3/schema';
 import {exactFields} from '../signatures/config';
+import {validateShipReferences} from '../signatures/ship-reference';
 const object=(x:unknown):x is Record<string,any>=>!!x&&typeof x==='object'&&!Array.isArray(x);
 const finite=(x:unknown):x is number=>typeof x==='number'&&Number.isFinite(x);
 const integer=(x:unknown):x is number=>finite(x)&&Number.isSafeInteger(x)&&x>=0;
 export function validateShipModelResult(input:unknown):ValidationResult<RunResultV3>{
   const errors:{path:string;code:string;message:string}[]=[],bad=(path:string,message:string)=>errors.push({path,code:'SHIP_RESULT',message});
   try{
-    const r=structuredClone(input);if(!object(r))throw Error('Нужен объект результата');exactFields(r,['runId','spec','state','metrics','signatures','channels','buckets','events','retention','status','checkpoint'],'ship result');
+    const r=structuredClone(input);if(!object(r))throw Error('Нужен объект результата');exactFields(r,['runId','spec','state','metrics','signatures','channels','buckets','events','retention','status','checkpoint',...(Object.hasOwn(r,'referenceMeasurements')?['referenceMeasurements']:[])],'ship result');
     const spec=validateRunSpecV3(r.spec);if(!spec.ok)return spec as ValidationResult<RunResultV3>;
     const state=validateStateV3(r.state,spec.value.resolvedShip);if(!state.ok)return state as ValidationResult<RunResultV3>;
+    if(Object.hasOwn(r,'referenceMeasurements'))validateShipReferences(r.referenceMeasurements,spec.value,state.value.timeSeconds);
     if(typeof r.runId!=='string'||!r.runId)bad('runId','Нужен ID опыта');
     if(!['complete','paused','cancelled'].includes(r.status))bad('status','Неизвестный status');
     if(state.value.timeSeconds<spec.value.initialState.timeSeconds||state.value.timeSeconds>spec.value.durationSeconds||r.status==='complete'&&state.value.timeSeconds!==spec.value.durationSeconds)bad('state.timeSeconds','Время результата вне собственного горизонта');

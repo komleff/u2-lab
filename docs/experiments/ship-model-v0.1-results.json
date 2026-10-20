@@ -4,27 +4,28 @@
   "serverParity": "NOT RUN",
   "fingerprints": {
     "data/experiments/ship-model-v0.1-generations.json": "af90a881c647895fda6f3af1667320809cce8dd76d89e4e216d47bf46f462c44",
-    "src/experiments/ship-model-v0.1.ts": "79edec708b2489787285fd3feb403b15058eff8d7b4eb49a89114aec013eed45",
+    "src/experiments/ship-model-v0.1.ts": "9b12c3ffac874d9583ff0c977525814aa3c9b85c33f3632c8a7ba6337773f294",
     "src/fitting/data/hulls-0.3.0.json": "fe92013798eb3ac38d83978ed3b87736d5be6b5910a29734eae63878cce3784e",
     "src/fitting/data/items-0.3.0.json": "bdb3d20067e0abdc54e19a469f5e1a33cf386b2453024d982409c869550d1f33",
     "src/fitting/data/presets-0.3.0.json": "3b313105efdd5f11d7c451245edf603ce2ef8838c944be51e816d573310e78c3",
-    "src/io/ship-model-result.ts": "f90354be590f50230bf5c4785ef09055a6438fbf5c12a95832c7b5f97bfaa8bc",
+    "src/io/ship-model-result.ts": "2aac446a012199ce7aded8365c28d13a493e17200ee965c94384d539761432d4",
     "src/model/v3/buffer.ts": "d81b57bfd2dc809206a18d4223aa85384c12d255a0f9f4b48f7a99cf4d6b9024",
     "src/model/v3/durability.ts": "e64b6213c3b549d9e66f2e9ab35c481ffc4c80ccddb33ea4f05b793cbcb79c1c",
     "src/model/v3/em-ledger.ts": "24f2488cffeca3bb7c7b9b5af6d6b40fd112d871303c51ab88f138f208b300d0",
     "src/model/v3/heating.ts": "f24fc93e040685039e66abedad9f5bae3fe6a08fdc5423006a55486590535538",
     "src/model/v3/power.ts": "d72336dc0848ea653d8b50b94776f9f836597801b32f95512d9e16e52e6a2e53",
     "src/model/v3/random.ts": "698b3ebe27c01e340cb6bd1650ab49285109ba85aa703829898b6f34065672b4",
-    "src/model/v3/schema.ts": "6420522c8e99bf0701c4bb9b61e1a1b97b69fc2043d1bcf18d28b6d47e900e8b",
+    "src/model/v3/schema.ts": "c5976cf9959215c11e1584b6c5a6c8a5e23bd88cc1992bc8ade853942cedc8c9",
     "src/model/v3/step.ts": "e7c68703f8959063b378fea68cbb199a699cf4762f5a3339acf79aab8e17cee1",
     "src/model/v3/thermal-control.ts": "acdee22c9dcd5663684164eb0603c38318900e138e6be5632a1968dd578b3e56",
     "src/model/v3/thermal-surfaces.ts": "5a0fa42878bffa2de2be4aee76f35f9886eda4ab283c7baefe3c8330cd8f7157",
     "src/model/v3/thermoinverter.ts": "5e49d31484c8a3b86cc0f0dc36ce05c87e51c251be71632d209d61aa29eb6481",
-    "src/model/v3/types.ts": "d4779658d1bdd48f549854bc6ab6203d8c348cb03f0583b68a244ac4ecf080e6",
-    "src/runner/ship-model-run.ts": "2ef9c7b48fdadd90a96a884e92ce3c7e3a8d7292c54b4da1d8826fce421c2012",
+    "src/model/v3/types.ts": "50cef7a365cc895d3882aba3d52187a2a6f72f5408fa653cbd2f9cc389a24534",
+    "src/runner/ship-model-run.ts": "8873c1f0d0284c97fea825aa91c0aa09fa472c74baa8be6186bd6310e9cdf580",
     "src/runner/ship-model-telemetry.ts": "d20f164864f0daef3a331173ad8beaefa7ec7a69130ad29b582739c886f509e4",
     "src/scenarios/fitting.ts": "22980303293610e689a1ac4a3f3bc6a08fb988be7545c6e70bc7e0d3f3e6011a",
     "src/signatures/ship-model.ts": "2686e22d0555bbb997155b41adc8b9526bea6c0a57fe28569ab80742b7b80619",
+    "src/signatures/ship-reference.ts": "b4e3c8aa7c7bd7ec7c16fa36e6b0071193a2e16a5788912225679ca26b62b153",
     "src/signatures/sources.ts": "484f518e5d8026b6a20a9298304a302ba977b475d33f6c405d298fbe7951f16f"
   },
   "rows": [
@@ -495,7 +496,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "ce36bc2478fa3b50c064a1ac3fc01192a90a0f8d497726be9cbc117a50f2177d"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          40
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 24284.784107440984,
+            "emM": 12725.746162498139,
+            "rangeM": 24284.784107440984,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24366.715628987196,
+            "emM": 11234.835934162811,
+            "rangeM": 24366.715628987196,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 17459.57969400914,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "485c77fbb0e3efad7c0a068177d583987a00557104f8d30ba93f9cfe55b161b9"
     },
     {
       "id": "sputnik-cold-Efficient",
@@ -968,7 +1053,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "ec7a706001d8f0d88eea69fc2b7ac818cca5eab454bb07cc29d78a77d1e3258f"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          40
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 23816.227321741444,
+            "emM": 12725.746162498139,
+            "rangeM": 23816.227321741444,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24130.91550559637,
+            "emM": 11234.835934162811,
+            "rangeM": 24130.91550559637,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 17459.57969400914,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "84ad42274eb03f3014dd1d6dbb664b5871c13ec734cd3195e0349764723f1b55"
     },
     {
       "id": "sputnik-hot-Efficient",
@@ -1441,7 +1610,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "2d0a83bef686b73400e4f8599a64adb98c9ed6281d8041e51cc24247c14cc599"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          40
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 0,
+            "emM": 12725.746162498139,
+            "rangeM": 12725.746162498139,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 0,
+            "emM": 11234.835934162811,
+            "rangeM": 11234.835934162811,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 0,
+            "emM": 17459.57969400914,
+            "rangeM": 17459.57969400914,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "8c969349b8c021536177475389ad4e8e49f7841650fffa0bda265ccdac90c2c4"
     },
     {
       "id": "severin-mir-standard-Efficient",
@@ -1910,7 +2163,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "d7261276e4f97e766429795af4c662d8172169ce59c64de390918e293b49ffb3"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          40
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 54,
+            "widthM": 24,
+            "heightM": 9,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/M из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/M из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 216,
+          "sideCrossSectionM2": 486,
+          "aspectCrossSectionM2": 216,
+          "noseRangeM": 19595.917942799882,
+          "sideRangeM": 24000.00000065457,
+          "rangeM": 19595.917942799882
+        },
+        "passive": {
+          "current": {
+            "irM": 49979.39141359819,
+            "emM": 25451.492324996278,
+            "rangeM": 49979.39141359819,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 50169.45027145607,
+            "emM": 22469.671868325622,
+            "rangeM": 50169.45027145607,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 50368.33296673526,
+            "emM": 34919.15938801828,
+            "rangeM": 50368.33296673526,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "b348031fb0d540e3d21bb9f7fdb091b2741d3a49176fa04355d3ac3ce7f54580"
     },
     {
       "id": "severin-mir-cold-Efficient",
@@ -2383,7 +2720,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "43a912501f824b9f985b0b69a4ffff2e22b3ff467ac5970d728ef4f315111bb4"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          40
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 54,
+            "widthM": 24,
+            "heightM": 9,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/M из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/M из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 216,
+          "sideCrossSectionM2": 486,
+          "aspectCrossSectionM2": 216,
+          "noseRangeM": 19595.917942799882,
+          "sideRangeM": 24000.00000065457,
+          "rangeM": 19595.917942799882
+        },
+        "passive": {
+          "current": {
+            "irM": 48938.86527855905,
+            "emM": 25451.492324996278,
+            "rangeM": 48938.86527855905,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 49645.531700479194,
+            "emM": 22469.671868325622,
+            "rangeM": 49645.531700479194,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 50368.33296673526,
+            "emM": 34919.15938801828,
+            "rangeM": 50368.33296673526,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "24f3153bfc81b333adb901c4c7876d0afc4fa1d76399f3db6ac6614182dec189"
     },
     {
       "id": "severin-mir-hot-Efficient",
@@ -2856,7 +3277,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "25b72803b5bd75d64402cc1c1fa0c2c1e4f5ebc20963f8ef10c6c1155c32dce6"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          40
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 54,
+            "widthM": 24,
+            "heightM": 9,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/M из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/M из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 216,
+          "sideCrossSectionM2": 486,
+          "aspectCrossSectionM2": 216,
+          "noseRangeM": 19595.917942799882,
+          "sideRangeM": 24000.00000065457,
+          "rangeM": 19595.917942799882
+        },
+        "passive": {
+          "current": {
+            "irM": 0,
+            "emM": 25451.492324996278,
+            "rangeM": 25451.492324996278,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 0,
+            "emM": 22469.671868325622,
+            "rangeM": 22469.671868325622,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 0,
+            "emM": 34919.15938801828,
+            "rangeM": 34919.15938801828,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "24b6a8a63e2e0ef6d98ffc3298b7bdc16814950a3153f77eee07e47b50f7d0b1"
     },
     {
       "id": "generation-1-standard-same-task",
@@ -3262,7 +3767,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "7842ac48c735d612b665fdb9bbc59ae2c1bff57d3b18967ed144602bfc10f8a3"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 24430.059889312663,
+            "emM": 14940.716254866915,
+            "rangeM": 24430.059889312663,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24441.365834763954,
+            "emM": 14940.716254866918,
+            "rangeM": 24441.365834763954,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 14940.716254866915,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "94f656e92bd85de63bd677ec432b61ea67a1ecd657fe0b42dcc66ffe7f1d42d5"
     },
     {
       "id": "generation-1-standard-harder",
@@ -3668,7 +4257,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "7b950ad589594dc9fe029b1e8b2fa8b7e06ac94ac878d68dd73da1a9af16e793"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          60
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 24763.93398821733,
+            "emM": 20673.599026866923,
+            "rangeM": 24763.93398821733,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24609.311288322915,
+            "emM": 20673.599026866912,
+            "rangeM": 24609.311288322915,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24763.93398821733,
+            "emM": 20673.599026866923,
+            "rangeM": 24763.93398821733,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "fe0e1b70c43ed0ef531ea3886e6bbce3f3f000f8515bba699131de6e188ae3bb"
     },
     {
       "id": "generation-1-hot-same-task",
@@ -4078,7 +4751,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "bde5be65368cb55141ea547ec8522ae931898c8aae4d3e5a0150259bcc2fc9cd"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 0,
+            "emM": 14940.716254866915,
+            "rangeM": 14940.716254866915,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 0,
+            "emM": 14940.716254866918,
+            "rangeM": 14940.716254866918,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 0,
+            "emM": 14940.716254866915,
+            "rangeM": 14940.716254866915,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "015efcb63c8d9a1cb172b8ab8b69b23d9e4286872e9aa15a54409fb76399ff93"
     },
     {
       "id": "generation-1-hot-harder",
@@ -4488,7 +5245,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "a6c83166057cf5c81ee87d848573fedc871fab3ed994d30689575bc64fd9d0f0"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          60
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 0,
+            "emM": 20673.599026866923,
+            "rangeM": 20673.599026866923,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 0,
+            "emM": 20673.599026866912,
+            "rangeM": 20673.599026866912,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 0,
+            "emM": 20673.599026866923,
+            "rangeM": 20673.599026866923,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "5bdcc47a4b39f4ec531c3e384a92dbefe6402091c06781c9f1b40cb31a159a21"
     },
     {
       "id": "generation-1-cold-same-task",
@@ -4898,7 +5739,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "ce73648761da650b59d22c0aab5796b2860e2c50fbe9304ded58b052b037fc02"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 24077.87431944326,
+            "emM": 14940.716254866915,
+            "rangeM": 24077.87431944326,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24264.49952063523,
+            "emM": 14940.716254866918,
+            "rangeM": 24264.49952063523,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 14940.716254866915,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "4f24eff68eb7514f94d2a0d0f24acef48a8b53cd35183da74987d8708b2b9feb"
     },
     {
       "id": "generation-1-cold-harder",
@@ -5308,7 +6233,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "f9b3aa1d2628c0b7104e7084c12c2fabf1d93cebb16fe0a57b1b7a7f94c61af1"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          60
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 24052.32447252663,
+            "emM": 20673.599026866923,
+            "rangeM": 24052.32447252663,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24250.704244116263,
+            "emM": 20673.599026866912,
+            "rangeM": 24250.704244116263,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 20673.599026866923,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "344ef74cf77ea618fded1b13941b2822a753e96b8aadf4562a23267507c929d8"
     },
     {
       "id": "generation-10-standard-same-task",
@@ -5714,7 +6723,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "87586a927682bce7fbd2534c04faf1716707b4464aa108d572cac3442e1e7ecf"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 24371.110249417507,
+            "emM": 14883.667662491132,
+            "rangeM": 24371.110249417507,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24411.804985356386,
+            "emM": 14883.667662491129,
+            "rangeM": 24411.804985356386,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 14883.667662491132,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "0e6e4497dfca917582e4fd12631d64ce0fe21d60ec6bc94d550168dc8c6b0556"
     },
     {
       "id": "generation-10-standard-harder",
@@ -6120,7 +7213,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "c29b52c0035368f28981d0157f3428a1c78d02e63dc87f49471a6fc0353233d9"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          60
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 24525.19925853716,
+            "emM": 20591.134463204122,
+            "rangeM": 24525.19925853716,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24489.192738854512,
+            "emM": 20591.134463204115,
+            "rangeM": 24489.192738854512,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24525.19925853716,
+            "emM": 20591.134463204122,
+            "rangeM": 24525.19925853716,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "41edd74d982fb6b911debb47b0ac047cb19247bff80fdec3d0f5a4f1eafef96e"
     },
     {
       "id": "generation-10-hot-same-task",
@@ -6530,7 +7707,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "a1f140442fcc8228e96708d2bf2f01d1fcd5ee843d5328aba37aedf95e57201e"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 0,
+            "emM": 14883.667662491132,
+            "rangeM": 14883.667662491132,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 0,
+            "emM": 14883.667662491129,
+            "rangeM": 14883.667662491129,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 0,
+            "emM": 14883.667662491132,
+            "rangeM": 14883.667662491132,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "df292ab3bd6684594f6039b91af1ea170a8070da277ce76861a097cd32609fe2"
     },
     {
       "id": "generation-10-hot-harder",
@@ -6940,7 +8201,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "5fc8771790a99621bba16d9e80ed9b32a603275d1177272dfbbb5353fe7703eb"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          60
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 0,
+            "emM": 20591.134463204122,
+            "rangeM": 20591.134463204122,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 0,
+            "emM": 20591.134463204115,
+            "rangeM": 20591.134463204115,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 0,
+            "emM": 20591.134463204122,
+            "rangeM": 20591.134463204122,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "81c620fcd2488a197e3af904b2f29c9fa78a5b18a31fa6acb8bfb4833bbeb798"
     },
     {
       "id": "generation-10-cold-same-task",
@@ -7350,7 +8695,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "f52fb43ecbb2a85b5409e3dc3d602a375a775c90538c25a267b1525d912c6e0c"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 24019.604936528143,
+            "emM": 14883.667662491132,
+            "rangeM": 24019.604936528143,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24235.245330898782,
+            "emM": 14883.667662491129,
+            "rangeM": 24235.245330898782,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 14883.667662491132,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "35f91051bd542b6d8da503623204cd96cde7f81b1b0e2d1b815a98de92635a22"
     },
     {
       "id": "generation-10-cold-harder",
@@ -7760,7 +9189,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "1773e59277f9c6276d40af3c60a8cf5734297ceb62184e34f305bc2355503dec"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          60
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 23819.085595547003,
+            "emM": 20591.134463204122,
+            "rangeM": 23819.085595547003,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24133.049107873463,
+            "emM": 20591.134463204115,
+            "rangeM": 24133.049107873463,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 20591.134463204122,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "56ee682a42e44f0b0fbdbb1baaa75c03405e33cc2776c9dab2ed4289cc7c9699"
     },
     {
       "id": "generation-20-standard-same-task",
@@ -8166,7 +9679,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "13863fbd9c6467a2b293dd6dd59715d842c1ea90387132b8a812b4f3d2913047"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 24355.11709397384,
+            "emM": 14889.638188475365,
+            "rangeM": 24355.11709397384,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24403.785347092504,
+            "emM": 14889.638188475365,
+            "rangeM": 24403.785347092504,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 14889.638188475365,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "4d2e73194e6884540adbbafa76c40dc13a5a53f81bf7b563418396b2afe2ee8e"
     },
     {
       "id": "generation-20-standard-harder",
@@ -8572,7 +10169,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "471dbea345660066814412469e99a56788bc187a390f3ee4ebd3ce151af8c041"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          60
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 24460.57234144216,
+            "emM": 20599.765607263394,
+            "rangeM": 24460.57234144216,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24456.679674337447,
+            "emM": 20599.765607263394,
+            "rangeM": 24456.679674337447,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24460.57234144216,
+            "emM": 20599.765607263394,
+            "rangeM": 24460.57234144216,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "32f852bf145d3b5d3af8d82a9d2d0566cdf9ddae7adee29cc074a1b8fe38fcc5"
     },
     {
       "id": "generation-20-hot-same-task",
@@ -8982,7 +10663,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "2ef7483d0250492ed80a47b99a7f1d3e6d2966be185e80153fdd9cbc379b0c4a"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 0,
+            "emM": 14889.638188475365,
+            "rangeM": 14889.638188475365,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 0,
+            "emM": 14889.638188475365,
+            "rangeM": 14889.638188475365,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 0,
+            "emM": 14889.638188475365,
+            "rangeM": 14889.638188475365,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "d86efddb581047e6d6ad46236b8e6114851acd348d34501e8f3daaeefe919f81"
     },
     {
       "id": "generation-20-hot-harder",
@@ -9392,7 +11157,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "c21e4aec6807e2e949421f0722c8d836b455d7e3392bebe1b20acb14c1d87ed5"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          60
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 0,
+            "emM": 20599.765607263394,
+            "rangeM": 20599.765607263394,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 0,
+            "emM": 20599.765607263394,
+            "rangeM": 20599.765607263394,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 0,
+            "emM": 20599.765607263394,
+            "rangeM": 20599.765607263394,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "51e40587f0c4a8d3038b774c8909d79ccfa70a23adc25017e407962cb71d6eb4"
     },
     {
       "id": "generation-20-cold-same-task",
@@ -9802,7 +11651,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "1d6438b41301ea4081d25ea8f5092f460389678bb2c4eea17088a26d06b6ad49"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 24003.79637188127,
+            "emM": 14889.638188475365,
+            "rangeM": 24003.79637188127,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24227.3089069327,
+            "emM": 14889.638188475365,
+            "rangeM": 24227.3089069327,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 14889.638188475365,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "78962c3aa5933cff303a77e6c9b3ebf7864cf4ee7aab93f36e28c7c0cc8ee959"
     },
     {
       "id": "generation-20-cold-harder",
@@ -10212,7 +12145,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "41da7062fb21a3cb4ad24db90c0ee58ff85ff463211bc5705a9db95756ad5ae4"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          60
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 23755.94771252695,
+            "emM": 20599.765607263394,
+            "rangeM": 23755.94771252695,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24101.20347325429,
+            "emM": 20599.765607263394,
+            "rangeM": 24101.20347325429,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 20599.765607263394,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "2a9f90032236fd20d294698c57c068cb348637c11d4f00e13173a69356a17216"
     },
     {
       "id": "generation-100-standard-same-task",
@@ -10618,7 +12635,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "c38b2971a18f00b6cbb78e3e3082d9d9cf67004eaea3a2f552f9bcf4ad1a10fd"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 24348.82105078122,
+            "emM": 14916.258606837646,
+            "rangeM": 24348.82105078122,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24400.628279991426,
+            "emM": 14916.258606837648,
+            "rangeM": 24400.628279991426,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 14916.258606837646,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "fe8934719da134bd78170ed74595a1c5f711f28534c5e8d242994aa606a4981a"
     },
     {
       "id": "generation-100-standard-harder",
@@ -11024,7 +13125,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "39075cb26e358bf928cb3dc0d43f14fa9c6ac4b5eaa536be901d45ac86f85f8f"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          60
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 24435.14728637669,
+            "emM": 20638.24687222488,
+            "rangeM": 24435.14728637669,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24443.88905824189,
+            "emM": 20638.246872224896,
+            "rangeM": 24443.88905824189,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 20638.24687222488,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "5653cf08bf33226678702f6211e107031c3fe70a0d23d0320917de09b3b7cb11"
     },
     {
       "id": "generation-100-hot-same-task",
@@ -11434,7 +13619,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "2f9d9244b607ac569e3289b0f5178a6f5f987fb35759473c634ed80d179db37b"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 0,
+            "emM": 14916.258606837646,
+            "rangeM": 14916.258606837646,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 0,
+            "emM": 14916.258606837648,
+            "rangeM": 14916.258606837648,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 0,
+            "emM": 14916.258606837646,
+            "rangeM": 14916.258606837646,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "25062e10c91d062a2ec62219a1eeee4d88fb4d0b9d9fa8e83369d4ab9e59f094"
     },
     {
       "id": "generation-100-hot-harder",
@@ -11844,7 +14113,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "b50e18b46a2c0aae63b4a9588abacd59a3d57cf72c303d06152eb6e8e62832c7"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          60
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 0,
+            "emM": 20638.24687222488,
+            "rangeM": 20638.24687222488,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 0,
+            "emM": 20638.246872224896,
+            "rangeM": 20638.246872224896,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 0,
+            "emM": 20638.24687222488,
+            "rangeM": 20638.24687222488,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "1fe58997757f9c7e3cc2d1de2af0582b519f64971f4ac3361a9ae5ebe51ad9ff"
     },
     {
       "id": "generation-100-cold-same-task",
@@ -12254,7 +14607,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "712d08208b6a30b13553e28b9f80044b1226185ac009dbbf831651a52788adc0"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 23997.57300093907,
+            "emM": 14916.258606837646,
+            "rangeM": 23997.57300093907,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24224.18460087817,
+            "emM": 14916.258606837648,
+            "rangeM": 24224.18460087817,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 14916.258606837646,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "c76b7c5d3e6cf3a318c82f42463d7a6b7387155c8cd5156cfb455a45f3ee7951"
     },
     {
       "id": "generation-100-cold-harder",
@@ -12664,7 +15101,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "8fff1e3bc50ff6a4a890b58c373a23e3ac409ae50114bdc4da9a55aa6bdef981"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          60
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 23731.108611964166,
+            "emM": 20638.24687222488,
+            "rangeM": 23731.108611964166,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24088.675499282046,
+            "emM": 20638.246872224896,
+            "rangeM": 24088.675499282046,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 20638.24687222488,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "b7b7701d987795e75b2937bbe1a144b780d472f43fe023e9bcda7c2b99eade3a"
     },
     {
       "id": "stealth-Efficient-maneuver-0.1",
@@ -13070,7 +15591,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "f1ed2d52d94a6db5d93e88776248673357512ab087e08fce5d324556a277f5d4"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 36,
+            "widthM": 12,
+            "heightM": 3,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 0.2,
+          "noseCrossSectionM2": 7.2,
+          "sideCrossSectionM2": 21.6,
+          "aspectCrossSectionM2": 7.2,
+          "noseRangeM": 8373.08111536521,
+          "sideRangeM": 11019.594464275424,
+          "rangeM": 8373.08111536521
+        },
+        "passive": {
+          "current": {
+            "irM": 5200.980335896658,
+            "emM": 7424.464386043754,
+            "rangeM": 7424.464386043754,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 5193.423470000637,
+            "emM": 7424.464386043754,
+            "rangeM": 7424.464386043754,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 5200.980335896658,
+            "emM": 7424.464386043754,
+            "rangeM": 7424.464386043754,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "682db0e72eb4f0780bfbb4c0ab6b218699874341b904f50f88a5c7229ca19c59"
     },
     {
       "id": "stealth-Efficient-maneuver-1",
@@ -13476,7 +16081,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "ad95f24bf3e6fae1273883b2e6a60397429183d71ee8870278b35d727a1c6142"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 36,
+            "widthM": 12,
+            "heightM": 3,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 0.2,
+          "noseCrossSectionM2": 7.2,
+          "sideCrossSectionM2": 21.6,
+          "aspectCrossSectionM2": 7.2,
+          "noseRangeM": 8373.08111536521,
+          "sideRangeM": 11019.594464275424,
+          "rangeM": 8373.08111536521
+        },
+        "passive": {
+          "current": {
+            "irM": 5312.229800143317,
+            "emM": 22728.6079382362,
+            "rangeM": 22728.6079382362,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 5249.068998485966,
+            "emM": 22728.6079382362,
+            "rangeM": 22728.6079382362,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 5312.229800143317,
+            "emM": 22728.6079382362,
+            "rangeM": 22728.6079382362,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "1e9d4457df633c9d8b288c69bc56c225bf34a97ca383b53d45c67f26d4cf7d8a"
     },
     {
       "id": "stealth-Masking-maneuver-0.1",
@@ -13882,7 +16571,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "98ebaa3740ca7ec96d24b40223bda4d26bce45b34565c9322d425c43d6f43b38"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 36,
+            "widthM": 12,
+            "heightM": 3,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 0.2,
+          "noseCrossSectionM2": 7.2,
+          "sideCrossSectionM2": 21.6,
+          "aspectCrossSectionM2": 7.2,
+          "noseRangeM": 8373.08111536521,
+          "sideRangeM": 11019.594464275424,
+          "rangeM": 8373.08111536521
+        },
+        "passive": {
+          "current": {
+            "irM": 3666.959830991325,
+            "emM": 7424.464386043754,
+            "rangeM": 7424.464386043754,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 3667.1431188753663,
+            "emM": 7424.464386043754,
+            "rangeM": 7424.464386043754,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 3667.352579526075,
+            "emM": 7424.464386043754,
+            "rangeM": 7424.464386043754,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "fc44007de18c8dc741cdfb28bc4d5b54583861a9aa8cfdd920af7f9414b0a7e9"
     },
     {
       "id": "stealth-Masking-maneuver-1",
@@ -14288,7 +17061,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "7175745fa0cce9eb9f1b4b9bf41c3cd28938c1bb1bf8d01618e48f7a5e7d96f3"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 36,
+            "widthM": 12,
+            "heightM": 3,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 0.2,
+          "noseCrossSectionM2": 7.2,
+          "sideCrossSectionM2": 21.6,
+          "aspectCrossSectionM2": 7.2,
+          "noseRangeM": 8373.08111536521,
+          "sideRangeM": 11019.594464275424,
+          "rangeM": 8373.08111536521
+        },
+        "passive": {
+          "current": {
+            "irM": 3666.9598309918465,
+            "emM": 22728.6079382362,
+            "rangeM": 22728.6079382362,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 3668.401616170119,
+            "emM": 22728.6079382362,
+            "rangeM": 22728.6079382362,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 3670.0486770992593,
+            "emM": 22728.6079382362,
+            "rangeM": 22728.6079382362,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "2f42e63d1912ae9c8df672d14ae4313b07d304eb8a245b24a4c6e3ed24d53de9"
     },
     {
       "id": "stealth-Masking-forbidden-work",
@@ -14842,7 +17699,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "9a2a4fbee7c6176ca02da91b7c2c827237c16910d446443c03d2fca60373e125"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 36,
+            "widthM": 12,
+            "heightM": 3,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 0.2,
+          "noseCrossSectionM2": 7.2,
+          "sideCrossSectionM2": 21.6,
+          "aspectCrossSectionM2": 7.2,
+          "noseRangeM": 8373.08111536521,
+          "sideRangeM": 11019.594464275424,
+          "rangeM": 8373.08111536521
+        },
+        "passive": {
+          "current": {
+            "irM": 3666.9598309930684,
+            "emM": 1961.7762752234605,
+            "rangeM": 3666.9598309930684,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 3667.0033446132,
+            "emM": 1961.776275223461,
+            "rangeM": 3667.0033446132,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 3667.053073834455,
+            "emM": 1961.7762752234605,
+            "rangeM": 3667.053073834455,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "00a07ed0033f66c780b4a85bb7b3f01e6edfc13dfb646a96f14f6598222b61aa"
     },
     {
       "id": "stealth-Masking-gyro-turn",
@@ -15248,7 +18189,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "b62b55cdf027b08395473f62dbb0818dd441604f1bdc95a1197b7f9adef8952f"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 36,
+            "widthM": 12,
+            "heightM": 3,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 0.2,
+          "noseCrossSectionM2": 7.2,
+          "sideCrossSectionM2": 21.6,
+          "aspectCrossSectionM2": 7.2,
+          "noseRangeM": 8373.08111536521,
+          "sideRangeM": 11019.594464275424,
+          "rangeM": 8373.08111536521
+        },
+        "passive": {
+          "current": {
+            "irM": 3666.959830991862,
+            "emM": 2191.159861509524,
+            "rangeM": 3666.959830991862,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 3667.01692180826,
+            "emM": 2191.159861509524,
+            "rangeM": 3667.01692180826,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 3667.082167368477,
+            "emM": 2191.159861509524,
+            "rangeM": 3667.082167368477,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "30c766151053141d41e9e57c271c5cce70dcba13703f3075d213cb66690a087d"
     },
     {
       "id": "stealth-Masking-generator-recurrence",
@@ -15743,7 +18768,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "1bf8ea393e95ef1bd1f491f2b1da6b03665508a64b3ccc2206c77ac71c26fecf"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          3
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 36,
+            "widthM": 12,
+            "heightM": 3,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 0.2,
+          "noseCrossSectionM2": 7.2,
+          "sideCrossSectionM2": 21.6,
+          "aspectCrossSectionM2": 7.2,
+          "noseRangeM": 8373.08111536521,
+          "sideRangeM": 11019.594464275424,
+          "rangeM": 8373.08111536521
+        },
+        "passive": {
+          "current": {
+            "irM": 3667.0814834410435,
+            "emM": 1961.7762752234605,
+            "rangeM": 3667.0814834410435,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 3667.0003822572035,
+            "emM": 2396.058301646496,
+            "rangeM": 3667.0003822572035,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 3667.0814834410435,
+            "emM": 3086.4467995752016,
+            "rangeM": 3667.0814834410435,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "8da7dda99029aacb70cd4040d83ce61fd3c721e10d51d7c6208e3d392e85e4f2"
     },
     {
       "id": "stealth-Masking-deferrable-background",
@@ -16163,7 +19272,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "529dadcc26f2524d54a1a1a8704cba6749cd75eafd1507447e4b79209763f700"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          3
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 36,
+            "widthM": 12,
+            "heightM": 3,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 0.2,
+          "noseCrossSectionM2": 7.2,
+          "sideCrossSectionM2": 21.6,
+          "aspectCrossSectionM2": 7.2,
+          "noseRangeM": 8373.08111536521,
+          "sideRangeM": 11019.594464275424,
+          "rangeM": 8373.08111536521
+        },
+        "passive": {
+          "current": {
+            "irM": 3667.0530036489513,
+            "emM": 1961.7762752234605,
+            "rangeM": 3667.0530036489513,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 3666.9908888079417,
+            "emM": 1961.7762752234605,
+            "rangeM": 3666.9908888079417,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 3667.0530036489513,
+            "emM": 1961.7762752234605,
+            "rangeM": 3667.0530036489513,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "d8326bd813b41439abe1f03828b7e6278aef05ec001686b8d7401fa3689d8382"
     },
     {
       "id": "stealth-Masking-optional-pulse-charge",
@@ -16583,7 +19776,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "019b2b6ecbb618b1ac2a5b8adec2ec2d7bdf4b47da4e61f1b648d8fba3d53ed0"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          3
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 36,
+            "widthM": 12,
+            "heightM": 3,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 0.2,
+          "noseCrossSectionM2": 7.2,
+          "sideCrossSectionM2": 21.6,
+          "aspectCrossSectionM2": 7.2,
+          "noseRangeM": 8373.08111536521,
+          "sideRangeM": 11019.594464275424,
+          "rangeM": 8373.08111536521
+        },
+        "passive": {
+          "current": {
+            "irM": 3667.0530036489513,
+            "emM": 1961.7762752234605,
+            "rangeM": 3667.0530036489513,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 3666.9908888079417,
+            "emM": 1961.7762752234605,
+            "rangeM": 3666.9908888079417,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 3667.0530036489513,
+            "emM": 1961.7762752234605,
+            "rangeM": 3667.0530036489513,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "7a9b44bfbafc8ba30e0fd57e0559708e515068d3b6e6bb66fceb777a8a13f08a"
     },
     {
       "id": "military-structural-buffer-aft",
@@ -17081,7 +20358,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "221df3753a6cfe54f511a7d322771e643acb14c44f7dd7456479949401e4d8da"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 25.5,
+            "widthM": 12,
+            "heightM": 4.875,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Military/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Military/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 58.5,
+          "sideCrossSectionM2": 124.3125,
+          "aspectCrossSectionM2": 58.5,
+          "noseRangeM": 14136.475372583138,
+          "sideRangeM": 17067.93084449373,
+          "rangeM": 14136.475372583138
+        },
+        "passive": {
+          "current": {
+            "irM": 28485.848664256675,
+            "emM": 17459.57969400914,
+            "rangeM": 28485.848664256675,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 28832.603867368827,
+            "emM": 17459.57969400913,
+            "rangeM": 28832.603867368827,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 29708.222639953256,
+            "emM": 17459.57969400914,
+            "rangeM": 29708.222639953256,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "6f71249d5c87e560810f5f7b5f3191da44cd74eed35a39cb2fe2297c1a28d04c"
     },
     {
       "id": "surface-10-thermoinverter-S-battery",
@@ -17490,7 +20851,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "25a380a4b0a02d770c243cd4b511c5fa00e363b235e0ca0bb158c72ec26fce2e"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 4222.200209964229,
+            "emM": 16254.023020288447,
+            "rangeM": 16254.023020288447,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 3337.1186468887777,
+            "emM": 16852.77893070356,
+            "rangeM": 16852.77893070356,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 4222.200209964229,
+            "emM": 17461.876547242293,
+            "rangeM": 17461.876547242293,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "34a29e9fa85f93de300c8210b42e5a01cfcc0f7d6a4962fef3a87d5707755987"
     },
     {
       "id": "surface-10-thermoinverter-S-generator",
@@ -17927,7 +21372,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "8df487e41588945c46c99e3050273c91c2a2b908becfd5410a9e0227d2e3d06f"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 5067.626385500647,
+            "emM": 16162.613623095094,
+            "rangeM": 16162.613623095094,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 3888.5989369513995,
+            "emM": 16807.309090248986,
+            "rangeM": 16807.309090248986,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 5067.626385500647,
+            "emM": 17461.876547242293,
+            "rangeM": 17461.876547242293,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "9b675cd7eb074ba3f5423aaa0b313f6d6882960714910df9cfa536d45a1fed52"
     },
     {
       "id": "surface-10-pump-radiator-S-battery",
@@ -18338,7 +21867,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "a4987e881fb91cc968e2af1bba1e7e2ae254e7a02b036d3431f85693f3f3cd66"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 3708.634080932458,
+            "emM": 16256.06301441166,
+            "rangeM": 16256.06301441166,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 2637.3839863408266,
+            "emM": 16852.70119523947,
+            "rangeM": 16852.70119523947,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 3708.634080932458,
+            "emM": 17459.57969400914,
+            "rangeM": 17459.57969400914,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "f500c94fa5585df3a6ee98392510111284bbb7c8b5ba04c3b873952054af2927"
     },
     {
       "id": "surface-10-pump-radiator-S-generator",
@@ -18777,7 +22390,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "196e2d58460a5004631d5571c90a87553c17d500f10e3258717a4bc516769f9e"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 4657.855885896672,
+            "emM": 16167.491827549098,
+            "rangeM": 16167.491827549098,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 3314.3383411703053,
+            "emM": 16808.656034787396,
+            "rangeM": 16808.656034787396,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 4657.855885896672,
+            "emM": 17459.57969400914,
+            "rangeM": 17459.57969400914,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "7d0875fb743587a4c0e349eaa87c99d1b22ad65cd0b924da990e92843a3cd95d"
     },
     {
       "id": "surface-300-thermoinverter-S-battery",
@@ -19186,7 +22883,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "cbe7845e58228e28557d48cd357c9467334f60d709885c267c6da2518bc06663"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 11875.464914794255,
+            "emM": 16354.87009302512,
+            "rangeM": 16354.87009302512,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 11598.977553138988,
+            "emM": 16935.70054052402,
+            "rangeM": 16935.70054052402,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 11875.464914794255,
+            "emM": 17526.92697142182,
+            "rangeM": 17526.92697142182,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "0c4d2add52ea2e68377354b830f3a67ae5012cbdb93411d99cda2fe30fa7c5c9"
     },
     {
       "id": "surface-300-thermoinverter-S-generator",
@@ -19623,7 +23404,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "69760a45b38a3986b034eb06a12c3ffaeee1217baaae9d3a1c616dea6717f42a"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 12201.703481102591,
+            "emM": 16245.683958969821,
+            "rangeM": 16245.683958969821,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 11769.550918217546,
+            "emM": 16881.22773209395,
+            "rangeM": 16881.22773209395,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 12201.703481102591,
+            "emM": 17526.92697142182,
+            "rangeM": 17526.92697142182,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "b9b473805c3d4c3e5397ac9e6ecd4ea80d650402dfecfefed1d4c82472b070a6"
     },
     {
       "id": "surface-300-pump-radiator-S-battery",
@@ -20034,7 +23899,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "985e5b33fd32e1955a96dd27d55b16a4bbcda52a6c22260bbee27426d127ff02"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 4885.365905107125,
+            "emM": 16123.057828758247,
+            "rangeM": 16123.057828758247,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 3476.343979184589,
+            "emM": 16785.041664418994,
+            "rangeM": 16785.041664418994,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 4885.365905107125,
+            "emM": 17459.57969400914,
+            "rangeM": 17459.57969400914,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "c0f1b3fa4a6c8e51144764db42ee8682b5d8943eb42661ce3d3eba9efd858852"
     },
     {
       "id": "surface-300-pump-radiator-S-generator",
@@ -20473,7 +24422,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "460ed0f8037aedcd9ee23f736d20e6490d508a3a169ef2db31aef3b3624749c6"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 6014.408666799237,
+            "emM": 16079.749256250605,
+            "rangeM": 16079.749256250605,
+            "channel": "EM"
+          },
+          "mean": {
+            "irM": 4282.302187420901,
+            "emM": 16763.845962322594,
+            "rangeM": 16763.845962322594,
+            "channel": "EM"
+          },
+          "max": {
+            "irM": 6014.408666799237,
+            "emM": 17459.57969400914,
+            "rangeM": 17459.57969400914,
+            "channel": "EM"
+          }
+        }
+      },
+      "fullResultSha256": "c50b0a5e8def6cb91aaec7089935592af0404f85925c10bb28830c4c73c686d2"
     },
     {
       "id": "surface-mixed-ordinary",
@@ -20869,7 +24902,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "77c4cc3dc78689c6a9f08cbac3f5f1987953cc550a24c5608bb07474a8400471"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 24451.898236219185,
+            "emM": 17459.57969400914,
+            "rangeM": 24451.898236219185,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24452.31728907299,
+            "emM": 17459.57969400913,
+            "rangeM": 24452.31728907299,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24452.73883589024,
+            "emM": 17459.57969400914,
+            "rangeM": 24452.73883589024,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "53871283c3d8b6828fcf5aa9c72ddaf52de7b87ba18efaebf2364f3cb3d4c436"
     },
     {
       "id": "surface-mixed-aft",
@@ -21265,7 +25382,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "fd1a97994eb4c717bd168887d91abb74507be9f5a37cf83f9e5f23fc55f64e67"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          30
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 24052.724641162156,
+            "emM": 17459.57969400914,
+            "rangeM": 24052.724641162156,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 24053.136853040567,
+            "emM": 17459.57969400913,
+            "rangeM": 24053.136853040567,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 24053.55151816884,
+            "emM": 17459.57969400914,
+            "rangeM": 24053.55151816884,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "f5413e2da1434b209b28a02c5268945c1ef76f8157edda8d7c1ccce728fd4000"
     },
     {
       "id": "surface-mixed-hot-common-ti",
@@ -21695,7 +25896,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "8f2eb524d99f7d81ee2bbda29765ba0b703472c4535617f8fd9cab73b1e90cad"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          3
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 27,
+            "widthM": 12,
+            "heightM": 4.5,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Civilian/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 1,
+          "noseCrossSectionM2": 54,
+          "sideCrossSectionM2": 121.5,
+          "aspectCrossSectionM2": 54,
+          "noseRangeM": 13856.406460928934,
+          "sideRangeM": 16970.562748939992,
+          "rangeM": 13856.406460928934
+        },
+        "passive": {
+          "current": {
+            "irM": 33366.69073434412,
+            "emM": 19113.963654975825,
+            "rangeM": 33366.69073434412,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 33368.888070209374,
+            "emM": 19112.96939094443,
+            "rangeM": 33368.888070209374,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 33371.08603921267,
+            "emM": 19113.963654975825,
+            "rangeM": 33371.08603921267,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "89cd092e7717be4a0784a448fb6613cf34b1a2cd5d2fe4901c0a4f391c18d9aa"
     },
     {
       "id": "buffer-high-short",
@@ -22164,7 +26449,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "d33dacdb9dc2b0f650b193a6fe21c8219a6cc5fb5f4fa643b144eb9672e7fbe2"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          10
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 36,
+            "widthM": 12,
+            "heightM": 3,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 0.2,
+          "noseCrossSectionM2": 7.2,
+          "sideCrossSectionM2": 21.6,
+          "aspectCrossSectionM2": 7.2,
+          "noseRangeM": 8373.08111536521,
+          "sideRangeM": 11019.594464275424,
+          "rangeM": 8373.08111536521
+        },
+        "passive": {
+          "current": {
+            "irM": 3762.6683832235963,
+            "emM": 1961.7762752234605,
+            "rangeM": 3762.6683832235963,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 3714.8498637617404,
+            "emM": 1961.7762752234605,
+            "rangeM": 3714.8498637617404,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 3762.6683832235963,
+            "emM": 1961.7762752234605,
+            "rangeM": 3762.6683832235963,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "a7e7c845a2c8ef0403bf32387f6e12fde26965beb880221149166a39d1a9478d"
     },
     {
       "id": "buffer-low-long",
@@ -22583,7 +26952,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "c5434c67ad12fa82781fd8bb27dbcdef457b23782227760986d1dddb8cd36584"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          100
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 36,
+            "widthM": 12,
+            "heightM": 3,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 0.2,
+          "noseCrossSectionM2": 7.2,
+          "sideCrossSectionM2": 21.6,
+          "aspectCrossSectionM2": 7.2,
+          "noseRangeM": 8373.08111536521,
+          "sideRangeM": 11019.594464275424,
+          "rangeM": 8373.08111536521
+        },
+        "passive": {
+          "current": {
+            "irM": 3666.959830993291,
+            "emM": 1961.7762752234605,
+            "rangeM": 3666.959830993291,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 3668.0322544161686,
+            "emM": 1961.776275223461,
+            "rangeM": 3668.0322544161686,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 3669.148117324725,
+            "emM": 1961.7762752234605,
+            "rangeM": 3669.148117324725,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "75cc101af72f4624b61abee6a2357222a6c433d22ce2003330d9839830f04db2"
     },
     {
       "id": "buffer-recovery-cold",
@@ -23059,7 +27512,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "c27e83727c2cf264db35b01056ce3760ea070bfa91843d02e14937be26dab35e"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          120
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 36,
+            "widthM": 12,
+            "heightM": 3,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 0.2,
+          "noseCrossSectionM2": 7.2,
+          "sideCrossSectionM2": 21.6,
+          "aspectCrossSectionM2": 7.2,
+          "noseRangeM": 8373.08111536521,
+          "sideRangeM": 11019.594464275424,
+          "rangeM": 8373.08111536521
+        },
+        "passive": {
+          "current": {
+            "irM": 4610.147882396507,
+            "emM": 1961.7762752234605,
+            "rangeM": 4610.147882396507,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 4875.104018344881,
+            "emM": 1961.776275223461,
+            "rangeM": 4875.104018344881,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 5185.864325665948,
+            "emM": 1961.7762752234605,
+            "rangeM": 5185.864325665948,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "584f526234cd1e1187697ad33d8b72abdd3ae636f266bfdd90367ccfd5a5131f"
     },
     {
       "id": "buffer-recovery-hot",
@@ -24010,7 +28547,91 @@
         },
         "status": "complete"
       },
-      "fullResultSha256": "749254a56a156ecbc9dcb5429094835932ebe611de9862fe5e15bedb8881cba9"
+      "referenceMeasurements": {
+        "version": "ship-reference/1",
+        "observer": {
+          "presetId": "S-dedicated-G1",
+          "rangeM": 16000,
+          "aspectDeg": 0
+        },
+        "receiverProfile": "positive-only",
+        "intervalSeconds": [
+          0,
+          120
+        ],
+        "radar": {
+          "source": "class-size-reference",
+          "geometry": {
+            "lengthM": 36,
+            "widthM": 12,
+            "heightM": 3,
+            "noseFactor": 1,
+            "sideFactor": 1
+          },
+          "origins": {
+            "lengthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "widthM": {
+              "kind": "derived",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "derivation": "Классовая опора Stealth/S из §1",
+              "note": "Классовая опора, не измерение именной модели."
+            },
+            "heightM": {
+              "kind": "experimental",
+              "unit": "m",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "H — прежняя расчётная высота, ориентир; не утверждена."
+            },
+            "noseFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            },
+            "sideFactor": {
+              "kind": "experimental",
+              "unit": "1",
+              "sourceRef": "u2@14709da00fd3ce0704ce87a79e1cae895e7dc375:docs/specs/spec_ship_dimensions_v1.0.md§1",
+              "note": "Прямоугольная reference проекция без коэффициента именной модели."
+            }
+          },
+          "ramTransmission": 0.2,
+          "noseCrossSectionM2": 7.2,
+          "sideCrossSectionM2": 21.6,
+          "aspectCrossSectionM2": 7.2,
+          "noseRangeM": 8373.08111536521,
+          "sideRangeM": 11019.594464275424,
+          "rangeM": 8373.08111536521
+        },
+        "passive": {
+          "current": {
+            "irM": 6155.579399575625,
+            "emM": 1961.7762752234605,
+            "rangeM": 6155.579399575625,
+            "channel": "IR"
+          },
+          "mean": {
+            "irM": 5800.908249034415,
+            "emM": 1961.776275223461,
+            "rangeM": 5800.908249034415,
+            "channel": "IR"
+          },
+          "max": {
+            "irM": 6161.3384196238685,
+            "emM": 1961.7762752234605,
+            "rangeM": 6161.3384196238685,
+            "channel": "IR"
+          }
+        }
+      },
+      "fullResultSha256": "5cf31f8b23d8a9232cfb6c45f4f02437eea29e0c3857742919b7f86db8e0b623"
     }
   ]
 }

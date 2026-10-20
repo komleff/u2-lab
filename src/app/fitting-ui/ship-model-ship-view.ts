@@ -1,6 +1,15 @@
 import type {ShipFitV3,CandidateCatalogV3,ModuleItemV3,CategoryV3} from '../../model/v3/types';
 import {compileShipModelFit} from '../../model/v3/schema';
 import {esc,num} from './presentation';
+import {shipRadarReference} from '../../signatures/ship-reference';
+import type {ResolvedShipV3} from '../../model/v3/types';
+import {distance} from './signature-distance';
+function radarPassport(ship:ResolvedShipV3){
+  const radar=shipRadarReference(ship,0);
+  if(!radar)return '<section id="sm-radar-passport"><h3>Радар S · reference</h3><p>Нет габарита: класс корпуса отсутствует в сетке U2; радар недоступен.</p></section>';
+  const g=radar.geometry;
+  return `<section id="sm-radar-passport"><h3>Радар S · reference</h3><p>${radar.source==='explicit'?'Явная геометрия модели':'Сетка U2 класса и размера; H — ориентир, не утверждена'}: ${num(g.lengthM)} × ${num(g.widthM)} × ${num(g.heightM,'м')}; форма нос/борт ${num(g.noseFactor)} / ${num(g.sideFactor)}; RAM ×${num(radar.ramTransmission)}.</p><p>CS в нос <strong data-radar-area="nose" data-value="${radar.noseCrossSectionM2}">${num(radar.noseCrossSectionM2,'м²')}</strong> · в борт <strong data-radar-area="side" data-value="${radar.sideCrossSectionM2}">${num(radar.sideCrossSectionM2,'м²')}</strong>.</p><p>Расчётная дальность радара S: нос <span data-radar-range="nose" data-value="${radar.noseRangeM}">${esc(distance(radar.noseRangeM))}</span> · борт <span data-radar-range="side" data-value="${radar.sideRangeM}">${esc(distance(radar.sideRangeM))}</span>. Опорный расчёт в чистом космосе; не полученный контакт.</p><details><summary>Происхождение геометрии</summary><pre>${esc(JSON.stringify(radar.origins,null,2))}</pre></details></section>`;
+}
 export const shipModelMass=(item:ModuleItemV3)=>item.materials.reduce((n,m)=>n+m.massKg,0);
 export const shipModelCapacity=(item:ModuleItemV3)=>item.materials.reduce((n,m)=>n+m.massKg*m.cpJKgK,0);
 export function shipModelModuleProfile(item:ModuleItemV3){
@@ -12,7 +21,7 @@ export function shipModelShipView(fit:ShipFitV3,catalog:CandidateCatalogV3,locke
   const hull=catalog.hulls.find(h=>h.id===fit.hullId);if(!hull)return '<p class="warning">Неизвестный корпус</p>';
   const compiled=compileShipModelFit(fit,catalog),ship=compiled.ok?compiled.value:undefined;
   const names:Record<CategoryV3,string>={payload:'Полезная нагрузка',propulsion:'Двигатели',power:'Питание','sensors-thermal':'Сенсоры и тепло'};
-  return `<details id="sm-fit" class="ui-panel"><summary>Оснастка · ${esc(hull.label)} · ${num(ship?.dryMassKg==null?undefined:ship.dryMassKg/1000,'т')} · C ${num(ship?.heatCapacityJK==null?undefined:ship.heatCapacityJK/1000,'кДж/K')}</summary><section class="sm-ship-passport"><h2>${esc(hull.label)}</h2><p>${esc(hull.size)} · ${esc(hull.class)} · G${hull.generation} · архитектура ${esc(hull.architecture)} · ревизия ${fit.fitRevision} · <span data-sm-catalog-version>${esc(fit.catalogVersion)}</span></p><p>Сухая масса ${num(ship?.dryMassKg,'кг')} · теплоёмкость ${num(ship?.heatCapacityJK,'Дж/K')}. Installed mass/C остаются при выключении.</p><details id="sm-fit-origins"><summary>Корпус и происхождение</summary><pre>${esc(JSON.stringify({hull,origins:ship?.origins},null,2))}</pre></details></section>
+  return `<details id="sm-fit" class="ui-panel"><summary>Оснастка · ${esc(hull.label)} · ${num(ship?.dryMassKg==null?undefined:ship.dryMassKg/1000,'т')} · C ${num(ship?.heatCapacityJK==null?undefined:ship.heatCapacityJK/1000,'кДж/K')}</summary><section class="sm-ship-passport"><h2>${esc(hull.label)}</h2><p>${esc(hull.size)} · ${esc(hull.class)} · G${hull.generation} · архитектура ${esc(hull.architecture)} · ревизия ${fit.fitRevision} · <span data-sm-catalog-version>${esc(fit.catalogVersion)}</span></p><p>Сухая масса ${num(ship?.dryMassKg,'кг')} · теплоёмкость ${num(ship?.heatCapacityJK,'Дж/K')}. Installed mass/C остаются при выключении.</p>${ship?radarPassport(ship):'<p>Радар недоступен: оснастка не скомпилирована.</p>'}<details id="sm-fit-origins"><summary>Корпус и происхождение</summary><pre>${esc(JSON.stringify({hull,origins:ship?.origins},null,2))}</pre></details></section>
   <div class="systems">${(Object.keys(names) as CategoryV3[]).map(category=>`<section id="sm-group-${category}" class="system system-${category}"><h2>${names[category]}</h2><div class="module-grid">${[
     ...hull.builtins.filter(b=>b.item.category===category).map(b=>({id:b.id,item:b.item,builtin:true,slot:undefined,enabled:fit.builtinModes[b.id]?.enabled!==false})),
     ...hull.slots.filter(s=>s.category===category).map(slot=>{const i=fit.instances[fit.assignments[slot.id]];return {id:i?.id??'fit:'+slot.id,item:i&&(fit.localVariants[i.itemId]??catalog.items[i.itemId]),builtin:false,slot,enabled:i?.enabled??false};}),
