@@ -16,7 +16,7 @@ export type OutwardIrPath={id:string;kind:'engine'|'generator'|'h2';absoluteIrW:
 // Явные balance candidates, не канонические ТТХ или continuation defaults.
 export const CONTROLLER_CANDIDATES={chargeEfficiency:0.9,dischargeEfficiency:0.9,narrowOffsets:true,
   origin:{kind:'experimental' as const,unit:'1',sourceRef:'docs/gdd/gdd_ship_energy_thermal_model_v0.1.md §§4.1,4.3; frozen Lab accumulator efficiency anchor',note:'η=.9 и сжатие offsets требуют balance evidence; не канон'}};
-type Controls={active:number;ti:number;capture:number;release:number;h2:number;furnace:number;electric:number};
+type Controls={active:number;ti:number;capture:number;release:number;h2:number;furnace:number;electric:number;coolingRelease?:boolean};
 const zero=():Controls=>({active:0,ti:0,capture:0,release:0,h2:0,furnace:0,electric:0});
 export type StepDiagnostic={instanceId?:string;reason:string;timeSeconds:number;remainingJ?:number;limiting?:boolean};
 type PhaseAction=RunSpecV3['scenario']['phases'][number]['action'];
@@ -99,7 +99,7 @@ function flows(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,c:Con
   const solarHeatW=solar.reduce((n,s)=>n+s.powerW*acceptedFraction*(1/s.i.item.numerics.efficiency-1),0);hostLossBudgetW+=solarHeatW;
   const shields=ship.instances.filter(i=>i.item.family==='shielding'&&availability[i.id]>0&&fraction>0).map(i=>i.item.numerics.emTransmission);
   const em=coupledEm(stages,hostLossBudgetW,shields,intentionalRfW,school?.emLeakageFactor);
-  const shellFraction=ship.instances.filter(i=>i.item.family==='shell'&&availability[i.id]>0&&fraction>0).reduce((n,i)=>Math.min(1,n+i.item.numerics.managedBodyFraction),0);
+  const shellFraction=state.mode==='Masking'?ship.instances.filter(i=>i.item.family==='shell'&&availability[i.id]>0&&fraction>0).reduce((n,i)=>Math.min(1,n+i.item.numerics.managedBodyFraction),0):0;
   const body=exchangeAt(ship.hull.bodyExchangeAreaM2*(1-shellFraction),ship.hull.bodyEmissivity,T,env.radiativeBackgroundK,env.thermalField);
   const circuitTemperatures=Object.fromEntries(actualPumps.filter(p=>p.result.running).map(p=>[p.owner,p.result.hotK]));
   for(const s of ship.surfaces)if(s.active){const circuit=s.circuitOwner.kind==='common-ti'?'common-ti':s.circuitOwner.instanceId;open[s.id]=heldOpen(s)||state.mode!=='Masking'&&(availability[surfaceOwner(s.id)?.id??'']??0)>0&&(c.active*fraction>0&&naturalUseful(s)||circuitTemperatures[circuit]!==undefined);}
@@ -109,8 +109,10 @@ function flows(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,c:Con
   for(const i of h2){const gasW=i.item.numerics.coolingW*availability[i.id]*c.h2*fraction,flow=gasW/i.item.numerics.qJKg;fuelRate.hydrogen+=flow;working[i.id]=c.h2*availability[i.id]*fraction;
     const ir=hydrogenCoolerIr(gasW,flow,env.radiativeBackgroundK);outwardIr.push({id:i.id,kind:'h2',absoluteIrW:ir.allocatedIrBudgetW,contrastW:ir.contrastW,profile:'omnidirectional'});}
   const directHeatW=env.directHeat.reduce((n,x)=>n+x.powerW,0)+env.energyInputs.filter(x=>x.representation==='heat').reduce((n,x)=>n+x.powerW,0);
-  let buffers=ship.instances.filter(i=>i.item.family==='buffer').map(i=>{const n=i.item.numerics,x:BufferInput={...state.buffers[i.id],capacityJ:ship.bufferCapacityJ[i.id],chargePowerW:n.chargePowerW,dischargePowerW:n.dischargePowerW,temperatureK:T,captureW:n.chargePowerW*c.capture*availability[i.id],releaseW:n.dischargePowerW*c.release*availability[i.id]};return {i,input:x,flow:bufferFlow(x)};});
-  const touching=buffers.filter(b=>b.flow.rateStoredJPerS<0&&T>=b.input.minimumCaptureK!),touchingW=touching.reduce((n,b)=>n-b.flow.rateStoredJPerS,0);
+  let buffers=ship.instances.filter(i=>i.item.family==='buffer').map(i=>{const n=i.item.numerics,x:BufferInput={...state.buffers[i.id],capacityJ:ship.bufferCapacityJ[i.id],chargePowerW:n.chargePowerW,dischargePowerW:n.dischargePowerW,temperatureK:T,captureW:n.chargePowerW*c.capture*availability[i.id],releaseW:n.dischargePowerW*c.release*availability[i.id],...(c.coolingRelease?{coolingRelease:true}:{})};return {i,input:x,flow:bufferFlow(x)};});
+  // Разгрузка наружу ограничивается уже оплаченным отводом, включая потери
+  // питания и насосов. Тот же бюджет делится между всеми буферами, без удвоения.
+  const touching=buffers.filter(b=>b.flow.rateStoredJPerS<0&&(c.coolingRelease||T>=b.input.minimumCaptureK!)),touchingW=touching.reduce((n,b)=>n-b.flow.rateStoredJPerS,0);
   if(touchingW>0){
     const otherReleaseW=buffers.filter(b=>!touching.includes(b)).reduce((n,b)=>n-Math.min(0,b.flow.rateStoredJPerS),0);
     const roomW=Math.max(0,body.totalW+directSurfaceW+tiCoolingW+h2CoolingW-em.hostHeatW-directHeatW-otherReleaseW),ratio=Math.min(1,roomW/touchingW);
@@ -129,17 +131,15 @@ function chooseControls(spec:RunSpecV3,state:StateV3,requests:Record<string,numb
   if(!corridor.compatible)return {controls:zero(),coolingStageId:null,heatingStageId:null,recoveringBuffer:false,incompatible:true,heatingUnavailable:false};
   const delta=CONTROLLER_CANDIDATES.narrowOffsets?Math.min(10,(corridor.warmK-corridor.coldK)/12):10;
   const debt=Object.values(state.buffers).some(b=>b.storedJ>0),captureK=state.mode==='Masking'?state.maskingEntryTemperatureK!:corridor.warmK-delta;
-  type Stage={id:string;key:keyof Controls;setpointK:number;heatSource?:boolean};
+  type Stage={id:string;key:Exclude<keyof Controls,'coolingRelease'>;setpointK:number;heatSource?:boolean};
   let direction:'cooling'|'heating'='cooling',stages:Stage[];
   if(state.mode==='Masking')stages=[{id:'masking-buffer',key:'capture',setpointK:captureK}];
   else if(state.mode==='Combat')stages=[{id:'combat-group',key:'active',setpointK:corridor.warmK-6*delta},{id:'buffer-absorb',key:'capture',setpointK:captureK}];
   else stages=[{id:'active-radiator',key:'active',setpointK:corridor.warmK-5*delta},{id:'common-ti',key:'ti',setpointK:corridor.warmK-2*delta},{id:'buffer-absorb',key:'capture',setpointK:captureK},{id:'h2',key:'h2',setpointK:corridor.warmK}];
-  const marker=Math.min(...Object.values(state.buffers).filter(b=>b.storedJ>0).map(b=>b.minimumCaptureK!));
-  const recovery=debt&&state.mode!=='Masking'&&(action==='recovery'||base.netHeatW<0);
-  if(recovery){const releaseK=Math.min(marker,state.mode==='Combat'?corridor.warmK-6*delta:corridor.warmK-5*delta);stages=stages.filter(s=>s.key!=='capture');stages.push({id:'buffer-release',key:'release',setpointK:releaseK,heatSource:true});}
-  if(!recovery&&base.netHeatW<0&&T<=corridor.coldK+3*delta){
+  const recovery=debt&&state.mode!=='Masking';
+  if(base.netHeatW<0&&T<=corridor.coldK+3*delta){
     direction='heating';const gen=spec.resolvedShip.instances.find(i=>i.enabled&&i.item.family==='generator');
-    stages=[{id:'buffer-release',key:'release',setpointK:corridor.coldK+3*delta},...heatingOrder(gen?.item.species??null,state.mode).map((kind,index)=>({id:kind,key:(kind==='furnace'?'furnace':'electric') as keyof Controls,setpointK:corridor.coldK+(2-index)*delta}))];
+    stages=[{id:'buffer-release',key:'release',setpointK:corridor.coldK+3*delta},...heatingOrder(gen?.item.species??null,state.mode).map((kind,index)=>({id:kind,key:(kind==='furnace'?'furnace':'electric') as Stage['key'],setpointK:corridor.coldK+(2-index)*delta}))];
   }
   const apply=(c:Controls,s:Stage,level:number)=>{c[s.key]=level;if(s.id==='combat-group'){c.ti=level;c.h2=level;}return c;};
   // Available maxima включают реальные source/aux/EM losses; один physical evaluator
@@ -153,9 +153,23 @@ function chooseControls(spec:RunSpecV3,state:StateV3,requests:Record<string,numb
     for(let i=0;i<32;i++){const middle=(lo+hi)/2,trial=flows(spec,state,requests,apply({...c},s,middle),env),effect=(trial.netHeatW-before)*sign;if(effect<requested)lo=middle;else hi=middle;}
     c=apply(c,s,hi);
   }
+  // Долг не прогревает конструкцию к уставке. Насос включается на максимум
+  // только при полезном чистом отводе, а фактическая отдача заново ограничена
+  // headroom в flows на каждом физическом подынтервале (включая исчерпание питания).
+  const coolingRecovery=recovery&&direction==='cooling'&&T<=corridor.warmK-50&&c.capture===0;
+  if(coolingRecovery){
+    const releaseK=corridor.warmK-50,pumped={...c,active:1};
+    const panelsOpen=spec.resolvedShip.surfaces.some(s=>s.active&&state.surfaceOpen[s.id]);
+    // Ступень запускает насос у своей уставки, затем держит его открытым
+    // до разгрузки. Иначе первый микроскопический headroom у равновесия
+    // закрепил бы температуру до достижения рабочей ступени.
+    if((T>=releaseK||panelsOpen)&&flows(spec,state,requests,pumped,env).netHeatW<Math.min(0,flows(spec,state,requests,c,env).netHeatW))c=pumped;
+    else if(T<releaseK&&base.netHeatW>spec.resolvedShip.heatCapacityJK*(releaseK-T)&&flows(spec,state,requests,pumped,env).netHeatW<0)c=pumped;
+    c={...c,release:1,coolingRelease:true};
+  }
   // Диагноз — только когда средств прогрева действительно нет: исправное средство
   // выше своей уставки не включено, но и не отсутствует.
-  return {controls:c,coolingStageId:direction==='cooling'?allocation.regulatingStageId:null,heatingStageId:direction==='heating'?allocation.regulatingStageId:null,recoveringBuffer:recovery,incompatible:false,heatingUnavailable:direction==='heating'&&candidates.every(s=>s.maximumW<=0)};
+  return {controls:c,coolingStageId:coolingRecovery?'buffer-release':direction==='cooling'?allocation.regulatingStageId:null,heatingStageId:direction==='heating'?allocation.regulatingStageId:null,recoveringBuffer:recovery,incompatible:false,heatingUnavailable:direction==='heating'&&candidates.every(s=>s.maximumW<=0)};
 }
 
 export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,number>,action:PhaseAction='work'){
@@ -167,6 +181,7 @@ export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,numbe
   restartReady();
   for(const i of spec.resolvedShip.instances)if((requests[i.id]??0)>0&&authorizedDuty(i.item,state.mode,requests[i.id]).duty===0)diagnostics.push({instanceId:i.id,reason:'masking-forbidden',timeSeconds:state.timeSeconds,limiting:true});
   const chosen=chooseControls(spec,state,requests,env,action);state.governor={coolingStageId:chosen.coolingStageId,heatingStageId:chosen.heatingStageId,recoveringBuffer:chosen.recoveringBuffer};
+  if(chosen.recoveringBuffer&&!input.governor.recoveringBuffer)for(const[id,b]of Object.entries(state.buffers))if(b.storedJ>0)diagnostics.push({instanceId:id,reason:'buffer-recovery-start',timeSeconds:state.timeSeconds,remainingJ:b.storedJ});
   if(chosen.incompatible)diagnostics.push({reason:'incompatible-temperature-corridor',timeSeconds:state.timeSeconds});
   if(chosen.heatingUnavailable)diagnostics.push({reason:'heating-unavailable',timeSeconds:state.timeSeconds});
   const add=(key:string,value:number,dt:number)=>{telemetry[key]=(telemetry[key]??0)+value*dt;};
@@ -207,7 +222,7 @@ export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,numbe
     for(const sp of ['diesel','hydrogen']as const)if(r.fuelRate[sp]>0)boundaries.push({seconds:state.fuelKg[sp]/r.fuelRate[sp],reason:'fuel-empty:'+sp});
     for(const b of r.buffers)if(Number.isFinite(b.flow.limitSeconds)&&b.flow.limitSeconds>0)boundaries.push({seconds:b.flow.limitSeconds,instanceId:b.i.id,reason:b.flow.rateStoredJPerS>0?'buffer-full':'buffer-empty'});
     const temperatureRate=r.netHeatW/spec.resolvedShip.heatCapacityJK;
-    if(temperatureRate>0)for(const b of r.buffers)if(b.flow.rateStoredJPerS<0&&b.input.minimumCaptureK!>state.temperatureK)boundaries.push({seconds:(b.input.minimumCaptureK!-state.temperatureK)/temperatureRate,instanceId:b.i.id,reason:'capture-temperature-contact',temperatureK:b.input.minimumCaptureK!});
+    if(temperatureRate>0)for(const b of r.buffers)if(!b.input.coolingRelease&&b.flow.rateStoredJPerS<0&&b.input.minimumCaptureK!>state.temperatureK)boundaries.push({seconds:(b.input.minimumCaptureK!-state.temperatureK)/temperatureRate,instanceId:b.i.id,reason:'capture-temperature-contact',temperatureK:b.input.minimumCaptureK!});
     for(const i of spec.resolvedShip.instances){if(!i.enabled||state.modules[i.id].thermalStopped)continue;const boundary=temperatureRate>0?i.item.gate.high:i.item.gate.low,seconds=(boundary-state.temperatureK)/temperatureRate;if(seconds>0&&Number.isFinite(seconds))boundaries.push({seconds,instanceId:i.id,reason:temperatureRate>0?'critical-hot':'critical-cold',temperatureK:boundary});}
     for(const b of boundaries)if(b.seconds>0)dt=Math.min(dt,b.seconds);
     if(!(dt>0))throw new Error('nonpositive v3 event interval');
@@ -232,6 +247,6 @@ export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,numbe
   }
   state.timeSeconds=input.timeSeconds+1;state.phaseElapsedSeconds=input.phaseElapsedSeconds+1;
   telemetry.temperatureK=state.temperatureK;telemetry.chargeJ=state.chargeJ;
-  for(const[id,b]of Object.entries(state.buffers)){telemetry['bufferJ:'+id]=b.storedJ;if(chosen.recoveringBuffer&&b.storedJ>0&&state.temperatureK>b.minimumCaptureK!)diagnostics.push({instanceId:id,reason:'hotter-than-capture',timeSeconds:state.timeSeconds,remainingJ:b.storedJ});}
+  for(const[id,b]of Object.entries(state.buffers)){telemetry['bufferJ:'+id]=b.storedJ;if(chosen.recoveringBuffer&&b.storedJ>0&&telemetry.bufferReleaseW===0&&telemetry.bufferCaptureW===0)diagnostics.push({instanceId:id,reason:chosen.controls.coolingRelease?'no-cooling-headroom':chosen.heatingStageId!==null&&state.temperatureK>b.minimumCaptureK!?'hotter-than-capture':'recovery-not-releasing',timeSeconds:state.timeSeconds,remainingJ:b.storedJ});}
   return {state,telemetry,diagnostics,frames};
 }
