@@ -45,6 +45,15 @@ export function loadGovernorConformanceV1(manifest: unknown, vectors: unknown): 
   objectRule({ version: enumRule([VECTOR_VERSION], "UNKNOWN_VERSION"), ...versions, profiles: listRule((cc, input, path) => { const result = validateGovernorProfileV03(input); if (!result.ok) cc.errors.push(...result.errors.map(e => ({ ...e, path: `${path}.${e.path}` }))); }), vectors: listRule(vectorRule) })(c, vectors, "vectors");
   if (c.errors.length) return c.result(undefined);
   const m = manifest as { records: readonly ConformanceRecordV1[] }, data = vectors as { profiles: readonly GovernorProfileV03[]; vectors: readonly ConformanceVectorV1[] };
+  // Every nested tick input must be valid before T-specific and reference semantics dereference it.
+  for (const vector of data.vectors) {
+    const path = `vectors.${vector.id}`, input = vector.input;
+    const profile = data.profiles.find(p => p.id === input.profileId);
+    if (!profile) { c.bad(`${path}.profileId`, "DANGLING_REFERENCE", "Неизвестный profile ID"); continue; }
+    const tick = validateGovernorTickInputV03({ profile, state: input.state, requestedMode: input.requestedMode, requests: input.requests, environment: input.environment });
+    if (!tick.ok) c.errors.push(...tick.errors.map(e => ({ ...e, path: `${path}.${e.path}` })));
+  }
+  if (c.errors.length) return c.result(undefined);
   for (const id of CONFORMANCE_IDS) if (!m.records.some(r => r.id === id)) c.bad("manifest.records", "MISSING_T_ID", `Отсутствует ${id}`);
   const used = new Set<string>();
   for (const record of m.records) {
@@ -80,8 +89,6 @@ export function loadGovernorConformanceV1(manifest: unknown, vectors: unknown): 
     const profile = data.profiles.find(p => p.id === input.profileId);
     if (!profile) { c.bad(`${path}.profileId`, "DANGLING_REFERENCE", "Неизвестный profile ID"); continue; }
     if (input.rebindProfileId && !data.profiles.some(p => p.id === input.rebindProfileId)) c.bad(`${path}.rebindProfileId`, "DANGLING_REFERENCE", "Неизвестный destination profile ID");
-    const tick = validateGovernorTickInputV03({ profile, state: input.state, requestedMode: input.requestedMode, requests: input.requests, environment: input.environment });
-    if (!tick.ok) c.errors.push(...tick.errors.map(e => ({ ...e, path: `${path}.${e.path}` })));
     for (const event of input.events) {
       if (event.atTick > input.durationTicks) c.bad(path, "INVALID_NUMBER", "Event вне длительности fixture");
       const unit = event.kind === "external-heat" ? ["J"] : event.kind === "service" ? ["J", "kg", "1"] : ["1"];

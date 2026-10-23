@@ -11,6 +11,16 @@ function refusal(mutator: (data: ReturnType<typeof bundle>) => void, code: strin
   if (!result.ok) expect(result.errors).toContainEqual(expect.objectContaining({ code }));
   expect(data).toEqual(before);
 }
+function malformedRefusal(mutator: (data: ReturnType<typeof bundle>) => void, path: string, code: string) {
+  const data = bundle(); mutator(data); const before = structuredClone(data);
+  let result: ReturnType<typeof loadGovernorConformanceV1> | undefined;
+  expect(() => { result = loadGovernorConformanceV1(data.manifest, data.vectors); }).not.toThrow();
+  expect(result).toBeDefined();
+  if (!result) return;
+  expect(result.ok).toBe(false);
+  if (!result.ok) expect(result.errors.map(({ path: errorPath, code: errorCode }) => ({ path: errorPath, code: errorCode }))).toEqual([{ path, code }]);
+  expect(data).toEqual(before);
+}
 describe("G0 conformance inventory gate", () => {
   it("loads every exact T01–T39 once without claiming future execution", () => {
     const data = bundle(); const result = loadGovernorConformanceV1(data.manifest, data.vectors);
@@ -162,6 +172,18 @@ describe("G0 conformance inventory gate", () => {
   it("refuses a T31 destination profile that is absent", () => { refusal(d => { d.vectors.vectors[30].input.rebindProfileId = "missing-profile"; }, "DANGLING_REFERENCE"); });
   it("refuses a dangling T33 reference trajectory", () => { refusal(d => { d.vectors.vectors[32].input.reference.trajectories[0].vectorId = "missing-vector"; }, "DANGLING_REFERENCE"); });
   it("refuses malformed vector input", () => { refusal(d => { d.vectors.vectors[0].input.environment.temperatureK = NaN; }, "INVALID_NUMBER"); });
+  it("returns a structured refusal for null T16 state without throwing", () => {
+    malformedRefusal(d => { d.vectors.vectors.find((v: any) => v.id === "vector-T16").input.state = null; }, "vectors.vector-T16.state", "INVALID_TYPE");
+  });
+  it("returns a structured refusal for missing T16 water enthalpy without throwing", () => {
+    malformedRefusal(d => { delete d.vectors.vectors.find((v: any) => v.id === "vector-T16").input.state.waterEnthalpyJByTank; }, "vectors.vector-T16.state.waterEnthalpyJByTank", "MISSING_FIELD");
+  });
+  it("returns a structured refusal for null T08 resource mass without throwing", () => {
+    malformedRefusal(d => { d.vectors.vectors.find((v: any) => v.id === "vector-T08").input.state.resourceMassKg = null; }, "vectors.vector-T08.state.resourceMassKg", "INVALID_TYPE");
+  });
+  it("returns a structured refusal for null T08 requests without throwing", () => {
+    malformedRefusal(d => { d.vectors.vectors.find((v: any) => v.id === "vector-T08").input.requests = null; }, "vectors.vector-T08.tick.requests", "INVALID_TYPE");
+  });
   it("refuses an unsupported bundle version with an exact structured refusal", () => {
     const data = bundle(); data.manifest.version = "conformance/99";
     const result = loadGovernorConformanceV1(data.manifest, data.vectors); expect(result.ok).toBe(false);
