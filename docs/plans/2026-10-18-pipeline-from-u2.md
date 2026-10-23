@@ -1,7 +1,7 @@
 ---
 title: "Пайплайн u2 в u2-lab: перенос норм в слой проекта"
-status: proposed
-version: "0.2"
+status: active
+version: "0.3"
 date: 2026-10-18
 mode: CRITICAL
 owner: PM
@@ -69,6 +69,7 @@ u2-lab — `.agents/PIPELINE_ADR.md §3.29` и `.agents/PM_ROLE.md`». Един�
 | Предложения ГД, записанные в документах как «решения», сверяются с первоисточником | поручение оператора 2026-10-17 (таблица gd-proposals v2) |
 | Скиллы `u2-*` заменены generic `canon-router`, `product-gap`, `product-handoff`, `handoff` с теми же триггерами | `.agents/SKILLS.md` |
 | Удалены Unity, сервер, Almanac, `docs-authority.md`, `gdd_overview` и прочие пути U2 без эквивалента | репозиторий u2-lab |
+| Размещение артефактов, словарь статусов и реакция на противоречие с ADR — по правилам u2-lab, без своих норм роли | `docs/INDEX.md` u2-lab, `.claude/rules/universal.md` (раздел «Канон-решения») |
 
 Роль опциональна: не стадия Delivery First, не verifier, не расширяет budget, не седьмая роль реестра
 (`PIPELINE_ADR.md §3.31`, `AGENT_ROLES.md`). Принцип u2 «не навязывай код в GDD/ТЗ: поведение — словами и
@@ -129,11 +130,14 @@ u2-lab — `.agents/PIPELINE_ADR.md §3.29` и `.agents/PM_ROLE.md`». Един�
 | PU-07 | `PM_ROLE.md:183`, `SV_ROLE.md:43` | Ведут на существующие файлы |
 
 Методы: verify, скрипт сверки хэшей и побайтного диффа справочников, чтение; независимые Plan Review и
-scoped Review. Бюджет CRITICAL — 6, использовано 1. Rollback: revert PR — изменения аддитивны,
+scoped Review. Бюджет CRITICAL — 6, использовано 3 (Plan Review, QA, Code Review); повторные проверки —
+в тех же verifier-сессиях. Rollback: revert PR — изменения аддитивны,
 managed-файлы не тронуты.
 
 ## История
 
+- 0.3 — по Code Review PR #31 (BLOCKER №1): в закрытый список §2.2 добавлена строка о размещении,
+  статусах и реакции на ADR по правилам u2-lab; `GD_ROLE.md` приведён к ней. Учётные поля обновлены.
 - 0.2 — по Plan Review PR #31 (CHANGES_REQUIRED, 4B/8A): справочники — дословная копия с баннером; закрытый
   список отклонений роли ГД с источниками; маршрут канона через `source-authority.md`; полная таблица
   пунктов `AGENTS.md` u2; project-исключение к PM_ROLE §9 названо; PU-02 по манифесту; DECLARED_LIMIT;
