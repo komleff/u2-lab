@@ -1,0 +1,1113 @@
+{
+  "version": "f2-governor-representative-traces/1",
+  "kernelCommit": "eea681e171aa31212cff5b408acd9bbe9e55cea8",
+  "reservationNote": "Deterministic evidence replay records full finite reservations before electrical dispatch; actual resource consumption remains separately present in workPackages and ledger-backed state digests.",
+  "scenarios": [
+    {
+      "id": "shared-port-proportional",
+      "vectorId": "vector-T07",
+      "retention": "every tick",
+      "rows": [
+        {
+          "tick": 0,
+          "requests": [
+            {
+              "id": "cooler-10",
+              "requestedW": 10000000
+            },
+            {
+              "id": "cooler-20a",
+              "requestedW": 20000000
+            },
+            {
+              "id": "cooler-20b",
+              "requestedW": 20000000
+            }
+          ],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": [
+              {
+                "moduleId": "cooler-10",
+                "usefulOutputJ": 333333.3333333333,
+                "resourceKg": []
+              },
+              {
+                "moduleId": "cooler-20a",
+                "usefulOutputJ": 666666.6666666666,
+                "resourceKg": []
+              },
+              {
+                "moduleId": "cooler-20b",
+                "usefulOutputJ": 666666.6666666666,
+                "resourceKg": []
+              }
+            ]
+          },
+          "stateBeforeDigest": "6508fe6c28636c8082730d63c5e2d50bb32a791b777ac29d50e580676c2af314",
+          "stateAfterDigest": "fce5982b4d50eec27fe7d621b0ace411810c26b7ceb212aec5b0e90008654da0",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler-10",
+              "reason": "idle"
+            },
+            {
+              "moduleId": "cooler-20a",
+              "reason": "idle"
+            },
+            {
+              "moduleId": "cooler-20b",
+              "reason": "idle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quiet-debt-recovery-repeat",
+      "vectorId": "vector-T25",
+      "retention": "exact ticks around every discrete state change",
+      "rows": [
+        {
+          "tick": 0,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 3.333333333333333e-8
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.3333333333333333
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 0.3333333333333333,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 3.333333333333333e-8
+                  }
+                ]
+              }
+            ]
+          },
+          "stateBeforeDigest": "c15d6a43e04f845c62e23cbf404729fa05de7fce733dc2d75257cb57d1f0a223",
+          "stateAfterDigest": "ab812d90df7995d625f246d22551cb4f9f37516644ba9a795bd774b1d8c05e4b",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "idle"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 1,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 3.333333333333333e-8
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.3333333333333333
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 0.3333333333333333,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 3.333333333333333e-8
+                  }
+                ]
+              }
+            ]
+          },
+          "stateBeforeDigest": "ab812d90df7995d625f246d22551cb4f9f37516644ba9a795bd774b1d8c05e4b",
+          "stateAfterDigest": "ee32a210322ffa847af44fd83f749bc5c575c8ed142f8db69cad1a52f78d410d",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "idle"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 1799,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 3.333333333333333e-8
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.3333333333333333
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 0.3333333333333333,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 3.333333333333333e-8
+                  }
+                ]
+              }
+            ]
+          },
+          "stateBeforeDigest": "80719599ae460b36b1ad3cf327b232ade0eba305a28590e25991d360054db9a0",
+          "stateAfterDigest": "0c73581db494358f40cda57049defddda847c82730e6cc73d26c0dce5628b304",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "idle"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 1800,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": []
+          },
+          "stateBeforeDigest": "0c73581db494358f40cda57049defddda847c82730e6cc73d26c0dce5628b304",
+          "stateAfterDigest": "ce076297f7448d61d47fb578234534575f883dd421d15472d60cd02fc0e7e8f0",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "quiet-hot-path-forbidden"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 1801,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": []
+          },
+          "stateBeforeDigest": "ce076297f7448d61d47fb578234534575f883dd421d15472d60cd02fc0e7e8f0",
+          "stateAfterDigest": "5865ea8ac78adb003517ca9163c23cfb10c40c08b68376b0a69153105a287516",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "quiet-hot-path-forbidden"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 3599,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": []
+          },
+          "stateBeforeDigest": "a3658a503c110471dfa8825291649d8d6f7978b49912b51bc79473f29427655f",
+          "stateAfterDigest": "ad908370f30b869415b0b59459d1176a1e173de5f65aabf51f9fc4adda96fe2e",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "quiet-hot-path-forbidden"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 3600,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 3.333333333333333e-8
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.3333333333333333
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 0.3333333333333333,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 3.333333333333333e-8
+                  }
+                ]
+              }
+            ]
+          },
+          "stateBeforeDigest": "ad908370f30b869415b0b59459d1176a1e173de5f65aabf51f9fc4adda96fe2e",
+          "stateAfterDigest": "076cb33df41502c7f29d42d24c249a69f5313fb863d224337f5265238c55cb3c",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "idle"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 3601,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 3.333333333333333e-8
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.3333333333333333
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 0.3333333333333333,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 3.333333333333333e-8
+                  }
+                ]
+              }
+            ]
+          },
+          "stateBeforeDigest": "076cb33df41502c7f29d42d24c249a69f5313fb863d224337f5265238c55cb3c",
+          "stateAfterDigest": "8e9e8b91fa375d2c58681d07c7783d922b2e04da8309ce32ae632b2ecc62aed3",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "idle"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 5399,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 3.333333333333333e-8
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.3333333333333333
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 0.3333333333333333,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 3.333333333333333e-8
+                  }
+                ]
+              }
+            ]
+          },
+          "stateBeforeDigest": "677730ef2f8d7d612791d6fc67056d1245de7b63d95ab5f0ec320955618af671",
+          "stateAfterDigest": "e104f2ac32c30209a29639aa388c0f94bde42e48892ab1e14b00b89acea7c07f",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "idle"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "power-fuel-shortage",
+      "vectorId": "vector-T08",
+      "retention": "exact ticks around depletion state change",
+      "rows": [
+        {
+          "tick": 0,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 100
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 3.3333333333333335e-7
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.3333333333333333
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 3.3333333333333335,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 3.3333333333333335e-7
+                  }
+                ]
+              }
+            ]
+          },
+          "stateBeforeDigest": "552909eaa4f4c30313ec61dadb155b629ae6cb8f689a3677c2d3ecad9a805d01",
+          "stateAfterDigest": "d1ab578082a97431b6124f5422d5ef84b04133cf4f600ab2dab60db6917bef51",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "idle"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 1,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 100
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 3.3333333333333335e-7
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.3333333333333333
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 3.3333333333333335,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 3.3333333333333335e-7
+                  }
+                ]
+              }
+            ]
+          },
+          "stateBeforeDigest": "d1ab578082a97431b6124f5422d5ef84b04133cf4f600ab2dab60db6917bef51",
+          "stateAfterDigest": "6e35c188080e571768136e4cfb3f1159d97e3f242cadfb1ba4163b1e5f311e02",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "idle"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 2998,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 100
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 3.3333333333333335e-7
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.3333333333333333
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 3.3333333333333335,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 3.3333333333333335e-7
+                  }
+                ]
+              }
+            ]
+          },
+          "stateBeforeDigest": "5a0a46a868289abc2ed4817792cc1dff05037f6831afb4e9cc90235c8b0f7240",
+          "stateAfterDigest": "1ba91f6a1737569cb95d479e57a82bc921aa3d336401ba98253c1953ae279edd",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "idle"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 2999,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 100
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 3.3333333333333335e-7
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.3333333333333333
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 3.3333333328953283,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 3.333333332895328e-7
+                  }
+                ]
+              }
+            ]
+          },
+          "stateBeforeDigest": "1ba91f6a1737569cb95d479e57a82bc921aa3d336401ba98253c1953ae279edd",
+          "stateAfterDigest": "038d33b4c4b7702ca82813a6202226898c5e790b2bcfbd93dfa09f68370ee077",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "resource-empty"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 3000,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 100
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 6.832607150894575e-17
+            }
+          ],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": []
+          },
+          "stateBeforeDigest": "038d33b4c4b7702ca82813a6202226898c5e790b2bcfbd93dfa09f68370ee077",
+          "stateAfterDigest": "49ea0525d1f002b89d7eee69d39d5cd6d156efd7d58751de4ee7e43ac59914d8",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "resource-empty"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 3001,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 100
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 6.832607150894575e-17
+            }
+          ],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": []
+          },
+          "stateBeforeDigest": "49ea0525d1f002b89d7eee69d39d5cd6d156efd7d58751de4ee7e43ac59914d8",
+          "stateAfterDigest": "4fd02a74f00e89996a490bc2cbcc544e2c1dc2c3665c1dd57a8c375996a6b704",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "resource-empty"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 3599,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 100
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 6.832607150894575e-17
+            }
+          ],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": []
+          },
+          "stateBeforeDigest": "cc02886f8e393efa023f94c8ca17f31e79a8e3323c793bc328a508ce68f2851e",
+          "stateAfterDigest": "9d684e975f2701fdd6e9eaa0df7442658693bad674164555d426fabc78200b14",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "resource-empty"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-before-failure",
+      "vectorId": "vector-T29",
+      "retention": "every tick",
+      "rows": [
+        {
+          "tick": 0,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": []
+          },
+          "stateBeforeDigest": "6f92063bc572a72e6af7a38bcc8d37e1f3e47e87b8832697c78e8f0d7fdc750e",
+          "stateAfterDigest": "7f0e05b4c5245333e47ae359149f3f3200fab541616c2801e9509cbaa10ea8fc",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "durability-failure"
+            },
+            {
+              "moduleId": "cooler",
+              "reason": "durability-failure"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-before-restart",
+      "vectorId": "vector-T29-modified",
+      "retention": "every tick",
+      "rows": [
+        {
+          "tick": 0,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 3.333333333333333e-8
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.3333333333333333
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 0.3333333333333333,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 3.333333333333333e-8
+                  }
+                ]
+              }
+            ]
+          },
+          "stateBeforeDigest": "fca025c936632a5efb721544fa98580ed5f7bb62554235cdbbeb346cc4347704",
+          "stateAfterDigest": "aac9ddcaa254ef93ef6b5df5cf97a541bb91d0995d684a5411fab5d1325a3c3b",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "idle"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-before-hysteresis",
+      "vectorId": "vector-T30",
+      "retention": "exact ticks around stop/restart state changes",
+      "rows": [
+        {
+          "tick": 0,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": []
+          },
+          "stateBeforeDigest": "32fdf69229c313541daa4f627d4a5572d83e92816f1aa97c7ea6964b41fa24f5",
+          "stateAfterDigest": "769e1df4126fc3c38dc99fe5d43a1871a65c4163ccee5843106cb0af4fbd40d4",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "critical-hot-stop"
+            },
+            {
+              "moduleId": "cooler",
+              "reason": "critical-hot-stop"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 1,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": []
+          },
+          "stateBeforeDigest": "769e1df4126fc3c38dc99fe5d43a1871a65c4163ccee5843106cb0af4fbd40d4",
+          "stateAfterDigest": "03d6d20ff1ab57fda6dce3d264d03af01216046e06fca4a447a41de8adac5c30",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "critical-hot-stop"
+            },
+            {
+              "moduleId": "cooler",
+              "reason": "restart-hysteresis"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 2,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": []
+          },
+          "stateBeforeDigest": "03d6d20ff1ab57fda6dce3d264d03af01216046e06fca4a447a41de8adac5c30",
+          "stateAfterDigest": "789c5bbb12c659b3bf605af54be8cbda34a2802570108d9dc5e5aa847b5e0efe",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "critical-hot-stop"
+            },
+            {
+              "moduleId": "cooler",
+              "reason": "restart-hysteresis"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 592,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": []
+          },
+          "stateBeforeDigest": "6b3841b4d97942a348ca0c0dc3337293e62a215ae8bca71803f4930941ad6fba",
+          "stateAfterDigest": "b9084521680d2a0d3c2e4792359136cbef1ea273232a749c3338423a310ab8c8",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "critical-hot-stop"
+            },
+            {
+              "moduleId": "cooler",
+              "reason": "restart-hysteresis"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 593,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 1.6686850944297096e-8
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.16686850944297096
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 0.16686850944297096,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 1.6686850944297096e-8
+                  }
+                ]
+              }
+            ]
+          },
+          "stateBeforeDigest": "b9084521680d2a0d3c2e4792359136cbef1ea273232a749c3338423a310ab8c8",
+          "stateAfterDigest": "e22154987c8208f803639a7eb38bdc0472d6b803d1d265669c7b6f6928a1d6e3",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "hot-derating"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 594,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 1.6714980408660453e-8
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.16714980408660451
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 0.16714980408660451,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 1.671498040866045e-8
+                  }
+                ]
+              }
+            ]
+          },
+          "stateBeforeDigest": "e22154987c8208f803639a7eb38bdc0472d6b803d1d265669c7b6f6928a1d6e3",
+          "stateAfterDigest": "7f86834dab00b0c6b1f30840ee4e8edf00d892a9cea0c46bdd750136267d190f",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "hot-derating"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        },
+        {
+          "tick": 899,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 2.529287121017205e-8
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.2529287121017205
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 0.2529287121017205,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 2.529287121017205e-8
+                  }
+                ]
+              }
+            ]
+          },
+          "stateBeforeDigest": "dc7f316164b67f891ffe3227c1d021f28765a9cb127f039316808744bd0c16d7",
+          "stateAfterDigest": "2ad73dbddac0499967192fbc13a671ab3d3adc5d10d1d374347014a20da80dff",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "hot-derating"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

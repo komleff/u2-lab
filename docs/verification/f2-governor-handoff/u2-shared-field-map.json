@@ -1,0 +1,71 @@
+{
+  "version": "f2-governor-u2-shared-field-map/1",
+  "source": {
+    "repository": "komleff/u2",
+    "commit": "40ddffb2832d4dcbe7b2b05501a74c98044386a8",
+    "path": "docs/specs/thermal/spec_ship_thermal_governor_v0.3.md",
+    "sha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034"
+  },
+  "mappings": [
+    {
+      "u2Field": "U_S",
+      "labField": "GovernorStateV03.shipEnergyJ",
+      "ownership": "shared-contract",
+      "unit": "J"
+    },
+    {
+      "u2Field": "T_ship",
+      "labField": "GovernorStateV03.shipEnergyJ / GovernorProfileV03.ship.heatCapacityJPerK",
+      "ownership": "derived-only",
+      "unit": "K"
+    },
+    {
+      "u2Field": "Q_B",
+      "labField": "GovernorStateV03.bufferEnergyJByBank[].energyJ",
+      "ownership": "shared-contract",
+      "unit": "J"
+    },
+    {
+      "u2Field": "T_B(Q)",
+      "labField": "GovernorProfileV03.banks[].temperatureByEnergy",
+      "ownership": "profile-input",
+      "unit": "K"
+    },
+    {
+      "u2Field": "Normal/Quiet/Combat",
+      "labField": "GovernorStateV03.requestedMode/effectiveMode",
+      "ownership": "shared-contract",
+      "unit": "1"
+    },
+    {
+      "u2Field": "durability/protection/restart",
+      "labField": "GovernorStateV03.moduleStateById[]",
+      "ownership": "shared-contract",
+      "unit": "1"
+    },
+    {
+      "u2Field": "resource stock",
+      "labField": "GovernorStateV03.resourceMassKg[]",
+      "ownership": "shared-contract",
+      "unit": "kg"
+    },
+    {
+      "u2Field": "outward heat owners",
+      "labField": "GovernorTickResultV03.ledger.outward[]",
+      "ownership": "shared-contract",
+      "unit": "J"
+    },
+    {
+      "u2Field": "water thermotank real map",
+      "labField": "GovernorProfileV03.waterTanks[]/GovernorStateV03.waterEnthalpyJByTank[]",
+      "ownership": "PRODUCT_GAP synthetic-only",
+      "unit": "J"
+    }
+  ],
+  "excluded": [
+    "real ship TTX",
+    "station",
+    "Unity/server/network/device/deploy",
+    "detection"
+  ]
+}
