@@ -1,6 +1,6 @@
 ---
 title: "F2: предварительная квалификация питания, тепла и обслуживания в U2 Lab"
-status: proposed / operator scope accepted / adversarial review fixes integrated / independent Plan Review pending
+status: proposed / operator scope accepted / adversarial review APPROVED / independent Plan Review pending
 version: "0.2"
 date: 2026-10-23
 tags: [pm, product, f2, thermal, power, governor, service, persistence, compatibility]
