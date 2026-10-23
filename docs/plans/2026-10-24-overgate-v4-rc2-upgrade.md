@@ -1,7 +1,7 @@
 ---
 title: "Upgrade пайплайна u2-lab: OverGate v4.0.0-rc.1 → v4.0.0-rc.2"
 status: proposed
-version: "0.1"
+version: "0.2"
 date: 2026-10-24
 tags: [plan, pipeline, overgate, upgrade, beads, critical]
 ---
@@ -17,6 +17,13 @@ Beads: `ulab-c5p`; после merge закрывается `ulab-oz6`.
 https://github.com/komleff/overgate/releases/tag/v4.0.0-rc.2). Процедура — `.agents/INSTALL.md`
 источника: `install-overgate.py plan → PLAN_READY → apply`. Budget 6: Plan Review, ревью
 install-плана, QA, Code Review, affected QA и re-review; резерв.
+
+**Решения оператора 2026-10-24 (v0.2):**
+1. Нужно полное соответствие текущему OverGate, чтобы проверить его на реальном проекте. После
+   upgrade каждый managed- и settings-файл manifest rc.2 побайтно равен источнику; отличаются
+   только preserve/ignore-файлы проекта.
+2. Правка `AGENTS.md` из §5 одобрена.
+3. Расхождение «узкого allow-списка» с `Bash(*)` — отдельная задача `ulab-4tq`.
 
 ## 1. Target → as-built → gap
 
@@ -40,24 +47,29 @@ install-плана, QA, Code Review, affected QA и re-review; резерв.
 2. Чистый trusted source: отдельный `git clone` OverGate на тег `v4.0.0-rc.2`, exact SHA.
 3. `install-overgate.py plan` → публикация JSON и SHA256 в этом PR → ревью install-плана →
    approval JSON → `apply`.
-4. Preserve-файлы:
+4. Снять 4 project allow-правила обёрток (`Bash([bash ]scripts/bd-wt.sh *)`,
+   `Bash([bash ]scripts/bd-read.sh *)`) из `.claude/settings.json` до генерации плана. Это
+   единственный дрейф settings от managed-версии, а сужения они не дают (`Bash(*)`). Тогда
+   settings после merge побайтно равны rc.2. Упоминание этих правил в `beads.md` — снять, норма
+   «только через обёртку» остаётся нормой.
+5. Preserve-файлы:
    - `.claude/rules/beads.md` — предписания запуска `bash scripts/bd-*.sh`; отметка, что embedded
      и allowlist теперь upstream OverGate, а не адаптация Lab; флаг `--description-file` в перечне;
-   - `AGENTS.md` — **только после одобрения оператора** (`.claude/rules/universal.md`), предложение в §5.
-5. `docs/verification/beads-wrapper-drift.json` — дрейф снят: перенос в `docs/archive/` со
+   - `AGENTS.md` — правка §5, одобрена оператором 2026-10-24.
+6. `docs/verification/beads-wrapper-drift.json` — дрейф снят: перенос в `docs/archive/` со
    статусом superseded и ссылкой на этот PR; `cloud-tooling-provenance.json` — managed policy
    без отступления.
-6. Текущие привязки к rc.1: `.memory-bank/techContext.md` и требование в
+7. Текущие привязки к rc.1: `.memory-bank/techContext.md` и требование в
    `.agents/project/check-bootstrap.py` — на rc.2. Исторические документы (reviews, bootstrap
    evidence, archive, первый export в `beads.md`) не меняются.
-7. Тесты проекта: `scripts/tests/test-bd-local-access.mjs` — кейсы applier сохраняются; кейсы,
+8. Тесты проекта: `scripts/tests/test-bd-local-access.mjs` — кейсы applier сохраняются; кейсы,
    завязанные на тексты или прямой `python3` старой обёртки, приводятся к rc.2. Дублирующие
    managed-тест — по выбору Developer с обоснованием.
-8. `.memory-bank/{activeContext,progress}.md`.
+9. `.memory-bank/{activeContext,progress}.md`.
 
 **OUT:**
-- 4 project allow-правила в settings — не меняются (вопрос оператору в §6);
-- Bash(*) и `defaultMode` — не меняются;
+- managed `Bash(*)` и `defaultMode` — не меняются: это managed rc.2 (задача `ulab-4tq`);
+- никаких project overrides managed-файлов после apply;
 - PR #31 (нормы u2 в слое проекта) — отдельная линия; при пересечении `AGENTS.md` второй по
   merge PR rebase'ится;
 - продуктовый код Лабы; follow-up OverGate `og-jx3`, `og-m42`, `og-vjp`, `og-7sr`.
@@ -65,7 +77,7 @@ install-плана, QA, Code Review, affected QA и re-review; резерв.
 ## 3. Шаги
 
 1. Commit 1: возврат двух managed-файлов к rc.1 (`git show 633937250f…:<path>` из trusted
-   source). Сразу после него обёртка в ветке временно не работает на embedded — допустимо до
+   source) и снятие 4 project allow-правил из settings. Сразу после него обёртка в ветке временно не работает на embedded — допустимо до
    apply; `bd` ветка не трогает.
 2. Clone source, `plan` с `--target` worktree, `--contract` этот план, `--target-pr` этот PR.
    Ожидание: conflicts пусто; operations — только managed inventory; settings merge
@@ -82,7 +94,8 @@ install-плана, QA, Code Review, affected QA и re-review; резерв.
 |---|---|---|
 | UG-01 | Managed payload побайтно равен manifest rc.2 `073595ae…`; install-state ссылается на rc.2 | сверка blob по manifest; `install-state.json` |
 | UG-02 | Install-план без conflicts; опубликован с SHA256; apply выполнен по approval того же PR | JSON плана, approval, лог apply |
-| UG-03 | Settings: одна dispatcher-запись rc.2; project allow/deny/env/defaultMode сохранены побайтно по смыслу | diff `permissions` до и после |
+| UG-03 | Settings побайтно равны managed `.claude/settings.json` rc.2; 4 project allow-правила сняты, прочее не потеряно | `cmp` с источником + diff `permissions` до и после |
+| UG-11 | Полное соответствие: каждый файл manifest rc.2 с policy managed/settings побайтно равен источнику `073595ae`; отличаются только preserve/ignore, и каждый такой файл назван в PR | скрипт сверки по manifest на exact HEAD |
 | UG-04 | Обёртка из worktree u2-lab работает на embedded-базе с настоящим bd: `bash scripts/bd-wt.sh ready`/`show ulab-c5p`; отказ `delete`, `--global`, `--description-file` | live smoke |
 | UG-05 | Applier: шаг 4 на embedded работает с rc.2 `bd-env.sh` | `test-bd-local-access.mjs` (кейсы applier) + `bash -n` |
 | UG-06 | `python3 scripts/check-reference.py` и полный `bash .agents/project/verify.sh` PASS на exact HEAD | локально + CI |
@@ -105,7 +118,7 @@ install-плана, QA, Code Review, affected QA и re-review; резерв.
 - R4 — конфликт с PR #31 в `AGENTS.md`;
 - R5 — hooks rc.2 побайтно равны rc.1 (проверено: `pre-bash.sh`, settings hooks, `.codex` не менялись), поэтому live activation — NOT RUN, если оператор не попросит smoke.
 
-## 5. Предложение правки AGENTS.md (ждёт одобрения оператора)
+## 5. Правка AGENTS.md (одобрена оператором 2026-10-24)
 
 ```diff
 -Bootstrap pipeline source: `komleff/overgate`, `v4.0.0-rc.1`,
@@ -126,12 +139,12 @@ install-плана, QA, Code Review, affected QA и re-review; резерв.
 +`bash scripts/bd-sync-export.sh` и `origin/beads-backup`, в тишине и export-first.
 ```
 
-## 6. Вопрос оператору вне scope
+## 6. Вне scope: allow-список
 
 Решение 2026-10-18 «узкий allow-список» в `.claude/settings.json` не сужает фактические
-разрешения: managed `allow` содержит `Bash(*)`, а `defaultMode` — `bypassPermissions`. Строка
-`beads.md` «прямые `bd …` не разрешаются» описывает норму, а не механизм. Этот upgrade
-поведение не меняет; решение — отдельной задачей.
+разрешения: managed `allow` содержит `Bash(*)`, а `defaultMode` — `bypassPermissions`. Этот
+upgrade снимает только избыточные project-правила ради соответствия rc.2. Политика разрешений —
+задача `ulab-4tq`.
 
 ## 7. Rollback
 
