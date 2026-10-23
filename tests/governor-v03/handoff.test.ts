@@ -53,6 +53,30 @@ describe("F2-G2 early U2 handoff freeze", () => {
       expect.objectContaining({ ownerId: "generator-source", nodeId: "electrical", energyJ: expect.any(Number) }),
       expect.objectContaining({ ownerId: "generator-source", nodeId: "ship", energyJ: expect.any(Number) }),
     ]));
+    const sharedFlow = traces.scenarios.find((item: { id: string }) => item.id === "t38-shared-resource-order");
+    expect(sharedFlow.inputBoundary).toEqual({
+      mutations: { h2MaxFlowKgPerS: 3, electricalChargeJ: 0 },
+      retained: {
+        requests: [
+          { id: "propulsion", requestedW: 30_000_000 },
+          { id: "generator", requestedW: 9_000_000 },
+          { id: "cooler", requestedW: 3_000_000 },
+        ],
+        shipHeatCapacityJPerK: 1_000_000_000,
+      },
+    });
+    expect(sharedFlow.rows[0].reservations).toEqual([
+      { ownerId: "module:propulsion", resourceId: "h2", reservedKg: 0.1 },
+      { ownerId: "source:generator-source", resourceId: "h2", reservedKg: 0 },
+      { ownerId: "module:cooler", resourceId: "h2", reservedKg: 0 },
+    ]);
+    expect(sharedFlow.rows[0].actualAllocations.workPackages).toEqual([
+      expect.objectContaining({ moduleId: "propulsion", resourceKg: [{ id: "h2", massKg: 0.1 }] }),
+    ]);
+    expect(sharedFlow.rows[0].limitingReasons).toEqual(expect.arrayContaining([
+      { moduleId: "propulsion", reason: "resource-reserved" },
+      { moduleId: "cooler", reason: "power-limited" },
+    ]));
   });
 
   it("passes the standalone drift verifier", () => {

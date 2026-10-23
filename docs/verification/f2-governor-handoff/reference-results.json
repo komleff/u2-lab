@@ -1,6 +1,6 @@
 {
   "version": "f2-governor-reference-results/1",
-  "kernelCommit": "9d74342cd0eac10381be519e5879f32489584b41",
+  "kernelCommit": "b35acaa0ae0db47cffb70c3d85ec0d8aefc0894e",
   "clockHz": {
     "production": 30,
     "reference": 120
@@ -76,16 +76,16 @@
       "vectorId": "vector-T05",
       "durationSeconds": 60,
       "temperatureK": {
-        "hz30": 399.961904959276,
-        "hz120": 399.961904962982,
-        "difference": 3.70562247553607e-9,
+        "hz30": 399.961904959204,
+        "hz120": 399.961904962659,
+        "difference": 3.454090347077e-9,
         "tolerance": 0.025
       },
       "shipEnergyDeltaJ": {
-        "hz30": -38095.0407236218,
-        "hz120": -38095.0370180011,
-        "difference": 0.00370562076568604,
-        "tolerance": 190.476203618109
+        "hz30": -38095.0407955647,
+        "hz120": -38095.0373414755,
+        "difference": 0.00345408916473389,
+        "tolerance": 190.476203977823
       },
       "usefulOutputJ": {
         "hz30": 599.999999999998,
@@ -97,7 +97,7 @@
         "hz120": 720.000000000095
       },
       "resourceDifferencesKg": {
-        "h2": 1.26969545988231e-11,
+        "h2": 1.26970656211256e-11,
         "water": 0
       },
       "transitions30": [
@@ -133,28 +133,28 @@
       "vectorId": "vector-T30",
       "durationSeconds": 30,
       "temperatureK": {
-        "hz30": 684.807405849672,
-        "hz120": 684.807412880082,
-        "difference": 0.00000703040950611467,
-        "tolerance": 0.0959629355995907
+        "hz30": 684.807405849709,
+        "hz120": 684.807412880225,
+        "difference": 0.00000703051546224742,
+        "tolerance": 0.0959629355988767
       },
       "shipEnergyDeltaJ": {
-        "hz30": -15192594.1503277,
-        "hz120": -15192587.1199181,
-        "difference": 7.03040957450867,
-        "tolerance": 75962.9717516384
+        "hz30": -15192594.1502908,
+        "hz120": -15192587.1197753,
+        "difference": 7.03051555156708,
+        "tolerance": 75962.9717514542
       },
       "usefulOutputJ": {
-        "hz30": 64.4396869080326,
-        "hz120": 64.5554164346015,
-        "coarseAdvantage": -0.115729526568828
+        "hz30": 64.4396869078809,
+        "hz120": 64.5554164339976,
+        "coarseAdvantage": -0.115729526116766
       },
       "outwardJ": {
-        "hz30": 77.3276242896391,
-        "hz120": 77.4664997215217
+        "hz30": 77.327624289457,
+        "hz120": 77.466499720797
       },
       "resourceDifferencesKg": {
-        "h2": 4.7418699966606e-8,
+        "h2": 4.74186998555837e-8,
         "water": 0
       },
       "transitions30": [
@@ -246,25 +246,25 @@
       "vectorId": "vector-T08",
       "durationSeconds": 120,
       "temperatureK": {
-        "hz30": 399.923777044081,
-        "hz120": 399.923777051425,
-        "difference": 7.34360128262779e-9,
+        "hz30": 399.923777044,
+        "hz120": 399.923777050948,
+        "difference": 6.9479142439377e-9,
         "tolerance": 0.025
       },
       "shipEnergyDeltaJ": {
-        "hz30": -76222.9559186697,
-        "hz120": -76222.9485750794,
-        "difference": 0.007343590259552,
-        "tolerance": 381.115779593348
+        "hz30": -76222.9560003281,
+        "hz120": -76222.9490523934,
+        "difference": 0.00694793462753296,
+        "tolerance": 381.11578000164
       },
       "usefulOutputJ": {
-        "hz30": 1249.98116942296,
-        "hz120": 1249.98113166429,
-        "coarseAdvantage": 0.0000377586745798908
+        "hz30": 1249.98116942293,
+        "hz120": 1249.98113166416,
+        "coarseAdvantage": 0.0000377587671209767
       },
       "outwardJ": {
-        "hz30": 1499.97740330755,
-        "hz120": 1499.97735799715
+        "hz30": 1499.97740330752,
+        "hz120": 1499.977357997
       },
       "resourceDifferencesKg": {
         "h2": 0,
@@ -325,16 +325,16 @@
       "vectorId": "vector-T25",
       "durationSeconds": 180,
       "temperatureK": {
-        "hz30": 449.807844864523,
-        "hz120": 449.807844889842,
-        "difference": 2.53186271947925e-8,
+        "hz30": 449.807844864347,
+        "hz120": 449.807844889129,
+        "difference": 2.47821958510031e-8,
         "tolerance": 0.025
       },
       "shipEnergyDeltaJ": {
-        "hz30": -192155.13547653,
-        "hz120": -192155.110157907,
-        "difference": 0.0253186225891113,
-        "tolerance": 960.776677382648
+        "hz30": -192155.135653138,
+        "hz120": -192155.110870957,
+        "difference": 0.0247821807861328,
+        "tolerance": 960.776678265691
       },
       "usefulOutputJ": {
         "hz30": 1200.00000000001,
@@ -346,7 +346,7 @@
         "hz120": 1439.99999999979
       },
       "resourceDifferencesKg": {
-        "h2": 3.14583914473587e-11,
+        "h2": 3.14586134919637e-11,
         "water": 0
       },
       "transitions30": [
@@ -611,7 +611,7 @@
     {
       "id": "T38",
       "status": "PASS",
-      "reason": "G2 ordinary, source and cooler reservations decrement one resource flow budget in fixed order without same-tick reuse."
+      "reason": "G2 exact 0.1 kg/tick high-demand boundary returns conserved: ordinary, source and cooler reservations decrement one resource flow budget in fixed order without same-tick reuse."
     },
     {
       "id": "T39",

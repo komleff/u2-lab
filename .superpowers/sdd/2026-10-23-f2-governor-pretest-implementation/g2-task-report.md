@@ -16,9 +16,13 @@ Launch commit: `0b2f45dc70acbaabd2aaf8f38a4072cb7048d3c6`
 
 Initial QA candidate: `55c25e44b75dc97eef66234583de2c2cd938bb7c`
 
-Blocker-fix kernel commit: `9d74342cd0eac10381be519e5879f32489584b41`
+First blocker-fix kernel commit: `9d74342cd0eac10381be519e5879f32489584b41`
 
-Evidence-refreeze commit: этот следующий commit; его SHA назначается Git поверх содержимого отчёта и фиксируется в `git log`/Developer handoff. Published commits `0b2f45d`, `eea681e`, `55c25e4` не переписывались.
+First evidence-refreeze / affected-QA fix1 candidate: `c1b0b96dc84683209134c8b8bdbd2d0bcb83488b`
+
+Exact B1 fix kernel commit: `b35acaa0ae0db47cffb70c3d85ec0d8aefc0894e`
+
+Current evidence-refreeze commit: этот следующий commit; его SHA назначается Git поверх содержимого отчёта и фиксируется в `git log`/Developer handoff. Published commits не переписывались.
 
 ## 1. Выполненный scope
 
@@ -38,6 +42,8 @@ Evidence-refreeze commit изменяет:
 - `docs/verification/f2-governor-handoff/u2-shared-field-map.json`;
 - `tests/governor-v03/handoff.test.ts`;
 - этот отчёт.
+
+Affected-QA fix1 сохранил закрытые B2/B3/B4 без redesign. Новый kernel commit изменил только `governor.ts` и exact T38 regression в `governor-tick.test.ts`; текущий evidence-refreeze меняет manifest/results/traces, handoff assertion и этот отчёт.
 
 G0/G1 owners не изменялись. `/4`, Worker, UI, default activation, real ship TTX, station, Unity/server/network/device/deploy не реализовывались.
 
@@ -84,6 +90,20 @@ Tests       5 failed | 15 passed (20)
 
 Полный вывод сохранён в `/tmp/f2-g2-qa-blockers-red.log`; фактический vitest summary/failed assertions, а не shell status временного pipeline through `tee`, является RED evidence.
 
+Affected QA fix1 повторно открыл только QA-G2-B1. До нового production fix выполнена точная исходная репродукция без смягчения:
+
+```text
+npm test -- --run tests/governor-v03/governor-tick.test.ts -t 'T38 keeps propulsion'
+Test Files  1 failed (1)
+Tests       1 failed | 14 skipped (15)
+RangeError: unowned node energy
+Duration    235ms
+```
+
+Вход: fixture `T38`; изменены только H2 `maxFlowKgPerS.value=3` (`0.1 kg/tick`) и `state.electricalChargeJ=0`. Сохранены исходные requests `propulsion=30 MW`, `generator=9 MW`, `cooler=3 MW` и `ship.heatCapacityJPerK=1_000_000_000`. Полный вывод сохранён в `/tmp/f2-g2-fix1-b1-red.log`.
+
+Диагноз класса: общий flow budget уже корректно исчерпывался ordinary → source → cooler, но на high-demand T38 абсолютная `shipEnergyJ` около `4e11 J` обновлялась несколькими IEEE-754 сложениями; последующее вычитание двух больших state values теряло больше, чем неизменённая §3.6 tolerance, и stage 9 отвергал валидный tick. Fix накапливает каждый owned ship delta отдельно, сохраняет промежуточную абсолютную энергию для решений и один раз коммитит итоговую state energy; stage 9 проверяет тот же authoritative owned tick delta. `conservation.ts`, tolerance, audit rules, state clipping, requests и fixture TTX не менялись.
+
 ## 4. Архитектура и порядок состояния
 
 ```text
@@ -111,6 +131,7 @@ Authority состояния:
 QA blocker mapping:
 
 - QA-G2-B1: каждый `reserveUpTo` атомарно уменьшает и stock remainder, и единый per-resource flow remainder; ordinary/source/cooler не могут повторно использовать обещанную массу в текущем tick;
+- QA-G2-B1 exact high-demand conservation: ship-node ledger сверяется с суммой отдельных owned tick deltas, не с numerically unstable subtraction двух absolute energies; exact original T38 boundary возвращает результат, а не exception;
 - QA-G2-B2: fuel reservation/output учитывают efficiency; chemical input раскладывается на electrical output и loss, loss — на host heat и exhaust; storage не заряжается аварийным surplus;
 - QA-G2-B3: H2 `q(T)` линейно интерполируется по `temperatureK`/`specificEnergyJPerKg`; atomic package выполняет `mass*q(T)=useful+electric+exported aux`;
 - QA-G2-B4: reopen сравнивает сам event tick и следующий tick; покрыты failure, hot restart, Quiet hysteresis, cold critical stop и cold restart.
@@ -134,7 +155,7 @@ QA blocker mapping:
 | T32-T34 | PASS | outward owner, convergence contract, no water propulsion/reserve |
 | T35-T36 | NOT_RUN | scope OUT: water propulsion/local steam |
 | T37 | PASS | принятый G1 TI ledger owner |
-| T38 | PASS | sweep `3/3.6/4.5 kg/s`: shared ordinary/source/cooler H2 flow budget and fixed reservation order |
+| T38 | PASS | exact original QA boundary: `3 kg/s = 0.1 kg/tick`, charge `0`, original `30/9/3 MW` requests and heat capacity; reservation order `propulsion=0.1`, source `0`, cooler `0`, no same-tick reuse, conserved returned result |
 | T39 | PASS | принятый G1 constrained-bank allocator |
 
 Machine-readable matrix: `reference-results.json`. `runtimeAuthorization=false` независимо от PASS synthetic rows.
@@ -145,10 +166,10 @@ Machine-readable matrix: `reference-results.json`. `runtimeAuthorization=false` 
 
 | Trajectory | Duration | abs ΔT 30/120 | T tolerance | abs ΔU_ship | Energy tolerance | Coarse useful advantage |
 |---|---:|---:|---:|---:|---:|---:|
-| steady-exchange | 60 s | `3.70562247553607e-9 K` | `0.025 K` | `0.00370562076568604 J` | `190.476203618109 J` | `4.88853402202949e-12 J` |
-| threshold-crossing | 30 s | `7.03040950611467e-6 K` | `0.0959629355995907 K` | `7.03040957450867 J` | `75962.9717516384 J` | `-0.115729526568828 J` |
-| resource-exhaustion | 120 s | `7.34360128262779e-9 K` | `0.025 K` | `0.007343590259552 J` | `381.115779593348 J` | `0.0000377586745798908 J` |
-| work-recovery-repeat | 180 s | `2.53186271947925e-8 K` | `0.025 K` | `0.0253186225891113 J` | `960.776677382648 J` | `-1.97815097635612e-11 J` |
+| steady-exchange | 60 s | `3.454090347077e-9 K` | `0.025 K` | `0.00345408916473389 J` | `190.476203977823 J` | `4.88853402202949e-12 J` |
+| threshold-crossing | 30 s | `7.03051546224742e-6 K` | `0.0959629355988767 K` | `7.03051555156708 J` | `75962.9717514542 J` | `-0.115729526116766 J` |
+| resource-exhaustion | 120 s | `6.9479142439377e-9 K` | `0.025 K` | `0.00694793462753296 J` | `381.11578000164 J` | `0.0000377587671209767 J` |
+| work-recovery-repeat | 180 s | `2.47821958510031e-8 K` | `0.025 K` | `0.0247821807861328 J` | `960.776678265691 J` | `-1.97815097635612e-11 J` |
 
 Ordered discrete transitions совпали, timestamp difference не превысила `1/30 s`; mass differences прошли `1e-9 kg + 0.5%` policy. Подробные values и transitions: `reference-results.json`.
 
@@ -173,7 +194,7 @@ Ordered discrete transitions совпали, timestamp difference не прев�
 - power/fuel shortage — exact depletion window;
 - T22 temperature-dependent H2 mass/outward receipt;
 - T24 allowed Quiet emergency-source receipt с chemical/electrical/host/exhaust ledger entries;
-- T38 ordinary→source→cooler shared-resource reservation receipt;
+- T38 exact affected-QA input boundary plus ordinary→source→cooler reservations `0.1/0/0 kg`, original requests, heat capacity and typed reasons;
 - checkpoint immediately before failure;
 - checkpoint immediately before restart;
 - checkpoint around thermal hysteresis stop/restart.
@@ -182,11 +203,11 @@ Ordered discrete transitions совпали, timestamp difference не прев�
 
 ## 9. Handoff hash inventory
 
-Kernel binding: `9d74342cd0eac10381be519e5879f32489584b41`.
+Kernel binding: `b35acaa0ae0db47cffb70c3d85ec0d8aefc0894e`.
 
 | Category | Path | SHA-256 |
 |---|---|---|
-| source | `src/model/governor-v03/governor.ts` | `615af5849fe623791a6c68ac9b8d76ec246dbbe32d517425e32a88a4b4fc29bb` |
+| source | `src/model/governor-v03/governor.ts` | `dd5eed57ff098cc6fb61521be469d7bb422284f0a6aa948c5cafdcee69a2a3b4` |
 | source | `src/model/governor-v03/integrator.ts` | `7e9baf83a242fbf2e79e455e223fbcce4960dc31d94fb45f53b061fddd9fa407` |
 | source | `src/model/governor-v03/modes.ts` | `01edcd3ce43f7304d8d28d25e769f977b923b43b6abb621e0c157e858adb2101` |
 | source | `src/model/governor-v03/protection.ts` | `542a8193ae227e10539b32c73855a0f710ff3d3e244d12615e212d27fd845253` |
@@ -196,14 +217,34 @@ Kernel binding: `9d74342cd0eac10381be519e5879f32489584b41`.
 | schema | `src/model/governor-v03/types.ts` | `9e83f755d9643f28bd4cff3c5d6d92384afcddad5ede1c7368ccfcef4aff1ef2` |
 | fixture | `tests/fixtures/f2-governor/manifest.json` | `40916884d446f29aa3c517d0fd0bd37325c2c989b2c1b67682bffb22b3353c3d` |
 | fixture | `tests/fixtures/f2-governor/vectors.json` | `5c0729344d375e1b94af02d7903f3acdfb08db29184f4eee8e67757f02d8e583` |
-| result | `docs/verification/f2-governor-handoff/reference-results.json` | `24c545e5f3a46f86e6e5756c5dc050aa579c71f1becbb263c70b35dbef00ef3d` |
-| trace | `docs/verification/f2-governor-handoff/representative-traces.json` | `87d66e73cb2c1e148240593949b496b9e3c36d8e21fea2bbcf471b5ecedc7b69` |
+| result | `docs/verification/f2-governor-handoff/reference-results.json` | `518a7d1002a8489707e3265e8c2da3284678846cb185b58ea72247ea0f8d1e23` |
+| trace | `docs/verification/f2-governor-handoff/representative-traces.json` | `bed64b1a50f1ca5efdddc0af754a9e6371a9993905b33db6629585799b1da75f` |
 | mapping | `docs/verification/f2-governor-handoff/u2-shared-field-map.json` | `3289504426b1abbdb0c1720c29c3eb27768616bcceb0994ec835768548132eb2` |
 | limits | `docs/verification/f2-governor-handoff/known-limits.md` | `8a1c43c6a752788347d79848fd30ed08e1ba8b3b32784f303724440d98e6b5a4` |
 
 `verify-f2-handoff.mjs` проверяет exact artifact set, current hashes, присутствие `kernelCommit`, commit-bound hashes source/schema/fixture, source binding и совпадение kernel SHA в results/traces.
 
 ## 10. GREEN и guard evidence
+
+Affected QA fix1 GREEN после `b35acaa`:
+
+```text
+npm test -- --run tests/governor-v03/governor-tick.test.ts -t 'T38 keeps propulsion'
+Test Files  1 passed (1)
+Tests       1 passed | 14 skipped (15)
+Duration    450ms
+
+npm test -- --run tests/governor-v03
+Test Files  12 passed (12)
+Tests       211 passed (211)
+Duration    23.26s
+
+node scripts/verify-f2-handoff.mjs
+F2 handoff PASS: b35acaa0ae0db47cffb70c3d85ec0d8aefc0894e (14 artifacts)
+
+npm run typecheck
+PASS
+```
 
 Focused blocker GREEN после `9d74342`:
 
@@ -243,7 +284,7 @@ Normal suite:
 npm test
 Test Files  125 passed (125)
 Tests       1812 passed (1812)
-Duration    147.17s
+Duration    173.90s
 ```
 
 До final candidate первый normal run показал два timing timeout (`buffer-recovery`, `long-currentfit`) при одновременном тяжёлом reference validation. Они не были объявлены PASS. Причина устранена test-only validated continuation после первого full validation; повторный exact normal run выше зелёный. Workers/timeouts/global config/dependencies не менялись.
@@ -262,6 +303,41 @@ Bootstrap structural/project checks: PASS
 ```
 
 Guard явно сообщил: `Native hook activation: NOT RUN (requires actual native adapter smoke)`.
+
+Первый exact guard run текущего fix1-кандидата не был объявлен PASS и сохранён как negative evidence:
+
+```text
+bash .agents/project/verify.sh
+Native hook activation: NOT RUN (requires actual native adapter smoke)
+unit: 119 files PASS, 6 FAIL; 1806 PASS, 6 FAIL; 251.60s
+FAIL: model-v3/buffer-recovery timeout 30000ms
+FAIL: model-v3/experiments measured 23275.97129200001ms, expected <15000ms
+FAIL: fitting/matrix timeout 120000ms
+FAIL: fitting/mission-recovery timeout 120000ms
+FAIL: signatures/long-currentfit timeout 40000ms
+FAIL: ui/buffer-recovery timeout 30000ms
+build/browser/offline/wrapper/bootstrap stages: NOT RUN after unit failure
+```
+
+Одновременно read-only process inspection показал два внешних Vitest worker из основного checkout `/Users/komleff/Documents/GitHub/u2-lab` примерно по 100% CPU; standalone full unit непосредственно до guard был green 1812/1812. Ни workers, ни timeouts, ни global config не менялись.
+
+После завершения этих workers второй exact guard был повторён без overrides и снова не объявлен PASS: те же шесть unrelated long/performance tests, `119 files / 1806 tests PASS`, duration `271.00s`; measured experiments time `17294.734582999998ms > 15000ms`, остальные пять — те же `30/40/120s` timeout classes. Build/browser/offline/wrapper/bootstrap stages снова NOT RUN после unit failure.
+
+Третий exact run без overrides полностью прошёл:
+
+```text
+bash .agents/project/verify.sh
+exit 0
+unit: 125 files, 1812 PASS; 151.97s
+build: PASS, 111 modules
+browser: 185 PASS, 1 existing screenshot skip
+reference/bootstrap structure: PASS
+offline intent tests: 26 PASS
+bd-env/project wrapper tests: 25 PASS
+Bootstrap structural/project checks: PASS
+```
+
+Он снова явно сообщил `Native hook activation: NOT RUN (requires actual native adapter smoke)`. Первые два failed attempts и их последующие NOT RUN stages остаются negative evidence выше; successful retry не стирает их.
 
 ## 11. Self-review
 
