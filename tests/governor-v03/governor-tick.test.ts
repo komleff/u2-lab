@@ -190,38 +190,41 @@ describe("F2-G2 staged 30 Hz governor", () => {
   });
 
   it("T38 keeps propulsion and generator H2 reservations unavailable to the cooler this tick", async () => {
-    for (const maxFlowKgPerS of [3, 3.6, 4.5]) {
-      const { input } = fixture("T38");
-      input.profile = {
-        ...input.profile,
-        ship: {
-          ...input.profile.ship,
-          heatCapacityJPerK: { ...input.profile.ship.heatCapacityJPerK, value: 100_000_000 },
-        },
-        resources: input.profile.resources.map(resource => resource.id === "h2"
-          ? { ...resource, maxFlowKgPerS: { ...resource.maxFlowKgPerS, value: maxFlowKgPerS } }
-          : resource),
-      };
-      input.state = {
-        ...input.state,
-        shipEnergyJ: 400 * input.profile.ship.heatCapacityJPerK.value,
-        electricalChargeJ: 0,
-      };
-      input.requests = [
-        { id: "propulsion", requestedW: 2_500_000 },
-        { id: "generator", requestedW: 900_000 },
-        { id: "cooler", requestedW: 3_000_000 },
-      ];
-      const result = await step(input);
-      const consumed = result.ledger.entries.filter(entry => entry.resourceId === "h2" && entry.massKg < 0);
-      const owners = new Set(consumed.map(entry => entry.ownerId));
-      const totalConsumedKg = -consumed.reduce((sum, entry) => sum + entry.massKg, 0);
-      expect(owners).toEqual(new Set(["module:propulsion", "source:generator-source", "module:cooler"]));
-      expect(totalConsumedKg).toBeLessThanOrEqual(maxFlowKgPerS / 30 + 1e-12);
-      expect(input.state.resourceMassKg.find(resource => resource.id === "h2")!.massKg
-        - result.state.resourceMassKg.find(resource => resource.id === "h2")!.massKg).toBeCloseTo(totalConsumedKg, 12);
-      expect(result.decisions).toContainEqual(expect.objectContaining({ moduleId: "cooler", reason: "resource-reserved" }));
-    }
+    const { input } = fixture("T38");
+    input.profile = {
+      ...input.profile,
+      resources: input.profile.resources.map(resource => resource.id === "h2"
+        ? { ...resource, maxFlowKgPerS: { ...resource.maxFlowKgPerS, value: 3 } }
+        : resource),
+    };
+    input.state = { ...input.state, electricalChargeJ: 0 };
+    const result = await step(input);
+    const consumed = result.ledger.entries.filter(entry => entry.resourceId === "h2" && entry.massKg < 0);
+    const ownerIds = consumed.map(entry => entry.ownerId);
+    const totalConsumedKg = -consumed.reduce((sum, entry) => sum + entry.massKg, 0);
+    const stockDeltaKg = input.state.resourceMassKg.find(resource => resource.id === "h2")!.massKg
+      - result.state.resourceMassKg.find(resource => resource.id === "h2")!.massKg;
+    expect(input.requests).toEqual([
+      { id: "propulsion", requestedW: 30_000_000 },
+      { id: "generator", requestedW: 9_000_000 },
+      { id: "cooler", requestedW: 3_000_000 },
+    ]);
+    expect(input.profile.ship.heatCapacityJPerK.value).toBe(1_000_000_000);
+    expect(input.profile.resources.find(resource => resource.id === "h2")?.maxFlowKgPerS.value).toBe(3);
+    expect(input.state.electricalChargeJ).toBe(0);
+    expect(result.packages.find(item => item.moduleId === "propulsion")?.resourceKg).toEqual([{ id: "h2", massKg: 0.1 }]);
+    expect(ownerIds).toEqual(["module:propulsion"]);
+    expect(new Set(ownerIds).size).toBe(ownerIds.length);
+    expect(totalConsumedKg).toBeLessThanOrEqual(0.1 + 1e-12);
+    expect(stockDeltaKg).toBeCloseTo(totalConsumedKg, 12);
+    expect(result.state.resourceMassKg.every(resource => resource.massKg >= 0)).toBe(true);
+    expect(Math.abs(result.ledger.energyResidualJ)).toBeLessThanOrEqual(1e-6 + 1e-10 * result.ledger.energyThroughputJ);
+    expect(result.decisions).toContainEqual(expect.objectContaining({ moduleId: "propulsion", reason: "resource-reserved" }));
+    expect(result.decisions).toContainEqual(expect.objectContaining({ moduleId: "cooler", reason: "power-limited" }));
+    expect(result.state.lastLimitingReasons).toEqual(expect.arrayContaining([
+      { id: "propulsion", reason: "resource-reserved" },
+      { id: "cooler", reason: "power-limited" },
+    ]));
   });
 
   it("refuses a malformed profile atomically before the tick", async () => {

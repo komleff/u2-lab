@@ -289,6 +289,11 @@ export function stepGovernorV03WithClock(
 
   const activeStages = new Set<StageIdV03>(["0", "9"]);
   let shipWorkingEnergyJ = state.shipEnergyJ;
+  let shipEnergyDeltaJ = 0;
+  const applyShipDelta = (deltaJ: number) => {
+    shipWorkingEnergyJ = integrateOwnerEnergyV03("ship", shipWorkingEnergyJ, deltaJ);
+    shipEnergyDeltaJ = finite(shipEnergyDeltaJ + deltaJ, "ship tick energy delta");
+  };
   const captureIntoBanks = (stage: "5Q" | "8", requestedJ: number, ownerId: string) => {
     let remainingJ = Math.max(0, requestedJ);
     for (const bank of [...profile.banks].sort((a, b) => lexical(a.id, b.id))) {
@@ -310,7 +315,7 @@ export function stepGovernorV03WithClock(
       if (amountJ <= 0) continue;
       const next = transferBuffer(tx, { id: `${stage}:${bank.id}:${ownerId}`, ownerId, otherNodeId: "ship", direction: "in", energyJ: amountJ, otherTemperatureK: shipTemperatureK });
       transactions.set(bank.id, next);
-      shipWorkingEnergyJ -= amountJ;
+      applyShipDelta(-amountJ);
       remainingJ -= amountJ;
       activeStages.add(stage);
     }
@@ -338,7 +343,7 @@ export function stepGovernorV03WithClock(
       if (amountJ <= 0) continue;
       const next = transferBuffer(tx, { id: `${stage}:${bank.id}:ship-release`, ownerId: "governor", otherNodeId: "ship", direction: "out", energyJ: amountJ, otherTemperatureK: shipTemperatureK });
       transactions.set(bank.id, next);
-      shipWorkingEnergyJ += amountJ;
+      applyShipDelta(amountJ);
       needJ -= amountJ;
       activeStages.add(stage);
     }
@@ -453,13 +458,13 @@ export function stepGovernorV03WithClock(
     if (module.kind === "heater") {
       const remainingColdJ = Math.max(0, profile.modes.coldOffK.value * profile.ship.heatCapacityJPerK.value - shipWorkingEnergyJ);
       plan.actualJ = Math.min(plan.resourceCappedJ, remainingColdJ);
-      shipWorkingEnergyJ += plan.actualJ;
+      applyShipDelta(plan.actualJ);
       if (plan.actualJ > 0) activeStages.add("1");
     } else if (["active-radiator", "thermoinverter", "h2-cooler", "water-cooler"].includes(module.kind)) {
       const floorK = sourceTemperatureFloor(profile, plan, mode.effectiveMode);
       const shipAvailableJ = Math.max(0, shipWorkingEnergyJ - floorK * profile.ship.heatCapacityJPerK.value);
       plan.pickupShipJ = Math.min(plan.resourceCappedJ, shipAvailableJ);
-      shipWorkingEnergyJ -= plan.pickupShipJ;
+      applyShipDelta(-plan.pickupShipJ);
       let remainingJ = plan.resourceCappedJ - plan.pickupShipJ;
       for (const allocation of allocatedByModule.get(module.id) ?? []) {
         if (remainingJ <= 0) break;
@@ -543,7 +548,7 @@ export function stepGovernorV03WithClock(
       shipNodeId: "ship",
     });
     waterStates[index] = { id: tank.id, ...exchanged.state };
-    shipWorkingEnergyJ -= exchanged.exchangeJ;
+    applyShipDelta(-exchanged.exchangeJ);
     entries.push(...exchanged.entries);
     if (exchanged.protectionActive) {
       activeStages.add("1");
@@ -557,7 +562,7 @@ export function stepGovernorV03WithClock(
 
   const externalHeatingJ = tick.environment.externalHeatingW * seconds;
   const grossLateHeatJ = externalHeatingJ + hostHeatJ;
-  shipWorkingEnergyJ += grossLateHeatJ;
+  applyShipDelta(grossLateHeatJ);
   const holdK = mode.effectiveMode === "Quiet" && mode.quietHoldTemperatureK !== null ? mode.quietHoldTemperatureK : profile.modes.normalTargetK.value;
   const lateExcessJ = Math.min(grossLateHeatJ, Math.max(0, shipWorkingEnergyJ - holdK * profile.ship.heatCapacityJPerK.value));
   captureIntoBanks("8", lateExcessJ, "late-heat");
@@ -569,7 +574,7 @@ export function stepGovernorV03WithClock(
     passiveRadiationJ += signedRadiationJ(surface, initialShipTemperatureK, tick.environment.temperatureK, seconds);
   }
   const externalCoolingJ = tick.environment.externalCoolingW * seconds;
-  shipWorkingEnergyJ = integrateOwnerEnergyV03("ship", shipWorkingEnergyJ, -passiveRadiationJ - externalCoolingJ);
+  applyShipDelta(-passiveRadiationJ - externalCoolingJ);
 
   const storageUsedJ = Math.min(electricalWantedActualJ, storageCapJ);
   let generationNeededJ = Math.max(0, electricalWantedActualJ - storageUsedJ);
@@ -590,7 +595,7 @@ export function stepGovernorV03WithClock(
     const exhaustJ = lossJ - sourceHostHeatJ;
     sourceActual.set(source.id, { generatedJ, fuelKg, hostHeatJ: sourceHostHeatJ, exhaustJ });
     generationNeededJ -= generatedJ;
-    shipWorkingEnergyJ += sourceHostHeatJ;
+    applyShipDelta(sourceHostHeatJ);
   }
   if (generationNeededJ > 1e-9) throw new RangeError("electrical dispatch exceeded final source cap");
   const electricalChargeJ = integrateOwnerEnergyV03("electrical", state.electricalChargeJ, -storageUsedJ);
@@ -644,7 +649,7 @@ export function stepGovernorV03WithClock(
 
   const bufferEnergyJByBank = [...profile.banks].sort((a, b) => lexical(a.id, b.id)).map(bank => ({ id: bank.id, energyJ: transactions.get(bank.id)!.energyJ }));
   const resourceMassKg = resourceCommit.balances;
-  const shipEnergyJ = shipWorkingEnergyJ;
+  const shipEnergyJ = integrateOwnerEnergyV03("ship", state.shipEnergyJ, shipEnergyDeltaJ);
   const lastReasonByModule = new Map<string, GovernorReasonV03>();
   const moduleIds = new Set(profile.modules.map(module => module.id));
   for (const decision of decisions) if (moduleIds.has(decision.moduleId) && decision.reason !== "idle") lastReasonByModule.set(decision.moduleId, decision.reason);
@@ -677,7 +682,7 @@ export function stepGovernorV03WithClock(
   });
 
   const energyDeltaByNode = new Map<string, number>([
-    ["ship", nextState.shipEnergyJ - state.shipEnergyJ],
+    ["ship", shipEnergyDeltaJ],
     ["electrical", nextState.electricalChargeJ - state.electricalChargeJ],
     ...nextState.bufferEnergyJByBank.map(bank => [bank.id, bank.energyJ - state.bufferEnergyJByBank.find(item => item.id === bank.id)!.energyJ] as const),
     ...nextState.waterEnthalpyJByTank.map(water => [water.id, water.enthalpyJ - state.waterEnthalpyJByTank.find(item => item.id === water.id)!.enthalpyJ] as const),
