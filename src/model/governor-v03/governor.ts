@@ -32,6 +32,7 @@ type ModulePlan = {
   resourceCappedJ: number;
   reason: GovernorReasonV03;
   deliveredElectricCapJ: number;
+  massKgPerUsefulJ: number;
   reservedMassKg: number;
   pickupShipJ: number;
   pickupByBank: { id: string; energyJ: number }[];
@@ -83,6 +84,38 @@ function sourceTemperatureFloor(profile: GovernorProfileV03, plan: ModulePlan, m
   const h2 = profile.hydrogenCoolers.find(path => path.moduleId === plan.module.id);
   if (h2) return mode === "Quiet" ? Math.max(h2.floorK.value, profile.modes.quietOffK.value) : h2.floorK.value;
   return plan.module.minSourceTemperatureK.value;
+}
+
+function interpolateSpecificExportJPerKg(
+  path: GovernorProfileV03["hydrogenCoolers"][number],
+  temperatureK: number,
+): number {
+  const points = path.specificExportByTemperature;
+  if (temperatureK <= points[0].temperatureK.value) return points[0].specificEnergyJPerKg.value;
+  const last = points[points.length - 1];
+  if (temperatureK >= last.temperatureK.value) return last.specificEnergyJPerKg.value;
+  for (let index = 1; index < points.length; index++) {
+    const upper = points[index];
+    const lower = points[index - 1];
+    if (temperatureK > upper.temperatureK.value) continue;
+    const fraction = (temperatureK - lower.temperatureK.value)
+      / (upper.temperatureK.value - lower.temperatureK.value);
+    return lower.specificEnergyJPerKg.value
+      + fraction * (upper.specificEnergyJPerKg.value - lower.specificEnergyJPerKg.value);
+  }
+  return last.specificEnergyJPerKg.value;
+}
+
+function massKgPerUsefulJ(
+  profile: GovernorProfileV03,
+  module: GovernorProfileV03["modules"][number],
+  sourceTemperatureK: number,
+): number {
+  const path = profile.hydrogenCoolers.find(item => item.moduleId === module.id);
+  if (!path) return module.massKgPerJ.value;
+  const exportedAuxJPerJ = module.auxHeatDestination === "export" ? module.auxHeatJPerJ.value : 0;
+  const outwardJPerUsefulJ = 1 + module.electricJPerJ.value + exportedAuxJPerJ;
+  return outwardJPerUsefulJ / interpolateSpecificExportJPerKg(path, sourceTemperatureK);
 }
 
 function bankAvailableJ(profile: BufferBankProfileV03, energyJ: number, seconds: number, minTemperatureK: number): number {
@@ -143,13 +176,14 @@ function allocationTrace(
 function reserveUpTo(
   ledger: ResourceLedgerV03,
   remaining: Map<string, number>,
+  flowRemaining: Map<string, number>,
   ownerId: string,
   resourceId: string,
   wantedKg: number,
-  flowCapKg: number,
 ): { ledger: ResourceLedgerV03; reservedKg: number } {
-  const reservedKg = Math.max(0, Math.min(wantedKg, flowCapKg, remaining.get(resourceId) ?? 0));
+  const reservedKg = Math.max(0, Math.min(wantedKg, flowRemaining.get(resourceId) ?? 0, remaining.get(resourceId) ?? 0));
   remaining.set(resourceId, finite((remaining.get(resourceId) ?? 0) - reservedKg, "reservation remainder", 0));
+  flowRemaining.set(resourceId, finite((flowRemaining.get(resourceId) ?? 0) - reservedKg, "flow reservation remainder", 0));
   return { ledger: reserveResources(ledger, ownerId, [{ id: resourceId, massKg: reservedKg }]), reservedKg };
 }
 
@@ -231,7 +265,21 @@ export function stepGovernorV03WithClock(
       desiredJ = 0;
       reason = "nonpositive-net-cooling";
     }
-    plans.push({ module, stage, requestedJ, desiredJ, powerCappedJ: desiredJ, resourceCappedJ: desiredJ, reason, deliveredElectricCapJ: 0, reservedMassKg: 0, pickupShipJ: 0, pickupByBank: [], actualJ: 0 });
+    plans.push({
+      module,
+      stage,
+      requestedJ,
+      desiredJ,
+      powerCappedJ: desiredJ,
+      resourceCappedJ: desiredJ,
+      reason,
+      deliveredElectricCapJ: 0,
+      massKgPerUsefulJ: massKgPerUsefulJ(profile, module, initialShipTemperatureK),
+      reservedMassKg: 0,
+      pickupShipJ: 0,
+      pickupByBank: [],
+      actualJ: 0,
+    });
   }
 
   const transactions = new Map(profile.banks.map(bank => {
@@ -306,12 +354,12 @@ export function stepGovernorV03WithClock(
   const initialResources = state.resourceMassKg.map(resource => ({ id: resource.id, massKg: resource.massKg }));
   let resourceLedger = createResourceLedger(initialResources);
   const resourceRemaining = new Map(initialResources.map(resource => [resource.id, resource.massKg]));
-  const resourceFlowCap = new Map(profile.resources.map(resource => [resource.id, resource.maxFlowKgPerS.value * seconds]));
+  const resourceFlowRemaining = new Map(profile.resources.map(resource => [resource.id, resource.maxFlowKgPerS.value * seconds]));
   const reservationByOwner = new Map<string, { resourceId: string; massKg: number }>();
 
   for (const plan of plans.filter(item => item.module.kind === "ordinary" && item.module.resourceId !== null)) {
     const resourceId = plan.module.resourceId!;
-    const reserved = reserveUpTo(resourceLedger, resourceRemaining, `module:${plan.module.id}`, resourceId, plan.desiredJ * plan.module.massKgPerJ.value, resourceFlowCap.get(resourceId) ?? 0);
+    const reserved = reserveUpTo(resourceLedger, resourceRemaining, resourceFlowRemaining, `module:${plan.module.id}`, resourceId, plan.desiredJ * plan.massKgPerUsefulJ);
     resourceLedger = reserved.ledger;
     reservationByOwner.set(`module:${plan.module.id}`, { resourceId, massKg: reserved.reservedKg });
     plan.reservedMassKg = reserved.reservedKg;
@@ -323,9 +371,9 @@ export function stepGovernorV03WithClock(
     if (source.resourceId === null || source.fuelJPerKg === null) continue;
     const explicitJ = Math.min(requested.get(source.moduleId) ?? 0, source.maxOutputW.value) * seconds;
     const wantedOutputJ = Math.min(source.maxOutputW.value * seconds, Math.max(explicitJ, preliminaryElectricJ));
-    const wantedKg = wantedOutputJ / source.fuelJPerKg.value;
+    const wantedKg = wantedOutputJ / (source.fuelJPerKg.value * source.efficiency.value);
     const ownerId = `source:${source.id}`;
-    const reserved = reserveUpTo(resourceLedger, resourceRemaining, ownerId, source.resourceId, wantedKg, resourceFlowCap.get(source.resourceId) ?? 0);
+    const reserved = reserveUpTo(resourceLedger, resourceRemaining, resourceFlowRemaining, ownerId, source.resourceId, wantedKg);
     resourceLedger = reserved.ledger;
     sourceReservation.set(source.id, { resourceId: source.resourceId, massKg: reserved.reservedKg });
   }
@@ -337,8 +385,8 @@ export function stepGovernorV03WithClock(
     resourcePlansById.set(resourceId, [...(resourcePlansById.get(resourceId) ?? []), plan]);
   }
   for (const [resourceId, grouped] of resourcePlansById) {
-    const wantedKg = grouped.reduce((sum, plan) => sum + plan.desiredJ * plan.module.massKgPerJ.value, 0);
-    const availableKg = Math.min(resourceRemaining.get(resourceId) ?? 0, resourceFlowCap.get(resourceId) ?? 0);
+    const wantedKg = grouped.reduce((sum, plan) => sum + plan.desiredJ * plan.massKgPerUsefulJ, 0);
+    const availableKg = Math.min(resourceRemaining.get(resourceId) ?? 0, resourceFlowRemaining.get(resourceId) ?? 0);
     const gamma = wantedKg === 0 ? 1 : Math.min(1, availableKg / wantedKg);
     const earlierRequestedOwner = plans.some(plan => plan.module.kind === "ordinary"
       && plan.module.resourceId === resourceId
@@ -346,9 +394,9 @@ export function stepGovernorV03WithClock(
       || profile.electrical.sources.some(source => source.resourceId === resourceId
         && (requested.get(source.moduleId) ?? 0) > 0);
     for (const plan of grouped.sort((a, b) => lexical(a.module.id, b.module.id))) {
-      const massKg = plan.desiredJ * plan.module.massKgPerJ.value * gamma;
+      const massKg = plan.desiredJ * plan.massKgPerUsefulJ * gamma;
       const ownerId = `module:${plan.module.id}`;
-      const reserved = reserveUpTo(resourceLedger, resourceRemaining, ownerId, resourceId, massKg, resourceFlowCap.get(resourceId) ?? 0);
+      const reserved = reserveUpTo(resourceLedger, resourceRemaining, resourceFlowRemaining, ownerId, resourceId, massKg);
       resourceLedger = reserved.ledger;
       reservationByOwner.set(ownerId, { resourceId, massKg: reserved.reservedKg });
       plan.reservedMassKg = reserved.reservedKg;
@@ -360,7 +408,9 @@ export function stepGovernorV03WithClock(
   const storageCapJ = Math.min(state.electricalChargeJ, profile.electrical.storage.maxDischargeW.value * seconds);
   const generatorCapJ = [...profile.electrical.sources].reduce((sum, source) => {
     const reservation = sourceReservation.get(source.id);
-    const fuelCapJ = reservation && source.fuelJPerKg ? reservation.massKg * source.fuelJPerKg.value : source.resourceId === null ? Number.MAX_VALUE : 0;
+    const fuelCapJ = reservation && source.fuelJPerKg
+      ? reservation.massKg * source.fuelJPerKg.value * source.efficiency.value
+      : source.resourceId === null ? Number.MAX_VALUE : 0;
     const quietAllowed = mode.effectiveMode !== "Quiet"
       || state.electricalChargeJ / profile.electrical.storage.capacityJ.value < profile.modes.quietEmergencyChargeFraction.value;
     return sum + (quietAllowed ? Math.min(source.maxOutputW.value * seconds, fuelCapJ) : 0);
@@ -375,8 +425,8 @@ export function stepGovernorV03WithClock(
       plan.powerCappedJ = Math.min(plan.desiredJ, deliveredJ / plan.module.electricJPerJ.value);
       if (materiallyLess(plan.powerCappedJ, plan.desiredJ, 1e-6)) plan.reason = "power-limited";
     }
-    if (plan.module.resourceId !== null && plan.module.massKgPerJ.value > 0) {
-      plan.resourceCappedJ = Math.min(plan.powerCappedJ, plan.reservedMassKg / plan.module.massKgPerJ.value);
+    if (plan.module.resourceId !== null && plan.massKgPerUsefulJ > 0) {
+      plan.resourceCappedJ = Math.min(plan.powerCappedJ, plan.reservedMassKg / plan.massKgPerUsefulJ);
       if (plan.reason !== "resource-reserved" && (resourceRemaining.get(plan.module.resourceId) ?? 0) <= 1e-12 && plan.desiredJ > 0) plan.reason = "resource-empty";
       else if (materiallyLess(plan.resourceCappedJ, plan.powerCappedJ, 1e-6)) plan.reason = "resource-reserved";
     } else plan.resourceCappedJ = plan.powerCappedJ;
@@ -436,7 +486,7 @@ export function stepGovernorV03WithClock(
     const moduleHostHeatJ = plan.actualJ * module.auxHeatJPerJ.value * (module.auxHeatDestination === "ship" ? 1 : 0);
     const exportedAuxHeatJ = plan.actualJ * module.auxHeatJPerJ.value * (module.auxHeatDestination === "export" ? 1 : 0);
     hostHeatJ += moduleHostHeatJ;
-    const resourceKg = module.resourceId === null || module.massKgPerJ.value === 0 ? [] : [{ id: module.resourceId, massKg: plan.actualJ * module.massKgPerJ.value }];
+    const resourceKg = module.resourceId === null || plan.massKgPerUsefulJ === 0 ? [] : [{ id: module.resourceId, massKg: plan.actualJ * plan.massKgPerUsefulJ }];
     const outwardEnergyJ = ["active-radiator", "thermoinverter", "h2-cooler", "water-cooler"].includes(module.kind)
       ? plan.actualJ + electricJ + exportedAuxHeatJ
       : 0;
@@ -527,14 +577,17 @@ export function stepGovernorV03WithClock(
   for (const source of [...profile.electrical.sources].sort((a, b) => lexical(a.id, b.id))) {
     if (generationNeededJ <= 0) break;
     const reservation = sourceReservation.get(source.id);
-    const fuelCapJ = reservation && source.fuelJPerKg ? reservation.massKg * source.fuelJPerKg.value : source.resourceId === null ? Number.MAX_VALUE : 0;
+    const fuelCapJ = reservation && source.fuelJPerKg
+      ? reservation.massKg * source.fuelJPerKg.value * source.efficiency.value
+      : source.resourceId === null ? Number.MAX_VALUE : 0;
     const quietAllowed = mode.effectiveMode !== "Quiet" || state.electricalChargeJ / profile.electrical.storage.capacityJ.value < profile.modes.quietEmergencyChargeFraction.value;
     if (!quietAllowed) continue;
     const generatedJ = Math.min(generationNeededJ, source.maxOutputW.value * seconds, fuelCapJ);
-    const fuelKg = source.fuelJPerKg ? generatedJ / source.fuelJPerKg.value : 0;
+    const fuelKg = source.fuelJPerKg ? generatedJ / (source.fuelJPerKg.value * source.efficiency.value) : 0;
     const chemicalJ = source.fuelJPerKg ? fuelKg * source.fuelJPerKg.value : generatedJ;
-    const sourceHostHeatJ = generatedJ / source.efficiency.value * source.hostHeatFraction.value;
-    const exhaustJ = Math.max(0, chemicalJ - generatedJ - sourceHostHeatJ);
+    const lossJ = chemicalJ - generatedJ;
+    const sourceHostHeatJ = lossJ * source.hostHeatFraction.value;
+    const exhaustJ = lossJ - sourceHostHeatJ;
     sourceActual.set(source.id, { generatedJ, fuelKg, hostHeatJ: sourceHostHeatJ, exhaustJ });
     generationNeededJ -= generatedJ;
     shipWorkingEnergyJ += sourceHostHeatJ;
@@ -568,8 +621,8 @@ export function stepGovernorV03WithClock(
 
   const resourceConsumption: { ownerId: string; resources: { id: string; massKg: number }[] }[] = [];
   for (const plan of plans) {
-    if (plan.module.resourceId === null || plan.module.massKgPerJ.value === 0 || plan.actualJ === 0) continue;
-    resourceConsumption.push({ ownerId: `module:${plan.module.id}`, resources: [{ id: plan.module.resourceId, massKg: plan.actualJ * plan.module.massKgPerJ.value }] });
+    if (plan.module.resourceId === null || plan.massKgPerUsefulJ === 0 || plan.actualJ === 0) continue;
+    resourceConsumption.push({ ownerId: `module:${plan.module.id}`, resources: [{ id: plan.module.resourceId, massKg: plan.actualJ * plan.massKgPerUsefulJ }] });
   }
   for (const source of profile.electrical.sources) {
     const actual = sourceActual.get(source.id);

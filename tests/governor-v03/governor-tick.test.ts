@@ -45,6 +45,58 @@ describe("F2-G2 staged 30 Hz governor", () => {
     expect(cooler?.resourceKg[0].massKg).toBeGreaterThan(0);
   });
 
+  it("T22 applies both coordinates of q(T) to one atomic mass/export package", async () => {
+    const makeInput = (firstTemperatureK: number, energyScale: number) => {
+      const { input } = fixture("T22");
+      input.profile = {
+        ...input.profile,
+        resources: input.profile.resources.map(resource => resource.id === "h2"
+          ? { ...resource, maxFlowKgPerS: { ...resource.maxFlowKgPerS, value: 1e-7 } }
+          : resource),
+        hydrogenCoolers: input.profile.hydrogenCoolers.map(path => ({
+          ...path,
+          specificExportByTemperature: path.specificExportByTemperature.map((point, index) => ({
+            ...point,
+            temperatureK: index === 0 ? { ...point.temperatureK, value: firstTemperatureK } : point.temperatureK,
+            specificEnergyJPerKg: { ...point.specificEnergyJPerKg, value: point.specificEnergyJPerKg.value * energyScale },
+          })),
+        })),
+      };
+      input.requests = [{ id: "cooler", requestedW: 100 }];
+      return input;
+    };
+    const interpolateQ = (input: ReturnType<typeof makeInput>) => {
+      const path = input.profile.hydrogenCoolers[0];
+      const [lower, upper] = path.specificExportByTemperature;
+      const temperatureK = input.state.shipEnergyJ / input.profile.ship.heatCapacityJPerK.value;
+      const fraction = (temperatureK - lower.temperatureK.value) / (upper.temperatureK.value - lower.temperatureK.value);
+      return lower.specificEnergyJPerKg.value
+        + fraction * (upper.specificEnergyJPerKg.value - lower.specificEnergyJPerKg.value);
+    };
+    const baseInput = makeInput(300, 1);
+    const energyInput = makeInput(300, 2);
+    const temperatureInput = makeInput(200, 1);
+    const [base, energyChanged, temperatureChanged] = await Promise.all([
+      step(baseInput),
+      step(energyInput),
+      step(temperatureInput),
+    ]);
+    const receipt = (result: Awaited<ReturnType<typeof step>>) => {
+      const pack = result.packages.find(item => item.moduleId === "cooler")!;
+      return { usefulJ: pack.usefulOutputJ, massKg: pack.resourceKg[0].massKg, outwardJ: pack.outward[0].energyJ };
+    };
+    const baseReceipt = receipt(base);
+    const energyReceipt = receipt(energyChanged);
+    const temperatureReceipt = receipt(temperatureChanged);
+    expect(baseReceipt.massKg * interpolateQ(baseInput)).toBeCloseTo(baseReceipt.outwardJ, 12);
+    expect(energyReceipt.massKg * interpolateQ(energyInput)).toBeCloseTo(energyReceipt.outwardJ, 12);
+    expect(temperatureReceipt.massKg * interpolateQ(temperatureInput)).toBeCloseTo(temperatureReceipt.outwardJ, 12);
+    expect(energyReceipt.usefulJ).toBeGreaterThan(baseReceipt.usefulJ);
+    expect(energyReceipt.outwardJ).toBeGreaterThan(baseReceipt.outwardJ);
+    expect(temperatureReceipt.usefulJ).toBeGreaterThan(baseReceipt.usefulJ);
+    expect(temperatureReceipt.outwardJ).toBeGreaterThan(baseReceipt.outwardJ);
+  });
+
   it("T23 stops only the cooler at its own critical boundary", async () => {
     const { input } = fixture("T23");
     const result = await step(input);
@@ -55,10 +107,41 @@ describe("F2-G2 staged 30 Hz governor", () => {
 
   it("T24 permits a Quiet emergency generator only for an allowed deficit and never charges storage", async () => {
     const { input } = fixture("T24");
+    input.profile = {
+      ...input.profile,
+      hydrogenCoolers: input.profile.hydrogenCoolers.map(path => ({
+        ...path,
+        mode: "cold" as const,
+        floorK: { ...path.floorK, value: 100 },
+      })),
+    };
+    input.state = {
+      ...input.state,
+      shipEnergyJ: 550 * input.profile.ship.heatCapacityJPerK.value,
+      electricalChargeJ: 0,
+    };
     const result = await step(input);
-    expect(result.state.electricalChargeJ).toBeLessThanOrEqual(input.state.electricalChargeJ);
-    expect(result.packages.some(item => item.moduleId === "generator" && item.usefulOutputJ > 0)).toBe(false);
-    expect(result.state.resourceMassKg.find(item => item.id === "h2")?.massKg).toBe(1);
+    const cooler = result.packages.find(item => item.moduleId === "cooler")!;
+    const generatedJ = result.ledger.entries
+      .filter(entry => entry.ownerId === "generator-source" && entry.nodeId === "electrical")
+      .reduce((sum, entry) => sum + entry.energyJ, 0);
+    const chemicalJ = result.ledger.entries
+      .filter(entry => entry.ownerId === "generator-source" && entry.counterpartyId === "resource:h2")
+      .reduce((sum, entry) => sum + entry.energyJ, 0);
+    const hostHeatJ = result.ledger.entries
+      .filter(entry => entry.ownerId === "generator-source" && entry.nodeId === "ship")
+      .reduce((sum, entry) => sum + entry.energyJ, 0);
+    const exhaustJ = result.ledger.outward
+      .filter(path => path.ownerId === "generator-source")
+      .reduce((sum, path) => sum + path.energyJ, 0);
+    expect(cooler.electricJ).toBeGreaterThan(0);
+    expect(generatedJ).toBeCloseTo(cooler.electricJ, 12);
+    expect(chemicalJ).toBeCloseTo(generatedJ + hostHeatJ + exhaustJ, 12);
+    expect(result.state.electricalChargeJ).toBe(0);
+    expect(Math.abs(result.ledger.energyResidualJ)).toBeLessThanOrEqual(
+      1e-6 + 1e-10 * result.ledger.energyThroughputJ,
+    );
+    expect(result.decisions).toContainEqual(expect.objectContaining({ moduleId: "cooler", reason: "resource-reserved" }));
   });
 
   it("T25 exits Quiet to Normal without erasing the persisted Quiet checkpoint", async () => {
@@ -107,11 +190,38 @@ describe("F2-G2 staged 30 Hz governor", () => {
   });
 
   it("T38 keeps propulsion and generator H2 reservations unavailable to the cooler this tick", async () => {
-    const { input } = fixture("T38");
-    const result = await step(input);
-    const cooler = result.packages.find(item => item.moduleId === "cooler");
-    expect(cooler?.resourceKg.find(item => item.id === "h2")?.massKg ?? 0).toBeLessThanOrEqual(0.1 + 1e-12);
-    expect(result.decisions).toContainEqual(expect.objectContaining({ moduleId: "cooler", reason: "resource-reserved" }));
+    for (const maxFlowKgPerS of [3, 3.6, 4.5]) {
+      const { input } = fixture("T38");
+      input.profile = {
+        ...input.profile,
+        ship: {
+          ...input.profile.ship,
+          heatCapacityJPerK: { ...input.profile.ship.heatCapacityJPerK, value: 100_000_000 },
+        },
+        resources: input.profile.resources.map(resource => resource.id === "h2"
+          ? { ...resource, maxFlowKgPerS: { ...resource.maxFlowKgPerS, value: maxFlowKgPerS } }
+          : resource),
+      };
+      input.state = {
+        ...input.state,
+        shipEnergyJ: 400 * input.profile.ship.heatCapacityJPerK.value,
+        electricalChargeJ: 0,
+      };
+      input.requests = [
+        { id: "propulsion", requestedW: 2_500_000 },
+        { id: "generator", requestedW: 900_000 },
+        { id: "cooler", requestedW: 3_000_000 },
+      ];
+      const result = await step(input);
+      const consumed = result.ledger.entries.filter(entry => entry.resourceId === "h2" && entry.massKg < 0);
+      const owners = new Set(consumed.map(entry => entry.ownerId));
+      const totalConsumedKg = -consumed.reduce((sum, entry) => sum + entry.massKg, 0);
+      expect(owners).toEqual(new Set(["module:propulsion", "source:generator-source", "module:cooler"]));
+      expect(totalConsumedKg).toBeLessThanOrEqual(maxFlowKgPerS / 30 + 1e-12);
+      expect(input.state.resourceMassKg.find(resource => resource.id === "h2")!.massKg
+        - result.state.resourceMassKg.find(resource => resource.id === "h2")!.massKg).toBeCloseTo(totalConsumedKg, 12);
+      expect(result.decisions).toContainEqual(expect.objectContaining({ moduleId: "cooler", reason: "resource-reserved" }));
+    }
   });
 
   it("refuses a malformed profile atomically before the tick", async () => {
