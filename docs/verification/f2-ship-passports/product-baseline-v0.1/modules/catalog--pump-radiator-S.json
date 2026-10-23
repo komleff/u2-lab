@@ -1,0 +1,586 @@
+{
+  "passportId": "catalog--pump-radiator-S",
+  "sourceItemId": "pump-radiator-S",
+  "sourceRevision": "sha256:02756a83828de0909086793837f8942cac626521f87125b3b8571023f23799de",
+  "canonicalRevision": null,
+  "catalogVersion": "ship-fitting-0.3.2",
+  "classification": "candidate",
+  "sourceLocation": "src/fitting/data/items-0.3.2.json#pump-radiator-S",
+  "ttx": {
+    "maximumBusPowerW": {
+      "value": 4000000,
+      "unit": "W",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          2000000,
+          8000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "maximumCoolingW": {
+      "value": 20000000,
+      "unit": "W",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          10000000,
+          40000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "copEfficiency": {
+      "value": 0.5,
+      "unit": "1",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.25,
+          1
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "driveEfficiency": {
+      "value": 0.95,
+      "unit": "1",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.475,
+          1.9
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "evaporatorConductanceWPerK": {
+      "value": 500000,
+      "unit": "W/K",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "W/K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250000,
+          1000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "condenserConductanceWPerK": {
+      "value": 500000,
+      "unit": "W/K",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "W/K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250000,
+          1000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "maximumHotK": {
+      "value": 900,
+      "unit": "K",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          450,
+          1800
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "auxW": {
+      "value": 50000,
+      "unit": "W",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          25000,
+          100000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    }
+  },
+  "derived": {
+    "dryMassKg": {
+      "value": 1500,
+      "unit": "kg",
+      "classification": "candidate",
+      "formula": "Σ dry material mass"
+    },
+    "intrinsicHeatCapacityJK": {
+      "value": 705000,
+      "unit": "J/K",
+      "classification": "candidate",
+      "formula": "Σ m_j·c_p,j; рабочий запас буфера учитывается отдельно"
+    }
+  },
+  "temperatureBandsK": {
+    "low": 200,
+    "workLow": 250,
+    "workHigh": 500,
+    "high": 550,
+    "restartLow": 260,
+    "restartHigh": 480
+  },
+  "durability": {
+    "behavior": "repairable-active",
+    "emergencyDepthR": 1,
+    "wearPerWorkSecond": 1e-06,
+    "failurePeriodSeconds": 60,
+    "cooldownSeconds": 10
+  },
+  "initialDurabilityFromExistingFreshRun": {
+    "value": 1,
+    "source": "src/scenarios/fitting.ts: makeShipModelMiningRun",
+    "classification": "candidate",
+    "note": "Нормированное состояние R; не дополнительная шкала HP"
+  },
+  "materialBill": [
+    {
+      "id": "candidate-dry",
+      "massKg": 1500,
+      "cpJKgK": 470,
+      "contents": "dry",
+      "origin": {
+        "kind": "experimental",
+        "unit": "kg",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          750,
+          3000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "own-panel",
+      "areaM2": 80,
+      "emissivity": 0.9,
+      "active": true,
+      "closable": true,
+      "builtin": false,
+      "circuitOwner": {
+        "kind": "pump-radiator",
+        "instanceId": "self"
+      },
+      "irProfile": {
+        "version": "radiator-ir/1",
+        "kind": "omnidirectional",
+        "aftFraction": 0
+      },
+      "origins": {
+        "areaM2": {
+          "kind": "experimental",
+          "unit": "m²",
+          "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+          "range": [
+            40,
+            160
+          ],
+          "note": "Кандидат для проверки; не канонические ТТХ."
+        },
+        "emissivity": {
+          "kind": "experimental",
+          "unit": "1",
+          "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+          "range": [
+            0.45,
+            1.8
+          ],
+          "note": "Кандидат для проверки; не канонические ТТХ."
+        },
+        "irProfile.aftFraction": {
+          "kind": "experimental",
+          "unit": "1",
+          "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+          "range": [
+            0,
+            0
+          ],
+          "note": "Кандидат для проверки; не канонические ТТХ."
+        }
+      }
+    }
+  ],
+  "sourceSnapshot": {
+    "id": "pump-radiator-S",
+    "label": "pump-radiator-S · кандидат",
+    "category": "sensors-thermal",
+    "size": "S",
+    "family": "pump-radiator",
+    "formFactor": "single",
+    "class": "Civilian",
+    "generation": 1,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "candidate-dry",
+        "massKg": 1500,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "unit": "kg",
+          "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+          "range": [
+            750,
+            3000
+          ],
+          "note": "Кандидат для проверки; не канонические ТТХ."
+        }
+      }
+    ],
+    "numerics": {
+      "maximumBusPowerW": 4000000,
+      "maximumCoolingW": 20000000,
+      "copEfficiency": 0.5,
+      "driveEfficiency": 0.95,
+      "evaporatorConductanceWPerK": 500000,
+      "condenserConductanceWPerK": 500000,
+      "maximumHotK": 900,
+      "auxW": 50000
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "workHigh": 500,
+      "high": 550,
+      "restartLow": 260,
+      "restartHigh": 480
+    },
+    "thermalRole": "regulator",
+    "durability": {
+      "behavior": "repairable-active",
+      "emergencyDepthR": 1,
+      "wearPerWorkSecond": 1e-06,
+      "failurePeriodSeconds": 60,
+      "cooldownSeconds": 10
+    },
+    "surfaces": [
+      {
+        "id": "own-panel",
+        "areaM2": 80,
+        "emissivity": 0.9,
+        "active": true,
+        "closable": true,
+        "builtin": false,
+        "circuitOwner": {
+          "kind": "pump-radiator",
+          "instanceId": "self"
+        },
+        "irProfile": {
+          "version": "radiator-ir/1",
+          "kind": "omnidirectional",
+          "aftFraction": 0
+        },
+        "origins": {
+          "areaM2": {
+            "kind": "experimental",
+            "unit": "m²",
+            "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+            "range": [
+              40,
+              160
+            ],
+            "note": "Кандидат для проверки; не канонические ТТХ."
+          },
+          "emissivity": {
+            "kind": "experimental",
+            "unit": "1",
+            "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+            "range": [
+              0.45,
+              1.8
+            ],
+            "note": "Кандидат для проверки; не канонические ТТХ."
+          },
+          "irProfile.aftFraction": {
+            "kind": "experimental",
+            "unit": "1",
+            "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+            "range": [
+              0,
+              0
+            ],
+            "note": "Кандидат для проверки; не канонические ТТХ."
+          }
+        }
+      }
+    ],
+    "origins": {
+      "generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "materials.0.massKg": {
+        "kind": "experimental",
+        "unit": "kg",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          750,
+          3000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "unit": "J/(kg K)",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          235,
+          940
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "numerics.maximumBusPowerW": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          2000000,
+          8000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "numerics.maximumCoolingW": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          10000000,
+          40000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "numerics.copEfficiency": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.25,
+          1
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "numerics.driveEfficiency": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.475,
+          1.9
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "numerics.evaporatorConductanceWPerK": {
+        "kind": "experimental",
+        "unit": "W/K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250000,
+          1000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "numerics.condenserConductanceWPerK": {
+        "kind": "experimental",
+        "unit": "W/K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250000,
+          1000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "numerics.maximumHotK": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          450,
+          1800
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "numerics.auxW": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          25000,
+          100000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          100,
+          400
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          125,
+          500
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250,
+          1000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          275,
+          1100
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          130,
+          520
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          240,
+          960
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.emergencyDepthR": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.wearPerWorkSecond": {
+        "kind": "experimental",
+        "unit": "1/s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5e-07,
+          2e-06
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.failurePeriodSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          30,
+          120
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.cooldownSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5,
+          20
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "surfaces.0.areaM2": {
+        "kind": "experimental",
+        "unit": "m²",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          40,
+          160
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "surfaces.0.emissivity": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.45,
+          1.8
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "surfaces.0.irProfile.aftFraction": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0,
+          0
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    }
+  },
+  "missingOrMapping": [],
+  "qualificationStatus": "NOT_RUN",
+  "runtimeAuthorization": false
+}

@@ -1,0 +1,381 @@
+{
+  "passportId": "hull--pony",
+  "sourceHullId": "pony",
+  "sourceRevision": "sha256:ed84ca37ddb43de3972426b60263984d516aa4be784d835268fae4ff5e7a7d22",
+  "classification": "candidate",
+  "shellTtx": {
+    "dryMassKg": 35000,
+    "intrinsicHeatCapacityJK": 16450000,
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 35000,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "bodyExchangeAreaM2": 456.45,
+    "bodyEmissivity": 1,
+    "legacyHullSystemsLoadW": 200000
+  },
+  "canonicalF1Geometry": {
+    "dimensionsM_LWH": [
+      23.6262016,
+      17.8999996,
+      7.3682117
+    ],
+    "structuralHullHP": 900,
+    "classification": "canonical",
+    "source": "docs/specs/balance/spec_f1_fixed_ship_presets_v0_1.md: accepted characteristics"
+  },
+  "builtinEquipment": [
+    {
+      "instanceId": "builtin:cargo",
+      "modulePassportId": "builtin--pony--builtin-cargo-pony",
+      "massAccounting": "separate_from_shell",
+      "role": null
+    },
+    {
+      "instanceId": "builtin:tank",
+      "modulePassportId": "builtin--pony--pony-tank",
+      "massAccounting": "separate_from_shell",
+      "role": null
+    },
+    {
+      "instanceId": "builtin:laser",
+      "modulePassportId": "builtin--pony--pony-laser",
+      "massAccounting": "separate_from_shell",
+      "role": null
+    }
+  ],
+  "hullOwnedSurface": {
+    "id": "hull:passive-radiator",
+    "areaM2": 40,
+    "emissivity": 0.9,
+    "active": false,
+    "closable": false,
+    "builtin": true,
+    "circuitOwner": {
+      "kind": "common-ti"
+    },
+    "irProfile": {
+      "version": "radiator-ir/1",
+      "kind": "omnidirectional",
+      "aftFraction": 0
+    },
+    "origins": {
+      "areaM2": {
+        "kind": "experimental",
+        "unit": "m²",
+        "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+        "derivation": "Буквальное candidate-поле src/fitting/data/hulls-0.3.0.json#sputnik.hullPassiveRadiator.areaM2; без Class/G/size multiplier",
+        "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+      },
+      "emissivity": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+        "derivation": "Буквальное candidate-поле src/fitting/data/hulls-0.3.0.json#sputnik.hullPassiveRadiator.emissivity; без Class/G/size multiplier",
+        "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+      },
+      "irProfile.aftFraction": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+        "derivation": "Буквальное candidate-поле src/fitting/data/hulls-0.3.0.json#sputnik.hullPassiveRadiator.irProfile.aftFraction; без Class/G/size multiplier",
+        "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+      }
+    }
+  },
+  "hullSurfaceAccounting": "Часть поверхности корпуса; отдельная масса в исходнике не выделена. Не добавлять вторую массу поверх shell/materials.",
+  "systemsLoadAccounting": "hullPowerW — агрегированная нагрузка корпусных систем старого каталога, а не потребление материала оболочки. Декомпозиция на отдельные изделия в этом источнике отсутствует.",
+  "sourceHullWithoutEmbeddedModules": {
+    "id": "pony",
+    "label": "Дизельный Пони",
+    "size": "S",
+    "class": "UNKNOWN",
+    "generation": 0,
+    "architecture": "D",
+    "slots": [
+      {
+        "id": "march",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "march",
+        "formFactor": "single"
+      },
+      {
+        "id": "retro",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "retro",
+        "formFactor": "single"
+      },
+      {
+        "id": "strafe",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "strafe",
+        "formFactor": "pair"
+      },
+      {
+        "id": "turn",
+        "category": "propulsion",
+        "size": "S",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "turn",
+        "formFactor": "pair"
+      },
+      {
+        "id": "power-1",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-2",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-3",
+        "category": "power",
+        "size": "S",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-1",
+        "category": "payload",
+        "size": "S",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-2",
+        "category": "payload",
+        "size": "S",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-1",
+        "category": "sensors-thermal",
+        "size": "S",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      }
+    ],
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 35000,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "hullPowerW": 200000,
+    "bodyExchangeAreaM2": 456.45,
+    "bodyEmissivity": 1,
+    "hullPassiveRadiator": {
+      "id": "hull:passive-radiator",
+      "areaM2": 40,
+      "emissivity": 0.9,
+      "active": false,
+      "closable": false,
+      "builtin": true,
+      "circuitOwner": {
+        "kind": "common-ti"
+      },
+      "irProfile": {
+        "version": "radiator-ir/1",
+        "kind": "omnidirectional",
+        "aftFraction": 0
+      },
+      "origins": {
+        "areaM2": {
+          "kind": "experimental",
+          "unit": "m²",
+          "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+          "derivation": "Буквальное candidate-поле src/fitting/data/hulls-0.3.0.json#sputnik.hullPassiveRadiator.areaM2; без Class/G/size multiplier",
+          "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+        },
+        "emissivity": {
+          "kind": "experimental",
+          "unit": "1",
+          "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+          "derivation": "Буквальное candidate-поле src/fitting/data/hulls-0.3.0.json#sputnik.hullPassiveRadiator.emissivity; без Class/G/size multiplier",
+          "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+        },
+        "irProfile.aftFraction": {
+          "kind": "experimental",
+          "unit": "1",
+          "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+          "derivation": "Буквальное candidate-поле src/fitting/data/hulls-0.3.0.json#sputnik.hullPassiveRadiator.irProfile.aftFraction; без Class/G/size multiplier",
+          "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+        }
+      }
+    },
+    "modes": [
+      "Efficient"
+    ],
+    "origins": {
+      "materials.0.massKg": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_survival_starting_ship_v0.1_draft.md§7",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          26250,
+          43750
+        ]
+      },
+      "hullPowerW": {
+        "kind": "experimental",
+        "sourceRef": "lab:hotel-load-candidate",
+        "unit": "W",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "hullRadiationM2": {
+        "kind": "experimental",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§2",
+        "unit": "m²",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "slots.signatureCount": {
+        "kind": "experimental",
+        "unit": "slot",
+        "sourceRef": "lab:operator-2026-10-06-pony-signature-slot",
+        "derivation": "2 − 1 = 1 removable signature slot",
+        "note": "Принятое ограничение Лабы; остальные поля и встроенные изделия сохранены. Не внешний канон U2."
+      },
+      "referenceVfaMS": {
+        "kind": "experimental",
+        "unit": "m/s",
+        "sourceRef": "lab:operator-2026-10-07-catalog-0.2.4-speed-correction",
+        "note": "Таблица оператора S/M/L/XL: Civil250/225/200/175; Industrial225/200/175/150. Пони наследует Industrial S; не канонический физический закон U2."
+      },
+      "bodyExchangeAreaM2": {
+        "kind": "experimental",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§2",
+        "unit": "m²",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "derivation": "Буквальное legacy hullRadiationM2 → bodyExchangeAreaM2"
+      },
+      "generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+        "derivation": "Буквальное candidate-поле src/fitting/data/hulls-0.3.0.json#sputnik.generation; без Class/G/size multiplier",
+        "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+        "derivation": "Буквальное candidate-поле src/fitting/data/hulls-0.3.0.json#sputnik.materials.0.cpJKgK; без Class/G/size multiplier",
+        "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+      },
+      "bodyEmissivity": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+        "derivation": "Буквальное candidate-поле src/fitting/data/hulls-0.3.0.json#sputnik.bodyEmissivity; без Class/G/size multiplier",
+        "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+      },
+      "hullPassiveRadiator.areaM2": {
+        "kind": "experimental",
+        "unit": "m²",
+        "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+        "derivation": "Буквальное candidate-поле src/fitting/data/hulls-0.3.0.json#sputnik.hullPassiveRadiator.areaM2; без Class/G/size multiplier",
+        "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+      },
+      "hullPassiveRadiator.emissivity": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+        "derivation": "Буквальное candidate-поле src/fitting/data/hulls-0.3.0.json#sputnik.hullPassiveRadiator.emissivity; без Class/G/size multiplier",
+        "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+      },
+      "hullPassiveRadiator.irProfile.aftFraction": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+        "derivation": "Буквальное candidate-поле src/fitting/data/hulls-0.3.0.json#sputnik.hullPassiveRadiator.irProfile.aftFraction; без Class/G/size multiplier",
+        "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+      }
+    }
+  },
+  "qualificationStatus": "NOT_RUN",
+  "runtimeAuthorization": false
+}

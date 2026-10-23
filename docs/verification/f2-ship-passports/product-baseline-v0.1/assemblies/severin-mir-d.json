@@ -1,0 +1,245 @@
+{
+  "passportId": "assembly--severin-mir-d",
+  "sourcePresetId": "severin-mir-d",
+  "fitRevision": 1,
+  "catalogVersion": "ship-fitting-0.3.2",
+  "sourceRevision": "sha256:12d61e47ca04f89f5f18fcd59660f86eeef694ca10d422a1d6708252569e3c7d",
+  "hullPassportId": "hull--severin-mir",
+  "equipment": [
+    {
+      "instanceId": "builtin:cargo",
+      "modulePassportId": "builtin--severin-mir--builtin-cargo-civilian-M",
+      "massAccounting": "separate_from_shell",
+      "role": null
+    },
+    {
+      "instanceId": "fit:march",
+      "slotId": "march",
+      "modulePassportId": "catalog--engine-diesel-M-single",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:retro",
+      "slotId": "retro",
+      "modulePassportId": "local--severin-mir-d--reference-retro-engine-diesel-M-single",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:strafe",
+      "slotId": "strafe",
+      "modulePassportId": "catalog--engine-diesel-M-pair",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:turn",
+      "slotId": "turn",
+      "modulePassportId": "catalog--engine-diesel-M-pair",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:signature-1",
+      "slotId": "signature-1",
+      "modulePassportId": "catalog--radiator-passive-M",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:payload-1",
+      "slotId": "payload-1",
+      "modulePassportId": "catalog--mining-civil-M",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:payload-2",
+      "slotId": "payload-2",
+      "modulePassportId": "catalog--mining-civil-M",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:power-1",
+      "slotId": "power-1",
+      "modulePassportId": "catalog--battery-M",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:power-2",
+      "slotId": "power-2",
+      "modulePassportId": "catalog--generator-diesel-M",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:power-3",
+      "slotId": "power-3",
+      "modulePassportId": "catalog--tank-diesel-M",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:payload-3",
+      "slotId": "payload-3",
+      "modulePassportId": "catalog--cargo-bulk-M",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    }
+  ],
+  "initialPreset": {
+    "chargeFraction": 1,
+    "fuelFraction": {
+      "diesel": 1,
+      "hydrogen": 1
+    }
+  },
+  "referenceStart": {
+    "temperatureK": 300,
+    "mode": "Efficient",
+    "initialDurabilityR": 1,
+    "source": "src/scenarios/fitting.ts: existing fresh-run builder; not G2 state conversion"
+  },
+  "totals": {
+    "shellDryMassKg": 170000,
+    "equipmentDryMassKg": 89366.64141038948,
+    "assembledDryMassKg": 259366.64141038948,
+    "shellHeatCapacityJK": 79900000,
+    "assembledHeatCapacityJK": 121877671.46288306,
+    "electricalStoredCapacityJ": 58919999999.99999,
+    "fuelCapacityKg": {
+      "diesel": 24000
+    },
+    "cargoCapacitySCU": {
+      "universal": 24,
+      "bulk": 192
+    },
+    "wetMassBeforeCargoKg": 283366.64141038945,
+    "hullSystemsLoadW": 800000
+  },
+  "historicalReference": {
+    "id": "severin-mir:2:D",
+    "label": "Северин Мир · D (дизель) · 2 лазера",
+    "fit": "battery-M,builtin-cargo-civilian-M,cargo-bulk-M,engine-diesel-M-pair,engine-diesel-M-pair,engine-diesel-M-single,generator-diesel-M,mining-civil-M,mining-civil-M,radiator-passive-M,reference-retro-engine-diesel-M-single,tank-diesel-M",
+    "tCold": 250,
+    "tWeak": 500,
+    "C_MJK": 121.87767146288306,
+    "hullK": 1825.8,
+    "hullPowerKW": 800,
+    "solar": 0,
+    "idle": {
+      "3": {
+        "T60": 307.4924701458003,
+        "soc": 1
+      },
+      "50": {
+        "T60": 307.5196613416453,
+        "soc": 1
+      },
+      "100": {
+        "T60": 307.92733719039035,
+        "soc": 1
+      },
+      "150": {
+        "T60": 309.6896530083145,
+        "soc": 1
+      },
+      "200": {
+        "T60": 314.3997109191382,
+        "soc": 1
+      },
+      "230": {
+        "T60": 319.50229043441504,
+        "soc": 1
+      },
+      "250": {
+        "T60": 324.1649509926196,
+        "soc": 1
+      },
+      "270": {
+        "T60": 330.01611193182634,
+        "soc": 1
+      },
+      "290": {
+        "T60": 337.2037426535036,
+        "soc": 1
+      },
+      "300": {
+        "T60": 341.3413723028856,
+        "soc": 1
+      }
+    },
+    "mining": {
+      "3": {
+        "T15": 473.1730190931707,
+        "maxT": 473.1730190931707,
+        "minedM3": 450.08999999999173,
+        "h2Kg": 0,
+        "dieselKg": 478.40531561450916,
+        "soc": 0.6890699253224453
+      },
+      "100": {
+        "T15": 473.2931710760438,
+        "maxT": 473.2931710760438,
+        "minedM3": 450.08999999999173,
+        "h2Kg": 0,
+        "dieselKg": 478.40531561450916,
+        "soc": 0.6890699253224453
+      },
+      "200": {
+        "T15": 475.093418303464,
+        "maxT": 475.093418303464,
+        "minedM3": 450.08999999999173,
+        "h2Kg": 0,
+        "dieselKg": 478.40531561450916,
+        "soc": 0.6890699253224453
+      },
+      "250": {
+        "T15": 477.8538407679325,
+        "maxT": 477.8538407679325,
+        "minedM3": 450.08999999999173,
+        "h2Kg": 0,
+        "dieselKg": 478.40531561450916,
+        "soc": 0.6890699253224453
+      },
+      "300": {
+        "T15": 482.85019845686855,
+        "maxT": 482.85019845686855,
+        "minedM3": 450.08999999999173,
+        "h2Kg": 0,
+        "dieselKg": 478.40531561450916,
+        "soc": 0.6890699253224453
+      },
+      "350": {
+        "T15": 491.0122179678777,
+        "maxT": 491.0122179678777,
+        "minedM3": 450.08999999999173,
+        "h2Kg": 0,
+        "dieselKg": 478.40531561450916,
+        "soc": 0.6890699253224453
+      },
+      "400": {
+        "T15": 503.2322032567509,
+        "maxT": 503.2322032567509,
+        "minedM3": 449.7847920817399,
+        "h2Kg": 0,
+        "dieselKg": 478.0809069618808,
+        "soc": 0.6892715611937996
+      },
+      "450": {
+        "T15": 516.5907952446977,
+        "maxT": 516.5907952446977,
+        "minedM3": 440.11983691117325,
+        "h2Kg": 0,
+        "dieselKg": 467.80792616076724,
+        "soc": 0.6956567220656926
+      }
+    }
+  },
+  "historicalModel": "catalog 0.2.5 + physicsV2; not a measurement of catalog 0.3.2 or G2",
+  "qualificationStatus": "NOT_RUN",
+  "runtimeAuthorization": false
+}

@@ -1,0 +1,329 @@
+{
+  "passportId": "catalog--h2-cooler-S",
+  "sourceItemId": "h2-cooler-S",
+  "sourceRevision": "sha256:3bfe5342f0f6d7584cf7b84e7510ef2b8e5a4c9620ee2c89317055443b8e66bc",
+  "canonicalRevision": null,
+  "catalogVersion": "ship-fitting-0.3.2",
+  "classification": "candidate",
+  "sourceLocation": "src/fitting/data/items-0.3.2.json#h2-cooler-S",
+  "ttx": {
+    "coolingW": {
+      "value": 20000000,
+      "unit": "W",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§6",
+        "unit": "W",
+        "note": "Явный authored reference; нет automatic Class/G multipliers",
+        "range": [
+          15000000,
+          25000000
+        ],
+        "derivation": "Буквальная копия численного поля исходной редакции 0.2.x; исходный вывод указан в sourceRef."
+      }
+    },
+    "auxW": {
+      "value": 50000,
+      "unit": "W",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§6",
+        "unit": "W",
+        "note": "Явный authored reference; нет automatic Class/G multipliers"
+      }
+    },
+    "qJKg": {
+      "value": 10000000,
+      "unit": "J/kg",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§6",
+        "unit": "J/kg",
+        "note": "Явный authored reference; нет automatic Class/G multipliers",
+        "range": [
+          7500000,
+          12500000
+        ],
+        "derivation": "Буквальная копия численного поля исходной редакции 0.2.x; исходный вывод указан в sourceRef."
+      }
+    }
+  },
+  "derived": {
+    "dryMassKg": {
+      "value": 850,
+      "unit": "kg",
+      "classification": "candidate",
+      "formula": "Σ dry material mass"
+    },
+    "intrinsicHeatCapacityJK": {
+      "value": 399500,
+      "unit": "J/K",
+      "classification": "candidate",
+      "formula": "Σ m_j·c_p,j; рабочий запас буфера учитывается отдельно"
+    }
+  },
+  "temperatureBandsK": {
+    "low": 200,
+    "workLow": 250,
+    "restartLow": 260,
+    "workHigh": 500,
+    "restartHigh": 480,
+    "high": 550
+  },
+  "durability": {
+    "behavior": "repairable-active",
+    "emergencyDepthR": 1,
+    "wearPerWorkSecond": 1e-06,
+    "failurePeriodSeconds": 60,
+    "cooldownSeconds": 10
+  },
+  "initialDurabilityFromExistingFreshRun": {
+    "value": 1,
+    "source": "src/scenarios/fitting.ts: makeShipModelMiningRun",
+    "classification": "candidate",
+    "note": "Нормированное состояние R; не дополнительная шкала HP"
+  },
+  "materialBill": [
+    {
+      "id": "LAB-STEEL-MIX",
+      "massKg": 850,
+      "cpJKgK": 470,
+      "contents": "dry",
+      "origin": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "kg; J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      }
+    }
+  ],
+  "surfaces": [],
+  "sourceSnapshot": {
+    "id": "h2-cooler-S",
+    "label": "H₂ охладитель S",
+    "family": "h2",
+    "category": "sensors-thermal",
+    "size": "S",
+    "formFactor": "single",
+    "generation": 2,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 850,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "coolingW": 20000000,
+      "auxW": 50000,
+      "qJKg": 10000000
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.coolingW": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§6",
+        "unit": "W",
+        "note": "Явный authored reference; нет automatic Class/G multipliers",
+        "range": [
+          15000000,
+          25000000
+        ],
+        "derivation": "Буквальная копия численного поля исходной редакции 0.2.x; исходный вывод указан в sourceRef."
+      },
+      "numerics.auxW": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§6",
+        "unit": "W",
+        "note": "Явный authored reference; нет automatic Class/G multipliers"
+      },
+      "numerics.qJKg": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§6",
+        "unit": "J/kg",
+        "note": "Явный authored reference; нет automatic Class/G multipliers",
+        "range": [
+          7500000,
+          12500000
+        ],
+        "derivation": "Буквальная копия численного поля исходной редакции 0.2.x; исходный вывод указан в sourceRef."
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§6",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          637.5,
+          1062.5
+        ]
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      },
+      "generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          1,
+          4
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.emergencyDepthR": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.wearPerWorkSecond": {
+        "kind": "experimental",
+        "unit": "1/s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5e-07,
+          2e-06
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.failurePeriodSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          30,
+          120
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.cooldownSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5,
+          20
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "class": "Civilian",
+    "species": "hydrogen",
+    "thermalRole": "regulator",
+    "durability": {
+      "behavior": "repairable-active",
+      "emergencyDepthR": 1,
+      "wearPerWorkSecond": 1e-06,
+      "failurePeriodSeconds": 60,
+      "cooldownSeconds": 10
+    },
+    "surfaces": []
+  },
+  "missingOrMapping": [
+    {
+      "kind": "mapping required",
+      "field": "q(T)",
+      "note": "Старые 10 MJ/kg относятся только к H₂-охладителю; для T22 сверить с принятой температурной картой. Не переносить на генератор или движитель."
+    }
+  ],
+  "qualificationStatus": "NOT_RUN",
+  "runtimeAuthorization": false
+}

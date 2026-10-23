@@ -1,0 +1,460 @@
+{
+  "passportId": "catalog--thermoinverter-S",
+  "sourceItemId": "thermoinverter-S",
+  "sourceRevision": "sha256:e1a882bdb7586a9161f5ded1b10258a5926c1e1b3d78279623bb00fc3e54576e",
+  "canonicalRevision": null,
+  "catalogVersion": "ship-fitting-0.3.2",
+  "classification": "candidate",
+  "sourceLocation": "src/fitting/data/items-0.3.2.json#thermoinverter-S",
+  "ttx": {
+    "maximumBusPowerW": {
+      "value": 4000000,
+      "unit": "W",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          2000000,
+          8000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "maximumCoolingW": {
+      "value": 20000000,
+      "unit": "W",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          10000000,
+          40000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "copEfficiency": {
+      "value": 0.5,
+      "unit": "1",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "sourceRef": "lab:engineering-candidate-01",
+        "unit": "1",
+        "note": "Явный authored reference; нет automatic Class/G multipliers",
+        "range": [
+          0.375,
+          0.625
+        ]
+      }
+    },
+    "driveEfficiency": {
+      "value": 0.95,
+      "unit": "1",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.475,
+          1.9
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "evaporatorConductanceWPerK": {
+      "value": 500000,
+      "unit": "W/K",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "W/K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250000,
+          1000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "condenserConductanceWPerK": {
+      "value": 500000,
+      "unit": "W/K",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "W/K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250000,
+          1000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "maximumHotK": {
+      "value": 900,
+      "unit": "K",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          450,
+          1800
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    }
+  },
+  "derived": {
+    "dryMassKg": {
+      "value": 950,
+      "unit": "kg",
+      "classification": "candidate",
+      "formula": "Σ dry material mass"
+    },
+    "intrinsicHeatCapacityJK": {
+      "value": 446500,
+      "unit": "J/K",
+      "classification": "candidate",
+      "formula": "Σ m_j·c_p,j; рабочий запас буфера учитывается отдельно"
+    }
+  },
+  "temperatureBandsK": {
+    "low": 200,
+    "workLow": 250,
+    "restartLow": 260,
+    "workHigh": 500,
+    "restartHigh": 480,
+    "high": 550
+  },
+  "durability": {
+    "behavior": "repairable-active",
+    "emergencyDepthR": 1,
+    "wearPerWorkSecond": 1e-06,
+    "failurePeriodSeconds": 60,
+    "cooldownSeconds": 10
+  },
+  "initialDurabilityFromExistingFreshRun": {
+    "value": 1,
+    "source": "src/scenarios/fitting.ts: makeShipModelMiningRun",
+    "classification": "candidate",
+    "note": "Нормированное состояние R; не дополнительная шкала HP"
+  },
+  "materialBill": [
+    {
+      "id": "LAB-STEEL-MIX",
+      "massKg": 950,
+      "cpJKgK": 470,
+      "contents": "dry",
+      "origin": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "kg; J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      }
+    }
+  ],
+  "surfaces": [],
+  "sourceSnapshot": {
+    "id": "thermoinverter-S",
+    "label": "Термоинвертор S",
+    "family": "thermoinverter",
+    "category": "sensors-thermal",
+    "size": "S",
+    "formFactor": "single",
+    "generation": 4,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 950,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "maximumBusPowerW": 4000000,
+      "maximumCoolingW": 20000000,
+      "copEfficiency": 0.5,
+      "driveEfficiency": 0.95,
+      "evaporatorConductanceWPerK": 500000,
+      "condenserConductanceWPerK": 500000,
+      "maximumHotK": 900
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.coolingW": {
+        "kind": "experimental",
+        "sourceRef": "lab:engineering-candidate-01",
+        "unit": "W",
+        "note": "Явный authored reference; нет automatic Class/G multipliers",
+        "range": [
+          15000000,
+          25000000
+        ]
+      },
+      "numerics.hotK": {
+        "kind": "experimental",
+        "sourceRef": "lab:engineering-candidate-01",
+        "unit": "K",
+        "note": "Явный authored reference; нет automatic Class/G multipliers",
+        "range": [
+          600,
+          1000
+        ]
+      },
+      "numerics.areaM2": {
+        "kind": "experimental",
+        "sourceRef": "lab:engineering-candidate-01",
+        "unit": "m²",
+        "note": "Явный authored reference; нет automatic Class/G multipliers",
+        "range": [
+          330.75,
+          551.25
+        ]
+      },
+      "numerics.copEfficiency": {
+        "kind": "experimental",
+        "sourceRef": "lab:engineering-candidate-01",
+        "unit": "1",
+        "note": "Явный authored reference; нет automatic Class/G multipliers",
+        "range": [
+          0.375,
+          0.625
+        ]
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "experimental",
+        "sourceRef": "lab:dry-mass-recipe-01",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          712.5,
+          1187.5
+        ]
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      },
+      "generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          2,
+          8
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "numerics.maximumBusPowerW": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          2000000,
+          8000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "numerics.maximumCoolingW": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          10000000,
+          40000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "numerics.driveEfficiency": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.475,
+          1.9
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "numerics.evaporatorConductanceWPerK": {
+        "kind": "experimental",
+        "unit": "W/K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250000,
+          1000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "numerics.condenserConductanceWPerK": {
+        "kind": "experimental",
+        "unit": "W/K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          250000,
+          1000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "numerics.maximumHotK": {
+        "kind": "experimental",
+        "unit": "K",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          450,
+          1800
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.emergencyDepthR": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.wearPerWorkSecond": {
+        "kind": "experimental",
+        "unit": "1/s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5e-07,
+          2e-06
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.failurePeriodSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          30,
+          120
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.cooldownSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5,
+          20
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "class": "Civilian",
+    "thermalRole": "regulator",
+    "durability": {
+      "behavior": "repairable-active",
+      "emergencyDepthR": 1,
+      "wearPerWorkSecond": 1e-06,
+      "failurePeriodSeconds": 60,
+      "cooldownSeconds": 10
+    },
+    "surfaces": []
+  },
+  "missingOrMapping": [],
+  "qualificationStatus": "NOT_RUN",
+  "runtimeAuthorization": false
+}
