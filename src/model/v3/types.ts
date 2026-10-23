@@ -42,6 +42,7 @@ export type SlotV3 = { id: string; category: CategoryV3; size: Size; families: F
 export type SchoolProfileV3 = {
   lossFactor: number; thrustFactors: { march: number; retro: number; strafe: number }; emLeakageFactor: number;
 };
+export type HullGeometryV3 = { lengthM: number; widthM: number; heightM: number; noseFactor: number; sideFactor: number };
 export type HullV3 = {
   id: string; label: string; size: "S" | "M" | "L"; class: ShipClass; generation: number;
   architecture: "U" | "D" | "H" | "E" | "A"; slots: SlotV3[];
@@ -50,6 +51,7 @@ export type HullV3 = {
   hullPassiveRadiator: ThermalSurface | null; modes: ShipMode[];
   origins: Record<string, FieldOrigin>;
   schoolProfile?: SchoolProfileV3;
+  geometry?: HullGeometryV3;
 };
 // Производные значения профиля, вычисленные при компиляции; без профиля поля нет.
 export type ResolvedSchoolV3 = {

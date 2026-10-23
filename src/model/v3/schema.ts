@@ -84,7 +84,7 @@ function itemChecks(c: Check, input: unknown, path: string) {
 // Без множителя КПД не пересчитывается: нейтральный профиль не сдвигает η даже на ulp.
 const schoolEfficiency=(eta:number,k:number)=>k===1?eta:1-(1-eta)*k;
 function hullChecks(c:Check,input:unknown,path:string){
-  if(!c.exact(input,path,["id","label","size","class","generation","architecture","slots","builtins","materials","hullPowerW","bodyExchangeAreaM2","bodyEmissivity","hullPassiveRadiator","modes","origins"],["schoolProfile"]))return;
+  if(!c.exact(input,path,["id","label","size","class","generation","architecture","slots","builtins","materials","hullPowerW","bodyExchangeAreaM2","bodyEmissivity","hullPassiveRadiator","modes","origins"],["schoolProfile","geometry"]))return;
   const h=input as HullV3;c.text(h.id,path+".id");c.text(h.label,path+".label");c.choice(h.size,path+".size",["S","M","L"]);c.choice(h.class,path+".class",classes);c.choice(h.architecture,path+".architecture",["U","D","H","E","A"]);c.number(h.generation,path+".generation",0,Infinity,true);c.number(h.hullPowerW,path+".hullPowerW");c.positive(h.bodyExchangeAreaM2,path+".bodyExchangeAreaM2");c.number(h.bodyEmissivity,path+".bodyEmissivity",Number.MIN_VALUE,1);materialChecks(c,h.materials,path+".materials");
   if(h.hullPassiveRadiator!==null){surfaceChecks(c,h.hullPassiveRadiator,path+".hullPassiveRadiator");if(h.hullPassiveRadiator?.active||h.hullPassiveRadiator?.closable||!h.hullPassiveRadiator?.builtin||h.hullPassiveRadiator?.circuitOwner.kind!=="common-ti")c.bad(path+".hullPassiveRadiator","Собственный passive radiator несъёмен, открыт и допускается к общему TI");}
   if(c.list(h.modes,path+".modes")){h.modes.forEach((m,i)=>c.choice(m,path+".modes."+i,modes));if(!h.modes.includes("Efficient")||new Set(h.modes).size!==h.modes.length)c.bad(path+".modes","Нужен Efficient без повторов");}
@@ -92,6 +92,7 @@ function hullChecks(c:Check,input:unknown,path:string){
   if(c.list(h.builtins,path+".builtins")){const ids=new Set();h.builtins.forEach((b,i)=>{const p=path+".builtins."+i;if(!c.exact(b,p,["id","item"],["role"]))return;c.text(b.id,p+".id");if(ids.has(b.id))c.bad(p+".id","Повтор встроенного экземпляра");ids.add(b.id);itemChecks(c,b.item,p+".item");});}
   // Профиль школы: потери и тяга — множители > 0, утечка EM корпуса — доля в (0, 1].
   if(h.schoolProfile!==undefined&&c.exact(h.schoolProfile,path+".schoolProfile",["lossFactor","thrustFactors","emLeakageFactor"])){const p=h.schoolProfile,sp=path+".schoolProfile";c.positive(p.lossFactor,sp+".lossFactor");c.number(p.emLeakageFactor,sp+".emLeakageFactor",Number.MIN_VALUE,1);if(c.exact(p.thrustFactors,sp+".thrustFactors",["march","retro","strafe"]))for(const role of ["march","retro","strafe"]as const)c.positive(p.thrustFactors[role],sp+".thrustFactors."+role);}
+  if(h.geometry!==undefined&&c.exact(h.geometry,path+'.geometry',['lengthM','widthM','heightM','noseFactor','sideFactor']))for(const [key,value]of Object.entries(h.geometry))c.positive(value,path+'.geometry.'+key);
   c.numericOrigins(h,h.origins,path);
 }
 export function validateCatalogV3(input:unknown):ValidationResult<CandidateCatalogV3>{const c=new Check();if(c.exact(input,"catalog",["version","hulls","items","presets"],["presetOptions"])){
