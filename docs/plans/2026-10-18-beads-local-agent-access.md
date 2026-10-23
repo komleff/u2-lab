@@ -1,7 +1,7 @@
 ---
 title: "Beads — самостоятельный доступ локальных агентов (embedded + beads-backup)"
 status: proposed
-version: "0.3"
+version: "0.4"
 date: 2026-10-18
 tags: [plan, beads, pipeline, worktree, critical]
 ---
@@ -69,6 +69,12 @@ v0.2 — исправлены B1–B4 Plan Review r1 и учтены A1–A8 (с
    - в worktree база и проверка сервера — по функции режима из п. 1;
    - флаги `--db`, `-C`/`--directory`, `--global` отклоняются **в любой позиции** аргументов
      (cobra принимает persistent-флаги и после подкоманды), а не только до подкоманды;
+   - (v0.4) флаги чтения локального файла отклоняются в любой позиции: `--body-file`,
+     `--design-file`, `--reason-file`, `--file`, `--graph` (с пробелом и с `=`), короткий `-f`
+     (в том числе в связке однодефисных флагов — по образцу `-C`) и `--metadata`, значение
+     которого начинается с `@`. Длинный текст передаётся через `--stdin` или `--description`;
+   - (v0.4) заданная непустая переменная окружения `BEADS_DIR` или `BEADS_DB` → rc=2 во всех
+     режимах, bd не вызван: в основном checkout она уводила pass-through в другую базу;
    - прежние отказы (неизвестный глобальный флаг до подкоманды) сохраняются; export/import/dolt
      отклоняются как не входящие в allowlist, с прежним текстом-подсказкой про sync-скрипты.
 3. `scripts/bd-apply-intents.sh` шаг 4 — проверка сервера только для `server`; для
@@ -78,7 +84,8 @@ v0.2 — исправлены B1–B4 Plan Review r1 и учтены A1–A8 (с
    прежние результаты.
 5. `.claude/rules/beads.md` (policy `preserve`) — три класса окружения, точка входа
    `scripts/bd-wt.sh`, раздел «Порядок синхронизации» (ниже).
-6. `AGENTS.md` (policy `preserve`) — замена ровно строк 28–31 (текст ниже).
+6. `AGENTS.md` (policy `preserve`) — замена ровно строк 28–31 (текст ниже). Текст одобрен
+   оператором 2026-10-23.
 7. `.claude/settings.json` (policy `settings`) — четыре allow-правила (ниже); `deny`, hooks,
    прочие ключи без изменений.
 8. `docs/verification/beads-wrapper-drift.json` — drift managed-файлов: пути, blob из
@@ -177,6 +184,8 @@ Bash(scripts/bd-read.sh *)   Bash(bash scripts/bd-read.sh *)
 | AC-8 | `verify.sh` включает новые тесты и проходит на macOS bash 3.2; лексическая проверка U2-3ukfq по изменённым shell-файлам — 0 находок | verify |
 | AC-9 | Оператор, после merge, отдельное evidence: агент Claude Code в auto mode без prompt/denial выполняет из worktree и из основного checkout `scripts/bd-wt.sh ready` (совпадает с `bd ready` оператора) и одну безвредную запись — `scripts/bd-wt.sh comment ulab-oz6 "<smoke>"`, затем `show` подтверждает; `scripts/bd-wt.sh delete ulab-oz6` → rc=2, задача на месте | live smoke |
 | AC-10 | `docs/verification/beads-wrapper-drift.json`: оба managed-файла, blob манифеста и новый, причина, ссылка на upstream; очередь intents ссылается на `ulab-oz6`, новых дублей нет, формат валиден (офлайн dry-run engine) | QA, чтение + dry-run |
+| AC-12 | (v0.4) Флаги чтения файла `--body-file`, `--design-file`, `--reason-file`, `--file`, `--graph` (с пробелом и `=`), `-f` и связки с `f`, `--metadata @…`/`--metadata=@…` — rc=2, bd не вызван, в 4 контекстах; `--metadata '{"k":"v"}'` и `--stdin` проходят. На настоящем bd в одноразовом репозитории содержимое файла в базу не попадает | тест + real bd |
+| AC-13 | (v0.4) `BEADS_DIR` или `BEADS_DB` заданы непустыми → rc=2 с сообщением, bd не вызван, в основном checkout и в worktree; пустые/не заданные — прежнее поведение | тест |
 | AC-11 | Applier шаг 4: `embedded` + каталог есть → проходит к шагу 5; `embedded` без каталога → отказ; `server` без живого сервера → exit 3 как прежде. `bd-read.sh` и `test-bd-cloud.mjs` — прежние результаты | тест (`BD_BIN` и заглушка режима) |
 
 Edge: оба каталога `.beads/dolt` и `.beads/embeddeddolt` → решает только `dolt_mode`; путь
@@ -217,3 +226,10 @@ Rollback: `git revert` PR. База не мигрируется; записи а
 - A2: уточнено, что allow-ограничение действует только в auto mode.
 - A3: обновление `cloud-tooling-provenance.json` для applier.
 - A4: посадка очереди после merge с явным путём и follow-up `git rm`.
+
+## Изменения v0.4 (решения оператора 2026-10-23)
+
+- Advisory Code Review №2 / QA known issue №1: флаги чтения файла отклоняются (Scope 2, AC-12).
+- Advisory Code Review №3: непустые `BEADS_DIR` / `BEADS_DB` → отказ (Scope 2, AC-13).
+- Scope 6: текст замены `AGENTS.md` стр. 28–31 одобрен оператором.
+- Advisory Code Review №4 (доверие к содержимому обёртки) и нагрузочные таймауты commit gate — вне этого PR.
