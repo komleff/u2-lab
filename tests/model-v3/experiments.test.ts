@@ -13,7 +13,11 @@ it('ST1-09 neutral matrix rows remain byte-identical to accepted WI3 base8318877
   // Отпечаток снят с фактических строк принятого base, не вычислен из новых ожиданий.
   const affected=new Set(['stealth-Efficient-maneuver-0.1','stealth-Efficient-maneuver-1','military-structural-buffer-aft','buffer-recovery-cold','buffer-recovery-hot']);
   const neutral=executeExperiments().filter(row=>!affected.has(row.id));expect(neutral).toHaveLength(50);
-  expect(digest(neutral)).toBe('339ddbc59adbc777809b4a3ae5ad8272e2c6d74200e6ceb5652b3b7861937a76');
+  // WI4 добавляет новый reference snapshot и меняет fullResultSha256; исходные measured данные сохраняются.
+  expect(digest(neutral.map(({id,input,measured})=>({id,input,measured})))).toBe('2423b84935252193050540023824bdac1bebb2a693b31be6d421439ebf7bb470');
+});
+it('ST4-05 все 55 measured rows: тепло, IR/EM, stocks, events и retention побайтно прежние относительно accepted WI1 d67ac61',()=>{
+  expect(digest(executeExperiments().map(({id,input,measured})=>({id,input,measured})))).toBe('cbd00a0dd91a7296e4f9919f040dc4f57441b6b4ba7736c6154059246ab480e7');
 });
 it('experimental matrix actually runs both reference cycles, fields, modes, generations and installation trade-offs',()=>{
   const rows=executeExperiments();expect(rows.length).toBeGreaterThanOrEqual(30);

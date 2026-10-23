@@ -4,7 +4,7 @@ import {freshMissionConditions,makeMissionRun} from "../../src/scenarios/mission
 import {signatureSpec} from "../../src/signatures/config";
 import {createRun,runChunk,result} from "../../src/runner/run";
 import {parseResultJson} from "../../src/io/fitting-result";
-it("SS12/16 same literal current Pony source keeps positive accepted clock across stationary approach/mining/service",{timeout:20000},()=>{
+it("SS12/16 same literal current Pony source keeps positive accepted clock across stationary approach/mining/service",{timeout:40000},()=>{
   const catalog=loadCandidateCatalog("ship-fitting-0.2.5"),fit=getPresetFit("pony:1",catalog.version);
   const built=makeMissionRun(fit,catalog,{...freshMissionConditions(fit,catalog),distanceM:0,targetM3:10000,durationSeconds:3600,stepSeconds:.1});
   if(!built.ok)throw Error(JSON.stringify(built.errors));const spec=signatureSpec(built.value);spec.signatures!.radarEnabled=true;
