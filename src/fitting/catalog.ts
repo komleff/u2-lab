@@ -1,18 +1,11 @@
-import { isKnownCatalogVersion, hullsForEdition } from "./editions";
+import { isKnownCatalogVersion, hullsForEdition, SHIP_MODEL_CATALOG_FILES } from "./editions";
 import defaultSputnik from "./data/default-sputnik-0.2.4.json" with { type:"json" };
 import defaultErmak from "./data/default-ermak-0.2.4.json" with { type:"json" };
 import defaultPony from "./data/default-diesel-pony-0.2.4.json" with { type:"json" };
 import itemData from "./data/modules.json" with { type: "json" };
 import additions from "./data/modules-0.2.1.json" with { type: "json" };
 import medium from "./data/modules-0.2.3.json" with { type: "json" };
-import shipModelHulls from "./data/hulls-0.3.0.json" with { type: "json" };
-import shipModelItems from "./data/items-0.3.0.json" with { type: "json" };
-import shipModelPresets from "./data/presets-0.3.0.json" with { type: "json" };
-import currentShipModelHulls from "./data/hulls-0.3.1.json" with { type: "json" };
-import currentShipModelItems from "./data/items-0.3.1.json" with { type: "json" };
-import currentShipModelPresets from "./data/presets-0.3.1.json" with { type: "json" };
-import currentShipModelManifest from "./data/preset-manifest-0.3.1.json" with { type: "json" };
-import { isShipModelCatalogVersion, CURRENT_SHIP_MODEL_CATALOG, type ShipModelCatalogVersion, type CandidateCatalogV3, type ShipFitV3 } from "../model/v3/types";
+import { isShipModelCatalogVersion, type ShipModelCatalogVersion, type CandidateCatalogV3, type ShipFitV3 } from "../model/v3/types";
 import { validateCatalogV3 } from "../model/v3/schema";
 import type {
   CandidateCatalog,
@@ -25,11 +18,7 @@ export function loadCandidateCatalog(version: ShipModelCatalogVersion): Candidat
 export function loadCandidateCatalog(version?: CandidateCatalog["version"]): CandidateCatalog;
 export function loadCandidateCatalog(version: CandidateCatalog["version"] | ShipModelCatalogVersion = "ship-fitting-0.2.3"): CandidateCatalog | CandidateCatalogV3 {
   if (isShipModelCatalogVersion(version)) {
-    const checked = validateCatalogV3(version === CURRENT_SHIP_MODEL_CATALOG
-    ? { version, hulls: currentShipModelHulls, items: currentShipModelItems, presets: currentShipModelPresets, presetOptions: currentShipModelManifest }
-    : { version, hulls: shipModelHulls, items: shipModelItems, presets: shipModelPresets, presetOptions: [
-      {id:"sputnik",label:"Спутник"}, {id:"severin-mir",label:"Мир"}, {id:"stealth-reference",label:"Стелс-сборка"},
-    ] });
+    const checked = validateCatalogV3({ version, ...SHIP_MODEL_CATALOG_FILES[version] });
     if (!checked.ok) throw new Error("Невалидный каталог " + version + ": " + JSON.stringify(checked.errors));
     return checked.value;
   }

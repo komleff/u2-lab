@@ -1,6 +1,7 @@
 export type BufferInput = {
   storedJ:number; minimumCaptureK:number|null; capacityJ:number;
   chargePowerW:number; dischargePowerW:number; temperatureK:number; captureW:number; releaseW:number;
+  coolingRelease?:boolean;
 };
 export function bufferFlow(x:BufferInput) {
   if(x.captureW>0&&x.releaseW>0)throw new Error('simultaneous buffer capture and release');
@@ -10,7 +11,7 @@ export function bufferFlow(x:BufferInput) {
     else {rateStoredJPerS=Math.min(x.captureW,x.chargePowerW);if(rateStoredJPerS<x.captureW)reason='power-limit';}
   }else if(x.releaseW>0){
     if(x.storedJ<=0)reason='empty';
-    else if(x.minimumCaptureK===null||x.temperatureK>x.minimumCaptureK)reason='hotter-than-capture';
+    else if(!x.coolingRelease&&(x.minimumCaptureK===null||x.temperatureK>x.minimumCaptureK))reason='hotter-than-capture';
     else {rateStoredJPerS=-Math.min(x.releaseW,x.dischargePowerW);if(-rateStoredJPerS<x.releaseW)reason='power-limit';}
   }
   const limitSeconds=rateStoredJPerS>0?(x.capacityJ-x.storedJ)/rateStoredJPerS:rateStoredJPerS<0?x.storedJ/-rateStoredJPerS:Infinity;

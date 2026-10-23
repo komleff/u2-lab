@@ -93,8 +93,9 @@ it('I3-R2 a sub-second TI stop retains literal telemetry but not a full hot-side
   spec.environment.directHeat=[{sourceId:'I3-R2-explicit-heat',powerW:1e10}];spec.origins['environment.directHeat.0.powerW']={kind:'experimental',unit:'W',sourceRef:'tests/model-v3/telemetry.test.ts: I3-R2'};
   const raw=stepV3(spec,spec.initialState,{},'idle'),id='fit:signature-1';
   const stop=raw.diagnostics.find(d=>d.instanceId===id&&d.reason==='critical-hot');
-  expect(stop?.timeSeconds).toBeCloseTo(0.1600899752,8);expect(raw.frames.length).toBeGreaterThan(1);
-  expect(raw.telemetry['tiHotK:'+id]).toBeCloseTo(87.4098,4);
+  // WI1: оболочка открыта вне Masking; дополнительное излучение слегка отдаляет critical-hot.
+  expect(stop?.timeSeconds).toBeCloseTo(0.16009111053920166,8);expect(raw.frames.length).toBeGreaterThan(1);
+  expect(raw.telemetry['tiHotK:'+id]).toBeCloseTo(87.41039856511269,4);
   const run=createShipModelRun('partial-TI',spec);runShipModelChunk(run,1);
   expect(run.last['tiHotK:'+id]).toBe(raw.telemetry['tiHotK:'+id]);expect(run.last['tiActive:'+id]).toBe(1);
   expect(run.state.modules[id].thermalStopped).toBe(true);expect(run.last['tiHotMeasured:'+id]).toBe(0);
