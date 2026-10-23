@@ -9,7 +9,8 @@
 # В ЛЮБОМ окружении проходит только allowlist подкоманд: агенту разрешено звать обёртку
 # без подтверждения (.claude/settings.json), поэтому всё прочее — export/import/dolt,
 # delete, config, sql и т.д. — отклоняется до запуска bd. Флаги --db, -C/--directory,
-# --global, --ignore-schema-skew, --repo отклоняются в любой позиции аргументов.
+# --global, --ignore-schema-skew, --repo и флаги чтения локального файла отклоняются в любой
+# позиции аргументов; заданные BEADS_DIR / BEADS_DB — тоже отказ.
 #
 # Usage: scripts/bd-wt.sh <подкоманда из allowlist> [аргументы]  (BD_BIN=... — стаб для тестов)
 set -euo pipefail
@@ -20,12 +21,26 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 BD_BIN="${BD_BIN:-bd}"
 
+# BEADS_DIR / BEADS_DB переопределяют выбор базы самим bd: в основном checkout pass-through
+# ушёл бы в другую базу, в worktree — спор с подставленным --db. Отказ во всех режимах.
+for var in BEADS_DIR BEADS_DB; do
+  if [ -n "${!var:-}" ]; then
+    echo "ERROR: переменная окружения ${var} задана — bd-wt выбирает основную базу сам (fail-closed)." >&2
+    echo "       Уберите её (unset ${var}) и повторите." >&2
+    exit 2
+  fi
+done
+
 # Флаги, переключающие базу или каталог bd, запрещены в ЛЮБОЙ позиции: cobra принимает
 # persistent-флаги и после подкоманды (`list -C /other`). Сравнение по целым токенам, поэтому
 # значение аргумента, точно равное такому флагу (`create --title -C`), тоже отклоняется —
 # осознанный fail-closed. Короткий -C ловится и слитно (-C/x), и в связке (-qC).
 # --repo (локальный флаг `create`) направляет запись в чужую базу или создаёт новую .beads
 # вне синхронизации — тоже обход основной базы.
+# Флаги чтения локального файла (--body-file, --design-file, --reason-file, --file, --graph,
+# короткий -f, --metadata @путь) унесли бы содержимое произвольного файла в общую базу.
+# Длинный текст — через --stdin или --description. Короткий -f ловится как -C.
+prev=""
 for a in "$@"; do
   case "$a" in
     --db|--db=*)
@@ -34,11 +49,26 @@ for a in "$@"; do
     --directory|--directory=*|--global|--global=*|--ignore-schema-skew|--ignore-schema-skew=*|--repo|--repo=*)
       echo "ERROR: флаг '${a}' нельзя через bd-wt — он меняет базу или каталог bd (fail-closed)." >&2
       exit 2 ;;
+    --body-file|--body-file=*|--design-file|--design-file=*|--reason-file|--reason-file=*|--file|--file=*|--graph|--graph=*|--metadata=@*)
+      echo "ERROR: флаг '${a}' нельзя через bd-wt — он читает локальный файл (fail-closed)." >&2
+      echo "       Длинный текст передавайте через --stdin или --description." >&2
+      exit 2 ;;
+    @*)
+      if [ "$prev" = "--metadata" ]; then
+        echo "ERROR: --metadata с @файлом нельзя через bd-wt — он читает локальный файл (fail-closed)." >&2
+        echo "       Передавайте JSON значением: --metadata '{\"k\":\"v\"}'." >&2
+        exit 2
+      fi ;;
     --*) ;;
     -*C*)
       echo "ERROR: короткий флаг -C (в '${a}') нельзя через bd-wt — он меняет каталог bd (fail-closed)." >&2
       exit 2 ;;
+    -*f*)
+      echo "ERROR: короткий флаг -f (в '${a}') нельзя через bd-wt — он читает локальный файл (fail-closed)." >&2
+      echo "       Длинный текст передавайте через --stdin или --description." >&2
+      exit 2 ;;
   esac
+  prev="$a"
 done
 
 # Глобальные флаги bd (allowlist из `bd --help`), допустимые до подкоманды.

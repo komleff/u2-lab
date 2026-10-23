@@ -249,6 +249,66 @@ test('AC-4: forbidden subcommands, empty subcommand and forbidden flags in any p
   }
 });
 
+// AC-12: флаги чтения локального файла — содержимое чужого файла не должно попасть в базу.
+const FILE_FLAG_ARGS = [
+  ['create', 'x', '--body-file', '/etc/hosts'],
+  ['create', 'x', '--body-file=/etc/hosts'],
+  ['update', 'ulab-1', '--design-file', '/etc/hosts'],
+  ['update', 'ulab-1', '--design-file=/etc/hosts'],
+  ['close', 'ulab-1', '--reason-file', '/etc/hosts'],
+  ['close', 'ulab-1', '--reason-file=/etc/hosts'],
+  ['create', '--file', '/etc/hosts'],
+  ['create', '--file=/etc/hosts'],
+  ['create', '--graph', '/etc/hosts'],
+  ['create', '--graph=/etc/hosts'],
+  ['create', '-f', '/etc/hosts'],
+  ['create', '-f/etc/hosts'],
+  ['create', '-qf', '/etc/hosts'],
+  ['--json', 'comment', 'ulab-1', '-f', '/etc/hosts'],
+  ['create', 'x', '--metadata', '@/etc/hosts'],
+  ['create', 'x', '--metadata=@/etc/hosts'],
+  ['update', 'ulab-1', '--metadata', '@x'],
+];
+const FILE_FLAG_ALLOWED = [
+  ['create', 'x', '--metadata', '{"k":"v"}'],
+  ['create', 'x', '--metadata={"k":"v"}'],
+  ['create', 'x', '--stdin'],
+  ['create', 'x', '--description', 'длинный текст'],
+  ['comment', 'ulab-1', '--stdin'],
+];
+
+test('AC-12: file-reading flags in any position → rc=2, bd not called; --stdin/--description/--metadata JSON pass', t => {
+  for (const [name, f, cwd, extra, prefix] of contexts(t)) {
+    for (const args of FILE_FLAG_ARGS) {
+      f.reset();
+      const result = f.wrap(cwd, args, extra);
+      assert.equal(result.status, 2, `${name} [${args.join(' ')}]: ${result.stdout}${result.stderr}`);
+      assert.deepEqual(f.calls(), [], `${name} [${args.join(' ')}]: bd must not be called`);
+    }
+    for (const args of FILE_FLAG_ALLOWED) {
+      f.reset();
+      const result = f.wrap(cwd, args, extra);
+      assert.equal(result.status, 0, `${name} [${args.join(' ')}]: ${result.stdout}${result.stderr}`);
+      assert.deepEqual(f.calls(), [[...prefix, ...args]], `${name} [${args.join(' ')}]`);
+    }
+  }
+});
+
+test('AC-13: non-empty BEADS_DIR or BEADS_DB → rc=2, bd not called; empty values keep previous behaviour', t => {
+  for (const [name, f, cwd, extra, prefix] of contexts(t)) {
+    for (const variable of ['BEADS_DIR', 'BEADS_DB']) {
+      f.reset();
+      const result = f.wrap(cwd, ['ready'], { ...extra, [variable]: join(f.base, 'other', '.beads') });
+      assert.equal(result.status, 2, `${name} ${variable}: ${result.stdout}${result.stderr}`);
+      assert.ok(result.stderr.includes(variable), `${name} ${variable}: ${result.stderr}`);
+      assert.deepEqual(f.calls(), [], `${name} ${variable}: bd must not be called`);
+    }
+    f.reset();
+    ok(f.wrap(cwd, ['ready'], { ...extra, BEADS_DIR: '', BEADS_DB: '' }));
+    assert.deepEqual(f.calls(), [[...prefix, 'ready']], `${name}: empty BEADS_* pass`);
+  }
+});
+
 // Фикстура applier: origin с веткой beads-backup и снимком, заглушка `bd` в PATH,
 // BD_BIN не задан — значит шаг 4 выполняется (как у оператора).
 function applierFixture(t, mode, dirs) {

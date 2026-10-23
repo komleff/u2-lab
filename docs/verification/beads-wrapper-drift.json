@@ -24,9 +24,9 @@
       "policy": "managed",
       "manifest_git_blob_sha1": "19ea1442df96e62e706e8b9cb963ba6452f3b9d8",
       "manifest_sha256": "c6daf6128190fa2030986d52d7d5fc3694646851a827f550818c14777f9a46bf",
-      "target_git_blob_sha1": "e4fa7be119a0a5ab7ccb521300e79f676134421d",
-      "target_sha256": "502a7da1d0d0419c3ddc8e1feb3d3aed1c5f1561c3d483fad544417fb05e3b4e",
-      "reason": "База u2-lab — embedded Dolt (.beads/embeddeddolt, без dolt-сервера); managed-обёртка требовала .beads/dolt и pid/port и из worktree не работала. Обёртка стала единой точкой входа агентов с узким allow-правилом в .claude/settings.json, поэтому добавлены allowlist подкоманд во всех окружениях и отказ --db, -C/--directory, --global, --ignore-schema-skew, --repo в любой позиции аргументов.",
+      "target_git_blob_sha1": "0f1c42a1ead4c85d077dbb1765fd54ceafe52a43",
+      "target_sha256": "b93be2a86746f0ddbb08d83673e191458f3d48d49d6321e4829beeb00c666f7b",
+      "reason": "База u2-lab — embedded Dolt (.beads/embeddeddolt, без dolt-сервера); managed-обёртка требовала .beads/dolt и pid/port и из worktree не работала. Обёртка стала единой точкой входа агентов с узким allow-правилом в .claude/settings.json, поэтому добавлены allowlist подкоманд во всех окружениях и отказ --db, -C/--directory, --global, --ignore-schema-skew, --repo и флагов чтения локального файла (--body-file, --design-file, --reason-file, --file, --graph, -f, --metadata @файл) в любой позиции аргументов; непустые BEADS_DIR / BEADS_DB — отказ.",
       "upstream": "tmp:overgate-bd-wt-embedded (.bd-intents/beads-agent-access.jsonl)"
     },
     {
