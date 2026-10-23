@@ -1,6 +1,6 @@
 {
   "version": "f2-governor-representative-traces/1",
-  "kernelCommit": "b35acaa0ae0db47cffb70c3d85ec0d8aefc0894e",
+  "kernelCommit": "7580538a11e0e7954313c296c435dc4d06c3c511",
   "reservationNote": "Deterministic evidence replay records full finite reservations before electrical dispatch; actual resource consumption remains separately present in workPackages and ledger-backed state digests.",
   "scenarios": [
     {
@@ -26,41 +26,75 @@
           ],
           "reservations": [],
           "actualAllocations": {
-            "banks": [],
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler-10",
+                "energyJ": 200000
+              },
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler-20a",
+                "energyJ": 400000
+              },
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler-20b",
+                "energyJ": 400000
+              }
+            ],
             "workPackages": [
               {
                 "moduleId": "cooler-10",
-                "usefulOutputJ": 333333.3333333333,
+                "usefulOutputJ": 200000,
+                "pickupByBank": [
+                  {
+                    "id": "bank-a",
+                    "energyJ": 200000
+                  }
+                ],
                 "resourceKg": []
               },
               {
                 "moduleId": "cooler-20a",
-                "usefulOutputJ": 666666.6666666666,
+                "usefulOutputJ": 400000,
+                "pickupByBank": [
+                  {
+                    "id": "bank-a",
+                    "energyJ": 400000
+                  }
+                ],
                 "resourceKg": []
               },
               {
                 "moduleId": "cooler-20b",
-                "usefulOutputJ": 666666.6666666666,
+                "usefulOutputJ": 400000,
+                "pickupByBank": [
+                  {
+                    "id": "bank-a",
+                    "energyJ": 400000
+                  }
+                ],
                 "resourceKg": []
               }
             ],
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "6508fe6c28636c8082730d63c5e2d50bb32a791b777ac29d50e580676c2af314",
-          "stateAfterDigest": "fce5982b4d50eec27fe7d621b0ace411810c26b7ceb212aec5b0e90008654da0",
+          "stateBeforeDigest": "8364a85dae0ab823a85d638f27577d4995275a7145dbe818546c761375dbcbb5",
+          "stateAfterDigest": "ffcef798021bb92ccdf9408c8106f62c0d4b6aed60e4a3473dac230129e08872",
           "limitingReasons": [
             {
               "moduleId": "cooler-10",
-              "reason": "idle"
+              "reason": "shared-port-limited"
             },
             {
               "moduleId": "cooler-20a",
-              "reason": "idle"
+              "reason": "shared-port-limited"
             },
             {
               "moduleId": "cooler-20b",
-              "reason": "idle"
+              "reason": "shared-port-limited"
             }
           ]
         }
@@ -109,8 +143,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "c15d6a43e04f845c62e23cbf404729fa05de7fce733dc2d75257cb57d1f0a223",
-          "stateAfterDigest": "e70a63b9959d3bfbe6c960184f72d405fe9728462c47ee50f28eedda1cdf4d00",
+          "stateBeforeDigest": "8b8a47cc29356a3f04d2dcc532e8815e37caf94be11f3e88ade2fd41bf9d2a0e",
+          "stateAfterDigest": "edeb10f6e53ec6b95b54f4c83e8dd7069a7e73be45242a09e1115b9f9c7e9312",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -160,8 +194,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "e70a63b9959d3bfbe6c960184f72d405fe9728462c47ee50f28eedda1cdf4d00",
-          "stateAfterDigest": "48d3b32b28474a45f5739aaed631f6c0d884eacd3362562d6cdac52de44ac5a5",
+          "stateBeforeDigest": "edeb10f6e53ec6b95b54f4c83e8dd7069a7e73be45242a09e1115b9f9c7e9312",
+          "stateAfterDigest": "0b61c7c4bb3e8a347427386511201cc639332a84be75627aa6dd84aa1e2795c0",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -203,7 +237,7 @@
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 2.286133991440933e-7
+                    "massKg": 2.286133991440931e-7
                   }
                 ]
               }
@@ -211,8 +245,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "195ef2439c007bd694904331755630269cc82a657aa84ad30101e68afe0aae96",
-          "stateAfterDigest": "55a6acf4e7bdbd62978fb9fcff00097e6d07df027bfdb257169dc0f455a82d50",
+          "stateBeforeDigest": "922570ab007befcf9a8317efe363509c15e1171b2499fc16cf14f991686d76dd",
+          "stateAfterDigest": "b6c3a2d52d44984d82b001c17c5c88becc0086f36b1e9d09129b15e0ecec519f",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -239,8 +273,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "55a6acf4e7bdbd62978fb9fcff00097e6d07df027bfdb257169dc0f455a82d50",
-          "stateAfterDigest": "e33aca9fb6433ded564b34764df4b3df83e1e315331fb8e0202fe54fe9e42992",
+          "stateBeforeDigest": "b6c3a2d52d44984d82b001c17c5c88becc0086f36b1e9d09129b15e0ecec519f",
+          "stateAfterDigest": "fd6cee63348692765c25500b051fc7ce09351f68262606ff036464ca48dba99c",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -267,8 +301,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "e33aca9fb6433ded564b34764df4b3df83e1e315331fb8e0202fe54fe9e42992",
-          "stateAfterDigest": "b1352073b2218565a6ff6a6ea5d85ab831bac419f218c9f089168552e0e84aa5",
+          "stateBeforeDigest": "fd6cee63348692765c25500b051fc7ce09351f68262606ff036464ca48dba99c",
+          "stateAfterDigest": "cd64727a13e979d8deec9170f2fdc7ccc8a48f77828451403ec40975948189c8",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -295,8 +329,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "464f196f1ce08e966e483d98ac0f4d83b57eef34c13398259b59ca887b2e78be",
-          "stateAfterDigest": "f5f7a47a30f4082f58af486ea8d146dcedd3b197eefeae31dfb7314afb209c56",
+          "stateBeforeDigest": "2eac11e7dc38907d1dcf6f04b934baa4c5342157f146e0cffc9f82073d2250ca",
+          "stateAfterDigest": "99a5640027892c15fb784cfb8482d4dd2c0c5d720eb33723bcc69839d94a037d",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -338,7 +372,7 @@
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 2.286550137677892e-7
+                    "massKg": 2.2865501376778933e-7
                   }
                 ]
               }
@@ -346,8 +380,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "f5f7a47a30f4082f58af486ea8d146dcedd3b197eefeae31dfb7314afb209c56",
-          "stateAfterDigest": "aca17f3986ede8988597532c1d49d3fa7629cbf98e2a47deeef220f60d168b61",
+          "stateBeforeDigest": "99a5640027892c15fb784cfb8482d4dd2c0c5d720eb33723bcc69839d94a037d",
+          "stateAfterDigest": "787a84b1f2bd435a22e500a9a348654863e788714a2da736e5f7fe2a98b925bf",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -389,7 +423,7 @@
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 2.2865503708895445e-7
+                    "massKg": 2.2865503708895464e-7
                   }
                 ]
               }
@@ -397,8 +431,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "aca17f3986ede8988597532c1d49d3fa7629cbf98e2a47deeef220f60d168b61",
-          "stateAfterDigest": "876c445712720270f9d1ef34ef1136fc5173e483f18a941f796c59c5eb5acdbf",
+          "stateBeforeDigest": "787a84b1f2bd435a22e500a9a348654863e788714a2da736e5f7fe2a98b925bf",
+          "stateAfterDigest": "7b8aeffdb59b702ea34539bc82f72cd4bf126bb17738f41b8c2962c5735863b4",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -440,7 +474,7 @@
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 2.2869696325750995e-7
+                    "massKg": 2.2869696325751112e-7
                   }
                 ]
               }
@@ -448,8 +482,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "3e049993dce00fcff1cfc594a5b4c74735ab2261e93b79b2a7f5043dc5f2cae0",
-          "stateAfterDigest": "f4e025e292d9b1b8e08bd0aad470131c333ed3d7c6346051ee7e915f62af8343",
+          "stateBeforeDigest": "9e3c2bfa80d0fe432cf115818753d5d74daff61557ec387db3ec65034b264d84",
+          "stateAfterDigest": "709fa1a21cb6e9e285480d23a1ad86767a26a92e6ece314f588c2973635263f9",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -506,8 +540,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "552909eaa4f4c30313ec61dadb155b629ae6cb8f689a3677c2d3ecad9a805d01",
-          "stateAfterDigest": "48afafcf4666088147d8e8534d2c72fad1c90f7aeee3bb1fc7ea53caf27827b7",
+          "stateBeforeDigest": "f343af0a718938505c6ab638c54d44fe72eabd342833e72262a70b444e00132e",
+          "stateAfterDigest": "949a44a57e6319b6822cfdf045554bff508c7807a671ee69a9332f33a658f69e",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -557,8 +591,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "48afafcf4666088147d8e8534d2c72fad1c90f7aeee3bb1fc7ea53caf27827b7",
-          "stateAfterDigest": "693f435daf3c446595ff216f3251c0dc439b3c66a04b3f42715b16cdeb3f6611",
+          "stateBeforeDigest": "949a44a57e6319b6822cfdf045554bff508c7807a671ee69a9332f33a658f69e",
+          "stateAfterDigest": "75a6d497b4ab847340240cf5a2651c7426f6d0ce37796953917de97fb650b256",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -608,8 +642,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "ce77b32744df4ede9b699a9cde0296c89c91c88adeb224fd47f4d8b81d0bb4f6",
-          "stateAfterDigest": "d26fe1623c453672aea9583cb8fdb6acb85e6e59dfb7c51864726aa759426709",
+          "stateBeforeDigest": "4be3e785a6b91a778653d7f47f50f45c84bd46afeebce5d1ce49025401f4ee37",
+          "stateAfterDigest": "0e2e83003931a2f210d30f19db9c252dbdc0046f2f3a272a66243f8dc8bdfc08",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -647,11 +681,11 @@
             "workPackages": [
               {
                 "moduleId": "cooler",
-                "usefulOutputJ": 3.314502756263649,
+                "usefulOutputJ": 3.3145027562636833,
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 0.0000026516820968805655
+                    "massKg": 0.0000026516820968805926
                   }
                 ]
               }
@@ -659,8 +693,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "d26fe1623c453672aea9583cb8fdb6acb85e6e59dfb7c51864726aa759426709",
-          "stateAfterDigest": "05bf15fa26a1572f394c4654cc11df20c7337212ee91f866e5547e2bd5943c10",
+          "stateBeforeDigest": "0e2e83003931a2f210d30f19db9c252dbdc0046f2f3a272a66243f8dc8bdfc08",
+          "stateAfterDigest": "0b4ed5cea5a2f8e92e6a95e4af8344f3a69e0a643315142c527334a10f5ef959",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -693,8 +727,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "05bf15fa26a1572f394c4654cc11df20c7337212ee91f866e5547e2bd5943c10",
-          "stateAfterDigest": "d56497eccc2d69fb76c8d50db00b19bda9a13087c718718f7b8e41be1e9744a1",
+          "stateBeforeDigest": "0b4ed5cea5a2f8e92e6a95e4af8344f3a69e0a643315142c527334a10f5ef959",
+          "stateAfterDigest": "c7dedbdec7cace16fc96770bd2084e3639282118962d6dcd2fecd7750bfd6e31",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -727,8 +761,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "d56497eccc2d69fb76c8d50db00b19bda9a13087c718718f7b8e41be1e9744a1",
-          "stateAfterDigest": "fc6f05fa67fabd31c12b011e24e49a6a0cb606d58cfa5fe8f06ab7ac5bbca939",
+          "stateBeforeDigest": "c7dedbdec7cace16fc96770bd2084e3639282118962d6dcd2fecd7750bfd6e31",
+          "stateAfterDigest": "25c4ba6a096e8807eac4bc863948a3c18f5e3923ee55d1003972b9f665e25a4a",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -761,8 +795,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "20f15b7142f852174de028368fec36bae0f345122979c4a708ad7cd9f34ba938",
-          "stateAfterDigest": "23bdffcc81b0e6649678ff39e84b3088eb6ce190e6ad71e72677cb9d478afa61",
+          "stateBeforeDigest": "6f23ffceda42d7fa016db5ba5db24a7e467a2d88e4e21ec820234b48493be6b3",
+          "stateAfterDigest": "cfecead761385d9e441936b6cefad56e0f969fd6014c8de3ac3e22f9ffc14c0d",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -819,8 +853,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "38426a1f6a3151c42eeb16030b6f6ab4b34b897aa733493c1ef6683d879c33e6",
-          "stateAfterDigest": "b00944624afeb1021f3366d7ab70c32c39716e2897611791bb960d8257c1635a",
+          "stateBeforeDigest": "8b50f89209deebf6686f7aead6c350daa9afe7e52111e2310f55223e2dc90b33",
+          "stateAfterDigest": "46164f64b0be5125d2372a7bc4a6daeb0a8536fecee481d7343fb47892f64b9e",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -966,8 +1000,8 @@
               }
             ]
           },
-          "stateBeforeDigest": "86d753a42404b5ad8b786085aa9a46b55ed85d2f84ecc7fdeb3f4f59938eebaa",
-          "stateAfterDigest": "528aedc37f5762e910fb2b4c9aa0c1a09dc7c73f1329e8f076c408b4a0d15b0d",
+          "stateBeforeDigest": "3d0303d49582dc5b0be9fd84affc533cb9dc13b307556d63a14eb35ac45b1cd1",
+          "stateAfterDigest": "38deb7a1806c046c2b1764207ca7cbb60d3efcac92a9aea40167d2efb708a56e",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -1059,8 +1093,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "01704b500b64c041efc69e00c21153614f5e29c5a94a693132da1a0ba41f9799",
-          "stateAfterDigest": "39aa06aca2e34992e6ac7b0a8fdf8317c2df35b7fb3f67e0040ad5cb08db2198",
+          "stateBeforeDigest": "014dc6eb6d5c470bda8b51ff2923457775d06f03e20be5f420bff1bd1123a663",
+          "stateAfterDigest": "bc74679581b0704a8911b5de261b8beef8785b41e3226d63ca89cee8ac7fefe3",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -1098,8 +1132,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "6f92063bc572a72e6af7a38bcc8d37e1f3e47e87b8832697c78e8f0d7fdc750e",
-          "stateAfterDigest": "7f0e05b4c5245333e47ae359149f3f3200fab541616c2801e9509cbaa10ea8fc",
+          "stateBeforeDigest": "5de749cd1b20e4ad24b0df27f0e277e2f4027b7ea2055a41ee00da43df6a75e5",
+          "stateAfterDigest": "28e0153da7d1265619d02f80ca8129dd0669dad2dfa05ce67fdc7fe813b52d78",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -1160,8 +1194,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "fca025c936632a5efb721544fa98580ed5f7bb62554235cdbbeb346cc4347704",
-          "stateAfterDigest": "233fe9dc2681273034a27175421bb3dc728412a7193800484262c62bbedb9178",
+          "stateBeforeDigest": "1cc73eacd68f6a8bcbdb0e6b17a1048c887fdd1afb7103b29852bba1b3893d01",
+          "stateAfterDigest": "e8078aa8a51166b7c58e3e6530d18204d837f90f7f40b3a4ddd991689bf59bc8",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -1195,8 +1229,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "32fdf69229c313541daa4f627d4a5572d83e92816f1aa97c7ea6964b41fa24f5",
-          "stateAfterDigest": "769e1df4126fc3c38dc99fe5d43a1871a65c4163ccee5843106cb0af4fbd40d4",
+          "stateBeforeDigest": "17bcef58113f0db6c5d64be72249d302e1647dea362fcdc5430ff24decc9ae18",
+          "stateAfterDigest": "1f04c10ed64b6e7e84481b48744c7301893d910436598f781e6cd3044fa3c18e",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -1227,8 +1261,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "769e1df4126fc3c38dc99fe5d43a1871a65c4163ccee5843106cb0af4fbd40d4",
-          "stateAfterDigest": "bbfc97420ecdb86e4328cda7e4eb72dd978d259c2bb267995c9822980754b804",
+          "stateBeforeDigest": "1f04c10ed64b6e7e84481b48744c7301893d910436598f781e6cd3044fa3c18e",
+          "stateAfterDigest": "f2033c9ebd2f1eb7b6dd8213b474f6736640b696cd3715ea82438b3ac3cb08a8",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -1259,8 +1293,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "bbfc97420ecdb86e4328cda7e4eb72dd978d259c2bb267995c9822980754b804",
-          "stateAfterDigest": "0c717868352c7e364c79c395a85b16bca3b80151516971ba424da9fa57d68ade",
+          "stateBeforeDigest": "f2033c9ebd2f1eb7b6dd8213b474f6736640b696cd3715ea82438b3ac3cb08a8",
+          "stateAfterDigest": "a15d66b8a9bfd34d14bb2791751842fd48045bcaacd490676c1a542063ed9c7d",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -1291,8 +1325,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "be8de4203456a4e350c81f0a112ca3f5c9ec1d78d4a1a3e3971fc394f29c81ca",
-          "stateAfterDigest": "8fb5e64f9493f7f84df5eb7b027d0a4c66dd31b5dff1a7d3bd9b1f17c7f8656b",
+          "stateBeforeDigest": "690c46b2204f226969ce136dbbf423d588b3be325101edf3ac108e7eec2f217a",
+          "stateAfterDigest": "9178fdd8a954e566847e560a3e85e104a3110dcccae0579e8afad53c91370052",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -1328,17 +1362,17 @@
               {
                 "bankId": "bank-a",
                 "consumerId": "cooler",
-                "energyJ": 0.16686850944259765
+                "energyJ": 0.16686850944259202
               }
             ],
             "workPackages": [
               {
                 "moduleId": "cooler",
-                "usefulOutputJ": 0.16686850944259765,
+                "usefulOutputJ": 0.16686850944259202,
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 6.788010903864708e-8
+                    "massKg": 6.788010903864475e-8
                   }
                 ]
               }
@@ -1346,8 +1380,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "8fb5e64f9493f7f84df5eb7b027d0a4c66dd31b5dff1a7d3bd9b1f17c7f8656b",
-          "stateAfterDigest": "bd9a812bc5b4172b227d066acb59e9b747c026f8b9c472daf90c789eeb6099b2",
+          "stateBeforeDigest": "9178fdd8a954e566847e560a3e85e104a3110dcccae0579e8afad53c91370052",
+          "stateAfterDigest": "461e46b61a1ed3a0a007a0f7506d767380dab8f6740353dd2127fff192129fdb",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -1379,17 +1413,17 @@
               {
                 "bankId": "bank-a",
                 "consumerId": "cooler",
-                "energyJ": 0.1671498040862275
+                "energyJ": 0.1671498040862218
               }
             ],
             "workPackages": [
               {
                 "moduleId": "cooler",
-                "usefulOutputJ": 0.1671498040862275,
+                "usefulOutputJ": 0.1671498040862218,
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 6.799648149045933e-8
+                    "massKg": 6.799648149045696e-8
                   }
                 ]
               }
@@ -1397,8 +1431,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "bd9a812bc5b4172b227d066acb59e9b747c026f8b9c472daf90c789eeb6099b2",
-          "stateAfterDigest": "e378da753244d10e3ed802f12f03468d60f56e9cabf180c75537962bd9b93414",
+          "stateBeforeDigest": "461e46b61a1ed3a0a007a0f7506d767380dab8f6740353dd2127fff192129fdb",
+          "stateAfterDigest": "fdd05bb6dc6247fa0783aa43f562267ce09911d04523eac559e15094c5aeba15",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -1430,17 +1464,17 @@
               {
                 "bankId": "bank-a",
                 "consumerId": "cooler",
-                "energyJ": 0.25292871210110845
+                "energyJ": 0.2529287121011047
               }
             ],
             "workPackages": [
               {
                 "moduleId": "cooler",
-                "usefulOutputJ": 0.25292871210110845,
+                "usefulOutputJ": 0.2529287121011047,
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 1.0379680403697165e-7
+                    "massKg": 1.0379680403697003e-7
                   }
                 ]
               }
@@ -1448,8 +1482,8 @@
             "sourceEntries": [],
             "sourceOutward": []
           },
-          "stateBeforeDigest": "3dbb431414539a4f0e6ca21cf5d89b2a3a665f838a253dcaae5b68d97892582f",
-          "stateAfterDigest": "c574970e8e1978ceb531373c5efa806b7b618165845b82004815093e03c608c1",
+          "stateBeforeDigest": "73f65892611e0ce66bfaa3a8639a11b16740285446a99469d2a651ec63ae6839",
+          "stateAfterDigest": "f437285352d10950462d17bba423141d48a23b9f4fde1a2619f42e914742cbe0",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -1460,6 +1494,392 @@
               "reason": "tank-cold-protection"
             }
           ]
+        }
+      ]
+    },
+    {
+      "id": "t24-stopped-generator-protection",
+      "vectorId": "vector-T24-modified-stopped-generator",
+      "retention": "event tick",
+      "protectionBoundary": {
+        "thermalStopped": true,
+        "restartAuthorized": false,
+        "stopReason": "critical-hot-stop",
+        "electricalChargeJ": 0
+      },
+      "rows": [
+        {
+          "tick": 0,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            },
+            {
+              "id": "generator",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "source:generator-source",
+              "resourceId": "h2",
+              "reservedKg": 0
+            },
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 1.7777777777777782e-7
+            }
+          ],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
+          },
+          "stateBeforeDigest": "a16a1332cae601794278e8a8de264060c5e67fa5648f064babe7a0d286ae1d74",
+          "stateAfterDigest": "4a3006ba6e31dd87a99c6ac9fe56790e7948438de31b1811a3aa4a4c226bd289",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "power-limited"
+            },
+            {
+              "moduleId": "generator",
+              "reason": "restart-unauthorized"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ],
+          "generatedJ": 0,
+          "fuelUsedKg": 0
+        }
+      ]
+    },
+    {
+      "id": "t24-source-loss-late-capture",
+      "vectorId": "vector-T24-modified-source-loss",
+      "retention": "event tick",
+      "rows": [
+        {
+          "tick": 0,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            },
+            {
+              "id": "generator",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "source:generator-source",
+              "resourceId": "h2",
+              "reservedKg": 6.666666666666666e-7
+            }
+          ],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 0.3333333333333333,
+                "resourceKg": []
+              }
+            ],
+            "sourceEntries": [
+              {
+                "id": "00002:fuel-energy:generator-source",
+                "ownerId": "generator-source",
+                "kind": "external-input",
+                "nodeId": "module:generator",
+                "counterpartyId": "resource:h2",
+                "energyJ": 0.6666666666666666,
+                "resourceId": null,
+                "massKg": 0
+              },
+              {
+                "id": "00003:generation:generator-source:in",
+                "ownerId": "generator-source",
+                "kind": "internal-transfer",
+                "nodeId": "electrical",
+                "counterpartyId": "module:generator",
+                "energyJ": 0.3333333333333333,
+                "resourceId": null,
+                "massKg": 0
+              },
+              {
+                "id": "00003:generation:generator-source:out",
+                "ownerId": "generator-source",
+                "kind": "internal-transfer",
+                "nodeId": "module:generator",
+                "counterpartyId": "electrical",
+                "energyJ": -0.3333333333333333,
+                "resourceId": null,
+                "massKg": 0
+              },
+              {
+                "id": "00004:source-host:generator-source:in",
+                "ownerId": "generator-source",
+                "kind": "internal-transfer",
+                "nodeId": "ship",
+                "counterpartyId": "module:generator",
+                "energyJ": 0.16666666666666666,
+                "resourceId": null,
+                "massKg": 0
+              },
+              {
+                "id": "00004:source-host:generator-source:out",
+                "ownerId": "generator-source",
+                "kind": "internal-transfer",
+                "nodeId": "module:generator",
+                "counterpartyId": "ship",
+                "energyJ": -0.16666666666666666,
+                "resourceId": null,
+                "massKg": 0
+              },
+              {
+                "id": "00005:source-exhaust:generator-source",
+                "ownerId": "generator-source",
+                "kind": "external-output",
+                "nodeId": "module:generator",
+                "counterpartyId": "outward:generator-source:0",
+                "energyJ": -0.16666666666666666,
+                "resourceId": null,
+                "massKg": 0
+              },
+              {
+                "id": "00006:resource:source:generator-source:h2",
+                "ownerId": "source:generator-source",
+                "kind": "external-output",
+                "nodeId": "resource:h2",
+                "counterpartyId": "consumed",
+                "energyJ": 0,
+                "resourceId": "h2",
+                "massKg": -6.666666666666666e-7
+              }
+            ],
+            "sourceOutward": [
+              {
+                "id": "outward:generator-source:0",
+                "ownerId": "generator-source",
+                "kind": "source-exhaust",
+                "energyJ": 0.16666666666666666,
+                "irJ": 0.16666666666666666,
+                "emJ": 0
+              }
+            ]
+          },
+          "stateBeforeDigest": "223a16e3df4c47ba4d1d76097ce368e0a4ba7c29ce4e60f80897f762c77c7b8b",
+          "stateAfterDigest": "cbfb5ff7c2e93e24ff11f91d983bbf27f2e05c68a209b9cbfa7439db8ed02c64",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "idle"
+            }
+          ],
+          "sourceHostJ": 0.16666666666666666,
+          "lateCaptureJ": 0.16666666666666666,
+          "executionOrder": [
+            "stage-0-snapshot",
+            "preliminary-stages-1-7",
+            "electrical-dispatch",
+            "final-stages-1-7",
+            "actual-work-packages",
+            "actual-source-losses",
+            "environment-outward",
+            "stage-8-late-capture",
+            "stage-9-commit"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "t34-sub-ulp-json-continuation",
+      "vectorId": "vector-T34-modified-sub-ulp",
+      "retention": "every tick",
+      "numericBoundary": {
+        "shipEnergyJ": 400000000000,
+        "heatCapacityJPerK": 1000000000,
+        "environmentTemperatureK": 400,
+        "externalHeatingW": 0.0003
+      },
+      "authoritativeDeltaJ": 0.00009999999988463593,
+      "rows": [
+        {
+          "tick": 0,
+          "requests": [],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
+          },
+          "stateBeforeDigest": "9fa9f56439f13744cdfce1f934e212c080d457319e2ae7c00c7d24fdc25dca8c",
+          "stateAfterDigest": "b9086f1fa994cb5bc8ae2d20316c9e0c826bbaa30be5b580ad9937afbbb163ba",
+          "limitingReasons": [],
+          "shipEnergyJ": 400000000000,
+          "shipEnergyRemainderJ": 0.000009999999999999999,
+          "energyResidualJ": 0
+        },
+        {
+          "tick": 1,
+          "requests": [],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
+          },
+          "stateBeforeDigest": "b9086f1fa994cb5bc8ae2d20316c9e0c826bbaa30be5b580ad9937afbbb163ba",
+          "stateAfterDigest": "6f667a95275b61fc1c98279ce23ce61ef88d81a7a3ac6c4be5d2760afe3025f0",
+          "limitingReasons": [],
+          "shipEnergyJ": 400000000000,
+          "shipEnergyRemainderJ": 0.000019999999999999998,
+          "energyResidualJ": 0
+        },
+        {
+          "tick": 2,
+          "requests": [],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
+          },
+          "stateBeforeDigest": "6f667a95275b61fc1c98279ce23ce61ef88d81a7a3ac6c4be5d2760afe3025f0",
+          "stateAfterDigest": "0ad8d32b6bf0801a0e599c081c3e070c5f854fe430a4a069400401fdce7311e4",
+          "limitingReasons": [],
+          "shipEnergyJ": 400000000000,
+          "shipEnergyRemainderJ": 0.000029999999999999997,
+          "energyResidualJ": 0
+        },
+        {
+          "tick": 3,
+          "requests": [],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
+          },
+          "stateBeforeDigest": "0ad8d32b6bf0801a0e599c081c3e070c5f854fe430a4a069400401fdce7311e4",
+          "stateAfterDigest": "0b3449cb554c995b604ba167c06c0772674af4e51d3f99b588e5093aa531653b",
+          "limitingReasons": [],
+          "shipEnergyJ": 400000000000.00006,
+          "shipEnergyRemainderJ": -0.000021035156264420512,
+          "energyResidualJ": -5.082197683525802e-21
+        },
+        {
+          "tick": 4,
+          "requests": [],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
+          },
+          "stateBeforeDigest": "0b3449cb554c995b604ba167c06c0772674af4e51d3f99b588e5093aa531653b",
+          "stateAfterDigest": "ab8f018ce7f656da35862c8c26f4d2fea7215820c81ccb13dc003a095487d24d",
+          "limitingReasons": [],
+          "shipEnergyJ": 400000000000.00006,
+          "shipEnergyRemainderJ": -0.00001103515627884102,
+          "energyResidualJ": 0
+        },
+        {
+          "tick": 5,
+          "requests": [],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
+          },
+          "stateBeforeDigest": "ab8f018ce7f656da35862c8c26f4d2fea7215820c81ccb13dc003a095487d24d",
+          "stateAfterDigest": "66e2e53d924cc56607c9f05838cb74c61b82db3a9991293d1a21bf5f7858c1ed",
+          "limitingReasons": [],
+          "shipEnergyJ": 400000000000.00006,
+          "shipEnergyRemainderJ": -0.0000010351562932615293,
+          "energyResidualJ": 0
+        },
+        {
+          "tick": 6,
+          "requests": [],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
+          },
+          "stateBeforeDigest": "66e2e53d924cc56607c9f05838cb74c61b82db3a9991293d1a21bf5f7858c1ed",
+          "stateAfterDigest": "7c4995892269ae946a9f1d3109cbe897699022ae0131599e38d0149cb42fdaa1",
+          "limitingReasons": [],
+          "shipEnergyJ": 400000000000.00006,
+          "shipEnergyRemainderJ": 0.000008964843692317963,
+          "energyResidualJ": 0
+        },
+        {
+          "tick": 7,
+          "requests": [],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
+          },
+          "stateBeforeDigest": "7c4995892269ae946a9f1d3109cbe897699022ae0131599e38d0149cb42fdaa1",
+          "stateAfterDigest": "bfc0f691351c1e154b3b6b1add88968eb5e9a6258fecd133385ec87f0aba63ca",
+          "limitingReasons": [],
+          "shipEnergyJ": 400000000000.00006,
+          "shipEnergyRemainderJ": 0.000018964843677897455,
+          "energyResidualJ": 0
+        },
+        {
+          "tick": 8,
+          "requests": [],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
+          },
+          "stateBeforeDigest": "bfc0f691351c1e154b3b6b1add88968eb5e9a6258fecd133385ec87f0aba63ca",
+          "stateAfterDigest": "6f1f9e2770cf744857a9e4611635f7e224201e48595ef78a4790f0c859c71d8a",
+          "limitingReasons": [],
+          "shipEnergyJ": 400000000000.00006,
+          "shipEnergyRemainderJ": 0.000028964843663476945,
+          "energyResidualJ": -1.6940658945086007e-21
+        },
+        {
+          "tick": 9,
+          "requests": [],
+          "reservations": [],
+          "actualAllocations": {
+            "banks": [],
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
+          },
+          "stateBeforeDigest": "6f1f9e2770cf744857a9e4611635f7e224201e48595ef78a4790f0c859c71d8a",
+          "stateAfterDigest": "56609daead8175611e2df14caf9201e46b7bb1991985f6f8aa49491547da46b8",
+          "limitingReasons": [],
+          "shipEnergyJ": 400000000000.0001,
+          "shipEnergyRemainderJ": -0.00002207031261536407,
+          "energyResidualJ": 5.082197683525802e-21
         }
       ]
     }

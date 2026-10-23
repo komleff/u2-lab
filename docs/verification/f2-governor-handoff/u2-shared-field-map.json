@@ -1,5 +1,5 @@
 {
-  "version": "f2-governor-u2-shared-field-map/1",
+  "version": "f2-governor-u2-shared-field-map/1.1",
   "source": {
     "repository": "komleff/u2",
     "commit": "40ddffb2832d4dcbe7b2b05501a74c98044386a8",
@@ -9,13 +9,13 @@
   "mappings": [
     {
       "u2Field": "U_S",
-      "labField": "GovernorStateV03.shipEnergyJ",
+      "labField": "GovernorStateV03.shipEnergyJ + GovernorStateV03.shipEnergyRemainderJ",
       "ownership": "shared-contract",
       "unit": "J"
     },
     {
       "u2Field": "T_ship",
-      "labField": "GovernorStateV03.shipEnergyJ / GovernorProfileV03.ship.heatCapacityJPerK",
+      "labField": "GovernorStateV03.shipEnergyJ / C_ship + GovernorStateV03.shipEnergyRemainderJ / C_ship",
       "ownership": "derived-only",
       "unit": "K"
     },

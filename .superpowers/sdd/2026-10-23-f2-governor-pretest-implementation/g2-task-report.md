@@ -1,6 +1,6 @@
 # F2-G2 Developer task report
 
-Дата: 2026-10-23
+Дата: 2026-10-24
 
 Роль: основной Developer work item F2-G2
 
@@ -22,7 +22,11 @@ First evidence-refreeze / affected-QA fix1 candidate: `c1b0b96dc84683209134c8b8b
 
 Exact B1 fix kernel commit: `b35acaa0ae0db47cffb70c3d85ec0d8aefc0894e`
 
+Scoped Code Review blocker-fix kernel commit: `7580538a11e0e7954313c296c435dc4d06c3c511`
+
 Current evidence-refreeze commit: этот следующий commit; его SHA назначается Git поверх содержимого отчёта и фиксируется в `git log`/Developer handoff. Published commits не переписывались.
+
+Раздел 13 содержит текущую authoritative сводку fix cycle 2 и заменяет более ранние snapshots там, где SHA, totals, version или архитектурная деталь изменились. Предыдущие RED/negative guard результаты сохранены как историческое evidence, а не как current verdict.
 
 ## 1. Выполненный scope
 
@@ -45,7 +49,7 @@ Evidence-refreeze commit изменяет:
 
 Affected-QA fix1 сохранил закрытые B2/B3/B4 без redesign. Новый kernel commit изменил только `governor.ts` и exact T38 regression в `governor-tick.test.ts`; текущий evidence-refreeze меняет manifest/results/traces, handoff assertion и этот отчёт.
 
-G0/G1 owners не изменялись. `/4`, Worker, UI, default activation, real ship TTX, station, Unity/server/network/device/deploy не реализовывались.
+Accepted G1 algorithm owners не изменялись. В cycle 2 сделано только разрешённое brief минимальное additive G0 state/schema изменение для versioned persisted numeric authority; детали и regressions — §13. `/4`, Worker, UI, default activation, real ship TTX, station, Unity/server/network/device/deploy не реализовывались.
 
 ## 2. Source binding и gate
 
@@ -120,7 +124,7 @@ validated immutable tick
 
 Authority состояния:
 
-- `shipEnergyJ`, `bufferEnergyJByBank`, `waterEnthalpyJByTank`, `electricalChargeJ`, `resourceMassKg`; температура только производная;
+- authoritative ship energy — compensated persisted pair `shipEnergyJ + shipEnergyRemainderJ`; далее `bufferEnergyJByBank`, `waterEnthalpyJByTank`, `electricalChargeJ`, `resourceMassKg`; температура только производная;
 - requested/effective mode, Quiet entry/hold, mode/stage/bank latches, selected stages, transition direction и surface deployment;
 - module durability, first-negative crossing, exposure, cooldown, explicit restart authorization, thermal/durability stop и reasons;
 - failure-check counters/policy и `xorshift32/1` seed/state;
@@ -359,10 +363,176 @@ Bootstrap structural/project checks: PASS
 
 - Локальная среда: Node `25.2.1`; зависимости/config не менялись для скрытия warning. Mandatory Node 24 CI PM ещё NOT RUN.
 - Native adapter smoke: NOT RUN по явному сообщению project guard.
-- Affected independent QA, scoped Code Review и mandatory Node 24 CI: PM-owned NOT RUN после push; review-fix counter остаётся `0/3` до PASS affected QA.
+- Историческая affected QA по предыдущему candidate прошла; scoped Code Review затем открыл текущий fix cycle 2. Current post-fix QA/re-review и mandatory Node 24 CI остаются PM-owned NOT RUN; counter — `1/3` до обоих PASS.
 - `/4`, Worker/UI/persistence integration и default activation: NOT RUN, F2-G3.
 - T31 service/rebind: NOT RUN, F2-G4.
 - T35/T36: scope OUT / NOT RUN.
 - Real ship profiles/TTX и balance acceptance: PRODUCT GAP; synthetic fixtures не канон.
 - Unity/server/network/device/deploy, station/payment/session/cloud, detection: NOT RUN / OUT.
 - PR остаётся Draft; Ready state, merge, publish и Beads не изменялись.
+
+## 13. Scoped Code Review fix cycle 2 — current authoritative evidence
+
+### 13.1 Commit shape и changed paths
+
+Новый immutable kernel+regression commit после `9dafd0e`:
+
+```text
+7580538a11e0e7954313c296c435dc4d06c3c511 fix(governor): close scoped review blockers
+```
+
+Он изменяет ровно:
+
+- `src/model/governor-v03/{governor,integrator,schema,trace,types}.ts`;
+- `tests/fixtures/f2-governor/{manifest,vectors}.json`;
+- `tests/governor-v03/{continuation,contract,governor-tick,modes-protection}.test.ts`.
+
+Изменения `types.ts`/`schema.ts` — разрешённый review brief минимальный additive state interface: persisted `shipEnergyRemainderJ`, version `ship-state/2.1`, обязательная fail-closed validation и отказ от legacy `ship-state/2`. Accepted G1 algorithms (`allocation`, `resource-ledger`, `buffer-bank`, `water-tank`, `conservation`) не менялись.
+
+Текущий evidence-refreeze commit меняет только:
+
+- `docs/verification/f2-governor-handoff/{manifest,reference-results,representative-traces,u2-shared-field-map}.json`;
+- `tests/governor-v03/handoff.test.ts`;
+- этот Developer report.
+
+### 13.2 Exact RED до implementation
+
+CR-G2-B2/B3/B4 и versioned-state gate:
+
+```text
+npm test -- --run tests/governor-v03/governor-tick.test.ts tests/governor-v03/modes-protection.test.ts tests/governor-v03/continuation.test.ts tests/governor-v03/contract.test.ts
+Test Files  4 failed (4)
+Tests       6 failed | 78 passed (84)
+
+CR-G2-B2: capturedJ=0, expected sourceHostJ=0.16666666666666666
+CR-G2-B3: expected persisted shipEnergyRemainderJ, received undefined
+CR-G2-B4: final allocations [], expected 200000/400000/400000 J
+state gate: missing shipEnergyRemainderJ was accepted
+```
+
+Первый combined probe показал, что начальная B1 test setup не достигала permitted deficit (падала только на `-0` assertion). До production-изменений test precondition исправлен на тот же valid T24 cold-path boundary, который воспроизвёл reviewer. Exact B1 RED:
+
+```text
+npm test -- --run tests/governor-v03/modes-protection.test.ts
+Test Files  1 failed (1)
+Tests       2 failed | 4 passed (6)
+generatedJ=0.03333333333333333, expected 0
+```
+
+Exact input сохраняет T24 requests/heat capacity, выставляет zero charge и valid cold path; два cases проверяют `thermalStopped + restartAuthorized=false + critical-hot-stop` и `durabilityStopped + authorized cooldown`. Полные outputs сохранены локально в `/tmp/f2-g2-cr-blockers-red.log` и `/tmp/f2-g2-cr-b1-red.log`; временные файлы не являются PR artifacts.
+
+### 13.3 Root cause и fix mapping
+
+- `CR-G2-B1`: electrical source исключался из ordinary module plans, а source reservation/cap/actual dispatch не консультировались с `applyProtectionV03`. Теперь один `protectedById` gate запрещает reservation, generator cap и actual dispatch для thermal/durability-stopped source; restart authorization/cooldown/reasons и persisted stop state остаются canonical.
+- `CR-G2-B2`: source loss/host heat коммитились после stage 8, а trace возвращал только константный stage list. Теперь actual work → source loss/host/exhaust → environment/outward calculation → late capture → stage 9; `trace.executionOrder` заполняется в реальных execution points. Eligible positive late heat использует только remaining bank ports и не становится same-tick work input.
+- `CR-G2-B3`: large `shipEnergyJ` терял sub-ULP delta, а audit сверял intended accumulator. `ship-state/2.1` хранит compensated pair `shipEnergyJ + shipEnergyRemainderJ`; temperature вычисляется как два раздельных quotient, checkpoint полностью сериализует remainder, а stage 9 audit использует разность именно committed pair. §3.6 tolerance и conservation audit не ослаблялись.
+- `CR-G2-B4`: ordinary work игнорировал final bank allocations, а ранний stage-1 release съедал общий port. Теперь final canonical allocation резервирует shared output для work, actual package выполняет `transferBuffer`, `usefulOutputJ` выводится из actual pickups, `pickupByBank` правдив, а stage-1 release может использовать только оставшийся port. Exact T07 даёт `200/400/400 kJ`, aggregate `1,000,000 J`.
+
+Current state/ordering map:
+
+```text
+validated ship-state/2.1 snapshot
+  -> mode + protection + failure snapshot
+  -> preliminary stages 1-7
+  -> shared resource reservations ordinary -> sources -> coolers
+  -> exactly one electrical dispatch
+  -> final canonical bank allocations
+  -> actual packages and shared-bank transfers
+  -> actual generator chemical/electrical/host/exhaust ownership
+  -> environment/outward calculation
+  -> stage 8 late S->B on remaining ports
+  -> compensated authoritative ship-energy commit
+  -> stage 9 conservation / RNG / persisted checkpoint
+```
+
+### 13.4 Current T-ID and continuation matrix
+
+| T-ID | Current status / evidence |
+|---|---|
+| T01-T06, T08-T19 | PASS — retained accepted G1 and full-tree regression |
+| T07 | PASS — exact 50 MW request / 30 MW shared port; actual allocation, pickup and useful output all `1,000,000 J` |
+| T20-T23, T25-T28 | PASS — current G2 focused and governor suite |
+| T24 | PASS — allowed emergency deficit, stopped-source zero dispatch, source loss ownership, late capture and conservation |
+| T29-T30 | PASS — failure/restart/thermal/durability protection plus hot/cold continuation boundaries |
+| T31 | NOT_RUN — F2-G4 service/rebind owner |
+| T32-T34 | PASS — outward owner, convergence/no-water, versioned sub-ULP JSON continuation |
+| T35-T36 | NOT_RUN / OUT — water propulsion/local steam |
+| T37-T39 | PASS — retained G1 owner and exact shared-resource regression |
+
+Continuation now имеет шесть durable checks: failure event, hot restart, Quiet hysteresis, cold critical stop, cold restart и десять повторных T34 sub-ULP ticks. Для каждого применимого boundary reopen выполняется JSON round-trip; event tick, следующий необходимый tick, decisions, allocations, reasons, RNG и final state совпадают.
+
+### 13.5 Current T33 convergence
+
+| Trajectory | Duration | abs ΔT 30/120 | T tolerance | abs ΔU pair | Energy tolerance | Coarse useful advantage |
+|---|---:|---:|---:|---:|---:|---:|
+| steady-exchange | 60 s | `3.4524987313488964e-9 K` | `0.025 K` | `0.003452449891483411 J` | `190.47620397561062 J` | `4.888534022029489e-12 J` |
+| threshold-crossing | 30 s | `7.030515007500071e-6 K` | `0.0959629355988784 K` | `7.030515097081661 J` | `75962.9717514536 J` | `-0.11572952611651033 J` |
+| resource-exhaustion | 120 s | `6.946777375560487e-9 K` | `0.025 K` | `0.0069468210567720234 J` | `381.1157799960942 J` | `0.000037758767348350375 J` |
+| work-recovery-repeat | 180 s | `2.4783275875961408e-8 K` | `0.025 K` | `0.02478331731981598 J` | `960.7766782747387 J` | `-1.978150976356119e-11 J` |
+
+Machine-readable current results содержат `reviewRegressions` для всех CR-G2-B1..B4. Representative traces дополнены `t24-stopped-generator-protection`, `t24-source-loss-late-capture`, `t34-sub-ulp-json-continuation`; T07 trace теперь содержит actual bank allocations и `pickupByBank`, а не только ratio output.
+
+### 13.6 Current handoff inventory
+
+Kernel binding: `7580538a11e0e7954313c296c435dc4d06c3c511`.
+
+| Category | Path | SHA-256 |
+|---|---|---|
+| source | `src/model/governor-v03/governor.ts` | `4b5fca8a0da02d6b3b5aa954fb83f9844e19fc98d296e0d84afc1cb7745ee37d` |
+| source | `src/model/governor-v03/integrator.ts` | `093766073bf85e25dabc0bd6968bbd52cf1aca9f240fdf9f97e4107bed26e497` |
+| source | `src/model/governor-v03/modes.ts` | `01edcd3ce43f7304d8d28d25e769f977b923b43b6abb621e0c157e858adb2101` |
+| source | `src/model/governor-v03/protection.ts` | `542a8193ae227e10539b32c73855a0f710ff3d3e244d12615e212d27fd845253` |
+| source | `src/model/governor-v03/trace.ts` | `4c68d78713b9a88c7814098503df217576585936e47fb6ab065a196d357b50c7` |
+| schema | `src/model/governor-v03/schema.ts` | `89f0c8f6cd54441a87772cc310be6cf3000be3c20c7b71f07b9101c01bb725b2` |
+| schema | `src/model/governor-v03/tolerances.ts` | `0eb460472e9182dd1fbe032e4e3812abdea33179013029f5344cc0e735150762` |
+| schema | `src/model/governor-v03/types.ts` | `2951a64427f28d5dd35fab5de129fa033983d212459092fd6200880e630f0c5a` |
+| fixture | `tests/fixtures/f2-governor/manifest.json` | `30d7648a09b9ad8fe1b606c171a878ccbc0c9bc8b21f648671bb8d8ac1853556` |
+| fixture | `tests/fixtures/f2-governor/vectors.json` | `c89df5cfd1c68c7e5ecd440826257e159fe8a547c3aaeee22e0aa5cba8ffd7a6` |
+| result | `docs/verification/f2-governor-handoff/reference-results.json` | `ee03917ab397e1c50959f703747f4c64158277b5454927ec44916c8d4edb3b78` |
+| trace | `docs/verification/f2-governor-handoff/representative-traces.json` | `aefa3d9764e8302b254e6c3de0c7ee5ea629463afb4698ad5aa8948caf0f7f71` |
+| mapping | `docs/verification/f2-governor-handoff/u2-shared-field-map.json` | `5bc9f03f56c9d4a9edb0e19f9a0408a57126e856d0912f67a88262873ded2d3a` |
+| limits | `docs/verification/f2-governor-handoff/known-limits.md` | `8a1c43c6a752788347d79848fd30ed08e1ba8b3b32784f303724440d98e6b5a4` |
+
+### 13.7 Current GREEN, negative evidence, self-review и boundaries
+
+```text
+affected focused: 5 files / 88 tests PASS
+all governor:      12 files / 217 tests PASS
+handoff verifier:  F2 handoff PASS: 7580538... (14 artifacts)
+typecheck:         PASS
+full unit:         125 files / 1818 tests PASS; 182.07s
+build:             PASS; 111 modules; known >500 kB chunk warning retained
+exact project guard PASS on fourth unmodified run:
+  typecheck PASS
+  unit 125 files / 1818 tests PASS; 126.56s
+  build PASS; 111 modules
+  browser 185 PASS / 1 existing screenshot skip
+  reference/bootstrap structure PASS
+  offline intents 26 PASS
+  bd-env/project wrapper 25 PASS
+  Bootstrap structural/project checks PASS
+```
+
+Первые три exact project guard cycle-2 run не объявлены PASS: каждый дал `119 files / 1812 tests PASS` и те же шесть unrelated timing/performance failures (`model-v3/buffer-recovery`, `model-v3/experiments`, `fitting/matrix`, `fitting/mission-recovery`, `signatures/long-currentfit`, `ui/buffer-recovery`); все build/browser/offline/wrapper/bootstrap stages после unit failure — NOT RUN. Read-only process inspection во время первых runs обнаруживал внешние Vitest workers из `/Users/komleff/Documents/GitHub/u2-lab` около 100% CPU. Ни timeout, ни workers, ни dependencies/config не менялись. Полные outputs сохранены в `/tmp/f2-g2-cr-project-guard-final*.log`.
+
+Четвёртый exact run без overrides полностью прошёл с `exit 0`: unit `1818/1818`, build, browser `185 PASS / 1 existing screenshot skip`, reference/bootstrap, offline intents `26/26`, bd-env/project wrapper `25/25`, final `Bootstrap structural/project checks: PASS`. Guard явно сообщил `Native hook activation: NOT RUN (requires actual native adapter smoke)`; этот NOT RUN не скрыт успешным завершением остальных stages.
+
+Self-review cycle 2:
+
+- exact four blockers закрыты общими gates/ownership, не instance-only catches;
+- conservation tolerance/audit не менялись, state не клипуется;
+- stopped sources не резервируют и не dispatch, protection state/reasons сохраняются;
+- actual work равен actual shared-bank pickup, aggregate port cap и canonical proportional order соблюдены;
+- stage 8 видит actual source host heat; receipt execution order строится реальными вызовами;
+- compensated state versioned, required, finite, envelope-validated и JSON-persisted;
+- input immutable, result ordering deterministic, no same-tick resource/port reuse;
+- `/4`, Worker/UI/default activation, real TTX, station, Unity/server/network/device/deploy не затронуты.
+
+Current NOT RUN/concerns:
+
+- локальный Node `25.2.1`; Node 24 mandatory CI — PM-owned NOT RUN;
+- affected QA и scoped re-review — PM-owned NOT RUN; review-fix counter остаётся `1/3` до обоих PASS;
+- native adapter smoke — NOT RUN по явному сообщению project guard;
+- T31, T35/T36 и весь OUT scope остаются NOT RUN/OUT;
+- real ship TTX/balance — PRODUCT GAP, synthetic PASS не является runtime authorization;
+- PR остаётся Draft; Beads, PR state/comments, Ready, merge и publish не менялись.
