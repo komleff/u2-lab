@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "scope": "Document/source extraction and arithmetic only; no governor runtime qualification",
+  "hulls": 3,
+  "modules": 48,
+  "assemblies": 5,
+  "historical_capacity_matches": 4,
+  "module_snapshots_match_sources": true,
+  "single_count_ledger": true,
+  "html_anchors": 48
+}

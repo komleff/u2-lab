@@ -1,0 +1,473 @@
+{
+  "passportId": "hull--severin-mir",
+  "sourceHullId": "severin-mir",
+  "sourceRevision": "sha256:bd7627cdbe7adaefbc8966be447cb292cd0cd89ee195bbbd6e0f29f86efe4300",
+  "classification": "candidate",
+  "shellTtx": {
+    "dryMassKg": 170000,
+    "intrinsicHeatCapacityJK": 79900000,
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 170000,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "bodyExchangeAreaM2": 1825.8,
+    "bodyEmissivity": 1,
+    "legacyHullSystemsLoadW": 800000
+  },
+  "canonicalF1Geometry": {
+    "dimensionsM_LWH": [
+      54,
+      24,
+      8.8
+    ],
+    "structuralHullHP": 3000,
+    "classification": "canonical",
+    "source": "docs/specs/balance/spec_f1_fixed_ship_presets_v0_1.md: accepted characteristics"
+  },
+  "builtinEquipment": [
+    {
+      "instanceId": "builtin:cargo",
+      "modulePassportId": "builtin--severin-mir--builtin-cargo-civilian-M",
+      "massAccounting": "separate_from_shell",
+      "role": null
+    }
+  ],
+  "hullOwnedSurface": {
+    "id": "hull:passive-radiator",
+    "areaM2": 400,
+    "emissivity": 0.9,
+    "active": false,
+    "closable": false,
+    "builtin": true,
+    "circuitOwner": {
+      "kind": "common-ti"
+    },
+    "irProfile": {
+      "version": "radiator-ir/1",
+      "kind": "omnidirectional",
+      "aftFraction": 0
+    },
+    "origins": {
+      "areaM2": {
+        "kind": "experimental",
+        "unit": "m²",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          200,
+          800
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "emissivity": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.45,
+          1.8
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "irProfile.aftFraction": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0,
+          0
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    }
+  },
+  "hullSurfaceAccounting": "Часть поверхности корпуса; отдельная масса в исходнике не выделена. Не добавлять вторую массу поверх shell/materials.",
+  "systemsLoadAccounting": "hullPowerW — агрегированная нагрузка корпусных систем старого каталога, а не потребление материала оболочки. Декомпозиция на отдельные изделия в этом источнике отсутствует.",
+  "sourceHullWithoutEmbeddedModules": {
+    "id": "severin-mir",
+    "label": "Северин Мир · кандидат",
+    "size": "M",
+    "generation": 1,
+    "architecture": "U",
+    "slots": [
+      {
+        "id": "march",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "march",
+        "formFactor": "single"
+      },
+      {
+        "id": "retro",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "retro",
+        "formFactor": "single"
+      },
+      {
+        "id": "strafe",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine"
+        ],
+        "mandatory": true,
+        "role": "strafe",
+        "formFactor": "pair"
+      },
+      {
+        "id": "turn",
+        "category": "propulsion",
+        "size": "M",
+        "families": [
+          "engine",
+          "gyrodyne"
+        ],
+        "mandatory": true,
+        "role": "turn",
+        "formFactor": "pair"
+      },
+      {
+        "id": "power-1",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-2",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-3",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "power-4",
+        "category": "power",
+        "size": "M",
+        "families": [
+          "battery",
+          "generator",
+          "tank",
+          "solar"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-1",
+        "category": "payload",
+        "size": "M",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-2",
+        "category": "payload",
+        "size": "M",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "payload-3",
+        "category": "payload",
+        "size": "M",
+        "families": [
+          "mining",
+          "cargo"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-1",
+        "category": "sensors-thermal",
+        "size": "M",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter",
+          "pump-radiator",
+          "furnace",
+          "electric-heater",
+          "shielding",
+          "sensor",
+          "radar",
+          "transmitter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-2",
+        "category": "sensors-thermal",
+        "size": "M",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter",
+          "pump-radiator",
+          "furnace",
+          "electric-heater",
+          "shielding",
+          "sensor",
+          "radar",
+          "transmitter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      },
+      {
+        "id": "signature-3",
+        "category": "sensors-thermal",
+        "size": "M",
+        "families": [
+          "radiator",
+          "buffer",
+          "h2",
+          "thermoinverter",
+          "pump-radiator",
+          "furnace",
+          "electric-heater",
+          "shielding",
+          "sensor",
+          "radar",
+          "transmitter"
+        ],
+        "mandatory": false,
+        "formFactor": "single"
+      }
+    ],
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 170000,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "hullPowerW": 800000,
+    "origins": {
+      "materials.0.massKg": {
+        "kind": "experimental",
+        "sourceRef": "lab:shell-size-recipe",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          127500,
+          212500
+        ]
+      },
+      "hullPowerW": {
+        "kind": "experimental",
+        "sourceRef": "lab:hotel-load-candidate",
+        "unit": "W",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "hullRadiationM2": {
+        "kind": "experimental",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§2",
+        "unit": "m²",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      },
+      "profile": {
+        "kind": "experimental",
+        "unit": "profile",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "note": "Reference prototype; не полный канонический паспорт."
+      },
+      "generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "unit": "J/(kg K)",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          235,
+          940
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "bodyExchangeAreaM2": {
+        "kind": "experimental",
+        "unit": "m²",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          912.9,
+          3651.6
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "bodyEmissivity": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "hullPassiveRadiator.areaM2": {
+        "kind": "experimental",
+        "unit": "m²",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          200,
+          800
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "hullPassiveRadiator.emissivity": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.45,
+          1.8
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "hullPassiveRadiator.irProfile.aftFraction": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0,
+          0
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "class": "Civilian",
+    "bodyExchangeAreaM2": 1825.8,
+    "bodyEmissivity": 1,
+    "hullPassiveRadiator": {
+      "id": "hull:passive-radiator",
+      "areaM2": 400,
+      "emissivity": 0.9,
+      "active": false,
+      "closable": false,
+      "builtin": true,
+      "circuitOwner": {
+        "kind": "common-ti"
+      },
+      "irProfile": {
+        "version": "radiator-ir/1",
+        "kind": "omnidirectional",
+        "aftFraction": 0
+      },
+      "origins": {
+        "areaM2": {
+          "kind": "experimental",
+          "unit": "m²",
+          "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+          "range": [
+            200,
+            800
+          ],
+          "note": "Кандидат для проверки; не канонические ТТХ."
+        },
+        "emissivity": {
+          "kind": "experimental",
+          "unit": "1",
+          "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+          "range": [
+            0.45,
+            1.8
+          ],
+          "note": "Кандидат для проверки; не канонические ТТХ."
+        },
+        "irProfile.aftFraction": {
+          "kind": "experimental",
+          "unit": "1",
+          "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+          "range": [
+            0,
+            0
+          ],
+          "note": "Кандидат для проверки; не канонические ТТХ."
+        }
+      }
+    },
+    "modes": [
+      "Efficient"
+    ]
+  },
+  "qualificationStatus": "NOT_RUN",
+  "runtimeAuthorization": false
+}
