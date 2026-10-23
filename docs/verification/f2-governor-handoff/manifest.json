@@ -1,6 +1,6 @@
 {
   "version": "f2-governor-handoff/1",
-  "kernelCommit": "7580538a11e0e7954313c296c435dc4d06c3c511",
+  "kernelCommit": "220a8879a2a0793f9b109d3447719ef6a7cdbcf4",
   "runtimeAuthorization": false,
   "versions": {
     "governor": "ship-thermal-governor/0.3",
@@ -44,7 +44,7 @@
   "tIdStatusSource": "docs/verification/f2-governor-handoff/reference-results.json",
   "knownLimits": "docs/verification/f2-governor-handoff/known-limits.md",
   "artifacts": [
-    { "category": "source", "path": "src/model/governor-v03/governor.ts", "sha256": "4b5fca8a0da02d6b3b5aa954fb83f9844e19fc98d296e0d84afc1cb7745ee37d" },
+    { "category": "source", "path": "src/model/governor-v03/governor.ts", "sha256": "e7e1b40b6ff21c4b553c9b2d88cb1fd68322710b30f765673a1751d9a507ec22" },
     { "category": "source", "path": "src/model/governor-v03/integrator.ts", "sha256": "093766073bf85e25dabc0bd6968bbd52cf1aca9f240fdf9f97e4107bed26e497" },
     { "category": "source", "path": "src/model/governor-v03/modes.ts", "sha256": "01edcd3ce43f7304d8d28d25e769f977b923b43b6abb621e0c157e858adb2101" },
     { "category": "source", "path": "src/model/governor-v03/protection.ts", "sha256": "542a8193ae227e10539b32c73855a0f710ff3d3e244d12615e212d27fd845253" },
@@ -54,8 +54,8 @@
     { "category": "schema", "path": "src/model/governor-v03/types.ts", "sha256": "2951a64427f28d5dd35fab5de129fa033983d212459092fd6200880e630f0c5a" },
     { "category": "fixture", "path": "tests/fixtures/f2-governor/manifest.json", "sha256": "30d7648a09b9ad8fe1b606c171a878ccbc0c9bc8b21f648671bb8d8ac1853556" },
     { "category": "fixture", "path": "tests/fixtures/f2-governor/vectors.json", "sha256": "c89df5cfd1c68c7e5ecd440826257e159fe8a547c3aaeee22e0aa5cba8ffd7a6" },
-    { "category": "result", "path": "docs/verification/f2-governor-handoff/reference-results.json", "sha256": "ee03917ab397e1c50959f703747f4c64158277b5454927ec44916c8d4edb3b78" },
-    { "category": "trace", "path": "docs/verification/f2-governor-handoff/representative-traces.json", "sha256": "aefa3d9764e8302b254e6c3de0c7ee5ea629463afb4698ad5aa8948caf0f7f71" },
+    { "category": "result", "path": "docs/verification/f2-governor-handoff/reference-results.json", "sha256": "6ec463fcfe6aa16f23c9f3ed5e258d681b7d97b527e0ccea968a4ddeb2dafaf8" },
+    { "category": "trace", "path": "docs/verification/f2-governor-handoff/representative-traces.json", "sha256": "ad05bbf2866e3e628735f80a06c6b09d593442d0a458f179bf0723e614642442" },
     { "category": "mapping", "path": "docs/verification/f2-governor-handoff/u2-shared-field-map.json", "sha256": "5bc9f03f56c9d4a9edb0e19f9a0408a57126e856d0912f67a88262873ded2d3a" },
     { "category": "limits", "path": "docs/verification/f2-governor-handoff/known-limits.md", "sha256": "8a1c43c6a752788347d79848fd30ed08e1ba8b3b32784f303724440d98e6b5a4" }
   ]

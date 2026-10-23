@@ -106,7 +106,8 @@ describe("F2-G2 early U2 handoff freeze", () => {
     expect(stoppedSource.rows[0].actualAllocations.workPackages).toEqual([]);
     expect(stoppedSource.rows[0].limitingReasons).toContainEqual({ moduleId: "generator", reason: "restart-unauthorized" });
 
-    const lateCapture = traces.scenarios.find((item: { id: string }) => item.id === "t24-source-loss-late-capture").rows[0];
+    const lateCaptureScenario = traces.scenarios.find((item: { id: string }) => item.id === "t24-source-loss-late-capture");
+    const lateCapture = lateCaptureScenario.rows[0];
     expect(lateCapture.sourceHostJ).toBeCloseTo(1 / 6, 12);
     expect(lateCapture.lateCaptureJ).toBeCloseTo(lateCapture.sourceHostJ, 12);
     expect(lateCapture.executionOrder).toEqual([
@@ -120,6 +121,38 @@ describe("F2-G2 early U2 handoff freeze", () => {
       "stage-8-late-capture",
       "stage-9-commit",
     ]);
+    expect(lateCaptureScenario.signedExchangeCases).toEqual([
+      expect.objectContaining({
+        sign: "positive",
+        externalCoolingW: 0,
+        signedLateHeatJ: 1 / 6,
+        lateCaptureJ: 1 / 6,
+        bankDeltaJ: 1 / 6,
+        shipDeltaJ: 0,
+        stage8Selected: true,
+        energyResidualJ: 0,
+      }),
+      expect.objectContaining({
+        sign: "zero",
+        externalCoolingW: 5,
+        signedLateHeatJ: 0,
+        lateCaptureJ: 0,
+        bankDeltaJ: 0,
+        shipDeltaJ: 0,
+        stage8Selected: false,
+        energyResidualJ: 0,
+      }),
+      expect.objectContaining({
+        sign: "negative",
+        externalCoolingW: 10,
+        signedLateHeatJ: -1 / 6,
+        lateCaptureJ: 0,
+        bankDeltaJ: 0,
+        shipDeltaJ: -1 / 6,
+        stage8Selected: false,
+        energyResidualJ: 0,
+      }),
+    ]);
 
     const precision = traces.scenarios.find((item: { id: string }) => item.id === "t34-sub-ulp-json-continuation");
     expect(precision.rows).toHaveLength(10);
@@ -129,7 +162,16 @@ describe("F2-G2 early U2 handoff freeze", () => {
 
     expect(results.reviewRegressions).toEqual([
       expect.objectContaining({ id: "CR-G2-B1", status: "PASS", generatedJ: 0, fuelUsedKg: 0, coolerUsefulJ: 0 }),
-      expect.objectContaining({ id: "CR-G2-B2", status: "PASS", sourceHostJ: expect.any(Number), lateCaptureJ: expect.any(Number) }),
+      expect.objectContaining({
+        id: "CR-G2-B2",
+        status: "PASS",
+        sourceHostJ: expect.any(Number),
+        signedCases: [
+          expect.objectContaining({ sign: "positive", lateCaptureJ: 1 / 6, stage8Selected: true }),
+          expect.objectContaining({ sign: "zero", lateCaptureJ: 0, bankDeltaJ: 0, shipDeltaJ: 0, stage8Selected: false }),
+          expect.objectContaining({ sign: "negative", lateCaptureJ: 0, shipDeltaJ: -1 / 6, stage8Selected: false }),
+        ],
+      }),
       expect.objectContaining({ id: "CR-G2-B3", status: "PASS", ticks: 10, jsonCheckpoint: "deep-equal" }),
       expect.objectContaining({ id: "CR-G2-B4", status: "PASS", sharedPortJ: 1_000_000, usefulOutputJ: 1_000_000, allocatedJ: 1_000_000 }),
     ]);

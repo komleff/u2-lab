@@ -1,6 +1,6 @@
 {
   "version": "f2-governor-reference-results/1",
-  "kernelCommit": "7580538a11e0e7954313c296c435dc4d06c3c511",
+  "kernelCommit": "220a8879a2a0793f9b109d3447719ef6a7cdbcf4",
   "clockHz": {
     "production": 30,
     "reference": 120
@@ -632,7 +632,35 @@
       "id": "CR-G2-B2",
       "status": "PASS",
       "sourceHostJ": 0.16666666666666666,
-      "lateCaptureJ": 0.16666666666666666,
+      "signedCases": [
+        {
+          "sign": "positive",
+          "externalCoolingJ": 0,
+          "signedLateHeatJ": 0.16666666666666666,
+          "lateCaptureJ": 0.16666666666666666,
+          "bankDeltaJ": 0.16666666666666666,
+          "shipDeltaJ": 0,
+          "stage8Selected": true
+        },
+        {
+          "sign": "zero",
+          "externalCoolingJ": 0.16666666666666666,
+          "signedLateHeatJ": 0,
+          "lateCaptureJ": 0,
+          "bankDeltaJ": 0,
+          "shipDeltaJ": 0,
+          "stage8Selected": false
+        },
+        {
+          "sign": "negative",
+          "externalCoolingJ": 0.3333333333333333,
+          "signedLateHeatJ": -0.16666666666666666,
+          "lateCaptureJ": 0,
+          "bankDeltaJ": 0,
+          "shipDeltaJ": -0.16666666666666666,
+          "stage8Selected": false
+        }
+      ],
       "energyResidualJ": 0,
       "executionOrder": [
         "stage-0-snapshot",

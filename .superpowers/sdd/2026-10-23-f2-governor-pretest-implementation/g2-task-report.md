@@ -536,3 +536,131 @@ Current NOT RUN/concerns:
 - T31, T35/T36 и весь OUT scope остаются NOT RUN/OUT;
 - real ship TTX/balance — PRODUCT GAP, synthetic PASS не является runtime authorization;
 - PR остаётся Draft; Beads, PR state/comments, Ready, merge и publish не менялись.
+
+## 14. Scoped re-review cycle 2 — CR-G2-B2-R1 evidence refreeze
+
+### 14.1 Role, commit shape и changed paths
+
+- Actual role/model: основной `Developer` / Codex GPT-5; точный backend build identifier средой не раскрыт.
+- Published history не переписывался. Новый kernel+regression commit после `2d6496c`:
+
+```text
+220a8879a2a0793f9b109d3447719ef6a7cdbcf4 fix(governor): commit signed environment before late capture
+```
+
+- Evidence-refreeze — следующий отдельный commit (`docs(governor): refreeze signed late-capture evidence`; этот commit, его SHA передаётся PM после создания).
+- Kernel commit изменяет только `src/model/governor-v03/governor.ts` и `tests/governor-v03/governor-tick.test.ts`.
+- Evidence commit изменяет только `docs/verification/f2-governor-handoff/{manifest,reference-results,representative-traces}.json`, `tests/governor-v03/handoff.test.ts` и этот report.
+- `u2-shared-field-map.json`, fixtures/state schema и все закрытые CR-G2-B1/B3/B4 и QA-G2-B1…B4 owners byte-unchanged.
+
+### 14.2 Exact RED и blocker mapping
+
+Exact T24-derived boundary сохраняет исходные requests, source, cooler, heat capacity, пустой cold bank и zero electrical charge; единственная boundary mutation для обязательного counterexample — `externalCoolingW=5`. При `sourceHostJ=externalCoolingJ=1/6 J` кандидат `2d6496c` воспроизвёл ложный capture:
+
+```text
+npx vitest run tests/governor-v03/governor-tick.test.ts --reporter=verbose
+Test Files  1 failed (1)
+Tests       2 failed | 17 passed (19)
+
+zero:     expected lateCaptureJ=0, received 0.16666666666666666
+negative: expected lateCaptureJ=0, received 0.16666666666666666
+```
+
+Positive case при `externalCoolingW=0` в том же RED прошёл. Exact failure output сохранён в `/tmp/f2-g2-cr-b2-r1-red.log`; temp output не является PR artifact.
+
+Root cause: code применял positive source/environment contributions, записывал `environment-outward`, выполнял stage 8 и только затем применял external/passive cooling. Receipt поэтому утверждал порядок, которого runtime не исполнял. Fix вычисляет один signed exchange из work host heat, source host heat, external/passive heating и external/passive cooling, коммитит authoritative compensated ship pair до receipt/stage 8 и передаёт stage 8 только `max(0, signedLateHeatJ)` с прежними remaining-port caps. Conservation entries остаются раздельными и signed; tolerance/audit не менялись.
+
+Durable sweep покрывает:
+
+| Case | Source host | Environment owner | Signed result | Stage 8 / ship |
+|---|---:|---:|---:|---|
+| positive source | `1/6 J` | `0 J` | `+1/6 J` | capture `1/6 J`, ship pair `0` |
+| exact zero | `1/6 J` | `-1/6 J` external cooling | `0 J` | capture `0`, bank/ship pair `0` |
+| negative | `1/6 J` | `-1/3 J` external cooling | `-1/6 J` | capture `0`, ship pair `-1/6 J` |
+| passive heating | `1/6 J` | positive passive | positive, port-limited | capture `1/3 J`, remainder stays in ship |
+| external heating + passive cooling | `1/6 J` plus external heating | larger passive cooling | negative | capture `0`, ship cools |
+
+Frozen T20 itself теперь отдельно доказывает, что его combined `+100 W` external heating и больший passive cooling являются net-cooling exchange без ложного stage-8 capture. T20/T21 positive-debt/full-bank intent сохранён отдельным positive-net variant без изменения frozen fixture или G0/G1 owner.
+
+### 14.3 Architecture/state map, T-ID и continuation
+
+```text
+actual work packages
+  -> generator chemical/electrical/host/exhaust ownership
+  -> signed environment exchange
+       positive: work/source host + external heating + passive heating
+       negative: external cooling + passive cooling
+  -> compensated shipEnergyJ + shipEnergyRemainderJ commit
+  -> environment-outward execution receipt
+  -> stage 8 capture of eligible positive net only, remaining ports only
+  -> stage 9 conservation / protection / RNG / persisted checkpoint
+```
+
+- CR-G2-B2-R1: fixed as the signed class, not equality-only; positive/zero/negative semantics and actual execution order frozen in JSON and semantic handoff assertions.
+- T20/T21/T24: PASS in current focused/governor suite; T24 exact zero and negative cases have `energyResidualJ=0`.
+- T01–T19, T22–T30, T32–T34, T37–T39: preserved PASS; closed CR-G2-B1/B3/B4 and QA-G2-B1…B4 regressions remain green.
+- T31: NOT_RUN (G4); T35/T36: OUT/NOT_RUN.
+- Continuation checks остаются byte-unchanged: event tick + following tick deep-equal через JSON reopen для failure, hot restart, Quiet hysteresis, cold stop/cold restart и repeated sub-ULP ticks.
+- T33 30/120 convergence inputs/results byte-unchanged; exact four-row matrix остаётся в §13.5 и прошла current full suite.
+- Same-tick work reuse не добавлен: signed exchange входит в stage 8 только после actual work, а capture использует только remaining input/shared bank ports.
+
+### 14.4 Handoff inventory
+
+Kernel binding: `220a8879a2a0793f9b109d3447719ef6a7cdbcf4`; `runtimeAuthorization:false`; 14 artifacts.
+
+| Category | Path | SHA-256 |
+|---|---|---|
+| source | `src/model/governor-v03/governor.ts` | `e7e1b40b6ff21c4b553c9b2d88cb1fd68322710b30f765673a1751d9a507ec22` |
+| source | `src/model/governor-v03/integrator.ts` | `093766073bf85e25dabc0bd6968bbd52cf1aca9f240fdf9f97e4107bed26e497` |
+| source | `src/model/governor-v03/modes.ts` | `01edcd3ce43f7304d8d28d25e769f977b923b43b6abb621e0c157e858adb2101` |
+| source | `src/model/governor-v03/protection.ts` | `542a8193ae227e10539b32c73855a0f710ff3d3e244d12615e212d27fd845253` |
+| source | `src/model/governor-v03/trace.ts` | `4c68d78713b9a88c7814098503df217576585936e47fb6ab065a196d357b50c7` |
+| schema | `src/model/governor-v03/schema.ts` | `89f0c8f6cd54441a87772cc310be6cf3000be3c20c7b71f07b9101c01bb725b2` |
+| schema | `src/model/governor-v03/tolerances.ts` | `0eb460472e9182dd1fbe032e4e3812abdea33179013029f5344cc0e735150762` |
+| schema | `src/model/governor-v03/types.ts` | `2951a64427f28d5dd35fab5de129fa033983d212459092fd6200880e630f0c5a` |
+| fixture | `tests/fixtures/f2-governor/manifest.json` | `30d7648a09b9ad8fe1b606c171a878ccbc0c9bc8b21f648671bb8d8ac1853556` |
+| fixture | `tests/fixtures/f2-governor/vectors.json` | `c89df5cfd1c68c7e5ecd440826257e159fe8a547c3aaeee22e0aa5cba8ffd7a6` |
+| result | `docs/verification/f2-governor-handoff/reference-results.json` | `6ec463fcfe6aa16f23c9f3ed5e258d681b7d97b527e0ccea968a4ddeb2dafaf8` |
+| trace | `docs/verification/f2-governor-handoff/representative-traces.json` | `ad05bbf2866e3e628735f80a06c6b09d593442d0a458f179bf0723e614642442` |
+| mapping | `docs/verification/f2-governor-handoff/u2-shared-field-map.json` | `5bc9f03f56c9d4a9edb0e19f9a0408a57126e856d0912f67a88262873ded2d3a` |
+| limits | `docs/verification/f2-governor-handoff/known-limits.md` | `8a1c43c6a752788347d79848fd30ed08e1ba8b3b32784f303724440d98e6b5a4` |
+
+### 14.5 GREEN, guards, self-review и boundaries
+
+```text
+focused governor-tick: 1 file / 22 tests PASS
+focused + handoff:     2 files / 26 tests PASS
+all governor:          12 files / 222 tests PASS
+handoff verifier:      F2 handoff PASS: 220a887... (14 artifacts)
+typecheck:              PASS
+full unit:             125 files / 1823 tests PASS; 126.15s
+build:                 PASS; 111 modules; known >500 kB chunk warning retained
+exact project guard:   PASS on first unmodified/no-override run
+  typecheck PASS
+  unit 125 files / 1823 tests PASS; 131.39s
+  build PASS; 111 modules
+  browser 185 PASS / 1 existing screenshot skip
+  reference/bootstrap structure PASS
+  offline intents 26 PASS
+  bd-env/project wrapper 25 PASS
+  Bootstrap structural/project checks PASS
+git diff --check: PASS
+```
+
+Ожидаемый pre-refreeze negative boundary не скрыт: governor suite до hash update дал `220 PASS / 1 FAIL`, где единственный FAIL был standalone handoff verifier `hash drift: src/model/governor-v03/governor.ts`; после semantic evidence/hash freeze он прошёл. Timing/performance negative runs в этом cycle отсутствуют; exact guard прошёл с первого запуска.
+
+Self-review:
+
+- environment receipt теперь записывается только после commit обоих знаков;
+- zero не создаёт фиктивный bank stock и не уменьшает ship pair; negative не захватывается; positive подчиняется remaining ports;
+- ledger owners, compensated persisted state и stage-9 audit описывают одно и то же committed изменение; conservation tolerance не ослаблена;
+- closed B1/B3/B4, shared resource/port order, continuation, source dispatch protection и no-same-tick-reuse regressions сохранены;
+- input immutable, ordering deterministic; fixture TTX, schema, G0/G1 owners и accepted algorithms не менялись.
+
+Current concerns / NOT RUN:
+
+- локальный Node `25.2.1`; Node 24 mandatory CI — PM-owned NOT RUN;
+- affected QA и scoped re-review текущего candidate — PM-owned NOT RUN; counter остаётся `1/3` до обоих PASS;
+- guard явно сообщил `Native hook activation: NOT RUN (requires actual native adapter smoke)`;
+- `/4`, Worker/UI/default activation, T31, T35/T36, real ship TTX/balance, station, Unity/server/network/device/deploy — NOT RUN/OUT; `runtimeAuthorization:false`;
+- PR остаётся Draft; Beads, PR state/comments, Ready, merge и publish не изменялись.

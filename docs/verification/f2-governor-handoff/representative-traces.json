@@ -1,6 +1,6 @@
 {
   "version": "f2-governor-representative-traces/1",
-  "kernelCommit": "7580538a11e0e7954313c296c435dc4d06c3c511",
+  "kernelCommit": "220a8879a2a0793f9b109d3447719ef6a7cdbcf4",
   "reservationNote": "Deterministic evidence replay records full finite reservations before electrical dispatch; actual resource consumption remains separately present in workPackages and ledger-backed state digests.",
   "scenarios": [
     {
@@ -1562,7 +1562,51 @@
     {
       "id": "t24-source-loss-late-capture",
       "vectorId": "vector-T24-modified-source-loss",
-      "retention": "event tick",
+      "retention": "event tick plus positive/zero/negative signed exchange sweep",
+      "signedExchangeCases": [
+        {
+          "sign": "positive",
+          "externalCoolingW": 0,
+          "sourceHostJ": 0.16666666666666666,
+          "environmentShipJ": 0,
+          "signedLateHeatJ": 0.16666666666666666,
+          "lateCaptureJ": 0.16666666666666666,
+          "bankDeltaJ": 0.16666666666666666,
+          "shipDeltaJ": 0,
+          "stage8Selected": true,
+          "energyResidualJ": 0,
+          "stateBeforeDigest": "223a16e3df4c47ba4d1d76097ce368e0a4ba7c29ce4e60f80897f762c77c7b8b",
+          "stateAfterDigest": "cbfb5ff7c2e93e24ff11f91d983bbf27f2e05c68a209b9cbfa7439db8ed02c64"
+        },
+        {
+          "sign": "zero",
+          "externalCoolingW": 5,
+          "sourceHostJ": 0.16666666666666666,
+          "environmentShipJ": -0.16666666666666666,
+          "signedLateHeatJ": 0,
+          "lateCaptureJ": 0,
+          "bankDeltaJ": 0,
+          "shipDeltaJ": 0,
+          "stage8Selected": false,
+          "energyResidualJ": 0,
+          "stateBeforeDigest": "223a16e3df4c47ba4d1d76097ce368e0a4ba7c29ce4e60f80897f762c77c7b8b",
+          "stateAfterDigest": "c6b7a1e423d94c8f9b2ea8d6d8c242893ee6b8d552ab76c7df341df3fd0720f6"
+        },
+        {
+          "sign": "negative",
+          "externalCoolingW": 10,
+          "sourceHostJ": 0.16666666666666666,
+          "environmentShipJ": -0.3333333333333333,
+          "signedLateHeatJ": -0.16666666666666666,
+          "lateCaptureJ": 0,
+          "bankDeltaJ": 0,
+          "shipDeltaJ": -0.16666666666666666,
+          "stage8Selected": false,
+          "energyResidualJ": 0,
+          "stateBeforeDigest": "223a16e3df4c47ba4d1d76097ce368e0a4ba7c29ce4e60f80897f762c77c7b8b",
+          "stateAfterDigest": "7d6a0b34374f9897afcb5126bb95c29eebc01b24bc980dc93799cbbad315357c"
+        }
+      ],
       "rows": [
         {
           "tick": 0,
@@ -1684,7 +1728,12 @@
             }
           ],
           "sourceHostJ": 0.16666666666666666,
+          "environmentShipJ": 0,
+          "signedLateHeatJ": 0.16666666666666666,
           "lateCaptureJ": 0.16666666666666666,
+          "bankDeltaJ": 0.16666666666666666,
+          "shipDeltaJ": 0,
+          "energyResidualJ": 0,
           "executionOrder": [
             "stage-0-snapshot",
             "preliminary-stages-1-7",
