@@ -6,6 +6,34 @@ async function step(input: ReturnType<typeof fixture>["input"]) {
   return stepGovernorV03(input);
 }
 
+function lateCaptureInput(environment: { temperatureK: number; externalHeatingW: number; externalCoolingW: number }) {
+  const { input } = fixture("T24");
+  input.profile = {
+    ...input.profile,
+    buffers: input.profile.buffers.map(bank => ({ ...bank, compatibleModuleIds: [] })),
+    banks: input.profile.banks.map(bank => ({ ...bank, compatibleModuleIds: [] })),
+    modules: input.profile.modules.map(module => module.id === "cooler" ? {
+      ...module,
+      kind: "ordinary" as const,
+      electricJPerJ: { ...module.electricJPerJ, value: 1 },
+      massKgPerJ: { ...module.massKgPerJ, value: 0 },
+      auxHeatJPerJ: { ...module.auxHeatJPerJ, value: 0 },
+      resourceId: null,
+      compatibleBankIds: [],
+    } : module),
+    hydrogenCoolers: [],
+  };
+  input.state = {
+    ...input.state,
+    shipEnergyJ: 400 * input.profile.ship.heatCapacityJPerK.value,
+    bufferEnergyJByBank: input.state.bufferEnergyJByBank.map(bank => ({ ...bank, energyJ: 0 })),
+    waterEnthalpyJByTank: input.state.waterEnthalpyJByTank.map(tank => ({ ...tank, enthalpyJ: 346_600, phase: "liquid" as const })),
+    electricalChargeJ: 0,
+  };
+  input.environment = environment;
+  return input;
+}
+
 describe("F2-G2 staged 30 Hz governor", () => {
   it("runs exact stages 0-9 with preliminary/final caps and one electrical dispatch", async () => {
     const { input } = fixture("T22");
@@ -19,8 +47,9 @@ describe("F2-G2 staged 30 Hz governor", () => {
     expect(result.decisions).toContainEqual(expect.objectContaining({ moduleId: "cooler", reason: "power-limited" }));
   });
 
-  it("T20 accepts Quiet heat debt into a finite bank without a hot fallback", async () => {
+  it("T20 accepts positive-net Quiet heat debt into a finite bank without a hot fallback", async () => {
     const { input } = fixture("T20");
+    input.environment = { ...input.environment, temperatureK: 400 };
     const result = await step(input);
     expect(result.state.effectiveMode).toBe("Quiet");
     expect(result.state.bufferEnergyJByBank[0].energyJ).toBeGreaterThan(0);
@@ -28,9 +57,29 @@ describe("F2-G2 staged 30 Hz governor", () => {
     expect(result.decisions).toContainEqual(expect.objectContaining({ moduleId: "cooler", reason: "quiet-hot-path-forbidden" }));
   });
 
+  it("T20 frozen net-cooling environment cools the ship without a late bank capture", async () => {
+    const { input } = fixture("T20");
+    const result = await step(input);
+    const signedEnvironmentJ = result.ledger.entries
+      .filter(entry => ["environment", "surface"].includes(entry.ownerId) && entry.nodeId === "ship")
+      .reduce((sum, entry) => sum + entry.energyJ, 0);
+    const ownedShipJ = result.ledger.entries
+      .filter(entry => entry.nodeId === "ship")
+      .reduce((sum, entry) => sum + entry.energyJ, 0);
+    const shipDeltaJ = result.state.shipEnergyJ - input.state.shipEnergyJ
+      + result.state.shipEnergyRemainderJ - input.state.shipEnergyRemainderJ;
+    expect(signedEnvironmentJ).toBeLessThan(0);
+    expect(result.state.bufferEnergyJByBank).toEqual(input.state.bufferEnergyJByBank);
+    expect(result.state.selectedStageIds).not.toContain("8");
+    expect(shipDeltaJ).toBeCloseTo(ownedShipJ, 12);
+    expect(Math.abs(result.ledger.energyResidualJ)).toBeLessThanOrEqual(1e-6 + 1e-10 * result.ledger.energyThroughputJ);
+  });
+
   it("T21 keeps uncovered Quiet heat in the ship when the bank is full", async () => {
     const open = fixture("T20");
     const full = fixture("T21");
+    open.input.environment = { ...open.input.environment, temperatureK: 400 };
+    full.input.environment = { ...full.input.environment, temperatureK: 400 };
     const [accepted, uncovered] = await Promise.all([step(open.input), step(full.input)]);
     expect(uncovered.state.bufferEnergyJByBank[0].energyJ).toBe(10_000);
     expect(uncovered.state.shipEnergyJ).toBeGreaterThan(accepted.state.shipEnergyJ);
@@ -144,42 +193,39 @@ describe("F2-G2 staged 30 Hz governor", () => {
     expect(result.decisions).toContainEqual(expect.objectContaining({ moduleId: "cooler", reason: "resource-reserved" }));
   });
 
-  it("T24 commits actual source host heat before stage 8 captures the remaining late heat", async () => {
-    const { input } = fixture("T24");
-    input.profile = {
-      ...input.profile,
-      buffers: input.profile.buffers.map(bank => ({ ...bank, compatibleModuleIds: [] })),
-      banks: input.profile.banks.map(bank => ({ ...bank, compatibleModuleIds: [] })),
-      modules: input.profile.modules.map(module => module.id === "cooler" ? {
-        ...module,
-        kind: "ordinary" as const,
-        electricJPerJ: { ...module.electricJPerJ, value: 1 },
-        massKgPerJ: { ...module.massKgPerJ, value: 0 },
-        auxHeatJPerJ: { ...module.auxHeatJPerJ, value: 0 },
-        resourceId: null,
-        compatibleBankIds: [],
-      } : module),
-      hydrogenCoolers: [],
-    };
-    input.state = {
-      ...input.state,
-      shipEnergyJ: 400 * input.profile.ship.heatCapacityJPerK.value,
-      bufferEnergyJByBank: input.state.bufferEnergyJByBank.map(bank => ({ ...bank, energyJ: 0 })),
-      waterEnthalpyJByTank: input.state.waterEnthalpyJByTank.map(tank => ({ ...tank, enthalpyJ: 346_600, phase: "liquid" as const })),
-      electricalChargeJ: 0,
-    };
-    input.environment = { temperatureK: 400, externalHeatingW: 0, externalCoolingW: 0 };
+  it.each([
+    { sign: "positive source", environment: { temperatureK: 400, externalHeatingW: 0, externalCoolingW: 0 }, expectedSign: 1, expectedCaptureJ: 1 / 6 },
+    { sign: "zero source/external-cooling", environment: { temperatureK: 400, externalHeatingW: 0, externalCoolingW: 5 }, expectedSign: 0, expectedCaptureJ: 0 },
+    { sign: "negative source/external-cooling", environment: { temperatureK: 400, externalHeatingW: 0, externalCoolingW: 10 }, expectedSign: -1, expectedCaptureJ: 0 },
+    { sign: "positive passive-heating", environment: { temperatureK: 500, externalHeatingW: 0, externalCoolingW: 0 }, expectedSign: 1, expectedCaptureJ: 1 / 3 },
+    { sign: "negative external-heating/passive-cooling", environment: { temperatureK: 250, externalHeatingW: 100, externalCoolingW: 0 }, expectedSign: -1, expectedCaptureJ: 0 },
+  ])("T24 commits $sign signed source/environment heat before stage 8 late capture", async ({
+    environment,
+    expectedSign,
+    expectedCaptureJ,
+  }) => {
+    const input = lateCaptureInput(environment);
     const result = await step(input);
     const sourceHostJ = result.ledger.entries
       .filter(entry => entry.ownerId === "generator-source" && entry.nodeId === "ship")
       .reduce((sum, entry) => sum + entry.energyJ, 0);
+    const environmentShipJ = result.ledger.entries
+      .filter(entry => ["environment", "surface"].includes(entry.ownerId) && entry.nodeId === "ship")
+      .reduce((sum, entry) => sum + entry.energyJ, 0);
+    const signedLateHeatJ = sourceHostJ + environmentShipJ;
     const capturedJ = result.state.bufferEnergyJByBank[0].energyJ - input.state.bufferEnergyJByBank[0].energyJ;
+    const externalCoolingJ = input.environment.externalCoolingW / 30;
+    const shipDeltaJ = result.state.shipEnergyJ - input.state.shipEnergyJ
+      + result.state.shipEnergyRemainderJ - input.state.shipEnergyRemainderJ;
     const executionOrder = (result.trace as typeof result.trace & { executionOrder: string[] }).executionOrder;
     expect(sourceHostJ).toBeCloseTo(1 / 6, 12);
-    expect(capturedJ).toBeCloseTo(sourceHostJ, 12);
-    expect(result.state.shipEnergyJ).toBeCloseTo(input.state.shipEnergyJ, 9);
-    expect(result.state.selectedStageIds).toContain("8");
+    expect(externalCoolingJ).toBeCloseTo(environment.externalCoolingW / 30, 12);
+    expect(Math.sign(signedLateHeatJ)).toBe(expectedSign);
+    expect(capturedJ).toBeCloseTo(expectedCaptureJ, 12);
+    expect(shipDeltaJ).toBeCloseTo(signedLateHeatJ - expectedCaptureJ, 12);
+    expect(result.state.selectedStageIds.includes("8")).toBe(expectedCaptureJ > 0);
     expect(executionOrder.indexOf("actual-source-losses")).toBeLessThan(executionOrder.indexOf("stage-8-late-capture"));
+    expect(executionOrder.indexOf("environment-outward")).toBeLessThan(executionOrder.indexOf("stage-8-late-capture"));
     expect(executionOrder).toEqual([
       "stage-0-snapshot",
       "preliminary-stages-1-7",
@@ -191,6 +237,7 @@ describe("F2-G2 staged 30 Hz governor", () => {
       "stage-8-late-capture",
       "stage-9-commit",
     ]);
+    expect(result.decisions).toContainEqual(expect.objectContaining({ moduleId: "cooler", reason: "idle" }));
     expect(Math.abs(result.ledger.energyResidualJ)).toBeLessThanOrEqual(1e-6 + 1e-10 * result.ledger.energyThroughputJ);
   });
 

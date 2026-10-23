@@ -645,15 +645,16 @@ export function stepGovernorV03WithClock(
   const externalCoolingJ = tick.environment.externalCoolingW * seconds;
   const passiveHeatingJ = Math.max(0, -passiveRadiationJ);
   const passiveCoolingJ = Math.max(0, passiveRadiationJ);
-  applyShipDelta(externalHeatingJ + hostHeatJ + sourceHostHeatTotalJ + passiveHeatingJ);
+  const positiveLateHeatJ = externalHeatingJ + hostHeatJ + sourceHostHeatTotalJ + passiveHeatingJ;
+  const negativeEnvironmentHeatJ = externalCoolingJ + passiveCoolingJ;
+  const signedLateHeatJ = positiveLateHeatJ - negativeEnvironmentHeatJ;
+  applyShipDelta(signedLateHeatJ);
   trace.execution("environment-outward");
 
-  const grossLateHeatJ = externalHeatingJ + hostHeatJ + sourceHostHeatTotalJ + passiveHeatingJ;
   const holdK = mode.effectiveMode === "Quiet" && mode.quietHoldTemperatureK !== null ? mode.quietHoldTemperatureK : profile.modes.normalTargetK.value;
-  const lateExcessJ = Math.min(grossLateHeatJ, shipEnergyAboveJ(holdK * profile.ship.heatCapacityJPerK.value));
+  const lateExcessJ = Math.min(Math.max(0, signedLateHeatJ), shipEnergyAboveJ(holdK * profile.ship.heatCapacityJPerK.value));
   captureIntoBanks("8", lateExcessJ, "late-heat");
   trace.execution("stage-8-late-capture");
-  applyShipDelta(-passiveCoolingJ - externalCoolingJ);
 
   for (const plan of plans) {
     const moduleNode = `module:${plan.module.id}`;
