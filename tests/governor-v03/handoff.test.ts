@@ -30,6 +30,9 @@ describe("F2-G2 early U2 handoff freeze", () => {
       "shared-port-proportional",
       "quiet-debt-recovery-repeat",
       "power-fuel-shortage",
+      "t22-temperature-dependent-h2",
+      "t24-quiet-emergency-source",
+      "t38-shared-resource-order",
       "checkpoint-before-failure",
       "checkpoint-before-restart",
       "checkpoint-before-hysteresis",
@@ -45,6 +48,11 @@ describe("F2-G2 early U2 handoff freeze", () => {
         limitingReasons: expect.any(Array),
       }));
     }
+    const emergency = traces.scenarios.find((item: { id: string }) => item.id === "t24-quiet-emergency-source").rows[0];
+    expect(emergency.actualAllocations.sourceEntries).toEqual(expect.arrayContaining([
+      expect.objectContaining({ ownerId: "generator-source", nodeId: "electrical", energyJ: expect.any(Number) }),
+      expect.objectContaining({ ownerId: "generator-source", nodeId: "ship", energyJ: expect.any(Number) }),
+    ]));
   });
 
   it("passes the standalone drift verifier", () => {

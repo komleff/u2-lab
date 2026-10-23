@@ -1,6 +1,6 @@
 {
   "version": "f2-governor-representative-traces/1",
-  "kernelCommit": "eea681e171aa31212cff5b408acd9bbe9e55cea8",
+  "kernelCommit": "9d74342cd0eac10381be519e5879f32489584b41",
   "reservationNote": "Deterministic evidence replay records full finite reservations before electrical dispatch; actual resource consumption remains separately present in workPackages and ledger-backed state digests.",
   "scenarios": [
     {
@@ -43,7 +43,9 @@
                 "usefulOutputJ": 666666.6666666666,
                 "resourceKg": []
               }
-            ]
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
           "stateBeforeDigest": "6508fe6c28636c8082730d63c5e2d50bb32a791b777ac29d50e580676c2af314",
           "stateAfterDigest": "fce5982b4d50eec27fe7d621b0ace411810c26b7ceb212aec5b0e90008654da0",
@@ -81,7 +83,7 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 3.333333333333333e-8
+              "reservedKg": 2.285714285714286e-7
             }
           ],
           "actualAllocations": {
@@ -99,14 +101,16 @@
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 3.333333333333333e-8
+                    "massKg": 2.285714285714286e-7
                   }
                 ]
               }
-            ]
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
           "stateBeforeDigest": "c15d6a43e04f845c62e23cbf404729fa05de7fce733dc2d75257cb57d1f0a223",
-          "stateAfterDigest": "ab812d90df7995d625f246d22551cb4f9f37516644ba9a795bd774b1d8c05e4b",
+          "stateAfterDigest": "b70e067901a7a7105a5531722a4f7f0d5fc1a7b7135a83d0c75b47a87c50cb56",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -130,7 +134,7 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 3.333333333333333e-8
+              "reservedKg": 2.2857145190431705e-7
             }
           ],
           "actualAllocations": {
@@ -148,14 +152,16 @@
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 3.333333333333333e-8
+                    "massKg": 2.2857145190431705e-7
                   }
                 ]
               }
-            ]
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "ab812d90df7995d625f246d22551cb4f9f37516644ba9a795bd774b1d8c05e4b",
-          "stateAfterDigest": "ee32a210322ffa847af44fd83f749bc5c575c8ed142f8db69cad1a52f78d410d",
+          "stateBeforeDigest": "b70e067901a7a7105a5531722a4f7f0d5fc1a7b7135a83d0c75b47a87c50cb56",
+          "stateAfterDigest": "47b1b02560454ec49d0de65cb9ea00fba247d05eada3ba04d066599a504b108c",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -179,7 +185,7 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 3.333333333333333e-8
+              "reservedKg": 2.2861339914404666e-7
             }
           ],
           "actualAllocations": {
@@ -197,14 +203,16 @@
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 3.333333333333333e-8
+                    "massKg": 2.2861339914404666e-7
                   }
                 ]
               }
-            ]
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "80719599ae460b36b1ad3cf327b232ade0eba305a28590e25991d360054db9a0",
-          "stateAfterDigest": "0c73581db494358f40cda57049defddda847c82730e6cc73d26c0dce5628b304",
+          "stateBeforeDigest": "1807831a4e69544159d59027a16c1a5643ecfb3090b2b7bb43a03b76b65d3786",
+          "stateAfterDigest": "5f4da420a2614d6af4f1e2ce802b189e8a76bcdb43a44a48182e0c2ee0d15f3f",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -227,10 +235,12 @@
           "reservations": [],
           "actualAllocations": {
             "banks": [],
-            "workPackages": []
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "0c73581db494358f40cda57049defddda847c82730e6cc73d26c0dce5628b304",
-          "stateAfterDigest": "ce076297f7448d61d47fb578234534575f883dd421d15472d60cd02fc0e7e8f0",
+          "stateBeforeDigest": "5f4da420a2614d6af4f1e2ce802b189e8a76bcdb43a44a48182e0c2ee0d15f3f",
+          "stateAfterDigest": "270e45164e1d0fa01c8e7d2ae30ff65483b07b26ed73718dd3e924ef1f38937a",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -253,10 +263,12 @@
           "reservations": [],
           "actualAllocations": {
             "banks": [],
-            "workPackages": []
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "ce076297f7448d61d47fb578234534575f883dd421d15472d60cd02fc0e7e8f0",
-          "stateAfterDigest": "5865ea8ac78adb003517ca9163c23cfb10c40c08b68376b0a69153105a287516",
+          "stateBeforeDigest": "270e45164e1d0fa01c8e7d2ae30ff65483b07b26ed73718dd3e924ef1f38937a",
+          "stateAfterDigest": "b43bb8be4082a23ec7631640ad35395ab188432da7eecdc78ed336b4a2cf5b3a",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -279,10 +291,12 @@
           "reservations": [],
           "actualAllocations": {
             "banks": [],
-            "workPackages": []
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "a3658a503c110471dfa8825291649d8d6f7978b49912b51bc79473f29427655f",
-          "stateAfterDigest": "ad908370f30b869415b0b59459d1176a1e173de5f65aabf51f9fc4adda96fe2e",
+          "stateBeforeDigest": "7c4627999523eb0fe04cfc29ed033cf2a11b9594e837c4c9ab1e7706ff0236ff",
+          "stateAfterDigest": "44d6d991fd2788a85dc16a57f9d6b402957784165fede57d60c6ae9d9513aa40",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -306,7 +320,7 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 3.333333333333333e-8
+              "reservedKg": 2.2865501376771922e-7
             }
           ],
           "actualAllocations": {
@@ -324,14 +338,16 @@
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 3.333333333333333e-8
+                    "massKg": 2.2865501376771922e-7
                   }
                 ]
               }
-            ]
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "ad908370f30b869415b0b59459d1176a1e173de5f65aabf51f9fc4adda96fe2e",
-          "stateAfterDigest": "076cb33df41502c7f29d42d24c249a69f5313fb863d224337f5265238c55cb3c",
+          "stateBeforeDigest": "44d6d991fd2788a85dc16a57f9d6b402957784165fede57d60c6ae9d9513aa40",
+          "stateAfterDigest": "32dcce2d66c9a276034ba116def602060d69c54dbbfd6f2431541f534a6315c2",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -355,7 +371,7 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 3.333333333333333e-8
+              "reservedKg": 2.2865503708888444e-7
             }
           ],
           "actualAllocations": {
@@ -373,14 +389,16 @@
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 3.333333333333333e-8
+                    "massKg": 2.2865503708888444e-7
                   }
                 ]
               }
-            ]
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "076cb33df41502c7f29d42d24c249a69f5313fb863d224337f5265238c55cb3c",
-          "stateAfterDigest": "8e9e8b91fa375d2c58681d07c7783d922b2e04da8309ce32ae632b2ecc62aed3",
+          "stateBeforeDigest": "32dcce2d66c9a276034ba116def602060d69c54dbbfd6f2431541f534a6315c2",
+          "stateAfterDigest": "ba9c70a38dc95a6ad317498794801642b2b82480aa647167586766321302864a",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -404,7 +422,7 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 3.333333333333333e-8
+              "reservedKg": 2.2869696325739452e-7
             }
           ],
           "actualAllocations": {
@@ -422,14 +440,16 @@
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 3.333333333333333e-8
+                    "massKg": 2.2869696325739452e-7
                   }
                 ]
               }
-            ]
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "677730ef2f8d7d612791d6fc67056d1245de7b63d95ab5f0ec320955618af671",
-          "stateAfterDigest": "e104f2ac32c30209a29639aa388c0f94bde42e48892ab1e14b00b89acea7c07f",
+          "stateBeforeDigest": "194ce36f54ac41b1cb1d0b19ecd8c6a623f8731c95b81bc8a0578ab3c16950e7",
+          "stateAfterDigest": "4396441354425f5923505736b3b46ee607d67403ce81f7c916a41991331c62a2",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -460,7 +480,7 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 3.3333333333333335e-7
+              "reservedKg": 0.000002666666666666667
             }
           ],
           "actualAllocations": {
@@ -474,18 +494,20 @@
             "workPackages": [
               {
                 "moduleId": "cooler",
-                "usefulOutputJ": 3.3333333333333335,
+                "usefulOutputJ": 3.333333333333333,
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 3.3333333333333335e-7
+                    "massKg": 0.000002666666666666667
                   }
                 ]
               }
-            ]
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
           "stateBeforeDigest": "552909eaa4f4c30313ec61dadb155b629ae6cb8f689a3677c2d3ecad9a805d01",
-          "stateAfterDigest": "d1ab578082a97431b6124f5422d5ef84b04133cf4f600ab2dab60db6917bef51",
+          "stateAfterDigest": "48afafcf4666088147d8e8534d2c72fad1c90f7aeee3bb1fc7ea53caf27827b7",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -509,7 +531,7 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 3.3333333333333335e-7
+              "reservedKg": 0.000002666666881498809
             }
           ],
           "actualAllocations": {
@@ -527,14 +549,16 @@
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 3.3333333333333335e-7
+                    "massKg": 0.000002666666881498809
                   }
                 ]
               }
-            ]
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "d1ab578082a97431b6124f5422d5ef84b04133cf4f600ab2dab60db6917bef51",
-          "stateAfterDigest": "6e35c188080e571768136e4cfb3f1159d97e3f242cadfb1ba4163b1e5f311e02",
+          "stateBeforeDigest": "48afafcf4666088147d8e8534d2c72fad1c90f7aeee3bb1fc7ea53caf27827b7",
+          "stateAfterDigest": "69e34934a512226ea7606d596e09b0536c7115ae263752f9d41bccabf22df72f",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -547,7 +571,7 @@
           ]
         },
         {
-          "tick": 2998,
+          "tick": 373,
           "requests": [
             {
               "id": "cooler",
@@ -558,7 +582,7 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 3.3333333333333335e-7
+              "reservedKg": 0.000002666746797598589
             }
           ],
           "actualAllocations": {
@@ -572,18 +596,20 @@
             "workPackages": [
               {
                 "moduleId": "cooler",
-                "usefulOutputJ": 3.3333333333333335,
+                "usefulOutputJ": 3.333333333333333,
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 3.3333333333333335e-7
+                    "massKg": 0.000002666746797598589
                   }
                 ]
               }
-            ]
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "5a0a46a868289abc2ed4817792cc1dff05037f6831afb4e9cc90235c8b0f7240",
-          "stateAfterDigest": "1ba91f6a1737569cb95d479e57a82bc921aa3d336401ba98253c1953ae279edd",
+          "stateBeforeDigest": "b943df77212fd92331cd3bedac0be8e7a63e4efa7227891ea41508274976f844",
+          "stateAfterDigest": "6a6c3d460d794c5577efaef359711f6eac5d14c1b062dc81bd0cf6ba9c7f6da6",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -596,7 +622,7 @@
           ]
         },
         {
-          "tick": 2999,
+          "tick": 374,
           "requests": [
             {
               "id": "cooler",
@@ -607,7 +633,7 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 3.3333333333333335e-7
+              "reservedKg": 0.00000265168209690563
             }
           ],
           "actualAllocations": {
@@ -621,22 +647,24 @@
             "workPackages": [
               {
                 "moduleId": "cooler",
-                "usefulOutputJ": 3.3333333328953283,
+                "usefulOutputJ": 3.3145027562951412,
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 3.333333332895328e-7
+                    "massKg": 0.00000265168209690563
                   }
                 ]
               }
-            ]
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "1ba91f6a1737569cb95d479e57a82bc921aa3d336401ba98253c1953ae279edd",
-          "stateAfterDigest": "038d33b4c4b7702ca82813a6202226898c5e790b2bcfbd93dfa09f68370ee077",
+          "stateBeforeDigest": "6a6c3d460d794c5577efaef359711f6eac5d14c1b062dc81bd0cf6ba9c7f6da6",
+          "stateAfterDigest": "4d638f1134ceff269e1b59ac35a4556138d3f67c8a01b83478b3231c3c6f6313",
           "limitingReasons": [
             {
               "moduleId": "cooler",
-              "reason": "resource-empty"
+              "reason": "resource-reserved"
             },
             {
               "moduleId": "water-tank",
@@ -645,7 +673,7 @@
           ]
         },
         {
-          "tick": 3000,
+          "tick": 375,
           "requests": [
             {
               "id": "cooler",
@@ -656,19 +684,21 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 6.832607150894575e-17
+              "reservedKg": 0
             }
           ],
           "actualAllocations": {
             "banks": [],
-            "workPackages": []
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "038d33b4c4b7702ca82813a6202226898c5e790b2bcfbd93dfa09f68370ee077",
-          "stateAfterDigest": "49ea0525d1f002b89d7eee69d39d5cd6d156efd7d58751de4ee7e43ac59914d8",
+          "stateBeforeDigest": "4d638f1134ceff269e1b59ac35a4556138d3f67c8a01b83478b3231c3c6f6313",
+          "stateAfterDigest": "2f94b2c02085c610d88e54b7591f20735653b7037246778b1fc84a8491730ca3",
           "limitingReasons": [
             {
               "moduleId": "cooler",
-              "reason": "resource-empty"
+              "reason": "resource-reserved"
             },
             {
               "moduleId": "water-tank",
@@ -677,7 +707,7 @@
           ]
         },
         {
-          "tick": 3001,
+          "tick": 376,
           "requests": [
             {
               "id": "cooler",
@@ -688,19 +718,21 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 6.832607150894575e-17
+              "reservedKg": 0
             }
           ],
           "actualAllocations": {
             "banks": [],
-            "workPackages": []
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "49ea0525d1f002b89d7eee69d39d5cd6d156efd7d58751de4ee7e43ac59914d8",
-          "stateAfterDigest": "4fd02a74f00e89996a490bc2cbcc544e2c1dc2c3665c1dd57a8c375996a6b704",
+          "stateBeforeDigest": "2f94b2c02085c610d88e54b7591f20735653b7037246778b1fc84a8491730ca3",
+          "stateAfterDigest": "4dab4a9c4fc684a32d75af930f890f006fee5cfc13075c0f2d6325c63ee0cffa",
           "limitingReasons": [
             {
               "moduleId": "cooler",
-              "reason": "resource-empty"
+              "reason": "resource-reserved"
             },
             {
               "moduleId": "water-tank",
@@ -720,19 +752,316 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 6.832607150894575e-17
+              "reservedKg": 0
             }
           ],
           "actualAllocations": {
             "banks": [],
-            "workPackages": []
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "cc02886f8e393efa023f94c8ca17f31e79a8e3323c793bc328a508ce68f2851e",
-          "stateAfterDigest": "9d684e975f2701fdd6e9eaa0df7442658693bad674164555d426fabc78200b14",
+          "stateBeforeDigest": "0988b59e68d5912c1e48a0a572f9ae5a7448f72133022864d4b716f1a87bcad2",
+          "stateAfterDigest": "3c5a8d05a1db6b1382a614fda237c5147e267c1998903c13b05b8985272a5a5a",
           "limitingReasons": [
             {
               "moduleId": "cooler",
-              "reason": "resource-empty"
+              "reason": "resource-reserved"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "t22-temperature-dependent-h2",
+      "vectorId": "vector-T22",
+      "retention": "event tick",
+      "rows": [
+        {
+          "tick": 0,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 1.7777777777777782e-7
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.3333333333333333
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 0.3333333333333333,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 1.7777777777777782e-7
+                  }
+                ]
+              }
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
+          },
+          "stateBeforeDigest": "38426a1f6a3151c42eeb16030b6f6ab4b34b897aa733493c1ef6683d879c33e6",
+          "stateAfterDigest": "3ac202d51d108e5b52d2dbcf93104a2e13c6b8c8e5183b9f6aaa296193c7ba96",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "idle"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "t24-quiet-emergency-source",
+      "vectorId": "vector-T24-modified-cold-path",
+      "retention": "event tick",
+      "rows": [
+        {
+          "tick": 0,
+          "requests": [
+            {
+              "id": "cooler",
+              "requestedW": 10
+            },
+            {
+              "id": "generator",
+              "requestedW": 10
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "source:generator-source",
+              "resourceId": "h2",
+              "reservedKg": 6.666666666666666e-7
+            },
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 1.7777777777777782e-7
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.3333333333333333
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 0.3333333333333333,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 1.7777777777777782e-7
+                  }
+                ]
+              }
+            ],
+            "sourceEntries": [
+              {
+                "id": "00005:fuel-energy:generator-source",
+                "ownerId": "generator-source",
+                "kind": "external-input",
+                "nodeId": "module:generator",
+                "counterpartyId": "resource:h2",
+                "energyJ": 0.06666666666666667,
+                "resourceId": null,
+                "massKg": 0
+              },
+              {
+                "id": "00006:generation:generator-source:in",
+                "ownerId": "generator-source",
+                "kind": "internal-transfer",
+                "nodeId": "electrical",
+                "counterpartyId": "module:generator",
+                "energyJ": 0.03333333333333333,
+                "resourceId": null,
+                "massKg": 0
+              },
+              {
+                "id": "00006:generation:generator-source:out",
+                "ownerId": "generator-source",
+                "kind": "internal-transfer",
+                "nodeId": "module:generator",
+                "counterpartyId": "electrical",
+                "energyJ": -0.03333333333333333,
+                "resourceId": null,
+                "massKg": 0
+              },
+              {
+                "id": "00007:source-host:generator-source:in",
+                "ownerId": "generator-source",
+                "kind": "internal-transfer",
+                "nodeId": "ship",
+                "counterpartyId": "module:generator",
+                "energyJ": 0.016666666666666666,
+                "resourceId": null,
+                "massKg": 0
+              },
+              {
+                "id": "00007:source-host:generator-source:out",
+                "ownerId": "generator-source",
+                "kind": "internal-transfer",
+                "nodeId": "module:generator",
+                "counterpartyId": "ship",
+                "energyJ": -0.016666666666666666,
+                "resourceId": null,
+                "massKg": 0
+              },
+              {
+                "id": "00008:source-exhaust:generator-source",
+                "ownerId": "generator-source",
+                "kind": "external-output",
+                "nodeId": "module:generator",
+                "counterpartyId": "outward:generator-source:0",
+                "energyJ": -0.016666666666666666,
+                "resourceId": null,
+                "massKg": 0
+              },
+              {
+                "id": "00010:resource:source:generator-source:h2",
+                "ownerId": "source:generator-source",
+                "kind": "external-output",
+                "nodeId": "resource:h2",
+                "counterpartyId": "consumed",
+                "energyJ": 0,
+                "resourceId": "h2",
+                "massKg": -6.666666666666667e-8
+              }
+            ],
+            "sourceOutward": [
+              {
+                "id": "outward:generator-source:0",
+                "ownerId": "generator-source",
+                "kind": "source-exhaust",
+                "energyJ": 0.016666666666666666,
+                "irJ": 0.016666666666666666,
+                "emJ": 0
+              }
+            ]
+          },
+          "stateBeforeDigest": "86d753a42404b5ad8b786085aa9a46b55ed85d2f84ecc7fdeb3f4f59938eebaa",
+          "stateAfterDigest": "9445e74afde4945041e47325cdcd653033fb29592da0d107656894c6a4373996",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "resource-reserved"
+            },
+            {
+              "moduleId": "water-tank",
+              "reason": "tank-cold-protection"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "t38-shared-resource-order",
+      "vectorId": "vector-T38",
+      "retention": "event tick",
+      "rows": [
+        {
+          "tick": 0,
+          "requests": [
+            {
+              "id": "propulsion",
+              "requestedW": 30000000
+            },
+            {
+              "id": "generator",
+              "requestedW": 9000000
+            },
+            {
+              "id": "cooler",
+              "requestedW": 3000000
+            }
+          ],
+          "reservations": [
+            {
+              "ownerId": "module:propulsion",
+              "resourceId": "h2",
+              "reservedKg": 0.6
+            },
+            {
+              "ownerId": "source:generator-source",
+              "resourceId": "h2",
+              "reservedKg": 0.3
+            },
+            {
+              "ownerId": "module:cooler",
+              "resourceId": "h2",
+              "reservedKg": 0.08
+            }
+          ],
+          "actualAllocations": {
+            "banks": [
+              {
+                "bankId": "bank-a",
+                "consumerId": "cooler",
+                "energyJ": 0.3333333333333333
+              }
+            ],
+            "workPackages": [
+              {
+                "moduleId": "cooler",
+                "usefulOutputJ": 100000,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 0.08
+                  }
+                ]
+              },
+              {
+                "moduleId": "propulsion",
+                "usefulOutputJ": 1000000,
+                "resourceKg": [
+                  {
+                    "id": "h2",
+                    "massKg": 0.6
+                  }
+                ]
+              }
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
+          },
+          "stateBeforeDigest": "a2ae16899498b2e0085114dc00ef3562b1f5d3826e974b25430e3f94535bb65d",
+          "stateAfterDigest": "abdd33c20bce3915b5b237348d0c71e7887175b78359fcb5f1e8d446c9bdaa13",
+          "limitingReasons": [
+            {
+              "moduleId": "cooler",
+              "reason": "resource-reserved"
+            },
+            {
+              "moduleId": "propulsion",
+              "reason": "idle"
             },
             {
               "moduleId": "water-tank",
@@ -758,7 +1087,9 @@
           "reservations": [],
           "actualAllocations": {
             "banks": [],
-            "workPackages": []
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
           "stateBeforeDigest": "6f92063bc572a72e6af7a38bcc8d37e1f3e47e87b8832697c78e8f0d7fdc750e",
           "stateAfterDigest": "7f0e05b4c5245333e47ae359149f3f3200fab541616c2801e9509cbaa10ea8fc",
@@ -796,7 +1127,7 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 3.333333333333333e-8
+              "reservedKg": 1.3793103448275863e-7
             }
           ],
           "actualAllocations": {
@@ -814,14 +1145,16 @@
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 3.333333333333333e-8
+                    "massKg": 1.3793103448275863e-7
                   }
                 ]
               }
-            ]
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
           "stateBeforeDigest": "fca025c936632a5efb721544fa98580ed5f7bb62554235cdbbeb346cc4347704",
-          "stateAfterDigest": "aac9ddcaa254ef93ef6b5df5cf97a541bb91d0995d684a5411fab5d1325a3c3b",
+          "stateAfterDigest": "b4729178d19cbbfe23ff571c1bc0d9da262c66cf8fdbda1285533bf5a1fff14a",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -851,7 +1184,9 @@
           "reservations": [],
           "actualAllocations": {
             "banks": [],
-            "workPackages": []
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
           "stateBeforeDigest": "32fdf69229c313541daa4f627d4a5572d83e92816f1aa97c7ea6964b41fa24f5",
           "stateAfterDigest": "769e1df4126fc3c38dc99fe5d43a1871a65c4163ccee5843106cb0af4fbd40d4",
@@ -881,7 +1216,9 @@
           "reservations": [],
           "actualAllocations": {
             "banks": [],
-            "workPackages": []
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
           "stateBeforeDigest": "769e1df4126fc3c38dc99fe5d43a1871a65c4163ccee5843106cb0af4fbd40d4",
           "stateAfterDigest": "03d6d20ff1ab57fda6dce3d264d03af01216046e06fca4a447a41de8adac5c30",
@@ -911,7 +1248,9 @@
           "reservations": [],
           "actualAllocations": {
             "banks": [],
-            "workPackages": []
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
           "stateBeforeDigest": "03d6d20ff1ab57fda6dce3d264d03af01216046e06fca4a447a41de8adac5c30",
           "stateAfterDigest": "789c5bbb12c659b3bf605af54be8cbda34a2802570108d9dc5e5aa847b5e0efe",
@@ -941,7 +1280,9 @@
           "reservations": [],
           "actualAllocations": {
             "banks": [],
-            "workPackages": []
+            "workPackages": [],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
           "stateBeforeDigest": "6b3841b4d97942a348ca0c0dc3337293e62a215ae8bca71803f4930941ad6fba",
           "stateAfterDigest": "b9084521680d2a0d3c2e4792359136cbef1ea273232a749c3338423a310ab8c8",
@@ -972,7 +1313,7 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 1.6686850944297096e-8
+              "reservedKg": 6.788010903880152e-8
             }
           ],
           "actualAllocations": {
@@ -990,14 +1331,16 @@
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 1.6686850944297096e-8
+                    "massKg": 6.788010903880152e-8
                   }
                 ]
               }
-            ]
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
           "stateBeforeDigest": "b9084521680d2a0d3c2e4792359136cbef1ea273232a749c3338423a310ab8c8",
-          "stateAfterDigest": "e22154987c8208f803639a7eb38bdc0472d6b803d1d265669c7b6f6928a1d6e3",
+          "stateAfterDigest": "9e85ff2b1c1f63bd1cc354ca218a7ee61685ecfeb0273ac0c812e48aabe2748c",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -1021,7 +1364,7 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 1.6714980408660453e-8
+              "reservedKg": 6.799648149061531e-8
             }
           ],
           "actualAllocations": {
@@ -1039,14 +1382,16 @@
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 1.671498040866045e-8
+                    "massKg": 6.79964814906153e-8
                   }
                 ]
               }
-            ]
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "e22154987c8208f803639a7eb38bdc0472d6b803d1d265669c7b6f6928a1d6e3",
-          "stateAfterDigest": "7f86834dab00b0c6b1f30840ee4e8edf00d892a9cea0c46bdd750136267d190f",
+          "stateBeforeDigest": "9e85ff2b1c1f63bd1cc354ca218a7ee61685ecfeb0273ac0c812e48aabe2748c",
+          "stateAfterDigest": "6e808b6121ae4874950a20330ad7bac6b016a530dddc7052bec6c79dfa0578bc",
           "limitingReasons": [
             {
               "moduleId": "cooler",
@@ -1070,7 +1415,7 @@
             {
               "ownerId": "module:cooler",
               "resourceId": "h2",
-              "reservedKg": 2.529287121017205e-8
+              "reservedKg": 1.0379680403722932e-7
             }
           ],
           "actualAllocations": {
@@ -1088,14 +1433,16 @@
                 "resourceKg": [
                   {
                     "id": "h2",
-                    "massKg": 2.529287121017205e-8
+                    "massKg": 1.0379680403722932e-7
                   }
                 ]
               }
-            ]
+            ],
+            "sourceEntries": [],
+            "sourceOutward": []
           },
-          "stateBeforeDigest": "dc7f316164b67f891ffe3227c1d021f28765a9cb127f039316808744bd0c16d7",
-          "stateAfterDigest": "2ad73dbddac0499967192fbc13a671ab3d3adc5d10d1d374347014a20da80dff",
+          "stateBeforeDigest": "0472b1ffb42e7a0c2992ebd460343cf4ad8fd3c852d7f1cc60f45b15ab9c5065",
+          "stateAfterDigest": "fa2f5d699bb5074d37948571d5a3d6cf25fae24661e6ee23837a25bc8bcf6d75",
           "limitingReasons": [
             {
               "moduleId": "cooler",

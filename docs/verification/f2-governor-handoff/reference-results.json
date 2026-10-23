@@ -1,6 +1,6 @@
 {
   "version": "f2-governor-reference-results/1",
-  "kernelCommit": "eea681e171aa31212cff5b408acd9bbe9e55cea8",
+  "kernelCommit": "9d74342cd0eac10381be519e5879f32489584b41",
   "clockHz": {
     "production": 30,
     "reference": 120
@@ -97,7 +97,7 @@
         "hz120": 720.000000000095
       },
       "resourceDifferencesKg": {
-        "h2": 1.99840144432528e-13,
+        "h2": 1.26969545988231e-11,
         "water": 0
       },
       "transitions30": [
@@ -154,7 +154,7 @@
         "hz120": 77.4664997215217
       },
       "resourceDifferencesKg": {
-        "h2": 1.15729519301055e-8,
+        "h2": 4.7418699966606e-8,
         "water": 0
       },
       "transitions30": [
@@ -246,28 +246,28 @@
       "vectorId": "vector-T08",
       "durationSeconds": 120,
       "temperatureK": {
-        "hz30": 399.91503111377,
-        "hz120": 399.915031122035,
-        "difference": 8.26480572868604e-9,
+        "hz30": 399.923777044081,
+        "hz120": 399.923777051425,
+        "difference": 7.34360128262779e-9,
         "tolerance": 0.025
       },
       "shipEnergyDeltaJ": {
-        "hz30": -84968.8862296939,
-        "hz120": -84968.8779649138,
-        "difference": 0.00826478004455566,
-        "tolerance": 424.845431148469
+        "hz30": -76222.9559186697,
+        "hz120": -76222.9485750794,
+        "difference": 0.007343590259552,
+        "tolerance": 381.115779593348
       },
       "usefulOutputJ": {
-        "hz30": 9999.99999999959,
-        "hz120": 9999.99999999779,
-        "coarseAdvantage": 1.8007995095104e-9
+        "hz30": 1249.98116942296,
+        "hz120": 1249.98113166429,
+        "coarseAdvantage": 0.0000377586745798908
       },
       "outwardJ": {
-        "hz30": 11999.9999999995,
-        "hz120": 11999.9999999972
+        "hz30": 1499.97740330755,
+        "hz120": 1499.97735799715
       },
       "resourceDifferencesKg": {
-        "h2": 6.83047368665868e-17,
+        "h2": 0,
         "water": 0
       },
       "transitions30": [
@@ -283,12 +283,12 @@
           "stopped": []
         },
         {
-          "timeSeconds": 99.96666666666667,
+          "timeSeconds": 12.466666666666667,
           "mode": "Normal",
           "shipCold": false,
           "quietCold": false,
           "reasons": [
-            "resource-empty",
+            "resource-reserved",
             "tank-cold-protection"
           ],
           "stopped": []
@@ -307,12 +307,12 @@
           "stopped": []
         },
         {
-          "timeSeconds": 99.99166666666666,
+          "timeSeconds": 12.491666666666667,
           "mode": "Normal",
           "shipCold": false,
           "quietCold": false,
           "reasons": [
-            "resource-empty",
+            "resource-reserved",
             "tank-cold-protection"
           ],
           "stopped": []
@@ -346,7 +346,7 @@
         "hz120": 1439.99999999979
       },
       "resourceDifferencesKg": {
-        "h2": 3.99680288865056e-13,
+        "h2": 3.14583914473587e-11,
         "water": 0
       },
       "transitions30": [
@@ -531,7 +531,7 @@
     {
       "id": "T22",
       "status": "PASS",
-      "reason": "G2 focused behavioral/convergence evidence."
+      "reason": "G2 q(T) interpolation binds both map coordinates to one H2 mass/outward package; metamorphic regression."
     },
     {
       "id": "T23",
@@ -541,7 +541,7 @@
     {
       "id": "T24",
       "status": "PASS",
-      "reason": "G2 focused behavioral/convergence evidence."
+      "reason": "G2 valid Quiet cold-path deficit dispatches an emergency source without storage charging; source loss and conservation regression."
     },
     {
       "id": "T25",
@@ -571,7 +571,7 @@
     {
       "id": "T30",
       "status": "PASS",
-      "reason": "G2 focused behavioral/convergence evidence."
+      "reason": "G2 hot and cold critical/restart event ticks plus their following ticks are deep-equal after JSON reopen."
     },
     {
       "id": "T31",
@@ -611,7 +611,7 @@
     {
       "id": "T38",
       "status": "PASS",
-      "reason": "G2 focused behavioral/convergence evidence."
+      "reason": "G2 ordinary, source and cooler reservations decrement one resource flow budget in fixed order without same-tick reuse."
     },
     {
       "id": "T39",

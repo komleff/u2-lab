@@ -50,6 +50,18 @@
       "unit": "kg"
     },
     {
+      "u2Field": "resource max flow shared across ordinary/source/cooler reservations",
+      "labField": "GovernorProfileV03.resources[].maxFlowKgPerS",
+      "ownership": "profile-input",
+      "unit": "kg/s"
+    },
+    {
+      "u2Field": "H2 q(T)",
+      "labField": "GovernorProfileV03.hydrogenCoolers[].specificExportByTemperature",
+      "ownership": "profile-input",
+      "unit": "J/kg"
+    },
+    {
       "u2Field": "outward heat owners",
       "labField": "GovernorTickResultV03.ledger.outward[]",
       "ownership": "shared-contract",
