@@ -15,7 +15,7 @@ import {shipModelShipView,shipModelModuleProfile,shipModelItemDetails} from './f
 import {shipModelSwapDialog,type ShipModelSwapState} from './fitting-ui/ship-model-swap-dialog';
 import {shipModelConditions,readScenarioForm,changePhaseList} from './fitting-ui/ship-model-conditions';
 import {updateDom} from './fitting-ui/dom';
-import {DEFAULT_SHIP_MODEL_BACKGROUND_K} from './ship-model-defaults';
+import {DEFAULT_SHIP_MODEL_BACKGROUND_K,DEFAULT_SHIP_MODEL_PRESET_ID} from './ship-model-defaults';
 import {MODEL_V02} from '../model/governor-v03/types';
 import {shipModelGovernorConditions} from './fitting-ui/ship-model-conditions';
 import {shipModelGovernorLabView} from './fitting-ui/ship-model-lab-view';
@@ -165,7 +165,7 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
     bind('sm-freeze',()=>{if(w.governorActive?.status==='paused')pendingFreeze={runId,commandId:send('snapshot')};else if(!w.freezeGovernor())throw Error('Нужен paused/complete результат');});
     bind('sm-governor-apply',()=>w.replaceGovernorSpec({...spec,name:el<HTMLInputElement>('sm-governor-name')!.value,durationTicks:Number(el<HTMLInputElement>('sm-governor-duration')!.value),scenario:JSON.parse(el<HTMLTextAreaElement>('sm-governor-scenario')!.value),environment:JSON.parse(el<HTMLTextAreaElement>('sm-governor-environment')!.value)}));
     bind('sm-copy',()=>w.copyToB());el<HTMLSelectElement>('sm-variant')!.onchange=()=>act(()=>w.selectVariant(el<HTMLSelectElement>('sm-variant')!.value as 'A'|'B'));
-    bind('sm-model-v01',()=>w.loadPreset('sputnik'));bind('sm-back',()=>requestLeave());bind('sm-leave-cancel',()=>{leaving=undefined;});bind('sm-leave-confirm',()=>{onBack(leaving?.text);destroy();});
+    bind('sm-model-v01',()=>w.loadPreset(DEFAULT_SHIP_MODEL_PRESET_ID));bind('sm-back',()=>requestLeave());bind('sm-leave-cancel',()=>{leaving=undefined;});bind('sm-leave-confirm',()=>{onBack(leaving?.text);destroy();});
     bind('sm-save-run',()=>download(`u2-governor-run-${w.selected}.json`,serializeExperiment(active?.spec??spec)),false);bind('sm-save-result',()=>download(`u2-governor-result-${w.selected}.json`,serializeResultSnapshot(measured!)),false);bind('sm-save-csv',()=>download(`u2-governor-result-${w.selected}.csv`,exportShipModelTelemetryCsvV02(measured!),'text/csv;charset=utf-8'),false);
     const picker=el<HTMLInputElement>('chart-bucket');if(picker)picker.oninput=()=>act(()=>{channels.bucketIndex=Number(picker.value);},false);
     const details=el<HTMLDetailsElement>('channel-details');if(details)details.ontoggle=()=>{if(details.open!==channels.detailsOpen)act(()=>{channels.detailsOpen=details.open;},false);};

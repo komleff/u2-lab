@@ -3,6 +3,20 @@ import {fixture} from '../governor-v03/reference-clock';
 import {makeGovernorExperiment} from '../../src/experiments/ship-model-v0.2';
 import {readFileSync} from 'node:fs';
 
+for(const width of [1440,390,820])test(`QA-G3-B1 actual model 0.2 control restores the literal ordinary default and runnable model 0.1 at ${width}px`,async({page})=>{
+  await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');
+  const initialPreset=await page.locator('#sm-preset').inputValue();
+  const baselineDownloading=page.waitForEvent('download');await page.locator('#sm-save-run').click();const baseline=readFileSync((await (await baselineDownloading).path())!,'utf8');
+  expect(JSON.parse(baseline).modelVersion).toBe('ship-fitting-ship-model-0.1');
+  const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:30,name:'QA-G3-B1 model switch'});
+  await page.locator('#sm-import').setInputFiles({name:'qualification.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
+  await expect(page.locator('#sm-opened')).toContainText('ship-fitting-ship-model-0.2');
+  await page.locator('#sm-model-v01').click();
+  await expect(page.locator('#sm-error')).toBeEmpty();await expect(page.locator('#sm-governor-scenario')).toHaveCount(0);await expect(page.locator('#sm-preset')).toHaveValue(initialPreset);
+  const restoredDownloading=page.waitForEvent('download');await page.locator('#sm-save-run').click();const restored=readFileSync((await (await restoredDownloading).path())!,'utf8');expect(restored).toBe(baseline);
+  await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');await expect(page.locator('#sm-error')).toBeEmpty();
+});
+
 for(const width of [1440,390,820])test(`native /4 imported governor runs through the real Worker and preserves frozen A/B and JSON at ${width}px`,async({page})=>{
   const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:300,name:'Synthetic browser qualification'});
   await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.2');
