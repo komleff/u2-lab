@@ -4,7 +4,7 @@ export default defineConfig({
   fullyParallel: false,
   // Один browser test уже нагружает renderer и численный Worker. На hosted CI
   // параллельные full-horizon страницы конкурируют за тот же ограниченный CPU.
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 2,
   use: {
     baseURL: "http://127.0.0.1:4173",
     headless: true,

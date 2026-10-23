@@ -7,6 +7,32 @@ u2@`1c9da96` с баннером «история U2»; роль ГД — `.agen
 (project-исключение к PM_ROLE §9), подписи AI-комментариев, GitHub-коннектор, временные файлы.
 План `docs/plans/2026-10-18-pipeline-from-u2.md`, PR #31, CRITICAL, Beads `ulab-bmz`.
 
+# Beads: доступ локальных агентов, 2026-10-18
+
+Draft PR #30 `chore/beads-agent-access` (план `docs/plans/2026-10-18-beads-local-agent-access.md`
+v0.4, закрывает `ulab-oz6`). База u2-lab — embedded Dolt; `scripts/bd-wt.sh` — единая точка
+входа агентов в основном checkout и worktree (allowlist подкоманд, `--db` по `dolt_mode`;
+отказ флагов чтения файла и заданных `BEADS_DIR`/`BEADS_DB`), applier шаг 4 работает на
+embedded, в `settings.json` — четыре узких allow-правила. Класс локального агента и порядок
+синхронизации — `.claude/rules/beads.md`. Managed-файлы `bd-wt.sh`/`bd-env.sh` расходятся с
+OverGate — `docs/verification/beads-wrapper-drift.json`. `AGENTS.md` стр. 28–31 заменены
+текстом, одобренным оператором 2026-10-23. Очередь
+`.bd-intents/beads-agent-access.jsonl` применяет оператор после merge; затем live smoke AC-9.
+
+# План поставки «Стелс и тепло», 2026-10-17
+
+PM: `docs/plans/2026-10-17-stealth-thermal-delivery.md`, ветка `docs/stealth-thermal-plan` от
+`main` 6372717, Draft PR с планом до кода. Семь work items, каждый — свой PR от `main` после слияния
+предыдущего (без стека): WI1 буфер+оболочка → WI2 каталог 0.3.2 (без встроенного обогрева, антенны,
+RAM) → WI3 национальные оси+EM → WI4 радар `/4`+max(IR,EM) → WI5 описания → WI6 каталог 0.4.0 →
+WI7 опыты сессии. Очередь `gd-stealth-2026-10-13.jsonl` применена оператором: эпик `ulab-4fl`,
+P1 `ulab-zym` (буфер) и `ulab-rpy` (печь), каталог `ulab-81m`. Plan Review v0.1 (запуск 1/5):
+CHANGES_REQUIRED — правило температуры заряда (ТЗ v1.10 §5.5) несовместимо с полной разгрузкой
+стелса в поле 250 K; PRODUCT GAP оператору, рекомендация PM (а) по канону U2 quiet-equipment §3.4.
+v0.2 исправила B2/B3 и advisory; affected recheck на c57ba43: WI2–WI7 PLAN_READY, WI1 ждёт
+решения оператора (при (а) — с правкой B4 «отдача ≤ свободного теплосброса», внесена в v0.3).
+Первым идёт WI2. Новая очередь `stealth-plan-2026-10-17.jsonl` (2 deps, 2 notes) не применена.
+
 # ГД-ревью стелса и класс «Стелс», 2026-10-13
 
 Оператор принял класс «Стелс» (`docs/product/stealth-class-v0.1.md`, ТТХ — кандидаты): корпуса

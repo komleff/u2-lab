@@ -1,0 +1,1289 @@
+{
+  "version": "governor-conformance/1",
+  "governorVersion": "ship-thermal-governor/0.3",
+  "profileVersion": "governor-profile/0.3",
+  "modelVersion": "ship-fitting-ship-model-0.2",
+  "stateVersion": "ship-state/2",
+  "toleranceVersion": "governor-tolerances/1",
+  "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+  "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+  "records": [
+    {
+      "id": "T01",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T01",
+      "expected": [
+        {
+          "id": "T01-invariant",
+          "kind": "invariant",
+          "metric": "energyConserved",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T02",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T02",
+      "expected": [
+        {
+          "id": "T02-invariant",
+          "kind": "invariant",
+          "metric": "bufferFlowsZero",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T03",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T03",
+      "expected": [
+        {
+          "id": "T03-invariant",
+          "kind": "invariant",
+          "metric": "releaseStopsAtTarget",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T04",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T04",
+      "expected": [
+        {
+          "id": "T04-invariant",
+          "kind": "invariant",
+          "metric": "shipCoolingFirst",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T05",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T05",
+      "expected": [
+        {
+          "id": "T05-invariant",
+          "kind": "invariant",
+          "metric": "noPassiveTransfer",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T06",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "J"
+      ],
+      "vectorId": "vector-T06",
+      "expected": [
+        {
+          "id": "buffer-cap",
+          "kind": "output",
+          "metric": "bufferOutJ",
+          "targetId": "bank-a",
+          "operator": "lte",
+          "value": 666666.6666666666,
+          "unit": "J",
+          "tolerance": "energy"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T07",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "J",
+        "1"
+      ],
+      "vectorId": "vector-T07",
+      "expected": [
+        {
+          "id": "cooler-10",
+          "kind": "output",
+          "metric": "allocationJ",
+          "targetId": "cooler-10",
+          "operator": "eq",
+          "value": 200000,
+          "unit": "J",
+          "tolerance": "energy"
+        },
+        {
+          "id": "cooler-20a",
+          "kind": "output",
+          "metric": "allocationJ",
+          "targetId": "cooler-20a",
+          "operator": "eq",
+          "value": 400000,
+          "unit": "J",
+          "tolerance": "energy"
+        },
+        {
+          "id": "cooler-20b",
+          "kind": "output",
+          "metric": "allocationJ",
+          "targetId": "cooler-20b",
+          "operator": "eq",
+          "value": 400000,
+          "unit": "J",
+          "tolerance": "energy"
+        },
+        {
+          "id": "order-invariant",
+          "kind": "invariant",
+          "metric": "permutationInvariant",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T08",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T08",
+      "expected": [
+        {
+          "id": "T08-invariant",
+          "kind": "invariant",
+          "metric": "resourceNonnegative",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T09",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T09",
+      "expected": [
+        {
+          "id": "T09-invariant",
+          "kind": "invariant",
+          "metric": "h2OffAtFloor",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T10",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T10",
+      "expected": [
+        {
+          "id": "T10-invariant",
+          "kind": "invariant",
+          "metric": "noIdleConsumption",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T11",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T11",
+      "expected": [
+        {
+          "id": "T11-invariant",
+          "kind": "invariant",
+          "metric": "activeClosedInHotEnvironment",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        },
+        {
+          "id": "T11-passive-sign",
+          "kind": "invariant",
+          "metric": "passiveExchangeSigned",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T12",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T12",
+      "expected": [
+        {
+          "id": "T12-invariant",
+          "kind": "invariant",
+          "metric": "tiAreaSingleOwner",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T13",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T13",
+      "expected": [
+        {
+          "id": "T13-invariant",
+          "kind": "invariant",
+          "metric": "noNonpositiveCooling",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        },
+        {
+          "id": "T13-generator-losses",
+          "kind": "invariant",
+          "metric": "generatorLossesPreserved",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T14",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T14",
+      "expected": [
+        {
+          "id": "T14-invariant",
+          "kind": "invariant",
+          "metric": "bufferBeforeHeater",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T15",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T15",
+      "expected": [
+        {
+          "id": "T15-invariant",
+          "kind": "invariant",
+          "metric": "noSpontaneousWarming",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T16",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T16",
+      "expected": [
+        {
+          "id": "T16-invariant",
+          "kind": "invariant",
+          "metric": "tankProtectionIndependent",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/water-tank.test.ts"
+      }
+    },
+    {
+      "id": "T17",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T17",
+      "expected": [
+        {
+          "id": "T17-invariant",
+          "kind": "invariant",
+          "metric": "actualPowerOnly",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T18",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T18",
+      "expected": [
+        {
+          "id": "T18-invariant",
+          "kind": "invariant",
+          "metric": "originalBufferStockOnly",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T19",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T19",
+      "expected": [
+        {
+          "id": "T19-invariant",
+          "kind": "invariant",
+          "metric": "lateCaptureRemainingBudgetOnly",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T20",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T20",
+      "expected": [
+        {
+          "id": "T20-invariant",
+          "kind": "invariant",
+          "metric": "quietDebtAccepted",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/governor-tick.test.ts"
+      }
+    },
+    {
+      "id": "T21",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T21",
+      "expected": [
+        {
+          "id": "T21-invariant",
+          "kind": "invariant",
+          "metric": "uncoveredHeatStaysInShip",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/governor-tick.test.ts"
+      }
+    },
+    {
+      "id": "T22",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T22",
+      "expected": [
+        {
+          "id": "T22-invariant",
+          "kind": "invariant",
+          "metric": "coldH2Only",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/governor-tick.test.ts"
+      }
+    },
+    {
+      "id": "T23",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T23",
+      "expected": [
+        {
+          "id": "T23-invariant",
+          "kind": "invariant",
+          "metric": "criticalStopsOwnModule",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/governor-tick.test.ts"
+      }
+    },
+    {
+      "id": "T24",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T24",
+      "expected": [
+        {
+          "id": "T24-invariant",
+          "kind": "invariant",
+          "metric": "emergencyGeneratorNoCharge",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/governor-tick.test.ts"
+      }
+    },
+    {
+      "id": "T25",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T25",
+      "expected": [
+        {
+          "id": "T25-invariant",
+          "kind": "invariant",
+          "metric": "normalRecoveryPreservesState",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/governor-tick.test.ts"
+      }
+    },
+    {
+      "id": "T26",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T26",
+      "expected": [
+        {
+          "id": "T26-invariant",
+          "kind": "invariant",
+          "metric": "militaryHotOverride",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/governor-tick.test.ts"
+      }
+    },
+    {
+      "id": "T27",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T27",
+      "expected": [
+        {
+          "id": "T27-invariant",
+          "kind": "invariant",
+          "metric": "hullModePermission",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/governor-tick.test.ts"
+      }
+    },
+    {
+      "id": "T28",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T28",
+      "expected": [
+        {
+          "id": "T28-invariant",
+          "kind": "invariant",
+          "metric": "incompatibleBandsExplicit",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/governor-tick.test.ts"
+      }
+    },
+    {
+      "id": "T29",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T29",
+      "expected": [
+        {
+          "id": "T29-invariant",
+          "kind": "invariant",
+          "metric": "failureBudgetRespected",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/modes-protection.test.ts"
+      }
+    },
+    {
+      "id": "T30",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T30",
+      "expected": [
+        {
+          "id": "T30-invariant",
+          "kind": "invariant",
+          "metric": "restartHysteresis",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/modes-protection.test.ts"
+      }
+    },
+    {
+      "id": "T31",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T31",
+      "expected": [
+        {
+          "id": "T31-invariant",
+          "kind": "invariant",
+          "metric": "serviceConserved",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G4",
+        "path": "tests/governor-v03/profile-rebind.test.ts"
+      }
+    },
+    {
+      "id": "T32",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T32",
+      "expected": [
+        {
+          "id": "T32-invariant",
+          "kind": "invariant",
+          "metric": "outwardSingleOwner",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/governor-tick.test.ts"
+      }
+    },
+    {
+      "id": "T33",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "K",
+        "J",
+        "kg",
+        "s",
+        "1"
+      ],
+      "vectorId": "vector-T33",
+      "expected": [
+        {
+          "id": "temperature",
+          "kind": "output",
+          "metric": "temperatureDifferenceK",
+          "targetId": null,
+          "operator": "eq",
+          "value": 0,
+          "unit": "K",
+          "tolerance": "temperatureConvergence"
+        },
+        {
+          "id": "energy",
+          "kind": "output",
+          "metric": "cumulativeEnergyDifferenceJ",
+          "targetId": null,
+          "operator": "eq",
+          "value": 0,
+          "unit": "J",
+          "tolerance": "energyConvergence"
+        },
+        {
+          "id": "resource",
+          "kind": "output",
+          "metric": "resourceDifferenceKg",
+          "targetId": null,
+          "operator": "eq",
+          "value": 0,
+          "unit": "kg",
+          "tolerance": "massConvergence"
+        },
+        {
+          "id": "time",
+          "kind": "output",
+          "metric": "transitionTimeDifferenceS",
+          "targetId": null,
+          "operator": "eq",
+          "value": 0,
+          "unit": "s",
+          "tolerance": "transitionTime"
+        },
+        {
+          "id": "discrete",
+          "kind": "invariant",
+          "metric": "discreteTransitionsEqual",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        },
+        {
+          "id": "advantage",
+          "kind": "invariant",
+          "metric": "noCoarseStepAdvantage",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/convergence.test.ts"
+      }
+    },
+    {
+      "id": "T34",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T34",
+      "expected": [
+        {
+          "id": "T34-invariant",
+          "kind": "invariant",
+          "metric": "noWaterPropulsionOrReserve",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/governor-tick.test.ts"
+      }
+    },
+    {
+      "id": "T35",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "OUT",
+      "reason": "OUT: водяная тяга и локальный запас пара отложены; G0 не исполняет runtime.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T35",
+      "expected": [
+        {
+          "id": "T35-invariant",
+          "kind": "invariant",
+          "metric": "noDoubleShipCooling",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/governor-tick.test.ts"
+      }
+    },
+    {
+      "id": "T36",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "OUT",
+      "reason": "OUT: водяная тяга и локальный запас пара отложены; G0 не исполняет runtime.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T36",
+      "expected": [
+        {
+          "id": "T36-invariant",
+          "kind": "invariant",
+          "metric": "missingBrakingImpulseNotCreated",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G2",
+        "path": "tests/governor-v03/governor-tick.test.ts"
+      }
+    },
+    {
+      "id": "T37",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "J"
+      ],
+      "vectorId": "vector-T37",
+      "expected": [
+        {
+          "id": "a-ship-pickup",
+          "kind": "output",
+          "metric": "shipPickupJ",
+          "targetId": "ship",
+          "operator": "eq",
+          "value": 1000000,
+          "unit": "J",
+          "tolerance": "energy"
+        },
+        {
+          "id": "b-electrical-work",
+          "kind": "output",
+          "metric": "electricalWorkJ",
+          "targetId": "ti-module",
+          "operator": "eq",
+          "value": 500000,
+          "unit": "J",
+          "tolerance": "energy"
+        },
+        {
+          "id": "c-outward",
+          "kind": "output",
+          "metric": "outwardJ",
+          "targetId": "ti-unit",
+          "operator": "eq",
+          "value": 1500000,
+          "unit": "J",
+          "tolerance": "energy"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/conservation.test.ts"
+      }
+    },
+    {
+      "id": "T38",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1",
+        "kg"
+      ],
+      "vectorId": "vector-T38",
+      "expected": [
+        {
+          "id": "T38-invariant",
+          "kind": "invariant",
+          "metric": "resourceNonnegative",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        },
+        {
+          "id": "cooler-consumption",
+          "kind": "output",
+          "metric": "coolerConsumedKg",
+          "targetId": "cooler",
+          "operator": "lte",
+          "value": 0.1,
+          "unit": "kg",
+          "tolerance": "mass"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    },
+    {
+      "id": "T39",
+      "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
+      "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
+      "status": "NOT_RUN",
+      "scope": "IN",
+      "reason": "G0 задаёт synthetic input и expected contract; future runtime test ещё не исполнялся.",
+      "missingDependencies": [],
+      "units": [
+        "1"
+      ],
+      "vectorId": "vector-T39",
+      "expected": [
+        {
+          "id": "b-constrained-first",
+          "kind": "invariant",
+          "metric": "constrainedBankFirst",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        },
+        {
+          "id": "a-allocator-bound",
+          "kind": "invariant",
+          "metric": "allocatorBound",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        }
+      ],
+      "owner": {
+        "item": "F2-G1",
+        "path": "tests/governor-v03/allocation.test.ts"
+      }
+    }
+  ]
+}

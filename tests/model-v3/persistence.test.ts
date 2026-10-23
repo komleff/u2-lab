@@ -27,7 +27,7 @@ it.each(['run','result'] as const)('Task2 self-contained 0.3.1 %s reader retains
   expect(checked.ok,JSON.stringify(checked)).toBe(true);if(!checked.ok)return;
   expect(JSON.parse(json(checked.value))).toEqual(JSON.parse(text));
 });
-it.each(['ship-fitting-0.3.0','ship-fitting-0.3.1'] as const)('Task2 %s fit/run/result preserve every literal field without current-catalog rebuilding',version=>{
+it.each(['ship-fitting-0.3.0','ship-fitting-0.3.1','ship-fitting-0.3.2'] as const)('Task2 %s fit/run/result preserve every literal field without current-catalog rebuilding',version=>{
   const c=loadCandidateCatalog(version),fit=getPresetFit(version==='ship-fitting-0.3.0'?'sputnik':'sputnik-d',version),fitText=serializeFit(fit),w=persistenceWorkspace();
   const fitParsed=parseFitJson(fitText,c);expect(fitParsed.ok).toBe(true);if(!fitParsed.ok)return;
   expect(serializeFit(fitParsed.value)).toBe(fitText);expect(w.inspectOpening(fitText).legacy).toBe(false);w.importDocument(fitText);expect(serializeFit(w.fit!)).toBe(fitText);
@@ -43,6 +43,7 @@ it.each(['ship-fitting-0.3.0','ship-fitting-0.3.1'] as const)('Task2 %s fit/run/
 it.each([
   ['catalogVersion','ship-fitting-0.3.1'],['resolvedShip.catalogVersion','ship-fitting-0.3.1'],['resolvedShip.fit.catalogVersion','ship-fitting-0.3.1'],
   ['catalogVersion','ship-fitting-0.3.2'],['resolvedShip.catalogVersion','ship-fitting-0.3.2'],['resolvedShip.fit.catalogVersion','ship-fitting-0.3.2'],
+  ['catalogVersion','ship-fitting-0.3.3'],['resolvedShip.catalogVersion','ship-fitting-0.3.3'],['resolvedShip.fit.catalogVersion','ship-fitting-0.3.3'],
 ])('Task2 mixed/unknown %s=%s rejects at that field and preserves both drafts/results/frozen owner', (path,value)=>{
   const w=persistenceWorkspace(),saved=literalSnapshot('ship-fitting-0.3.0');w.importDocument(serializeResultSnapshot(saved));expect(w.freeze()).toBe(true);w.copyToB();
   const before=JSON.stringify(w.snapshotForRender()),bad=structuredClone(saved),keys=path.split('.');let owner:any=bad.spec;for(const key of keys.slice(0,-1))owner=owner[key];owner[keys.at(-1)!]=value;
@@ -59,7 +60,7 @@ it.each([
 it('Task2 unsupported fit and version/inventory mismatches never mutate opening owner',()=>{
   const w=persistenceWorkspace(),saved=literalSnapshot('ship-fitting-0.3.0');w.importDocument(serializeResultSnapshot(saved));w.freeze();const before=JSON.stringify(w.snapshotForRender());
   const fit=getPresetFit('ermak-d','ship-fitting-0.3.1');
-  for(const version of ['ship-fitting-0.3.0','ship-fitting-0.3.2']){
+  for(const version of ['ship-fitting-0.3.0','ship-fitting-0.3.3']){
     const bad={...fit,catalogVersion:version},text=JSON.stringify(bad);expect(()=>w.importDocument(text)).toThrow();expect(JSON.stringify(w.snapshotForRender())).toBe(before);
   }
   expect(parseFitJson(serializeFit(fit),loadCandidateCatalog('ship-fitting-0.3.0')).ok).toBe(false);
@@ -201,7 +202,7 @@ it.each(['receiverIrW','observedEmW'] as const)('I4-R1 explicit cross-field tole
   saved.signatures.statistics[name]={integralJ:last*(1-2e-9),meanW:last*(1-2e-9),minW:0,maxW:last*(1-2e-9)};expect(validateShipModelResult(saved).ok).toBe(false);
 });
 it('I4-R1 IR clipping forbids neither IR min above compatible last nor lifetime mean different from last',()=>{
-  const saved=cp04Paused();saved.spec.receiverProfile='absolute-contrast';if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');const last=saved.signatures.last!.receiverIrW;
+  const saved=cp04Paused();saved.spec.receiverProfile='absolute-contrast';if(saved.referenceMeasurements)saved.referenceMeasurements.receiverProfile='absolute-contrast';if(saved.signatures.version!=='ship-signatures/2')throw Error('Нужен v2');const last=saved.signatures.last!.receiverIrW;
   // Exact: average(abs(frame contrast)); compatible: abs(average contrast).
   saved.signatures.statistics.receiverIrW={integralJ:last*2,meanW:last*2,minW:last*1.5,maxW:last*3};expect(validateShipModelResult(saved).ok).toBe(true);
 });

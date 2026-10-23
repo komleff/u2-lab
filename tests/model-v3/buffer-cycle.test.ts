@@ -21,7 +21,7 @@ it("power/capacity constraints are distinct and simultaneous directions cannot b
   a.storedJ=a.capacityJ;a.minimumCaptureK=490;expect(bufferFlow(a).reason).toBe("capacity-limit");
   a.releaseW=1;expect(()=>bufferFlow(a)).toThrow("simultaneous");
 });
-it('production work→recovery→repeat returns all debt, while an inaccessible capture temperature retains exact remainder',()=>{
+it('production work→recovery→repeat returns all debt, while missing external headroom retains exact remainder',()=>{
   const s=runtimeFixture(450),buffer=install(s,'buffer-S');s.initialState.mode='Masking';s.initialState.maskingEntryTemperatureK=450;s.environment.directHeat=[{sourceId:'work',powerW:1e6}];
   const work=stepV3(s,s.initialState,{});expect(work.state.buffers[buffer.id].storedJ).toBeCloseTo(1e6,2);
   s.environment.directHeat=[];s.environment.thermalField={sourceId:'recovery-field',temperatureK:350,coefficientWPerM2K:100};s.resolvedShip.hull.bodyExchangeAreaM2=200;
@@ -29,7 +29,7 @@ it('production work→recovery→repeat returns all debt, while an inaccessible 
   recovered.state.mode='Masking';recovered.state.maskingEntryTemperatureK=recovered.state.temperatureK;s.environment.thermalField=null;s.resolvedShip.hull.bodyExchangeAreaM2=0;s.environment.directHeat=[{sourceId:'repeat',powerW:1e6}];
   const repeated=stepV3(s,recovered.state,{});expect(repeated.state.buffers[buffer.id].storedJ).toBeCloseTo(work.state.buffers[buffer.id].storedJ,2);
   s.environment.directHeat=[];repeated.state.mode='Efficient';repeated.state.maskingEntryTemperatureK=null;repeated.state.buffers[buffer.id].minimumCaptureK=310;
-  const blocked=stepV3(s,repeated.state,{},'recovery');expect(blocked.state.buffers[buffer.id]).toEqual(repeated.state.buffers[buffer.id]);expect(blocked.diagnostics).toContainEqual({instanceId:buffer.id,reason:'hotter-than-capture',timeSeconds:blocked.state.timeSeconds,remainingJ:repeated.state.buffers[buffer.id].storedJ});
+  const blocked=stepV3(s,repeated.state,{},'recovery');expect(blocked.state.buffers[buffer.id]).toEqual(repeated.state.buffers[buffer.id]);expect(blocked.diagnostics).toContainEqual({instanceId:buffer.id,reason:'no-cooling-headroom',timeSeconds:blocked.state.timeSeconds,remainingJ:repeated.state.buffers[buffer.id].storedJ});
 });
 it('production release clips at capture-temperature contact even if a frozen heating request would overshoot it',()=>{
   const s=runtimeFixture(309.99),buffer=install(s,'buffer-S');for(const i of s.resolvedShip.instances)if(i.item.thermalRole==='ordinary')i.item.gate.workLow=300;

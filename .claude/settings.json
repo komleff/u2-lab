@@ -6,6 +6,10 @@
   "permissions": {
     "allow": [
       "Bash(*)",
+      "Bash(scripts/bd-wt.sh *)",
+      "Bash(bash scripts/bd-wt.sh *)",
+      "Bash(scripts/bd-read.sh *)",
+      "Bash(bash scripts/bd-read.sh *)",
       "Read",
       "Edit",
       "Write",

@@ -86,6 +86,77 @@ bd_env_dolt_alive() {
   return 0
 }
 
+# Основная база по режиму из <root>/.beads/metadata.json (адаптация Lab к ADR-0042:
+# база u2-lab — embedded Dolt без сервера, в U2 — dolt-сервер). Решает только dolt_mode:
+# наличие обоих каталогов .beads/dolt и .beads/embeddeddolt на выбор не влияет.
+# Аргумент $1 — корень основного checkout. При успехе выставляет BD_ENV_DB_MODE
+# (embedded|server) и BD_ENV_DB_PATH и возвращает 0. Коды отказа:
+#   1 — fail-closed: нет/нечитаем/невалиден metadata.json, dolt_mode пуст или неизвестен,
+#       нет каталога базы (ошибка с путём — в stderr);
+#   3 — режим server, путь определён, но живого dolt-сервера нет; сообщение печатает
+#       вызывающий (у обёртки и applier оно своё).
+# Вызывать как `bd_env_resolve_main_db "$root" || rc=$?`, не в $(…): переменные нужны вызывающему.
+# Прежние bd_env_main_db / bd_env_dolt_alive не меняются: на них опираются другие потребители.
+bd_env_resolve_main_db() {
+  local root="${1:-}" meta mode db rc=0
+  BD_ENV_DB_MODE=""
+  BD_ENV_DB_PATH=""
+  if [ -z "$root" ]; then
+    echo "ERROR: не удалось определить корень основного checkout (git worktree list)." >&2
+    return 1
+  fi
+  meta="${root}/.beads/metadata.json"
+  if [ ! -f "$meta" ]; then
+    echo "ERROR: не найден файл режима базы Beads: ${meta}" >&2
+    return 1
+  fi
+  # Парсер — python3 (уже обязателен для verify; jq на macOS нет); -I — без модулей из cwd.
+  # Коды python: 1 — не читается / не JSON-объект, 2 — dolt_mode нет или не непустая строка,
+  # 3 — неизвестное значение.
+  mode="$(python3 -I -c '
+import json, sys
+try:
+    with open(sys.argv[1], encoding="utf-8") as handle:
+        data = json.load(handle)
+except (OSError, ValueError):
+    sys.exit(1)
+if not isinstance(data, dict):
+    sys.exit(1)
+mode = data.get("dolt_mode")
+if not isinstance(mode, str) or not mode:
+    sys.exit(2)
+if mode not in ("embedded", "server"):
+    sys.exit(3)
+sys.stdout.write(mode)
+' "$meta" 2>/dev/null)" || rc=$?
+  case "$rc" in
+    0) ;;
+    2) echo "ERROR: dolt_mode отсутствует или пуст в ${meta} — режим базы не определён (fail-closed)." >&2
+       return 1 ;;
+    3) echo "ERROR: неизвестный dolt_mode в ${meta} — ожидается embedded или server (fail-closed)." >&2
+       return 1 ;;
+    127) echo "ERROR: нужен python3, чтобы прочитать ${meta} (fail-closed)." >&2
+       return 1 ;;
+    *) echo "ERROR: ${meta} не читается или не является JSON-объектом (fail-closed)." >&2
+       return 1 ;;
+  esac
+  case "$mode" in
+    embedded) db="${root}/.beads/embeddeddolt" ;;
+    *) db="${root}/.beads/dolt" ;;
+  esac
+  if [ ! -d "$db" ]; then
+    echo "ERROR: основная база Beads не найдена: ${db}" >&2
+    echo "       dolt_mode ${mode} в ${meta} требует этот каталог (fail-closed)." >&2
+    return 1
+  fi
+  BD_ENV_DB_MODE="$mode"
+  BD_ENV_DB_PATH="$db"
+  if [ "$mode" = "server" ] && ! bd_env_dolt_alive "$root"; then
+    return 3
+  fi
+  return 0
+}
+
 # Свежий снимок задач из origin/beads-backup явным refspec.
 bd_env_fetch_backup() {
   git fetch -q origin "$BD_BACKUP_REFSPEC"

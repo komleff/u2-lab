@@ -36,10 +36,14 @@ interface: batch reads, frozen SHA, после write фиксировать comm
 Временные файлы и personal IDE/runtime state не коммитятся.
 
 Beads — единственный task tracker, Memory Bank — контекст, Git/PR — документы и evidence.
+Доступ по классу окружения (ADR-0042, адаптация Lab для embedded, `.claude/rules/beads.md`):
+локальный агент в основном checkout или git-worktree читает и пишет только через
+`scripts/bd-wt.sh <cmd>` (allowlist подкоманд); sync/apply-скрипты не запускает.
 Cloud — read-snapshot/write-intents: `scripts/bd-read.sh` и append-only `.bd-intents/*.jsonl`.
-В hosted Work больше не запускать bd/Dolt, applier wrapper, export или push beads-backup.
-Единственный writer — основной checkout оператора: только bd API; синхронизация —
-`scripts/bd-sync-restore.sh` / `scripts/bd-sync-export.sh` и `origin/beads-backup`.
+В hosted Work не запускать bd/Dolt, applier wrapper, export и не пушить beads-backup.
+Single-writer: физическая база одна — в основном checkout; второй clone/машина не пишет
+параллельно. Синхронизация — только оператор: `scripts/bd-sync-restore.sh` /
+`scripts/bd-sync-export.sh` и `origin/beads-backup`, в тишине и export-first.
 Не писать Dolt или JSONL руками и не считать локальный JSONL авторитетным.
 План описывает последовательность и AC, не подменяет Beads статусом markdown checkbox.
 Generated checkpoint — только recovery input; исходные девять IDs сохраняются без правки.

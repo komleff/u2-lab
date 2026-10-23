@@ -11,5 +11,9 @@ npm run test:browser
 python3 scripts/check-reference.py
 python3 .agents/project/check-bootstrap.py
 node --test scripts/tests/test-bd-cloud.mjs
+# Локальный доступ агентов: bd-wt.sh, режим базы в bd-env.sh, шаг 4 applier — на заглушке bd.
+node --test scripts/tests/test-bd-local-access.mjs
 bash -n scripts/bd-apply-intents.sh
+bash -n scripts/bd-wt.sh
+bash -n scripts/lib/bd-env.sh
 printf '%s\n' 'Bootstrap structural/project checks: PASS'

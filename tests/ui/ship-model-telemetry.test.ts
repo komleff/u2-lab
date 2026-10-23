@@ -76,7 +76,8 @@ it('I3-R2 partial stopped TI stays unavailable through producer, retention, sele
   const made=makeShipModelMiningRun(fit,catalog,{durationSeconds:1,temperatureK:500,action:'idle',environment:{radiativeBackgroundK:100,backgroundSourceId:'I3-R2-background',thermalField:null,solarFluxWm2:0,solarSourceId:null,energyInputs:[],directHeat:[{sourceId:'I3-R2-explicit-heat',powerW:1e10}]}});
   expect(made.ok,JSON.stringify(made)).toBe(true);if(!made.ok)return;
   const run=createShipModelRun('physical-TI',made.value);runShipModelChunk(run,1);const result=shipModelResult(run),b=result.buckets[0],hot='tiHotK:'+id;
-  expect(result.checkpoint.lastTelemetry[hot]).toBeCloseTo(87.4098,4);expect(result.checkpoint.lastTelemetry['tiActive:'+id]).toBe(1);
+  // WI1: открытая вне Masking оболочка меняет physical event time, но не полноту измерения TI.
+  expect(result.checkpoint.lastTelemetry[hot]).toBeCloseTo(87.41039856511269,4);expect(result.checkpoint.lastTelemetry['tiActive:'+id]).toBe(1);
   const row=shipModelChannelRows(result,b,result.spec).find(row=>row.id===hot)!;expect(row).toMatchObject({availability:'mixed',mean:null,min:null,max:null,count:1});
   expect(shipModelChannelInfo('tiHotMeasured:'+id)).toMatchObject({unit:'флаг',group:'state'});
   const curve=traceChart(result,[hot],1,[],false,[],'K',(channel,bucket)=>shipModelAvailability(result,bucket,channel)==='measured');expect(curve).not.toContain('<polyline');
