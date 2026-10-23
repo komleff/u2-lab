@@ -31,11 +31,11 @@ export function sampleProfile() {
 }
 export function sampleState() {
   return {
-    version: "ship-state/2", governorVersion: "ship-thermal-governor/0.3", profileId: "synthetic-g0", profileRevision: "1", tickIndex: 0,
+    version: "ship-state/2.1", governorVersion: "ship-thermal-governor/0.3", profileId: "synthetic-g0", profileRevision: "1", tickIndex: 0,
     effectiveMode: "Normal", requestedMode: "Normal", quietEntryTemperatureK: null, quietHoldTemperatureK: null,
     modeLatches: { shipColdProtection: false, quietColdCooling: false },
     stageLatches: [], bankLatches: [{ id: "bank-a", direction: "none" }], selectedStageIds: [], previousTransitionDirection: "none",
-    surfaceDeploymentById: [{ id: "hull", deployed: true }], shipEnergyJ: 400e6,
+    surfaceDeploymentById: [{ id: "hull", deployed: true }], shipEnergyJ: 400e6, shipEnergyRemainderJ: 0,
     bufferEnergyJByBank: [{ id: "bank-a", energyJ: 500 }], waterEnthalpyJByTank: [{ id: "water-tank", enthalpyJ: 0, phase: "solid" }],
     electricalChargeJ: 1000, resourceMassKg: [{ id: "h2", massKg: 1 }, { id: "water", massKg: 1 }],
     moduleStateById: [{ id: "cooler", durabilityR: 1, firstNegativeCrossing: false, emergencyExposureSeconds: 0, cooldownUntilTick: 0, restartAuthorized: true, durabilityStopped: false, thermalStopped: false, stopReasons: [] }],
@@ -127,10 +127,20 @@ describe("versioned governor input gate", () => {
   it("accepts complete persisted state and runner state without advancing RNG", () => {
     const state = sampleState(); const before = structuredClone(state);
     expect(validateGovernorStateV03(state, sampleProfile())).toEqual({ ok: true, value: before });
-    expect(validateShipModelStateV02({ modelVersion: "ship-fitting-ship-model-0.2", stateVersion: "ship-state/2", phaseIndex: 0, phaseElapsedTicks: 0, governor: state }, sampleProfile()).ok).toBe(true);
+    expect(validateShipModelStateV02({ modelVersion: "ship-fitting-ship-model-0.2", stateVersion: "ship-state/2.1", phaseIndex: 0, phaseElapsedTicks: 0, governor: state }, sampleProfile()).ok).toBe(true);
     expect(state).toEqual(before);
   });
-  it("refuses legacy state instead of casting or migrating it", () => { const s = sampleState(); s.version = "ship-state/1"; const r = validateGovernorStateV03(s, sampleProfile()); expect(r.ok).toBe(false); });
+  it("requires the versioned persisted ship-energy remainder", () => {
+    const state = sampleState();
+    delete (state as unknown as { shipEnergyRemainderJ?: number }).shipEnergyRemainderJ;
+    const result = validateGovernorStateV03(state, sampleProfile());
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.errors).toContainEqual(expect.objectContaining({
+      path: "state.shipEnergyRemainderJ",
+      code: "MISSING_FIELD",
+    }));
+  });
+  it("refuses legacy state instead of casting or migrating it", () => { const s = sampleState(); s.version = "ship-state/2"; const r = validateGovernorStateV03(s, sampleProfile()); expect(r.ok).toBe(false); });
   it("requires persisted W enthalpy for every tank", () => { const s = sampleState(); s.waterEnthalpyJByTank = []; expect(validateGovernorStateV03(s, sampleProfile()).ok).toBe(false); });
   it("refuses residual W enthalpy or liquid phase when the water tank is empty", () => {
     for (const water of [{ enthalpyJ: 1, phase: "solid" }, { enthalpyJ: 0, phase: "liquid" }]) {
@@ -181,7 +191,7 @@ describe("versioned governor input gate", () => {
     const result = validateGovernorTickInputV03(t); expect(result.ok).toBe(false);
     if (!result.ok) expect(result.errors.map(({ path, code }) => ({ path, code }))).toEqual([{ path: "tick.environment.temperatureK", code: "INVALID_NUMBER" }]);
   });
-  it("refuses unknown model dispatch version", () => { expect(validateShipModelStateV02({ modelVersion: "ship-fitting-ship-model-0.1", stateVersion: "ship-state/2", phaseIndex: 0, phaseElapsedTicks: 0, governor: sampleState() }, sampleProfile()).ok).toBe(false); });
+  it("refuses unknown model dispatch version", () => { expect(validateShipModelStateV02({ modelVersion: "ship-fitting-ship-model-0.1", stateVersion: "ship-state/2.1", phaseIndex: 0, phaseElapsedTicks: 0, governor: sampleState() }, sampleProfile()).ok).toBe(false); });
   it("exposes finite attributed SI conservation and convergence policy", () => {
     expect(GOVERNOR_TOLERANCES.energy.absolute).toBe(1e-6);
     expect(GOVERNOR_TOLERANCES.mass.absolute).toBe(1e-12);

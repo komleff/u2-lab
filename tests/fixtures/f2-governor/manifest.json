@@ -3,7 +3,7 @@
   "governorVersion": "ship-thermal-governor/0.3",
   "profileVersion": "governor-profile/0.3",
   "modelVersion": "ship-fitting-ship-model-0.2",
-  "stateVersion": "ship-state/2",
+  "stateVersion": "ship-state/2.1",
   "toleranceVersion": "governor-tolerances/1",
   "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
   "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
