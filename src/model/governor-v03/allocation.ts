@@ -100,7 +100,8 @@ export function allocateStage(input: AllocationInputV03) {
     const bankTotals = new Float64Array(group.members.length);
     const lastBank = group.members.findLastIndex(x => x.availableJ > 0);
     for (let i = 0; i < consumers.length; i++) {
-      const grantJ = !compatible[i] || remaining[i] === 0 || actual === 0 ? 0 : Math.min(remaining[i], i === last ? actual - assigned : actual * (remaining[i] / total));
+      // Каждый grant ограничен остатком группы: сумма proportional округлений не делает final residual отрицательным.
+      const grantJ = !compatible[i] || remaining[i] === 0 || actual === 0 ? 0 : Math.min(remaining[i], actual - assigned, i === last ? actual - assigned : actual * (remaining[i] / total));
       assertWithinCap(grantJ, remaining[i]);
       assigned += grantJ; remaining[i] -= grantJ;
       let splitJ = 0;

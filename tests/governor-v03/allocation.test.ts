@@ -4,6 +4,7 @@ import type { BufferBankProfileV03 } from "../../src/model/governor-v03/types";
 import { TICK_SECONDS } from "../../src/model/governor-v03/types";
 import { allocateStage, type AllocationInputV03 } from "../../src/model/governor-v03/allocation";
 import { commitResources, createResourceLedger, reserveResources } from "../../src/model/governor-v03/resource-ledger";
+import { tolerance } from "../../src/model/governor-v03/conservation";
 
 function fixtureInput(id: string) {
   const vector = fixtures.vectors.find(x => x.id === `vector-${id}`)!;
@@ -171,6 +172,85 @@ it.each([1, 2, 5])("QA-B1 commits fractional grants across %s banks with shared 
     }
     expect(allocateStage({ ...input, banks: [...input.banks].reverse(), consumers: [...input.consumers].reverse() })).toEqual(result);
   }
+});
+
+function overlappingInputs() {
+  const base = fixtures.profiles.find(x => x.id === "synthetic-base")!.banks[0] as BufferBankProfileV03;
+  let seed = 20261023;
+  const random = () => { seed = (Math.imul(1664525, seed) + 1013904223) >>> 0; return seed / 4294967296; };
+  return Array.from({ length: 1000 }, (): AllocationInputV03 => {
+    const n = 1 + Math.floor(random() * 9), k = 1 + Math.floor(random() * 13);
+    const bankIds = Array.from({ length: n }, (_, i) => `b${i}`), ids = Array.from({ length: k }, (_, i) => `c${i}`);
+    const memberships = bankIds.map(() => ids.filter(() => random() > 0.3));
+    const banks = bankIds.map((id, i) => ({ availableJ: random() * 10, profile: { ...base, id, memberIds: [`p${i}`], compatibleModuleIds: memberships[i], conductanceWPerK: { ...base.conductanceWPerK, value: 1 + i % 3 } } }));
+    const resources = [{ id: "fuel", massKg: 0.1 + random() * 10 }];
+    const consumers = ids.map(id => ({ id, capJ: 0.2 + random() * 20, massKgPerJ: 0.01 + random() * 0.9, compatibleBankIds: bankIds.filter((_, i) => memberships[i].includes(id)), resourceId: "fuel" }));
+    return { demandJ: 30, banks, resources, consumers };
+  });
+}
+
+function expectSupportedOverlap(input: AllocationInputV03) {
+  const before = structuredClone(input);
+  const result = allocateStage(input);
+  const totalJ = result.allocations.reduce((sum, x) => sum + x.energyJ, 0);
+  expect(Number.isFinite(totalJ)).toBe(true);
+  expect(totalJ).toBeLessThanOrEqual(input.demandJ + tolerance(totalJ));
+  for (const allocation of result.allocations) {
+    expect(allocation.energyJ).toBeGreaterThanOrEqual(0);
+    expect(input.banks.find(x => x.profile.id === allocation.bankId)!.profile.compatibleModuleIds).toContain(allocation.consumerId);
+  }
+  for (const bank of input.banks) {
+    const actualJ = result.allocations.filter(x => x.bankId === bank.profile.id).reduce((sum, x) => sum + x.energyJ, 0);
+    expect(actualJ).toBeLessThanOrEqual(bank.availableJ + tolerance(actualJ));
+  }
+  const costKg = input.consumers.reduce((sum, x) => sum + x.capJ * x.massKgPerJ, 0);
+  const gamma = Math.min(1, input.resources[0].massKg / costKg);
+  for (const consumer of input.consumers) {
+    const actualJ = result.allocations.filter(x => x.consumerId === consumer.id).reduce((sum, x) => sum + x.energyJ, 0);
+    expect(actualJ).toBeLessThanOrEqual(gamma * consumer.capJ + tolerance(actualJ));
+  }
+  for (const perBank of [false, true]) expect(commitGrantedWork(input, result, perBank).balances[0].massKg).toBeGreaterThanOrEqual(0);
+  expect(result.compatibilityChecks).toBe(input.banks.length * input.consumers.length);
+  expect(result.allocationVisits).toBeLessThanOrEqual(3 * input.banks.length * input.consumers.length + 2 * input.banks.length + 2 * input.consumers.length);
+  expect(input).toEqual(before);
+  expect(allocateStage({ ...input, banks: [...input.banks].reverse().map(x => ({ ...x, profile: { ...x.profile, compatibleModuleIds: [...x.profile.compatibleModuleIds].reverse() } })), consumers: [...input.consumers].reverse().map(x => ({ ...x, compatibleBankIds: [...x.compatibleBankIds].reverse() })) })).toEqual(result);
+}
+
+it("DEV-C1 returns consumable nonnegative grants for literal trial241", () => {
+  const base = fixtures.profiles.find(x => x.id === "synthetic-base")!.banks[0] as BufferBankProfileV03;
+  const bankRows: [string, number, string[]][] = [
+    ["b0", 9.058348170947284, ["c1", "c2", "c3", "c4", "c6", "c7", "c8", "c9"]],
+    ["b1", 9.349925755523145, ["c0", "c1", "c3", "c4", "c5", "c8"]],
+    ["b2", 7.528891891706735, ["c2", "c3", "c5", "c8", "c9"]],
+    ["b3", 1.136722881346941, ["c5", "c6", "c7", "c8", "c9"]],
+  ];
+  const consumerRows: [string, number, number, string[]][] = [
+    ["c0", 0.8774937827140092, 0.4627014171937481, ["b1"]],
+    ["c1", 18.842568867653608, 0.30996057606767863, ["b0", "b1"]],
+    ["c2", 19.98533840738237, 0.6910258417623117, ["b0", "b2"]],
+    ["c3", 12.46045750081539, 0.13343068884219975, ["b0", "b1", "b2"]],
+    ["c4", 17.52902751304209, 0.20091276305262, ["b0", "b1"]],
+    ["c5", 1.9640297301113605, 0.7438542881188914, ["b1", "b2", "b3"]],
+    ["c6", 7.3420505177229645, 0.2961717523308471, ["b0", "b3"]],
+    ["c7", 19.055770640075206, 0.29557137881871315, ["b0", "b3"]],
+    ["c8", 11.573097645118832, 0.46355953967664393, ["b0", "b1", "b2", "b3"]],
+    ["c9", 0.3164764724671841, 0.13247618034016342, ["b0", "b2", "b3"]],
+  ];
+  const input = {
+    demandJ: 30, resources: [{ id: "fuel", massKg: 6.11475374540314 }],
+    banks: bankRows.map(([id, availableJ, compatibleModuleIds], i) => ({ availableJ, profile: { ...base, id, memberIds: [`p${i}`], compatibleModuleIds, conductanceWPerK: { ...base.conductanceWPerK, value: 1 + i % 3 } } })),
+    consumers: consumerRows.map(([id, capJ, massKgPerJ, compatibleBankIds]) => ({ id, capJ, massKgPerJ, compatibleBankIds, resourceId: "fuel" })),
+  };
+  expect(input).toEqual(overlappingInputs()[241]);
+  expectSupportedOverlap(input);
+});
+
+it.each([241, 286, 430, 451])("DEV-C1 preserves supported overlapping-bank allocation at generated trial%s", trial => {
+  expectSupportedOverlap(overlappingInputs()[trial]);
+});
+
+it("DEV-C1 supports all 1000 overlapping-bank inputs from seed 20261023", () => {
+  for (const input of overlappingInputs()) expectSupportedOverlap(input);
 });
 
 it("refuses a bank source budget above its physical capacity before returning a commit", () => {
