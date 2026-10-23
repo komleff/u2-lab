@@ -2,8 +2,8 @@ import { expect, it } from "vitest";
 import fixtures from "../fixtures/f2-governor/vectors.json";
 import type { BufferBankProfileV03 } from "../../src/model/governor-v03/types";
 import { TICK_SECONDS } from "../../src/model/governor-v03/types";
-import { allocateStage } from "../../src/model/governor-v03/allocation";
-import { createResourceLedger, reserveResources } from "../../src/model/governor-v03/resource-ledger";
+import { allocateStage, type AllocationInputV03 } from "../../src/model/governor-v03/allocation";
+import { commitResources, createResourceLedger, reserveResources } from "../../src/model/governor-v03/resource-ledger";
 
 function fixtureInput(id: string) {
   const vector = fixtures.vectors.find(x => x.id === `vector-${id}`)!;
@@ -63,7 +63,7 @@ it.each([1, 4, 16, 64])("measures real bounded pair visits for N=%s banks, K=2N 
   const bankIds = Array.from({ length: n }, (_, i) => `bank-${String(i).padStart(3, "0")}`);
   const result = allocateStage({ demandJ: n, resources: [], banks: bankIds.map((id, i) => ({ availableJ: 1, profile: { ...base, id, memberIds: [`physical-${i}`], compatibleModuleIds: ids, conductanceWPerK: { ...base.conductanceWPerK, value: i + 1 } } })), consumers: ids.map(id => ({ id, capJ: n, resourceId: null, massKgPerJ: 0, compatibleBankIds: bankIds })) });
   expect(result.compatibilityChecks).toBe(n * ids.length);
-  expect(result.allocationVisits).toBe(3 * n * ids.length + n + 2 * ids.length);
+  expect(result.allocationVisits).toBe(3 * n * ids.length + 2 * n + 2 * ids.length);
   expect(result.allocationVisits).toBeLessThanOrEqual(3 * n * ids.length + 2 * n + 2 * ids.length);
 });
 
@@ -125,6 +125,51 @@ it("returns fractional resource reservations that the shared finite ledger can a
     const result = allocateStage(input);
     let ledger = createResourceLedger(input.resources);
     expect(() => { for (const reservation of result.reservations) ledger = reserveResources(ledger, reservation.ownerId, reservation.resources); }).not.toThrow();
+  }
+});
+
+function commitGrantedWork(input: AllocationInputV03, result: ReturnType<typeof allocateStage>, perBank: boolean) {
+  let ledger = createResourceLedger(input.resources);
+  for (const reservation of result.reservations) ledger = reserveResources(ledger, reservation.ownerId, reservation.resources);
+  return commitResources(ledger, input.consumers.map(consumer => {
+    const grants = result.allocations.filter(x => x.consumerId === consumer.id);
+    const massKg = perBank ? grants.reduce((sum, x) => sum + x.energyJ * consumer.massKgPerJ, 0) : grants.reduce((sum, x) => sum + x.energyJ, 0) * consumer.massKgPerJ;
+    return { ownerId: consumer.id, resources: [{ id: consumer.resourceId!, massKg }] };
+  }));
+}
+
+it("QA-B1 commits natural actual mass for the exact 1-bank/2-consumer fractional residual", () => {
+  const bank = fixtures.profiles.find(x => x.id === "synthetic-base")!.banks[0] as BufferBankProfileV03;
+  const input = {
+    demandJ: 10,
+    banks: [{ profile: { ...bank, id: "b", compatibleModuleIds: ["c0", "c1"] }, availableJ: 10 }],
+    resources: [{ id: "fuel", massKg: 0.1 }],
+    consumers: [1, 2].map((capJ, i) => ({ id: `c${i}`, capJ, resourceId: "fuel", massKgPerJ: 0.1, compatibleBankIds: ["b"] })),
+  };
+  const before = structuredClone(input);
+  const result = allocateStage(input);
+  expect(result.allocations.map(x => x.energyJ)).toEqual([expect.closeTo(1 / 3, 12), expect.closeTo(2 / 3, 12)]);
+  for (const perBank of [false, true]) expect(() => commitGrantedWork(input, result, perBank)).not.toThrow();
+  expect(input).toEqual(before);
+});
+
+it.each([1, 2, 5])("QA-B1 commits fractional grants across %s banks with shared or distinct profiles", n => {
+  const base = fixtures.profiles.find(x => x.id === "synthetic-base")!.banks[0] as BufferBankProfileV03;
+  for (const distinctProfiles of [false, true]) for (let trial = 1; trial <= 40; trial++) {
+    const bankIds = Array.from({ length: n }, (_, i) => `b${i}`);
+    const input = {
+      demandJ: 10,
+      banks: bankIds.map((id, i) => ({ availableJ: (i + 1) / (n + 1), profile: { ...base, id, memberIds: [`physical-${i}`], compatibleModuleIds: ["c0", "c1", "c2"], conductanceWPerK: { ...base.conductanceWPerK, value: distinctProfiles ? i + 1 : 1 } } })),
+      resources: [{ id: "fuel", massKg: trial / 97 }],
+      consumers: [1, 2, 3].map((weight, i) => ({ id: `c${i}`, capJ: weight * trial / 23, resourceId: "fuel", massKgPerJ: weight / 17, compatibleBankIds: [...bankIds] })),
+    };
+    const result = allocateStage(input);
+    expect(result.allocations.reduce((sum, allocation) => sum + allocation.energyJ, 0)).toBeGreaterThan(0);
+    for (const perBank of [false, true]) {
+      const committed = commitGrantedWork(input, result, perBank);
+      expect(committed.balances[0].massKg).toBeGreaterThanOrEqual(0);
+    }
+    expect(allocateStage({ ...input, banks: [...input.banks].reverse(), consumers: [...input.consumers].reverse() })).toEqual(result);
   }
 });
 

@@ -60,9 +60,13 @@ export function allocateStage(input: AllocationInputV03) {
   }
   const reservations: ResourceReservationV03[] = [];
   const reservationRemaining = new Map(stock);
+  const budgets = new Map<string, { capJ: number; massKg: number | null; massKgPerJ: number; energyUsedJ: number; massUsedKg: number }>();
   const remaining = consumers.map(consumer => {
     allocationVisits++;
-    if (consumer.resourceId === null) return consumer.capJ;
+    if (consumer.resourceId === null) {
+      budgets.set(consumer.id, { capJ: consumer.capJ, massKg: null, massKgPerJ: 0, energyUsedJ: 0, massUsedKg: 0 });
+      return consumer.capJ;
+    }
     const cost = required.get(consumer.resourceId)!;
     const gamma = cost === 0 ? 1 : Math.min(1, stock.get(consumer.resourceId)! / cost);
     let cap = finite(gamma * consumer.capJ, "scaled cap", 0);
@@ -79,6 +83,7 @@ export function allocateStage(input: AllocationInputV03) {
     }
     reservationRemaining.set(consumer.resourceId, finite(availableKg - massKg, "reserved balance", 0));
     reservations.push({ ownerId: consumer.id, resources: [{ id: consumer.resourceId, massKg }] });
+    budgets.set(consumer.id, { capJ: cap, massKg, massKgPerJ: consumer.massKgPerJ, energyUsedJ: 0, massUsedKg: 0 });
     return cap;
   });
   const allocations: AllocationV03[] = [];
@@ -92,31 +97,45 @@ export function allocateStage(input: AllocationInputV03) {
     }
     const actual = Math.min(demandJ, group.availableJ, total);
     let assigned = 0;
-    const grants = new Float64Array(consumers.length);
-    for (let i = 0; i < consumers.length; i++) {
-      allocationVisits++;
-      if (!compatible[i] || remaining[i] === 0 || actual === 0) continue;
-      const energyJ = i === last ? actual - assigned : actual * (remaining[i] / total);
-      assertWithinCap(energyJ, remaining[i]);
-      assigned += energyJ; remaining[i] -= energyJ;
-      grants[i] = energyJ;
-    }
-    const split = new Float64Array(consumers.length);
+    const bankTotals = new Float64Array(group.members.length);
     const lastBank = group.members.findLastIndex(x => x.availableJ > 0);
-    for (let j = 0; j < group.members.length; j++) {
-      const bank = group.members[j];
-      let bankTotal = 0;
-      for (let i = 0; i < consumers.length; i++) {
+    for (let i = 0; i < consumers.length; i++) {
+      const grantJ = !compatible[i] || remaining[i] === 0 || actual === 0 ? 0 : Math.min(remaining[i], i === last ? actual - assigned : actual * (remaining[i] / total));
+      assertWithinCap(grantJ, remaining[i]);
+      assigned += grantJ; remaining[i] -= grantJ;
+      let splitJ = 0;
+      for (let j = 0; j < group.members.length; j++) {
         allocationVisits++;
-        if (grants[i] === 0 || bank.availableJ === 0) continue;
-        const energyJ = j === lastBank ? grants[i] - split[i] : grants[i] * (bank.availableJ / group.availableJ);
-        finite(energyJ, "allocation", 0); split[i] += energyJ; bankTotal += energyJ;
+        const bank = group.members[j];
+        if (grantJ === 0 || bank.availableJ === 0) continue;
+        const energyJ = j === lastBank ? grantJ - splitJ : grantJ * (bank.availableJ / group.availableJ);
+        finite(energyJ, "allocation", 0); splitJ += energyJ; bankTotals[j] += energyJ;
         allocations.push({ bankId: bank.profile.id, consumerId: consumers[i].id, energyJ });
       }
-      assertWithinCap(bankTotal, bank.availableJ);
     }
+    for (let j = 0; j < group.members.length; j++) { allocationVisits++; assertWithinCap(bankTotals[j], group.members[j].availableJ); }
     demandJ -= actual;
   }
+  allocations.sort((a, b) => lexical(a.bankId, b.bankId) || lexical(a.consumerId, b.consumerId));
+  let provisionalJ = 0, roundingJ = 0;
+  for (let index = 0; index < allocations.length; index++) {
+    allocationVisits++;
+    const allocation = allocations[index];
+    const budget = budgets.get(allocation.consumerId)!;
+    const requestedJ = allocation.energyJ;
+    provisionalJ = finite(provisionalJ + requestedJ, "provisional allocation", 0);
+    let energyJ = Math.min(requestedJ, budget.capJ - budget.energyUsedJ);
+    if (budget.massKg !== null && budget.massKgPerJ > 0) energyJ = Math.min(energyJ, (budget.massKg - budget.massUsedKg) / budget.massKgPerJ);
+    const fits = (value: number) => budget.energyUsedJ + value <= budget.capJ && (budget.massKg === null || (budget.energyUsedJ + value) * budget.massKgPerJ <= budget.massKg && budget.massUsedKg + value * budget.massKgPerJ <= budget.massKg);
+    // Оба способа суммирования actual mass обязаны помещаться в исходный reserve без послаблений ledger.
+    if (!fits(energyJ)) energyJ = Math.max(0, energyJ - 2 * Number.EPSILON * Math.max(budget.energyUsedJ, energyJ));
+    finite(energyJ, "consumable allocation", 0);
+    if (!fits(energyJ)) throw new RangeError("allocation exceeds conservative reservation");
+    budget.energyUsedJ += energyJ; budget.massUsedKg += energyJ * budget.massKgPerJ;
+    roundingJ = finite(roundingJ + (requestedJ - energyJ), "allocation rounding", 0);
+    allocations[index] = { ...allocation, energyJ };
+  }
+  if (roundingJ > tolerance(provisionalJ)) throw new RangeError("allocation rounding exceeds energy tolerance");
   if (compatibilityChecks > banks.length * consumers.length || allocationVisits > 3 * banks.length * consumers.length + 2 * banks.length + 2 * consumers.length) throw new RangeError("allocator operation bound");
-  return immutableCopy({ allocations: allocations.sort((a, b) => lexical(a.bankId, b.bankId) || lexical(a.consumerId, b.consumerId)), reservations, compatibilityChecks, allocationVisits });
+  return immutableCopy({ allocations, reservations, compatibilityChecks, allocationVisits });
 }
