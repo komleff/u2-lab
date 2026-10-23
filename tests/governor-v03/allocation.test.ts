@@ -174,6 +174,37 @@ it.each([1, 2, 5])("QA-B1 commits fractional grants across %s banks with shared 
   }
 });
 
+it.each([null, "fuel"])("CR-G1-B1 bounds identical-bank splits with tiny/empty sources and resource %s", resourceId => {
+  const base = fixtures.profiles.find(x => x.id === "synthetic-base")!.banks[0] as BufferBankProfileV03;
+  for (const sources of [[0.1, 0.4, 1e-18], [1e-18, 0.1, 0.4], [0.1, 1e-18, 0.4], [0.1, 0.4, 0]]) {
+    const ids = ["a", "b", "c"];
+    const input = {
+      demandJ: 0.1,
+      resources: resourceId === null ? [] : [{ id: resourceId, massKg: 1 }],
+      banks: ids.map((id, i) => ({ availableJ: sources[i], profile: { ...base, id, memberIds: [`${id}-physical`], compatibleModuleIds: ["consumer"] } })),
+      consumers: [{ id: "consumer", capJ: 10, resourceId, massKgPerJ: resourceId === null ? 0 : 0.1, compatibleBankIds: ids }],
+    };
+    const before = structuredClone(input);
+    const result = allocateStage(input);
+    const actualJ = result.allocations.reduce((sum, x) => sum + x.energyJ, 0);
+    expect(Math.abs(actualJ - input.demandJ)).toBeLessThanOrEqual(tolerance(actualJ));
+    expect(result.allocations.map(x => x.bankId)).toEqual(ids.filter((_, i) => sources[i] > 0));
+    for (const allocation of result.allocations) {
+      const sourceJ = sources[ids.indexOf(allocation.bankId)];
+      expect(allocation.energyJ).toBeGreaterThanOrEqual(0);
+      expect(allocation.energyJ).toBeLessThanOrEqual(sourceJ + tolerance(allocation.energyJ));
+      expect(Math.abs(allocation.energyJ - input.demandJ * sourceJ / 0.5)).toBeLessThanOrEqual(tolerance(allocation.energyJ));
+      if (sourceJ === 1e-18 && allocation.bankId !== "c") expect(allocation.energyJ).toBeGreaterThan(0);
+    }
+    expect(result.compatibilityChecks).toBe(3);
+    expect(result.allocationVisits).toBe(sources[2] === 0 ? 14 : 15);
+    expect(result.allocationVisits).toBeLessThanOrEqual(3 * 3 + 2 * 3 + 2);
+    if (resourceId !== null) for (const perBank of [false, true]) expect(commitGrantedWork(input, result, perBank).balances[0].massKg).toBeGreaterThanOrEqual(0);
+    expect(input).toEqual(before);
+    expect(allocateStage({ ...input, banks: [...input.banks].reverse(), consumers: input.consumers.map(x => ({ ...x, compatibleBankIds: [...x.compatibleBankIds].reverse() })) })).toEqual(result);
+  }
+});
+
 function overlappingInputs() {
   const base = fixtures.profiles.find(x => x.id === "synthetic-base")!.banks[0] as BufferBankProfileV03;
   let seed = 20261023;

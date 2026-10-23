@@ -109,7 +109,8 @@ export function allocateStage(input: AllocationInputV03) {
         allocationVisits++;
         const bank = group.members[j];
         if (grantJ === 0 || bank.availableJ === 0) continue;
-        const energyJ = j === lastBank ? grantJ - splitJ : grantJ * (bank.availableJ / group.availableJ);
+        // Proportional split не должен исчерпать больше grant и сделать остаток последнего банка отрицательным.
+        const energyJ = j === lastBank ? grantJ - splitJ : Math.min(grantJ - splitJ, grantJ * (bank.availableJ / group.availableJ));
         finite(energyJ, "allocation", 0); splitJ += energyJ; bankTotals[j] += energyJ;
         allocations.push({ bankId: bank.profile.id, consumerId: consumers[i].id, energyJ });
       }
