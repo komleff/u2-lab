@@ -35,11 +35,13 @@ export const objectRule = (fields: Record<string, Rule>, optional: Record<string
 export const listRule = (entry: Rule, uniqueId = true): Rule => (c, v, p) => {
   if (!Array.isArray(v)) { c.bad(p, "INVALID_TYPE", "Требуется массив"); return; }
   const ids = new Set<unknown>();
-  v.forEach((item, index) => {
+  for (let index = 0; index < v.length; index++) {
+    if (!Object.hasOwn(v, index)) { c.bad(`${p}[${index}]`, "MISSING_FIELD", "Элемент массива отсутствует"); continue; }
+    const item = v[index];
     entry(c, item, `${p}[${index}]`);
     const id = isObject(item) ? item.id : item;
     if (uniqueId && id !== undefined) { if (ids.has(id)) c.bad(`${p}[${index}]`, "DUPLICATE_ID", "Повтор stable ID"); ids.add(id); }
-  });
+  }
 };
 const nullable = (rule: Rule): Rule => (c, v, p) => { if (v !== null) rule(c, v, p); };
 const idsRule = listRule(idRule);
@@ -48,7 +50,11 @@ const si = (unit: SIUnit, min = 0, max = Number.MAX_VALUE): Rule => (c, v, p) =>
   objectRule({ value: numberRule(min, max), unit: enumRule([unit], "INVALID_UNIT"), kind: enumRule(["canonical", "derived", "experimental"], "INVALID_PROVENANCE"), sourceRef: textRule }, {
     candidateRange: (cc, range, pp) => {
       if (!Array.isArray(range) || range.length !== 2) { cc.bad(pp, "INVALID_PROVENANCE", "Нужен диапазон кандидата [min,max]"); return; }
-      range.forEach((x, i) => numberRule(min, max)(cc, x, `${pp}[${i}]`));
+      for (let i = 0; i < 2; i++) {
+        if (!Object.hasOwn(range, i)) cc.bad(`${pp}[${i}]`, "MISSING_FIELD", "Граница диапазона отсутствует");
+        else numberRule(min, max)(cc, range[i], `${pp}[${i}]`);
+      }
+      if (!Object.hasOwn(range, 0) || !Object.hasOwn(range, 1)) return;
       if (range[0] > range[1] || isObject(v) && typeof v.value === "number" && (v.value < range[0] || v.value > range[1])) cc.bad(pp, "INVALID_PROVENANCE", "Значение вне диапазона кандидата");
     }, derivation: textRule,
   })(c, v, p);

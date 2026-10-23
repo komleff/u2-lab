@@ -69,6 +69,31 @@ describe("versioned governor input gate", () => {
   it("refuses negative capacities", () => { const p = sampleProfile(); p.banks[0].capacityJ.value = -1; refused(p, "INVALID_NUMBER"); });
   it("refuses zero ship heat capacity", () => { const p = sampleProfile(); p.ship.heatCapacityJPerK.value = 0; refused(p, "INVALID_NUMBER"); });
   it("refuses duplicate stable IDs", () => { const p = sampleProfile(); p.modules.push(structuredClone(p.modules[0])); refused(p, "DUPLICATE_ID"); });
+  it("refuses a sparse buffer list without throwing or filling the missing index", () => {
+    const profile = sampleProfile(); delete profile.buffers[0];
+    const before = structuredClone(profile);
+    let result: ReturnType<typeof validateGovernorProfileV03> | undefined;
+    expect(() => { result = validateGovernorProfileV03(profile); }).not.toThrow();
+    expect(result?.ok).toBe(false);
+    if (result && !result.ok) expect(result.errors.map(({ path, code }) => ({ path, code }))).toEqual([{ path: "profile.buffers[0]", code: "MISSING_FIELD" }]);
+    expect(profile).toEqual(before);
+    expect(0 in profile.buffers).toBe(false);
+  });
+  it("refuses both sparse candidate-range leaves without filling either index", () => {
+    const profile = sampleProfile(); Object.assign(profile.ship.heatCapacityJPerK, { candidateRange: new Array(2) });
+    const before = structuredClone(profile);
+    let result: ReturnType<typeof validateGovernorProfileV03> | undefined;
+    expect(() => { result = validateGovernorProfileV03(profile); }).not.toThrow();
+    expect(result?.ok).toBe(false);
+    if (result && !result.ok) expect(result.errors.map(({ path, code }) => ({ path, code }))).toEqual([
+      { path: "profile.ship.heatCapacityJPerK.candidateRange[0]", code: "MISSING_FIELD" },
+      { path: "profile.ship.heatCapacityJPerK.candidateRange[1]", code: "MISSING_FIELD" },
+    ]);
+    expect(profile).toEqual(before);
+    const range = (profile.ship.heatCapacityJPerK as typeof profile.ship.heatCapacityJPerK & { candidateRange: number[] }).candidateRange;
+    expect(0 in range).toBe(false);
+    expect(1 in range).toBe(false);
+  });
   it.each(["missing-end", "descending-energy", "descending-temperature", "outside-capacity"])("refuses invalid T_B(Q): %s", scenario => {
     const p = sampleProfile(); const map = p.banks[0].temperatureByEnergy;
     if (scenario === "missing-end") map.pop();
