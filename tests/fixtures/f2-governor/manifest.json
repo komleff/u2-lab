@@ -351,6 +351,16 @@
           "value": true,
           "unit": "1",
           "tolerance": "exact"
+        },
+        {
+          "id": "T11-passive-sign",
+          "kind": "invariant",
+          "metric": "passiveExchangeSigned",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
         }
       ],
       "owner": {
@@ -404,6 +414,16 @@
           "id": "T13-invariant",
           "kind": "invariant",
           "metric": "noNonpositiveCooling",
+          "targetId": null,
+          "operator": "eq",
+          "value": true,
+          "unit": "1",
+          "tolerance": "exact"
+        },
+        {
+          "id": "T13-generator-losses",
+          "kind": "invariant",
+          "metric": "generatorLossesPreserved",
           "targetId": null,
           "operator": "eq",
           "value": true,

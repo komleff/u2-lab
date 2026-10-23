@@ -14,8 +14,8 @@ function refusal(mutator: (data: ReturnType<typeof bundle>) => void, code: strin
 describe("G0 conformance inventory gate", () => {
   it("loads every exact T01–T39 once without claiming future execution", () => {
     const data = bundle(); const result = loadGovernorConformanceV1(data.manifest, data.vectors);
-    expect(result.ok).toBe(true);
     if (!result.ok) throw new Error(JSON.stringify(result.errors));
+    expect(result.ok).toBe(true);
     expect(result.value.records.map(row => row.id)).toEqual(Array.from({ length: 39 }, (_, i) => `T${String(i + 1).padStart(2, "0")}`));
     expect(result.value.records.filter(row => row.status === "PASS")).toHaveLength(0);
     expect(result.value.records.filter(row => row.scope === "OUT").map(row => row.id)).toEqual(["T35", "T36"]);
@@ -49,6 +49,49 @@ describe("G0 conformance inventory gate", () => {
     expect(profile("T26").modules.length).toBeGreaterThan(0);
     expect(profile("T39").banks.length).toBeGreaterThan(1);
   });
+  it("T11 starts with deployed passive and active surfaces so hot-environment closure is observable", () => {
+    const data = bundle();
+    const input = data.vectors.vectors.find((v: any) => v.id === "vector-T11").input;
+    const profile = data.vectors.profiles.find((p: any) => p.id === input.profileId);
+    const active = profile.surfaces.find((s: any) => s.kind === "active");
+    const passive = profile.surfaces.find((s: any) => s.kind === "passive");
+    expect(profile.thermoinverters).toHaveLength(0);
+    expect(profile.modules.find((m: any) => m.id === active?.moduleId)?.kind).toBe("active-radiator");
+    expect(active?.thermoinverterId).toBeNull();
+    expect(input.state.surfaceDeploymentById.find((s: any) => s.id === active.id)?.deployed).toBe(true);
+    expect(input.state.surfaceDeploymentById.find((s: any) => s.id === passive?.id)?.deployed).toBe(true);
+    expect(input.environment.temperatureK).toBeGreaterThanOrEqual(input.state.shipEnergyJ / profile.ship.heatCapacityJPerK.value);
+    expect(data.manifest.records.find((r: any) => r.id === "T11")?.expected.map((e: any) => e.metric)).toEqual(["activeClosedInHotEnvironment", "passiveExchangeSigned"]);
+  });
+  it("T13 has generator-fed TI work with beta-source one and preserved fuel losses", () => {
+    const data = bundle();
+    const input = data.vectors.vectors.find((v: any) => v.id === "vector-T13").input;
+    const profile = data.vectors.profiles.find((p: any) => p.id === input.profileId);
+    const ti = profile.modules.find((m: any) => m.kind === "thermoinverter");
+    const source = profile.electrical.sources[0];
+    expect(input.requests.find((r: any) => r.id === ti.id)?.requestedW).toBe(1_000_000);
+    expect(ti.electricJPerJ.value).toBe(2);
+    expect(source.hostHeatFraction.value / source.efficiency.value).toBe(1);
+    expect(source.maxOutputW.value).toBeGreaterThanOrEqual(2_000_000);
+    expect(profile.modules.find((m: any) => m.id === source.moduleId)?.kind).toBe("generator");
+    expect(profile.resources.find((r: any) => r.id === source.resourceId)?.species).toBe("diesel");
+    expect(input.state.resourceMassKg.find((r: any) => r.id === source.resourceId)?.massKg).toBeGreaterThan(0);
+    expect(data.manifest.records.find((r: any) => r.id === "T13")?.expected.map((e: any) => e.metric)).toContain("generatorLossesPreserved");
+  });
+  it("T26 places different Military module classes in the hot Combat override band", () => {
+    const data = bundle();
+    const input = data.vectors.vectors.find((v: any) => v.id === "vector-T26").input;
+    const profile = data.vectors.profiles.find((p: any) => p.id === input.profileId);
+    const shipK = input.state.shipEnergyJ / profile.ship.heatCapacityJPerK.value;
+    expect(profile.ship.class).toBe("Military");
+    expect(input.requestedMode).toBe("Combat");
+    expect(new Set(profile.modules.map((m: any) => m.kind)).size).toBeGreaterThanOrEqual(2);
+    expect(new Set(profile.modules.map((m: any) => m.temperatures.criticalHighK.value)).size).toBeGreaterThanOrEqual(2);
+    for (const module of profile.modules) {
+      expect(shipK).toBeGreaterThan(module.temperatures.workHighK.value);
+      expect(shipK).toBeLessThan(module.temperatures.criticalHighK.value);
+    }
+  });
   it("starts bank allocation with a usable hot bank and a colder ship", () => {
     const data = bundle();
     for (const id of ["T06", "T07", "T39"]) {
@@ -81,6 +124,24 @@ describe("G0 conformance inventory gate", () => {
       expect(referenced?.input.durationTicks).toBe(trajectory.durationSeconds * 30);
     }
   });
+  it("T33 exhaustion and threshold references have enough physical budget to reach their named events", () => {
+    const data = bundle();
+    const vector = (id: string) => data.vectors.vectors.find((v: any) => v.id === `vector-${id}`).input;
+    const profile = (id: string) => data.vectors.profiles.find((p: any) => p.id === vector(id).profileId);
+    const exhaustion = vector("T08"), resource = exhaustion.state.resourceMassKg.find((r: any) => r.id === "h2");
+    const cooler = profile("T08").modules.find((m: any) => m.id === "cooler");
+    const request = exhaustion.requests.find((r: any) => r.id === "cooler");
+    expect(request.requestedW * 120 * cooler.massKgPerJ.value).toBeGreaterThanOrEqual(resource.massKg);
+    const crossing = vector("T30"), threshold = profile("T30").ship.temperatures.restartHotK.value;
+    const requiredJ = (crossing.state.shipEnergyJ / profile("T30").ship.heatCapacityJPerK.value - threshold) * profile("T30").ship.heatCapacityJPerK.value;
+    expect(crossing.environment.externalCoolingW * 30).toBeGreaterThanOrEqual(requiredJ);
+  });
+  it("refuses a T33 exhaustion reference whose maximum resource draw cannot empty its tank", () => {
+    refusal(d => { d.vectors.vectors.find((v: any) => v.id === "vector-T08").input.requests[0].requestedW = 1; }, "INVALID_EXPECTATION");
+  });
+  it("refuses a T33 threshold reference whose declared cooling cannot reach restartHot", () => {
+    refusal(d => { d.vectors.vectors.find((v: any) => v.id === "vector-T30").input.environment.externalCoolingW = 0; }, "INVALID_EXPECTATION");
+  });
   it("returns canonical order after input permutations", () => { const data = bundle(); data.manifest.records.reverse(); data.vectors.vectors.reverse(); const r = loadGovernorConformanceV1(data.manifest, data.vectors); expect(r.ok).toBe(true); if (r.ok) expect(r.value.records[0].id).toBe("T01"); });
   it("refuses unknown T-IDs", () => { refusal(d => { d.manifest.records[0].id = "T40"; }, "UNKNOWN_T_ID"); });
   it("refuses missing T-IDs", () => { refusal(d => { d.manifest.records.pop(); }, "MISSING_T_ID"); });
@@ -101,10 +162,26 @@ describe("G0 conformance inventory gate", () => {
   it("refuses a T31 destination profile that is absent", () => { refusal(d => { d.vectors.vectors[30].input.rebindProfileId = "missing-profile"; }, "DANGLING_REFERENCE"); });
   it("refuses a dangling T33 reference trajectory", () => { refusal(d => { d.vectors.vectors[32].input.reference.trajectories[0].vectorId = "missing-vector"; }, "DANGLING_REFERENCE"); });
   it("refuses malformed vector input", () => { refusal(d => { d.vectors.vectors[0].input.environment.temperatureK = NaN; }, "INVALID_NUMBER"); });
-  it("refuses unsupported bundle versions and extra fields", () => { refusal(d => { d.manifest.version = "conformance/99"; d.vectors.vectors[0].hiddenCalculation = 1; }, "UNKNOWN_VERSION"); });
+  it("refuses an unsupported bundle version with an exact structured refusal", () => {
+    const data = bundle(); data.manifest.version = "conformance/99";
+    const result = loadGovernorConformanceV1(data.manifest, data.vectors); expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.errors.map(({ path, code }) => ({ path, code }))).toEqual([{ path: "manifest.version", code: "UNKNOWN_VERSION" }]);
+  });
+  it("refuses an extra vector field with an exact structured refusal", () => {
+    const data = bundle(); data.vectors.vectors[0].hiddenCalculation = 1;
+    const result = loadGovernorConformanceV1(data.manifest, data.vectors); expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.errors.map(({ path, code }) => ({ path, code }))).toEqual([{ path: "vectors.vectors[0].hiddenCalculation", code: "UNKNOWN_FIELD" }]);
+  });
   it("refuses T35/T36 inclusion or fake execution", () => { refusal(d => { d.manifest.records[34].scope = "IN"; d.manifest.records[34].status = "PASS"; }, "OUT_OF_SCOPE"); });
   it("requires an explicit OUT reason", () => { refusal(d => { d.manifest.records[34].reason = ""; }, "MISSING_REASON"); });
   it("refuses BLOCKED without an explicit game-data dependency", () => { refusal(d => { d.manifest.records[0].status = "BLOCKED"; d.manifest.records[0].reason = ""; d.manifest.records[0].missingDependencies = []; }, "MISSING_DEPENDENCY"); });
   it("refuses synthetic PASS placeholders before a runtime receipt exists", () => { refusal(d => { d.manifest.records[0].status = "PASS"; }, "UNEXECUTED_VECTOR"); });
   it("requires T16 tank state even though water propulsion is OUT", () => { refusal(d => { const v = d.vectors.vectors.find((v: any) => v.id === d.manifest.records[15].vectorId); v.input.state.waterEnthalpyJByTank = []; }, "STATE_ID_MISMATCH"); });
+  it("refuses T16 if both profile and state are replaced by a valid dry ship", () => {
+    refusal(d => {
+      const t16 = d.vectors.vectors.find((v: any) => v.id === "vector-T16");
+      const dry = d.vectors.vectors.find((v: any) => v.id === "vector-T01");
+      t16.input = structuredClone(dry.input);
+    }, "INVALID_EXPECTATION");
+  });
 });

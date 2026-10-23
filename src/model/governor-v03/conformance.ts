@@ -62,6 +62,7 @@ export function loadGovernorConformanceV1(manifest: unknown, vectors: unknown): 
     if (record.id === "T33" && vector?.input.reference === null) c.bad(`${path}.vectorId`, "INVALID_EXPECTATION", "T33 требует четыре reference trajectories");
     if (record.id === "T31" && !vector?.input.rebindProfileId) c.bad(`${path}.vectorId`, "INVALID_EXPECTATION", "T31 требует exact destination profile");
     const profile = data.profiles.find(p => p.id === vector?.input.profileId);
+    if (record.id === "T16" && (!profile?.waterTanks.some(tank => (vector?.input.state.waterEnthalpyJByTank.some(w => w.id === tank.id) ?? false) && (vector?.input.state.resourceMassKg.find(r => r.id === tank.resourceId)?.massKg ?? 0) > 0))) c.bad(`${path}.vectorId`, "INVALID_EXPECTATION", "T16 требует заполненный W с отдельным persisted enthalpy state");
     const targetIds = new Set(profile ? [profile.ship.id, ...profile.modules.map(x => x.id), ...profile.banks.map(x => x.id), ...profile.buffers.map(x => x.id), ...profile.resources.map(x => x.id), ...profile.surfaces.map(x => x.id), ...profile.thermoinverters.map(x => x.id), ...profile.hydrogenCoolers.map(x => x.id), ...profile.waterTanks.map(x => x.id), ...profile.electrical.sources.map(x => x.id), ...profile.electrical.loads.map(x => x.id)] : []);
     for (const expectation of record.expected) {
       const ep = `${path}.expected.${expectation.id}`;
@@ -93,7 +94,29 @@ export function loadGovernorConformanceV1(manifest: unknown, vectors: unknown): 
       for (const trajectory of input.reference.trajectories) {
         const target = data.vectors.find(v => v.id === trajectory.vectorId);
         if (!target) c.bad(`${path}.reference.${trajectory.id}`, "DANGLING_REFERENCE", "Reference trajectory требует stable vector ID");
-        else if (target.input.durationTicks !== trajectory.durationSeconds * TICK_HZ) c.bad(`${path}.reference.${trajectory.id}`, "INVALID_EXPECTATION", "Reference input обязан покрывать exact physical duration");
+        else {
+          const referencePath = `${path}.reference.${trajectory.id}`;
+          if (target.input.durationTicks !== trajectory.durationSeconds * TICK_HZ) c.bad(referencePath, "INVALID_EXPECTATION", "Reference input обязан покрывать exact physical duration");
+          const referenceProfile = data.profiles.find(p => p.id === target.input.profileId);
+          if (!referenceProfile) continue;
+          if (trajectory.id === "resource-exhaustion") {
+            const canExhaust = referenceProfile.resources.some(resource => {
+              const initialMass = target.input.state.resourceMassKg.find(x => x.id === resource.id)?.massKg ?? 0;
+              const requestedKg = target.input.requests.reduce((total, request) => {
+                const module = referenceProfile.modules.find(x => x.id === request.id);
+                return total + (module?.resourceId === resource.id ? Math.min(request.requestedW, module.capW.value) * module.massKgPerJ.value * trajectory.durationSeconds : 0);
+              }, 0);
+              return initialMass > 0 && Math.min(requestedKg, resource.maxFlowKgPerS.value * trajectory.durationSeconds) >= initialMass;
+            });
+            if (!canExhaust) c.bad(referencePath, "INVALID_EXPECTATION", "Reference resource-exhaustion не имеет достаточного конечного расходного бюджета");
+          }
+          if (trajectory.id === "threshold-crossing") {
+            const initialK = target.input.state.shipEnergyJ / referenceProfile.ship.heatCapacityJPerK.value;
+            const restartHotK = referenceProfile.ship.temperatures.restartHotK.value;
+            const coolingBudgetJ = target.input.environment.externalCoolingW * trajectory.durationSeconds;
+            if (initialK <= restartHotK || coolingBudgetJ < (initialK - restartHotK) * referenceProfile.ship.heatCapacityJPerK.value) c.bad(referencePath, "INVALID_EXPECTATION", "Reference threshold-crossing не достигает restartHot при заявленном охлаждении");
+          }
+        }
       }
     }
   }

@@ -79,7 +79,15 @@ describe("versioned governor input gate", () => {
   });
   it("refuses thermally incompatible members of a bank", () => {
     const p = sampleProfile(); const member = structuredClone(p.buffers[0]); member.id = "buffer-b"; member.temperatureByEnergy[0].temperatureK.value = 310;
-    p.buffers.push(member); p.banks[0].memberIds.push("buffer-b"); refused(p, "INCOMPATIBLE_BANK");
+    p.buffers.push(member); p.banks[0].memberIds.push("buffer-b"); p.banks[0].capacityJ.value = 2000; p.banks[0].temperatureByEnergy[1].energyJ.value = 2000;
+    const result = validateGovernorProfileV03(p); expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.errors.map(({ path, code }) => ({ path, code }))).toEqual([{ path: "profile.bank-a.memberIds", code: "INCOMPATIBLE_BANK" }]);
+  });
+  it("refuses a bank capacity that disagrees with otherwise compatible physical members", () => {
+    const p = sampleProfile(); const member = structuredClone(p.buffers[0]); member.id = "buffer-b";
+    p.buffers.push(member); p.banks[0].memberIds.push("buffer-b");
+    const result = validateGovernorProfileV03(p); expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.errors.map(({ path, code }) => ({ path, code }))).toEqual([{ path: "profile.bank-a.capacityJ", code: "INCOMPATIBLE_BANK" }]);
   });
   it("refuses a module port without reciprocal bank compatibility", () => { const p = sampleProfile(); p.modules[0].compatibleBankIds = []; refused(p, "INCOMPATIBLE_BANK"); });
   it("refuses bank ports exceeding physical members", () => { const p = sampleProfile(); p.banks[0].outputW.value = 11; refused(p, "INCOMPATIBLE_BANK"); });
@@ -99,11 +107,55 @@ describe("versioned governor input gate", () => {
   });
   it("refuses legacy state instead of casting or migrating it", () => { const s = sampleState(); s.version = "ship-state/1"; const r = validateGovernorStateV03(s, sampleProfile()); expect(r.ok).toBe(false); });
   it("requires persisted W enthalpy for every tank", () => { const s = sampleState(); s.waterEnthalpyJByTank = []; expect(validateGovernorStateV03(s, sampleProfile()).ok).toBe(false); });
+  it("refuses residual W enthalpy or liquid phase when the water tank is empty", () => {
+    for (const water of [{ enthalpyJ: 1, phase: "solid" }, { enthalpyJ: 0, phase: "liquid" }]) {
+      const state = sampleState(); state.resourceMassKg.find(x => x.id === "water")!.massKg = 0;
+      Object.assign(state.waterEnthalpyJByTank[0], water);
+      const result = validateGovernorStateV03(state, sampleProfile());
+      expect(result.ok).toBe(false);
+      if (!result.ok) expect(result.errors).toContainEqual(expect.objectContaining({ path: "state.waterEnthalpyJByTank[0]", code: "INVALID_NUMBER" }));
+    }
+  });
+  it.each([-1_000_000_000, 1_000_000_000])("refuses W enthalpy outside the declared tank temperature envelope: %s", enthalpyJ => {
+    const state = sampleState(); state.waterEnthalpyJByTank[0].enthalpyJ = enthalpyJ;
+    const result = validateGovernorStateV03(state, sampleProfile());
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.errors).toContainEqual(expect.objectContaining({ path: "state.waterEnthalpyJByTank[0]", code: "INVALID_NUMBER" }));
+  });
+  it("refuses a W phase inconsistent with its enthalpy and finite water mass", () => {
+    const state = sampleState(); state.waterEnthalpyJByTank[0].enthalpyJ = 167000; state.waterEnthalpyJByTank[0].phase = "liquid";
+    const result = validateGovernorStateV03(state, sampleProfile());
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.errors).toContainEqual(expect.objectContaining({ path: "state.waterEnthalpyJByTank[0]", code: "INVALID_THERMAL_BANDS" }));
+  });
+  it("refuses W when finite profile leaves overflow their derived enthalpy envelope", () => {
+    const profile = sampleProfile(); profile.resources.find(x => x.id === "water")!.capacityKg.value = 1e308;
+    profile.waterTanks[0].heatCapacityJPerKgK.value = 1e308;
+    const state = sampleState(); state.resourceMassKg.find(x => x.id === "water")!.massKg = 1e308;
+    const result = validateGovernorStateV03(state, profile);
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.errors).toContainEqual(expect.objectContaining({ path: "state.waterEnthalpyJByTank[0]", code: "INVALID_NUMBER" }));
+  });
+  it.each([
+    [-4200, "solid"], [167000, "mixed"], [338200, "liquid"],
+  ])("accepts physical W enthalpy %s J in phase %s", (enthalpyJ, phase) => {
+    const state = sampleState(); state.waterEnthalpyJByTank[0].enthalpyJ = enthalpyJ as number; state.waterEnthalpyJByTank[0].phase = phase as "solid" | "mixed" | "liquid";
+    expect(validateGovernorStateV03(state, sampleProfile()).ok).toBe(true);
+  });
   it.each([-1, 0.5, Number.MAX_SAFE_INTEGER + 1])("refuses unsafe tick index %s", tickIndex => { expect(validateGovernorStateV03({ ...sampleState(), tickIndex }, sampleProfile()).ok).toBe(false); });
   it("refuses persisted resource overflow without clipping", () => { const s = sampleState(); s.resourceMassKg[0].massKg = 2; expect(validateGovernorStateV03(s, sampleProfile()).ok).toBe(false); expect(s.resourceMassKg[0].massKg).toBe(2); });
   it("requires typed stop reasons", () => { const s = sampleState(); s.moduleStateById[0].stopReasons = ["unknown"] as never[]; expect(validateGovernorStateV03(s, sampleProfile()).ok).toBe(false); });
   it("validates a future tick input without stepping or reordering the caller", () => { expect(validateGovernorTickInputV03(tick()).ok).toBe(true); });
-  it("refuses unknown request IDs and non-finite environment", () => { const t = tick(); t.requests[0].id = "unknown"; t.environment.temperatureK = Infinity; expect(validateGovernorTickInputV03(t).ok).toBe(false); });
+  it("refuses an unknown request ID with an exact structured refusal", () => {
+    const t = tick(); t.requests[0].id = "unknown";
+    const result = validateGovernorTickInputV03(t); expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.errors.map(({ path, code }) => ({ path, code }))).toEqual([{ path: "tick.requests.unknown", code: "DANGLING_REFERENCE" }]);
+  });
+  it("refuses a non-finite environment with an exact structured refusal", () => {
+    const t = tick(); t.environment.temperatureK = Infinity;
+    const result = validateGovernorTickInputV03(t); expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.errors.map(({ path, code }) => ({ path, code }))).toEqual([{ path: "tick.environment.temperatureK", code: "INVALID_NUMBER" }]);
+  });
   it("refuses unknown model dispatch version", () => { expect(validateShipModelStateV02({ modelVersion: "ship-fitting-ship-model-0.1", stateVersion: "ship-state/2", phaseIndex: 0, phaseElapsedTicks: 0, governor: sampleState() }, sampleProfile()).ok).toBe(false); });
   it("exposes finite attributed SI conservation and convergence policy", () => {
     expect(GOVERNOR_TOLERANCES.energy.absolute).toBe(1e-6);

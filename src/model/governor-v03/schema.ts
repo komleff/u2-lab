@@ -193,6 +193,27 @@ function statePhysics(c: ContractCheckV03, s: GovernorStateV03, p: GovernorProfi
   match(s.bufferEnergyJByBank, p.banks, "state.bufferEnergyJByBank"); match(s.bankLatches, p.banks, "state.bankLatches"); match(s.waterEnthalpyJByTank, p.waterTanks, "state.waterEnthalpyJByTank"); match(s.resourceMassKg, p.resources, "state.resourceMassKg"); match(s.moduleStateById, p.modules, "state.moduleStateById"); match(s.surfaceDeploymentById, p.surfaces, "state.surfaceDeploymentById"); match(s.cumulativeServiceInputs.fuelKgByResource, p.resources, "state.cumulativeServiceInputs.fuelKgByResource"); match(s.cumulativeServiceInputs.repairByModule, p.modules, "state.cumulativeServiceInputs.repairByModule");
   for (const b of s.bufferEnergyJByBank) if (b.energyJ > (p.banks.find(x => x.id === b.id)?.capacityJ.value ?? -1)) c.bad(`state.${b.id}`, "INVALID_NUMBER", "Энергия превышает ёмкость банка");
   for (const r of s.resourceMassKg) if (r.massKg > (p.resources.find(x => x.id === r.id)?.capacityKg.value ?? -1)) c.bad(`state.${r.id}`, "INVALID_NUMBER", "Масса превышает ёмкость ресурса");
+  for (const [index, water] of s.waterEnthalpyJByTank.entries()) {
+    const tank = p.waterTanks.find(x => x.id === water.id);
+    if (!tank) continue;
+    const massKg = s.resourceMassKg.find(x => x.id === tank.resourceId)?.massKg;
+    if (massKg === undefined) continue;
+    const path = `state.waterEnthalpyJByTank[${index}]`;
+    if (massKg === 0) {
+      // Dry W has no thermal contents; solid is the single persisted empty marker.
+      if (water.enthalpyJ !== 0 || water.phase !== "solid") c.bad(path, "INVALID_NUMBER", "Пустой W обязан иметь нулевую энтальпию и dry phase marker");
+      continue;
+    }
+    const heatCapacityJPerK = massKg * tank.heatCapacityJPerKgK.value;
+    const freezeJ = heatCapacityJPerK * (tank.freezeK.value - tank.referenceTemperatureK.value);
+    const meltedJ = freezeJ + massKg * tank.latentHeatJPerKg.value;
+    const lowerJ = -heatCapacityJPerK * tank.referenceTemperatureK.value; // 0 K physical floor.
+    const upperTemperatureK = Math.max(p.numerical.maxEnvironmentK.value, tank.protectionOffK.value, tank.freezeK.value);
+    const upperJ = meltedJ + heatCapacityJPerK * (upperTemperatureK - tank.freezeK.value);
+    if (![heatCapacityJPerK, freezeJ, meltedJ, lowerJ, upperJ].every(Number.isFinite)) { c.bad(path, "INVALID_NUMBER", "W enthalpy bounds должны оставаться конечными"); continue; }
+    if (water.enthalpyJ < lowerJ || water.enthalpyJ > upperJ) c.bad(path, "INVALID_NUMBER", "W enthalpy вне finite tank/numerical temperature envelope");
+    if (water.phase === "solid" && water.enthalpyJ > freezeJ || water.phase === "mixed" && !(freezeJ < water.enthalpyJ && water.enthalpyJ < meltedJ) || water.phase === "liquid" && water.enthalpyJ < meltedJ) c.bad(path, "INVALID_THERMAL_BANDS", "W phase не соответствует mass, sensible heat и latent interval");
+  }
   if (s.electricalChargeJ > p.electrical.storage.capacityJ.value) c.bad("state.electricalChargeJ", "INVALID_NUMBER", "Заряд превышает ёмкость");
   if (!p.modes.allowed.includes(s.effectiveMode)) c.bad("state.effectiveMode", "INVALID_TYPE", "State не получает чужие разрешения режима");
   if (s.effectiveMode === "Quiet" && (s.quietEntryTemperatureK === null || s.quietHoldTemperatureK === null)) c.bad("state.quietHoldTemperatureK", "MISSING_FIELD", "Quiet хранит entry и hold температуры");
