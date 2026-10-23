@@ -144,6 +144,56 @@ describe("F2-G2 staged 30 Hz governor", () => {
     expect(result.decisions).toContainEqual(expect.objectContaining({ moduleId: "cooler", reason: "resource-reserved" }));
   });
 
+  it("T24 commits actual source host heat before stage 8 captures the remaining late heat", async () => {
+    const { input } = fixture("T24");
+    input.profile = {
+      ...input.profile,
+      buffers: input.profile.buffers.map(bank => ({ ...bank, compatibleModuleIds: [] })),
+      banks: input.profile.banks.map(bank => ({ ...bank, compatibleModuleIds: [] })),
+      modules: input.profile.modules.map(module => module.id === "cooler" ? {
+        ...module,
+        kind: "ordinary" as const,
+        electricJPerJ: { ...module.electricJPerJ, value: 1 },
+        massKgPerJ: { ...module.massKgPerJ, value: 0 },
+        auxHeatJPerJ: { ...module.auxHeatJPerJ, value: 0 },
+        resourceId: null,
+        compatibleBankIds: [],
+      } : module),
+      hydrogenCoolers: [],
+    };
+    input.state = {
+      ...input.state,
+      shipEnergyJ: 400 * input.profile.ship.heatCapacityJPerK.value,
+      bufferEnergyJByBank: input.state.bufferEnergyJByBank.map(bank => ({ ...bank, energyJ: 0 })),
+      waterEnthalpyJByTank: input.state.waterEnthalpyJByTank.map(tank => ({ ...tank, enthalpyJ: 346_600, phase: "liquid" as const })),
+      electricalChargeJ: 0,
+    };
+    input.environment = { temperatureK: 400, externalHeatingW: 0, externalCoolingW: 0 };
+    const result = await step(input);
+    const sourceHostJ = result.ledger.entries
+      .filter(entry => entry.ownerId === "generator-source" && entry.nodeId === "ship")
+      .reduce((sum, entry) => sum + entry.energyJ, 0);
+    const capturedJ = result.state.bufferEnergyJByBank[0].energyJ - input.state.bufferEnergyJByBank[0].energyJ;
+    const executionOrder = (result.trace as typeof result.trace & { executionOrder: string[] }).executionOrder;
+    expect(sourceHostJ).toBeCloseTo(1 / 6, 12);
+    expect(capturedJ).toBeCloseTo(sourceHostJ, 12);
+    expect(result.state.shipEnergyJ).toBeCloseTo(input.state.shipEnergyJ, 9);
+    expect(result.state.selectedStageIds).toContain("8");
+    expect(executionOrder.indexOf("actual-source-losses")).toBeLessThan(executionOrder.indexOf("stage-8-late-capture"));
+    expect(executionOrder).toEqual([
+      "stage-0-snapshot",
+      "preliminary-stages-1-7",
+      "electrical-dispatch",
+      "final-stages-1-7",
+      "actual-work-packages",
+      "actual-source-losses",
+      "environment-outward",
+      "stage-8-late-capture",
+      "stage-9-commit",
+    ]);
+    expect(Math.abs(result.ledger.energyResidualJ)).toBeLessThanOrEqual(1e-6 + 1e-10 * result.ledger.energyThroughputJ);
+  });
+
   it("T25 exits Quiet to Normal without erasing the persisted Quiet checkpoint", async () => {
     const { input } = fixture("T25");
     const result = await step(input);
@@ -187,6 +237,39 @@ describe("F2-G2 staged 30 Hz governor", () => {
     expect(result.state.waterEnthalpyJByTank).toEqual([]);
     expect(result.state.bufferEnergyJByBank).toEqual([]);
     expect(result.packages).toEqual([]);
+  });
+
+  it("T07 limits all shared-bank work packages to actual canonical port allocations", async () => {
+    const { input } = fixture("T07");
+    const result = await step(input);
+    const final = result.trace.allocatorCalls.find(call => call.pass === "final")!;
+    const usefulJ = result.packages.reduce((sum, item) => sum + item.usefulOutputJ, 0);
+    const packagePickupJ = result.packages.reduce(
+      (sum, item) => sum + item.pickupByBank.reduce((inner, pickup) => inner + pickup.energyJ, 0),
+      0,
+    );
+    const allocatedJ = final.allocations.reduce((sum, item) => sum + item.energyJ, 0);
+    expect(input.requests.reduce((sum, request) => sum + request.requestedW, 0)).toBe(50_000_000);
+    expect(input.profile.banks[0].sharedW.value / 30).toBe(1_000_000);
+    expect(final.allocations).toEqual([
+      { bankId: "bank-a", consumerId: "cooler-10", energyJ: 200_000 },
+      { bankId: "bank-a", consumerId: "cooler-20a", energyJ: 400_000 },
+      { bankId: "bank-a", consumerId: "cooler-20b", energyJ: 400_000 },
+    ]);
+    expect(usefulJ).toBe(1_000_000);
+    expect(packagePickupJ).toBe(1_000_000);
+    expect(allocatedJ).toBe(1_000_000);
+    expect(result.packages.map(item => [item.moduleId, item.usefulOutputJ])).toEqual([
+      ["cooler-10", 200_000],
+      ["cooler-20a", 400_000],
+      ["cooler-20b", 400_000],
+    ]);
+    expect(result.decisions).toEqual(expect.arrayContaining([
+      expect.objectContaining({ moduleId: "cooler-10", reason: "shared-port-limited" }),
+      expect.objectContaining({ moduleId: "cooler-20a", reason: "shared-port-limited" }),
+      expect.objectContaining({ moduleId: "cooler-20b", reason: "shared-port-limited" }),
+    ]));
+    expect(Math.abs(result.ledger.energyResidualJ)).toBeLessThanOrEqual(1e-6 + 1e-10 * result.ledger.energyThroughputJ);
   });
 
   it("T38 keeps propulsion and generator H2 reservations unavailable to the cooler this tick", async () => {

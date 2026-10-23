@@ -6,6 +6,53 @@ async function kernel() {
 }
 
 describe("F2-G2 modes and independent protection", () => {
+  it.each([
+    {
+      name: "thermal stop without restart authorization",
+      state: { thermalStopped: true, durabilityStopped: false, restartAuthorized: false, cooldownUntilTick: 0, stopReasons: ["critical-hot-stop"] },
+      reason: "restart-unauthorized",
+    },
+    {
+      name: "durability stop during authorized cooldown",
+      state: { thermalStopped: false, durabilityStopped: true, restartAuthorized: true, cooldownUntilTick: 10, stopReasons: ["durability-failure"] },
+      reason: "cooldown",
+    },
+  ] as const)("T24 keeps a $name generator unavailable to reservation and dispatch", async ({ state, reason }) => {
+    const { input } = fixture("T24");
+    input.profile = {
+      ...input.profile,
+      hydrogenCoolers: input.profile.hydrogenCoolers.map(path => ({
+        ...path,
+        mode: "cold" as const,
+        floorK: { ...path.floorK, value: 100 },
+      })),
+    };
+    input.state = {
+      ...input.state,
+      shipEnergyJ: 550 * input.profile.ship.heatCapacityJPerK.value,
+      electricalChargeJ: 0,
+      moduleStateById: input.state.moduleStateById.map(module => module.id === "generator"
+        ? { ...module, ...state }
+        : module),
+    };
+    const before = structuredClone(input);
+    const { stepGovernorV03 } = await kernel();
+    const result = stepGovernorV03(input);
+    const generatedJ = result.ledger.entries
+      .filter(entry => entry.ownerId === "generator-source" && entry.nodeId === "electrical")
+      .reduce((sum, entry) => sum + entry.energyJ, 0);
+    const usedFuelKg = input.state.resourceMassKg.find(resource => resource.id === "h2")!.massKg
+      - result.state.resourceMassKg.find(resource => resource.id === "h2")!.massKg;
+    const generatorState = result.state.moduleStateById.find(module => module.id === "generator")!;
+    expect(generatedJ).toBe(0);
+    expect(usedFuelKg).toBe(0);
+    expect(result.packages.some(item => item.moduleId === "cooler")).toBe(false);
+    expect(generatorState.thermalStopped).toBe(state.thermalStopped);
+    expect(generatorState.durabilityStopped).toBe(state.durabilityStopped);
+    expect(result.decisions).toContainEqual(expect.objectContaining({ moduleId: "generator", reason }));
+    expect(input).toEqual(before);
+  });
+
   it("keeps W freeze protection independent while a hot ship cooler remains available", async () => {
     const { input } = fixture("T16");
     const { stepGovernorV03 } = await kernel();

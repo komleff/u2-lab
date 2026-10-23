@@ -10,9 +10,37 @@ export function tickSecondsV03(clock: ClockPolicyV03): number {
   return 1 / clock.tickHz;
 }
 
-export function shipTemperatureV03(profile: GovernorProfileV03, shipEnergyJ: number): number {
+export function shipTemperatureV03(profile: GovernorProfileV03, shipEnergyJ: number, shipEnergyRemainderJ = 0): number {
   finite(shipEnergyJ, "ship energy", 0);
-  return finite(shipEnergyJ / profile.ship.heatCapacityJPerK.value, "ship temperature", 0);
+  finite(shipEnergyRemainderJ, "ship energy remainder");
+  return finite(
+    shipEnergyJ / profile.ship.heatCapacityJPerK.value
+      + shipEnergyRemainderJ / profile.ship.heatCapacityJPerK.value,
+    "ship temperature",
+    0,
+  );
+}
+
+function twoSum(a: number, b: number): Readonly<{ sum: number; error: number }> {
+  const sum = finite(a + b, "compensated energy sum");
+  const bVirtual = sum - a;
+  const error = finite((a - (sum - bVirtual)) + (b - bVirtual), "compensated energy error");
+  return { sum, error };
+}
+
+export function integrateCompensatedOwnerEnergyV03(
+  owner: string,
+  originalJ: number,
+  remainderJ: number,
+  deltaJ: number,
+): Readonly<{ energyJ: number; remainderJ: number }> {
+  finite(originalJ, `${owner} original`, 0);
+  finite(remainderJ, `${owner} remainder`);
+  finite(deltaJ, `${owner} delta`);
+  const first = twoSum(originalJ, deltaJ);
+  const second = twoSum(first.sum, finite(remainderJ + first.error, `${owner} pending remainder`));
+  if (second.sum < 0 || (second.sum === 0 && second.error < 0)) throw new RangeError(`${owner} committed`);
+  return Object.freeze({ energyJ: second.sum, remainderJ: second.error });
 }
 
 export function signedRadiationJ(

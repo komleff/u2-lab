@@ -99,4 +99,27 @@ describe("F2-G2 checkpoint continuation", () => {
     expect(reopened[1].state.moduleStateById[0].thermalStopped).toBe(false);
     expect(reopened[2].state).toEqual(uninterrupted[2].state);
   });
+
+  it("persists T34 sub-ULP ship energy through repeated ticks and JSON reopen", async () => {
+    const { input } = fixture("T34");
+    input.profile = {
+      ...input.profile,
+      ship: {
+        ...input.profile.ship,
+        heatCapacityJPerK: { ...input.profile.ship.heatCapacityJPerK, value: 1_000_000_000 },
+      },
+    };
+    input.state = { ...input.state, shipEnergyJ: 400_000_000_000 };
+    input.environment = { temperatureK: 400, externalHeatingW: 0.0003, externalCoolingW: 0 };
+    const reopened = await continueFromCheckpoint(input, true, 10);
+    const uninterrupted = await continueFromCheckpoint(input, false, 10);
+    const final = reopened.at(-1)!.state;
+    const remainderJ = (final as typeof final & { shipEnergyRemainderJ?: number }).shipEnergyRemainderJ;
+    const initialRemainderJ = (input.state as typeof input.state & { shipEnergyRemainderJ?: number }).shipEnergyRemainderJ ?? 0;
+    expect(reopened).toEqual(uninterrupted);
+    expect(remainderJ).toBeDefined();
+    expect((final.shipEnergyJ - input.state.shipEnergyJ) + (remainderJ! - initialRemainderJ)).toBeCloseTo(0.0001, 12);
+    expect(reopened.every(result => Math.abs(result.ledger.energyResidualJ)
+      <= 1e-6 + 1e-10 * result.ledger.energyThroughputJ)).toBe(true);
+  });
 });

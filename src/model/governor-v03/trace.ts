@@ -5,6 +5,7 @@ export const GOVERNOR_STAGE_ORDER_V03: readonly StageIdV03[] = Object.freeze(["0
 
 export class GovernorTraceBuilderV03 {
   readonly allocatorCalls: GovernorAllocationTraceV03[] = [];
+  readonly executionOrder: string[] = [];
   electricalDispatchCount = 0;
   actualFailureChecks = 0;
 
@@ -15,10 +16,15 @@ export class GovernorTraceBuilderV03 {
     }));
   }
 
+  execution(step: string): void {
+    this.executionOrder.push(step);
+  }
+
   finish(tickIndex: number): GovernorTickTraceV03 {
     return immutableCopy({
       tickIndex,
       stages: GOVERNOR_STAGE_ORDER_V03,
+      executionOrder: this.executionOrder,
       allocatorCalls: this.allocatorCalls,
       compatibilityChecks: this.allocatorCalls.reduce((sum, call) => sum + call.compatibilityChecks, 0),
       allocationVisits: this.allocatorCalls.reduce((sum, call) => sum + call.allocationVisits, 0),

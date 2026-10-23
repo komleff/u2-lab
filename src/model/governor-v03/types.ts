@@ -1,7 +1,7 @@
 export const GOVERNOR_VERSION = "ship-thermal-governor/0.3" as const;
 export const GOVERNOR_PROFILE_VERSION = "governor-profile/0.3" as const;
 export const MODEL_V02 = "ship-fitting-ship-model-0.2" as const;
-export const STATE_V2 = "ship-state/2" as const;
+export const STATE_V2 = "ship-state/2.1" as const;
 export const TICK_HZ = 30 as const;
 export const TICK_SECONDS = 1 / TICK_HZ;
 
@@ -82,7 +82,7 @@ export type GovernorStateV03 = Readonly<{
   bankLatches: readonly Readonly<{ id: string; direction: "none" | "in" | "out" }>[];
   selectedStageIds: readonly StageIdV03[]; previousTransitionDirection: TransitionDirectionV03;
   surfaceDeploymentById: readonly Readonly<{ id: string; deployed: boolean }>[];
-  shipEnergyJ: number; bufferEnergyJByBank: readonly Readonly<{ id: string; energyJ: number }>[];
+  shipEnergyJ: number; shipEnergyRemainderJ: number; bufferEnergyJByBank: readonly Readonly<{ id: string; energyJ: number }>[];
   waterEnthalpyJByTank: readonly Readonly<{ id: string; enthalpyJ: number; phase: "solid" | "mixed" | "liquid" }>[];
   electricalChargeJ: number; resourceMassKg: readonly Readonly<{ id: string; massKg: number }>[];
   moduleStateById: readonly GovernorModuleStateV03[];
@@ -106,7 +106,7 @@ export type GovernorLedgerEntryV03 = Readonly<{ id: string; ownerId: string; kin
 export type GovernorLedgerV03 = Readonly<{ entries: readonly GovernorLedgerEntryV03[]; outward: readonly OutwardPathV03[]; energyResidualJ: number; energyThroughputJ: number; resources: readonly Readonly<{ id: string; residualKg: number; throughputKg: number }>[] }>;
 export type GovernorDecisionV03 = Readonly<{ id: string; moduleId: string; stage: StageIdV03; reason: GovernorReasonV03; requestedJ: number; actualJ: number }>;
 export type GovernorAllocationTraceV03 = Readonly<{ id: string; stage: StageIdV03; pass: "preliminary" | "final"; direction: "in" | "out"; consumerCount: number; bankCount: number; compatibilityChecks: number; allocationVisits: number; allocations: readonly Readonly<{ bankId: string; consumerId: string; energyJ: number }>[] }>;
-export type GovernorTickTraceV03 = Readonly<{ tickIndex: number; stages: readonly StageIdV03[]; allocatorCalls: readonly GovernorAllocationTraceV03[]; compatibilityChecks: number; allocationVisits: number; electricalDispatchCount: number; actualFailureChecks: number }>;
+export type GovernorTickTraceV03 = Readonly<{ tickIndex: number; stages: readonly StageIdV03[]; executionOrder: readonly string[]; allocatorCalls: readonly GovernorAllocationTraceV03[]; compatibilityChecks: number; allocationVisits: number; electricalDispatchCount: number; actualFailureChecks: number }>;
 export type GovernorTickResultV03 = Readonly<{ state: GovernorStateV03; packages: readonly WorkPackageV03[]; ledger: GovernorLedgerV03; decisions: readonly GovernorDecisionV03[]; trace: GovernorTickTraceV03 }>;
 
 export type RefusalCodeV03 = "MISSING_FIELD" | "UNKNOWN_FIELD" | "UNKNOWN_VERSION" | "INVALID_TYPE" | "INVALID_NUMBER" | "INVALID_UNIT" | "INVALID_PROVENANCE" | "DUPLICATE_ID" | "DANGLING_REFERENCE" | "INVALID_TEMPERATURE_MAP" | "INCOMPATIBLE_BANK" | "INVALID_THERMAL_BANDS" | "INADMISSIBLE_TICK" | "STATE_ID_MISMATCH" | "UNKNOWN_T_ID" | "MISSING_T_ID" | "SOURCE_MISMATCH" | "UNKNOWN_STATUS" | "UNKNOWN_OWNER" | "INVALID_EXPECTATION" | "MISSING_TOLERANCE" | "INVALID_TOLERANCE" | "OUT_OF_SCOPE" | "MISSING_REASON" | "MISSING_DEPENDENCY" | "UNEXECUTED_VECTOR";
