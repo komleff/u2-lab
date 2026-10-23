@@ -1,3 +1,15 @@
+# Beads: доступ локальных агентов, 2026-10-18
+
+Draft PR #30 `chore/beads-agent-access` (план `docs/plans/2026-10-18-beads-local-agent-access.md`
+v0.4, закрывает `ulab-oz6`). База u2-lab — embedded Dolt; `scripts/bd-wt.sh` — единая точка
+входа агентов в основном checkout и worktree (allowlist подкоманд, `--db` по `dolt_mode`;
+отказ флагов чтения файла и заданных `BEADS_DIR`/`BEADS_DB`), applier шаг 4 работает на
+embedded, в `settings.json` — четыре узких allow-правила. Класс локального агента и порядок
+синхронизации — `.claude/rules/beads.md`. Managed-файлы `bd-wt.sh`/`bd-env.sh` расходятся с
+OverGate — `docs/verification/beads-wrapper-drift.json`. `AGENTS.md` стр. 28–31 заменены
+текстом, одобренным оператором 2026-10-23. Очередь
+`.bd-intents/beads-agent-access.jsonl` применяет оператор после merge; затем live smoke AC-9.
+
 # План поставки «Стелс и тепло», 2026-10-17
 
 PM: `docs/plans/2026-10-17-stealth-thermal-delivery.md`, ветка `docs/stealth-thermal-plan` от

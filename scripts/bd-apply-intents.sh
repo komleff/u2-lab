@@ -100,12 +100,18 @@ LIVE=""; REMOTE=""; SUMMARY=""
 cleanup() { [ -n "$LIVE" ] && rm -f "$LIVE" "$REMOTE" "$SUMMARY"; rmdir "$LOCK" 2>/dev/null || true; }
 trap cleanup EXIT
 
-# 4. Живой dolt-сервер основного checkout (для теста с BD_BIN-стабом — пропускаем).
+# 4. Основная база по dolt_mode (адаптация Lab): server — живой dolt-сервер основного
+# checkout, embedded — существование каталога .beads/embeddeddolt (сервера нет by design).
+# Любой отказ шага — exit 3, причина с путём в stderr. Для теста с BD_BIN-стабом — пропускаем.
 if [ "$BD_BIN" = "bd" ]; then
   main_root="$(bd_env_main_root)"
-  if ! bd_env_dolt_alive "$main_root"; then
+  db_rc=0
+  bd_env_resolve_main_db "$main_root" || db_rc=$?
+  if [ "$db_rc" = "3" ]; then
     echo "ERROR: dolt-сервер основного checkout не запущен ($main_root)." >&2
     echo "       Прогрейте bd любой командой из основного checkout и повторите." >&2
+    exit 3
+  elif [ "$db_rc" != "0" ]; then
     exit 3
   fi
 fi

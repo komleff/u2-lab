@@ -1,0 +1,43 @@
+{
+  "source": {
+    "repository": "komleff/overgate",
+    "tag": "v4.0.0-rc.1",
+    "commit": "633937250fa8f47b49f928c1d8781ab17fe8c8e3",
+    "manifest": ".agents/distribution-manifest.json",
+    "install_plan": "docs/verification/overgate-install-plan.json"
+  },
+  "owner": "project override of managed OverGate payload (u2-lab adaptation of ADR-0042 for embedded Dolt)",
+  "plan": "docs/plans/2026-10-18-beads-local-agent-access.md",
+  "pr": "https://github.com/komleff/u2-lab/pull/30",
+  "scope": "Отступление от managed_policy (docs/verification/cloud-tooling-provenance.json) и от C4 cloud amendment — только для двух файлов ниже; остальной managed inventory неизменен.",
+  "upgrade": "Upgrade OverGate на этих файлах остановится конфликтом «conflict with project override» (scripts/install-overgate.py), а не перезапишет их; судьба файлов решается upstream-задачей.",
+  "upstream": {
+    "queue": ".bd-intents/beads-agent-access.jsonl",
+    "intent_id": "baa-2026-10-18-v2-02",
+    "handle": "tmp:overgate-bd-wt-embedded",
+    "blocked_by": "ulab-oz6",
+    "status": "PENDING — реальный ID появится после apply очереди оператором"
+  },
+  "files": [
+    {
+      "path": "scripts/bd-wt.sh",
+      "policy": "managed",
+      "manifest_git_blob_sha1": "19ea1442df96e62e706e8b9cb963ba6452f3b9d8",
+      "manifest_sha256": "c6daf6128190fa2030986d52d7d5fc3694646851a827f550818c14777f9a46bf",
+      "target_git_blob_sha1": "0f1c42a1ead4c85d077dbb1765fd54ceafe52a43",
+      "target_sha256": "b93be2a86746f0ddbb08d83673e191458f3d48d49d6321e4829beeb00c666f7b",
+      "reason": "База u2-lab — embedded Dolt (.beads/embeddeddolt, без dolt-сервера); managed-обёртка требовала .beads/dolt и pid/port и из worktree не работала. Обёртка стала единой точкой входа агентов с узким allow-правилом в .claude/settings.json, поэтому добавлены allowlist подкоманд во всех окружениях и отказ --db, -C/--directory, --global, --ignore-schema-skew, --repo и флагов чтения локального файла (--body-file, --design-file, --reason-file, --file, --graph, -f, --metadata @файл) в любой позиции аргументов; непустые BEADS_DIR / BEADS_DB — отказ.",
+      "upstream": "tmp:overgate-bd-wt-embedded (.bd-intents/beads-agent-access.jsonl)"
+    },
+    {
+      "path": "scripts/lib/bd-env.sh",
+      "policy": "managed",
+      "manifest_git_blob_sha1": "11bc2539b7661f4a5a65fb98ec86432990323c6c",
+      "manifest_sha256": "8ff375c86b9cc81c4e1d9976961199f46c3a021bcae06f76214a1863c76eda7c",
+      "target_git_blob_sha1": "987a904dcf5d24afe0544866676f26ed95246543",
+      "target_sha256": "f92fe09f1a51e6f42f836a3b4897e33e89b93aa1814df566de1b079d1b18fb23",
+      "reason": "Добавлена функция bd_env_resolve_main_db: режим основной базы по dolt_mode из .beads/metadata.json (embedded → .beads/embeddeddolt, server → .beads/dolt и живой сервер), fail-closed. Прежние функции, включая bd_env_main_db и bd_env_dolt_alive, побайтно сохранены.",
+      "upstream": "tmp:overgate-bd-wt-embedded (.bd-intents/beads-agent-access.jsonl)"
+    }
+  ]
+}
