@@ -115,7 +115,7 @@ export class ShipModelWorkspace{
   previewCompilation(templates:Record<string,string>){this.idle();this.preview=unwrap(compileFitToShipModelV01(this.source,this.sourceCatalog,this.currentCatalog,{variantTemplates:templates}));return structuredClone(this.preview);}
   applyCompilation(){this.idle();if(!this.preview)throw Error('Сначала просмотрите diff компиляции.');this.replaceFit(structuredClone(this.preview.fit));}
   loadPreset(id:string,version:ShipModelCatalogVersion=CURRENT_SHIP_MODEL_CATALOG){this.idle();const catalog=this.catalogFor(version),fit=getPresetFit(id,version);unwrap(parseFitJson(JSON.stringify(fit),catalog));this.replaceFit(fit);delete this.governorVariants[this.selected];}
-  copyToB(){this.idle();if(this.governorVariants[this.selected]){this.governorVariants.B={spec:structuredClone(this.governorVariants[this.selected]!.spec)};this.selected='B';return;}this.selectModel();this.variants.B=structuredClone(this.variants[this.selected]);this.variants.B.result=undefined;this.variants.B.opened=this.variants.B.replay?'run':'fit';this.draftRevision.B++;this.selected='B';}
+  copyToB(){this.idle();if(this.governorVariants[this.selected]){this.governorVariants.B={spec:structuredClone(this.governorVariants[this.selected]!.spec)};this.selected='B';return;}this.selectModel();this.variants.B=structuredClone(this.variants[this.selected]);this.variants.B.result=undefined;this.variants.B.opened=this.variants.B.replay?'run':'fit';delete this.governorVariants.B;this.draftRevision.B++;this.selected='B';}
   selectVariant(id:'A'|'B'){this.selected=id;}
   previewReplacement(slotId:string,itemId:string|null){
     this.idle();this.selectModel();const preview=previewShipModelReplacement(this.fit!,this.catalog,this.conditions,slotId,itemId);

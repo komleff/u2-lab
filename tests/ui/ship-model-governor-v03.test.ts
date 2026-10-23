@@ -8,6 +8,13 @@ import {shipModelGovernorConditions} from '../../src/app/fitting-ui/ship-model-c
 import {shipModelGovernorLabView} from '../../src/app/fitting-ui/ship-model-lab-view';
 import {governorChannelInfoV02} from '../../src/app/fitting-ui/ship-model-channels';
 
+it('CR-G3-B1 ordinary A copy replaces the previous governor document owner in B',()=>{
+  const w=new ShipModelWorkspace(getPresetFit('sputnik'),loadCandidateCatalog()),ordinary=w.prepare();
+  w.selectVariant('B');w.importDocument(JSON.stringify(makeGovernorExperiment({...fixture('T29').input,durationTicks:3,name:'Previous governor B'})));
+  w.selectVariant('A');w.copyToB();
+  expect(w.selected).toBe('B');expect(w.governorDocument).toBeUndefined();expect(w.prepare()).toEqual(ordinary);expect(w.start('ordinary-copy')).toEqual(ordinary);
+});
+
 it('opens an explicit qualification document atomically and freezes captured results',async()=>{
   const w=new ShipModelWorkspace(getPresetFit('sputnik'),loadCandidateCatalog()),legacy=JSON.stringify(w.prepare());
   expect(()=>w.importDocument('{"schemaVersion":"u2-lab/4","modelVersion":"unknown"}')).toThrow();expect(JSON.stringify(w.prepare())).toBe(legacy);

@@ -3,6 +3,55 @@ import {fixture} from '../governor-v03/reference-clock';
 import {makeGovernorExperiment} from '../../src/experiments/ship-model-v0.2';
 import {readFileSync} from 'node:fs';
 
+for(const width of [1440,390,820])test(`CR-G3-B1 ordinary A copy replaces imported governor B for open, start and export at ${width}px`,async({page})=>{
+  await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');
+  await page.locator('#sm-duration').fill('3');
+  const baselineDownloading=page.waitForEvent('download');await page.locator('#sm-save-run').click();const baseline=readFileSync((await (await baselineDownloading).path())!,'utf8');
+  await page.locator('#sm-variant').selectOption('B');
+  const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:30,name:'Previous governor B'});
+  await page.locator('#sm-import').setInputFiles({name:'governor-B.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
+  await expect(page.locator('#sm-opened')).toContainText('Previous governor B');
+  await page.locator('#sm-variant').selectOption('A');await page.locator('#sm-copy').click();
+  await expect(page.locator('#sm-variant')).toHaveValue('B');await expect(page.locator('#sm-governor-scenario')).toHaveCount(0);await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.2');
+  const copiedDownloading=page.waitForEvent('download');await page.locator('#sm-save-run').click();expect(readFileSync((await (await copiedDownloading).path())!,'utf8')).toBe(baseline);
+  await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
+  const resultDownloading=page.waitForEvent('download');await page.locator('#sm-save-result').click();const result=JSON.parse(readFileSync((await (await resultDownloading).path())!,'utf8'));
+  expect(result.spec).toEqual(JSON.parse(baseline));expect(result.status).toBe('complete');await expect(page.locator('#sm-error')).toBeEmpty();
+});
+
+for(const width of [1440,390,820])test(`CR-G3-B2 mixed-model selection and refused Start preserve original ordinary Worker controls at ${width}px`,async({page})=>{
+  await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');
+  await page.locator('#sm-variant').selectOption('B');
+  const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:30,name:'Governor B'});
+  await page.locator('#sm-import').setInputFiles({name:'governor-B.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
+  await expect(page.locator('#sm-opened')).toContainText('Governor B');await page.locator('#sm-variant').selectOption('A');await page.locator('#sm-duration').fill('600');
+  await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
+  const originalRunId=await page.locator('#sm-test-owner').getAttribute('data-run-id');expect(originalRunId).toBeTruthy();
+  await page.locator('#sm-variant').selectOption('B');
+  await expect(page.locator('#sm-status')).toHaveText('paused');await expect(page.locator('#sm-test-owner')).toHaveAttribute('data-run-id',originalRunId!);await expect(page.locator('#sm-start')).toBeDisabled();await expect(page.locator('#sm-resume')).toBeEnabled();await expect(page.locator('#sm-cancel')).toBeEnabled();
+  // Защитный отказ обработчика тоже не должен менять адрес уже активного Worker.
+  for(const id of ['sm-start','sm-checkpoint']){
+    await page.locator('#'+id).evaluate(node=>{const button=node as HTMLButtonElement;button.disabled=false;button.click();});await expect(page.locator('#sm-error')).toContainText('Сначала завершите/отмените активный тест');
+  }
+  await page.locator('#sm-variant').selectOption('A');await expect(page.locator('#sm-test-owner')).toHaveAttribute('data-run-id',originalRunId!);await page.locator('#sm-cancel').click();await expect(page.locator('#sm-status')).toHaveText('cancelled');await expect(page.locator('#sm-ack')).toHaveText('cancel ACK');
+  const resultDownloading=page.waitForEvent('download');await page.locator('#sm-save-result').click();const result=JSON.parse(readFileSync((await (await resultDownloading).path())!,'utf8'));
+  expect(result.runId).toBe(originalRunId);expect(result.spec.modelVersion).toBe('ship-fitting-ship-model-0.1');expect(result.status).toBe('cancelled');
+});
+
+test('CR-G3-B2 refused governor Start and checkpoint keep the paused Worker run address',async({page})=>{
+  await page.goto('/?shipModel=experimental');
+  const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:300,name:'Governor ownership'});
+  await page.locator('#sm-import').setInputFiles({name:'governor.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
+  await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
+  const originalRunId=await page.locator('#sm-test-owner').getAttribute('data-run-id');
+  for(const id of ['sm-start','sm-checkpoint']){
+    await page.locator('#'+id).evaluate(node=>{const button=node as HTMLButtonElement;button.disabled=false;button.click();});await expect(page.locator('#sm-error')).toContainText('Сначала завершите/отмените активный тест');
+  }
+  await page.locator('#sm-cancel').click();await expect(page.locator('#sm-status')).toHaveText('cancelled');await expect(page.locator('#sm-ack')).toHaveText('cancel ACK');
+  const resultDownloading=page.waitForEvent('download');await page.locator('#sm-save-result').click();const result=JSON.parse(readFileSync((await (await resultDownloading).path())!,'utf8'));
+  expect(result.runId).toBe(originalRunId);expect(result.spec.modelVersion).toBe('ship-fitting-ship-model-0.2');expect(result.status).toBe('cancelled');
+});
+
 for(const width of [1440,390,820])test(`QA-G3-B1 actual model 0.2 control restores the literal ordinary default and runnable model 0.1 at ${width}px`,async({page})=>{
   await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');
   const initialPreset=await page.locator('#sm-preset').inputValue();

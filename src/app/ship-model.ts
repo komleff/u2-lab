@@ -50,7 +50,7 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
     leaving={text,label,revision:revision+1};
   }
   function render(){
-    if(w.governorDocument||w.governorActive){renderGovernor();return;}
+    if(!w.active&&(w.governorDocument||w.governorActive)){renderGovernor();return;}
     const view=w.snapshotForRender(),active=view.active,r=active?view.currentResult:view.result,measured=view.result,c=view.conditions,fit=view.fit,compiled=fit?compileShipModelFit(fit,w.catalog):null,ship=compiled?.ok?compiled.value:undefined;
     const busy=!!active,locked=busy||!!leaving?'disabled':'',stale=!!r&&view.currentStale;
     const sourceName=w.sourceCatalog.hulls.find(h=>h.id===w.source.hullId)?.label??w.source.hullId;
@@ -101,7 +101,7 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
     bind('sm-scenario-apply',()=>{if(!scenarioDraft||scenarioDraft.revision!==revision||scenarioDraft.variantId!==w.selected)throw Error('Черновик изменён после открытия сценария. Повторите редактирование.');scenarioDraft.value=readScenarioForm(root,scenarioDraft.value);w.replaceScenario(scenarioDraft.value);scenarioDraft=undefined;});
     bind('sm-phase-add',()=>{if(scenarioDraft)scenarioDraft.value=changePhaseList(readScenarioForm(root,scenarioDraft.value),'add');},false);
     for(const node of root.querySelectorAll<HTMLElement>('[data-phase-duplicate],[data-phase-remove]'))node.onclick=()=>act(()=>{if(scenarioDraft)scenarioDraft.value=changePhaseList(readScenarioForm(root,scenarioDraft.value),node.hasAttribute('data-phase-duplicate')?'duplicate':'remove',Number(node.dataset.phaseDuplicate??node.dataset.phaseRemove));},false);
-    bind('sm-start',()=>{runId=newId();const spec=w.start(runId);send('start',{spec,maxSteps:1});});bind('sm-checkpoint',()=>{runId=newId();const checkpoint=w.startCheckpoint(runId);send('start',{checkpoint,maxSteps:1});});
+    bind('sm-start',()=>{const nextRunId=newId(),spec=w.start(nextRunId);runId=nextRunId;send('start',{spec,maxSteps:1});});bind('sm-checkpoint',()=>{const nextRunId=newId(),checkpoint=w.startCheckpoint(nextRunId);runId=nextRunId;send('start',{checkpoint,maxSteps:1});});
     for(const [id,type]of [['pause','pause'],['resume','resume'],['step','step'],['cancel','cancel'],['snapshot','snapshot']] as const)bind('sm-'+id,()=>send(type));
     bind('sm-restart',()=>send('restart',{instanceId:el<HTMLSelectElement>('sm-module')!.value}));bind('sm-repair',()=>send('repair',{instanceId:el<HTMLSelectElement>('sm-module')!.value,durabilityR:Number(el<HTMLInputElement>('sm-repair-r')!.value)}));
     bind('sm-save-fit',()=>download(`u2-ship-model-fit-${view.selected}-r${fit!.fitRevision}.json`,serializeFit(w.fit!)),false);
@@ -158,7 +158,7 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
       for(const id of ['sm-start','sm-reset','sm-freeze','sm-model-v01','sm-copy','sm-back','sm-governor-apply','sm-import','sm-variant','sm-checkpoint'])el<HTMLButtonElement>(id)!.disabled=true;
       root.querySelector<HTMLFieldSetElement>('#sm-conditions fieldset')!.disabled=true;
     }
-    bind('sm-start',()=>{runId=newId();send('start',{spec:w.startGovernor(runId),maxSteps:1});});bind('sm-checkpoint',()=>{runId=newId();send('start',{checkpoint:w.startGovernor(runId,true),maxSteps:1});});
+    bind('sm-start',()=>{const nextRunId=newId(),spec=w.startGovernor(nextRunId);runId=nextRunId;send('start',{spec,maxSteps:1});});bind('sm-checkpoint',()=>{const nextRunId=newId(),checkpoint=w.startGovernor(nextRunId,true);runId=nextRunId;send('start',{checkpoint,maxSteps:1});});
     for(const type of ['pause','resume','step','cancel','snapshot'] as const)bind('sm-'+type,()=>send(type));
     bind('sm-reset',()=>{if(w.governorActive){pendingGovernorReset=true;send('cancel');}else w.resetGovernor();});
     bind('sm-restart',()=>send('restart',{instanceId:el<HTMLSelectElement>('sm-module')!.value}));
