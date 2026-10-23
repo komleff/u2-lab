@@ -23,6 +23,17 @@ trusted Git checkout. После установки: `.agents/PM_ROLE.md`, `.age
 - Не включать обнаружение в текущую приёмку; не менять принятые правила U2 молча.
 - Project verification: `.agents/project/verify.sh` после этапа установки; до этого —
   `git diff --check` и сверка документов/источников. Runtime tests пока NOT RUN.
+- Прерывание оператора имеет приоритет над текущим маршрутом.
+- Не создавать self-modifying/self-deleting CI с write-доступом; destructive git/data actions —
+  только с отдельным явным основанием.
+- PM проходит самосверку с `.agents/PM_ERR.md` после каждых трёх итераций QA или ревью в одном PR —
+  project-исключение к `.agents/PM_ROLE.md` §9 (решения оператора u2 2026-10-03, u2-lab 2026-10-18).
+- Роль гейм-дизайнера (опциональная, не стадия и не verifier) — `.agents/project/GD_ROLE.md`.
+
+GitHub: все AI-комментарии подписываются фактической моделью/ролью. Коннектор — дорогой remote
+interface: batch reads, frozen SHA, после write фиксировать commit SHA; CI не poll'ить; stalled call
+не повторять без нового основания. Защита `main` — `.agents/PIPELINE_ADR.md §3.29`.
+Временные файлы и personal IDE/runtime state не коммитятся.
 
 Beads — единственный task tracker, Memory Bank — контекст, Git/PR — документы и evidence.
 Доступ по классу окружения (ADR-0042, адаптация Lab для embedded, `.claude/rules/beads.md`):
