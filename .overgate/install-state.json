@@ -1,10 +1,10 @@
 {
   "approval": {
-    "evidence": "https://github.com/komleff/u2-lab/pull/1#issuecomment-5983829289",
-    "plan_sha256": "2502f1f7158c217e0fdc645b86565433e5c44ac70833441ffeb8a360b02791bf",
+    "evidence": "https://github.com/komleff/u2-lab/pull/40#issuecomment-6380363635",
+    "plan_sha256": "3a8b616e93a4564c413bd9c99921fd2f72dd8e9ab64eb39e2b71e9cacad407ba",
     "verdict": "PLAN_READY"
   },
-  "backup": "/workspace/scratch/faaeb0182a68/u2-lab/.overgate-backups/3fea0feecec14c4d8e0e74061f16e9fe/rollback.json",
+  "backup": "/Users/komleff/Documents/GitHub/u2-lab-wt-overgate-rc2/.overgate-backups/ba1b6930d35a41ea98bdfc1cddb30ad5/rollback.json",
   "format": 1,
   "installed": {
     ".agents/AGENT_ROLES.md": {
@@ -17,15 +17,15 @@
     },
     ".agents/HOW_TO_INSTALL.md": {
       "mode": 420,
-      "sha256": "afcea9607ffede6222822ba66880c51254cdeca48a7c36edde39ee90153a1d5f"
+      "sha256": "a8c49124e7abbf038a9615f2a424c36ae396f2d6d93a9162a86d879b9af09ef7"
     },
     ".agents/HOW_TO_USE.md": {
       "mode": 420,
-      "sha256": "b6da5776a9afe07e869c2a682e0a7d94d4fd060cc6d2b0db8ace2be4f4290757"
+      "sha256": "4b8bdaa613110d7a442927637ce9c5a1fe5466bf66eac8cf9d7896c76fb2f340"
     },
     ".agents/INSTALL.md": {
       "mode": 420,
-      "sha256": "cde321c1cfae3496a52d78406e510889f2d0c330133ba2334ae0b42025a64dce"
+      "sha256": "06f4f05e8d8e09872c63e3a391f22ebad1a8b05451fc1ff705d3676f65bd43ff"
     },
     ".agents/PIPELINE.md": {
       "mode": 420,
@@ -33,7 +33,7 @@
     },
     ".agents/PIPELINE_ADR.md": {
       "mode": 420,
-      "sha256": "a3f2ebba8971ba6425d038980e76aaffe57ffebe24f3b66dc10356354bc7dabe"
+      "sha256": "f76c2e33535a2a737f3a66ba3962e2dafca2a503d28023be7cddd0b1c12d839f"
     },
     ".agents/PL_ROLE.md": {
       "mode": 420,
@@ -49,7 +49,7 @@
     },
     ".agents/REFERENCES.md": {
       "mode": 420,
-      "sha256": "b29dd7b4bb94729733086454f97138f45fbc0452f0b030f5c25adc53a64bbeca"
+      "sha256": "a1be417a31b9b03c1d293688b5bafde6b08243a0c43335968d29c5cbc089f12c"
     },
     ".agents/RV_ROLE.md": {
       "mode": 420,
@@ -57,7 +57,7 @@
     },
     ".agents/SKILLS.md": {
       "mode": 420,
-      "sha256": "f792410c843dd103900329689912735460a6c185913f40dfe1fe97361d11bfda"
+      "sha256": "7a50aa4ca04146c78517ba94a2aa16a6d7b03e349ee99344b343e3bd5a895b8e"
     },
     ".agents/SV_ROLE.md": {
       "mode": 420,
@@ -65,11 +65,7 @@
     },
     ".agents/distribution-manifest.json": {
       "mode": 420,
-      "sha256": "5df1d66824ce16ff071302333beff05e65d0a5aacc532b2421313dcc11a2d97d"
-    },
-    ".agents/project/verify.sh": {
-      "mode": 493,
-      "sha256": "c4c66cffa8de7578d8737c4026cc257f6a8540cc1fbc4e3ae0273587262d3f38"
+      "sha256": "245b630ffd78a247ce75f44dcf076482acb6e141ae913c2e919702f5bc17ef1d"
     },
     ".agents/skills/canon-router/SKILL.md": {
       "mode": 420,
@@ -93,7 +89,7 @@
     },
     ".agents/templates/AGENTS.template.md": {
       "mode": 420,
-      "sha256": "dbb7c6a896554e438274635601e2da0464ee816fbe14492e22b0b12dd819794f"
+      "sha256": "01d1ac663f8efcddb952aeec3a2e253dc579329ec5053628836a4927c5d95d70"
     },
     ".agents/templates/gitignore.fragment": {
       "mode": 420,
@@ -155,21 +151,9 @@
       "mode": 420,
       "sha256": "f90151ec57fc0628e6bd84c66a1136ecf0fade5c36e87b2cb425ef3b99f32a57"
     },
-    ".claude/rules/beads.md": {
-      "mode": 420,
-      "sha256": "6eb40d66779e6d06f65befc350d7280f812733a23c13ca1524d86ace3b3a5f28"
-    },
     ".claude/rules/large-payloads.md": {
       "mode": 420,
       "sha256": "01a1a1b11b0a8de1ba83ad8269d21036606cdb1773795103ea06cbb9360f300f"
-    },
-    ".claude/rules/tests.md": {
-      "mode": 420,
-      "sha256": "7097259cebddfb823915da111e758f24261a8ff33db958f96d35e4643d89eb5a"
-    },
-    ".claude/rules/universal.md": {
-      "mode": 420,
-      "sha256": "ed543e232e1ef55af4fa64c3665c306fe13e9854b3a88ee7c7ad2a3834e4affb"
     },
     ".claude/settings.json": {
       "mode": 420,
@@ -185,7 +169,7 @@
     },
     ".claude/skills/finalize-pr/SKILL.md": {
       "mode": 420,
-      "sha256": "ffa01b9cc9ea5f287c95d89a3d51835dd26c6c9fdf6cf01862bdf61a7a374162"
+      "sha256": "4c4db51529dcf4e51a7d0e40671d64423fb3ec27928371c346dcc68d255114cd"
     },
     ".claude/skills/finalize-pr/validators/strip_code_spans.sh": {
       "mode": 493,
@@ -197,7 +181,7 @@
     },
     ".claude/skills/pipeline-audit/SKILL.md": {
       "mode": 420,
-      "sha256": "8734e4e80937401ee66564c45ea33ac261250320e8e3de2475bbb2ebb1f08fa9"
+      "sha256": "3e0e9d598559edbbbcdda03bfeb421e9081f7dfe651f361f4fbd1b546cd5c07b"
     },
     ".claude/skills/project-manager/SKILL.md": {
       "mode": 420,
@@ -237,11 +221,11 @@
     },
     "docs/baselines/2026-10-01-delivery-first-provenance.json": {
       "mode": 420,
-      "sha256": "a5cbd5279c2d0efda49c44caec3f77ed028c3b6287339d467e85cdadb3373742"
+      "sha256": "f462e37834f450967de1b9c009a6529bc2ac0e3f1eed4bcc28f577691a06ea87"
     },
     "scripts/bd-read.sh": {
       "mode": 493,
-      "sha256": "6ed0541f73eeac97ea352292875a8e76f7c869bc2238dd9ee9848314c76794f4"
+      "sha256": "2832e4afbd275b8cb127a35f5e4fe767a212030db49512e251e87ddd9b6c634c"
     },
     "scripts/bd-sync-common.sh": {
       "mode": 493,
@@ -249,7 +233,7 @@
     },
     "scripts/bd-sync-export.sh": {
       "mode": 493,
-      "sha256": "4ae5fc0aa6e4cf89ac5a36976de06ef2ca1d39b275a194fd0521475bdfd25d10"
+      "sha256": "947a3268e48d4739c22cf28bd2479fc7f9c02edbe4953645242f5ce95016d218"
     },
     "scripts/bd-sync-restore.sh": {
       "mode": 493,
@@ -257,7 +241,7 @@
     },
     "scripts/bd-wt.sh": {
       "mode": 493,
-      "sha256": "c6daf6128190fa2030986d52d7d5fc3694646851a827f550818c14777f9a46bf"
+      "sha256": "54f4a9a1b70517b532774f0acde6e72d006399c0b0995ddba590b0d26d141547"
     },
     "scripts/check-reference.py": {
       "mode": 420,
@@ -265,19 +249,19 @@
     },
     "scripts/install-overgate.py": {
       "mode": 493,
-      "sha256": "c94d94b6e365329c3513bf28460bbbfd93abd2066548210a125c63846219e77c"
+      "sha256": "74624d3169798e8be167eaa6eb67f0837c8c4772da988f6c6c9875176c39507c"
     },
     "scripts/lib/bd-env.sh": {
       "mode": 493,
-      "sha256": "8ff375c86b9cc81c4e1d9976961199f46c3a021bcae06f76214a1863c76eda7c"
+      "sha256": "5e4ffb08ed0791150e4b51c3df73828bf47170f474b18b1c5c0c8b8af268fd27"
     },
     "scripts/lib/bd-read-engine.mjs": {
       "mode": 420,
       "sha256": "df581a2d632230de1f78015c03f840cd07296218840207d9ec76525a3289498b"
     }
   },
-  "plan_sha256": "2502f1f7158c217e0fdc645b86565433e5c44ac70833441ffeb8a360b02791bf",
-  "source": "/workspace/scratch/faaeb0182a68/overgate-source",
-  "source_sha": "633937250fa8f47b49f928c1d8781ab17fe8c8e3",
-  "target_pr": "https://github.com/komleff/u2-lab/pull/1"
+  "plan_sha256": "3a8b616e93a4564c413bd9c99921fd2f72dd8e9ab64eb39e2b71e9cacad407ba",
+  "source": "/private/tmp/claude-501/-Users-komleff-Documents-GitHub-u2-lab/b2712d74-588e-4101-99e6-4bca45e4a13d/scratchpad/devlab/og-src",
+  "source_sha": "b830d5ed7ed31e597b45f7f3c18b8fb6baad6b29",
+  "target_pr": "https://github.com/komleff/u2-lab/pull/40"
 }

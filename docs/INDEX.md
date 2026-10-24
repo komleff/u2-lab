@@ -53,12 +53,14 @@
 | [Источники и границы authority](architecture/source-authority.md) | current | Current owners U2, versions, unresolved formula boundary |
 | [План запуска](plans/2026-10-05-u2-lab-launch.md) | PLAN_READY / B0 blocked | HOW лаборатории и зависимости |
 | [План установки OverGate](plans/2026-10-05-overgate-bootstrap.md) | installed / final acceptance open | Trusted bootstrap, inventory, QA, rollback |
+| [Upgrade OverGate rc.1 → rc.3](plans/2026-10-24-overgate-v4-rc2-upgrade.md) | PLAN_READY / applied | Текущий pipeline `v4.0.0-rc.3` `b830d5ed`, UG-01…UG-11, PR #40 |
 | [Verification Contract: bootstrap](verification/bootstrap-contract.md) | proposed | Приёмка установки |
 | [Verification Contract: лаборатория](verification/power-heat-v0.1-contract.md) | reviewed | Приёмка первой версии |
 | [Source inventory](architecture/u2-source-inventory.json) | pinned metadata | SHA/blob/versions U2, без копирования полного GDD |
 | [Адверсальное review, round1](reviews/2026-10-05-plan-review-round-1.md) | CHANGES_REQUIRED / history | Четыре blockers и контрпримеры |
 | [Affected review, round2](reviews/2026-10-05-plan-review-round-2.md) | PLAN_READY | Все blockers закрыты; scoped binding |
-| [Install inventory](verification/overgate-install-plan.json) | exact / applied | Frozen source,67operations, before/after hashes |
+| [Install inventory rc.3](verification/overgate-rc3-install-plan.json) | exact / applied | Текущий: frozen source `b830d5ed`, 63 operations, before/after hashes |
+| [Install inventory rc.1](verification/overgate-install-plan.json) | history / superseded by rc.3 | Bootstrap: frozen source `633937250f`, 67 operations |
 | [Независимое ревью установки](reviews/2026-10-05-install-plan-review.md) | PLAN_READY / history | Binding inventory до apply, без runtime acceptance |
 | [Bootstrap checks](verification/bootstrap-evidence.md) | installed / acceptance open | Фактические результаты и ограничения |
 | [Независимое bootstrap QA](reviews/2026-10-05-bootstrap-qa.md) | overall FAIL / available checks PASS | Реальный B6 auth failure, native/restore NOT RUN |

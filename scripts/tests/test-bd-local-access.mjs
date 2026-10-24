@@ -362,39 +362,47 @@ test('AC-11: applier step 4, server without live server → exit 3 as before, bd
   assert.deepEqual(f.calls(), []);
 });
 
-test('AC-7: settings.json allows only the wrapper and the reader, deny for bd is kept', () => {
-  const settings = JSON.parse(readFileSync(join(root, '.claude/settings.json'), 'utf8'));
-  const allow = settings.permissions.allow;
-  for (const rule of ['Bash(scripts/bd-wt.sh *)', 'Bash(bash scripts/bd-wt.sh *)',
-    'Bash(scripts/bd-read.sh *)', 'Bash(bash scripts/bd-read.sh *)']) {
-    assert.equal(allow.filter(item => item === rule).length, 1, rule);
-  }
-  assert.deepEqual(allow.filter(item => /\bbd\b|bd-sync|bd-apply/.test(item)).length, 4);
-  for (const rule of ['Bash(bd delete*)', 'Bash(bd dolt push*)', 'Bash(bd dolt pull*)', 'Bash(*BD_SYNC_FORCE*)']) {
-    assert.ok(settings.permissions.deny.includes(rule), rule);
-  }
-});
-
 function blob(path) {
   const body = readFileSync(join(root, path));
   return createHash('sha1').update(`blob ${body.length}\0`).update(body).digest('hex');
 }
 function sha256(path) { return createHash('sha256').update(readFileSync(join(root, path))).digest('hex'); }
 
-test('AC-10: drift record and applier provenance match the current files', () => {
-  const drift = JSON.parse(readFileSync(join(root, 'docs/verification/beads-wrapper-drift.json'), 'utf8'));
-  const plan = JSON.parse(readFileSync(join(root, 'docs/verification/overgate-install-plan.json'), 'utf8'));
-  const paths = drift.files.map(entry => entry.path).sort();
-  assert.deepEqual(paths, ['scripts/bd-wt.sh', 'scripts/lib/bd-env.sh']);
-  for (const entry of drift.files) {
-    const planned = plan.operations.find(item => item.target === entry.path);
-    assert.ok(planned, entry.path);
-    assert.equal(entry.manifest_sha256, planned.after.sha256, entry.path);
-    assert.match(entry.manifest_git_blob_sha1, /^[0-9a-f]{40}$/);
-    assert.equal(entry.target_git_blob_sha1, blob(entry.path), entry.path);
-    assert.equal(entry.target_sha256, sha256(entry.path), entry.path);
-    assert.ok(entry.reason && entry.upstream, entry.path);
+// Установленный OverGate rc.3: install-state и опубликованный install-план (PR #40).
+const RC3_SHA = 'b830d5ed7ed31e597b45f7f3c18b8fb6baad6b29';
+const RC3_PLAN = 'docs/verification/overgate-rc3-install-plan.json';
+function installed() {
+  const state = JSON.parse(readFileSync(join(root, '.overgate/install-state.json'), 'utf8'));
+  const plan = JSON.parse(readFileSync(join(root, RC3_PLAN), 'utf8'));
+  assert.equal(state.source_sha, RC3_SHA);
+  assert.equal(plan.source_sha, RC3_SHA);
+  // install-state привязан именно к опубликованному плану: его sha256 и есть plan_sha256.
+  assert.equal(state.plan_sha256, sha256(RC3_PLAN));
+  return { state, plan };
+}
+// Файл побайтно равен source rc.3: after в плане (= blob source) и installed в install-state.
+function assertManagedBytes({ state, plan }, path) {
+  const planned = plan.operations.find(item => item.target === path);
+  assert.ok(planned, `${path}: нет в install-плане rc.3`);
+  assert.equal(sha256(path), planned.after.sha256, `${path}: не равен source rc.3`);
+  assert.equal(state.installed[path]?.sha256, planned.after.sha256, `${path}: install-state`);
+}
+
+// AC-7 плана PR #30 заменён решением оператора 2 (план 2026-10-24, полное соответствие OverGate).
+test('AC-7: settings.json equals OverGate rc.3 source, bd deny kept, no project allow for wrappers', () => {
+  assertManagedBytes(installed(), '.claude/settings.json');
+  const settings = JSON.parse(readFileSync(join(root, '.claude/settings.json'), 'utf8'));
+  for (const rule of ['Bash(bd delete*)', 'Bash(bd dolt push*)', 'Bash(bd dolt pull*)', 'Bash(*BD_SYNC_FORCE*)']) {
+    assert.ok(settings.permissions.deny.includes(rule), rule);
   }
+  assert.deepEqual(settings.permissions.allow.filter(item => /bd-wt|bd-read/.test(item)), []);
+});
+
+test('AC-10: wrappers are managed rc.3 bytes, no active drift record, applier provenance matches', () => {
+  const rc3 = installed();
+  for (const path of ['scripts/bd-wt.sh', 'scripts/lib/bd-env.sh']) assertManagedBytes(rc3, path);
+  // Override PR #30 снят: активной записи дрейфа нет, она перенесена в docs/archive/.
+  assert.equal(existsSync(join(root, 'docs/verification/beads-wrapper-drift.json')), false);
   const provenance = JSON.parse(readFileSync(join(root, 'docs/verification/cloud-tooling-provenance.json'), 'utf8'));
   const apply = provenance.files.find(entry => entry.path === 'scripts/bd-apply-intents.sh');
   assert.equal(apply.target_git_blob_sha1, blob('scripts/bd-apply-intents.sh'));
