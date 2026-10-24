@@ -31,7 +31,7 @@
 - Test: `tests/model-v3/persistence.test.ts`
 
 1. Зафиксировать новый model tag `ship-fitting-ship-model-mission-0.1`, отдельный mission state version и strict fields для route/process/stage/cargo/flight clocks. `fitting-result` только маршрутизирует tag, а mission-specific result/checkpoint invariants принадлежат `ship-model-result`.
-2. RED проверяет malformed/partial mission state, несовпадающий model/state tag, отрицательные cargo/position/time, неизвестные поля и forged installed roster.
+2. RED проверяет malformed/partial mission state, несовпадающий model/state tag, отрицательные cargo/time, нечисловые или бесконечные position/velocity, неизвестные поля и forged installed roster. Flight position — конечная знаковая координата: физический пролёт за поле или за станцию разрешён и должен сохраняться/продолжаться. Approach/mining требуют покоя у поля, service — покоя у станции; clocks и terminal reason согласованы с actual stage, repeat и достигнутой целью. Проверить естественный overshoot при исчерпании топлива, а не только изменённый JSON.
 3. Старые stationary `/4`, governor documents и saved results должны оставаться literal byte-semantic inputs без добавления mission fields.
 
 ## Task 2 — RED: event-limited `/4` interval and mission outputs
