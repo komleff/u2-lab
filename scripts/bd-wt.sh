@@ -2,17 +2,16 @@
 # Единая точка входа локальных агентов в Beads: основной checkout и git-worktree.
 #
 # В worktree прямой bd с auto-discovery может создать пустую базу и разорвать синхронизацию
-# (правила проекта .claude/rules/beads.md). Обёртка сама подставляет --db основной базы по
+# (.claude/rules/beads.md, PIPELINE_ADR §3.7). Обёртка сама подставляет --db основной базы по
 # dolt_mode из <main>/.beads/metadata.json: embedded → .beads/embeddeddolt, server →
-# .beads/dolt и живой dolt-сервер (адаптация Lab к ADR-0042). Из основного checkout —
-# прозрачный pass-through без --db.
-# В ЛЮБОМ окружении проходит только allowlist подкоманд: агенту разрешено звать обёртку
-# без подтверждения (.claude/settings.json), поэтому всё прочее — export/import/dolt,
+# .beads/dolt и живой dolt-сервер. Из основного checkout — прозрачный pass-through без --db.
+# В ЛЮБОМ окружении проходит только allowlist подкоманд: всё прочее — export/import/dolt,
 # delete, config, sql и т.д. — отклоняется до запуска bd. Флаги --db, -C/--directory,
 # --global, --ignore-schema-skew, --repo и флаги чтения локального файла отклоняются в любой
-# позиции аргументов; заданные BEADS_DIR / BEADS_DB — тоже отказ.
+# позиции аргументов; заданные BEADS_DIR / BEADS_DB — тоже отказ. Это защитный слой обёртки,
+# а не граница безопасности: прямой bd остаётся доступен в рамках прав сессии.
 #
-# Usage: scripts/bd-wt.sh <подкоманда из allowlist> [аргументы]  (BD_BIN=... — стаб для тестов)
+# Usage: bash scripts/bd-wt.sh <подкоманда из allowlist> [аргументы]  (BD_BIN=... — стаб для тестов)
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -37,8 +36,9 @@ done
 # осознанный fail-closed. Короткий -C ловится и слитно (-C/x), и в связке (-qC).
 # --repo (локальный флаг `create`) направляет запись в чужую базу или создаёт новую .beads
 # вне синхронизации — тоже обход основной базы.
-# Флаги чтения локального файла (--body-file, --design-file, --reason-file, --file, --graph,
-# короткий -f, --metadata @путь) унесли бы содержимое произвольного файла в общую базу.
+# Флаги чтения локального файла (--body-file и его скрытый в --help алиас --description-file
+# у create/update, --design-file, --reason-file, --file, --graph, короткий -f, --metadata @путь)
+# унесли бы содержимое произвольного файла в общую базу.
 # Длинный текст — через --stdin или --description. Короткий -f ловится как -C.
 prev=""
 for a in "$@"; do
@@ -49,7 +49,7 @@ for a in "$@"; do
     --directory|--directory=*|--global|--global=*|--ignore-schema-skew|--ignore-schema-skew=*|--repo|--repo=*)
       echo "ERROR: флаг '${a}' нельзя через bd-wt — он меняет базу или каталог bd (fail-closed)." >&2
       exit 2 ;;
-    --body-file|--body-file=*|--design-file|--design-file=*|--reason-file|--reason-file=*|--file|--file=*|--graph|--graph=*|--metadata=@*)
+    --body-file|--body-file=*|--description-file|--description-file=*|--design-file|--design-file=*|--reason-file|--reason-file=*|--file|--file=*|--graph|--graph=*|--metadata=@*)
       echo "ERROR: флаг '${a}' нельзя через bd-wt — он читает локальный файл (fail-closed)." >&2
       echo "       Длинный текст передавайте через --stdin или --description." >&2
       exit 2 ;;
@@ -112,8 +112,8 @@ case "$sub" in
     exit 2 ;;
   export|import|dolt)
     echo "ERROR: '${sub}' нельзя через bd-wt." >&2
-    echo "       Синхронизацию beads делает оператор из основного checkout:" >&2
-    echo "       scripts/bd-sync-export.sh / scripts/bd-sync-restore.sh (правила проекта .claude/rules/beads.md)." >&2
+    echo "       Синхронизацию beads делать из основного checkout:" >&2
+    echo "       bash scripts/bd-sync-export.sh / bash scripts/bd-sync-restore.sh (.claude/rules/beads.md)." >&2
     exit 2 ;;
   # Allowlist подкоманд — точное совпадение целого токена.
   ready|show|list|search|blocked|children|create|q|update|close|reopen|dep|comment|comments|note|label) ;;
