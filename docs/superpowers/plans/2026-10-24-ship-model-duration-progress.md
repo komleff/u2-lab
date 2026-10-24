@@ -78,7 +78,7 @@
 - Test: `tests/ui/ship-model-mission-workspace.test.ts`
 
 1. Define `DEFAULT_SHIP_MODEL_DURATION_SECONDS = 3600` and `SHIP_MODEL_RUN_CHUNK_STEPS = 2000` once.
-2. Fresh workspace/default builder creates Sputnik-D mission with the accepted frozen defaults: H3600, D100km, speed policy `2×` hull `referenceVfaMS`, full-hold, target10000, approach10, service10, repeat ON, stationReplenish ON and the current explicit LAB-ORE-01 process.
+2. Fresh workspace/default builder creates Sputnik-D mission with the accepted frozen defaults: H3600, D100km, mission-owned experimental `referenceVfaMS=250`, speed policy `2×V_FA` and `cruiseSpeedMS=500`, full-hold, target10000, approach10, service10, repeat ON, stationReplenish ON and the current explicit LAB-ORE-01 process. Источник V_FA: принятая таблица `docs/product/ship-fitting-catalog-0.2.4.md` (Civil S/M250/225; Industrial S/M225/200; Pony225). Число и provenance принадлежат mission conditions/spec, поскольку numeric V_FA отсутствует в HullV3. Каталог/hull schema не меняются, отсутствие опоры не заменяется fallback; до запуска необходим явный ввод.
 3. Preserve the current stationary builder/model as an explicit new-draft choice. Explicit/imported duration and all imported mission/stationary fields remain literal.
 4. Mode change creates a new draft only when idle and never converts a stored run/result silently.
 
@@ -95,7 +95,7 @@
 - Test: `tests/browser/ship-model-mission-progress.spec.ts`
 
 1. Add visible work selector: `Шахтёрский рейс` default / `Стационарная нагрузка`.
-2. Mission form exposes distance, speed policy, approach, service, target, stop policy, repeat and `Заправлять и заряжать`. Stationary keeps the existing action/phase editor and does not display fake cargo/flight results.
+2. Mission form exposes distance, laboratory V_FA, speed policy, approach, service, target, stop policy, repeat and `Заправлять и заряжать`. Stationary keeps the existing action/phase editor and does not display fake cargo/flight results.
 3. Mission overview/live/results show stage, position, velocity, mined, delivered, onboard, SCU/h, completed trips, received fuel and station energy. Add real trace channels for position/velocity/cargo/delivered/cycle count.
 4. Progressbar/text uses the same accepted snapshot as graphs. Browser evidence samples at least two increasing accepted progress states and two changed graph endpoints before completion.
 5. Ordinary mission/stationary and governor Start/checkpoint use batch 2000 plus existing 80 ms wall budget; Step remains exactly one model step/tick.
@@ -110,7 +110,7 @@
 Primary 1440 browser chain:
 
 1. Open fresh `/?shipModel=experimental`, explicitly select `sputnik-d`.
-2. Assert mission mode, duration 3600, distance 100 km, speed policy `2×V_FA`, editable distance, repeat ON and station replenishment ON; export contains the new mission model tag and literal route/process/station policy.
+2. Assert mission mode, duration 3600, distance 100 km, explicit mission V_FA250m/s and cruise500m/s (`2×V_FA`), editable distance, repeat ON and station replenishment ON; export contains the new mission model tag and literal route/process/reference/station policy.
 3. Start the real Worker. Before completion, observe positive increasing progress, available Pause and changing flight/mining graph data; Pause → paused without error, then resume.
 4. Complete within 20 seconds on CI. Assert `3600 / 3600 с · 100%`, empty error, at least two completed services/returns, positive delivered ore, a subsequent trip started without idle tail, visible mined/delivered/onboard values and balance `mined = delivered + onboard`. Record actual service timestamps and freeze this complete input/result as the new `/4` regression fixture; no expected count is hardcoded before the first physical result.
 5. Change distance and prove a different arrival/service schedule and cycle count or current stage. This is a behavior check, not only form/export equality.
