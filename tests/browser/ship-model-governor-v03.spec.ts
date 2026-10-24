@@ -20,12 +20,13 @@ for(const width of [1440,390,820])test(`CR-G3-B1 ordinary A copy replaces import
 });
 
 for(const width of [1440,390,820])test(`CR-G3-B2 mixed-model selection and refused Start preserve original ordinary Worker controls at ${width}px`,async({page})=>{
+  const horizon=86400; // Тест отменяет запуск: оставляем окно для Pause независимо от скорости H3600.
   await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');
   await page.locator('#sm-variant').selectOption('B');
   const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:30,name:'Governor B'});
   await page.locator('#sm-import').setInputFiles({name:'governor-B.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
-  await expect(page.locator('#sm-opened')).toContainText('Governor B');await page.locator('#sm-variant').selectOption('A');await page.locator('#sm-work-mode').selectOption('stationary');await page.locator('#sm-duration').fill('3600');
-  await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
+  await expect(page.locator('#sm-opened')).toContainText('Governor B');await page.locator('#sm-variant').selectOption('A');await page.locator('#sm-work-mode').selectOption('stationary');await page.locator('#sm-duration').fill(String(horizon));
+  await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await expect.poll(async()=>Number(await page.locator('#sm-live').getAttribute('data-time'))).toBeGreaterThan(0);await expect(page.locator('#sm-status')).toHaveText('running');await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');expect(Number(await page.locator('#sm-live').getAttribute('data-time'))).toBeLessThan(horizon);
   const originalRunId=await page.locator('#sm-test-owner').getAttribute('data-run-id');expect(originalRunId).toBeTruthy();
   await page.locator('#sm-variant').selectOption('B');
   await expect(page.locator('#sm-status')).toHaveText('paused');await expect(page.locator('#sm-test-owner')).toHaveAttribute('data-run-id',originalRunId!);await expect(page.locator('#sm-start')).toBeDisabled();await expect(page.locator('#sm-resume')).toBeEnabled();await expect(page.locator('#sm-cancel')).toBeEnabled();
