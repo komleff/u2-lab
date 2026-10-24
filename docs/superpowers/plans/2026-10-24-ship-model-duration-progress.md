@@ -2,6 +2,8 @@
 
 > Один основной Developer. Реализация начинается только после независимого `PLAN_READY` этой редакции.
 
+**Beads:** `ulab-9aa.24` · **PR:** #44 · **Ветка:** `fix/ship-model-duration-progress`.
+
 **Goal:** Вернуть для `sputnik-d` полноценный повторяемый шахтёрский рейс как fresh-default `/4`, сохранить однофазный стенд отдельным режимом и сделать 3600-секундные прогоны быстрыми и наблюдаемыми.
 
 **Product authority:** прямые решения оператора 2026-10-24: default duration 3600; за час видны повторные рейсы добычи/возврата, руда и редактируемое расстояние; после завершения рейса при оставшемся времени немедленно начинается следующий; stationary режим сохраняется отдельно. Исторические четыре рейса не имеют полного сохранённого input и не задаются константой.
@@ -70,7 +72,7 @@
 **Files:**
 - Create or modify: `src/scenarios/ship-model-mission.ts`
 - Modify: `src/scenarios/fitting.ts`
-- Modify: `src/app/ship-model-runtime.ts`
+- Modify: `src/app/ship-model.ts`
 - Modify: `src/app/ship-model-workspace.ts`
 - Test: `tests/ui/ship-model-defaults.test.ts`
 - Test: `tests/ui/ship-model-mission-workspace.test.ts`
