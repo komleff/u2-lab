@@ -54,7 +54,8 @@ INDEX при извлечении чисел в первой implementation task
 
 ## Pipeline authority
 
-Trusted OverGate `v4.0.0-rc.1` = `633937250fa8f47b49f928c1d8781ab17fe8c8e3`.
+Trusted OverGate `v4.0.0-rc.3` = `b830d5ed7ed31e597b45f7f3c18b8fb6baad6b29`
+(bootstrap — `v4.0.0-rc.1` = `633937250fa8f47b49f928c1d8781ab17fe8c8e3`).
 INSTALL/PM/RV и ADR §§3.28–3.32 — bootstrap owners. До managed apply installer policy
 берётся из frozen source; новый installed package не сертифицирует собственную установку.
 OverGate MIT notice/provenance сохраняется согласно distribution inventory; это не
