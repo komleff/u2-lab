@@ -22,8 +22,13 @@ Pause/Cancel остались доступны. Значит, физическо
 
 - Обработать транспортный отказ Worker во всех трёх существующих UI-владельцах:
   основной Ship Fitting, экспериментальная модель корабля и Legacy.
-- При отказе очистить pending-команды, снять active run через существующий abort/reset
-  boundary, показать понятную ошибку и оставить страницу отзывчивой.
+- При отказе очистить pending-команды и снять только active owner через существующий
+  abort boundary (в Legacy — его эквивалент), показать понятную ошибку и оставить
+  страницу отзывчивой.
+- После `error` или `messageerror` Worker считается непригодным: владелец прекращает
+  его использование и освобождает ссылку. Следующее нажатие «Запуск» создаёт новый
+  Worker до отправки новой команды. Уже полученный result и frozen reference при этом
+  не удаляются.
 - Не менять Worker protocol, физику, численные параметры, глобальные test timeouts,
   модель/схему/каталог и сохранённые документы.
 - Обновить видимую версию Лабы `v2.3 → v2.4` при неизменной версии интерфейса
@@ -35,8 +40,8 @@ Pause/Cancel остались доступны. Значит, физическо
 
 | ID | Проверяемое поведение | Метод |
 |---|---|---|
-| WH-01 | Недоступный Worker не оставляет основной экран на `0 с` в active state; видима ошибка, Start снова не заблокирован вечным run | RED→GREEN browser test с реальным отказом загрузки Worker asset |
-| WH-02 | То же для экспериментального ship-model entry и Legacy | адресные browser tests тех же трёх владельцев |
+| WH-01 | Отказ Worker до первого Start и во время первого Start не оставляет основной экран на `0 с` в active state; видима ошибка, active owner освобождён, result/frozen сохранены | RED→GREEN browser test с реальным отказом загрузки Worker asset |
+| WH-02 | После первого обработанного отказа новая попытка не использует мёртвый Worker: при сохранённом отказе снова завершается явно, а после возвращения asset создаёт свежий Worker и получает ACK/прогресс. То же lifecycle действует для experimental ship-model entry и Legacy | адресные browser tests трёх владельцев: fail-before-start, retry-fail, restore-and-retry |
 | WH-03 | При доступном Worker основной экран реально получает ACK, время растёт, Pause и Cancel отвечают | production build browser smoke |
 | WH-04 | Нормальная модель 0.1 и governor 0.2 сохраняют существующие Start/Pause/Step/Resume/Cancel/Reset и ownership | affected browser regression + project verify |
 | WH-05 | Шапка, footer, README показывают Lab v2.4 / UI v4.8; package и lock показывают 0.2.1 | exact text/version assertions |
