@@ -1,6 +1,6 @@
 import type {ValidationResult} from '../catalog/schema';
 import type {RunResultV3} from '../runner/ship-model-run';
-import {validateRunSpecV3,validateStateV3} from '../model/v3/schema';
+import {validateRunSpecV3,validateStateV3,validateMissionStatePolicy} from '../model/v3/schema';
 import {exactFields} from '../signatures/config';
 import {validateShipReferences} from '../signatures/ship-reference';
 const object=(x:unknown):x is Record<string,any>=>!!x&&typeof x==='object'&&!Array.isArray(x);
@@ -14,7 +14,7 @@ export function validateShipModelResult(input:unknown):ValidationResult<RunResul
     const mission=!!spec.value.mission;
     const state=validateStateV3(r.state,spec.value.resolvedShip);if(!state.ok)return state as ValidationResult<RunResultV3>;
     if(state.value.modelVersion!==spec.value.modelVersion)bad('state.modelVersion','Model tag не соответствует spec');
-    if(mission){const m=state.value.mission!,cfg=spec.value.mission!;if(m.positionM>cfg.route.distanceM+1e-3||m.onboardM3>spec.value.resolvedShip.cargoCapacityM3.bulk+spec.value.resolvedShip.cargoCapacityM3.universal+1e-7)bad('state.mission','Position/cargo вне условий');if((m.stage==='service'||m.stage==='complete')&&(m.positionM!==0||m.velocityMS!==0))bad('state.mission','Service требует станцию');if(cfg.stationReplenish===false&&(m.receivedChargeJ!==0||Object.values(m.receivedFuelKg).some(n=>n!==0))||cfg.stationReplenish!==true&&m.receivedChargeJ!==0)bad('state.mission','Station receipts несовместимы с policy');}
+    if(mission){const policy=validateMissionStatePolicy(spec.value,state.value);if(!policy.ok)return policy as ValidationResult<RunResultV3>;}
     if(Object.hasOwn(r,'referenceMeasurements'))validateShipReferences(r.referenceMeasurements,spec.value,state.value.timeSeconds);
     if(typeof r.runId!=='string'||!r.runId)bad('runId','Нужен ID опыта');
     if(!['complete','paused','cancelled'].includes(r.status))bad('status','Неизвестный status');
@@ -88,6 +88,11 @@ export function validateShipModelResult(input:unknown):ValidationResult<RunResul
     if(!Array.isArray(r.events)||r.events.length!==meta.totalEvents-meta.droppedEvents||r.events.length>20000||meta.droppedEvents!==Math.max(0,meta.totalEvents-20000))throw Error('events: неполные или несогласованные counters');
     previous=spec.value.initialState.timeSeconds;
     for(const [j,e]of r.events.entries()){exactFields(e,['timeSeconds','kind','message'],'ship event');if(!finite(e.timeSeconds)||e.timeSeconds<previous-1e-9||e.timeSeconds>state.value.timeSeconds||typeof e.kind!=='string'||typeof e.message!=='string')bad('events.'+j,'Неверное время/kind/message');previous=e.timeSeconds;}
+    if(mission){
+      const m=state.value.mission!,initial=spec.value.initialState.mission!,services=r.events.filter(e=>e.kind==='mission-service');
+      if(m.completedTrips<initial.completedTrips||meta.droppedEvents===0&&m.completedTrips-initial.completedTrips!==services.length)bad('state.mission.completedTrips','Счётчик рейсов не соответствует завершённым service events');
+      if(m.stage==='complete'&&initial.stage!=='complete'&&(!services.length||Math.abs(services.at(-1).timeSeconds-state.value.timeSeconds)>1e-6))bad('state.mission','Terminal требует последнего завершённого service endpoint');
+    }
     if(errors.length)return {ok:false,errors};r.spec=spec.value;r.state=state.value;return {ok:true,value:r as RunResultV3};
   }catch(error){bad('$',error instanceof Error?error.message:'Неполный checkpoint');return {ok:false,errors};}
 }

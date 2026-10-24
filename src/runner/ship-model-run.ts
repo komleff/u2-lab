@@ -15,7 +15,7 @@ export type RunResultV3={runId:string;spec:RunSpecV3;state:StateV3;metrics:ShipM
 export function createShipModelRun(runId:string,input:RunSpecV3):RunContextV3{
   const checked=validateRunSpecV3(input);if(!checked.ok)throw new Error(checked.errors.map(e=>e.path+': '+e.message).join('\n'));
   const spec=structuredClone(checked.value);
-  return {runId,spec,state:structuredClone(spec.initialState),metrics:{usefulWorkJ:0,totalResidualJ:0,maximumTemperatureK:spec.initialState.temperatureK,firstConstraint:null},signatures:{version:SHIP_SIGNATURE_VERSION,last:null,statistics:createShipSignatureStatistics(spec.initialState.timeSeconds)},retention:new Retention(shipModelChannelNames(spec)),events:new EventRetention(),done:spec.initialState.timeSeconds>=spec.durationSeconds,last:{},referenceMeasurementsEnabled:true};
+  return {runId,spec,state:structuredClone(spec.initialState),metrics:{usefulWorkJ:0,totalResidualJ:0,maximumTemperatureK:spec.initialState.temperatureK,firstConstraint:null},signatures:{version:SHIP_SIGNATURE_VERSION,last:null,statistics:createShipSignatureStatistics(spec.initialState.timeSeconds)},retention:new Retention(shipModelChannelNames(spec)),events:new EventRetention(),done:spec.initialState.timeSeconds>=spec.durationSeconds||spec.initialState.mission?.stage==='complete',last:{},referenceMeasurementsEnabled:true};
 }
 export function runShipModelChunk(run:RunContextV3,maxSteps:number,wallBudgetMs=Infinity){
   const started=performance.now();let steps=0;

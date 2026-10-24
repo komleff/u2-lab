@@ -259,10 +259,10 @@ export function validateRunSpecV3(input:unknown):ValidationResult<RunSpecV3>{
 function missionStateChecks(c:Check,m:unknown,path:string){
  if(!c.exact(m,path,['version','stage','stageElapsedSeconds','positionM','velocityMS','onboardM3','minedM3','deliveredM3','completedTrips','receivedFuelKg','receivedChargeJ','terminalReason']))return;
  c.choice(m.version,path+'.version',['ship-mission-state/1']);c.choice(m.stage,path+'.stage',['outbound','approach','mining','inbound','service','complete']);
- for(const k of ['stageElapsedSeconds','positionM','onboardM3','minedM3','deliveredM3','receivedChargeJ'])c.number(m[k],path+'.'+k);
- c.number(m.velocityMS,path+'.velocityMS',-2999.999,2999.999);c.number(m.completedTrips,path+'.completedTrips',0,Infinity,true);
+ for(const k of ['stageElapsedSeconds','onboardM3','minedM3','deliveredM3','receivedChargeJ'])c.number(m[k],path+'.'+k);
+ c.number(m.positionM,path+'.positionM',-Infinity);c.number(m.velocityMS,path+'.velocityMS',-2999.999,2999.999);c.number(m.completedTrips,path+'.completedTrips',0,Infinity,true);
  if(c.exact(m.receivedFuelKg,path+'.receivedFuelKg',['diesel','hydrogen']))for(const sp of ['diesel','hydrogen'])c.number(m.receivedFuelKg[sp],path+'.receivedFuelKg.'+sp);
- c.choice(m.terminalReason,path+'.terminalReason',[null,'single-trip','target','first-stop']);
+ c.choice(m.terminalReason,path+'.terminalReason',[null,'single-trip','target']);
  if(Math.abs(m.minedM3-m.deliveredM3-m.onboardM3)>1e-7*Math.max(1,m.minedM3))c.bad(path,'Нарушен cargo ledger');
  if((m.stage==='complete')!==(m.terminalReason!==null))c.bad(path,'Terminal stage/reason должны совпадать');
 }
@@ -273,5 +273,27 @@ function missionSpecChecks(c:Check,s:RunSpecV3){
  if(c.exact(m.route,p+'.route',['distanceM','referenceVfaMS','referenceSource','speedPolicy','speedMultiplier','cruiseSpeedMS'])){c.number(m.route.distanceM,p+'.route.distanceM');c.number(m.route.referenceVfaMS,p+'.route.referenceVfaMS',Number.MIN_VALUE,2999);c.text(m.route.referenceSource,p+'.route.referenceSource');c.choice(m.route.speedPolicy,p+'.route.speedPolicy',['vfa','custom']);c.positive(m.route.speedMultiplier,p+'.route.speedMultiplier');c.number(m.route.cruiseSpeedMS,p+'.route.cruiseSpeedMS',Number.MIN_VALUE,2999);if(m.route.speedPolicy==='vfa'&&m.route.cruiseSpeedMS!==m.route.referenceVfaMS*m.route.speedMultiplier)c.bad(p+'.route','Скорость не соответствует явному V_FA');}
  if(c.exact(m.process,p+'.process',['id','energyJPerM3','densityKgM3','extractFactor','softFactor','workFactor','returnFraction'])){c.choice(m.process.id,p+'.process.id',['LAB-ORE-01']);for(const k of ['energyJPerM3','densityKgM3','extractFactor','softFactor','workFactor']as const)c.positive(m.process[k],p+'.process.'+k);c.number(m.process.returnFraction,p+'.process.returnFraction',0,1);}
  if(c.list(m.selectedWorkGroup,p+'.selectedWorkGroup')){if(new Set(m.selectedWorkGroup).size!==m.selectedWorkGroup.length)c.bad(p+'.selectedWorkGroup','Повтор владельца');for(const id of m.selectedWorkGroup)if(!s.resolvedShip.instances.some(i=>i.id===id&&i.item.family==='mining'))c.bad(p+'.selectedWorkGroup','Неизвестный установленный лазер');}
- const state=s.initialState.mission;if(state){if(state.positionM>m.route.distanceM+1e-6)c.bad('initialState.mission.positionM','За границей маршрута');if(state.onboardM3>s.resolvedShip.cargoCapacityM3.bulk+s.resolvedShip.cargoCapacityM3.universal+1e-7)c.bad('initialState.mission.onboardM3','Переполнен совместимый трюм');}
+ missionPolicyChecks(c,s,s.initialState,'initialState');
+}
+
+// Один cross-field контракт для run input, сохранённого результата и checkpoint.
+// Координата полёта signed: потеря тяги не становится телепортом к границе маршрута.
+function missionPolicyChecks(c:Check,s:RunSpecV3,state:StateV3,path:string){
+ const cfg=s.mission,m=state.mission;if(!cfg||!m)return;
+ const p=path+'.mission',atField=m.positionM===cfg.route.distanceM&&m.velocityMS===0,atStation=m.positionM===0&&m.velocityMS===0;
+ if(m.onboardM3>s.resolvedShip.cargoCapacityM3.bulk+s.resolvedShip.cargoCapacityM3.universal+1e-7)c.bad(p+'.onboardM3','Переполнен совместимый трюм');
+ if((m.stage==='approach'||m.stage==='mining')&&!atField)c.bad(p,'Подход и добыча требуют покоя у места добычи');
+ if((m.stage==='service'||m.stage==='complete')&&!atStation)c.bad(p,'Обслуживание и terminal требуют покоя у станции');
+ if(m.completedTrips*cfg.serviceSeconds>state.timeSeconds+1e-7)c.bad(p+'.completedTrips','Сервисные часы завершённых рейсов превышают физическое время');
+ if(m.stageElapsedSeconds>state.timeSeconds+1e-7)c.bad(p+'.stageElapsedSeconds','Часы стадии превышают физическое время');
+ if(m.stage==='approach'&&m.stageElapsedSeconds>cfg.approachSeconds+1e-9||m.stage==='service'&&m.stageElapsedSeconds>cfg.serviceSeconds+1e-9)c.bad(p+'.stageElapsedSeconds','Часы превышают длительность стадии');
+ if(m.stage==='complete'){
+  if(state.timeSeconds<=0||m.stageElapsedSeconds!==0||m.onboardM3!==0||m.completedTrips<1)c.bad(p,'Terminal допустим только после завершённой разгрузки');
+  if(m.terminalReason==='target'&&m.deliveredM3<cfg.targetM3-1e-8*Math.max(1,cfg.targetM3))c.bad(p+'.terminalReason','Цель ещё не доставлена');
+  if(m.terminalReason==='single-trip'&&cfg.repeat)c.bad(p+'.terminalReason','Single-trip требует repeat=false');
+ }
+ if(cfg.stationReplenish===false&&(m.receivedChargeJ!==0||Object.values(m.receivedFuelKg).some(n=>n!==0))||cfg.stationReplenish!==true&&m.receivedChargeJ!==0)c.bad(p,'Station receipts несовместимы с policy');
+}
+export function validateMissionStatePolicy(spec:RunSpecV3,state:StateV3):ValidationResult<StateV3>{
+ const c=new Check();try{missionPolicyChecks(c,spec,state,'state');}catch{c.bad('state.mission','Неполный mission policy context');}return c.result(state);
 }

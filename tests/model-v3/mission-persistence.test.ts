@@ -15,6 +15,6 @@ it('service horizon has no receipts; checkpoint before endpoint applies receipts
 });
 it.each(['tag','cargo','position','clock','unknown','receipts','terminal'] as const)('strict mission result refuses forged %s',kind=>{
  const run=createShipModelRun('forged',spec());runShipModelChunk(run,2);const r=shipModelResult(run,'paused');
- if(kind==='tag')r.state.modelVersion='ship-fitting-ship-model-0.1';if(kind==='cargo')r.state.mission!.onboardM3=-1;if(kind==='position')r.state.mission!.positionM=-1;if(kind==='clock')r.state.mission!.stageElapsedSeconds=-1;if(kind==='unknown')(r.state.mission as any).extra=1;if(kind==='receipts'){r.spec.mission!.stationReplenish=false;r.state.mission!.receivedChargeJ=1;}if(kind==='terminal')r.status='complete';
+ if(kind==='tag')r.state.modelVersion='ship-fitting-ship-model-0.1';if(kind==='cargo')r.state.mission!.onboardM3=-1;if(kind==='position')r.state.mission!.positionM=Infinity;if(kind==='clock')r.state.mission!.stageElapsedSeconds=-1;if(kind==='unknown')(r.state.mission as any).extra=1;if(kind==='receipts'){r.spec.mission!.stationReplenish=false;r.state.mission!.receivedChargeJ=1;}if(kind==='terminal')r.status='complete';
  expect(validateShipModelResult(r).ok).toBe(false);
 });

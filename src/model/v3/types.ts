@@ -110,4 +110,4 @@ export type MissionSpecV3={
  process:{id:'LAB-ORE-01';energyJPerM3:number;densityKgM3:number;extractFactor:number;softFactor:number;workFactor:number;returnFraction:number};
  selectedWorkGroup:string[];approachSeconds:number;serviceSeconds:number;targetM3:number;stopPolicy:'full-hold'|'first-stop';repeat:boolean;stationReplenish?:boolean;
 };
-export type MissionStateV3={version:'ship-mission-state/1';stage:'outbound'|'approach'|'mining'|'inbound'|'service'|'complete';stageElapsedSeconds:number;positionM:number;velocityMS:number;onboardM3:number;minedM3:number;deliveredM3:number;completedTrips:number;receivedFuelKg:Record<Species,number>;receivedChargeJ:number;terminalReason:null|'single-trip'|'target'|'first-stop'};
+export type MissionStateV3={version:'ship-mission-state/1';stage:'outbound'|'approach'|'mining'|'inbound'|'service'|'complete';stageElapsedSeconds:number;positionM:number;velocityMS:number;onboardM3:number;minedM3:number;deliveredM3:number;completedTrips:number;receivedFuelKg:Record<Species,number>;receivedChargeJ:number;terminalReason:null|'single-trip'|'target'};
