@@ -26,7 +26,7 @@ const newId=()=>Array.from(crypto.getRandomValues(new Uint8Array(16)),b=>b.toStr
 const quantity=(value:number|undefined,unit:string)=>`<span class="sm-quantity">${esc(num(value,unit))}</span>`;
 const fileId=(value:string)=>value.replace(/[^A-Za-z0-9_-]/g,'_');
 export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(legacyText?:string)=>void,renderShell:(parts:WorkspaceShellParts)=>void){
-  const worker=new Worker(new URL('../runner/worker.ts',import.meta.url),{type:'module'});
+  let worker:Worker|undefined;
   let error='',runId='',commandId=0,ack='',revision=0,fileRead=0,mounted=true;
   let leaving:{text?:string;label:string;revision:number}|undefined;
   let swap:ShipModelSwapState|undefined,instanceId:string|undefined;
@@ -42,7 +42,7 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
   }));
   const el=<T extends HTMLElement=HTMLElement>(id:string)=>root.querySelector<T>('#'+id);
   const act=(fn:()=>void,mutates=true)=>{try{fn();if(mutates)revision++;error='';}catch(e){error=String(e);}if(mounted)render();};
-  const send=(type:Control,payload?:unknown)=>{const id=++commandId;pending.set(id,type);worker.postMessage({runId,commandId:id,type,payload});return id;};
+  const send=(type:Control,payload?:unknown)=>{const transport=type==='start'?ensureWorker():worker;if(!transport)throw Error('Расчётный Worker недоступен. Нажмите «Запуск» повторно.');const id=++commandId;pending.set(id,type);try{transport.postMessage({runId,commandId:id,type,payload});}catch{failWorker(transport);throw Error(error);}return id;};
   const download=(name:string,text:string,type='application/json')=>{const url=URL.createObjectURL(new Blob([text],{type})),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
   const bind=(id:string,fn:()=>void,mutates=true)=>{const node=el(id);if(node)node.onclick=()=>act(fn,mutates);};
   function requestLeave(text?:string,label='старая модель · редактор оснастки'){
@@ -177,11 +177,26 @@ export function mountShipModel(root:HTMLElement,w:ShipModelWorkspace,onBack:(leg
     el<HTMLInputElement>('sm-import')!.onchange=async()=>{const input=el<HTMLInputElement>('sm-import')!,file=input.files?.[0];if(!file)return;const owner=revision,read=++fileRead;try{const text=await file.text();if(!mounted)return;if(read!==fileRead||owner!==revision||w.governorActive||leaving)throw Error('Владелец изменился во время чтения файла');const opening=w.inspectOpening(text);if(opening.legacy)requestLeave(text,opening.kind);else w.importDocument(text);revision++;error='';}catch(e){error=String(e);}input.value='';render();};
   }
   // Protocol отправляет snapshot сразу после ACK snapshot/cancel: commandId берём из этой пары.
-  worker.onmessage=({data:m})=>{if(!mounted||m.runId!==runId)return;if(m.type==='control-ack'){if(pending.get(m.commandId)!==m.control)return;pending.delete(m.commandId);ack=m.control+' ACK';if(m.control==='snapshot'||m.control==='cancel')snapshotCommandId=m.commandId;if(m.control==='pause'||m.control==='step'){w.setStatus('paused');w.setGovernorStatus('paused');}if(m.control==='resume'){w.setStatus('running');w.setGovernorStatus('running');}if(['pause','restart','repair'].includes(m.control))send('snapshot');}
-    else if(m.type==='chunk'){const {telemetry,...snapshot}=m.payload;if(snapshot.spec?.modelVersion===MODEL_V02)w.acceptGovernorResult(snapshot);else w.acceptResult(snapshot);worker.postMessage({runId,type:'telemetry-ack',chunkId:m.chunkId});}
+  function receive({data:m}:MessageEvent){if(!mounted||m.runId!==runId)return;if(m.type==='control-ack'){if(pending.get(m.commandId)!==m.control)return;pending.delete(m.commandId);ack=m.control+' ACK';if(m.control==='snapshot'||m.control==='cancel')snapshotCommandId=m.commandId;if(m.control==='pause'||m.control==='step'){w.setStatus('paused');w.setGovernorStatus('paused');}if(m.control==='resume'){w.setStatus('running');w.setGovernorStatus('running');}if(['pause','restart','repair'].includes(m.control))send('snapshot');}
+    else if(m.type==='chunk'){const {telemetry,...snapshot}=m.payload;if(snapshot.spec?.modelVersion===MODEL_V02)w.acceptGovernorResult(snapshot);else w.acceptResult(snapshot);worker?.postMessage({runId,type:'telemetry-ack',chunkId:m.chunkId});}
     else if(m.type==='complete'||m.type==='snapshot'){const requestId=m.type==='snapshot'?snapshotCommandId:undefined;if(m.type==='snapshot')snapshotCommandId=undefined;const governor=m.payload.spec?.modelVersion===MODEL_V02,accepted=governor?w.acceptGovernorResult(m.payload):w.acceptResult(m.payload);if(accepted&&m.type==='snapshot'&&pendingFreeze&&pendingFreeze.runId===m.runId&&pendingFreeze.commandId===requestId){if(governor)w.freezeGovernor();else w.freeze();pendingFreeze=undefined;}if(accepted&&governor&&m.payload.status==='cancelled'&&pendingGovernorReset){w.resetGovernor();pendingGovernorReset=false;}}
     else if(m.type==='error'){error=String(m.payload);pending.clear();if(w.active)w.setStatus('paused');}
-    render();};
-  function destroy(){mounted=false;worker.terminate();}
+    render();}
+  function failWorker(failed=worker){
+    if(!mounted||failed!==worker)return;
+    failed?.terminate();worker=undefined;pending.clear();pendingFreeze=undefined;snapshotCommandId=undefined;pendingGovernorReset=false;runId='';ack='';
+    w.abort();error='Расчётный Worker недоступен. Проверьте подключение к Лабе и нажмите «Запуск» повторно.';render();
+  }
+  function ensureWorker(){
+    if(worker)return worker;
+    try{
+      const transport=new Worker(new URL('../runner/worker.ts',import.meta.url),{type:'module'});worker=transport;
+      transport.onmessage=event=>{if(mounted&&worker===transport)receive(event);};
+      transport.onerror=event=>{event.preventDefault();failWorker(transport);};transport.addEventListener('messageerror',()=>failWorker(transport));
+      return transport;
+    }catch{failWorker();return undefined;}
+  }
+  function destroy(){mounted=false;worker?.terminate();worker=undefined;}
+  ensureWorker();
   render();return {destroy,render,workspace:w};
 }

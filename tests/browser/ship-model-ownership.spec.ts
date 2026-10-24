@@ -5,10 +5,10 @@ test('I1-R1 Freeze waits for its snapshot request after an older pending snapsho
   // Только транспорт управляемый: ACK, snapshots и численные шаги создаёт настоящий controller.
   await page.addInitScript(()=>{
     (window as any).controlledWorkers=[];
-    (window as any).Worker=class {
+    (window as any).Worker=class extends EventTarget {
       onmessage:((event:{data:unknown})=>void)|null=null;
       commands:unknown[]=[];
-      constructor(){(window as any).controlledWorkers.push(this);}
+      constructor(){super();(window as any).controlledWorkers.push(this);}
       postMessage(command:unknown){this.commands.push(structuredClone(command));}
       deliver(message:unknown){this.onmessage?.({data:message});}
       terminate(){}

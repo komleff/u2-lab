@@ -63,7 +63,10 @@ for(const width of [1440,390,820])test(`QA-G3-B1 actual model 0.2 control restor
   await page.locator('#sm-model-v01').click();
   await expect(page.locator('#sm-error')).toBeEmpty();await expect(page.locator('#sm-governor-scenario')).toHaveCount(0);await expect(page.locator('#sm-preset')).toHaveValue(initialPreset);
   const restoredDownloading=page.waitForEvent('download');await page.locator('#sm-save-run').click();const restored=readFileSync((await (await restoredDownloading).path())!,'utf8');expect(restored).toBe(baseline);
-  await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');await expect(page.locator('#sm-error')).toBeEmpty();
+  await page.locator('#sm-start').click();await expect(page.locator('#sm-ack')).toHaveText('start ACK');
+  await expect.poll(async()=>Number(await page.locator('#sm-live').getAttribute('data-time'))).toBeGreaterThan(0);
+  // Полный default run длится 60 модельных секунд; startup ACK и progress проверены отдельно.
+  await expect(page.locator('#sm-status')).toHaveText('complete',{timeout:20000});await expect(page.locator('#sm-error')).toBeEmpty();
 });
 
 for(const width of [1440,390,820])test(`native /4 imported governor runs through the real Worker and preserves frozen A/B and JSON at ${width}px`,async({page})=>{

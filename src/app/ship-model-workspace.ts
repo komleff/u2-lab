@@ -161,6 +161,7 @@ export class ShipModelWorkspace{
   start(runId:string){this.idle();const spec=this.prepare();this.activeTest={runId,variantId:this.selected,fitRevision:spec.resolvedShip.fit.fitRevision,spec:structuredClone(spec),status:'running'};return spec;}
   startCheckpoint(runId:string){this.idle();const r=this.result;if(!r||r.status!=='paused'||r.state.timeSeconds>=r.spec.durationSeconds)throw Error('Нужен незавершённый paused /4 checkpoint');const saved=unwrap(parseStoredResultJson(JSON.stringify(r,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v)));if(saved.spec.schemaVersion!=='u2-lab/4')throw Error('Checkpoint требует /4');const checkpoint=structuredClone(saved as RunResultV3);checkpoint.runId=runId;this.activeTest={runId,variantId:this.selected,fitRevision:checkpoint.spec.resolvedShip.fit.fitRevision,spec:structuredClone(checkpoint.spec),status:'running'};return checkpoint;}
   setStatus(status:'running'|'paused'){if(this.activeTest)this.activeTest.status=status;}
+  abort(){this.activeTest=undefined;this.governorTest=undefined;}
   acceptResult(r:RunResultV3){
     if(!this.activeTest||r.runId!==this.activeTest.runId||r.spec.schemaVersion!=='u2-lab/4')return false;
     const v=this.variants[this.activeTest.variantId],draft=this.draftSpec(v);
