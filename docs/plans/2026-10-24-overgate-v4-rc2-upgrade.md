@@ -1,7 +1,7 @@
 ---
 title: "Upgrade пайплайна u2-lab: OverGate v4.0.0-rc.1 → v4.0.0-rc.3"
 status: proposed
-version: "0.3"
+version: "0.4"
 date: 2026-10-24
 tags: [plan, pipeline, overgate, upgrade, beads, critical]
 ---
@@ -29,6 +29,12 @@ Beads: `ulab-c5p`; после merge закрывается `ulab-oz6`.
 в рабочем дереве до apply; B2 — rollback на месте до коммита; B3 — побочные эффекты установщика
 устранены rc.3, их отсутствие проверено на клоне u2-lab в QA OverGate (AC-09). Advisory A1–A11 — §2–§4.
 
+**v0.4:** B4 повторной проверки — AC-7 `test-bd-local-access.mjs` переписывается в коммите 1;
+A12 — формулировки auto mode в `beads.md`; A13 — подготовка settings удалением ровно 4 строк.
+Моделирование Reviewer на клоне u2-lab: 2 conflicts без подготовки, 0 после; после apply 0
+расхождений; rollback и повторный apply работают; `test-bd-local-access.mjs` на rc.3 — падают
+только AC-7 и AC-10, оба переписываются.
+
 ## 1. Target → as-built → gap
 
 | Объект | Состояние |
@@ -52,9 +58,14 @@ Beads: `ulab-c5p`; после merge закрывается `ulab-oz6`.
    (локально) → `apply` → rollback на месте → повторный `apply` тем же планом (UG-10).
 4. **Первый коммит после apply:** managed payload + `install-state.json` + settings без 4 правил + перенос записи
    дрейфа в `docs/archive/` (superseded) + `test-bd-local-access.mjs` AC-10 без опоры на запись
-   дрейфа и rc.1-план (A3) + `cloud-tooling-provenance.json` без отступления от managed policy.
+   дрейфа и rc.1-план (A3) + `cloud-tooling-provenance.json` без отступления от managed policy +
+   `test-bd-local-access.mjs` AC-7 переписан (B4). Новый AC-7: `.claude/settings.json` равен blob
+   source rc.3; deny `Bash(bd delete*)`, `Bash(bd dolt push*)`, `Bash(bd dolt pull*)`,
+   `Bash(*BD_SYNC_FORCE*)` сохранены; project allow для обёрток отсутствуют. В PR фиксируется: AC-7
+   плана PR #30 заменён решением оператора 2 (полное соответствие).
+   Подготовка settings — удаление ровно 4 строк allow; итог побайтно source по правилу 1 §4.2 rc.3 (A13).
 5. Затем отдельными коммитами:
-   - `.claude/rules/beads.md` — `bash scripts/bd-*.sh` в предписаниях; embedded и allowlist — upstream OverGate; `--description-file` в перечне; снять упоминание 4 allow-правил;
+   - `.claude/rules/beads.md` — `bash scripts/bd-*.sh` в предписаниях; embedded и allowlist — upstream OverGate; `--description-file` в перечне; снять упоминание 4 allow-правил вместе с формулировками «В auto mode … без подтверждения разрешены только `scripts/bd-wt.sh` и `scripts/bd-read.sh`» (раздел «Локальный агент») и «В auto mode их нет в allow-правилах» (раздел «Порядок синхронизации») — A12;
    - `AGENTS.md` — §5;
    - `docs/architecture/source-authority.md:57`, `.memory-bank/techContext.md`, требование в `.agents/project/check-bootstrap.py` — на rc.3 (A2);
    - `.memory-bank/{activeContext,progress}.md`.
