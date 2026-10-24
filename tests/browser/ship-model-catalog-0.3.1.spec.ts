@@ -1,4 +1,5 @@
 import {test,expect,type Page} from '@playwright/test';
+import {nativePauseWindow} from './native-pause-window';
 import {readFileSync} from 'node:fs';
 import {getPresetFit} from '../../src/fitting/catalog';
 import {serializeFit} from '../../src/io/fitting-json';
@@ -48,8 +49,9 @@ test('completed fresh Sputnik exposes primary saved IR/EM distances without deta
   expect(await card.evaluate(n=>!!n.closest('details'))).toBe(false);
 });
 for(const width of [1440,820,390])test(`captured and frozen Sputnik A survive next Mir H draft B and atomic import/selection refusal at ${width}`,async({page})=>{
-  await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');await page.locator('#sm-duration').fill('3600');await page.locator('#sm-duration').press('Tab');await page.locator('#sm-start').click();await expect(page.locator('#sm-live')).toHaveAttribute('data-time',/^[1-9]/);
-  await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');const captured=JSON.parse(await save(page,'sm-save-run'));
+  const pauseWindow=await nativePauseWindow(page);
+  await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');await page.locator('#sm-duration').fill('3600');await page.locator('#sm-duration').press('Tab');await pauseWindow.arm();await page.locator('#sm-start').click();await expect(page.locator('#sm-live')).toHaveAttribute('data-time',/^[1-9]/);
+  await pauseWindow.pause();await expect(page.locator('#sm-status')).toHaveText('paused');const captured=JSON.parse(await save(page,'sm-save-run'));
   expect(captured.environment.radiativeBackgroundK).toBe(250);expect(captured.resolvedShip.fit).toEqual(getPresetFit('sputnik-d','ship-fitting-0.3.2'));
   await page.locator('#sm-freeze').click();await expect(page.locator('#sm-comparison-a')).toHaveAttribute('data-run-id',/\S+/);const frozen=await page.locator('#sm-comparison-a').textContent();
   await page.locator('#sm-variant').selectOption('B');await expect(page.locator('#sm-preset')).toBeDisabled();expect(JSON.parse(await save(page,'sm-save-run'))).toEqual(captured);

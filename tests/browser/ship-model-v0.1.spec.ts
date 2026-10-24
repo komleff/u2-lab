@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+import {nativePauseWindow} from './native-pause-window';
 for(const width of [1440,390,820])test(`native /4 explicit compile, Worker run and save/reopen at ${width}px`,async({page})=>{
   await page.setViewportSize({width,height:1000});await page.goto('/');
   await page.locator('#ship-model-open').waitFor();expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);expect((await page.locator('header').boundingBox())!.height).toBeLessThanOrEqual(148);
@@ -14,8 +15,9 @@ for(const width of [1440,390,820])test(`native /4 explicit compile, Worker run a
   await page.locator('#sm-back').click();await page.locator('#sm-leave-confirm').click();await expect(page.locator('#fit-status')).toBeVisible();
 });
 test('native /4 pause/save/reopen/resume owns controls and malformed future import preserves measurement',async({page})=>{
+  const pauseWindow=await nativePauseWindow(page);
   await page.goto('/?shipModel=experimental');await page.locator('#sm-work-mode').selectOption('stationary');await page.locator('#sm-preset').selectOption('stealth-reference');await page.locator('#sm-duration').fill('3600');await page.locator('#sm-mode').selectOption('Masking');
-  await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
+  await pauseWindow.arm();await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await pauseWindow.pause();await expect(page.locator('#sm-status')).toHaveText('paused');
   await expect(page.locator('#sm-preset')).toBeDisabled();await expect(page.locator('#sm-copy')).toBeDisabled();await expect(page.locator('#sm-results')).toContainText('masking-forbidden');
   const downloading=page.waitForEvent('download');await page.locator('#sm-save-result').click();const file=await downloading;await page.locator('#sm-cancel').click();await expect(page.locator('#sm-status')).toHaveText('cancelled');
   await page.locator('#sm-import').setInputFiles((await file.path())!);await expect(page.locator('#sm-status')).toHaveText('paused');await expect(page.locator('#sm-checkpoint')).toBeEnabled();

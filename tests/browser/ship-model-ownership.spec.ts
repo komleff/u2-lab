@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+import {nativePauseWindow} from './native-pause-window';
 import {readFileSync} from 'node:fs';
 import {WorkerController,type WorkerCommand} from '../../src/runner/protocol';
 test('I1-R1 Freeze waits for its snapshot request after an older pending snapshot and Step',async({page})=>{
@@ -42,8 +43,9 @@ test('I1-R1 Freeze waits for its snapshot request after an older pending snapsho
   expect(current.state.timeSeconds).toBe(2);await expect(page.locator('#sm-frozen-owner')).toContainText(current.runId);
 });
 test('I1 paused A owns controls, export and frozen measurement while navigation selects B',async({page})=>{
+  const pauseWindow=await nativePauseWindow(page);
   await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-duration').fill('3600');await page.locator('#sm-copy').click();await page.locator('#sm-variant').selectOption('A');
-  await page.locator('#sm-start').click();await page.locator('#sm-variant').selectOption('B');await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
+  await pauseWindow.arm();await page.locator('#sm-start').click();await page.locator('#sm-variant').selectOption('B');await pauseWindow.pause();await expect(page.locator('#sm-status')).toHaveText('paused');
   await expect(page.locator('#sm-test-owner')).toContainText('Активный тест A');await expect(page.locator('#sm-draft-owner')).toContainText('черновик B');
   await expect(page.locator('#sm-measured-owner')).toContainText('Спутник');
   await expect(page.locator('#sm-save-result')).toBeDisabled();await page.locator('#sm-variant').selectOption('A');

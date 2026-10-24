@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+import {nativePauseWindow} from './native-pause-window';
 import {readFileSync} from 'node:fs';
 import {getPresetFit,loadCandidateCatalog} from '../../src/fitting/catalog';
 import {serializeFit,serializeResultSnapshot} from '../../src/io/fitting-json';
@@ -93,11 +94,12 @@ for(const version of ['ship-fitting-0.3.2','ship-fitting-0.3.1','ship-fitting-0.
   }
 });
 test('delayed file read cannot replace changed owner or a real paused Worker; cancelled chooser keeps work',async({page})=>{
+  const pauseWindow=await nativePauseWindow(page);
   await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-duration').fill('3600');
   await page.evaluate(()=>{const original=File.prototype.text;File.prototype.text=function(){return new Promise<string>(resolve=>{(window as any).releaseFile=async()=>resolve(await original.call(this));});};});
   await page.locator('#sm-import').setInputFiles(upload(serializeFit(oldFit)));await page.locator('#sm-copy').click();
   await page.evaluate(()=>(window as any).releaseFile());await expect(page.locator('#sm-error')).toContainText('изменён');await expect(page.locator('#sm-variant')).toHaveValue('B');await expect(page.locator('#sm-leave')).toHaveCount(0);
-  await page.locator('#sm-import').setInputFiles(upload(serializeFit(oldFit)));await page.locator('#sm-start').click();await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
+  await page.locator('#sm-import').setInputFiles(upload(serializeFit(oldFit)));await pauseWindow.arm();await page.locator('#sm-start').click();await pauseWindow.pause();await expect(page.locator('#sm-status')).toHaveText('paused');
   const before=await page.locator('#sm-results').textContent();await page.evaluate(()=>(window as any).releaseFile());await expect(page.locator('#sm-error')).toContainText('импорт не применён');
   await expect(page.locator('#sm-status')).toHaveText('paused');await expect(page.locator('#sm-back')).toBeDisabled();await expect(page.locator('#sm-import')).toBeDisabled();expect(await page.locator('#sm-results').textContent()).toBe(before);
   await page.locator('#sm-cancel').click();await expect(page.locator('#sm-status')).toHaveText('cancelled');const final=await page.locator('#sm-results').textContent();await page.locator('#sm-import').setInputFiles([]);expect(await page.locator('#sm-results').textContent()).toBe(final);

@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+import {nativePauseWindow} from './native-pause-window';
 import {fixture} from '../governor-v03/reference-clock';
 import {makeGovernorExperiment} from '../../src/experiments/ship-model-v0.2';
 import {readFileSync} from 'node:fs';
@@ -40,10 +41,11 @@ for(const width of [1440,390,820])test(`CR-G3-B2 mixed-model selection and refus
 });
 
 test('CR-G3-B2 refused governor Start and checkpoint keep the paused Worker run address',async({page})=>{
+  const pauseWindow=await nativePauseWindow(page);
   await page.goto('/?shipModel=experimental');
   const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:3000,name:'Governor ownership'});
   await page.locator('#sm-import').setInputFiles({name:'governor.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
-  await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
+  await pauseWindow.arm();await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await pauseWindow.pause();await expect(page.locator('#sm-status')).toHaveText('paused');
   const originalRunId=await page.locator('#sm-test-owner').getAttribute('data-run-id');
   for(const id of ['sm-start','sm-checkpoint']){
     await page.locator('#'+id).evaluate(node=>{const button=node as HTMLButtonElement;button.disabled=false;button.click();});await expect(page.locator('#sm-error')).toContainText('Сначала завершите/отмените активный тест');
@@ -71,11 +73,12 @@ for(const width of [1440,390,820])test(`QA-G3-B1 actual model 0.2 control restor
 });
 
 for(const width of [1440,390,820])test(`native /4 imported governor runs through the real Worker and preserves frozen A/B and JSON at ${width}px`,async({page})=>{
+  const pauseWindow=await nativePauseWindow(page);
   const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:3000,name:'Synthetic browser qualification'});
   await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.2');
   await page.locator('#sm-import').setInputFiles({name:'qualification.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
   await expect(page.locator('#sm-opened')).toContainText('ship-fitting-ship-model-0.2');await expect(page.locator('#sm-tick-hz')).toContainText('30 Hz');
-  await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
+  await pauseWindow.arm();await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await pauseWindow.pause();await expect(page.locator('#sm-status')).toHaveText('paused');
   const tick=Number(await page.locator('#sm-live').getAttribute('data-tick'));await page.locator('#sm-transport > summary').click();await page.locator('#sm-step').click();await expect(page.locator('#sm-live')).toHaveAttribute('data-tick',String(tick+1));
   await page.locator('#sm-freeze').click();await expect(page.locator('#sm-frozen-owner')).toBeVisible();const frozen=await page.locator('#sm-frozen-owner').textContent();
   const downloading=page.waitForEvent('download');await page.locator('#sm-save-result').click();const file=await downloading;

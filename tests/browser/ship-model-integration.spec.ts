@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';
+import {nativePauseWindow} from './native-pause-window';
 import {readFileSync} from 'node:fs';
 import {getPresetFit,loadCandidateCatalog} from '../../src/fitting/catalog';
 import {makeShipModelMiningRun} from '../../src/scenarios/fitting';
@@ -65,6 +66,7 @@ test('I2 V3 grouped cards expose atomic searchable catalog Apply and incompatibl
   await page.locator('#sm-slot-payload-1').click();await page.locator('#sm-swap-remove').click();await expect(page.locator('#sm-swap-preview')).toContainText('владельца запроса');await expect(page.locator('#sm-swap-apply')).toBeDisabled();await page.locator('#sm-swap-close').click();expect(JSON.parse(await downloadRun(page))).toEqual(applied);
 });
 test('I2 fresh whole phase editor add/duplicate/remove sends literal work→recovery→repeat modes and environment to real Worker',async({page})=>{
+  const pauseWindow=await nativePauseWindow(page);
   await page.addInitScript(()=>{const Native=Worker;(window as any).shipModelStarts=[];window.Worker=class extends Native{postMessage(message:any,...args:any[]){if(message.type==='start')(window as any).shipModelStarts.push(structuredClone(message));return (super.postMessage as any)(message,...args);}};});
   await page.goto('/?shipModel=experimental');await page.locator('#sm-work-mode').selectOption('stationary');await page.locator('#sm-preset').selectOption('stealth-reference');await page.locator('#sm-scenario-edit').click();
   await page.locator('#sm-scenario-name').fill('Работа / охлаждение');await page.locator('#sm-scenario-repeat').check();await page.locator('#sm-scenario-duration').fill('6');
@@ -74,7 +76,7 @@ test('I2 fresh whole phase editor add/duplicate/remove sends literal work→reco
   await page.locator('#sm-scenario-apply').click();await expect(page.locator('#sm-error')).toBeEmpty();await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
   const started=await page.evaluate(()=>(window as any).shipModelStarts.at(-1).payload.spec) as RunSpecV3;
   expect(started.scenario).toEqual({name:'Работа / охлаждение',repeat:true,phases:[{id:'work',action:'work',durationSeconds:2,requests:{'fit:payload-1':0.5},environment:null,mode:'Efficient'},{id:'phase-1',action:'recovery',durationSeconds:1,requests:{},environment,mode:'Masking'}]});expect(started.durationSeconds).toBe(6);
-  await page.locator('#sm-fit > summary').click();await page.locator('#sm-scenario-edit').click();await page.locator('#sm-scenario-duration').fill('3600');await page.locator('#sm-scenario-apply').click();await page.locator('#sm-scenario-edit').click();await page.locator('#sm-start').click();await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
+  await page.locator('#sm-fit > summary').click();await page.locator('#sm-scenario-edit').click();await page.locator('#sm-scenario-duration').fill('3600');await page.locator('#sm-scenario-apply').click();await page.locator('#sm-scenario-edit').click();await pauseWindow.arm();await page.locator('#sm-start').click();await pauseWindow.pause();await expect(page.locator('#sm-status')).toHaveText('paused');
   await expect(page.locator('#sm-scenario-apply')).toBeDisabled();await expect(page.locator('#sm-slot-signature-1')).toBeDisabled();
 });
 test('I2 imported complex task edits atomically while preserving literal fields outside the scenario',async({page})=>{
