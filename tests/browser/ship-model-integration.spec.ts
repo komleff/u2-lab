@@ -52,7 +52,7 @@ test('I3-R2 actual Worker preserves raw partial TI but never displays its integr
   await page.locator('#sm-live-details > summary').click();await expect(page.locator('[data-live-instance="fit:signature-1"] td').last()).toHaveText('смешанная доступность · нет полного измерения');
 });
 test('I2 V3 grouped cards expose atomic searchable catalog Apply and incompatible/builtin/request-owner refusals',async({page})=>{
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-fit > summary').click();
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-work-mode').selectOption('stationary');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-fit > summary').click();
   await expect(page.locator('#sm-group-sensors-thermal')).toContainText('Сенсоры и тепло');await expect(page.locator('#sm-slot-signature-1')).toContainText('Тепловые границы');await expect(page.locator('#sm-slot-signature-1')).toContainText('Прочность');
   const before=await downloadRun(page);await page.locator('#sm-slot-signature-2').click();
   await page.locator('#sm-swap-family').selectOption('buffer');await page.locator('#sm-swap-size').selectOption('S');await page.locator('#sm-swap-sort').selectOption('mass-desc');await page.locator('#sm-swap-search').fill('buffer');
