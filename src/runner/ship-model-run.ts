@@ -32,10 +32,12 @@ export function runShipModelChunk(run:RunContextV3,maxSteps:number,wallBudgetMs=
     }
     const step=mission?stepShipModelMission(run.spec,run.state):stepV3(phase.environment?{...run.spec,environment:phase.environment}:run.spec,run.state,phase.requests,phase.action);
     const missionEvents=mission?(step as ReturnType<typeof stepShipModelMission>).events:[];
-    if(run.signatures.version===SHIP_SIGNATURE_VERSION)run.signatures.statistics=accumulateShipModelFrames(run.spec,run.signatures.statistics,step);
-    run.signatures.last=observeShipModelStep(run.spec,step);
+    if(step.frames.length){
+      if(run.signatures.version===SHIP_SIGNATURE_VERSION)run.signatures.statistics=accumulateShipModelFrames(run.spec,run.signatures.statistics,step);
+      run.signatures.last=observeShipModelStep(run.spec,step);
+    }
     run.state=step.state;if(!mission&&effective.fallback)run.state.phaseElapsedSeconds=run.spec.scenario.phases[run.state.phaseIndex].durationSeconds;
-    run.last=observeShipModelState(run.spec,run.state,step.telemetry,run.signatures.last,step);run.metrics.usefulWorkJ+=step.telemetry.usefulWorkW;run.metrics.totalResidualJ+=step.telemetry.totalResidualJ;
+    run.last=observeShipModelState(run.spec,run.state,step.telemetry,run.signatures.last,step);run.metrics.usefulWorkJ+=step.telemetry.usefulWorkW??0;run.metrics.totalResidualJ+=step.telemetry.totalResidualJ??0;
     run.metrics.maximumTemperatureK=Math.max(run.metrics.maximumTemperatureK,step.state.temperatureK);
     const pendingEvents=[...missionEvents];
     for(const d of step.diagnostics.sort((a,b)=>a.timeSeconds-b.timeSeconds)){
@@ -49,7 +51,7 @@ export function runShipModelChunk(run:RunContextV3,maxSteps:number,wallBudgetMs=
       pendingEvents.push({timeSeconds:d.timeSeconds,kind:d.reason,message});
     }
     for(const event of pendingEvents.sort((a,b)=>a.timeSeconds-b.timeSeconds))run.events.add(event);
-    if(!run.retention.channels.length)run.retention=new Retention(shipModelChannelNames(run.spec),run.retention.maxBuckets);run.retention.add(run.state.timeSeconds,run.last);
+    if(step.frames.length){if(!run.retention.channels.length)run.retention=new Retention(shipModelChannelNames(run.spec),run.retention.maxBuckets);run.retention.add(run.state.timeSeconds,run.last);}
     run.done=run.state.timeSeconds>=run.spec.durationSeconds||run.state.mission?.stage==='complete';steps++;
   }
   return {steps,done:run.done,state:run.state,telemetry:run.last};

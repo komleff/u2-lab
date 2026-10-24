@@ -288,7 +288,7 @@ function missionPolicyChecks(c:Check,s:RunSpecV3,state:StateV3,path:string){
  if(m.stageElapsedSeconds>state.timeSeconds+1e-7)c.bad(p+'.stageElapsedSeconds','Часы стадии превышают физическое время');
  if(m.stage==='approach'&&m.stageElapsedSeconds>cfg.approachSeconds+1e-9||m.stage==='service'&&m.stageElapsedSeconds>cfg.serviceSeconds+1e-9)c.bad(p+'.stageElapsedSeconds','Часы превышают длительность стадии');
  if(m.stage==='complete'){
-  if(state.timeSeconds<=0||m.stageElapsedSeconds!==0||m.onboardM3!==0||m.completedTrips<1)c.bad(p,'Terminal допустим только после завершённой разгрузки');
+  if(m.stageElapsedSeconds!==0||m.onboardM3!==0||m.completedTrips<1)c.bad(p,'Terminal допустим только после завершённой разгрузки');
   if(m.terminalReason==='target'&&m.deliveredM3<cfg.targetM3-1e-8*Math.max(1,cfg.targetM3))c.bad(p+'.terminalReason','Цель ещё не доставлена');
   if(m.terminalReason==='single-trip'&&cfg.repeat)c.bad(p+'.terminalReason','Single-trip требует repeat=false');
  }

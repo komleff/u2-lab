@@ -56,7 +56,8 @@ export function validateShipModelResult(input:unknown):ValidationResult<RunResul
       if(r.signatures.version==='ship-signatures/2'){
         if(state.value.timeSeconds===spec.value.initialState.timeSeconds)bad('signatures.last','Пустой v2 интервал не содержит последнего measured sample');
         else for(const name of ['receiverIrW','observedEmW']){
-          const channel=r.signatures.statistics[name],latest=signal[name],latestIntegralJ=latest*(mission?Math.min(1,state.value.timeSeconds-Math.floor(state.value.timeSeconds-1e-10)):spec.value.stepSeconds);
+          const elapsed=state.value.timeSeconds-spec.value.initialState.timeSeconds;
+          const channel=r.signatures.statistics[name],latest=signal[name],latestIntegralJ=latest*(mission?Math.min(1,elapsed-Math.floor(elapsed-1e-10)):spec.value.stepSeconds);
           if(![latest,channel.maxW,channel.integralJ].every(finite))continue;
           // Явный relative tolerance 1e-9 с абсолютным floor 1e-9 W/J.
           const wattsTolerance=1e-9*Math.max(1,Math.abs(latest),Math.abs(channel.maxW)),joulesTolerance=1e-9*Math.max(1,Math.abs(latestIntegralJ),Math.abs(channel.integralJ));

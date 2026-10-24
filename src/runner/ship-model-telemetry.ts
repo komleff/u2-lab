@@ -30,7 +30,10 @@ export function shipModelChannelNames(spec:RunSpecV3):string[]{
   ])].sort();
 }
 export function observeShipModelState(spec:RunSpecV3,state:StateV3,stepTelemetry:TickTelemetry,signal:ShipSignal|null,observation?:{frames:readonly {durationSeconds:number}[]}):TickTelemetry{
-  const values:TickTelemetry=Object.fromEntries(shipModelChannelNames(spec).map(id=>[id,finite(stepTelemetry[id])]));
+  const elapsed=state.timeSeconds-spec.initialState.timeSeconds,dt=spec.mission&&elapsed>0?Math.min(1,elapsed-Math.floor(elapsed-1e-10)):1;
+  // Kernel W-каналы — интегралы принятого интервала. В retained/UI попадает
+  // средняя мощность этого tick; J-каналы и физические ledgers остаются сырыми.
+  const values:TickTelemetry=Object.fromEntries(shipModelChannelNames(spec).map(id=>[id,finite(stepTelemetry[id])/(spec.mission&&id.split(':')[0].endsWith('W')&&dt>0?dt:1)]));
   if(state.mission)for(const id of ['positionM','velocityMS','onboardM3','minedM3','deliveredM3','completedTrips','receivedChargeJ']as const)values[id]=state.mission[id];
   values.temperatureK=finite(state.temperatureK);values.chargeJ=finite(state.chargeJ);
   for(const species of ['diesel','hydrogen'] as const)values['fuelKg:'+species]=finite(state.fuelKg[species]);
