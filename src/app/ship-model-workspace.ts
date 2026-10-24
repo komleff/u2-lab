@@ -20,6 +20,11 @@ type ActiveTest={runId:string;variantId:'A'|'B';fitRevision:number;spec:RunSpecV
 export type ScenarioEdit=RunSpecV3['scenario']&{durationSeconds:number};
 export type ReplacementPreview={ok:boolean;fit?:ShipFitV3;ship?:ResolvedShipV3;errors:{path:string;code:string;message:string}[]};
 const unwrap=<T>(r:{ok:true;value:T}|{ok:false;errors:readonly {path:string;message:string}[]}):T=>{if(!r.ok)throw Error(r.errors.map(e=>e.path+': '+e.message).join('\n'));return r.value;};
+// Явная правка монтажа создаёт следующий рейсовый draft с фактическим roster.
+// Импортированный run и сохранённые измерения не проходят эту перекомпиляцию.
+function missionConditionsForFit(conditions:ShipModelConditions,ship:ResolvedShipV3):ShipModelConditions{
+  return {...structuredClone(conditions),phases:undefined,...(conditions.mission?{mission:{...structuredClone(conditions.mission),selectedWorkGroup:ship.instances.filter(i=>i.item.family==='mining').map(i=>i.id)}}:{})};
+}
 export function previewShipModelReplacement(fit:ShipFitV3,catalog:CandidateCatalogV3,conditions:ShipModelConditions,slotId:string,itemId:string|null):ReplacementPreview{
   const hull=catalog.hulls.find(h=>h.id===fit.hullId),slot=hull?.slots.find(s=>s.id===slotId);
   if(!slot)return {ok:false,errors:[{path:'slotId',code:'SLOT',message:hull?.builtins.some(i=>i.id===slotId)?'Встроенный модуль нельзя снять или заменить.':'Неизвестный сменный слот.'}]};
@@ -29,9 +34,10 @@ export function previewShipModelReplacement(fit:ShipFitV3,catalog:CandidateCatal
   next.fitRevision++;
   const checked=validateShipModelFit(next,catalog),compiled=checked.ok?compileShipModelFit(next,catalog):checked;
   const errors=compiled.ok?[]:[...compiled.errors];
-  const original=makeShipModelMiningRun(fit,catalog,conditions),phases=conditions.phases??(original.ok?original.value.scenario.phases:[]);
+  const mission=conditions.workMode==='mission';
+  const original=makeShipModelMiningRun(fit,catalog,conditions),phases=mission?[]:conditions.phases??(original.ok?original.value.scenario.phases:[]);
   phases.forEach((phase,index)=>{for(const owner of Object.keys(phase.requests))if(!next.instances[owner]&&!hull?.builtins.some(i=>i.id===owner))errors.push({path:`scenario.phases.${index}.requests.${owner}`,code:'REQUEST_OWNER',message:'Снятие удаляет владельца запроса '+owner+'. Сначала явно измените сценарий.'});});
-  if(compiled.ok){const run=makeShipModelMiningRun(next,catalog,conditions);if(!run.ok)errors.push(...run.errors);}
+  if(compiled.ok){const run=mission?makeShipModelMissionRun(next,catalog,missionConditionsForFit(conditions,compiled.value)):makeShipModelMiningRun(next,catalog,conditions);if(!run.ok)errors.push(...run.errors);}
   return {ok:errors.length===0,fit:next,...(compiled.ok?{ship:compiled.value}:{}),errors};
 }
 // Черновики /4 и legacy сохраняют свои численные данные внутри общей Lab shell.
@@ -109,8 +115,10 @@ export class ShipModelWorkspace{
   }
   private edited(){this.variants[this.selected].stale=!!this.result;this.draftRevision[this.selected]++;}
   private replaceFit(fit:ShipFitV3){
-    if(this.conditions.phases)unwrap(makeShipModelMiningRun(fit,this.catalogFor(fit.catalogVersion),this.conditions));
-    const v=this.variants[this.selected];v.fit=fit;v.replay=undefined;v.opened='fit';this.edited();
+    const v=this.variants[this.selected],catalog=this.catalogFor(fit.catalogVersion);
+    if(v.conditions.workMode==='mission'){const compiled=compileShipModelFit(fit,catalog);if(compiled.ok)v.conditions=missionConditionsForFit(v.conditions,compiled.value);else v.conditions.phases=undefined;}
+    else if(v.conditions.phases)unwrap(makeShipModelMiningRun(fit,catalog,v.conditions));
+    v.fit=fit;v.replay=undefined;v.opened='fit';this.edited();
   }
   private idle(){if(this.activeTest||this.governorTest)throw Error('Сначала завершите/отмените активный тест; его controls принадлежат исходному варианту.');}
   selectModel(){if(!this.fit)throw Error('Старый fit: требуется явная компиляция с diff, model toggle не мигрирует данные.');}
