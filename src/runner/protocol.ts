@@ -1,12 +1,13 @@
 import type { StoredRunSpec } from "../model/v2/types";
 import { MODEL_SIGNATURE_MISSION } from "../model/v2/types";
-import { createRun, runChunk, result, type ExecutableRunContext } from "./run";
-import type {runShipModelChunk} from './ship-model-run';
+import {createDispatchedRun as createRun,runDispatchedChunk as runChunk,dispatchedResult as result,restoreDispatchedRun,isGovernorContext,type DispatchRunContext as ExecutableRunContext} from './ship-model-dispatch';
+import type {RunSpecV02} from '../model/governor-v03/run-types';
+import type {RunResultV02} from './ship-model-run-v02';
 import { parseStoredResultJson } from "../io/fitting-result";
-import { restoreFittingRun, type RunResultV2 } from "./fitting-run";
+import type {RunResultV2} from "./fitting-run";
 import {controlModule} from '../model/v3/durability';
 import type {RunContextV3} from './ship-model-run';
-import {restoreShipModelRun,type RunResultV3} from './ship-model-run';
+import type {RunResultV3} from './ship-model-run';
 export type Control =
   | "start"
   | "pause"
@@ -21,11 +22,13 @@ export type WorkerCommand =
       runId: string;
       commandId: number;
       type: Control;
-      payload?: { spec?: StoredRunSpec; maxSteps?: number; checkpoint?: RunResultV2|RunResultV3; instanceId?:string; durabilityR?:number };
+      payload?: { spec?: StoredRunSpec|RunSpecV02; maxSteps?: number; checkpoint?: RunResultV2|RunResultV3|RunResultV02; instanceId?:string; durabilityR?:number };
     }
   | { runId: string; type: "telemetry-ack"; chunkId: number };
 export class WorkerController {
-  context?: ExecutableRunContext;
+  private activeContext?: ExecutableRunContext;
+  get context(){const run=this.activeContext;return run&&!isGovernorContext(run)?run:undefined;}
+  get currentContext(){return this.activeContext;}
   private pending?: { runId: string; chunkId: number };
   private chunkId = 0;
   private running = false;
@@ -45,11 +48,11 @@ export class WorkerController {
       try {
         let next:ExecutableRunContext;
         if(c.payload?.checkpoint){
-          const parsed=parseStoredResultJson(JSON.stringify(c.payload.checkpoint,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v));
+          const parsed=parseStoredResultJson(JSON.stringify(c.payload.checkpoint,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v),{allowGovernorV02:true});
           if(!parsed.ok)throw new Error(parsed.errors.map(e=>e.path+": "+e.message).join("\n"));
-          next=parsed.value.spec.schemaVersion==='u2-lab/4'?restoreShipModelRun(parsed.value as RunResultV3):restoreFittingRun(parsed.value as RunResultV2);next.runId=c.runId;
+          next=restoreDispatchedRun(parsed.value);next.runId=c.runId;
         }else next=createRun(c.runId,c.payload!.spec!);
-        this.context = next;
+        this.activeContext = next;
         this.pending = undefined;
         this.chunkId = 0;
         this.running = true;
@@ -59,9 +62,14 @@ export class WorkerController {
         return;
       }
     }
-    if (this.context?.runId !== c.runId) return;
+    if (this.activeContext?.runId !== c.runId) return;
     if(c.type==='restart'||c.type==='repair'){
-      try{if(this.context.spec.schemaVersion!=='u2-lab/4')throw new Error('schemaVersion: module control требует /4');const run=this.context as RunContextV3;run.state=controlModule(run.spec.resolvedShip,run.state,c.payload?.instanceId??'',c.type,c.payload?.durabilityR);}
+      try{if(this.activeContext.spec.schemaVersion!=='u2-lab/4')throw new Error('schemaVersion: module control требует /4');if(isGovernorContext(this.activeContext)){
+        if(c.type==='repair')throw Error('Repair governor требует отдельный service contract G4');
+        const id=c.payload?.instanceId;if(!this.activeContext.state.governor.moduleStateById.some(m=>m.id===id))throw Error('Неизвестный module ID');
+        this.activeContext.state={...this.activeContext.state,governor:{...this.activeContext.state.governor,moduleStateById:this.activeContext.state.governor.moduleStateById.map(m=>m.id===id?{...m,restartAuthorized:true}:m)}};
+        if(!this.activeContext.checkpoint.restartAuthorizationsSinceTick.includes(id!))this.activeContext.checkpoint.restartAuthorizationsSinceTick.push(id!);
+      }else{const run=this.activeContext as RunContextV3;run.state=controlModule(run.spec.resolvedShip,run.state,c.payload?.instanceId??'',c.type,c.payload?.durabilityR);}}
       catch(error){this.send({runId:c.runId,type:'error',payload:String(error)});return;}
     }
     if (c.payload?.maxSteps)
@@ -70,7 +78,7 @@ export class WorkerController {
       this.running = false;
       this.stepping = false;
     }
-    if (c.type === "resume") this.running = !this.context.done;
+    if (c.type === "resume") this.running = !this.activeContext.done;
     if (c.type === "step") {
       this.running = false;
       this.stepping = true;
@@ -86,21 +94,21 @@ export class WorkerController {
         runId: c.runId,
         type: "snapshot",
         payload: result(
-          this.context,
+          this.activeContext,
           c.type === "cancel" ? "cancelled" : undefined,
         ),
       });
   }
   pump() {
     if (
-      !this.context ||
+      !this.activeContext ||
       this.pending ||
       (!this.running && !this.stepping) ||
-      this.context.done
+      this.activeContext.done
     )
       return;
-    const run = this.context;
-    let chunk: ReturnType<typeof runChunk>|ReturnType<typeof runShipModelChunk>;
+    const run = this.activeContext;
+    let chunk: ReturnType<typeof runChunk>;
     try {
       chunk = runChunk(run, this.stepping ? 1 : this.maxSteps, 80);
     } catch (error) {
@@ -117,7 +125,7 @@ export class WorkerController {
       runId: run.runId,
       type: "chunk",
       chunkId: id,
-      payload: run.spec.schemaVersion==='u2-lab/4'?{...result(run),telemetry:(run as RunContextV3).last}:"signatures" in run && run.signatures ? result(run) : {
+      payload: run.spec.schemaVersion==='u2-lab/4'?{...result(run),telemetry:isGovernorContext(run)?run.checkpoint.lastTelemetry:(run as RunContextV3).last}:"signatures" in run && run.signatures ? result(run) : {
         ...chunk,
         metrics: run.metrics,
         buckets: run.retention.buckets.slice(-250),

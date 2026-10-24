@@ -3,6 +3,9 @@ import type {ShipModelConditions} from '../../scenarios/fitting';
 import type {ScenarioEdit} from '../ship-model-workspace';
 import {esc,num} from './presentation';
 import {DEFAULT_SHIP_MODEL_BACKGROUND_K} from '../ship-model-defaults';
+export function shipModelGovernorConditions(spec:import('../../model/governor-v03/run-types').RunSpecV02,locked:boolean){
+  return `<section id="sm-conditions" class="ui-panel"><h2>Условия опыта · модель 0.2</h2><p id="sm-tick-hz">30 Hz · dt = 1/30 с · только committed ticks</p><fieldset ${locked?'disabled':''}><label>Название<input id="sm-governor-name" value="${esc(spec.name)}"></label><label>Горизонт, ticks<input id="sm-governor-duration" type="number" min="1" step="1" value="${spec.durationTicks}"></label><label>Сценарий · все фазы, requests [W], mode и environment<textarea id="sm-governor-scenario" rows="12" spellcheck="false">${esc(JSON.stringify(spec.scenario,null,2))}</textarea></label><label>Общая среда · K, W<textarea id="sm-governor-environment" rows="4" spellcheck="false">${esc(JSON.stringify(spec.environment,null,2))}</textarea></label><button id="sm-governor-apply">Применить условия целиком</button></fieldset><p>Efficient / Masking / Combat — режимы запроса. Фактический режим и latches сохраняет governor. Профиль и initial state сохранены буквально из qualification JSON.</p></section>`;
+}
 const modes:Record<ShipMode,string>={Efficient:'Эффективный',Combat:'Боевой',Masking:'Маскировка'};
 const actions={work:'Работа',maneuver:'Манёвр',recovery:'Восстановление',idle:'Простой'};
 const options=(values:Record<string,string>,selected:string)=>Object.entries(values).map(([value,label])=>`<option value="${value}" ${value===selected?'selected':''}>${esc(label)} · ${esc(value)}</option>`).join('');
