@@ -10,13 +10,13 @@ Beads (`bd`) — единственный task tracker. Memory Bank — конт
 `docs/plans/2026-10-05-cloud-execution.md`, C1–C6 (independent PLAN_READY).
 
 Доступ — по классу окружения, их три: изолированный cloud, локальный агент (основной
-checkout или git-worktree), оператор (синхронизация). Класс локального агента и embedded-режим
-базы — **адаптация Lab** к ADR-0042, не новый канон: план
-`docs/plans/2026-10-18-beads-local-agent-access.md`.
+checkout или git-worktree), оператор (синхронизация). Класс локального агента, embedded- и
+server-режим базы и allowlist обёртки поддержаны upstream OverGate (`v4.0.0-rc.3`), канон
+ADR-0042 не меняют; исходное решение — план `docs/plans/2026-10-18-beads-local-agent-access.md`.
 
 ## Hosted Work / изолированный cloud
 
-- Читать опубликованный snapshot только через `scripts/bd-read.sh ready|list|show <id>`.
+- Читать опубликованный snapshot только через `bash scripts/bd-read.sh ready|list|show <id>`.
   Отсутствующий/недоступный remote snapshot — read FAIL, не пустая canonical база.
 - Записывать только append-only `.bd-intents/<queue>.jsonl` с уникальными intent IDs;
   формат/реальные `ulab-*` refs и earlier-declared `tmp:*` handles — `.bd-intents/README.md`.
@@ -31,11 +31,11 @@ checkout или git-worktree), оператор (синхронизация). К
 ## Локальный агент: основной checkout и git-worktree
 
 База u2-lab — embedded Dolt (`.beads/metadata.json`: `dolt_mode: embedded`, данные в
-`.beads/embeddeddolt`, сервера нет). Single-writer в адаптации Lab — одна физическая база
+`.beads/embeddeddolt`, сервера нет). Single-writer здесь — одна физическая база
 основного checkout, а не один процесс: в неё пишут агенты основного checkout и его worktree.
 
-- Читать и писать Beads только через `scripts/bd-wt.sh <cmd>` — и в основном checkout, и в
-  worktree. Прямой `bd` не вызывать: в worktree auto-discovery может создать пустую базу.
+- Читать и писать Beads только через `bash scripts/bd-wt.sh <cmd>` — и в основном checkout,
+  и в worktree. Прямой `bd` не вызывать: в worktree auto-discovery может создать пустую базу.
 - Обёртка пропускает только allowlist подкоманд: `ready show list search blocked children
   create q update close reopen dep comment comments note label`. Всё прочее (`delete`,
   `config`, `sql`, `init`, `export`, `import`, `dolt` и т.д.), пустая подкоманда, а также
@@ -43,18 +43,16 @@ checkout или git-worktree), оператор (синхронизация). К
   rc=2 до запуска bd. Значение аргумента, точно равное такому флагу, тоже отклоняется, как и
   любой однодефисный токен с буквой `C` (связки `-qC`, слитное `-C/x`, значение вроде
   `-Critical`) — осознанный fail-closed.
-- Флаги чтения локального файла тоже отклоняются в любой позиции (rc=2): `--body-file`,
-  `--design-file`, `--reason-file`, `--file`, `--graph` (с пробелом и с `=`), короткий `-f`
-  (как и `-C`, в любом однодефисном токене с `f`) и `--metadata`, значение которого
-  начинается с `@`. Длинный текст — через `--stdin` или `--description`; `--metadata` с JSON
+- Флаги чтения локального файла тоже отклоняются в любой позиции (rc=2): `--body-file` и его
+  алиас `--description-file`, `--design-file`, `--reason-file`, `--file`, `--graph` (с пробелом
+  и с `=`), короткий `-f` (как и `-C`, в любом однодефисном токене с `f`) и `--metadata`,
+  значение которого начинается с `@`. Длинный текст — через `--stdin` или `--description`; `--metadata` с JSON
   значением проходит.
 - Непустая переменная окружения `BEADS_DIR` или `BEADS_DB` → rc=2 во всех режимах, bd не
   вызывается: она увела бы bd в другую базу. Перед вызовом обёртки её нужно убрать (`unset`).
 - В worktree обёртка сама подставляет `--db` основной базы по `dolt_mode`: `embedded` →
   `.beads/embeddeddolt`, `server` → `.beads/dolt` и живой dolt-сервер. Нет/невалиден
   `metadata.json`, неизвестный режим или нет каталога базы → отказ, bd не вызывается.
-- В auto mode Claude Code без подтверждения разрешены только `scripts/bd-wt.sh` и
-  `scripts/bd-read.sh` (`.claude/settings.json`); прямые `bd …` не разрешаются.
 - Конфликт embedded-блокировки при параллельных агентах: команда завершается rc≠0 —
   повторить позже. Базу и `.beads/**` руками не править.
 - `bd-sync-restore.sh`, `bd-sync-export.sh`, `bd-apply-intents.sh` агент не запускает —
@@ -65,7 +63,7 @@ checkout или git-worktree), оператор (синхронизация). К
 Source of truth синхронизации — `origin/beads-backup:.beads/issues.jsonl` (bd export).
 Dolt — деталь хранения, не интерфейс синхронизации. Физическая база одна — в доверенном
 primary checkout; пишут в неё только через bd API: оператор напрямую, локальные агенты —
-через `scripts/bd-wt.sh`. Второй clone/машина параллельно не пишет.
+через `bash scripts/bd-wt.sh`. Второй clone/машина параллельно не пишет.
 Project config держит `export.auto: false` и `backup.git-push: false`, `sync.remote` unset;
 Dolt remotes не назначать. Автоматический `bd prime/setup/onboard` не меняет этот канон.
 
@@ -76,10 +74,10 @@ existing remote/nonempty DB требует reconciliation, не повторно
 `633937250fa8f47b49f928c1d8781ab17fe8c8e3`. Новый applier не становится trusted от запуска
 из bootstrap PR-ветки: сначала независимый review и operator merge tooling в trusted main.
 
-После принятия tooling: restore-before-apply/export через `scripts/bd-sync-restore.sh`,
-`scripts/bd-apply-intents.sh <queue>`, `scripts/bd-sync-export.sh`. Wrapper сохраняет
-fetch/divergence/trust/lock guards, валидирует всю очередь до mutations и публикует
-snapshot после изменений. Receipt — локальный кэш внутри Git common dir; database
+После принятия tooling: restore-before-apply/export через
+`bash scripts/bd-sync-restore.sh`, `bash scripts/bd-apply-intents.sh <queue>`,
+`bash scripts/bd-sync-export.sh`. Wrapper сохраняет fetch/divergence/trust/lock guards,
+валидирует всю очередь до mutations и публикует snapshot после изменений. Receipt — локальный кэш внутри Git common dir; database
 markers сохраняют idempotency после его потери. Validation failure = zero mutations;
 execution failure может оставить частичные изменения и требует согласованного retry.
 
@@ -93,12 +91,12 @@ helpers. Snapshot/Dolt руками не править, ветку snapshot н�
 Sync-скрипты рассчитаны на одного писателя, а в базу основного checkout пишут локальные агенты.
 
 - Локальные агенты **не** запускают `bd-sync-restore.sh`, `bd-sync-export.sh`,
-  `bd-apply-intents.sh`. В auto mode их нет в allow-правилах; в остальных режимах действует
-  прежнее `Bash(*)`, и защита — этот текст правил (deny для них — отдельное решение оператора).
+  `bd-apply-intents.sh`. Защита — этот текст правил (deny для них — отдельное решение
+  оператора).
 - Оператор выполняет restore/apply/export только в **тишине**: локальные агенты в этот момент
   не пишут в Beads.
-- **Export-first.** Есть неопубликованные локальные записи → сначала `bd-sync-export.sh`, потом
-  apply. Applier требует совпадения живой базы со снимком.
+- **Export-first.** Есть неопубликованные локальные записи → сначала
+  `bash scripts/bd-sync-export.sh`, потом apply. Applier требует совпадения живой базы со снимком.
 - **Restore** — только когда remote ушёл вперёд (опубликовала другая машина) и локальных
   неопубликованных записей нет. Иначе restore отказывает конфликтом; это сигнал к ручной
   сверке, не к FORCE.

@@ -1,7 +1,7 @@
 ---
 title: "Install, upgrade and rollback — OverGate 4 RC"
 status: active
-version: "4.0.0-rc.1"
+version: "4.0.0-rc.3"
 date: 2026-10-03
 tags: [installation, upgrade, rollback, delivery-first]
 ---
@@ -20,6 +20,29 @@ tests, gh для PR evidence. `bd` нужен только проекту, ис�
 На Windows нужен настоящий Git Bash; Python запускается нативно (`py -3` либо `python`),
 не через WSL. Windows и live Claude/Codex activation требуют отдельного smoke и не объявляются PASS автоматически.
 
+### Beads и облачный агент
+
+Порядок для трёх окружений — [`HOW_TO_USE.md`, секция Beads](HOW_TO_USE.md#beads-основной-checkout-worktree-и-облачный-агент).
+`bd`/Dolt нужны основному checkout оператора; облачному агенту достаточно снимка задач и
+канала публикации PR, включая уже авторизованный GitHub-коннектор. Авторизация shell
+Git/gh не является обязательным шагом для этого канала.
+Inventory содержит reader/worktree/sync helpers, но пока не содержит applier/engine/queue.
+Для автоматического применения cloud-заявок подключить reviewed project tooling отдельным
+изменением по инструкции; до этого заявки pending. Не инициализировать облачную базу.
+Локальная worktree и агент основного checkout работают через `bash scripts/bd-wt.sh`: база
+выбирается по `dolt_mode` из `.beads/metadata.json` (embedded или dolt-сервер), проходит
+только allowlist подкоманд, флаги смены базы/каталога и чтения файла отклоняются; чтение
+`metadata.json` идёт через `.claude/tools/run-python.sh`. Скрипты `scripts/bd-*.sh`
+запускать через `bash`: прямой запуск файла без аргументов блокирует гейт коммита.
+При upgrade `AGENTS.md` и `.claude/rules/beads.md` сохраняются: явно сверить их Beads route
+с этой инструкцией в target PR. Наличие обновлённой инструкции не обновляет preserved
+project rules автоматически: правила запуска `bash scripts/bd-*.sh` и класса локального
+окружения (allowlist, embedded/server) перенести в них вручную по diff reference-файлов
+между exact source SHA прежней и новой установки. Изменённые проектом managed
+`scripts/bd-wt.sh` и `scripts/lib/bd-env.sh` дают адресный conflict по каждому файлу, а не
+тихую перезапись; решение — в target PR. Существующий applier и его project policy не
+перезаписывать.
+
 ## Каталог Claude-сессии
 
 Installer читает canonical Git blobs и записывает Bash scripts с LF. Для последующих
@@ -37,16 +60,16 @@ root файл через `--settings <ROOT>/.claude/settings.json`, разреш
 runtime может принять `cd`, затем вернуть cwd в стартовый подкаталог; это не успешное
 восстановление. Такой startup проверяется отдельно от автоматического root startup.
 Семантика загрузки: [Claude settings](https://code.claude.com/docs/en/settings) и
-[CLI options](https://code.claude.com/docs/en/cli-reference). В rc.1 допускается только одна unquoted команда
+[CLI options](https://code.claude.com/docs/en/cli-reference). Допускается только одна unquoted команда
 `cd <absolute-checkout-path>`; допустимые символы пути — латиница, цифры, `_ : / . -`.
 Пробелы, кириллица, скобки и кавычки в этой форме не поддерживаются. Для такого пути
 завершите сессию и откройте новую непосредственно в корне checkout через интерфейс
 runtime/терминала. Root-запуск не зависит от `CLAUDE_PROJECT_DIR`, даже если переменная
 указывает на соседний checkout. Исправление recovery paths и внутренних U2-префиксов
-отложено в `og-7sr`; rc.1 сохраняет исходную семантику U2 #829.
+отложено в `og-7sr`; до него сохраняется исходная семантика source dispatcher, принятая в rc.1.
 
 Вне любого Git-репозитория Bash-команда блокируется кодом 2, но recovery hint остаётся
-заглушкой `cd <корень репозитория>`. Оператор принял это как `DECLARED_LIMIT` rc.1:
+заглушкой `cd <корень репозитория>`. Оператор принял это как `DECLARED_LIMIT` (с rc.1, действует и в rc.2):
 завершите сессию и откройте новую из root нужного checkout. Literal-подсказка вне Git
 отложена в `og-7sr`; для собственного подкаталога literal absolute recovery по-прежнему
 обязательна. Не записывайте outside-Git placeholder как успешное восстановление.
@@ -118,6 +141,37 @@ entries заменяются по точной JSON identity; custom Bash hooks 
 managed entry с timeout 600 с вызывает `.claude/hooks/pre-bash.sh` и не содержит backslashes. `.gitignore` сохраняет
 project entries и делает исключение для tracked `.codex/hooks.json`; прочий Codex state ignored.
 Product authority берётся из project AGENTS; если не назначен — оператор.
+
+### Запись settings и `.gitignore`
+
+Settings (`.claude/settings.json`, `.codex/hooks.json`): из source переносятся только
+`hooks.PreToolUse` и `permissions.deny`. `permissions` и его поля создаются, только если они
+есть в source: Codex adapter `permissions` не получает. Правило записи результата merge:
+1. по смыслу равен source → записываются байты source;
+2. иначе равен текущему файлу проекта → файл не меняется побайтно;
+3. иначе — JSON в порядке ключей файла проекта, новые ключи в конце, `indent=2`, без
+   сортировки ключей, UTF-8 без `\u`-экранирования, финальный LF.
+
+«По смыслу» — строгое по типам сравнение распарсенного JSON: `true`, `1` и `1.0` различаются.
+
+`.gitignore` (managed fragment `.agents/templates/gitignore.fragment`):
+- сначала удаляется legacy-строка `.codex/` (v3.9) вместе с её EOL, прочие байты сохраняются;
+- блок фрагмента ищется построчно без учёта EOL: CRLF и LF равны, отсутствие перевода строки
+  в конце файла не считается отличием;
+- файла нет или он пуст → ровно байты фрагмента;
+- целый блок уже есть в любом месте → файл не меняется; несколько целых блоков → первый
+  остаётся, повторные удаляются, прочие байты не меняются;
+- заголовок `# OverGate personal state (managed fragment)` вне целого блока →
+  `conflict: managed .gitignore fragment modified; resolve in target PR`, без записи. Это новое
+  поведение upgrade с rc.3 (прежде дописывался второй фрагмент): в target PR верните блок к
+  фрагменту source или удалите изменённый блок, затем пересоздайте план;
+- фрагмента нет → байты файла сохраняются, недостающий перевод строки в конце добавляется,
+  затем пустая строка и фрагмент в EOL файла: CRLF, если все строки CRLF, иначе LF.
+
+Повторный `plan` сразу после `apply` даёт operations только с `before == after`.
+**Граница:** побайтное соответствие managed- и settings-файлов source после upgrade заявлено
+для точных установок rc.1 и rc.2 без project overrides. Для upgrade v3.9 → rc.3 оно не
+заявляется: settings merge переносит из source только hooks и `deny`.
 
 v3.9 upgrade сверяет managed files с frozen legacy inventory. Изменённая роль или customized
 `.claude/skills/verify/SKILL.md` даёт адресный stop. Сначала перенеси project commands в

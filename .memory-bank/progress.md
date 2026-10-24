@@ -1,3 +1,12 @@
+# Пайплайн OverGate v4.0.0-rc.3, 2026-10-24
+
+PR #40: managed payload rc.3 `b830d5ed` установлен по install-плану 3a8b616e (apply →
+rollback → повторный apply, 0 расхождений с manifest). Обёртки Beads — upstream rc.3,
+override PR #30 и 4 allow-правила сняты; `beads.md`, `AGENTS.md` (§5 плана), techContext,
+source-authority и `check-bootstrap.py` — на rc.3. Live smoke обёртки из worktree на
+embedded: `ready`/`show` проходят, `--description-file` и `--global` — отказ rc=2.
+Далее QA, Code Review, `/finalize-pr`; merge — оператор.
+
 # Ship-model v0.1 — подготовлен функциональный кандидат, 2026-10-11
 
 Актуальный task status: canonical Beads ulab-9aa.10–.16 (primary bd API only),
