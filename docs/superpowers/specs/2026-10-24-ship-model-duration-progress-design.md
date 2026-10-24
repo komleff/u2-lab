@@ -35,11 +35,32 @@ Fresh `/4` для `sputnik-d` по умолчанию запускает **по�
 - температура, буфер, прочность, RNG и заряд не сбрасываются между рейсами; явно настроенное станционное пополнение сохраняет свою принятую endpoint-семантику;
 - пока остаётся время и `repeat=true`, после обслуживания немедленно начинается следующий рейс — horizon не превращается в ожидание.
 
-Параметры default берутся из текущего принятого mission owner: 3600 с, 100 км в одну сторону, полный трюм, цель 10000 SCU, подход 10 с, обслуживание 10 с, повтор включён. Это лабораторные условия, не новые ТТХ корабля.
+Параметры fresh default берутся из текущего принятого mission owner: 3600 с, 100 км в одну сторону, предел `2×V_FA` конкретного корпуса, полный трюм, цель 10000 SCU, подход 10 с, обслуживание 10 с, повтор и станционное пополнение включены. Это лабораторные условия, не новые ТТХ корабля.
+
+Исторические «четыре рейса за час» подтверждают требование повторения, но не являются числовым fixture: полный набор прежних входов, включая расстояние и редакцию сборки, не сохранён. При неизменных принятых 100 км старый root-runner на другом model/catalog дал три обслуживания и активный четвёртый рейс. Поэтому новый `/4` не обязан искусственно выдавать четыре события. Первый проверенный результат нового mission model при полном frozen-default input сохраняется как эталон со всеми timestamp; до этого обязательны как минимум два завершённых обслуживания и начатый следующий рейс. ТТХ, эффективность процесса, шаг и станционные ресурсы ради счётчика не меняются.
+
+### События внутри секундного шага
+
+Публичный stationary path остаётся буквально секундным: существующий `stepV3(...)` и его результат при вызове без interval не меняются. Mission wrapper получает отдельный чистый primitive `stepV3Interval(..., dtSeconds)` для `0 < dtSeconds ≤ 1` и собирает один логический tick ровно в одну секунду (последний tick ограничивается horizon).
+
+Внутри logical tick controller:
+
+- начинает каждый preview от одного и того же immutable state;
+- ограничивает интервал известной границей approach/service/horizon;
+- при пересечении точки прибытия, нулевой скорости или заполнения трюма уточняет время события детерминированной бисекцией до `1e-6 с`, отбрасывает preview и коммитит interval ровно один раз;
+- после перехода стадии расходует остаток той же секунды уже по новой стадии;
+- не коммитит RNG, ресурс, тепло, износ, подпись или cargo из отброшенных preview;
+- останавливает только цикл нулевых переходов без изменения state; положительный `dt` всегда продвигает время.
+
+Kernel возвращает фактические force и impulse, useful/process energy и подпись для каждого committed interval. Один retained trace-frame создаётся на границе logical tick, а energy/resource/impulse и signature statistics интегрируются по реальным `dt`; события сохраняют дробные timestamps. Worker checkpoint/pause возникает только между logical ticks, поэтому mid-tick accumulator не становится скрытым сохраняемым состоянием. `retention.totalTicks` остаётся числом принятых logical ticks, а stationary reader сохраняет прежнее равенство ticks и секунд.
+
+Mission result/checkpoint имеет собственную strict validation branch. При `repeat=true` fresh-default доходит до horizon; `repeat=false` или достигнутая конечная цель могут закончить опыт раньше только с явным terminal reason. Restore с последнего logical-tick checkpoint должен дать те же следующие event boundaries и итог.
 
 ### Данные и сохранение
 
-Mission spec/state/result явно сохраняют process, route, onboard cargo, mined/delivered totals, completed trips, position, velocity, stage and stage clocks. Checkpoint содержит всё состояние, необходимое для совпадения следующего решения после reopen. Старые stationary и governor документы не получают синтетических mission-полей.
+Mission spec/state/result явно сохраняют process, route, onboard cargo, mined/delivered totals, completed trips, position, velocity, stage and stage clocks. Политика станции — versioned tri-state `stationReplenish`: fresh `true` означает после окончания service полные установленные fuel-контуры и батарею; `false` означает только разгрузку; отсутствие поля допустимо только у legacy mission и означает fuel-only без зарядки. State/result отдельно накапливают `receivedFuelKg` по видам топлива и `receivedChargeJ`.
+
+Endpoint применяется один раз после обычной физики service и только у станции. Он не сбрасывает температуру, буфер, износ, RNG или clocks. Полученный заряд учитывается как отдельный внешний station input, а не как генерация корабля; пополнение топлива остаётся отдельным mass ledger. Horizon внутри service не пополняет ничего. Checkpoint содержит всё состояние, необходимое для совпадения следующего решения после reopen и для невозможности двойного пополнения. Старые stationary и governor документы не получают синтетических mission-полей.
 
 ### Производительность и progress
 
@@ -52,9 +73,9 @@ Mission spec/state/result явно сохраняют process, route, onboard ca
 
 Mission mode показывает:
 
-- тип работы и редактируемые расстояние, режим скорости, подход, обслуживание, цель и повтор;
+- тип работы и редактируемые расстояние, режим скорости, подход, обслуживание, цель, повтор и «Заправлять и заряжать»;
 - текущую стадию, позицию/скорость и cargo;
-- добыто всего, доставлено, на борту, SCU/ч и завершённые рейсы;
+- добыто всего, доставлено, на борту, SCU/ч, завершённые рейсы, полученное топливо и станционную энергию;
 - те же power/temperature/resource/signature graphs, дополненные position/velocity/cargo/delivered.
 
 Stationary mode показывает существующий action/phase editor и actual `usefulWorkJ`; поля рейса и SCU не имитируются.
@@ -62,11 +83,11 @@ Stationary mode показывает существующий action/phase edito
 ## Приёмка
 
 1. Fresh `/4` открывается на `sputnik-d`, mission mode и 3600 с; расстояние доступно для редактирования.
-2. За 3600 с контрольный Sputnik-D выполняет четыре полных возврата с разгрузкой. В trace различимы четыре рейсовых цикла; `mined = delivered + onboard`, каждое обслуживание сдаёт положительный груз, пустого ожидания до горизонта нет.
+2. За 3600 с frozen-default Sputnik-D выполняет не менее двух полных возвратов с разгрузкой, немедленно начинает следующий рейс и не переходит в пустое ожидание до horizon. `mined = delivered + onboard`, каждое обслуживание сдаёт положительный груз. Фактические число рейсов и timestamps нового `/4` публикуются как measured evidence и после первого принятого результата замораживаются как regression fixture; число не задаётся controller-константой.
 3. Изменение расстояния меняет реальное время/число рейсов, а не только подпись формы.
-4. Mission использует `/4` kernel: fuel, charge, temperature, buffer, durability and signatures непрерывны; energy residual остаётся в допуске.
+4. Mission использует `/4` kernel: fuel, charge, temperature, buffer, durability and signatures непрерывны; дробные event intervals сходятся и не дублируют side effects; energy residual остаётся в допуске.
 5. Переключение на stationary сохраняет однофазный/составной опыт без cargo/flight. Старые stationary документы открываются буквально.
-6. Pause → export → import → checkpoint continuation совпадает с uninterrupted mission по следующей стадии, cargo, запасам, RNG и финальному результату.
+6. Pause → export → import → checkpoint continuation совпадает с uninterrupted mission по следующей стадии, cargo, запасам, RNG, станционным receipts и финальному результату, включая checkpoint перед service endpoint.
 7. Реальный fresh Sputnik-D 3600 завершается не более чем за 20 секунд на штатной CI-конфигурации, показывает промежуточный прогресс, живые изменения графиков, финальные 100% и пустую ошибку.
 8. Governor batching/progress работает по ticks; его физика, synthetic qualification и runtime authorization не меняются.
 9. Видимая версия Лабы повышена; прежний root Ship Fitting и его сохранённые результаты остаются совместимы.
