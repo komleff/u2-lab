@@ -59,7 +59,7 @@ it("legacy promotion targets the requested version and errors name that target",
 const oldVersion = "ship-fitting-0.3.0";
 const workspace = () => {
   const sourceCatalog = loadCandidateCatalog("ship-fitting-0.2.4");
-  return new ShipModelWorkspace(getPresetFit("sputnik", sourceCatalog.version), sourceCatalog);
+  const w=new ShipModelWorkspace(getPresetFit("sputnik", sourceCatalog.version), sourceCatalog);w.selectWorkMode("stationary");return w;
 };
 it("workspace new presets and legacy promotion use current, without changing explicit old selection", () => {
   const w = workspace(); w.loadPreset("sputnik-d");

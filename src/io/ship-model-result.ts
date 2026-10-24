@@ -11,12 +11,15 @@ export function validateShipModelResult(input:unknown):ValidationResult<RunResul
   try{
     const r=structuredClone(input);if(!object(r))throw Error('Нужен объект результата');exactFields(r,['runId','spec','state','metrics','signatures','channels','buckets','events','retention','status','checkpoint',...(Object.hasOwn(r,'referenceMeasurements')?['referenceMeasurements']:[])],'ship result');
     const spec=validateRunSpecV3(r.spec);if(!spec.ok)return spec as ValidationResult<RunResultV3>;
+    const mission=!!spec.value.mission;
     const state=validateStateV3(r.state,spec.value.resolvedShip);if(!state.ok)return state as ValidationResult<RunResultV3>;
+    if(state.value.modelVersion!==spec.value.modelVersion)bad('state.modelVersion','Model tag не соответствует spec');
+    if(mission){const m=state.value.mission!,cfg=spec.value.mission!;if(m.positionM>cfg.route.distanceM+1e-3||m.onboardM3>spec.value.resolvedShip.cargoCapacityM3.bulk+spec.value.resolvedShip.cargoCapacityM3.universal+1e-7)bad('state.mission','Position/cargo вне условий');if((m.stage==='service'||m.stage==='complete')&&(m.positionM!==0||m.velocityMS!==0))bad('state.mission','Service требует станцию');if(cfg.stationReplenish===false&&(m.receivedChargeJ!==0||Object.values(m.receivedFuelKg).some(n=>n!==0))||cfg.stationReplenish!==true&&m.receivedChargeJ!==0)bad('state.mission','Station receipts несовместимы с policy');}
     if(Object.hasOwn(r,'referenceMeasurements'))validateShipReferences(r.referenceMeasurements,spec.value,state.value.timeSeconds);
     if(typeof r.runId!=='string'||!r.runId)bad('runId','Нужен ID опыта');
     if(!['complete','paused','cancelled'].includes(r.status))bad('status','Неизвестный status');
-    if(state.value.timeSeconds<spec.value.initialState.timeSeconds||state.value.timeSeconds>spec.value.durationSeconds||r.status==='complete'&&state.value.timeSeconds!==spec.value.durationSeconds)bad('state.timeSeconds','Время результата вне собственного горизонта');
-    const phase=spec.value.scenario.phases[state.value.phaseIndex];if(!phase||state.value.phaseElapsedSeconds>phase.durationSeconds)bad('state.phaseIndex','Фаза продолжения вне сохранённого сценария');
+    if(state.value.timeSeconds<spec.value.initialState.timeSeconds||state.value.timeSeconds>spec.value.durationSeconds||r.status==='complete'&&state.value.timeSeconds!==spec.value.durationSeconds&&!(mission&&state.value.mission?.terminalReason))bad('state.timeSeconds','Время результата вне собственного горизонта');
+    const phase=spec.value.scenario.phases[state.value.phaseIndex];if(!phase||!mission&&state.value.phaseElapsedSeconds>phase.durationSeconds)bad('state.phaseIndex','Фаза продолжения вне сохранённого сценария');
     exactFields(r.metrics,['usefulWorkJ','totalResidualJ','maximumTemperatureK','firstConstraint'],'ship metrics');
     for(const key of ['usefulWorkJ','totalResidualJ','maximumTemperatureK'])if(!finite(r.metrics[key])||key!=='totalResidualJ'&&r.metrics[key]<0)bad('metrics.'+key,'Нужна конечная измеренная метрика');
     if(r.metrics.firstConstraint!==null&&typeof r.metrics.firstConstraint!=='string')bad('metrics.firstConstraint','Нужен diagnostic или null');
@@ -53,7 +56,7 @@ export function validateShipModelResult(input:unknown):ValidationResult<RunResul
       if(r.signatures.version==='ship-signatures/2'){
         if(state.value.timeSeconds===spec.value.initialState.timeSeconds)bad('signatures.last','Пустой v2 интервал не содержит последнего measured sample');
         else for(const name of ['receiverIrW','observedEmW']){
-          const channel=r.signatures.statistics[name],latest=signal[name],latestIntegralJ=latest*spec.value.stepSeconds;
+          const channel=r.signatures.statistics[name],latest=signal[name],latestIntegralJ=latest*(mission?Math.min(1,state.value.timeSeconds-Math.floor(state.value.timeSeconds-1e-10)):spec.value.stepSeconds);
           if(![latest,channel.maxW,channel.integralJ].every(finite))continue;
           // Явный relative tolerance 1e-9 с абсолютным floor 1e-9 W/J.
           const wattsTolerance=1e-9*Math.max(1,Math.abs(latest),Math.abs(channel.maxW)),joulesTolerance=1e-9*Math.max(1,Math.abs(latestIntegralJ),Math.abs(channel.integralJ));
@@ -68,7 +71,7 @@ export function validateShipModelResult(input:unknown):ValidationResult<RunResul
     exactFields(r.retention,['policy','originalCadenceSeconds','cadenceSeconds','totalTicks','buckets','maxBuckets','estimatedBytes','maxBytes','totalEvents','droppedEvents'],'ship retention');
     const meta=r.retention;
     for(const key of ['totalTicks','buckets','maxBuckets','estimatedBytes','maxBytes','totalEvents','droppedEvents'])if(!integer(meta[key]))bad('retention.'+key,'Нужен конечный целый счётчик');
-    if(typeof meta.policy!=='string'||meta.originalCadenceSeconds!==1||!finite(meta.cadenceSeconds)||meta.cadenceSeconds<1||meta.maxBuckets<2||meta.maxBuckets>50000||meta.maxBytes>128*1024*1024||meta.estimatedBytes>meta.maxBytes||meta.totalTicks!==state.value.timeSeconds-spec.value.initialState.timeSeconds)bad('retention','Неверные пределы или измеренный интервал');
+    if(typeof meta.policy!=='string'||meta.originalCadenceSeconds!==1||!finite(meta.cadenceSeconds)||meta.cadenceSeconds<1||meta.maxBuckets<2||meta.maxBuckets>50000||meta.maxBytes>128*1024*1024||meta.estimatedBytes>meta.maxBytes||meta.totalTicks!==(mission?Math.ceil(state.value.timeSeconds-spec.value.initialState.timeSeconds-1e-9):state.value.timeSeconds-spec.value.initialState.timeSeconds))bad('retention','Неверные пределы или измеренный интервал');
     if(!Array.isArray(r.buckets)||r.buckets.length!==meta.buckets||r.buckets.length>meta.maxBuckets)throw Error('buckets: нужен полный сохранённый trace');
     let previous=-Infinity,count=0;
     for(const [j,b]of r.buckets.entries()){

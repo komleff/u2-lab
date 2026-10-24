@@ -49,7 +49,7 @@ test('visible entry compiles the actual old Sputnik with unique UI-prefill, then
   await expect(page.locator('#sm-results')).toContainText('u2-lab/4');
 });
 test('ship change does not disguise an unsupported Masking mode as Efficient or enable an invalid start',async({page})=>{
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('stealth-reference');await page.locator('#sm-mode').selectOption('Masking');
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-work-mode').selectOption('stationary');await page.locator('#sm-preset').selectOption('stealth-reference');await page.locator('#sm-mode').selectOption('Masking');
   await page.locator('#sm-preset').selectOption('sputnik-d');await expect(page.locator('#sm-mode')).toHaveValue('Masking');await expect(page.locator('#sm-start')).toBeDisabled();await expect(page.locator('#sm-start-reason')).toContainText('mode');
   await page.locator('#sm-mode').selectOption('Efficient');await expect(page.locator('#sm-start')).toBeEnabled();await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
 });
@@ -93,7 +93,7 @@ for(const version of ['ship-fitting-0.3.2','ship-fitting-0.3.1','ship-fitting-0.
   }
 });
 test('delayed file read cannot replace changed owner or a real paused Worker; cancelled chooser keeps work',async({page})=>{
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-duration').fill('60');
+  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-duration').fill('3600');
   await page.evaluate(()=>{const original=File.prototype.text;File.prototype.text=function(){return new Promise<string>(resolve=>{(window as any).releaseFile=async()=>resolve(await original.call(this));});};});
   await page.locator('#sm-import').setInputFiles(upload(serializeFit(oldFit)));await page.locator('#sm-copy').click();
   await page.evaluate(()=>(window as any).releaseFile());await expect(page.locator('#sm-error')).toContainText('изменён');await expect(page.locator('#sm-variant')).toHaveValue('B');await expect(page.locator('#sm-leave')).toHaveCount(0);
@@ -120,7 +120,7 @@ test('old measured result opens as immutable old measurement, not a /4 replay',a
 for(const width of [1440,820,390])test(`familiar ship/open/start hierarchy and all native references at ${width}px`,async({page})=>{
   await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');
   for(const [id,label]of [['sputnik-d','Спутник'],['severin-mir-h','Мир'],['stealth-reference','Стелс']]as const){
-    await page.locator('#sm-preset').selectOption(id);await expect(page.locator('#sm-opened')).toContainText(label);
+    await page.locator('#sm-work-mode').selectOption('stationary');await page.locator('#sm-preset').selectOption(id);await expect(page.locator('#sm-opened')).toContainText(label);
     await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
   }
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);

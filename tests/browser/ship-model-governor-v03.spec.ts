@@ -24,7 +24,7 @@ for(const width of [1440,390,820])test(`CR-G3-B2 mixed-model selection and refus
   await page.locator('#sm-variant').selectOption('B');
   const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:30,name:'Governor B'});
   await page.locator('#sm-import').setInputFiles({name:'governor-B.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
-  await expect(page.locator('#sm-opened')).toContainText('Governor B');await page.locator('#sm-variant').selectOption('A');await page.locator('#sm-duration').fill('600');
+  await expect(page.locator('#sm-opened')).toContainText('Governor B');await page.locator('#sm-variant').selectOption('A');await page.locator('#sm-work-mode').selectOption('stationary');await page.locator('#sm-duration').fill('3600');
   await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
   const originalRunId=await page.locator('#sm-test-owner').getAttribute('data-run-id');expect(originalRunId).toBeTruthy();
   await page.locator('#sm-variant').selectOption('B');
@@ -40,7 +40,7 @@ for(const width of [1440,390,820])test(`CR-G3-B2 mixed-model selection and refus
 
 test('CR-G3-B2 refused governor Start and checkpoint keep the paused Worker run address',async({page})=>{
   await page.goto('/?shipModel=experimental');
-  const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:300,name:'Governor ownership'});
+  const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:3000,name:'Governor ownership'});
   await page.locator('#sm-import').setInputFiles({name:'governor.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
   await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
   const originalRunId=await page.locator('#sm-test-owner').getAttribute('data-run-id');
@@ -56,7 +56,7 @@ for(const width of [1440,390,820])test(`QA-G3-B1 actual model 0.2 control restor
   await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');
   const initialPreset=await page.locator('#sm-preset').inputValue();
   const baselineDownloading=page.waitForEvent('download');await page.locator('#sm-save-run').click();const baseline=readFileSync((await (await baselineDownloading).path())!,'utf8');
-  expect(JSON.parse(baseline).modelVersion).toBe('ship-fitting-ship-model-0.1');
+  expect(JSON.parse(baseline).modelVersion).toBe('ship-fitting-ship-model-mission-0.1');
   const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:30,name:'QA-G3-B1 model switch'});
   await page.locator('#sm-import').setInputFiles({name:'qualification.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
   await expect(page.locator('#sm-opened')).toContainText('ship-fitting-ship-model-0.2');
@@ -65,12 +65,12 @@ for(const width of [1440,390,820])test(`QA-G3-B1 actual model 0.2 control restor
   const restoredDownloading=page.waitForEvent('download');await page.locator('#sm-save-run').click();const restored=readFileSync((await (await restoredDownloading).path())!,'utf8');expect(restored).toBe(baseline);
   await page.locator('#sm-start').click();await expect(page.locator('#sm-ack')).toHaveText('start ACK');
   await expect.poll(async()=>Number(await page.locator('#sm-live').getAttribute('data-time'))).toBeGreaterThan(0);
-  // Полный default run длится 60 модельных секунд; startup ACK и progress проверены отдельно.
+  // Полный default mission run длится 3600 модельных секунд; startup ACK и progress проверены отдельно.
   await expect(page.locator('#sm-status')).toHaveText('complete',{timeout:20000});await expect(page.locator('#sm-error')).toBeEmpty();
 });
 
 for(const width of [1440,390,820])test(`native /4 imported governor runs through the real Worker and preserves frozen A/B and JSON at ${width}px`,async({page})=>{
-  const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:300,name:'Synthetic browser qualification'});
+  const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:3000,name:'Synthetic browser qualification'});
   await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.2');
   await page.locator('#sm-import').setInputFiles({name:'qualification.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
   await expect(page.locator('#sm-opened')).toContainText('ship-fitting-ship-model-0.2');await expect(page.locator('#sm-tick-hz')).toContainText('30 Hz');
@@ -85,7 +85,7 @@ for(const width of [1440,390,820])test(`native /4 imported governor runs through
   await page.locator('#sm-governor-name').fill('Edited B');await page.locator('#sm-governor-apply').click();await expect(page.locator('#sm-opened')).toContainText('Edited B');
   await page.locator('#sm-governor-profile > summary').click();expect(await page.locator('#sm-frozen-owner').textContent()).toBe(frozen);await page.locator('#sm-governor-profile > summary').click();
   await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete',{timeout:15000});expect(await page.locator('#sm-frozen-owner').textContent()).toBe(frozen);
-  const csvDownloading=page.waitForEvent('download');await page.locator('#sm-save-csv').click();const csv=readFileSync((await (await csvDownloading).path())!,'utf8');expect(csv).toContain('ship-fitting-ship-model-0.2');expect(csv).toContain('endTick,300');
+  const csvDownloading=page.waitForEvent('download');await page.locator('#sm-save-csv').click();const csv=readFileSync((await (await csvDownloading).path())!,'utf8');expect(csv).toContain('ship-fitting-ship-model-0.2');expect(csv).toContain('endTick,3000');
   if(!await page.locator('#sm-transport').evaluate(node=>(node as HTMLDetailsElement).open))await page.locator('#sm-transport > summary').click();await page.locator('#sm-reset').click();await expect(page.locator('#sm-results')).toHaveCount(0);expect(await page.locator('#sm-frozen-owner').textContent()).toBe(frozen);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
   await page.locator('#sm-back').click();await expect(page.locator('#sm-start')).toBeDisabled();await expect(page.locator('#sm-governor-apply')).toBeDisabled();await page.locator('#sm-leave-cancel').click();await expect(page.locator('#sm-start')).toBeEnabled();

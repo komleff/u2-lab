@@ -1,5 +1,6 @@
 import type {RunSpecV3,StateV3} from '../model/v3/types';
 import {validateRunSpecV3} from '../model/v3/schema';
+import {stepShipModelMission} from './ship-model-mission';
 import {stepV3} from '../model/v3/step';
 import type {TickTelemetry} from '../model/types';
 import {Retention,EventRetention} from './retention';
@@ -20,20 +21,23 @@ export function runShipModelChunk(run:RunContextV3,maxSteps:number,wallBudgetMs=
   const started=performance.now();let steps=0;
   while(!run.done&&steps<maxSteps){
     if(performance.now()-started>=wallBudgetMs)break;
+    const mission=!!run.spec.mission;
     const effective=shipModelEffectivePhase(run.spec,run.state,'next'),phase=effective.phase;
     run.state.phaseIndex=effective.index;run.state.phaseElapsedSeconds=effective.elapsed;
-    if(effective.entering)run.events.add({timeSeconds:run.state.timeSeconds,kind:'phase',message:phase.id+' · '+phase.action});
+    if(!mission&&effective.entering)run.events.add({timeSeconds:run.state.timeSeconds,kind:'phase',message:phase.id+' · '+phase.action});
     if(effective.entering&&phase.mode!==undefined&&phase.mode!==run.state.mode){
       run.events.add({timeSeconds:run.state.timeSeconds,kind:'mode',message:run.state.mode+' → '+phase.mode});
       run.state.mode=phase.mode;run.state.maskingEntryTemperatureK=phase.mode==='Masking'?run.state.temperatureK:null;
       if(phase.mode!=='Masking')run.state.generator.permission=false;
     }
-    const step=stepV3(phase.environment?{...run.spec,environment:phase.environment}:run.spec,run.state,phase.requests,phase.action);
+    const step=mission?stepShipModelMission(run.spec,run.state):stepV3(phase.environment?{...run.spec,environment:phase.environment}:run.spec,run.state,phase.requests,phase.action);
+    const missionEvents=mission?(step as ReturnType<typeof stepShipModelMission>).events:[];
     if(run.signatures.version===SHIP_SIGNATURE_VERSION)run.signatures.statistics=accumulateShipModelFrames(run.spec,run.signatures.statistics,step);
     run.signatures.last=observeShipModelStep(run.spec,step);
-    run.state=step.state;if(effective.fallback)run.state.phaseElapsedSeconds=run.spec.scenario.phases[run.state.phaseIndex].durationSeconds;
+    run.state=step.state;if(!mission&&effective.fallback)run.state.phaseElapsedSeconds=run.spec.scenario.phases[run.state.phaseIndex].durationSeconds;
     run.last=observeShipModelState(run.spec,run.state,step.telemetry,run.signatures.last,step);run.metrics.usefulWorkJ+=step.telemetry.usefulWorkW;run.metrics.totalResidualJ+=step.telemetry.totalResidualJ;
     run.metrics.maximumTemperatureK=Math.max(run.metrics.maximumTemperatureK,step.state.temperatureK);
+    const pendingEvents=[...missionEvents];
     for(const d of step.diagnostics.sort((a,b)=>a.timeSeconds-b.timeSeconds)){
       const message=(d.instanceId?d.instanceId+': ':'')+d.reason+(d.remainingJ===undefined?'':' ('+d.remainingJ+' J)');
       // Keep the first causal installed limiter independently of bounded event
@@ -42,10 +46,11 @@ export function runShipModelChunk(run:RunContextV3,maxSteps:number,wallBudgetMs=
         if(run.metrics.firstConstraint===null)run.metrics.firstConstraint=message;
         else if(d.reason.startsWith('thermal-')||['power-limited','cooldown','durability-stop'].includes(d.reason))continue;
       }
-      run.events.add({timeSeconds:d.timeSeconds,kind:d.reason,message});
+      pendingEvents.push({timeSeconds:d.timeSeconds,kind:d.reason,message});
     }
+    for(const event of pendingEvents.sort((a,b)=>a.timeSeconds-b.timeSeconds))run.events.add(event);
     if(!run.retention.channels.length)run.retention=new Retention(shipModelChannelNames(run.spec),run.retention.maxBuckets);run.retention.add(run.state.timeSeconds,run.last);
-    run.done=run.state.timeSeconds>=run.spec.durationSeconds;steps++;
+    run.done=run.state.timeSeconds>=run.spec.durationSeconds||run.state.mission?.stage==='complete';steps++;
   }
   return {steps,done:run.done,state:run.state,telemetry:run.last};
 }
@@ -58,7 +63,7 @@ export function restoreShipModelRun(input:RunResultV3):RunContextV3{
   const saved=checked.value,run=createShipModelRun(saved.runId,saved.spec);
   run.referenceMeasurementsEnabled=Object.hasOwn(saved,'referenceMeasurements');
   if(saved.referenceMeasurements)run.referenceMeasurements=structuredClone(saved.referenceMeasurements);
-  run.state=structuredClone(saved.state);run.metrics=structuredClone(saved.metrics);run.signatures=structuredClone(saved.signatures);run.last=structuredClone(saved.checkpoint.lastTelemetry);run.done=saved.state.timeSeconds>=saved.spec.durationSeconds;
+  run.state=structuredClone(saved.state);run.metrics=structuredClone(saved.metrics);run.signatures=structuredClone(saved.signatures);run.last=structuredClone(saved.checkpoint.lastTelemetry);run.done=saved.state.timeSeconds>=saved.spec.durationSeconds||saved.state.mission?.stage==='complete';
   run.retention=new Retention(saved.channels,saved.retention.maxBuckets);run.retention.buckets=structuredClone(saved.buckets);run.retention.cadenceSeconds=saved.retention.cadenceSeconds;run.retention.totalTicks=saved.retention.totalTicks;
   run.events.restore(saved.events,saved.retention.totalEvents);return run;
 }

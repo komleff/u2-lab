@@ -1,6 +1,7 @@
 import type { FieldOrigin, Material, ModuleInstance, PropulsionRole, Size } from "../../fitting/types";
 import type { Species } from "../types";
 export const SCHEMA_V3 = "u2-lab/4" as const;
+export const MODEL_MISSION_V3 = 'ship-fitting-ship-model-mission-0.1' as const;
 export const MODEL_V3 = "ship-fitting-ship-model-0.1" as const;
 export const CATALOG_V3 = "ship-fitting-0.3.0" as const;
 export const SHIP_MODEL_CATALOG_VERSIONS = [CATALOG_V3, "ship-fitting-0.3.1", "ship-fitting-0.3.2"] as const;
@@ -82,7 +83,7 @@ export type EnvironmentV3 = {
   directHeat: { sourceId: string; powerW: number }[];
 };
 export type StateV3 = {
-  schemaVersion: typeof SCHEMA_V3; modelVersion: typeof MODEL_V3; stateVersion: "ship-state/1";
+  schemaVersion: typeof SCHEMA_V3; modelVersion: typeof MODEL_V3 | typeof MODEL_MISSION_V3; stateVersion: "ship-state/1" | "ship-mission-state/1"; mission?: MissionStateV3;
   timeSeconds: number; phaseIndex: number; phaseElapsedSeconds: number;
   mode: ShipMode; maskingEntryTemperatureK: number | null; temperatureK: number; chargeJ: number;
   fuelKg: Record<Species, number>; buffers: Record<string, { storedJ: number; minimumCaptureK: number | null }>;
@@ -93,12 +94,20 @@ export type StateV3 = {
   rng: { algorithm: "xorshift32/1"; seed: number; state: number };
 };
 export type RunSpecV3 = {
-  schemaVersion: typeof SCHEMA_V3; modelVersion: typeof MODEL_V3; catalogVersion: ShipModelCatalogVersion;
+  schemaVersion: typeof SCHEMA_V3; modelVersion: typeof MODEL_V3 | typeof MODEL_MISSION_V3; catalogVersion: ShipModelCatalogVersion;
   units: "SI"; approvedBaseline: false; resolvedShip: ResolvedShipV3; origins: Record<string, FieldOrigin>;
   environment: EnvironmentV3; initialState: StateV3; receiverProfile: ReceiverProfile;
   observer: { presetId: string; rangeM: number; aspectDeg: number };
   scenario: { name: string; repeat: boolean; phases: { id: string; action: "idle" | "work" | "maneuver" | "recovery"; durationSeconds: number; requests: Record<string, number>; environment: EnvironmentV3 | null; mode?: ShipMode }[] };
-  durationSeconds: number; stepSeconds: 1;
+  durationSeconds: number; stepSeconds: 1; mission?: MissionSpecV3;
 };
 export type CompilationChange = { path: string; kind: "structural" | "numeric" | "origin"; before: unknown; after: unknown };
 export type PromotedFitV3 = { fit: ShipFitV3; ship: ResolvedShipV3; changes: CompilationChange[]; sourceSnapshot: import("../../fitting/types").ShipFit };
+
+export type MissionSpecV3={
+ version:'ship-mission/1';
+ route:{distanceM:number;referenceVfaMS:number;referenceSource:string;speedPolicy:'vfa'|'custom';speedMultiplier:number;cruiseSpeedMS:number};
+ process:{id:'LAB-ORE-01';energyJPerM3:number;densityKgM3:number;extractFactor:number;softFactor:number;workFactor:number;returnFraction:number};
+ selectedWorkGroup:string[];approachSeconds:number;serviceSeconds:number;targetM3:number;stopPolicy:'full-hold'|'first-stop';repeat:boolean;stationReplenish?:boolean;
+};
+export type MissionStateV3={version:'ship-mission-state/1';stage:'outbound'|'approach'|'mining'|'inbound'|'service'|'complete';stageElapsedSeconds:number;positionM:number;velocityMS:number;onboardM3:number;minedM3:number;deliveredM3:number;completedTrips:number;receivedFuelKg:Record<Species,number>;receivedChargeJ:number;terminalReason:null|'single-trip'|'target'|'first-stop'};

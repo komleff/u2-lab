@@ -23,7 +23,7 @@ export function shipModelEffectivePhase(spec:RunSpecV3,state:StateV3,sample:'nex
 // Registry belongs to the captured installation, never to the first observed tick.
 export function shipModelChannelNames(spec:RunSpecV3):string[]{
   const ship=spec.resolvedShip;
-  return [...new Set([...stepChannels,...signalChannels.map(id=>'signal:'+id),'fuelKg:diesel','fuelKg:hydrogen',
+  return [...new Set([...(spec.mission?['positionM','velocityMS','onboardM3','minedM3','deliveredM3','completedTrips','receivedChargeJ','stationInputJ','processWorkJ','processReturnJ']:[]),...stepChannels,...signalChannels.map(id=>'signal:'+id),'fuelKg:diesel','fuelKg:hydrogen',
     ...Object.keys(ship.bufferCapacityJ).map(id=>'bufferJ:'+id),
     ...ship.surfaces.map(s=>'surfaceOpen:'+s.id),
     ...ship.instances.flatMap(i=>[...moduleChannels.map(name=>name+':'+i.id),...(pump(i.item.family)?['tiHotK','tiBusW','tiNetBenefitW','tiActive','tiHotMeasured'].map(name=>name+':'+i.id):[])]),
@@ -31,6 +31,7 @@ export function shipModelChannelNames(spec:RunSpecV3):string[]{
 }
 export function observeShipModelState(spec:RunSpecV3,state:StateV3,stepTelemetry:TickTelemetry,signal:ShipSignal|null,observation?:{frames:readonly {durationSeconds:number}[]}):TickTelemetry{
   const values:TickTelemetry=Object.fromEntries(shipModelChannelNames(spec).map(id=>[id,finite(stepTelemetry[id])]));
+  if(state.mission)for(const id of ['positionM','velocityMS','onboardM3','minedM3','deliveredM3','completedTrips','receivedChargeJ']as const)values[id]=state.mission[id];
   values.temperatureK=finite(state.temperatureK);values.chargeJ=finite(state.chargeJ);
   for(const species of ['diesel','hydrogen'] as const)values['fuelKg:'+species]=finite(state.fuelKg[species]);
   for(const id of Object.keys(spec.resolvedShip.bufferCapacityJ))values['bufferJ:'+id]=finite(state.buffers[id]?.storedJ);

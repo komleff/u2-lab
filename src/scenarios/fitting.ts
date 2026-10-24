@@ -6,12 +6,12 @@ import { validateRunSpecV2 } from "../model/v2/step";
 import {compileShipModelFit,validateRunSpecV3} from '../model/v3/schema';
 import {SCHEMA_V3,MODEL_V3,type RunSpecV3,type ShipFitV3,type CandidateCatalogV3,type ShipMode,type EnvironmentV3,type ReceiverProfile} from '../model/v3/types';
 import {CONTROLLER_CANDIDATES} from '../model/v3/step';
-import {DEFAULT_SHIP_MODEL_BACKGROUND_K} from '../app/ship-model-defaults';
-export type ShipModelConditions={durationSeconds?:number;temperatureK?:number;backgroundK?:number;mode?:ShipMode;receiverProfile?:ReceiverProfile;environment?:EnvironmentV3;observer?:RunSpecV3['observer'];repeat?:boolean;duty?:number;action?:RunSpecV3['scenario']['phases'][number]['action'];maneuverRole?:import('../fitting/types').PropulsionRole;phases?:RunSpecV3['scenario']['phases']};
+import {DEFAULT_SHIP_MODEL_DURATION_SECONDS,DEFAULT_SHIP_MODEL_BACKGROUND_K} from '../app/ship-model-defaults';
+export type ShipModelConditions={workMode?:'mission'|'stationary';referenceVfaMS?:number;mission?:import('../model/v3/types').MissionSpecV3;durationSeconds?:number;temperatureK?:number;backgroundK?:number;mode?:ShipMode;receiverProfile?:ReceiverProfile;environment?:EnvironmentV3;observer?:RunSpecV3['observer'];repeat?:boolean;duty?:number;action?:RunSpecV3['scenario']['phases'][number]['action'];maneuverRole?:import('../fitting/types').PropulsionRole;phases?:RunSpecV3['scenario']['phases']};
 // Только fresh-run initialization; сохранённое продолжение не проходит этот builder.
 export function makeShipModelMiningRun(fit:ShipFitV3,catalog:CandidateCatalogV3,x:ShipModelConditions={}):ValidationResult<RunSpecV3>{
   const compiled=compileShipModelFit(fit,catalog);if(!compiled.ok)return compiled;const ship=compiled.value;
-  const mode=x.mode??'Efficient',temperatureK=x.temperatureK??300,durationSeconds=x.durationSeconds??60;
+  const mode=x.mode??'Efficient',temperatureK=x.temperatureK??300,durationSeconds=x.durationSeconds??DEFAULT_SHIP_MODEL_DURATION_SECONDS;
   const spec:RunSpecV3={schemaVersion:SCHEMA_V3,modelVersion:MODEL_V3,catalogVersion:catalog.version,units:'SI',approvedBaseline:false,resolvedShip:ship,origins:{...ship.origins},
     environment:x.environment??{radiativeBackgroundK:x.backgroundK??DEFAULT_SHIP_MODEL_BACKGROUND_K,backgroundSourceId:'lab-radiative-background',thermalField:null,solarFluxWm2:0,solarSourceId:null,energyInputs:[],directHeat:[]},
     receiverProfile:x.receiverProfile??'positive-only',observer:x.observer??{presetId:'S-dedicated-G1',rangeM:16000,aspectDeg:0},

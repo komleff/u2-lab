@@ -1,6 +1,6 @@
 import type { ValidationResult } from "../../catalog/schema";
 import type { CandidateCatalogV3, ResolvedInstanceV3, ResolvedShipV3, ResolvedSchoolV3, ShipFitV3, RunSpecV3, StateV3, EnvironmentV3, ModuleItemV3, HullV3, ThermalSurface } from "./types";
-import { SHIP_MODEL_CATALOG_VERSIONS, MODEL_V3, SCHEMA_V3 } from "./types";
+import { SHIP_MODEL_CATALOG_VERSIONS, MODEL_MISSION_V3, MODEL_V3, SCHEMA_V3 } from "./types";
 import type { FieldOrigin } from "../../fitting/types";
 import {OBSERVER_PRESET_IDS} from '../../signatures/presets';
 
@@ -219,9 +219,10 @@ function environmentChecks(c:Check,input:unknown,path:string){
   for(const key of ['energyInputs','directHeat']as const)if(c.list(e[key],path+"."+key))e[key].forEach((row,i)=>{const p=path+"."+key+"."+i;if(!c.exact(row,p,["sourceId","powerW",...(key==='energyInputs'?['representation']:[])]))return;c.number(row.powerW,p+".powerW");source(row.sourceId,p+".sourceId");if(key==='energyInputs')c.choice((row as any).representation,p+".representation",['electric','heat']);});
 }
 function stateChecks(c:Check,input:unknown,ship:ResolvedShipV3,path:string){
-  if(!c.exact(input,path,["schemaVersion","modelVersion","stateVersion","timeSeconds","phaseIndex","phaseElapsedSeconds","mode","maskingEntryTemperatureK","temperatureK","chargeJ","fuelKg","buffers","governor","generator","modules","surfaceOpen","rng"]))return;
-  const s=input as StateV3;c.choice(s.schemaVersion,path+".schemaVersion",[SCHEMA_V3]);c.choice(s.modelVersion,path+".modelVersion",[MODEL_V3]);c.choice(s.stateVersion,path+".stateVersion",['ship-state/1']);
-  for(const key of ['timeSeconds','phaseIndex','phaseElapsedSeconds']as const)c.number(s[key],path+"."+key,0,Infinity,true);
+  if(!c.exact(input,path,["schemaVersion","modelVersion","stateVersion","timeSeconds","phaseIndex","phaseElapsedSeconds","mode","maskingEntryTemperatureK","temperatureK","chargeJ","fuelKg","buffers","governor","generator","modules","surfaceOpen","rng"],(input as StateV3)?.modelVersion===MODEL_MISSION_V3?["mission"]:[]))return;
+  const s=input as StateV3;c.choice(s.schemaVersion,path+".schemaVersion",[SCHEMA_V3]);c.choice(s.modelVersion,path+".modelVersion",[MODEL_V3,MODEL_MISSION_V3]);c.choice(s.stateVersion,path+".stateVersion",[s.modelVersion===MODEL_MISSION_V3?'ship-mission-state/1':'ship-state/1']);
+  for(const key of ['timeSeconds','phaseIndex','phaseElapsedSeconds']as const)c.number(s[key],path+"."+key,0,Infinity,key==='phaseIndex'||s.modelVersion!==MODEL_MISSION_V3);
+  if(s.modelVersion===MODEL_MISSION_V3)missionStateChecks(c,s.mission,path+'.mission');
   c.choice(s.mode,path+".mode",ship.hull.modes);c.positive(s.temperatureK,path+".temperatureK");c.number(s.chargeJ,path+".chargeJ",0,ship.batteryCapacityJ);
   if(s.maskingEntryTemperatureK!==null)c.positive(s.maskingEntryTemperatureK,path+".maskingEntryTemperatureK");else if(s.mode==='Masking')c.bad(path+".maskingEntryTemperatureK","В Masking нужна сохранённая температура входа");
   if(c.exact(s.fuelKg,path+".fuelKg",['diesel','hydrogen']))for(const sp of ['diesel','hydrogen']as const)c.number(s.fuelKg[sp],path+".fuelKg."+sp,0,ship.resources[sp].capacityKg);
@@ -235,8 +236,8 @@ function stateChecks(c:Check,input:unknown,ship:ResolvedShipV3,path:string){
 export function validateStateV3(input:unknown,ship:ResolvedShipV3):ValidationResult<StateV3>{const c=new Check();try{stateChecks(c,input,ship,'state');}catch{c.bad('state','Неполный state или физический контекст');}return c.result(input as StateV3);}
 export function validateRunSpecV3(input:unknown):ValidationResult<RunSpecV3>{
   const c=new Check();try{
-    if(!c.exact(input,'$',['schemaVersion','modelVersion','catalogVersion','units','approvedBaseline','resolvedShip','origins','environment','initialState','receiverProfile','observer','scenario','durationSeconds','stepSeconds']))return c.result(input as RunSpecV3);
-    const s=input as RunSpecV3;c.choice(s.schemaVersion,'schemaVersion',[SCHEMA_V3]);c.choice(s.modelVersion,'modelVersion',[MODEL_V3]);c.choice(s.catalogVersion,'catalogVersion',SHIP_MODEL_CATALOG_VERSIONS);c.choice(s.units,'units',['SI']);c.choice(s.approvedBaseline,'approvedBaseline',[false]);c.choice(s.receiverProfile,'receiverProfile',['positive-only','absolute-contrast']);c.choice(s.stepSeconds,'stepSeconds',[1]);c.number(s.durationSeconds,'durationSeconds',1,Infinity,true);
+    if(!c.exact(input,'$',['schemaVersion','modelVersion','catalogVersion','units','approvedBaseline','resolvedShip','origins','environment','initialState','receiverProfile','observer','scenario','durationSeconds','stepSeconds'],(input as RunSpecV3)?.modelVersion===MODEL_MISSION_V3?['mission']:[]))return c.result(input as RunSpecV3);
+    const s=input as RunSpecV3;c.choice(s.schemaVersion,'schemaVersion',[SCHEMA_V3]);c.choice(s.modelVersion,'modelVersion',[MODEL_V3,MODEL_MISSION_V3]);c.choice(s.catalogVersion,'catalogVersion',SHIP_MODEL_CATALOG_VERSIONS);c.choice(s.units,'units',['SI']);c.choice(s.approvedBaseline,'approvedBaseline',[false]);c.choice(s.receiverProfile,'receiverProfile',['positive-only','absolute-contrast']);c.choice(s.stepSeconds,'stepSeconds',[1]);c.number(s.durationSeconds,'durationSeconds',1,Infinity,true);
     if(resolvedChecks(c,s.resolvedShip,'resolvedShip')){
       if(s.resolvedShip.catalogVersion!==s.catalogVersion){
         c.bad('catalogVersion','Версия опыта не совпадает с resolvedShip.catalogVersion');
@@ -244,6 +245,8 @@ export function validateRunSpecV3(input:unknown):ValidationResult<RunSpecV3>{
       }
       stateChecks(c,s.initialState,s.resolvedShip,'initialState');
     }
+    if(s.initialState.modelVersion!==s.modelVersion)c.bad('initialState.modelVersion','Несовместимый model tag');
+    if(s.modelVersion===MODEL_MISSION_V3)missionSpecChecks(c,s);
     environmentChecks(c,s.environment,'environment');
     if(c.exact(s.observer,'observer',['presetId','rangeM','aspectDeg'])){c.choice(s.observer.presetId,'observer.presetId',OBSERVER_PRESET_IDS);c.positive(s.observer.rangeM,'observer.rangeM');c.number(s.observer.aspectDeg,'observer.aspectDeg',-Infinity);}
     if(c.exact(s.scenario,'scenario',['name','repeat','phases'])){c.text(s.scenario.name,'scenario.name');c.flag(s.scenario.repeat,'scenario.repeat');if(c.list(s.scenario.phases,'scenario.phases')){const ids=new Set();if(!s.scenario.phases.length)c.bad('scenario.phases','Нужна фаза');for(const[i,p]of s.scenario.phases.entries()){const path='scenario.phases.'+i;if(!c.exact(p,path,['id','action','durationSeconds','requests','environment'],['mode']))continue;if(p.mode!==undefined)c.choice(p.mode,path+'.mode',s.resolvedShip.hull.modes);c.text(p.id,path+'.id');if(ids.has(p.id))c.bad(path+'.id','Повтор фазы');ids.add(p.id);c.choice(p.action,path+'.action',['idle','work','maneuver','recovery']);c.number(p.durationSeconds,path+'.durationSeconds',1,Infinity,true);if(p.environment!==null)environmentChecks(c,p.environment,path+'.environment');if(!object(p.requests))c.bad(path+'.requests','Нужен record запросов');else for(const[id,duty]of Object.entries(p.requests)){c.number(duty,path+'.requests.'+id,0,1);if(!s.resolvedShip.instances.some(i=>i.id===id))c.bad(path+'.requests.'+id,'Неизвестный установленный instance');}}}}
@@ -251,4 +254,24 @@ export function validateRunSpecV3(input:unknown):ValidationResult<RunSpecV3>{
     for(const[key,value]of Object.entries(s))if(!['origins','resolvedShip'].includes(key))c.numericOrigins(value,s.origins,key,key);
   }catch{c.bad('$','Неполный ship-model snapshot');}
   return c.result(input as RunSpecV3);
+}
+
+function missionStateChecks(c:Check,m:unknown,path:string){
+ if(!c.exact(m,path,['version','stage','stageElapsedSeconds','positionM','velocityMS','onboardM3','minedM3','deliveredM3','completedTrips','receivedFuelKg','receivedChargeJ','terminalReason']))return;
+ c.choice(m.version,path+'.version',['ship-mission-state/1']);c.choice(m.stage,path+'.stage',['outbound','approach','mining','inbound','service','complete']);
+ for(const k of ['stageElapsedSeconds','positionM','onboardM3','minedM3','deliveredM3','receivedChargeJ'])c.number(m[k],path+'.'+k);
+ c.number(m.velocityMS,path+'.velocityMS',-2999.999,2999.999);c.number(m.completedTrips,path+'.completedTrips',0,Infinity,true);
+ if(c.exact(m.receivedFuelKg,path+'.receivedFuelKg',['diesel','hydrogen']))for(const sp of ['diesel','hydrogen'])c.number(m.receivedFuelKg[sp],path+'.receivedFuelKg.'+sp);
+ c.choice(m.terminalReason,path+'.terminalReason',[null,'single-trip','target','first-stop']);
+ if(Math.abs(m.minedM3-m.deliveredM3-m.onboardM3)>1e-7*Math.max(1,m.minedM3))c.bad(path,'Нарушен cargo ledger');
+ if((m.stage==='complete')!==(m.terminalReason!==null))c.bad(path,'Terminal stage/reason должны совпадать');
+}
+function missionSpecChecks(c:Check,s:RunSpecV3){
+ const m=s.mission,p='mission';if(!c.exact(m,p,['version','route','process','selectedWorkGroup','approachSeconds','serviceSeconds','targetM3','stopPolicy','repeat'],['stationReplenish']))return;
+ c.choice(m.version,p+'.version',['ship-mission/1']);c.flag(m.repeat,p+'.repeat');if(m.stationReplenish!==undefined)c.flag(m.stationReplenish,p+'.stationReplenish');
+ c.choice(m.stopPolicy,p+'.stopPolicy',['full-hold','first-stop']);for(const k of ['approachSeconds','serviceSeconds']as const)c.number(m[k],p+'.'+k);c.positive(m.targetM3,p+'.targetM3');
+ if(c.exact(m.route,p+'.route',['distanceM','referenceVfaMS','referenceSource','speedPolicy','speedMultiplier','cruiseSpeedMS'])){c.number(m.route.distanceM,p+'.route.distanceM');c.number(m.route.referenceVfaMS,p+'.route.referenceVfaMS',Number.MIN_VALUE,2999);c.text(m.route.referenceSource,p+'.route.referenceSource');c.choice(m.route.speedPolicy,p+'.route.speedPolicy',['vfa','custom']);c.positive(m.route.speedMultiplier,p+'.route.speedMultiplier');c.number(m.route.cruiseSpeedMS,p+'.route.cruiseSpeedMS',Number.MIN_VALUE,2999);if(m.route.speedPolicy==='vfa'&&m.route.cruiseSpeedMS!==m.route.referenceVfaMS*m.route.speedMultiplier)c.bad(p+'.route','Скорость не соответствует явному V_FA');}
+ if(c.exact(m.process,p+'.process',['id','energyJPerM3','densityKgM3','extractFactor','softFactor','workFactor','returnFraction'])){c.choice(m.process.id,p+'.process.id',['LAB-ORE-01']);for(const k of ['energyJPerM3','densityKgM3','extractFactor','softFactor','workFactor']as const)c.positive(m.process[k],p+'.process.'+k);c.number(m.process.returnFraction,p+'.process.returnFraction',0,1);}
+ if(c.list(m.selectedWorkGroup,p+'.selectedWorkGroup')){if(new Set(m.selectedWorkGroup).size!==m.selectedWorkGroup.length)c.bad(p+'.selectedWorkGroup','Повтор владельца');for(const id of m.selectedWorkGroup)if(!s.resolvedShip.instances.some(i=>i.id===id&&i.item.family==='mining'))c.bad(p+'.selectedWorkGroup','Неизвестный установленный лазер');}
+ const state=s.initialState.mission;if(state){if(state.positionM>m.route.distanceM+1e-6)c.bad('initialState.mission.positionM','За границей маршрута');if(state.onboardM3>s.resolvedShip.cargoCapacityM3.bulk+s.resolvedShip.cargoCapacityM3.universal+1e-7)c.bad('initialState.mission.onboardM3','Переполнен совместимый трюм');}
 }
