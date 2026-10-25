@@ -20,7 +20,7 @@
     "src/model/v3/thermal-control.ts": "acdee22c9dcd5663684164eb0603c38318900e138e6be5632a1968dd578b3e56",
     "src/model/v3/thermal-surfaces.ts": "5a0fa42878bffa2de2be4aee76f35f9886eda4ab283c7baefe3c8330cd8f7157",
     "src/model/v3/thermoinverter.ts": "5e49d31484c8a3b86cc0f0dc36ce05c87e51c251be71632d209d61aa29eb6481",
-    "src/model/v3/types.ts": "1ed1c2c20613738eaa5fc61963560eff40075f8edcd4483608a8abd0168ebd31",
+    "src/model/v3/types.ts": "2929cc2b1074aa55abcbde8412c5c8d76be2dffe3691b12eb4c22aff7b3d22ce",
     "src/runner/ship-model-run.ts": "d4001ea742e727d2861e53c2a0dee6f23ab5fd0ecc82c17f5802ea8df30b399c",
     "src/runner/ship-model-telemetry.ts": "f4b059da332e67f453deb64cb13ddc0dabb7a24a8ef3fdfc76bbe05a2fe54c74",
     "src/scenarios/fitting.ts": "35b29e0bbbdf42fa9827c906a107711635735c9d5731c30cdf519cb5589ed01d",
