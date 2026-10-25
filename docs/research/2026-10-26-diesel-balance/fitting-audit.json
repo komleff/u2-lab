@@ -1,0 +1,6293 @@
+{
+  "schemaVersion": "fitting-restrictions-audit/1",
+  "catalog": "ship-fitting-0.3.3",
+  "catalogHash": "578d7b16c0eaee62d2b2ef962a98a327bf0af054d1453c656c238a649cedd27c",
+  "scope": "Lab /4 catalog and validation; read-only, family controls in cloned memory only",
+  "matrix": [
+    {
+      "hull": "sputnik",
+      "item": "generator-diesel-XS",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "engine-diesel-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "engine-diesel-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "engine-diesel-M-single",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "engine-diesel-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "engine-hydrogen-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "engine-hydrogen-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "engine-hydrogen-M-single",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "engine-hydrogen-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "engine-electric-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "engine-electric-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "engine-electric-M-single",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "engine-electric-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "generator-diesel-S",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "generator-diesel-M",
+      "family": "generator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "generator-hydrogen-S",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "generator-hydrogen-M",
+      "family": "generator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "solar-S",
+      "family": "solar",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "battery-XS",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "battery-S",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "battery-M",
+      "family": "battery",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "tank-diesel-S",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "tank-hydrogen-S",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "tank-diesel-M",
+      "family": "tank",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "tank-hydrogen-M",
+      "family": "tank",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "mining-civil-S",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "cargo-universal-S",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "cargo-universal-M",
+      "family": "cargo",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "cargo-bulk-S",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "cargo-bulk-M",
+      "family": "cargo",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "radiator-passive-S",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "radiator-passive-M",
+      "family": "radiator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "radiator-active-S",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "buffer-S",
+      "family": "buffer",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "h2-cooler-S",
+      "family": "h2",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "thermoinverter-S",
+      "family": "thermoinverter",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "mining-civil-M",
+      "family": "mining",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "radiator-active-M",
+      "family": "radiator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "buffer-M",
+      "family": "buffer",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "h2-cooler-M",
+      "family": "h2",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "thermoinverter-M",
+      "family": "thermoinverter",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "solar-M",
+      "family": "solar",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "shielding-S",
+      "family": "shielding",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "gyrodyne-S",
+      "family": "gyrodyne",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "turn"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "ram-S",
+      "family": "ram",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "shell-S",
+      "family": "shell",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "sensor-S",
+      "family": "sensor",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "electric-heater-S",
+      "family": "electric-heater",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "furnace-diesel-S",
+      "family": "furnace",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "furnace-hydrogen-S",
+      "family": "furnace",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "pump-radiator-S",
+      "family": "pump-radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "mining-industrial-S",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "sputnik",
+      "item": "engine-diesel-industrial-M-march",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "engine-diesel-industrial-M-retro",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "engine-diesel-industrial-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "sputnik",
+      "item": "mining-industrial-M",
+      "family": "mining",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "severin-mir",
+      "item": "generator-diesel-XS",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "engine-diesel-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "engine-diesel-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "engine-diesel-M-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "engine-diesel-M-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "engine-hydrogen-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "engine-hydrogen-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "engine-hydrogen-M-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "engine-hydrogen-M-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "engine-electric-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "engine-electric-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "engine-electric-M-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "engine-electric-M-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "generator-diesel-S",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "generator-diesel-M",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "generator-hydrogen-S",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "generator-hydrogen-M",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "solar-S",
+      "family": "solar",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "battery-XS",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "battery-S",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "battery-M",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "tank-diesel-S",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "tank-hydrogen-S",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "tank-diesel-M",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "tank-hydrogen-M",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "mining-civil-S",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "cargo-universal-S",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "cargo-universal-M",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "cargo-bulk-S",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "cargo-bulk-M",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "radiator-passive-S",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "radiator-passive-M",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "radiator-active-S",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "buffer-S",
+      "family": "buffer",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "h2-cooler-S",
+      "family": "h2",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "thermoinverter-S",
+      "family": "thermoinverter",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "mining-civil-M",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "radiator-active-M",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "buffer-M",
+      "family": "buffer",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "h2-cooler-M",
+      "family": "h2",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "thermoinverter-M",
+      "family": "thermoinverter",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "solar-M",
+      "family": "solar",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "shielding-S",
+      "family": "shielding",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "gyrodyne-S",
+      "family": "gyrodyne",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "turn"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "ram-S",
+      "family": "ram",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "severin-mir",
+      "item": "shell-S",
+      "family": "shell",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "severin-mir",
+      "item": "sensor-S",
+      "family": "sensor",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "electric-heater-S",
+      "family": "electric-heater",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "furnace-diesel-S",
+      "family": "furnace",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "furnace-hydrogen-S",
+      "family": "furnace",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "pump-radiator-S",
+      "family": "pump-radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "mining-industrial-S",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "engine-diesel-industrial-M-march",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "engine-diesel-industrial-M-retro",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "engine-diesel-industrial-M-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "severin-mir",
+      "item": "mining-industrial-M",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "generator-diesel-XS",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "engine-diesel-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "engine-diesel-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "engine-diesel-M-single",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "engine-diesel-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "engine-hydrogen-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "engine-hydrogen-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "engine-hydrogen-M-single",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "engine-hydrogen-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "engine-electric-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "engine-electric-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "engine-electric-M-single",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "engine-electric-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "generator-diesel-S",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "generator-diesel-M",
+      "family": "generator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "generator-hydrogen-S",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "generator-hydrogen-M",
+      "family": "generator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "solar-S",
+      "family": "solar",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "battery-XS",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "battery-S",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "battery-M",
+      "family": "battery",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "tank-diesel-S",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "tank-hydrogen-S",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "tank-diesel-M",
+      "family": "tank",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "tank-hydrogen-M",
+      "family": "tank",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "mining-civil-S",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "cargo-universal-S",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "cargo-universal-M",
+      "family": "cargo",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "cargo-bulk-S",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "cargo-bulk-M",
+      "family": "cargo",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "radiator-passive-S",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "radiator-passive-M",
+      "family": "radiator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "radiator-active-S",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "buffer-S",
+      "family": "buffer",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "h2-cooler-S",
+      "family": "h2",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "thermoinverter-S",
+      "family": "thermoinverter",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "mining-civil-M",
+      "family": "mining",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "radiator-active-M",
+      "family": "radiator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "buffer-M",
+      "family": "buffer",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "h2-cooler-M",
+      "family": "h2",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "thermoinverter-M",
+      "family": "thermoinverter",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "solar-M",
+      "family": "solar",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "shielding-S",
+      "family": "shielding",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "gyrodyne-S",
+      "family": "gyrodyne",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "turn"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "ram-S",
+      "family": "ram",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "shell-S",
+      "family": "shell",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "sensor-S",
+      "family": "sensor",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "electric-heater-S",
+      "family": "electric-heater",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "furnace-diesel-S",
+      "family": "furnace",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "furnace-hydrogen-S",
+      "family": "furnace",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "pump-radiator-S",
+      "family": "pump-radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "mining-industrial-S",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "engine-diesel-industrial-M-march",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "engine-diesel-industrial-M-retro",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "engine-diesel-industrial-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "stealth-reference",
+      "item": "mining-industrial-M",
+      "family": "mining",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "generator-diesel-XS",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "engine-diesel-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "engine-diesel-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "engine-diesel-M-single",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "engine-diesel-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "engine-hydrogen-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "engine-hydrogen-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "engine-hydrogen-M-single",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "engine-hydrogen-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "engine-electric-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "engine-electric-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "engine-electric-M-single",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "engine-electric-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "generator-diesel-S",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "generator-diesel-M",
+      "family": "generator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "generator-hydrogen-S",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "generator-hydrogen-M",
+      "family": "generator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "solar-S",
+      "family": "solar",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "battery-XS",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "battery-S",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "battery-M",
+      "family": "battery",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "tank-diesel-S",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "tank-hydrogen-S",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "tank-diesel-M",
+      "family": "tank",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "tank-hydrogen-M",
+      "family": "tank",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "mining-civil-S",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "cargo-universal-S",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "cargo-universal-M",
+      "family": "cargo",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "cargo-bulk-S",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "cargo-bulk-M",
+      "family": "cargo",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "radiator-passive-S",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1"
+      ],
+      "familyAllowedSlots": [
+        "signature-1"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "radiator-passive-M",
+      "family": "radiator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "radiator-active-S",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1"
+      ],
+      "familyAllowedSlots": [
+        "signature-1"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "buffer-S",
+      "family": "buffer",
+      "geometricSlots": [
+        "signature-1"
+      ],
+      "familyAllowedSlots": [
+        "signature-1"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "h2-cooler-S",
+      "family": "h2",
+      "geometricSlots": [
+        "signature-1"
+      ],
+      "familyAllowedSlots": [
+        "signature-1"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "thermoinverter-S",
+      "family": "thermoinverter",
+      "geometricSlots": [
+        "signature-1"
+      ],
+      "familyAllowedSlots": [
+        "signature-1"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "mining-civil-M",
+      "family": "mining",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "radiator-active-M",
+      "family": "radiator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "buffer-M",
+      "family": "buffer",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "h2-cooler-M",
+      "family": "h2",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "thermoinverter-M",
+      "family": "thermoinverter",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "solar-M",
+      "family": "solar",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "shielding-S",
+      "family": "shielding",
+      "geometricSlots": [
+        "signature-1"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "gyrodyne-S",
+      "family": "gyrodyne",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "ram-S",
+      "family": "ram",
+      "geometricSlots": [
+        "signature-1"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "shell-S",
+      "family": "shell",
+      "geometricSlots": [
+        "signature-1"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "sensor-S",
+      "family": "sensor",
+      "geometricSlots": [
+        "signature-1"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "electric-heater-S",
+      "family": "electric-heater",
+      "geometricSlots": [
+        "signature-1"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "furnace-diesel-S",
+      "family": "furnace",
+      "geometricSlots": [
+        "signature-1"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "furnace-hydrogen-S",
+      "family": "furnace",
+      "geometricSlots": [
+        "signature-1"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "pump-radiator-S",
+      "family": "pump-radiator",
+      "geometricSlots": [
+        "signature-1"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "mining-industrial-S",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "pony",
+      "item": "engine-diesel-industrial-M-march",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "engine-diesel-industrial-M-retro",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "engine-diesel-industrial-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "pony",
+      "item": "mining-industrial-M",
+      "family": "mining",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "generator-diesel-XS",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "engine-diesel-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "engine-diesel-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "engine-diesel-M-single",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "engine-diesel-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "engine-hydrogen-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "engine-hydrogen-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "engine-hydrogen-M-single",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "engine-hydrogen-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "engine-electric-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "engine-electric-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "engine-electric-M-single",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "engine-electric-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "generator-diesel-S",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "generator-diesel-M",
+      "family": "generator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "generator-hydrogen-S",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "generator-hydrogen-M",
+      "family": "generator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "solar-S",
+      "family": "solar",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "battery-XS",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "battery-S",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "battery-M",
+      "family": "battery",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "tank-diesel-S",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "tank-hydrogen-S",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "tank-diesel-M",
+      "family": "tank",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "tank-hydrogen-M",
+      "family": "tank",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "mining-civil-S",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "cargo-universal-S",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "cargo-universal-M",
+      "family": "cargo",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "cargo-bulk-S",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "cargo-bulk-M",
+      "family": "cargo",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "radiator-passive-S",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "radiator-passive-M",
+      "family": "radiator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "radiator-active-S",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "buffer-S",
+      "family": "buffer",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "h2-cooler-S",
+      "family": "h2",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "thermoinverter-S",
+      "family": "thermoinverter",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "mining-civil-M",
+      "family": "mining",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "radiator-active-M",
+      "family": "radiator",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "buffer-M",
+      "family": "buffer",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "h2-cooler-M",
+      "family": "h2",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "thermoinverter-M",
+      "family": "thermoinverter",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "solar-M",
+      "family": "solar",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "shielding-S",
+      "family": "shielding",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "gyrodyne-S",
+      "family": "gyrodyne",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "ram-S",
+      "family": "ram",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "shell-S",
+      "family": "shell",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "sensor-S",
+      "family": "sensor",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "electric-heater-S",
+      "family": "electric-heater",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "furnace-diesel-S",
+      "family": "furnace",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "furnace-hydrogen-S",
+      "family": "furnace",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "pump-radiator-S",
+      "family": "pump-radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "mining-industrial-S",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2"
+      ]
+    },
+    {
+      "hull": "industrial-S",
+      "item": "engine-diesel-industrial-M-march",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "engine-diesel-industrial-M-retro",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "engine-diesel-industrial-M-pair",
+      "family": "engine",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-S",
+      "item": "mining-industrial-M",
+      "family": "mining",
+      "geometricSlots": [],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "civilian-M",
+      "item": "generator-diesel-XS",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "engine-diesel-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "engine-diesel-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "engine-diesel-M-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "engine-diesel-M-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "engine-hydrogen-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "engine-hydrogen-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "engine-hydrogen-M-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "engine-hydrogen-M-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "engine-electric-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "engine-electric-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "engine-electric-M-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "engine-electric-M-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "generator-diesel-S",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "generator-diesel-M",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "generator-hydrogen-S",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "generator-hydrogen-M",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "solar-S",
+      "family": "solar",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "battery-XS",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "battery-S",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "battery-M",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "tank-diesel-S",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "tank-hydrogen-S",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "tank-diesel-M",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "tank-hydrogen-M",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "mining-civil-S",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "cargo-universal-S",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "cargo-universal-M",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "cargo-bulk-S",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "cargo-bulk-M",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "radiator-passive-S",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "radiator-passive-M",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "radiator-active-S",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "buffer-S",
+      "family": "buffer",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "h2-cooler-S",
+      "family": "h2",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "thermoinverter-S",
+      "family": "thermoinverter",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "mining-civil-M",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "radiator-active-M",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "buffer-M",
+      "family": "buffer",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "h2-cooler-M",
+      "family": "h2",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "thermoinverter-M",
+      "family": "thermoinverter",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "solar-M",
+      "family": "solar",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "shielding-S",
+      "family": "shielding",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "civilian-M",
+      "item": "gyrodyne-S",
+      "family": "gyrodyne",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "civilian-M",
+      "item": "ram-S",
+      "family": "ram",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "civilian-M",
+      "item": "shell-S",
+      "family": "shell",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "civilian-M",
+      "item": "sensor-S",
+      "family": "sensor",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "civilian-M",
+      "item": "electric-heater-S",
+      "family": "electric-heater",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "civilian-M",
+      "item": "furnace-diesel-S",
+      "family": "furnace",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "civilian-M",
+      "item": "furnace-hydrogen-S",
+      "family": "furnace",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "civilian-M",
+      "item": "pump-radiator-S",
+      "family": "pump-radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "civilian-M",
+      "item": "mining-industrial-S",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "engine-diesel-industrial-M-march",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "engine-diesel-industrial-M-retro",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "engine-diesel-industrial-M-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "civilian-M",
+      "item": "mining-industrial-M",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "generator-diesel-XS",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "engine-diesel-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "engine-diesel-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "engine-diesel-M-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "engine-diesel-M-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "engine-hydrogen-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "engine-hydrogen-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "engine-hydrogen-M-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "engine-hydrogen-M-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "engine-electric-S-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "engine-electric-S-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "engine-electric-M-single",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "engine-electric-M-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "generator-diesel-S",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "generator-diesel-M",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "generator-hydrogen-S",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "generator-hydrogen-M",
+      "family": "generator",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "solar-S",
+      "family": "solar",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "battery-XS",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "battery-S",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "battery-M",
+      "family": "battery",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "tank-diesel-S",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "tank-hydrogen-S",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "tank-diesel-M",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "tank-hydrogen-M",
+      "family": "tank",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "mining-civil-S",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "cargo-universal-S",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "cargo-universal-M",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "cargo-bulk-S",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "cargo-bulk-M",
+      "family": "cargo",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "radiator-passive-S",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "radiator-passive-M",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "radiator-active-S",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "buffer-S",
+      "family": "buffer",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "h2-cooler-S",
+      "family": "h2",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "thermoinverter-S",
+      "family": "thermoinverter",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "mining-civil-M",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "radiator-active-M",
+      "family": "radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "buffer-M",
+      "family": "buffer",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "h2-cooler-M",
+      "family": "h2",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "thermoinverter-M",
+      "family": "thermoinverter",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "solar-M",
+      "family": "solar",
+      "geometricSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ],
+      "familyAllowedSlots": [
+        "power-1",
+        "power-2",
+        "power-3",
+        "power-4",
+        "power-5"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "shielding-S",
+      "family": "shielding",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-M",
+      "item": "gyrodyne-S",
+      "family": "gyrodyne",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-M",
+      "item": "ram-S",
+      "family": "ram",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-M",
+      "item": "shell-S",
+      "family": "shell",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-M",
+      "item": "sensor-S",
+      "family": "sensor",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-M",
+      "item": "electric-heater-S",
+      "family": "electric-heater",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-M",
+      "item": "furnace-diesel-S",
+      "family": "furnace",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-M",
+      "item": "furnace-hydrogen-S",
+      "family": "furnace",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-M",
+      "item": "pump-radiator-S",
+      "family": "pump-radiator",
+      "geometricSlots": [
+        "signature-1",
+        "signature-2",
+        "signature-3",
+        "signature-4"
+      ],
+      "familyAllowedSlots": []
+    },
+    {
+      "hull": "industrial-M",
+      "item": "mining-industrial-S",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "engine-diesel-industrial-M-march",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "engine-diesel-industrial-M-retro",
+      "family": "engine",
+      "geometricSlots": [
+        "march",
+        "retro"
+      ],
+      "familyAllowedSlots": [
+        "march",
+        "retro"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "engine-diesel-industrial-M-pair",
+      "family": "engine",
+      "geometricSlots": [
+        "strafe",
+        "turn"
+      ],
+      "familyAllowedSlots": [
+        "strafe",
+        "turn"
+      ]
+    },
+    {
+      "hull": "industrial-M",
+      "item": "mining-industrial-M",
+      "family": "mining",
+      "geometricSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ],
+      "familyAllowedSlots": [
+        "payload-1",
+        "payload-2",
+        "payload-3"
+      ]
+    }
+  ],
+  "validation": [
+    {
+      "name": "stock",
+      "hull": "sputnik",
+      "inputHash": "520674d9d009364b00b85948c4410e0229d49e586f0bf5d3e29e04c50af6f71a",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:electric-heater-S",
+      "hull": "sputnik",
+      "inputHash": "455800cefef83632fc19210552a2c25beca05a4785d58c407caf71cdcdbcac30",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:furnace-diesel-S",
+      "hull": "sputnik",
+      "inputHash": "8b7e3e57f4843dd814fb9f71e290ceec6ff2c64c39bbbad31b19641f7b4fc09b",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:furnace-hydrogen-S",
+      "hull": "sputnik",
+      "inputHash": "e6a9db0b23623a90de11617625859f6e79201172035edf5e21ed58e6a8d4bd09",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:pump-radiator-S",
+      "hull": "sputnik",
+      "inputHash": "2b6c9b6fdd156a1db5bf0005d56abc5c7668603dcbb4e4c3ef8beb94b1d005e6",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:shielding-S",
+      "hull": "sputnik",
+      "inputHash": "ad57d2dfc853bebb13ae188fc99c7896bae2dec1ad85f68ac991c623c3396f21",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:sensor-S",
+      "hull": "sputnik",
+      "inputHash": "e19facbbbdbf471a08c0375978d20ca172209afba7a2b12598df36965e30a5b6",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:gyrodyne-S",
+      "hull": "sputnik",
+      "inputHash": "4a356392d5a6eb99bda3bd12ae795a93414b10834d50eda3427aaed7cd3245ea",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:ram-S",
+      "hull": "sputnik",
+      "inputHash": "5993997c5e88168342556fc11155c4a75f0251349cc432b42ae9d22fdd78d45b",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:ram-S",
+      "hull": "sputnik",
+      "inputHash": "f745d2b95bff0c5099159bff67c71440b5a22a1032a3ad8af050d53f6a6a7a0c",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:shell-S",
+      "hull": "sputnik",
+      "inputHash": "375a1c03d3b6d766d8da23ffa93150f3185b36a1e05df699774aef7f5f6a6d34",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:shell-S",
+      "hull": "sputnik",
+      "inputHash": "7b75d86c87bf28b7009c6624c13b9c27ff28ff857788962f3e3bd1aa8efe9704",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mixed-with-sources",
+      "hull": "sputnik",
+      "inputHash": "b1ae7a1af71dd9cfe0399eaa003a49c4c49ed13e8723bcff8b919f1b7ded2d84",
+      "ok": false,
+      "errors": [
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Все двигательные роли должны иметь один propulsion type"
+        }
+      ]
+    },
+    {
+      "name": "missing-fuel-source",
+      "hull": "sputnik",
+      "inputHash": "eee54b4c8b9ecdf4b45508dc08d3984e760696f28482918837476ad383f0e0f8",
+      "ok": false,
+      "errors": [
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        }
+      ]
+    },
+    {
+      "name": "stock",
+      "hull": "severin-mir",
+      "inputHash": "3ae1f6cff29c2f3b3b01bf82ded2d83e7c3718bcdd4b3b949c225355d9e421a9",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:electric-heater-S",
+      "hull": "severin-mir",
+      "inputHash": "7afa77a57cfade9d27561d2c373e54eabe9fb1168c339df8e0adaed3c110166c",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:furnace-diesel-S",
+      "hull": "severin-mir",
+      "inputHash": "7da2f40a39dcb053bee257b6d25ced398f0ce45fc3d50bc4bf3ea09faa4385db",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:furnace-hydrogen-S",
+      "hull": "severin-mir",
+      "inputHash": "10d4561a9a09d65bfd9770374bf987f60ccde0fea6cc37e18a31f44289637267",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:pump-radiator-S",
+      "hull": "severin-mir",
+      "inputHash": "6a9a2fe8d7b91befb598855e8fba74fb785d3bc9e1be47c7d6f3b7c9c4137900",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:shielding-S",
+      "hull": "severin-mir",
+      "inputHash": "011b8274ff17365fd6dd648cd6c5957beda7b2719f2c71aa248adfbea0fa8e8c",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:sensor-S",
+      "hull": "severin-mir",
+      "inputHash": "579c5411b78687d572072f09680d19947eb29c445309afaee0bbde30ce44a6d4",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:gyrodyne-S",
+      "hull": "severin-mir",
+      "inputHash": "f19634976bb98f4b9752717d93e2343484992595ea1cf4ca2825f6f79cdbb4f9",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:ram-S",
+      "hull": "severin-mir",
+      "inputHash": "1ba6cfd82da5f3487d8126cf55273dda8afeb3e9e4d56413f88a773e959e01c7",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:ram-S",
+      "hull": "severin-mir",
+      "inputHash": "1327682aad22973a66f636bedea9a7c436263cb4ef5d5761e290c6f76d7bda16",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:shell-S",
+      "hull": "severin-mir",
+      "inputHash": "37efefda09effec09acdb659fafa1e3706d18d70b120241c6c4478ff544d5ffb",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:shell-S",
+      "hull": "severin-mir",
+      "inputHash": "c36281bf656ac35dcaeebdfc87f2805e1a29d4d1733baa912fb2f0cb517f9406",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mixed-with-sources",
+      "hull": "severin-mir",
+      "inputHash": "267ec64b047ba0b2a6e6d590c97fd8748bea49ad1dafa7cf0fc9e58bba1d5fd1",
+      "ok": false,
+      "errors": [
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Все двигательные роли должны иметь один propulsion type"
+        }
+      ]
+    },
+    {
+      "name": "missing-fuel-source",
+      "hull": "severin-mir",
+      "inputHash": "11121d3ff4fa270d8fdebebc255ebc4cb72ab3f878926ce6996e38b2c583bf07",
+      "ok": false,
+      "errors": [
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        }
+      ]
+    },
+    {
+      "name": "stock",
+      "hull": "stealth-reference",
+      "inputHash": "d7aec0b0df3a5d7ab40c702c084a63b8683d58b6828452b5995959bbd2679229",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:electric-heater-S",
+      "hull": "stealth-reference",
+      "inputHash": "a6bfbb15de5fed11fd800c3d090f4720afb07b8fc78c4d4bf4f245bdb2f127c6",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:furnace-diesel-S",
+      "hull": "stealth-reference",
+      "inputHash": "2babc4f8cec747ac560c2ef781536bd6abdbb9af69bd8b671dd1eadf25bfacb0",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:furnace-hydrogen-S",
+      "hull": "stealth-reference",
+      "inputHash": "f5249aa95dd4d220030f71dc8345ae8671f0933291824da4d21e6b37432060cb",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:pump-radiator-S",
+      "hull": "stealth-reference",
+      "inputHash": "ce0a9094c8e119a6b32cea629d0ac1103af8068794e4bce2734a92d20b7eb777",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:shielding-S",
+      "hull": "stealth-reference",
+      "inputHash": "c4616074bae2ad3f7bdb66a132e2b37ba0531584e558154105fdb7ff76611ab0",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:sensor-S",
+      "hull": "stealth-reference",
+      "inputHash": "c2d9b740d6b0e0fd00e86b0f3ca57a4b58940af4560e3c645dcedbcf0628b8ad",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:gyrodyne-S",
+      "hull": "stealth-reference",
+      "inputHash": "c4616074bae2ad3f7bdb66a132e2b37ba0531584e558154105fdb7ff76611ab0",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:ram-S",
+      "hull": "stealth-reference",
+      "inputHash": "9e32faf1857240c470679b7ae7eb3aec1bc47e8b836d714b4e721a418e678a7a",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:ram-S",
+      "hull": "stealth-reference",
+      "inputHash": "56ce2b558b8664a75dd7832fa6d3875b10373c464a4c4ff6582cb42824dbc5fa",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:shell-S",
+      "hull": "stealth-reference",
+      "inputHash": "07c4cb6aa4d372ebe81b35833461b052aee9faf02c735fcb4b55d08a4d305431",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:shell-S",
+      "hull": "stealth-reference",
+      "inputHash": "88004099d99444ed951e01c9c406c05c1ea1ccee3fb8ac5bf08163a70014eac7",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mixed-with-sources",
+      "hull": "stealth-reference",
+      "inputHash": "9dfe0e0a47b65151a37b79216d138ccb9764dbc4fa275adbc9fee54856011c91",
+      "ok": false,
+      "errors": [
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Все двигательные роли должны иметь один propulsion type"
+        }
+      ]
+    },
+    {
+      "name": "missing-fuel-source",
+      "hull": "stealth-reference",
+      "inputHash": "d7aec0b0df3a5d7ab40c702c084a63b8683d58b6828452b5995959bbd2679229",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "stock",
+      "hull": "pony",
+      "inputHash": "678cc4cea75ab2a6d3ece2820f5b683efb671deebd7f3f06ad3c5d6129dc1391",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:electric-heater-S",
+      "hull": "pony",
+      "inputHash": "a65ab63e1f6088d3e9c48c459c755996797cb24c3532041977136c6a3bef8960",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:electric-heater-S",
+      "hull": "pony",
+      "inputHash": "d0369b2725c49089ba9ebe6e9be783771c664fb7243cac2ca3b19d7b6a03d4a4",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:furnace-diesel-S",
+      "hull": "pony",
+      "inputHash": "83be01c8f733e4527d2115bd4ddfb305010fd583754a549bd98d94c6748fa5af",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:furnace-diesel-S",
+      "hull": "pony",
+      "inputHash": "aa1cfec74ad88c6eb1e3af1b4cb7a83f2b2dc1cbcfbd4ff6cbc0155822550866",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:furnace-hydrogen-S",
+      "hull": "pony",
+      "inputHash": "9cab6255d263c30b9a160a953c2f8be7c9961d7caf3da6501d71dd5900ca46a2",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:furnace-hydrogen-S",
+      "hull": "pony",
+      "inputHash": "8ae00deac5d76d545fda9a178785b4441dbac1726ea70ae4338da2d56cce6a32",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:pump-radiator-S",
+      "hull": "pony",
+      "inputHash": "8f1c1aada11ab2ee5fbc9e567ed8c14a3992de3de5f7ee3624f6a04b82a55cf7",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:pump-radiator-S",
+      "hull": "pony",
+      "inputHash": "991e0d901bf48a762e0b059643ccf7bfbb63fa5f62ef1de12ac870c1103b8380",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:shielding-S",
+      "hull": "pony",
+      "inputHash": "95a2cf56e7f8384735325030e7d3b3e1d03198153de6d5a8d653cafa85477ed8",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:shielding-S",
+      "hull": "pony",
+      "inputHash": "fa1ff1e93113bb7438955a7d0519d2ec007d451137ba3140c36d8e0595c67a62",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:sensor-S",
+      "hull": "pony",
+      "inputHash": "46dbf93888b01d9c221a8c5d43ea091a5ad02d141601f1da40860a4e432df349",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:sensor-S",
+      "hull": "pony",
+      "inputHash": "bf2b0d18edf956ccad3748c9a5fb35fa2a74a7296b5548464db3beb86aea906c",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:gyrodyne-S",
+      "hull": "pony",
+      "inputHash": "e9936b262eb1b8f6dc566493ec58cbd68819f5a6a6e822a755d7872d6607ebdb",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.turn",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:gyrodyne-S",
+      "hull": "pony",
+      "inputHash": "f82a5905093f09cb13faf4e95cc7df6be0804be6d8ac00991d1a5d8d494ca631",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:ram-S",
+      "hull": "pony",
+      "inputHash": "3ce47d3678db1f4f9171db84ab49b4b5414d3818b42434a297657f177aefd13b",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:ram-S",
+      "hull": "pony",
+      "inputHash": "98704087e33e9fb749d8f51bfedcdcd65c3bb6d89eb16a942133e608060b6132",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:shell-S",
+      "hull": "pony",
+      "inputHash": "6f091d88ae8135ce14d2d45cb79f0fee0dd4139eba8027e4ef5088f592c254a0",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:shell-S",
+      "hull": "pony",
+      "inputHash": "cfef721344bc8bda83cf2804e447801422a50e25fb53df84417e858acf4fc745",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mixed-with-sources",
+      "hull": "pony",
+      "inputHash": "c6b8a0328c4f6feabc17e54cf3c9819a558eb9a3710d2f2b879e873ffc597384",
+      "ok": false,
+      "errors": [
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Все двигательные роли должны иметь один propulsion type"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Несовместимый с architecture propulsion type"
+        }
+      ]
+    },
+    {
+      "name": "homogeneous-opposite-with-sources",
+      "hull": "pony",
+      "inputHash": "5319a6ad94b6e2afd1f7e5f5c38eafebbabbbf191312b26a160612a0635ea001",
+      "ok": false,
+      "errors": [
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Несовместимый с architecture propulsion type"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Несовместимый с architecture propulsion type"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Несовместимый с architecture propulsion type"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Несовместимый с architecture propulsion type"
+        }
+      ]
+    },
+    {
+      "name": "stock",
+      "hull": "industrial-S",
+      "inputHash": "fffe999f455b8ee1986bc20011642f87c1b6c07e6eeaaec0d4d3a532605726d9",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:electric-heater-S",
+      "hull": "industrial-S",
+      "inputHash": "844bf46237509dc8908aa3e37c8565b7fc96e57d0c77b01cefe52160e4cf8ca9",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:electric-heater-S",
+      "hull": "industrial-S",
+      "inputHash": "216eeb02880108a82f5c03b6fd45c422e0ee8dbee376ed3e609f05f1cedc4e9a",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:furnace-diesel-S",
+      "hull": "industrial-S",
+      "inputHash": "de64e40f5e657b70391c79c03f883e44bde53fce5cbacd1a28e1c829b54e9669",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:furnace-diesel-S",
+      "hull": "industrial-S",
+      "inputHash": "be6a7dd2fa9482d34149b6142695921e3d635ae07c5b446b0b92c8ac9acb8342",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:furnace-hydrogen-S",
+      "hull": "industrial-S",
+      "inputHash": "ba4aeb71817da8679328581c202655200ba3e01d8d9489766e240b3b801c0dab",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:furnace-hydrogen-S",
+      "hull": "industrial-S",
+      "inputHash": "f117c7e8611db560db75a97523dfed85af1855c2109f714d70d22deb1ae4a153",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:pump-radiator-S",
+      "hull": "industrial-S",
+      "inputHash": "883266f15a7bdab5b58a7e23c72393a03d80167675fb89a2d94e096b5ab085f8",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:pump-radiator-S",
+      "hull": "industrial-S",
+      "inputHash": "f8c47b66482a3582ba53e42744f39216c6029f2eede38f784b2660f411465225",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:shielding-S",
+      "hull": "industrial-S",
+      "inputHash": "c2197fc1309119bfdcad9d5efce2d69416b2486ee758326bc5628f14a474d57f",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:shielding-S",
+      "hull": "industrial-S",
+      "inputHash": "41717c9bbd3b80de400021c8703ae26dbe673c8ac81f51f069b258265e166d65",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:sensor-S",
+      "hull": "industrial-S",
+      "inputHash": "3023c35c62a5b8abb17a7f6ef9fcf99ba7a031d8570d83c54f35ad1912d0732b",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:sensor-S",
+      "hull": "industrial-S",
+      "inputHash": "86c317f88fe81cf92d855ec4185037c9ce8573dfee7a562e777cc59a6472355b",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:gyrodyne-S",
+      "hull": "industrial-S",
+      "inputHash": "9107743bfb089478de4e89926f5d11c31916d78c4409603a1ab01f689c346639",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.turn",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:gyrodyne-S",
+      "hull": "industrial-S",
+      "inputHash": "62b9677170b7708b6ea2a7d502ade6c48b6f59b79d9c5e6b628b457c7d191cb2",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:ram-S",
+      "hull": "industrial-S",
+      "inputHash": "18afcf2926d09e7bbbbc93f9fa39892d3de58608c94bb47a4997aae976539fcb",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:ram-S",
+      "hull": "industrial-S",
+      "inputHash": "d7c68e3f070d0796193d06b16d9de41f61589ff830ed2099242a6c2566688f02",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:shell-S",
+      "hull": "industrial-S",
+      "inputHash": "4dfa28d1f1542e638bdbc36f97814dd0ad9073f9578911491295543a93fcccdb",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:shell-S",
+      "hull": "industrial-S",
+      "inputHash": "063bf39af1cc90ef434bde43b77d39ac8b221b034eda656bc158f8defe60664d",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mixed-with-sources",
+      "hull": "industrial-S",
+      "inputHash": "bade96a1f5218224bf0782a1994fd193c66279260b4207cd09af03a2674fbcfa",
+      "ok": false,
+      "errors": [
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Все двигательные роли должны иметь один propulsion type"
+        }
+      ]
+    },
+    {
+      "name": "missing-fuel-source",
+      "hull": "industrial-S",
+      "inputHash": "dd2f774f582854625c07fdf08b061a2f4f0d6d3290d64fcd95c7783e8ea9a4ed",
+      "ok": false,
+      "errors": [
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        }
+      ]
+    },
+    {
+      "name": "stock",
+      "hull": "civilian-M",
+      "inputHash": "b5c14b42e8af731443b5c7b048131bfeb1fb5f8c5f5ce4e3e07a8ad6a7d765da",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:electric-heater-S",
+      "hull": "civilian-M",
+      "inputHash": "9811e92aca1a6ba5cb088a0b02f15e7e4566f06f5b4cb44397746b3eb7ba9978",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:electric-heater-S",
+      "hull": "civilian-M",
+      "inputHash": "40bc980d2e8f601572a4926d56d71f284c8893d6c01384640a5e5b3ab60e760c",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:furnace-diesel-S",
+      "hull": "civilian-M",
+      "inputHash": "4f2c1f17045ffa37775d269152360b73b36dae59dc86bf4c19ced65a639c3bb1",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:furnace-diesel-S",
+      "hull": "civilian-M",
+      "inputHash": "74411c18177f2e1d4f4a8e988498fbf84fc475813be099ad50c5593c07488632",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:furnace-hydrogen-S",
+      "hull": "civilian-M",
+      "inputHash": "6469adcd23c36e672d5edd804c1385b659e11d03edbf24131cb32eac617697de",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:furnace-hydrogen-S",
+      "hull": "civilian-M",
+      "inputHash": "51749df174e3a5b49cb58933ff065dc2d39642f76f1208b0cb02590cb627d9ef",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:pump-radiator-S",
+      "hull": "civilian-M",
+      "inputHash": "e5e1531f56bdb45d14c0d172151e5ba9610168cf2be2f7e91205eb20d9b0a4bf",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:pump-radiator-S",
+      "hull": "civilian-M",
+      "inputHash": "01b84f8db8e869915c25e9bf0151f2968f96aed4989e9625f5a94be5fe9d4c80",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:shielding-S",
+      "hull": "civilian-M",
+      "inputHash": "8d36d3188f9eaf95c5fd769a2c418db0e5e6dfd621737d3af22acc160eb76d5b",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:shielding-S",
+      "hull": "civilian-M",
+      "inputHash": "2b63a2104b412ef40d08cafcd7aea243a31f26292502a78b23bff38b30d6642b",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:sensor-S",
+      "hull": "civilian-M",
+      "inputHash": "5f11eedf2ad2809677ee896a5d57ea3d39058d9dae4d9c8b6c007b013e93dfbe",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:sensor-S",
+      "hull": "civilian-M",
+      "inputHash": "6de0d919aa58b266bfdb4b815ef2b85a79ad2b8bc075854200c45f85e8dc224f",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:gyrodyne-S",
+      "hull": "civilian-M",
+      "inputHash": "cd486e7ea1a50d803bab965db5176987ae307a919677af1b31271b56f3e38b6f",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.turn",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:gyrodyne-S",
+      "hull": "civilian-M",
+      "inputHash": "82113995b68252b22d6973b1f82112fb22da1e8fa8716c08209580f8a35f5053",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:ram-S",
+      "hull": "civilian-M",
+      "inputHash": "ce3faa6ff2825f0dd7f60e881b801f4cc0cb69677fc27327a9d4282bf1b89c79",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:ram-S",
+      "hull": "civilian-M",
+      "inputHash": "e5daa20dfd370bdcedd3c5b0a5451e0a0175610ef63c8e6c096496f421864cd0",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:shell-S",
+      "hull": "civilian-M",
+      "inputHash": "6a90ba6987e35825a345087f880228d3c864cd26cacefe51f3c42634919ae7a3",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:shell-S",
+      "hull": "civilian-M",
+      "inputHash": "c587581df67abf5dec4024b162a35ac7420c22621c354a2f384aeabd9d676e61",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mixed-with-sources",
+      "hull": "civilian-M",
+      "inputHash": "fccdfc94f6bfa717bdbe828d0924a3a3d390c6edbbb5856b338f8340e6159087",
+      "ok": false,
+      "errors": [
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Все двигательные роли должны иметь один propulsion type"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Несовместимый с architecture propulsion type"
+        }
+      ]
+    },
+    {
+      "name": "homogeneous-opposite-with-sources",
+      "hull": "civilian-M",
+      "inputHash": "7c2cf2abcfee4440e7b29cfbbd0787a063aa80857d302a573c15832cf2f2ae46",
+      "ok": false,
+      "errors": [
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Несовместимый с architecture propulsion type"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Несовместимый с architecture propulsion type"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Несовместимый с architecture propulsion type"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Несовместимый с architecture propulsion type"
+        }
+      ]
+    },
+    {
+      "name": "stock",
+      "hull": "industrial-M",
+      "inputHash": "30d7ddbae915b2eb9b1c4a0b7b05ab2e9b062ed89abaea4fb1acb47664d38117",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:electric-heater-S",
+      "hull": "industrial-M",
+      "inputHash": "b7cb772d7a2e888e5ad948c4f8296ff994e91778ead1e236fbe8589c8c81cbfb",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:electric-heater-S",
+      "hull": "industrial-M",
+      "inputHash": "a8163e1bd94262d1c3f4f7a87089a0c0af9f905889904d90370e222a96536423",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:furnace-diesel-S",
+      "hull": "industrial-M",
+      "inputHash": "6fae81c8ffb16527cd8235f794cc4f87509819bff2c9b78b519fcb0988d99848",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:furnace-diesel-S",
+      "hull": "industrial-M",
+      "inputHash": "e64b07c5c0b20f42f2093637df5670ef98ce08a1ef26335b16129ac93a75b4a5",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:furnace-hydrogen-S",
+      "hull": "industrial-M",
+      "inputHash": "4f1c82a1ad5bbb0a9d8e108766064942e3b50094925fe21943d10d2ee5ef1bbc",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:furnace-hydrogen-S",
+      "hull": "industrial-M",
+      "inputHash": "a307b1b154323ea456db697f14f69376ca2a306f9146ec6a9789fa9765823904",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:pump-radiator-S",
+      "hull": "industrial-M",
+      "inputHash": "c39d383cb67f74fd02fe79d70cbc6af43ce978b114eeca0b3c234bc95b8b8ff1",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:pump-radiator-S",
+      "hull": "industrial-M",
+      "inputHash": "1df917d4944ac1df18174326b59e17f54d175c04198dbd4a97a11eb840a4e070",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:shielding-S",
+      "hull": "industrial-M",
+      "inputHash": "9c93e6b0326d658578f07dc0e1d750d79158b0da62e5f6104da287fb10db8e01",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:shielding-S",
+      "hull": "industrial-M",
+      "inputHash": "bf3b6d7d502696f55b6f98163f9c82e71309d337efed7977162e338103b2ffdf",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:sensor-S",
+      "hull": "industrial-M",
+      "inputHash": "a97d3a078b5ffd4d4c10b3edd14f82b771defbe81378d3af68e132a14cb262a5",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:sensor-S",
+      "hull": "industrial-M",
+      "inputHash": "8056b3103cba99789b118cc180a8af7db5e9d8b779898c8a9b9afc1f441ff4a4",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:gyrodyne-S",
+      "hull": "industrial-M",
+      "inputHash": "29387d95c4e8c2762e0fc392623d19238d3a1a60035bf033d2c1ae87b3e0c44f",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.turn",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:gyrodyne-S",
+      "hull": "industrial-M",
+      "inputHash": "64dddc8ca18f37966bdd7f90ee333ce8999b5a5ed21e29ccb02d2fb2b9b0c15f",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:ram-S",
+      "hull": "industrial-M",
+      "inputHash": "6192d21f184b33092d36c4573ef245b0256dc8d280a3620978e78898245faf44",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:ram-S",
+      "hull": "industrial-M",
+      "inputHash": "8f1c41922227c54e22d71ff521f9a9da6d184bcd8399b42dd6c27877bc2d36f2",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mount:shell-S",
+      "hull": "industrial-M",
+      "inputHash": "aa1a742bb03cabffe492553449f5889c8e642aaca4426d765dd4950c1a228145",
+      "ok": false,
+      "errors": [
+        {
+          "path": "assignments.signature-1",
+          "code": "INVALID_V3",
+          "message": "Несовместимые category/family/form factor/size"
+        }
+      ]
+    },
+    {
+      "name": "family-only-control:shell-S",
+      "hull": "industrial-M",
+      "inputHash": "dff8355b36dac969cd4e0cfbea9fd493113d2f395f361408952a7745a9d54dae",
+      "ok": true,
+      "errors": []
+    },
+    {
+      "name": "mixed-with-sources",
+      "hull": "industrial-M",
+      "inputHash": "15c3a4404a4e19914d2ed3badc6611d8a6385ce916fb89b34675a7ba4e560838",
+      "ok": false,
+      "errors": [
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Все двигательные роли должны иметь один propulsion type"
+        }
+      ]
+    },
+    {
+      "name": "missing-fuel-source",
+      "hull": "industrial-M",
+      "inputHash": "af389a1b1bb726fd6368bb1b5503125f6c3a0f90f1ed62faa5bdd43bd1853239",
+      "ok": false,
+      "errors": [
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        },
+        {
+          "path": "instances",
+          "code": "INVALID_V3",
+          "message": "Потребителю нужен включённый operating tank"
+        }
+      ]
+    }
+  ],
+  "passiveStation": [
+    {
+      "id": "sputnik-d",
+      "C": 26707409.68102594,
+      "Krad": 889.35,
+      "passiveRadiationOnly": [
+        {
+          "startK": 320,
+          "endK": 319.9550072802221,
+          "deltaK": -0.04499271977789476
+        },
+        {
+          "startK": 500,
+          "endK": 498.9776314716096,
+          "deltaK": -1.022368528390416
+        }
+      ],
+      "withExistingContact10000": [
+        {
+          "startK": 320,
+          "endK": 319.8804380916192,
+          "deltaK": -0.11956190838077418
+        },
+        {
+          "startK": 500,
+          "endK": 498.2355794192373,
+          "deltaK": -1.7644205807627031
+        }
+      ]
+    },
+    {
+      "id": "pony-d",
+      "C": 25395917.775600582,
+      "Krad": 889.35,
+      "passiveRadiationOnly": [
+        {
+          "startK": 320,
+          "endK": 319.95268679460685,
+          "deltaK": -0.0473132053931522
+        },
+        {
+          "startK": 500,
+          "endK": 498.92509500650755,
+          "deltaK": -1.0749049934924528
+        }
+      ],
+      "withExistingContact10000": [
+        {
+          "startK": 320,
+          "endK": 319.87428385496617,
+          "deltaK": -0.12571614503383444
+        },
+        {
+          "startK": 500,
+          "endK": 498.14508838295905,
+          "deltaK": -1.8549116170409548
+        }
+      ]
+    },
+    {
+      "id": "ermak-d",
+      "C": 24567255.275600582,
+      "Krad": 1286.25,
+      "passiveRadiationOnly": [
+        {
+          "startK": 320,
+          "endK": 319.92930921458196,
+          "deltaK": -0.0706907854180372
+        },
+        {
+          "startK": 500,
+          "endK": 498.39686284702685,
+          "deltaK": -1.6031371529731473
+        }
+      ],
+      "withExistingContact10000": [
+        {
+          "startK": 320,
+          "endK": 319.8483666870894,
+          "deltaK": -0.15163331291057602
+        },
+        {
+          "startK": 500,
+          "endK": 497.5936232940053,
+          "deltaK": -2.4063767059947168
+        }
+      ]
+    },
+    {
+      "id": "severin-mir-d",
+      "C": 121877671.46288306,
+      "Krad": 3773.4,
+      "passiveRadiationOnly": [
+        {
+          "startK": 320,
+          "endK": 319.95816423393927,
+          "deltaK": -0.041835766060728474
+        },
+        {
+          "startK": 500,
+          "endK": 499.04913591888044,
+          "deltaK": -0.9508640811195619
+        }
+      ],
+      "withExistingContact10000": [
+        {
+          "startK": 320,
+          "endK": 319.94179706449216,
+          "deltaK": -0.05820293550783617
+        },
+        {
+          "startK": 500,
+          "endK": 498.88620832592323,
+          "deltaK": -1.113791674076765
+        }
+      ]
+    }
+  ]
+}
