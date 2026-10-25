@@ -8,7 +8,7 @@ for(const width of [1440,390])test(`MD01–06 ${width} real nine assemblies, cus
  const field=async(id:string,value:string)=>{await page.locator(id).fill(value);await page.locator(id).press('Tab');};
  const more=async()=>{if(!await page.locator('#fit-more').evaluate(n=>(n as HTMLDetailsElement).open))await action('#fit-f3');};
  const exported=async(id:string)=>{await more();const wait=page.waitForEvent('download');await action(id);return JSON.parse(await readFile((await(await wait).path())!,'utf8'));};
- await page.goto('/');await expect(page.locator('#fit-edition')).toContainText('0.2.5');
+ await page.goto('/?shipModel=legacy');await expect(page.locator('#fit-edition')).toContainText('0.2.5');
  for(const [hull,n]of [['civilian-M',1],['severin-mir',2],['industrial-M',3],['industrial-S',3]] as const)await expect(page.locator(`#fit-preset option[value^="${hull}:"]`)).toHaveCount(n);
  const summary=[];
  for(const [id,code,capacity]of [['civilian-M:2:H','H',216],['severin-mir:2:D','D',216],['severin-mir:2:E','E',216],['industrial-M:2:D','D',240],['industrial-M:2:H','H',240],['industrial-M:2:E','E',240],['industrial-S:1:D','D',36],['industrial-S:1:H','H',36],['industrial-S:1:E','E',36]] as const){

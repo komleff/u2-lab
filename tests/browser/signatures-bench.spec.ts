@@ -38,7 +38,7 @@ test("SS00/12 an invalid actual-source mapping exits the real Worker run with a 
   const input = JSON.parse(await readFile("tests/signatures/fixtures/bench-input.json", "utf8"));
   input.environment.law = "linear-fog-experiment";
   input.environment.linearWK = 100;
-  await page.goto("/");
+  await page.goto("/?shipModel=legacy");
   await page.locator("#fit-import").setInputFiles({ name: "invalid-source.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(input)) });
   await page.locator("#fit-start").click();
   await expect(page.locator("#fit-error")).toContainText("mapping");
@@ -55,7 +55,7 @@ test("SS12/13 actual Worker signature bench keeps active inputs and resumes seri
   const tap=async(id:string)=>{await page.locator(id).scrollIntoViewIfNeeded();await page.locator(id).click();};
   const more=async()=>{await page.locator("#fit-more").evaluate(n=>(n as HTMLDetailsElement).open=true);};
   const exported=async(id:string)=>{const d=page.waitForEvent("download");await tap(id);return await readFile((await(await d).path())!,"utf8");};
-  await page.goto("/");await expect(page.locator("#sig-mode")).toBeChecked({timeout:2000});
+  await page.goto("/?shipModel=legacy");await expect(page.locator("#sig-mode")).toBeChecked({timeout:2000});
   await page.locator("#fit-preset").selectOption("pony:1");await page.locator("#sig-mode").check();
   await expect(page.locator("#sig-range")).toHaveValue("16");await expect(page.locator("#sig-radar")).not.toBeChecked();
   await page.locator("#sig-radar").check();await page.locator("#fit-speed").selectOption("1");
@@ -80,7 +80,7 @@ test("SS12/16 real Worker completes a 3600-second signature horizon with station
   test.setTimeout(120000);
   const errors:string[]=[];page.on("pageerror",e=>errors.push(e.message));
   await installSignatureProbe(page);
-  await page.goto("/");await page.locator("#fit-preset").selectOption("pony:1");await page.locator("#sig-mode").check();await page.locator("#sig-radar").check();
+  await page.goto("/?shipModel=legacy");await page.locator("#fit-preset").selectOption("pony:1");await page.locator("#sig-mode").check();await page.locator("#sig-radar").check();
   await page.locator("#fit-distance").fill("0");await page.locator("#fit-distance").blur();await page.locator("#fit-target").fill("10000");await page.locator("#fit-target").blur();
   await page.locator("#fit-duration").fill("3600");await page.locator("#fit-duration").blur();await page.locator("#fit-speed").selectOption("20000");
   await page.locator("#fit-start").click();await expect.poll(()=>page.evaluate(()=>(window as any).signatureComplete!==null||(window as any).signatureWorkerErrors.length>0),{timeout:100000}).toBe(true);

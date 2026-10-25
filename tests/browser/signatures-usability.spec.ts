@@ -6,7 +6,7 @@ for(const [width,height] of [[360,780],[390,844],[820,1101],[1440,900]])test(`UF
  const action=async(selector:string)=>{const n=p.locator(selector);await n.scrollIntoViewIfNeeded();width<=390?await n.tap():await n.click();};
  const folds=['#fit-modules-details','#fit-journal-details','#compare-variants-details'];
  try{
-  await p.goto('/');
+  await p.goto('/?shipModel=legacy');
   const nav=await p.locator('.ui-header nav').evaluate(n=>[...n.querySelectorAll('a')].map(a=>{const r=document.createRange();r.selectNodeContents(a);return{label:a.textContent,box:a.getBoundingClientRect().toJSON(),text:r.getBoundingClientRect().toJSON()};}));
   for(const a of nav){expect(a.text.left,a.label!).toBeGreaterThanOrEqual(a.box.left);expect(a.text.right,a.label!).toBeLessThanOrEqual(a.box.right);expect(a.box.height).toBeGreaterThanOrEqual(44);}
   for(let i=1;i<nav.length;i++)expect(nav[i-1].text.right).toBeLessThanOrEqual(nav[i].text.left);

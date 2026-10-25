@@ -3,9 +3,11 @@ import {nativePauseWindow} from './native-pause-window';
 import {fixture} from '../governor-v03/reference-clock';
 import {makeGovernorExperiment} from '../../src/experiments/ship-model-v0.2';
 import {readFileSync} from 'node:fs';
+import {getPresetFit} from '../../src/fitting/catalog';
+import {serializeFit} from '../../src/io/fitting-json';
 
 for(const width of [1440,390,820])test(`CR-G3-B1 ordinary A copy replaces imported governor B for open, start and export at ${width}px`,async({page})=>{
-  await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');
+  await page.setViewportSize({width,height:1000});await page.goto('/');
   await page.locator('#sm-duration').fill('3');
   const baselineDownloading=page.waitForEvent('download');await page.locator('#sm-save-run').click();const baseline=readFileSync((await (await baselineDownloading).path())!,'utf8');
   await page.locator('#sm-variant').selectOption('B');
@@ -22,7 +24,7 @@ for(const width of [1440,390,820])test(`CR-G3-B1 ordinary A copy replaces import
 
 for(const width of [1440,390,820])test(`CR-G3-B2 mixed-model selection and refused Start preserve original ordinary Worker controls at ${width}px`,async({page})=>{
   const horizon=86400; // Тест отменяет запуск: оставляем окно для Pause независимо от скорости H3600.
-  await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');
+  await page.setViewportSize({width,height:1000});await page.goto('/');
   await page.locator('#sm-variant').selectOption('B');
   const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:30,name:'Governor B'});
   await page.locator('#sm-import').setInputFiles({name:'governor-B.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
@@ -42,7 +44,7 @@ for(const width of [1440,390,820])test(`CR-G3-B2 mixed-model selection and refus
 
 test('CR-G3-B2 refused governor Start and checkpoint keep the paused Worker run address',async({page})=>{
   const pauseWindow=await nativePauseWindow(page);
-  await page.goto('/?shipModel=experimental');
+  await page.goto('/');
   const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:3000,name:'Governor ownership'});
   await page.locator('#sm-import').setInputFiles({name:'governor.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
   await pauseWindow.arm();await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await pauseWindow.pause();await expect(page.locator('#sm-status')).toHaveText('paused');
@@ -56,7 +58,7 @@ test('CR-G3-B2 refused governor Start and checkpoint keep the paused Worker run 
 });
 
 for(const width of [1440,390,820])test(`QA-G3-B1 actual model 0.2 control restores the literal ordinary default and runnable model 0.1 at ${width}px`,async({page})=>{
-  await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');
+  await page.setViewportSize({width,height:1000});await page.goto('/');
   const initialPreset=await page.locator('#sm-preset').inputValue();
   const baselineDownloading=page.waitForEvent('download');await page.locator('#sm-save-run').click();const baseline=readFileSync((await (await baselineDownloading).path())!,'utf8');
   expect(JSON.parse(baseline).modelVersion).toBe('ship-fitting-ship-model-mission-0.1');
@@ -75,7 +77,7 @@ for(const width of [1440,390,820])test(`QA-G3-B1 actual model 0.2 control restor
 for(const width of [1440,390,820])test(`native /4 imported governor runs through the real Worker and preserves frozen A/B and JSON at ${width}px`,async({page})=>{
   const pauseWindow=await nativePauseWindow(page);
   const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:3000,name:'Synthetic browser qualification'});
-  await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.4');
+  await page.setViewportSize({width,height:1000});await page.goto('/');await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.4');
   await page.locator('#sm-import').setInputFiles({name:'qualification.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
   await expect(page.locator('#sm-opened')).toContainText('ship-fitting-ship-model-0.2');await expect(page.locator('#sm-tick-hz')).toContainText('30 Hz');
   await pauseWindow.arm();await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await pauseWindow.pause();await expect(page.locator('#sm-status')).toHaveText('paused');
@@ -92,5 +94,5 @@ for(const width of [1440,390,820])test(`native /4 imported governor runs through
   const csvDownloading=page.waitForEvent('download');await page.locator('#sm-save-csv').click();const csv=readFileSync((await (await csvDownloading).path())!,'utf8');expect(csv).toContain('ship-fitting-ship-model-0.2');expect(csv).toContain('endTick,3000');
   if(!await page.locator('#sm-transport').evaluate(node=>(node as HTMLDetailsElement).open))await page.locator('#sm-transport > summary').click();await page.locator('#sm-reset').click();await expect(page.locator('#sm-results')).toHaveCount(0);expect(await page.locator('#sm-frozen-owner').textContent()).toBe(frozen);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
-  await page.locator('#sm-back').click();await expect(page.locator('#sm-start')).toBeDisabled();await expect(page.locator('#sm-governor-apply')).toBeDisabled();await page.locator('#sm-leave-cancel').click();await expect(page.locator('#sm-start')).toBeEnabled();
+  await page.locator('#sm-import').setInputFiles({name:'old-fit.json',mimeType:'application/json',buffer:Buffer.from(serializeFit(getPresetFit('sputnik','ship-fitting-0.2.5')))});await expect(page.locator('#sm-start')).toBeDisabled();await expect(page.locator('#sm-governor-apply')).toBeDisabled();await page.locator('#sm-leave-cancel').click();await expect(page.locator('#sm-start')).toBeEnabled();
 });

@@ -45,7 +45,7 @@ test("CR-B1/B2 failed fit and numerical snapshot imports preserve last valid fit
     [tinyStep, "stepSeconds"],
     [tinyHorizon, "durationSeconds"],
   ] as const;
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("12");
   await page.locator("#fit-start").click();
@@ -74,7 +74,7 @@ test("CR-B1/B2 failed fit and numerical snapshot imports preserve last valid fit
 test("reference retro local variant TTX and provenance are explicit in preview and F3 before SKU replacement", async ({
   page,
 }) => {
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await page.locator("#fit-preset").selectOption("pony:1");
   await openTimedDraft(page, (await import("../../src/fitting/catalog")).getPresetFit("pony:1"));
   await page.locator('[data-slot="retro"]').last().click();
@@ -129,7 +129,7 @@ test("v2 real Worker withholds one telemetry chunk, controls ACK below500ms and 
     (n) => n.startsWith("worker-") && n.endsWith(".js"),
   )!;
   const spec = worstRun(43200, 1);
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   const evidence = await page.evaluate(
     async ({ spec, file }) =>
       new Promise<any>((resolve, reject) => {
@@ -270,7 +270,7 @@ test("preset slot filtered catalog delta swap run comparison at390px", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await page.locator("#fit-preset").selectOption("industrial-M:2:D");
   await page.locator('[data-slot="payload-3"]').last().click();
   await page.locator('[data-candidate="mining-industrial-M"]').click();
@@ -308,7 +308,7 @@ test("preset slot filtered catalog delta swap run comparison at390px", async ({
 test("incomplete fit and incompatible preview explain refusal; builtin and F3 source data visible", async ({
   page,
 }) => {
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await expect(page.locator(".system-payload .builtin")).toContainText(
     "заменить нельзя",
   );
@@ -331,7 +331,7 @@ test("incomplete fit and incompatible preview explain refusal; builtin and F3 so
 test("edit during run retains running revision and reset rejects late results; zero stocks warn", async ({
   page,
 }) => {
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("43200");
   await page.locator("#fit-speed").selectOption("1");
@@ -362,7 +362,7 @@ test("failed import keeps fit and result; HTML label is literal; unknown catalog
     "../../src/fitting/catalog"
   );
   const { makeMiningRun } = await import("../../src/scenarios/fitting");
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("12");
   await page.locator("#fit-start").click();
