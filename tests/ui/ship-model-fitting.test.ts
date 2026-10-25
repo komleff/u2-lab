@@ -6,7 +6,7 @@ import {createShipModelRun,runShipModelChunk,shipModelResult} from '../../src/ru
 import {shipModelShipView} from '../../src/app/fitting-ui/ship-model-ship-view';
 const sourceCatalog=loadCandidateCatalog('ship-fitting-0.2.5');
 const workspace=()=>{const w=new ShipModelWorkspace(getPresetFit('sputnik',sourceCatalog.version),sourceCatalog);w.selectWorkMode('stationary');w.loadPreset('sputnik','ship-fitting-0.3.0');return w;};
-it.each(['ship-fitting-0.3.0','ship-fitting-0.3.1','ship-fitting-0.3.2'] as const)('ship passport identifies its actual %s fit owner',version=>{
+it.each(['ship-fitting-0.3.0','ship-fitting-0.3.1','ship-fitting-0.3.2','ship-fitting-0.3.3'] as const)('ship passport identifies its actual %s fit owner',version=>{
   const catalog=loadCandidateCatalog(version),fit=getPresetFit(version==='ship-fitting-0.3.0'?'sputnik':'sputnik-d',version);
   expect(shipModelShipView(fit,catalog,false)).toContain('<span data-sm-catalog-version>'+version+'</span>');
 });

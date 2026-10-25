@@ -23,9 +23,9 @@ function compiled(id: string, version: ShipModelCatalogVersion = next, change: (
   if (!result.ok) throw Error("compile");
   return result.value;
 }
-it("0.3.2 is current and the version table keeps 0.3.0/0.3.1 readable", () => {
-  expect(versions.SHIP_MODEL_CATALOG_VERSIONS).toEqual(["ship-fitting-0.3.0", previous, next]);
-  expect(versions.CURRENT_SHIP_MODEL_CATALOG).toBe(next);
+it("0.3.2 remains readable alongside the current 0.3.3 catalog", () => {
+  expect(versions.SHIP_MODEL_CATALOG_VERSIONS).toEqual(["ship-fitting-0.3.0", previous, next, "ship-fitting-0.3.3"]);
+  expect(versions.CURRENT_SHIP_MODEL_CATALOG).toBe("ship-fitting-0.3.3");
   for (const version of versions.SHIP_MODEL_CATALOG_VERSIONS) expect(validateCatalogV3(loadCandidateCatalog(version)).ok).toBe(true);
   for (const name of files) expect(existsSync(`src/fitting/data/${name}-0.3.2.json`), name).toBe(true);
 });
@@ -136,7 +136,7 @@ it("сборка 0.3.1 не мигрирует молча в 0.3.2; смешан
   expect(serializeFit(opened.value)).toBe(text); expect(opened.value.catalogVersion).toBe(previous);
   expect(parseFitJson(text, loadCandidateCatalog(next)).ok).toBe(false);
   expect(parseFitJson(serializeFit(getPresetFit("sputnik-d", next)), loadCandidateCatalog(previous)).ok).toBe(false);
-  for (const version of ["ship-fitting-0.3.3", "ship-fitting-0.3"]) {
+  for (const version of ["ship-fitting-0.3.9", "ship-fitting-0.3"]) {
     expect(versions.isShipModelCatalogVersion(version)).toBe(false);
     expect(() => loadCandidateCatalog(version as never)).toThrow("Неизвестная версия каталога");
   }
