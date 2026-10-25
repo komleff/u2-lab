@@ -1,17 +1,17 @@
 {
-  "version": "2.6.1",
-  "releaseVersion": "2.6.1",
+  "version": "2.6.2",
+  "releaseVersion": "2.6.2",
   "uiVersion": "4.8",
   "shipModel": "0.1",
   "shipModelCatalog": "0.3.3",
   "status": "working",
   "defaultModel": "ship-model",
-  "runtimeCommit": "bb0c2c8b02e9890160e4c919de0043a911acff5c",
-  "sourceCommit": "bb0c2c8b02e9890160e4c919de0043a911acff5c",
-  "sourceTree": "f7e7e0bc5c8af0b5de7b11b80ea35a7150aacde5",
-  "sourceBranch": "fix/lab-info-version",
-  "source": "PR #47; exact verified source; operator merge tracked separately",
+  "runtimeCommit": "231b1762ec8db83f8f21c1c18820ea3e16ce7496",
+  "sourceCommit": "231b1762ec8db83f8f21c1c18820ea3e16ce7496",
+  "sourceTree": "cf672a7838b7f3e96be636bbdcffa27e916feafd",
+  "sourceBranch": "fix/pony-launch-vfa",
+  "source": "PR #48; exact verified source; operator merge tracked separately",
   "legacyV1": "./legacy-v1/",
   "previousThermal": "./thermal-v0.1/",
-  "builtAt": "2026-10-25T17:02:35.895555+00:00"
+  "builtAt": "2026-10-25T17:31:08.171538+00:00"
 }
