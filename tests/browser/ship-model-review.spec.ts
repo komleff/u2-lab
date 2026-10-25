@@ -13,7 +13,7 @@ test('ordinary insecure HTTP owns /4 start and saved checkpoint resume without r
  const completed=page.waitForEvent('download');await page.locator('#sm-save-result').click();const result=JSON.parse(readFileSync((await (await completed).path())!,'utf8'));expect(result.runId).toMatch(/^[0-9a-f]{32}$/);expect(result.runId).not.toBe(saved.runId);expect(result.state.timeSeconds).toBe(3600);
 });
 test('native actual Worker explains precritical hot/cold work and refuses an unsupported observer upload atomically',async({page})=>{
- await page.goto('/?shipModel=experimental');await page.locator('#sm-work-mode').selectOption('stationary');await page.locator('#sm-import').setInputFiles({name:'literal-0.3.0.json',mimeType:'application/json',buffer:Buffer.from(serializeFit(getPresetFit('sputnik','ship-fitting-0.3.0')))});await page.locator('#sm-background').fill('100');await page.locator('#sm-background').press('Tab');await page.locator('#sm-duration').fill('1');
+ await page.goto('/');await page.locator('#sm-work-mode').selectOption('stationary');await page.locator('#sm-import').setInputFiles({name:'literal-0.3.0.json',mimeType:'application/json',buffer:Buffer.from(serializeFit(getPresetFit('sputnik','ship-fitting-0.3.0')))});await page.locator('#sm-background').fill('100');await page.locator('#sm-background').press('Tab');await page.locator('#sm-duration').fill('1');
  for(const [T,work,limited]of [[450,1500300,false],[525,375075,true],[225,375075,true]]as const){
   await page.locator('#sm-temperature').fill(String(T));await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
   const ledger=JSON.parse((await page.locator('#sm-ledger pre').textContent())!);expect(ledger.telemetry.usefulWorkW).toBe(work);

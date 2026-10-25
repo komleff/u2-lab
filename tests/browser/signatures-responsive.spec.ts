@@ -4,7 +4,7 @@ for(const [width,height] of profiles)test(`SS14 signature controls and paused re
   const c=await browser.newContext({viewport:{width,height},isMobile:true,hasTouch:true}),p=await c.newPage(),errors:string[]=[];p.on("pageerror",e=>errors.push(e.message));
   const tap=async(id:string)=>{await p.locator(id).evaluate(n=>n.scrollIntoView({block:"center"}));await p.locator(id).tap();};
   try{
-    await p.goto("/");await p.locator("#sig-mode").check();await p.locator("#sig-observer").selectOption("M-3in1-G1");await p.locator("#sig-aspect").selectOption("270");
+    await p.goto("/?shipModel=legacy");await p.locator("#sig-mode").check();await p.locator("#sig-observer").selectOption("M-3in1-G1");await p.locator("#sig-aspect").selectOption("270");
     await tap("#sig-settings-details summary");await p.locator("#sig-angle").fill("359");await p.locator("#sig-angle").blur();await expect(p.locator("#sig-aspect")).toHaveValue("custom");
     await p.locator("#fit-duration").fill("20");await p.locator("#fit-duration").blur();await p.locator("#fit-speed").selectOption("1");await tap("#fit-start");
     await expect(p.locator("#fit-time")).not.toHaveText("0 с / 20 с");await tap("#fit-pause");await expect(p.locator("#fit-status")).toContainText("Пауза");

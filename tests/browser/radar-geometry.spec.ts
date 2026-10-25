@@ -12,7 +12,7 @@ test('ST4 actual Worker passport/result, frozen A vs next B, new/old literal reo
       postMessage(message:any,transfer:any=[]){if(message.type==='start')(window as any).wi4Starts.push(structuredClone(message.payload));super.postMessage(message,transfer);}
     };
   });
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');
+  await page.goto('/');await page.locator('#sm-preset').selectOption('sputnik-d');
   await page.locator('#sm-fit > summary').click();await expect(page.locator('#sm-radar-passport')).toBeVisible();
   await expect(page.locator('[data-radar-area="nose"]')).toHaveAttribute('data-value','54');await expect(page.locator('[data-radar-area="side"]')).toHaveAttribute('data-value','121.5');await expect(page.locator('#sm-radar-passport')).toContainText('H — ориентир, не утверждена');
   await page.locator('#sm-duration').fill('2');await page.locator('#sm-duration').press('Tab');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
