@@ -13,7 +13,7 @@ for(const width of [1440,390,820])test(`CR-G3-B1 ordinary A copy replaces import
   await page.locator('#sm-import').setInputFiles({name:'governor-B.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
   await expect(page.locator('#sm-opened')).toContainText('Previous governor B');
   await page.locator('#sm-variant').selectOption('A');await page.locator('#sm-copy').click();
-  await expect(page.locator('#sm-variant')).toHaveValue('B');await expect(page.locator('#sm-governor-scenario')).toHaveCount(0);await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.2');
+  await expect(page.locator('#sm-variant')).toHaveValue('B');await expect(page.locator('#sm-governor-scenario')).toHaveCount(0);await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.3');
   const copiedDownloading=page.waitForEvent('download');await page.locator('#sm-save-run').click();expect(readFileSync((await (await copiedDownloading).path())!,'utf8')).toBe(baseline);
   await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
   const resultDownloading=page.waitForEvent('download');await page.locator('#sm-save-result').click();const result=JSON.parse(readFileSync((await (await resultDownloading).path())!,'utf8'));
@@ -75,7 +75,7 @@ for(const width of [1440,390,820])test(`QA-G3-B1 actual model 0.2 control restor
 for(const width of [1440,390,820])test(`native /4 imported governor runs through the real Worker and preserves frozen A/B and JSON at ${width}px`,async({page})=>{
   const pauseWindow=await nativePauseWindow(page);
   const spec=makeGovernorExperiment({...fixture('T29').input,durationTicks:3000,name:'Synthetic browser qualification'});
-  await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.2');
+  await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=experimental');await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.3');
   await page.locator('#sm-import').setInputFiles({name:'qualification.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(spec))});
   await expect(page.locator('#sm-opened')).toContainText('ship-fitting-ship-model-0.2');await expect(page.locator('#sm-tick-hz')).toContainText('30 Hz');
   await pauseWindow.arm();await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await pauseWindow.pause();await expect(page.locator('#sm-status')).toHaveText('paused');

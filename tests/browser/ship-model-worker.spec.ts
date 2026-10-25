@@ -3,7 +3,7 @@ import {readdirSync} from 'node:fs';
 import {fixture,checkpointFixture,signatureDepletionFixture} from '../model-v3/fixture';
 import {loadCandidateCatalog,getPresetFit} from '../../src/fitting/catalog';
 import {makeShipModelMiningRun} from '../../src/scenarios/fitting';
-for(const version of ['ship-fitting-0.3.1','ship-fitting-0.3.2'] as const)test(`all fourteen ${version} configurations execute installed propulsion in the native production Worker`,async({page})=>{
+for(const version of ['ship-fitting-0.3.1','ship-fitting-0.3.2','ship-fitting-0.3.3'] as const)test(`all fourteen ${version} configurations execute installed propulsion in the native production Worker`,async({page})=>{
   const file=readdirSync('dist/assets').find(n=>n.startsWith('worker-')&&n.endsWith('.js'))!,catalog=loadCandidateCatalog(version);
   const rows=[['sputnik-d','diesel'],['sputnik-e','electric'],['pony-d','diesel'],['ermak-d','diesel'],['ermak-h','hydrogen'],['ermak-e','electric'],['volna-m-h','hydrogen'],['titan-d','diesel'],['titan-h','hydrogen'],['titan-e','electric'],['severin-mir-d','diesel'],['severin-mir-h','hydrogen'],['severin-mir-e','electric'],['stealth-reference','electric']] as const;
   const inputs=rows.map(([id,family])=>{const made=makeShipModelMiningRun(getPresetFit(id,catalog.version),catalog,{durationSeconds:3,action:'maneuver'});if(!made.ok)throw Error(JSON.stringify(made.errors));return {id,family,spec:made.value};});

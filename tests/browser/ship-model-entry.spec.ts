@@ -10,7 +10,7 @@ const oldFit=getPresetFit('sputnik',oldCatalog.version);
 const upload=(text:string,name='ship.json')=>({name,mimeType:'application/json',buffer:Buffer.from(text)});
 test('fresh /4 opens independent Sputnik D at 250 K and actual Worker receives those defaults',async({page})=>{
   await page.goto('/?shipModel=experimental');
-  await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.2');
+  await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.3');
   await expect(page.locator('#sm-background')).toHaveValue('250');
   await expect(page.locator('#sm-draft-owner')).toContainText('фон 250 K');
   await expect(page.locator('#sm-start')).toBeEnabled();
@@ -19,7 +19,7 @@ test('fresh /4 opens independent Sputnik D at 250 K and actual Worker receives t
   const saving=page.waitForEvent('download');await page.locator('#sm-save-result').click();
   const result=JSON.parse(readFileSync((await (await saving).path())!,'utf8'));
   expect(result.spec.environment.radiativeBackgroundK).toBe(250);
-  expect(result.spec.resolvedShip.fit).toEqual(getPresetFit('sputnik-d','ship-fitting-0.3.2'));
+  expect(result.spec.resolvedShip.fit).toEqual(getPresetFit('sputnik-d','ship-fitting-0.3.3'));
 });
 test('I1 switching models retains the same Lab header, navigation, sections and dock',async({page})=>{
   await page.goto('/');
@@ -78,16 +78,16 @@ test('old JSON opens explicitly in old editor only after validation and a leave 
   await expect(page.locator('#fit-edition')).toContainText('ship-fitting-0.2.5');await expect(page.locator('#fit-status')).toBeVisible();
   await page.locator('#ship-model-open').click();await page.locator('#sm-source').click();await page.locator('#sm-preview').click();await page.locator('#sm-apply').click();await expect(page.locator('#sm-start')).toBeEnabled();
 });
-for(const version of ['ship-fitting-0.3.2','ship-fitting-0.3.1','ship-fitting-0.3.0'] as const)test(`/4 ${version} fit/run/result file inputs and reexports preserve actual literal documents and show type/version`,async({page})=>{
+for(const version of ['ship-fitting-0.3.3','ship-fitting-0.3.2','ship-fitting-0.3.1','ship-fitting-0.3.0'] as const)test(`/4 ${version} fit/run/result file inputs and reexports preserve actual literal documents and show type/version`,async({page})=>{
   await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
-  if(version!=='ship-fitting-0.3.2'){
-    await page.locator('#sm-import').setInputFiles(upload(serializeFit(getPresetFit(version==='ship-fitting-0.3.0'?'sputnik':'sputnik-d',version))));await page.locator('#sm-background').fill('100');await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
+  if(version!=='ship-fitting-0.3.3'){
+    await page.locator('#sm-import').setInputFiles(upload(serializeFit(getPresetFit(version==='ship-fitting-0.3.0'?'sputnik':'sputnik-d',version))));await page.locator('#sm-background').fill(version==='ship-fitting-0.3.2'?'250':'100');await page.locator('#sm-duration').fill('1');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
   }
   const docs: {id:string;text:string;label:string;schema:string}[]=[];
   for(const [id,label,schema]of [['sm-save-result','Результат','u2-lab/4'],['sm-save-run','Опыт','u2-lab/4'],['sm-save-fit','Сборка','u2-ship-fit/2']]){
     const saving=page.waitForEvent('download');await page.locator('#'+id).click();docs.push({id,label,schema,text:readFileSync((await (await saving).path())!,'utf8')});
   }
-  const measured=JSON.parse(docs[0].text);expect(measured.spec.catalogVersion).toBe(version);expect(measured.spec.environment.radiativeBackgroundK).toBe(version==='ship-fitting-0.3.2'?250:100);
+  const measured=JSON.parse(docs[0].text);expect(measured.spec.catalogVersion).toBe(version);expect(measured.spec.environment.radiativeBackgroundK).toBe(['ship-fitting-0.3.2','ship-fitting-0.3.3'].includes(version)?250:100);
   for(const doc of docs){
     await page.locator('#sm-import').setInputFiles(upload(doc.text));await expect(page.locator('#sm-error')).toBeEmpty();await expect(page.locator('#sm-opened')).toContainText(doc.label);await expect(page.locator('#sm-opened')).toContainText(doc.schema);
     const saving=page.waitForEvent('download');await page.locator('#'+doc.id).click();expect(readFileSync((await (await saving).path())!,'utf8')).toBe(doc.text);

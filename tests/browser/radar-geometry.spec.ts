@@ -17,7 +17,7 @@ test('ST4 actual Worker passport/result, frozen A vs next B, new/old literal reo
   await expect(page.locator('[data-radar-area="nose"]')).toHaveAttribute('data-value','54');await expect(page.locator('[data-radar-area="side"]')).toHaveAttribute('data-value','121.5');await expect(page.locator('#sm-radar-passport')).toContainText('H — ориентир, не утверждена');
   await page.locator('#sm-duration').fill('2');await page.locator('#sm-duration').press('Tab');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
   const aText=await save(page),a=JSON.parse(aText),ref=a.referenceMeasurements;
-  expect(a.spec.resolvedShip.hull.id).toBe('sputnik');expect(a.spec.catalogVersion).toBe('ship-fitting-0.3.2');expect(ref.radar.noseCrossSectionM2).toBe(54);
+  expect(a.spec.resolvedShip.hull.id).toBe('sputnik');expect(a.spec.catalogVersion).toBe('ship-fitting-0.3.3');expect(ref.radar.noseCrossSectionM2).toBe(54);
   for(const key of ['current','mean','max']){
     const pair=ref.passive[key];expect(pair.rangeM).toBe(Math.max(pair.irM,pair.emM));
     await expect(page.locator('#sm-detection-distance [data-reference-distance="TOTAL:'+key+'"]')).toHaveAttribute('data-value',String(pair.rangeM));
