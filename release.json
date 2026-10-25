@@ -1,14 +1,17 @@
 {
-  "version": "2.5",
+  "version": "2.6",
+  "releaseVersion": "2.6.0",
   "uiVersion": "4.8",
   "shipModel": "0.1",
   "shipModelCatalog": "0.3.3",
-  "status": "experimental",
-  "runtimeCommit": "1269220ace1eff970a16affb1d4a4e05c2e6152a",
-  "sourceCommit": "3fdd4b612de14f8efa8c109b74171c067ed1bfb1",
-  "sourceTree": "5f9a9e0e96ddf4da2b0a5188ff31653454dd01ca",
-  "source": "main: принятые PR #44 и #46; дерево сборки совпадает с проверенным HEAD",
+  "status": "working",
+  "defaultModel": "ship-model",
+  "runtimeCommit": "ed2ce3fc0ac1502fd7fe900ae8dc5b1d355ae12f",
+  "sourceCommit": "ed2ce3fc0ac1502fd7fe900ae8dc5b1d355ae12f",
+  "sourceTree": "ce4460c28d6da6f0eb3977e8197bee5e7be5c1c6",
+  "sourceBranch": "fix/lab-info-version",
+  "source": "PR #47; exact verified source; operator merge tracked separately",
   "legacyV1": "./legacy-v1/",
   "previousThermal": "./thermal-v0.1/",
-  "builtAt": "2026-10-25T14:59:21Z"
+  "builtAt": "2026-10-25T16:28:30.504298+00:00"
 }
