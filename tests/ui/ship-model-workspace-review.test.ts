@@ -5,7 +5,7 @@ import {createShipModelRun,runShipModelChunk,shipModelResult,restoreShipModelRun
 import {serializeExperiment,serializeResultSnapshot} from '../../src/io/fitting-json';
 import {workspaceShell} from '../../src/app/fitting';
 const catalog=loadCandidateCatalog('ship-fitting-0.2.5');
-const workspace=()=>new ShipModelWorkspace(getPresetFit('sputnik',catalog.version),catalog);
+const workspace=()=>{const w=new ShipModelWorkspace(getPresetFit('sputnik',catalog.version),catalog);w.selectWorkMode('stationary');return w;};
 const templates={'reference-retro-engine-diesel-S-single':'engine-diesel-S-single'};
 it('fresh A owns current Sputnik D at 250 K while the old source remains detached',()=>{
   const source=getPresetFit('sputnik',catalog.version),literal=JSON.stringify(source),w=new ShipModelWorkspace(source,catalog);

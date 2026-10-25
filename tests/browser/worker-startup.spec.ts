@@ -73,8 +73,8 @@ for(const entry of entries)test(`WH-02 ${entry.name} messageerror releases activ
 });
 
 test('WH-05 visible Lab release and technical patch keep the UI version independent',async({page})=>{
-  await page.goto('/');await expect(page.locator('.ui-brand small')).toHaveText('v2.4 · UI v4.8');await expect(page.locator('footer')).toContainText('U2 Ship Fitting v2.4 · интерфейс v4.8');
-  expect(JSON.parse(readFileSync('package.json','utf8')).version).toBe('0.2.1');const lock=JSON.parse(readFileSync('package-lock.json','utf8'));expect(lock.version).toBe('0.2.1');expect(lock.packages[''].version).toBe('0.2.1');expect(readFileSync('README.md','utf8')).toContain('GD LAB v2.4 · UI 4.8');
+  await page.goto('/');await expect(page.locator('.ui-brand small')).toHaveText('v2.5 · UI v4.8');await expect(page.locator('footer')).toContainText('U2 Ship Fitting v2.5 · интерфейс v4.8');
+  expect(JSON.parse(readFileSync('package.json','utf8')).version).toBe('0.2.2');const lock=JSON.parse(readFileSync('package-lock.json','utf8'));expect(lock.version).toBe('0.2.2');expect(lock.packages[''].version).toBe('0.2.2');expect(readFileSync('README.md','utf8')).toContain('GD LAB v2.5 · UI 4.8');
 });
 
 test('WH-04 Legacy successful restart keeps its existing no-result export semantics until a new snapshot',async({page})=>{

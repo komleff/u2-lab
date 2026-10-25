@@ -1,3 +1,14 @@
+# Рейсовый `/4` и прогресс — recovery, 2026-10-24
+
+`ulab-9aa.24` / PR #44, ветка `fix/ship-model-duration-progress`. Источники:
+`docs/superpowers/plans/2026-10-24-ship-model-duration-progress.md` и связанный design.
+Fresh Sputnik-D: mission H3600 / D100 км / laboratory V_FA250 / cruise500 м/с /
+background250 K / repeat и station replenishment ON. Stationary и старые документы
+сохранены отдельно; mission model `ship-fitting-ship-model-mission-0.1`, state
+`ship-mission-state/1`. Frozen input/state/events/result digest:
+`tests/fixtures/ship-model-mission/sputnik-d-hour.json` (измерены 3 service, 90 SCU доставлено).
+Актуальные SHA/QA/Review/merge status — canonical Beads и PR #44; эта запись — recovery context.
+
 # Upgrade пайплайна OverGate rc.1 → rc.3, 2026-10-24
 
 Draft PR #40 `chore/overgate-v4-rc2` (план `docs/plans/2026-10-24-overgate-v4-rc2-upgrade.md`

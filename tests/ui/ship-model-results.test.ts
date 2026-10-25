@@ -6,7 +6,7 @@ import {createShipModelRun,runShipModelChunk,shipModelResult} from '../../src/ru
 import {serializeResultSnapshot} from '../../src/io/fitting-json';
 import {signatureDepletionFixture,fixture} from '../model-v3/fixture';
 const oldCatalog=loadCandidateCatalog('ship-fitting-0.2.5');
-function workspace(){return new ShipModelWorkspace(getPresetFit('sputnik',oldCatalog.version),oldCatalog);}
+function workspace(){const w=new ShipModelWorkspace(getPresetFit('sputnik',oldCatalog.version),oldCatalog);w.selectWorkMode('stationary');return w;}
 const templates={'reference-retro-engine-diesel-S-single':'engine-diesel-S-single'};
 it('source preview leaves independent fresh A and old source literal until explicit apply',()=>{
   const w=workspace(),source=JSON.stringify(w.source),fresh=JSON.stringify(w.fit);w.selectModel();

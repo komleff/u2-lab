@@ -6,7 +6,7 @@ import {createShipModelRun,runShipModelChunk,shipModelResult} from '../../src/ru
 import {validateRunSpecV3} from '../../src/model/v3/schema';
 import type {RunSpecV3} from '../../src/model/v3/types';
 const catalog=loadCandidateCatalog('ship-fitting-0.2.5');
-const workspace=()=>{const w=new ShipModelWorkspace(getPresetFit('sputnik',catalog.version),catalog);w.loadPreset('stealth-reference','ship-fitting-0.3.0');return w;};
+const workspace=()=>{const w=new ShipModelWorkspace(getPresetFit('sputnik',catalog.version),catalog);w.selectWorkMode('stationary');w.loadPreset('stealth-reference','ship-fitting-0.3.0');return w;};
 const scenario:RunSpecV3['scenario']&{durationSeconds:number}={name:'Работа → восстановление',repeat:true,durationSeconds:6,phases:[
   {id:'work',action:'work',durationSeconds:2,requests:{'fit:payload-1':0.5},mode:'Efficient',environment:null},
   {id:'recover',action:'recovery' as const,durationSeconds:1,requests:{},mode:'Masking' as const,environment:{radiativeBackgroundK:250,backgroundSourceId:'phase-background',thermalField:{temperatureK:270,coefficientWPerM2K:0.1,sourceId:'field'},solarFluxWm2:10,solarSourceId:'sun',energyInputs:[{sourceId:'bus',representation:'electric' as const,powerW:1}],directHeat:[{sourceId:'heat',powerW:2}]}},
