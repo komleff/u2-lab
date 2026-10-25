@@ -17,7 +17,7 @@ for(const width of [1440,390])test.describe(`current Lab entry at ${width}`,()=>
       await expect(page.locator('#sm-back')).toHaveCount(0);
       await expect(page.locator('#sm-source')).toBeHidden();
       await expect(page.locator('#sm-compilation')).not.toHaveAttribute('open','');
-      await expect(page.locator('footer[aria-label="О Лабе"]')).toContainText('версия Лабы 2.6.1');
+      await expect(page.locator('footer[aria-label="О Лабе"]')).toContainText('версия Лабы 2.6.2');
       await expect(page.locator('footer')).toContainText('интерфейс v4.8');
       await expect(page.locator('footer')).toContainText('модель корабля v0.1');
       await expect(page.locator('footer')).toContainText('каталог 0.3.3');
