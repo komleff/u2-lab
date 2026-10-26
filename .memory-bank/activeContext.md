@@ -1,3 +1,27 @@
+# Теплоэнергетический стенд 0.3.4 — контекст 2026-10-26
+
+Beads `ulab-16h` — canonical task state; current implementation/evidence —
+[PR #51](https://github.com/komleff/u2-lab/pull/51), source — #49 b1cbc3 и U2 #905 f08558a9.
+Принятый общий пакет q1-accepted.5, план0.5 PLAN_READY. Окончательная коррекция
+оператора: только heat/energy/physical TTX, actual resources, монтаж/source readiness,
+пассивный обесточенный ангар и воспроизводимые опыты. Экономика/новая ремонтная
+система/failure-exposure expansion в Lab OUT; решения U2 переданы PM F2.
+
+Новый numerical source7082ec74/catalog0.3.4: temps/D40%/surface physical A·ε,
+Pony shell31.5t/IndustrialG0/UNKNOWN, генераторные coefficients отдельно от engines,
+автоматика и dock300K/G10000 без расхода/temperature reset. Старые каталоги/35 research
+опытов не мигрируют. 18 actual receipts: Спутник first work limit64:03/рейс5,
+Пони42:16, Ермак холоднее; cold heater полезен, но не обещает nominal во всяком fit;
+при600K специализированное охлаждение тоже ограничено. Измеренный разрыв к рейсу4
+передан GD/PO без подгонки принятого WHAT.
+
+[Передача PM F2](../docs/handoffs/2026-10-26-f2-thermal-energy.md) содержит source SHA,
+данные/измерения и границы. Фактические QA/scoped Review/CI/finalize — в PR51,
+не в этом checkpoint. Серверный restart-schema230/480 blocker сохраняется;
+U2 production/merge/deploy не выполнялись. Plan-only PR50 GitHub автоматически
+пометил merged после ошибочного порядка PM base integration; runtime в нём не было,
+main не менялся. Новая реализация отдельно в PR51.
+
 # Рейсовый `/4` и прогресс — recovery, 2026-10-24
 
 `ulab-9aa.24` / PR #44, ветка `fix/ship-model-duration-progress`. Источники:

@@ -126,3 +126,16 @@ Active при T_env≥T_ship закрывает площадь и насос, с
 причины OFF/закрытия отличимы от настоящей нехватки ресурсов/защиты. Численные
 ТТХ/enthalpy и stored-result schema не меняются; прошлые результаты не
 пересчитываются при открытии. HOW/CC01–05 — [план](../plans/2026-10-07-cooling-control.md).
+
+
+## Runtime-кандидат Лабы — каталог 0.3.4
+
+Принятые физические данные подключены к существующему /4 отдельной редакцией:
+[руководство](../user/ship-model-catalog-0.3.4.md),
+[18 фактических опытов](../research/2026-10-26-thermal-fitting-runtime/README.md).
+Источник runtime-кандидата 7082ec74fca56eea67fcacacbf5268cfe2104ecd; финальный
+evidence commit может отличаться при exact runtime blobs. Developer measurement
+не заменяет независимые QA/review. Старые каталоги и сохранённые численные
+объекты не мигрируют; исходные 35 опытов остаются историей.
+U2 authorization/schema blocker относится к принимающему U2 runtime,
+не объявляет поставленным server adapter и не включает synthetic governor 0.2.
