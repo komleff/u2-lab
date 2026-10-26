@@ -97,6 +97,8 @@ build_extra,build_durability,ships,main,common,verify_alignment}.py` по need:
 - **только generators**: Industrial `3.125e-5 1/s`, Civilian `×1.33`;
   engine/module rates из q1-candidate.4 не увеличиваются новым generator factor;
   exposure equivalent-full-load; vital0 и thermal multiplier2 сохраняются;
+  Lab generic engines сохраняют old1e-6, courier-specific profile rates остаются
+  прежними .4 (Industrial1/72000, Civilian×1.33), это разные источники/loadouts;
 - service key sector/station, Aurora(1,1)/Tiangong(1,2) repair S/M≤G1,
   остальные записи exact accepted map; diesel0.25 credits/kg, charge10 credits/GJ,
   ceil per operation, partial purchase whole kg/MJ within free wallet;
@@ -175,8 +177,10 @@ hull own load, генераторы, двигатели, подогрев, на�
 
 3а. **Принятая автоматика, износ и услуги в Лабе.** Новая catalog policy
 задаёт для трёх courier profiles Normal370/cold225–230, источник class dispatch,
-generator-only wear; соответствующий production `/4` принимает policy явно,
+generator-only wear и equivalent-full-load emergency exposure; соответствующий production `/4` принимает policy явно,
 Efficient соответствует Normal, старые каталоги сохраняют прежние controller semantics.
+Legacy active-time exposure остаётся absent-policy default; новый equivalent
+exposure и boundary вычисляются по фактической доле работы.
 Собственные двигатели Пони не получают новое ускорение износа; проверяется exact
 rate, длительность и equivalent work. Не объявлять перенос кода governor0.3 завершённым:
 новая policy не меняет imported synthetic model/version.
