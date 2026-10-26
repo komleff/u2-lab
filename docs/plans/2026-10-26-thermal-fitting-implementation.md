@@ -1,7 +1,7 @@
 ---
 title: "Каталог 0.3.4: тепловой баланс, монтаж и пассивный ангар"
-status: "PRODUCT / independent Plan Review pending"
-version: "0.2"
+status: "PRODUCT / PLAN_READY; binding report in PR #50"
+version: "0.3"
 date: 2026-10-26
 beads: ulab-16h
 ---
@@ -128,6 +128,11 @@ class не подменяет manufacturer и не включает factory mult
 Pony hull shell=31500 kg, C=14805000 J/K, old catalogs unchanged.
 Явные courier presets трёх бортов добавляются к прежним mining presets;
 они используют exact accepted roster без переноса F2 aggregate mass в другой mining fit.
+F1 scanner/radar у courier имеют явный builtin/profile binding с фактическими
+mass/C/load из пакета. Их нельзя втиснуть в занятый radiator slot, дать
+бесплатную массу или добавить всем прежним mining fits: профильный binding
+нормализуется и валидируется отдельно, число физических сменных слотов прежнее.
+Это варианты состава существующих корпусов, а не новая сетка корпуса/слотов.
 Проверка14 относится к прежним mining choices; новые courier entries отдельно.
 Фиксированные поверхности Sputnik/Pony 40×0.9, Mir 400×0.9 уже существуют:
 проверить включение один раз без нового bill; иные hull surfaces сохранить буквально.
@@ -236,7 +241,7 @@ PM → независимая QA → один scoped Code Review → affected fi
 | TF10 | Accepted.5: all decisions/statuses/owners updated, exact generation & both mirrors, dry mass/C/identity/startups/engine wear unchanged by generator change | Data assertions/reproduce/hash and normative link checks |
 | TF11 | Service map/tariffs/ceil/partial purchases/repair S-M G1 both starters, no temp reset/dock wear, persisted wallet/resources/repair accounting | Quote/apply + real mission + checkpoint + existing UI conditions, positive and refusal cases |
 | TF12 | Normal370/cold225-230/Industrial dispatch/new generator wear in actual /4; engine rates preserved, load-adjusted exposure, no Quiet activation | Production controller/step runs, lifetime measurements and explicit policy serialization |
-| TF09 | Existing UI controls/plots/A-B/exports/imported literal paths работают; old /1–/5 unchanged/reopen, normal project verify PASS | Focused production Worker browser + full .agents/project/verify.sh; old result digest regression |
+| TF09 | Existing UI controls/plots/A-B/exports/imported literal paths работают; old /1–/4 + synthetic model0.2/schema4 unchanged/reopen, normal project verify PASS | Focused production Worker browser + full .agents/project/verify.sh; old result digest regression |
 
 Numerical rules: energy residuals — существующие model tolerance helpers, не новый
 произвольный общий epsilon. Service T — reference convergence error ≤0.001 K на
