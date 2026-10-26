@@ -1,7 +1,7 @@
 ---
 title: "Каталог 0.3.4: тепловой баланс, монтаж и пассивный ангар"
 status: "PRODUCT / PLAN_READY; binding report in PR #50"
-version: "0.3"
+version: "0.4"
 date: 2026-10-26
 beads: ulab-16h
 ---
@@ -25,6 +25,11 @@ U2 #905 на `ff58b7125d3325e85f72d449d7719c55c5c2cc8b`. Оно отменяет
 исключение масс, D21/D22, износа генераторов и услуг; исторический план 0.1 superseded.
 Точная принятая спецификация копируется в новый data revision и связывается hash.
 Сначала нормативные данные/статусы/профили U2 и Lab, затем продуктовый runtime.
+Позднейшее уточнение оператора: Лаба — симулятор тепла и энергии; тарифные
+услуги неважны. Поддержать изменения физических параметров и ТТХ существующих
+корпусов/модулей без усложнения. Экономика, кошелёк, оплата/quotes, fleet/insurance
+процесс и новые service screens в runtime Лабы OUT. Принятые нормы услуг остаются
+в данных U2/зеркале, это не требование строить экономический симулятор.
 
 OUT: production U2, `configs/ships` и protocol/server deploy, активация synthetic governor
 `ship-fitting-ship-model-0.2` без отдельной qualification,
@@ -126,14 +131,12 @@ restartHigh 480, high 550 K. Дизельные баки: 150/200/180/500/550/57
 class не подменяет manufacturer и не включает factory multiplier. Новые identity
 поля optional для старых каталогов, normal governor использует Industrial.
 Pony hull shell=31500 kg, C=14805000 J/K, old catalogs unchanged.
-Явные courier presets трёх бортов добавляются к прежним mining presets;
-они используют exact accepted roster без переноса F2 aggregate mass в другой mining fit.
-F1 scanner/radar у courier имеют явный builtin/profile binding с фактическими
-mass/C/load из пакета. Их нельзя втиснуть в занятый radiator slot, дать
-бесплатную массу или добавить всем прежним mining fits: профильный binding
-нормализуется и валидируется отдельно, число физических сменных слотов прежнее.
-Это варианты состава существующих корпусов, а не новая сетка корпуса/слотов.
-Проверка14 относится к прежним mining choices; новые courier entries отдельно.
+Три courier F2 комплекта остаются точными reference profiles в зеркале данных;
+новые обязательные меню/пресеты/слоты для них в Lab UI не добавляются. Прежние
+14 mining presets получают новую версию и физические ТТХ. Сумма конкретной
+mining сборки не обязана совпасть с courier roster: mass/C считаются по её
+реально установленным материалам. Courier source profiles проверяются отдельно
+генератором, без скрытого добавления F1 scanner/radar в mining14.
 Фиксированные поверхности Sputnik/Pony 40×0.9, Mir 400×0.9 уже существуют:
 проверить включение один раз без нового bill; иные hull surfaces сохранить буквально.
 Пассивные S/M: physical 490/1960, epsilon .9, effective 441/1764 м²;
@@ -189,19 +192,17 @@ exposure и boundary вычисляются по фактической доле
 Собственные двигатели Пони не получают новое ускорение износа; проверяется exact
 rate, длительность и equivalent work. Не объявлять перенос кода governor0.3 завершённым:
 новая policy не меняет imported synthetic model/version.
-Добавить `src/model/v3/station-policy.ts` и данные принятой карты/тарифов:
-чистые quote/apply функции для fuel/charge/repair используют sector/station,
-free wallet, ceil и quantization; недоступная услуга/нулевой кошелёк дают конкретный отказ.
-Связать с новым service lifecycle по явной versioned mission policy; simulation
-wallet, адрес станции и repair selection — условия опыта в существующем panel,
-с declared experimental benchmark budget, а не новый канон стартовых денег игрока.
-Старт full относится к новому кораблю, обычный service не бесплатная выдача нового борта.
-Оплата/ресурсы/repair ledger сохраняются в результате и checkpoint; недоступная
-услуга не replenishes. Existing benchmark replenishment при старых версиях буквально.
-Проверить покрытие раннего Mir на обеих стартовых станциях, partial purchase,
-repair при R>0/0/<0 с cap80%, load-adjusted generator lifetimes, нулевой dock wear.
-Страховой Pony в Lab data/profile и deterministic lifecycle test сохраняет owner
-replacement semantics; новый экран страховки или production fleet runtime не строится.
+Новый слой тарифных услуг/адресов/кошелька/quotes, purchasing и страховой
+replacement runtime Лабе не нужен (прямое уточнение оператора).
+Использовать существующее пополнение топлива/заряда benchmark mission на конце
+обслуживания, сохранить отдельный stationInput/receivedFuel/receivedCharge ledger,
+не сбрасывая T. Этот режим опыта не выдаётся за gameplay покупку/экономику U2.
+Ремонт остаётся существующим исследовательским control с сохранением thermal gates,
+без нового экрана и без денежного расчёта. Условия/цены/repair envelope из accepted
+пакета остаются в нормативных данных U2 и точном Lab mirror, без их интеграции
+в численную задачу тепла/энергии. Нулевой dock wear/расход и отличия engines от
+generators проверяются физическим runner. Дополнительные controls/persisted state
+вводятся только для физически нужных policy/latch/exposure, не для новой экономики.
 
 4. **Детерминированная проверка и воспроизводимые измерения.** Добавить адресные
 `tests/fitting/catalog-0.3.4.test.ts`, `tests/model-v3/station-service.test.ts`,
@@ -230,7 +231,7 @@ PM → независимая QA → один scoped Code Review → affected fi
 
 | AC | Expected / error / edge / invariant | Method |
 |---|---|---|
-| TF01 | 0.3.4 явно current; прежние14 mining + три courier presets/семь hulls компилируются; новые численные поля из accepted subset, старые каталоги byte-exact | Data/compile assertions + old JSON hash inventory |
+| TF01 | 0.3.4 явно current; прежние14 mining presets/семь hulls компилируются; три courier profiles data-reproducible; новые численные поля из accepted subset, старые каталоги byte-exact | Data/compile assertions + old JSON hash inventory |
 | TF02 | D: fuel = useful + .4*loss host + .6*loss external; engine/path efficiencies сохранены, generator D45/55 и H отличны | Isolated actual-step balance, несколько duty/КПД, existing conservation tolerances |
 | TF03 | Ordinary все шесть порогов; tank exception; restart с обеих сторон; Pony Industrial/G0 + manufacturer/national UNKNOWN identity | Catalog/schema/control tests, boundary equality/above/below |
 | TF04 | Fixed surfaces один раз, S/M physical/effective/mass/C exact, нет дополнительного bill и epsilon² | Compiled surface graph + analytic radiation/ledger checks |
@@ -239,7 +240,7 @@ PM → независимая QA → один scoped Code Review → affected fi
 | TF07 | Service при 250/300/500 K за 10 s и длительно к 300, без onboard burn/reset; closed panels closed, already open passive, refuel/replacement continuity, event interval | Actual service helper + production mission + independent reference; whole-vs-split and service checkpoint/resume |
 | TF08 | Часовая добыча старт300/станция300/фон250/100km/service10s; first work limit, critical stop, work/mined/delivered/trips/stocks/reasons measured; cold/heater/radiators и hot600 controls persisted | Immutable runtime experiment matrix on actual new catalog, reproducible JSON/CSV plus hashes; measured gap is explicit result, not hidden tuning |
 | TF10 | Accepted.5: all decisions/statuses/owners updated, exact generation & both mirrors, dry mass/C/identity/startups/engine wear unchanged by generator change | Data assertions/reproduce/hash and normative link checks |
-| TF11 | Service map/tariffs/ceil/partial purchases/repair S-M G1 both starters, no temp reset/dock wear, persisted wallet/resources/repair accounting | Quote/apply + real mission + checkpoint + existing UI conditions, positive and refusal cases |
+| TF11 | Принятые нормы услуг/тарифов/repair envelope сохранены в U2 и exact Lab data mirror; Lab runtime экономики не содержит. Existing benchmark station inputs/repair control не сбрасывают T и не скрывают расходы/источники энергии | Data consistency + actual service/repair conservation checks; без кошелька/покупок/новой панели |
 | TF12 | Normal370/cold225-230/Industrial dispatch/new generator wear in actual /4; engine rates preserved, load-adjusted exposure, no Quiet activation | Production controller/step runs, lifetime measurements and explicit policy serialization |
 | TF09 | Existing UI controls/plots/A-B/exports/imported literal paths работают; old /1–/4 + synthetic model0.2/schema4 unchanged/reopen, normal project verify PASS | Focused production Worker browser + full .agents/project/verify.sh; old result digest regression |
 
@@ -255,7 +256,7 @@ PRODUCT budget 5: Plan Review, QA TF01–12, scoped Code Review, резерв af
 и re-review. Reviewer проверяет изменённые runtime/catalog/IO/UI paths и необходимые
 callers по TF01–12; named risks — old replay drift, source bypass через preview/import,
 service hidden consumption/panel reopening/reset, epsilon double counting, смешанные
-архитектуры, смешение class/manufacturer, неподключённая automation/service policy и неотдельный engine wear.
+архитектуры, смешение class/manufacturer, неподключённая physical automation policy и неотдельный engine wear.
 OUT — серверная квалификация, detection, новый дизайн shell и независимые смежные F2 WI.
 Reports содержат actual role/model, exact reviewed paths, contract, blob hashes,
 content/envelope fingerprints ADR3.28. При content-equivalent base movement —
