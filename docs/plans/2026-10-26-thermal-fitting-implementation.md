@@ -1,7 +1,7 @@
 ---
 title: "Каталог 0.3.4: тепловой баланс, монтаж и пассивный ангар"
 status: "PRODUCT / PLAN_READY; binding report in PR #50"
-version: "0.4"
+version: "0.5"
 date: 2026-10-26
 beads: ulab-16h
 ---
@@ -28,8 +28,12 @@ U2 #905 на `ff58b7125d3325e85f72d449d7719c55c5c2cc8b`. Оно отменяет
 Позднейшее уточнение оператора: Лаба — симулятор тепла и энергии; тарифные
 услуги неважны. Поддержать изменения физических параметров и ТТХ существующих
 корпусов/модулей без усложнения. Экономика, кошелёк, оплата/quotes, fleet/insurance
-процесс и новые service screens в runtime Лабы OUT. Принятые нормы услуг остаются
-в данных U2/зеркале, это не требование строить экономический симулятор.
+процесс и новые service screens в runtime Лабы OUT. Экономические решения #905 остаются принятыми для U2 и передаются PM F2;
+их упоминание в справке не создаёт задачи реализации или нового payload в Лабе.
+Окончательная коррекция оператора: существующую прочность не расширять в
+систему ремонта/обслуживания. Используются согласованные коэффициенты без
+новых ремонтных, страховых и экономических механик. Рейсы/добыча — тестовая
+нагрузка стенда; пополнение ресурсов задаётся физическими условиями без оплаты.
 
 OUT: production U2, `configs/ships` и protocol/server deploy, активация synthetic governor
 `ship-fitting-ship-model-0.2` без отдельной qualification,
@@ -73,7 +77,8 @@ Governor 0.2 использует ту же schema `/4`, но отдельный
 #905 `data/f2-ship-profiles` только после текущего race check.
 Обновить `docs/data/f2-ship-profiles/{proposed-adjustments,decisions,durability,
 README,alignment-review,mapping-corrections,qualification-plan}.md`,
-`docs/data/f2-services/{README,decisions,lifecycle-matrix}.md` и карту услуг.
+Экономическое принятие зафиксировать в ratification record/передаче PM F2;
+расширять пакет услуг и генерировать для Лабы тарифный payload не требуется.
 Зафиксировать дословное дополнение оператора и точные bytes принятого документа;
 старые расчёты пометить историческими. Принятые пункты D1–D24 по их фактическому
 scope больше не «ждут PO». Согласованные candidate material approximations не
@@ -84,7 +89,8 @@ scope больше не «ждут PO». Согласованные candidate ma
 `docs/gdd/gdd_survival_starting_ship_v0.1_draft.md`,
 `docs/gdd/gdd_survival_pony_propulsion_thermal_balance_v0.1_draft.md`,
 `docs/gdd/gdd_ship_material_class_generation_model_v0.1_draft.md`,
-`docs/gdd/gdd_sto_service_balance_v0.1_draft.md` и их INDEX entries.
+их INDEX entries. Изменения экономических owners/СТО делегируются PM F2;
+они не входят в implementation PR Лабы.
 Новый F2 data baseline имеет приоритет; старый F1 runtime не объявляется
 обновлённым без изменения configs и квалификации принимающим PM F2.
 Исправить генератор `docs/data/f2-ship-profiles/generator/{build_mass,
@@ -101,25 +107,24 @@ build_extra,build_durability,ships,main,common,verify_alignment}.py` по need:
   Quiet запрещён этим трём бортам, inert quiet fields не permission;
 - **только generators**: Industrial `3.125e-5 1/s`, Civilian `×1.33`;
   engine/module rates из q1-candidate.4 не увеличиваются новым generator factor;
-  exposure equivalent-full-load; vital0 и thermal multiplier2 сохраняются;
+  данные exposure equivalent-full-load, vital0 и thermal multiplier2 в F2 profiles сохраняются;
   Lab generic engines сохраняют old1e-6, courier-specific profile rates остаются
   прежними .4 (Industrial1/72000, Civilian×1.33), это разные источники/loadouts;
-- service key sector/station, Aurora(1,1)/Tiangong(1,2) repair S/M≤G1,
-  остальные записи exact accepted map; diesel0.25 credits/kg, charge10 credits/GJ,
-  ceil per operation, partial purchase whole kg/MJ within free wallet;
-  repair restored BOM fraction×dryMass×0.5 credits/kg с owner cap80% ниже0;
-  Pony replacement Aurora с прежней принятой retire/cargo-loss semantics.
+Экономические D9–D17 приняты для U2, но не являются work items Лабы. В передаче
+PM F2 указать принятие точного proposed-adjustments.md и необходимость его
+нормативной/игровой реализации принимающей линией; не вводить новые тарифные
+артефакты и проверки экономики в Lab diff.
 Новая общая ревизия `q1-accepted.5` / `u2-f2-ship-profiles/0.5`.
-Создать/пересчитать shared `balance-parameters.json`, service policy data,
+Создать/пересчитать shared `balance-parameters.json`,
 три JSON profiles, `sync-manifest.json` с **фактическими** generator/runtime-source SHA
 (старый manifest имел 5 неверных hashes; не наследовать), frozen source SHA и qualification.
 `verify_alignment.py` подтверждает старые125 и новые адресные assertions, exact reproduction,
-отдельность engine/generator wear и identity/mass/startup/service invariants.
+отдельность engine/generator wear и physical identity/mass/startup invariants.
 Сначала записать зеркальные данные и статус в документальный worktree PR49
 `/Users/komleff/Documents/GitHub/u2-lab-docs49-finalize`, обновить research manifest,
 README/audit addendum/INDEX/source-authority и создать commit; PM переносит exact commit
-в implementation branch. U2 и Lab четыре прежних payload и новый service payload
-должны совпасть bytes. Runtime code начинается только после этого data milestone.
+в implementation branch. U2 и Lab четыре физических payload должны совпасть bytes;
+нового экономического payload не создаётся. Runtime code начинается только после этого data milestone.
 
 1. **Каталог и provenance.** Создать `src/fitting/data/{hulls,items,presets,preset-manifest}-0.3.4.json`;
 зарегистрировать в `src/fitting/editions.ts` и `src/model/v3/types.ts`, новый default.
@@ -183,12 +188,13 @@ hull own load, генераторы, двигатели, подогрев, на�
 температура корпуса — носитель, снятые модули не требуют новых температур.
 `idle` вне ангара сохраняет прежний смысл. Новая реализация не эмулирует серверный offline.
 
-3а. **Принятая автоматика, износ и услуги в Лабе.** Новая catalog policy
+3а. **Принятая автоматика и коэффициенты износа в Лабе.** Новая catalog policy
 задаёт для трёх courier profiles Normal370/cold225–230, источник class dispatch,
-generator-only wear и equivalent-full-load emergency exposure; соответствующий production `/4` принимает policy явно,
+generator-only wear; соответствующий production `/4` принимает policy явно,
 Efficient соответствует Normal, старые каталоги сохраняют прежние controller semantics.
-Legacy active-time exposure остаётся absent-policy default; новый equivalent
-exposure и boundary вычисляются по фактической доле работы.
+Существующие прочность, отказы, repair/restart controls и их clocks не
+расширяются новой системой; меняются только согласованные коэффициенты в
+данных с проверкой фактической работы генератора и неизменности engines.
 Собственные двигатели Пони не получают новое ускорение износа; проверяется exact
 rate, длительность и equivalent work. Не объявлять перенос кода governor0.3 завершённым:
 новая policy не меняет imported synthetic model/version.
@@ -198,11 +204,10 @@ replacement runtime Лабе не нужен (прямое уточнение о
 обслуживания, сохранить отдельный stationInput/receivedFuel/receivedCharge ledger,
 не сбрасывая T. Этот режим опыта не выдаётся за gameplay покупку/экономику U2.
 Ремонт остаётся существующим исследовательским control с сохранением thermal gates,
-без нового экрана и без денежного расчёта. Условия/цены/repair envelope из accepted
-пакета остаются в нормативных данных U2 и точном Lab mirror, без их интеграции
-в численную задачу тепла/энергии. Нулевой dock wear/расход и отличия engines от
+без нового экрана и без денежного расчёта. Экономические условия U2 передаются PM F2 ссылкой на accepted record, без
+нового экономического payload, UI или функциональности в Lab. Нулевой dock wear/расход и отличия engines от
 generators проверяются физическим runner. Дополнительные controls/persisted state
-вводятся только для физически нужных policy/latch/exposure, не для новой экономики.
+вводятся только для физически нужных policy/cold-latch, не для новой экономики.
 
 4. **Детерминированная проверка и воспроизводимые измерения.** Добавить адресные
 `tests/fitting/catalog-0.3.4.test.ts`, `tests/model-v3/station-service.test.ts`,
@@ -240,8 +245,8 @@ PM → независимая QA → один scoped Code Review → affected fi
 | TF07 | Service при 250/300/500 K за 10 s и длительно к 300, без onboard burn/reset; closed panels closed, already open passive, refuel/replacement continuity, event interval | Actual service helper + production mission + independent reference; whole-vs-split and service checkpoint/resume |
 | TF08 | Часовая добыча старт300/станция300/фон250/100km/service10s; first work limit, critical stop, work/mined/delivered/trips/stocks/reasons measured; cold/heater/radiators и hot600 controls persisted | Immutable runtime experiment matrix on actual new catalog, reproducible JSON/CSV plus hashes; measured gap is explicit result, not hidden tuning |
 | TF10 | Accepted.5: all decisions/statuses/owners updated, exact generation & both mirrors, dry mass/C/identity/startups/engine wear unchanged by generator change | Data assertions/reproduce/hash and normative link checks |
-| TF11 | Принятые нормы услуг/тарифов/repair envelope сохранены в U2 и exact Lab data mirror; Lab runtime экономики не содержит. Existing benchmark station inputs/repair control не сбрасывают T и не скрывают расходы/источники энергии | Data consistency + actual service/repair conservation checks; без кошелька/покупок/новой панели |
-| TF12 | Normal370/cold225-230/Industrial dispatch/new generator wear in actual /4; engine rates preserved, load-adjusted exposure, no Quiet activation | Production controller/step runs, lifetime measurements and explicit policy serialization |
+| TF11 | Lab diff ограничен теплоэнергетическим стендом: нет экономики/нового repair system; физическое пополнение учитывается station inputs и не сбрасывает T. Экономическое принятие U2 передано PM F2 ссылкой | Diff scope audit + actual station inputs/conservation/persistence checks; существующая прочность сохранена |
+| TF12 | Normal370/cold225-230/Industrial dispatch/new generator wear in actual /4; engine rates preserved, wear по actual working fraction, no Quiet activation | Production controller/step runs, lifetime measurements and explicit policy serialization |
 | TF09 | Existing UI controls/plots/A-B/exports/imported literal paths работают; old /1–/4 + synthetic model0.2/schema4 unchanged/reopen, normal project verify PASS | Focused production Worker browser + full .agents/project/verify.sh; old result digest regression |
 
 Numerical rules: energy residuals — существующие model tolerance helpers, не новый
