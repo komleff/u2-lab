@@ -14,12 +14,15 @@ const sourceFiles=execFileSync('git',['ls-files','src','scripts/build-thermal-ca
 const sourceFingerprints=Object.fromEntries(sourceFiles.map(path=>{const actual=readFileSync(resolve(root,path)),frozen=execFileSync('git',['show',sourceCommit+':'+path],{cwd:root});if(!actual.equals(frozen))throw Error('Uncommitted/source-mismatched runtime: '+path);return [path,createHash('sha256').update(actual).digest('hex')];}));
 const catalog=loadCandidateCatalog('ship-fitting-0.3.4');
 function install(f:ShipFitV3,slot:string,item:string|null){const id=f.assignments[slot]??'fit:'+slot;if(item){f.assignments[slot]=id;f.instances[id]={id,itemId:item,enabled:true};}else{delete f.assignments[slot];delete f.instances[id];}}
+function coldFit(f:ShipFitV3,heater=false,radiators=true){f.instances['fit:power-2'].enabled=false;install(f,'signature-3','electric-heater-S');f.instances['fit:signature-3'].enabled=heater;if(!radiators){install(f,'signature-1',null);install(f,'signature-2',null);}}
 type Case={id:string;preset:string;mode:'mission'|'idle'|'work';seconds:number;temperatureK?:number;backgroundK?:number;edit?:(f:ShipFitV3)=>void};
 const cases:Case[]=[...['sputnik-d','pony-d','ermak-d','severin-mir-d'].map(preset=>({id:preset+'-hour',preset,mode:'mission' as const,seconds:3600})),{id:'sputnik-d-fourth-trip-window',preset:'sputnik-d',mode:'mission',seconds:4500},
- {id:'cold-ermak-from300',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:300,backgroundK:3,edit:f=>{f.instances['fit:power-2'].enabled=false;}},
- {id:'cold-ermak-radiators',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:210,backgroundK:3,edit:f=>{f.instances['fit:power-2'].enabled=false;}},
- {id:'cold-ermak-heater',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:210,backgroundK:3,edit:f=>{f.instances['fit:power-2'].enabled=false;install(f,'signature-3','electric-heater-S');}},
- {id:'cold-ermak-no-removable-radiators',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:210,backgroundK:3,edit:f=>{f.instances['fit:power-2'].enabled=false;install(f,'signature-1',null);install(f,'signature-2',null);}},
+ {id:'cold-ermak-from300',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:300,backgroundK:3,edit:f=>coldFit(f)},
+ {id:'cold-ermak-radiators',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:210,backgroundK:3,edit:f=>coldFit(f)},
+ {id:'cold-ermak-heater',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:210,backgroundK:3,edit:f=>coldFit(f,true)},
+ {id:'cold-ermak-225-heater-off',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:225,backgroundK:3,edit:f=>coldFit(f)},
+ {id:'cold-ermak-225-heater-on',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:225,backgroundK:3,edit:f=>coldFit(f,true)},
+ {id:'cold-ermak-no-removable-radiators',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:210,backgroundK:3,edit:f=>coldFit(f,false,false)},
  ...[450,600].flatMap(backgroundK=>[{id:'hot-mir-passive-'+backgroundK,preset:'severin-mir-d',mode:'work' as const,seconds:1800,backgroundK},{id:'hot-mir-pump-h2-'+backgroundK,preset:'severin-mir-d',mode:'work' as const,seconds:1800,backgroundK,edit:(f:ShipFitV3)=>{install(f,'power-4','tank-hydrogen-M');install(f,'signature-2','pump-radiator-S');install(f,'signature-3','h2-cooler-M');}}]),
  ...['sputnik-d','pony-d','severin-mir-d'].map(preset=>({id:preset+'-generator-hour',preset,mode:'idle' as const,seconds:3600}))];
 const receipts:unknown[]=[];mkdirSync(out,{recursive:true});
@@ -39,7 +42,8 @@ for(const item of cases){
   if(t%10===0||run.done)trace.push({timeSeconds:t,temperatureK:st.temperatureK,chargeJ:st.chargeJ,fuelKg:structuredClone(st.fuelKg),mission:st.mission?structuredClone(st.mission):null,generatorW:run.last.generatorW??0,hostHeatW:run.last.hostHeatW??0,netHeatW:run.last.netHeatW??0,deliveredW:run.last.deliveredW??0});
  }
  const result=shipModelResult(run),wear=spec.resolvedShip.instances.filter(i=>['engine','generator'].includes(i.item.family)).map(i=>({instanceId:i.id,family:i.item.family,ratePerWorkSecond:i.item.durability.wearPerWorkSecond,deltaR:initial.modules[i.id].durabilityR-run.state.modules[i.id].durabilityR,projectedHoursToZero:item.mode==='idle'&&i.item.family==='generator'?(initial.modules[i.id].durabilityR/(initial.modules[i.id].durabilityR-run.state.modules[i.id].durabilityR))*item.seconds/3600:null}));
- const receipt={id:item.id,catalogVersion:catalog.version,spec,specSha256:hash(spec),initialStateSha256:hash(initial),finalState:result.state,finalStateSha256:hash(result.state),fullResultSha256:hash(result),metrics:result.metrics,firstWorkLimit,firstCritical,maxResidualJ,dockSeconds,hangarExchangeJ,generatorEnergyJ,heaterEnergyJ,h2CoolingJ,tiCoolingJ,wear,lifetimeProjectionStatus:'linear estimate from measured interval; no 20h qualification',events:result.events,trace};
+ const consumedFuelKg={diesel:initial.fuelKg.diesel+(result.state.mission?.receivedFuelKg.diesel??0)-result.state.fuelKg.diesel,hydrogen:initial.fuelKg.hydrogen+(result.state.mission?.receivedFuelKg.hydrogen??0)-result.state.fuelKg.hydrogen};
+ const receipt={id:item.id,consumedFuelKg,catalogVersion:catalog.version,spec,specSha256:hash(spec),initialStateSha256:hash(initial),finalState:result.state,finalStateSha256:hash(result.state),fullResultSha256:hash(result),metrics:result.metrics,firstWorkLimit,firstCritical,maxResidualJ,dockSeconds,hangarExchangeJ,generatorEnergyJ,heaterEnergyJ,h2CoolingJ,tiCoolingJ,wear,lifetimeProjectionStatus:'linear estimate from measured interval; no 20h qualification',events:result.events,trace};
  receipts.push(receipt);writeFileSync(resolve(out,item.id+'.json'),JSON.stringify(receipt,null,2)+'\n');
  console.log(JSON.stringify({id:item.id,T:run.state.temperatureK,firstWorkLimit,firstCritical,trips:run.state.mission?.completedTrips??0,deliveredM3:run.state.mission?.deliveredM3??0}));
 }
