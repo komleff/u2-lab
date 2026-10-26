@@ -1,6 +1,6 @@
 {
   "schemaVersion": "u2-shared-thermal-parameters/1",
-  "revision": "thermal-2026-10-26.1",
+  "revision": "thermal-2026-10-26.2",
   "date": "2026-10-26",
   "status": "accepted operator decisions; runtime qualification pending",
   "ordinaryTemperaturesK": {
@@ -25,33 +25,138 @@
     "externalLossFraction": 0.6
   },
   "fixedHullSurfaces": {
-    "sputnik": {"areaM2": 40, "emissivity": 0.9, "effectiveAreaM2": 36},
-    "severin-mir": {"areaM2": 400, "emissivity": 0.9, "effectiveAreaM2": 360},
-    "pony": {"areaM2": 40, "emissivity": 0.9, "effectiveAreaM2": 36}
+    "sputnik": {
+      "areaM2": 40,
+      "emissivity": 0.9,
+      "effectiveAreaM2": 36
+    },
+    "severin-mir": {
+      "areaM2": 400,
+      "emissivity": 0.9,
+      "effectiveAreaM2": 360
+    },
+    "pony": {
+      "areaM2": 40,
+      "emissivity": 0.9,
+      "effectiveAreaM2": 36
+    }
   },
   "passiveRadiators": {
-    "S": {"areaM2": 490, "emissivity": 0.9, "effectiveAreaM2": 441, "dryMassKg": 750, "heatCapacityJPerK": 334900},
-    "M": {"areaM2": 1960, "emissivity": 0.9, "effectiveAreaM2": 1764, "dryMassKg": 3000, "heatCapacityJPerK": 1339600}
+    "S": {
+      "areaM2": 490,
+      "emissivity": 0.9,
+      "effectiveAreaM2": 441,
+      "dryMassKg": 750,
+      "heatCapacityJPerK": 334900
+    },
+    "M": {
+      "areaM2": 1960,
+      "emissivity": 0.9,
+      "effectiveAreaM2": 1764,
+      "dryMassKg": 3000,
+      "heatCapacityJPerK": 1339600
+    }
   },
-  "pony": {"governorClass": "Industrial", "manufacturer": "UNKNOWN", "generation": "G0"},
+  "pony": {
+    "governorClass": "Industrial",
+    "manufacturer": "UNKNOWN",
+    "generation": "G0",
+    "shellDryMassKg": 31500,
+    "shellHeatCapacityJPerK": 14805000,
+    "engineTtxPolicy": "retain unique q1-candidate.4 force, alpha and efficiencies; no factory substitution"
+  },
   "fitting": {
     "samePropulsionTypeRequired": false,
-    "propulsionArchitecturesPreserved": {"pony": ["diesel", "electric"], "civilian-M": ["hydrogen", "electric"]},
-    "thermalFamiliesToAdd": ["electric-heater", "furnace", "pump-radiator", "shielding", "sensor"],
-    "hullsReceivingFamilies": ["pony", "industrial-S", "civilian-M", "industrial-M"],
-    "gyrodyneAllowedInTurnSlot": ["pony", "industrial-S", "civilian-M", "industrial-M"],
+    "propulsionArchitecturesPreserved": {
+      "pony": [
+        "diesel",
+        "electric"
+      ],
+      "civilian-M": [
+        "hydrogen",
+        "electric"
+      ]
+    },
+    "thermalFamiliesToAdd": [
+      "electric-heater",
+      "furnace",
+      "pump-radiator",
+      "shielding",
+      "sensor"
+    ],
+    "hullsReceivingFamilies": [
+      "pony",
+      "industrial-S",
+      "civilian-M",
+      "industrial-M"
+    ],
+    "gyrodyneAllowedInTurnSlot": [
+      "pony",
+      "industrial-S",
+      "civilian-M",
+      "industrial-M"
+    ],
     "installationMayBeResourceIncomplete": true,
     "saveRequiresCompatibleSourceForEveryConsumer": true,
     "testRequiresCompatibleSourceForEveryConsumer": true,
     "oneSourceMaySupplyMultipleConsumers": true,
     "ramAndShellMountingChanged": false
   },
-  "station": {"environmentK": 300, "existingContactWPerK": 10000, "onboardPowered": false, "passiveExchangeOnly": true, "instantTemperatureReset": false},
-  "scope": "Shared physical parameters for F2 reference profiles. Does not approve unresolved flight-mass, fitting-loadout, tariff or durability choices; does not rewrite historical catalogs or authorize production activation.",
+  "station": {
+    "environmentK": 300,
+    "existingContactWPerK": 10000,
+    "onboardPowered": false,
+    "passiveExchangeOnly": true,
+    "instantTemperatureReset": false
+  },
+  "scope": "Accepted physical reference data for three F2 courier profiles; mining loadouts keep their actual installed roster. Economic decisions ratified by acceptedDecision and handed to PM F2; no economic runtime or production activation.",
   "sources": {
     "operator": "U2 thermal balance session, 2026-10-26; D3/D5/D7 and 40% propulsion waste-to-ship decision",
     "labInput": "u2-lab@c58a300536a3fe865b65f333e099f69887d5a8e9:docs/verification/f2-ship-passports/product-baseline-v0.1/",
     "radiatorGeometry": "U2:docs/gdd/data/ship_module_ttx_master_v0.1/radiator_passive_first_slice_v0.1.csv",
     "radiatorMaterials": "U2:docs/gdd/data/ship_module_ttx_master_v0.1/component_material_anchors_first_loop_v0.1.csv"
+  },
+  "profileRevision": "q1-accepted.5",
+  "acceptedDecision": "accepted-operator-decision.json",
+  "generatorDurability": {
+    "industrialWearPerEquivalentS": 3.125e-05,
+    "civilianMultiplier": 1.33,
+    "exposureBasis": "equivalent-full-load",
+    "thermalMultiplierAtCritical": 2,
+    "vitalWearPerEquivalentS": 0,
+    "otherModuleRatePolicy": "retain exact q1-candidate.4 rates; generic Lab engines remain 1e-6"
+  },
+  "startup": {
+    "temperatureK": 300,
+    "fuelFraction": 1,
+    "chargeFraction": 1,
+    "durabilityR": 1,
+    "cargoMassKg": 0,
+    "courierPassiveRadiators": 1,
+    "mirPropulsion": "diesel"
+  },
+  "automation": {
+    "allowed": [
+      "Normal"
+    ],
+    "normalTargetK": 370,
+    "coldOnK": 225,
+    "coldOffK": 230,
+    "coldMarginK": 10,
+    "hotMarginK": 20,
+    "separationK": 10,
+    "generatorDispatch": {
+      "Civilian": {
+        "sourceOnSoc": 0.9,
+        "sourceOffSoc": 1,
+        "backgroundSocFloor": 0.8
+      },
+      "Industrial": {
+        "sourceOnSoc": 0.95,
+        "sourceOffSoc": 1,
+        "backgroundSocFloor": 0.8
+      }
+    },
+    "quietFieldsInert": true
   }
 }

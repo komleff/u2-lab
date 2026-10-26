@@ -1,38 +1,65 @@
 {
   "schemaVersion": "u2-lab-f2-data-sync/1",
-  "revision": "q1-candidate.4",
+  "revision": "q1-accepted.5",
   "date": "2026-10-26",
   "primaryRepository": "komleff/u2",
   "primaryPath": "docs/data/f2-ship-profiles",
   "labMirrorPath": "docs/research/2026-10-26-diesel-balance",
   "closedDecisions": [
+    "D1",
+    "D2",
     "D3",
+    "D4",
     "D5",
+    "D6",
     "D7",
+    "D8",
+    "D9",
+    "D10",
+    "D11",
+    "D12",
+    "D13",
+    "D14",
+    "D15",
+    "D16",
+    "D17",
+    "D18",
+    "D19",
+    "D20",
+    "D21",
+    "D22",
+    "D23",
     "D24"
   ],
-  "scope": "accepted subset plus unchanged, explicitly pending candidate choices; no production activation",
+  "scope": "All proposed WHAT accepted; physical q1-accepted.5 profiles mirrored. Economic decisions ratified in source, implementation handed to PM F2; no economic Lab payload or production activation.",
   "runtimeStatus": "BLOCKED_RESTART_SCHEMA",
   "payloadSha256": {
-    "balance-parameters.json": "f8f5e5a6edc8812a3cb6a3e7d1138cf5f5b85ce718bcb85a98e3718b76bf8ba0",
-    "f2_ship_profile_strizh_v0.1.json": "a6e1a2d530d6a6b2473e11530bd25f1cc01e2cb81e1cc8f5df9aaae8e0d02478",
-    "f2_ship_profile_severin_mir_v0.1.json": "9a83dad9bc02ce8f0320a27aef4efb6e4e8fcf313d5a2c098c321ae8f60f729a",
-    "f2_ship_profile_diesel_pony_v0.1.json": "24cf3209a74f723eb8d77cba3f524c8831a66034524a8e61bf4d159eef830f5f"
+    "balance-parameters.json": "d01ee41dfb8286b6e0a406b66d013d704429c0b8df725262026c08d72a456f0e",
+    "accepted-operator-decision.json": "e129faa6df753e7f1786bf83ff0da18022a1ed0b1dd6bff0f0d4d0c8cb43a4c2",
+    "proposed-adjustments-source-ff58b712.md": "8b913836815e7200cbbbfb34acc95e69b9ad728837af28f96279a3007bfb9958",
+    "f2_ship_profile_diesel_pony_v0.1.json": "eee1049218e1d2a1ccf82ebca2f2e39df14878b5980aff1a0eece6cdbbec12c6",
+    "f2_ship_profile_severin_mir_v0.1.json": "4d08d1f96143852349e41958a3dc187c434d1b3083e7d133b8943090672a71b1",
+    "f2_ship_profile_strizh_v0.1.json": "2e179652582144fc5e4bd9fd26f69cca08b4eb3420bfc450f5380f1292503c8d"
   },
   "generatorSha256": {
-    "build_durability.py": "68b04d8bfbf1ced9a2f4cc68f5c316347fed08a68d47c87b4585627f57f5f2f3",
-    "build_extra.py": "a05287684deff37b3215771a8da85a8719c23022063b71261a02d09c7d55e3f1",
-    "build_mass.py": "36482c2847bf6526729d73d446a93e003be52c2e90e706c06922283a11c02f6c",
+    "build_durability.py": "2b7b6709c07718d92d572dddf571c8a4bafd5c66bf641c11bcd8af203101bcd5",
+    "build_extra.py": "238455717161f35155680c1f7ab78cdd80badd0adf89e8e5043ed47e03d82786",
+    "build_mass.py": "9bb95cd022eea940114de1f5089606c3a7465455ff783b455841b5ca00273d28",
     "build_power.py": "2921b02c60a7618ad42a260ebb7a6e3e2c6c2afb7f00ddc80ecea184e05ac5a0",
     "build_profile.py": "59e6a1968a7caea734764930148d614b4fd2598664fd2af965214312afe4b8dd",
-    "common.py": "ed60f0f90d3d6ba512a73dd8fc4d96989f2b81fd7f292a42513e38e7c2f83dd2",
-    "main.py": "75467deaf704f1d9c520cb0ead9c4fc5e91e9be7889f2e0e242eef5ee23f8b79",
-    "ships.py": "c3afbedd13f3f8f1243737bdfe4e7fdf560e57c43d896a4c6c14bfa61d6ab331",
-    "verify_alignment.py": "485558ebb19ed718df04b9718973b7127e66f8a098b6f99bc10bccb9f6341751"
+    "common.py": "b3da3a3453368e041560e50c5fe20d5df865b51b2736db94a19f0e1eb10a887c",
+    "main.py": "f2f5f35ee025ba267adcbcd3ad0b7e6babb6106caa7291c602a1e0e4e3f27b07",
+    "ships.py": "ec3e3ef76aec156980fa1d9196032939d0585214215a7057ff6d2e74c556464d",
+    "verify_alignment.py": "688dd97044a3227a9a2be7cc379fa5b1fd7347d57541fc09f95eb1373870df61"
   },
   "observedRuntimeSourceSha256": {
-    "src/shared/PowerThermal/GovernorSchemaV03.cs": "51637473ce9a2f5686216bb90dd19a85c05842aa1efe597223ec7e1a1ffbe687",
-    "src/shared/PowerThermal/GovernorSchemaRulesV03.cs": "24b29e7150ee737d769fdfe35a0492282d5d6cb9222ee3158f31768d661bdf34"
+    "src/shared/PowerThermal/GovernorSchemaV03.cs": "6f84c3b05bf5d28f8506a7905540a4eed542113fb63a872a16d85e055444b689",
+    "src/shared/PowerThermal/GovernorSchemaRulesV03.cs": "101e62da63210c36449eff689508a04760bd8f7db051668abb78e9260dfb2942"
   },
-  "runtimeTests": "NOT RUN; data verification and exact generator reproduction only"
+  "runtimeTests": "NOT RUN; exact generator/source reproduction and physical-data assertions only; restart schema still incompatible",
+  "generatorSourceCommit": "76c1d3d81b6d1c503c9dc699eab5cd979250fe18",
+  "observedRuntimeSourceCommit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+  "labPassportSourceCommit": "c58a300536a3fe865b65f333e099f69887d5a8e9",
+  "acceptedSourceCommit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+  "acceptedSourceSha256": "8b913836815e7200cbbbfb34acc95e69b9ad728837af28f96279a3007bfb9958"
 }

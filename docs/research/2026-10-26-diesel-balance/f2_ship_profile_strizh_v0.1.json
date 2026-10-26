@@ -1,9 +1,10 @@
 {
-  "packageVersion": "u2-f2-ship-profiles/0.4",
+  "packageVersion": "u2-f2-ship-profiles/0.5",
   "date": "2026-10-26",
-  "status": "candidate",
+  "status": "accepted-data",
   "runtimeAuthorization": false,
   "qualificationStatus": "BLOCKED_RESTART_SCHEMA",
+  "acceptedDecision": "accepted-operator-decision.json",
   "ship": {
     "title": "Северин Спутник",
     "u2HullId": "strizh",
@@ -28,9 +29,10 @@
     "U2": "u2@076bf6a9bbdd03bb8adc9d897259356a0e93930e:",
     "PLAN": "u2@b535d531e88624895417aa93e4efe3070c47f8a9:docs/plans/",
     "LABCODE": "u2-lab@c58a300536a3fe865b65f333e099f69887d5a8e9:",
-    "PO": "github:komleff/u2#905 issuecomment-6394579881 (решения PO 25.10.2026, зафиксированы PM)"
+    "PO": "github:komleff/u2#905 issuecomment-6394579881 (решения PO 25.10.2026, зафиксированы PM)",
+    "PO26": "accepted-operator-decision.json + proposed-adjustments-source-ff58b712.md (дословное решение PO 26.10.2026; runtime activation не разрешена)"
   },
-  "provenanceRule": "sourceRef: 'source:<SRC>:<path>#<field>' | 'derivation:<inputs>' (+derivation formula) | 'candidate:decisions.md#dN' (нужно решение PO/PM). kind сохраняет заявку источника.",
+  "provenanceRule": "sourceRef: 'source:<SRC>:<path>#<field>' | 'derivation:<inputs>' (+derivation formula) | 'candidate:decisions.md#dN' (принято PO, но остаётся материальным/балансовым приближением). kind сохраняет заявку источника.",
   "massLedger": {
     "shell": {
       "instanceId": "hull:shell",
@@ -251,19 +253,32 @@
         "derivation": "shell + Σ экземпляров (каждый ровно один раз)"
       },
       "flightDryMassKg": {
+        "value": 52837.3876192,
+        "unit": "kg",
+        "kind": "derived",
+        "sourceRef": "derivation:massLedger.shell + massLedger.instances",
+        "derivation": "D1: shell + Σ установленных экземпляров, ровно один раз"
+      },
+      "historicalF1DryMassKg": {
         "value": 50000.0,
         "unit": "kg",
         "kind": "canonical",
         "sourceRef": "source:U2:configs/ships/strizh.json#L18 hull.dryMass_t=50",
-        "note": "Лётная сухая масса F1 — единственный владелец массы в полёте (decisions.md#d1)"
+        "note": "Исторический F1 reference; не масса нового F2 и не дополнительное слагаемое"
       },
-      "residualKg": {
+      "historicalF1DeltaKg": {
         "value": 2837.3876192,
         "unit": "kg",
         "kind": "derived",
         "sourceRef": "derivation:massLedger.totals",
-        "derivation": "instanceLedgerDryMassKg − flightDryMassKg",
-        "note": "Не прибавляется никуда; показывает расхождение двух ведомостей"
+        "derivation": "instanceLedgerDryMassKg − historicalF1DryMassKg"
+      },
+      "residualKg": {
+        "value": 0.0,
+        "unit": "kg",
+        "kind": "derived",
+        "sourceRef": "derivation:massLedger.totals",
+        "derivation": "instanceLedgerDryMassKg − flightDryMassKg = 0; один физический владелец массы"
       },
       "heatCapacityJPerK": {
         "value": 24809809.681,
@@ -593,7 +608,7 @@
     "version": "governor-profile/0.3",
     "governorVersion": "ship-thermal-governor/0.3",
     "id": "f2-profile:strizh",
-    "revision": "q1-candidate.4",
+    "revision": "q1-accepted.5",
     "ship": {
       "id": "strizh",
       "class": "Civilian",
@@ -1576,7 +1591,7 @@
       "sourceRef": "source:U2:docs/specs/balance/spec_f1_fixed_ship_presets_v0_1.md#L157 (пусто)"
     },
     "currentMassKg": {
-      "value": 56000.0,
+      "value": 58837.3876192,
       "unit": "kg",
       "kind": "derived",
       "sourceRef": "derivation:massLedger.totals, fuelKg, cargoMassKg",
@@ -1811,15 +1826,11 @@
           "sourceRef": "source:U2:docs/architecture/ADR-0066-Emergency-Operation-Below-Zero-Durability.md#L82"
         },
         "wearPerEquivalentS": {
-          "value": 1.8472222222222224e-05,
+          "value": 4.15625e-05,
           "unit": "1/s",
-          "kind": "experimental",
-          "sourceRef": "candidate:decisions.md#d19",
-          "candidateRange": [
-            1.388888888888889e-05,
-            2.777777777777778e-05
-          ],
-          "derivation": "k_класса · w_Industrial, k = 1,33 = U2:docs/gdd/data/ship_module_ttx_master_v0.1/class_profiles.csv#L3 generic_mass_factor; порядок классов — U2:docs/specs/spec_engine_force_grid_v0.1.md#L212-L213 (выносливость средн./высш.); w_Industrial — PO:#905/6394579881 D19 «Поставь 20 часов», D20 эквивалент полной нагрузки; Lab catalog--generator-diesel-XS: wearPerWorkSecond 1e-6 (LAB41:modules/catalog--generator-diesel-XS.json#durability) заменён решением PO D19"
+          "kind": "derived",
+          "sourceRef": "derivation:THERM26:balance-parameters.json#generatorDurability; accepted-operator-decision.json",
+          "derivation": "D19: 1/(20·3600·(0.20/0.45)) × k_class; Industrial k=1, Civilian k=1.33; только генератор"
         },
         "overrunWearMultiplierAtCritical": {
           "value": 2.0,
@@ -1936,8 +1947,8 @@
   },
   "provenanceCounts": {
     "source": 116,
-    "derivation": 85,
-    "candidate": 27,
+    "derivation": 88,
+    "candidate": 26,
     "governorClass": "source",
     "scope": "все SiValue-числа файла (masses, flightBinding, powerBinding, adapterInputs, governorProfile, initialState, durability)"
   }

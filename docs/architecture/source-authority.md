@@ -53,6 +53,27 @@ D/E, Волна H — H/E. Каждому потребителю нужен со
 При обслуживании корабль обесточен, среда 300 K, теплообмен пассивный и постепенный.
 Это принятое WHAT; опубликованный runtime пока содержит описанные расхождения.
 
+## Принятые физические данные F2 — 2026-10-26
+
+Оператор принял весь `proposed-adjustments.md` U2#905 на
+`ff58b7125d3325e85f72d449d7719c55c5c2cc8b`. Дословное решение и hash
+точного исходника: [accepted-operator-decision.json](../research/2026-10-26-diesel-balance/accepted-operator-decision.json).
+Shared revision q1-accepted.5: physical mass=actual installed roster, Pony shell31500 kg/C14805000,
+Industrial/G0/UNKNOWN с уникальными сохранёнными force/flow/КПД, full startup,
+Normal370/cold225–230 и отдельная generator wear calibration. Engine coefficients
+этим новым factor не увеличиваются, generic Lab engine1e-6 сохраняется.
+Принятые материальные приближения не названы закрытыми production recipes.
+
+Экономические нормы U2 приняты и переданы PM F2; references не создают задачу
+экономики/кошелька/quotes/service screen/fleet/insurance или новых repair-механик
+Лабы. Lab delivery ограничена heat/energy/TTX/resources и пассивным ангаром.
+Прежние14 mining fits и7 hulls сохраняют actual roster; courier-профили только
+reference data, не новые обязательные меню/составы. Сверка physical mirror и
+source pins — [sync-manifest](../research/2026-10-26-diesel-balance/sync-manifest.json).
+RuntimeAuthorization=false/BLOCKED_RESTART_SCHEMA остаются, U2 configs и сервер
+не обновляются. Research manifest.sourceKernelFiles pinned к historical f0732d3;
+новая runtime qualification отдельно.
+
 ## Formula boundary и lab variants
 
 Hot-environment owner §10 уже допускает отдельный H_env для вклада, не вошедшего в T_env,eff.

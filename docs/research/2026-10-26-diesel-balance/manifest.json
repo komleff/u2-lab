@@ -1,21 +1,23 @@
 {
   "researchFiles": {
-    "README.md": "a0b87fe215f78c746a6fdda490c3a9f480325771137ba1469d592b3361d62392",
-    "balance-parameters.json": "f8f5e5a6edc8812a3cb6a3e7d1138cf5f5b85ce718bcb85a98e3718b76bf8ba0",
+    "README.md": "bad2cd84a5cb2e9dfdbd3c1e22244d9d334c0f538d988b19ea7bd77a409b588e",
+    "accepted-operator-decision.json": "e129faa6df753e7f1786bf83ff0da18022a1ed0b1dd6bff0f0d4d0c8cb43a4c2",
+    "balance-parameters.json": "d01ee41dfb8286b6e0a406b66d013d704429c0b8df725262026c08d72a456f0e",
     "cold-probe.ts": "2d0ff2e3c486ca335f105525fafe73314374a4dc1bc977157920f61094180bf2",
-    "f2_ship_profile_diesel_pony_v0.1.json": "24cf3209a74f723eb8d77cba3f524c8831a66034524a8e61bf4d159eef830f5f",
-    "f2_ship_profile_severin_mir_v0.1.json": "9a83dad9bc02ce8f0320a27aef4efb6e4e8fcf313d5a2c098c321ae8f60f729a",
-    "f2_ship_profile_strizh_v0.1.json": "a6e1a2d530d6a6b2473e11530bd25f1cc01e2cb81e1cc8f5df9aaae8e0d02478",
+    "f2_ship_profile_diesel_pony_v0.1.json": "eee1049218e1d2a1ccf82ebca2f2e39df14878b5980aff1a0eece6cdbbec12c6",
+    "f2_ship_profile_severin_mir_v0.1.json": "4d08d1f96143852349e41958a3dc187c434d1b3083e7d133b8943090672a71b1",
+    "f2_ship_profile_strizh_v0.1.json": "2e179652582144fc5e4bd9fd26f69cca08b4eb3420bfc450f5380f1292503c8d",
     "fitting-audit.json": "ad32204b95c55c1284ea56bf46cea45e7e4c1d003482bd7917363c690a1f3fba",
-    "fitting-audit.md": "14ac9a8e0582995aee319930bc826d597fef6da5946c99e1d1e93bd24edcbaca",
+    "fitting-audit.md": "6e5842ac07c2224757dbedbc71b8ad9155aeca6f9535c772a094ece93f0ef159",
     "fitting-audit.ts": "2c04dae372fb2515d8b9802ab2b65516f1d62e994814e1b32c07bccf6baa8e52",
     "frontiers.ts": "e1562766344711bb87942952ea4f93e5562bbe4757fa51554da953791c75c39a",
     "loader.mjs": "a13cbf92f073211a820ec25059528bae442689e410bbe648cef7d195248f8460",
     "probe.ts": "2f41acd815e56185427a71767be6cc8ef49b859b1f03ac0a2c676294322a0d84",
+    "proposed-adjustments-source-ff58b712.md": "8b913836815e7200cbbbfb34acc95e69b9ad728837af28f96279a3007bfb9958",
     "receipts.json": "cdccc406574374d372414a52f9b377e8a28e6173d57172a9d5ce85403bb6c32b",
     "results.csv": "03305b72e8cd3af209bd66d5b8feda4fb095f1a7c27566f32fdcdce85bb607c0",
-    "sync-manifest.json": "4c959640c6b9c8ba6110cbc4c573df2d4f9c5255008284871d9c85ed907c2e80",
-    "u2-pr905-review.md": "7fb8d1718e206cf8c9b533879f0649479bc6e0b2e5ec61f311cff98af44cfd75"
+    "sync-manifest.json": "c223819f9c6baa75d21dd67589204e673467767291b82bb25f29342926fb8396",
+    "u2-pr905-review.md": "acb13588eeda0477d7e293bd4b788ee0e8904fe8f660522d924e3d87f592add3"
   },
   "sourceKernelFiles": {
     "src/model/v3/buffer.ts": "d81b57bfd2dc809206a18d4223aa85384c12d255a0f9f4b48f7a99cf4d6b9024",
@@ -96,5 +98,7 @@
     "src/signatures/radar.ts": "241226582145efb563086131af258ac24539f3dcc984d69603c95183a56b9495",
     "src/app/ship-model-workspace.ts": "f7a5657ea1b3c73775be405efb4611b09325f1761d86252ab8999150df680ce7",
     "src/app/fitting-ui/ship-model-swap-dialog.ts": "3906db3b82482102c84b5a5d34f0a2d393cf566b3c5fe62d42ad50e430ea750a"
-  }
+  },
+  "sourceKernelCommit": "f0732d326f346bf557ed582b8bbe7cdba60caa29",
+  "sourceKernelScope": "Historical kernel/data for the preserved 35 research receipts; not the future catalog0.3.4 runtime or accepted.5 qualification."
 }
