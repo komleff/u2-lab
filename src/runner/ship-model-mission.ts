@@ -1,3 +1,4 @@
+import {stepStationService} from '../model/v3/station-service';
 import {stepV3Interval,type StepDiagnostic} from '../model/v3/step';
 import type {RunSpecV3,StateV3,MissionStateV3} from '../model/v3/types';
 import type {TickTelemetry,LabEvent} from '../model/types';
@@ -36,7 +37,7 @@ export function stepShipModelMission(spec:RunSpecV3,input:StateV3){
    }
   }else if(m.stage==='approach'||m.stage==='service'){
    const duration=m.stage==='approach'?cfg.approachSeconds:cfg.serviceSeconds,left=duration-m.stageElapsedSeconds;
-   if(left>1e-10){dt=Math.min(dt,left);commit(trial(dt,{},'idle'));}
+   if(left>1e-10){dt=Math.min(dt,left);commit(m.stage==='service'&&spec.catalogVersion==='ship-fitting-0.3.4'?stepStationService(spec,state,dt):trial(dt,{},'idle'));}
    if(state.mission!.stageElapsedSeconds>=duration-1e-9){
     if(m.stage==='approach')transition('mining');
     else{

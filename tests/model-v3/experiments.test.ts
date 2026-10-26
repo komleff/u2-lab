@@ -45,5 +45,16 @@ it('CP01–05 exports production inputs/outputs and pinned source fingerprints w
 it('versioned measured artifact is literal-reproducible, not an expected-vector echo',()=>{
   const matrix={schemaVersion:'ship-model-experiments/1',status:'experimental; independent QA pending',serverParity:'NOT RUN',fingerprints:experimentFingerprints(),rows:executeExperiments()},conformance=buildRuntimeConformance();
   if(process.env.SHIP_MODEL_CAPTURE==='1'){console.log('__SHIP_MODEL_ARTIFACT__'+JSON.stringify({matrix,conformance}));return;}
-  expect(existsSync(artifact)).toBe(true);const saved=JSON.parse(readFileSync(artifact,'utf8'));expect(digest(matrix)).toBe(digest(saved));const cp=JSON.parse(readFileSync('docs/verification/ship-model-v0.1-runtime.json','utf8'));expect(digest(conformance)).toBe(digest(cp));
+  expect(existsSync(artifact)).toBe(true);const saved=JSON.parse(readFileSync(artifact,'utf8')),cp=JSON.parse(readFileSync('docs/verification/ship-model-v0.1-runtime.json','utf8'));
+  // Новое ядро расширяет только новый каталог. Исторические измерения обязаны
+  // воспроизводиться буквально, но их source receipt остаётся у прежнего commit.
+  const {fingerprints:currentPins,...measured}=matrix,{fingerprints:oldPins,...historical}=saved;
+  expect(digest(measured)).toBe(digest(historical));
+  const {fingerprints:cpPins,...cpNow}=conformance,{fingerprints:cpOldPins,...cpHistorical}=cp;
+  expect(digest(cpNow)).toBe(digest(cpHistorical));expect(cpPins).toEqual(currentPins);expect(cpOldPins).toEqual(oldPins);
+  const frozen=JSON.parse(readFileSync('docs/research/2026-10-26-diesel-balance/manifest.json','utf8'));
+  expect(frozen.sourceKernelCommit).toBe('f0732d326f346bf557ed582b8bbe7cdba60caa29');
+  const delta=new Set(['src/model/v3/power.ts','src/model/v3/schema.ts','src/model/v3/step.ts','src/model/v3/types.ts','src/runner/ship-model-telemetry.ts','src/scenarios/fitting.ts']);
+  for(const [path,hash]of Object.entries(oldPins))expect(delta.has(path)?frozen.sourceKernelFiles[path]:currentPins[path]).toBe(hash);
+
 });
