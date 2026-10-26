@@ -1,15 +1,21 @@
 {
   "researchFiles": {
-    "README.md": "9cfb40e0eeb5af2787284f084bccf9d9bd98dee0cdb59244c526cd843d8338ed",
+    "README.md": "a0b87fe215f78c746a6fdda490c3a9f480325771137ba1469d592b3361d62392",
+    "balance-parameters.json": "f8f5e5a6edc8812a3cb6a3e7d1138cf5f5b85ce718bcb85a98e3718b76bf8ba0",
     "cold-probe.ts": "2d0ff2e3c486ca335f105525fafe73314374a4dc1bc977157920f61094180bf2",
+    "f2_ship_profile_diesel_pony_v0.1.json": "24cf3209a74f723eb8d77cba3f524c8831a66034524a8e61bf4d159eef830f5f",
+    "f2_ship_profile_severin_mir_v0.1.json": "9a83dad9bc02ce8f0320a27aef4efb6e4e8fcf313d5a2c098c321ae8f60f729a",
+    "f2_ship_profile_strizh_v0.1.json": "a6e1a2d530d6a6b2473e11530bd25f1cc01e2cb81e1cc8f5df9aaae8e0d02478",
     "fitting-audit.json": "ad32204b95c55c1284ea56bf46cea45e7e4c1d003482bd7917363c690a1f3fba",
-    "fitting-audit.md": "13088c19fa2fed75847b68a3872cfb672f87bcec91c912443b358cf88e3f0954",
+    "fitting-audit.md": "14ac9a8e0582995aee319930bc826d597fef6da5946c99e1d1e93bd24edcbaca",
     "fitting-audit.ts": "2c04dae372fb2515d8b9802ab2b65516f1d62e994814e1b32c07bccf6baa8e52",
     "frontiers.ts": "e1562766344711bb87942952ea4f93e5562bbe4757fa51554da953791c75c39a",
     "loader.mjs": "a13cbf92f073211a820ec25059528bae442689e410bbe648cef7d195248f8460",
     "probe.ts": "2f41acd815e56185427a71767be6cc8ef49b859b1f03ac0a2c676294322a0d84",
     "receipts.json": "cdccc406574374d372414a52f9b377e8a28e6173d57172a9d5ce85403bb6c32b",
-    "results.csv": "03305b72e8cd3af209bd66d5b8feda4fb095f1a7c27566f32fdcdce85bb607c0"
+    "results.csv": "03305b72e8cd3af209bd66d5b8feda4fb095f1a7c27566f32fdcdce85bb607c0",
+    "sync-manifest.json": "4c959640c6b9c8ba6110cbc4c573df2d4f9c5255008284871d9c85ed907c2e80",
+    "u2-pr905-review.md": "7fb8d1718e206cf8c9b533879f0649479bc6e0b2e5ec61f311cff98af44cfd75"
   },
   "sourceKernelFiles": {
     "src/model/v3/buffer.ts": "d81b57bfd2dc809206a18d4223aa85384c12d255a0f9f4b48f7a99cf4d6b9024",

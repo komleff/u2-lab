@@ -1,0 +1,1944 @@
+{
+  "packageVersion": "u2-f2-ship-profiles/0.4",
+  "date": "2026-10-26",
+  "status": "candidate",
+  "runtimeAuthorization": false,
+  "qualificationStatus": "BLOCKED_RESTART_SCHEMA",
+  "ship": {
+    "title": "Северин Спутник",
+    "u2HullId": "strizh",
+    "governorShipId": "strizh",
+    "f1PresetRevision": null,
+    "labAssemblyPassport": "assembly--sputnik-d",
+    "labHullPassport": "hull--sputnik",
+    "governorClass": {
+      "value": "Civilian",
+      "provenance": "source",
+      "ref": "LAB41:hulls/sputnik.json#sourceHullWithoutEmbeddedModules.class"
+    },
+    "compositionDecisions": [
+      "decisions.md#d1",
+      "decisions.md#d2",
+      "decisions.md#d3"
+    ]
+  },
+  "sources": {
+    "THERM26": "u2:docs/data/f2-ship-profiles/balance-parameters.json (operator 2026-10-26; byte-identical Lab mirror)",
+    "LAB41": "u2-lab@c58a300536a3fe865b65f333e099f69887d5a8e9:docs/verification/f2-ship-passports/product-baseline-v0.1/",
+    "U2": "u2@076bf6a9bbdd03bb8adc9d897259356a0e93930e:",
+    "PLAN": "u2@b535d531e88624895417aa93e4efe3070c47f8a9:docs/plans/",
+    "LABCODE": "u2-lab@c58a300536a3fe865b65f333e099f69887d5a8e9:",
+    "PO": "github:komleff/u2#905 issuecomment-6394579881 (решения PO 25.10.2026, зафиксированы PM)"
+  },
+  "provenanceRule": "sourceRef: 'source:<SRC>:<path>#<field>' | 'derivation:<inputs>' (+derivation formula) | 'candidate:decisions.md#dN' (нужно решение PO/PM). kind сохраняет заявку источника.",
+  "massLedger": {
+    "shell": {
+      "instanceId": "hull:shell",
+      "passport": "hull--sputnik",
+      "dryMassKg": {
+        "value": 42500.0,
+        "unit": "kg",
+        "kind": "canonical",
+        "sourceRef": "source:LAB41:hulls/sputnik.json#shellTtx.dryMassKg = U2:docs/gdd/gdd_s_hull_dry_mass_closure_v0.1_draft.md#L34"
+      },
+      "heatCapacityJPerK": {
+        "value": 19975000.0,
+        "unit": "J/K",
+        "kind": "experimental",
+        "sourceRef": "source:LAB41:hulls/sputnik.json#shellTtx.intrinsicHeatCapacityJK (LAB-STEEL-MIX 470)"
+      },
+      "note": "Голая оболочка без встроенных изделий; встроенные изделия ниже отдельными экземплярами"
+    },
+    "instances": [
+      {
+        "instanceId": "builtin:cargo",
+        "passport": "builtin--sputnik--builtin-cargo-sputnik",
+        "role": "hold",
+        "dryMassKg": {
+          "value": 2377.3876192041307,
+          "unit": "kg",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/builtin--sputnik--builtin-cargo-sputnik.json#derived.dryMassKg"
+        },
+        "heatCapacityJPerK": {
+          "value": 1117372.1810259414,
+          "unit": "J/K",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/builtin--sputnik--builtin-cargo-sputnik.json#derived.intrinsicHeatCapacityJK (LAB-STEEL-MIX)"
+        }
+      },
+      {
+        "instanceId": "fit:march",
+        "passport": "catalog--engine-diesel-S-single",
+        "role": "march",
+        "dryMassKg": {
+          "value": 2650.0,
+          "unit": "kg",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-single.json#derived.dryMassKg"
+        },
+        "heatCapacityJPerK": {
+          "value": 1245500.0,
+          "unit": "J/K",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-single.json#derived.intrinsicHeatCapacityJK (LAB-STEEL-MIX)"
+        }
+      },
+      {
+        "instanceId": "fit:retro",
+        "passport": "local--sputnik-d--reference-retro-engine-diesel-S-single",
+        "role": "retro",
+        "dryMassKg": {
+          "value": 1060.0,
+          "unit": "kg",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/local--sputnik-d--reference-retro-engine-diesel-S-single.json#derived.dryMassKg"
+        },
+        "heatCapacityJPerK": {
+          "value": 498200.0,
+          "unit": "J/K",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/local--sputnik-d--reference-retro-engine-diesel-S-single.json#derived.intrinsicHeatCapacityJK (LAB-STEEL-MIX)"
+        }
+      },
+      {
+        "instanceId": "fit:strafe",
+        "passport": "catalog--engine-diesel-S-pair",
+        "role": "strafe",
+        "dryMassKg": {
+          "value": 650.0,
+          "unit": "kg",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-pair.json#derived.dryMassKg"
+        },
+        "heatCapacityJPerK": {
+          "value": 305500.0,
+          "unit": "J/K",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-pair.json#derived.intrinsicHeatCapacityJK (LAB-STEEL-MIX)"
+        }
+      },
+      {
+        "instanceId": "fit:turn",
+        "passport": "catalog--engine-diesel-S-pair",
+        "role": "turn",
+        "dryMassKg": {
+          "value": 650.0,
+          "unit": "kg",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-pair.json#derived.dryMassKg"
+        },
+        "heatCapacityJPerK": {
+          "value": 305500.0,
+          "unit": "J/K",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-pair.json#derived.intrinsicHeatCapacityJK (LAB-STEEL-MIX)"
+        }
+      },
+      {
+        "instanceId": "fit:power-1",
+        "passport": "catalog--battery-XS",
+        "role": "battery",
+        "dryMassKg": {
+          "value": 1500.0,
+          "unit": "kg",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--battery-XS.json#derived.dryMassKg"
+        },
+        "heatCapacityJPerK": {
+          "value": 705000.0,
+          "unit": "J/K",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--battery-XS.json#derived.intrinsicHeatCapacityJK (LAB-STEEL-MIX)"
+        }
+      },
+      {
+        "instanceId": "fit:power-2",
+        "passport": "catalog--generator-diesel-XS",
+        "role": "generator",
+        "dryMassKg": {
+          "value": 400.0,
+          "unit": "kg",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--generator-diesel-XS.json#derived.dryMassKg"
+        },
+        "heatCapacityJPerK": {
+          "value": 188000.0,
+          "unit": "J/K",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--generator-diesel-XS.json#derived.intrinsicHeatCapacityJK (LAB-STEEL-MIX)"
+        }
+      },
+      {
+        "instanceId": "fit:power-3",
+        "passport": "catalog--tank-diesel-S",
+        "role": "tank",
+        "dryMassKg": {
+          "value": 300.0,
+          "unit": "kg",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--tank-diesel-S.json#derived.dryMassKg"
+        },
+        "heatCapacityJPerK": {
+          "value": 134837.5,
+          "unit": "J/K",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--tank-diesel-S.json#derived.intrinsicHeatCapacityJK (Iron+Copper)"
+        }
+      },
+      {
+        "instanceId": "fit:signature-1",
+        "passport": "catalog--radiator-passive-S",
+        "role": "radiator",
+        "dryMassKg": {
+          "value": 750.0,
+          "unit": "kg",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--radiator-passive-S.json#derived.dryMassKg"
+        },
+        "materialBill": [
+          {
+            "material": "Iron",
+            "massKg": 710.0,
+            "cpJPerKgK": 450.0
+          },
+          {
+            "material": "Copper",
+            "massKg": 40.0,
+            "cpJPerKgK": 385.0
+          }
+        ],
+        "heatCapacityJPerK": {
+          "value": 334900.0,
+          "unit": "J/K",
+          "kind": "derived",
+          "sourceRef": "derivation:U2:docs/gdd/data/ship_module_ttx_master_v0.1/radiator_passive_first_slice_v0.1.csv#L2 + component_material_anchors_first_loop_v0.1.csv#L2-L4 (C02 Fe0.25; C04 Fe0.24+Cu0.01; C05 Fe0.22+Cu0.03); c_p: U2:docs/data/ship_storage_tank_construction_first_slice_v0.1.csv#L2 C_i_reference_MJ_per_K",
+          "derivation": "Σ m_j·c_p,j по закрытому BOM U2 (F04)"
+        },
+        "decision": "decisions.md#d2"
+      }
+    ],
+    "excludedLabInstances": [
+      {
+        "instanceId": "fit:payload-1",
+        "passport": "catalog--mining-civil-S",
+        "role": "laser",
+        "labDryMassKg": 2200,
+        "reason": "Добыча вне F2; у F1-Спутника нет сменного Payload"
+      },
+      {
+        "instanceId": "fit:payload-2",
+        "passport": "catalog--cargo-bulk-S",
+        "role": "hold-bulk",
+        "labDryMassKg": 1800,
+        "reason": "F1-Спутник: единственный универсальный трюм 6 SCU"
+      }
+    ],
+    "totals": {
+      "shellDryMassKg": 42500.0,
+      "equipmentDryMassKg": {
+        "value": 10337.3876192,
+        "unit": "kg",
+        "kind": "derived",
+        "sourceRef": "derivation:massLedger.instances",
+        "derivation": "Σ dryMassKg включённых экземпляров"
+      },
+      "instanceLedgerDryMassKg": {
+        "value": 52837.3876192,
+        "unit": "kg",
+        "kind": "derived",
+        "sourceRef": "derivation:massLedger.shell + massLedger.instances",
+        "derivation": "shell + Σ экземпляров (каждый ровно один раз)"
+      },
+      "flightDryMassKg": {
+        "value": 50000.0,
+        "unit": "kg",
+        "kind": "canonical",
+        "sourceRef": "source:U2:configs/ships/strizh.json#L18 hull.dryMass_t=50",
+        "note": "Лётная сухая масса F1 — единственный владелец массы в полёте (decisions.md#d1)"
+      },
+      "residualKg": {
+        "value": 2837.3876192,
+        "unit": "kg",
+        "kind": "derived",
+        "sourceRef": "derivation:massLedger.totals",
+        "derivation": "instanceLedgerDryMassKg − flightDryMassKg",
+        "note": "Не прибавляется никуда; показывает расхождение двух ведомостей"
+      },
+      "heatCapacityJPerK": {
+        "value": 24809809.681,
+        "unit": "J/K",
+        "kind": "derived",
+        "sourceRef": "derivation:massLedger.shell + massLedger.instances",
+        "derivation": "C_ship = C_shell + Σ C_i (ADR-0043; каждый экземпляр один раз)"
+      }
+    }
+  },
+  "flightBinding": {
+    "massOwner": "Текущая масса = flightDryMassKg + масса топлива + масса груза (CargoMassSystem); масса оборудования не прибавляется второй раз",
+    "forceRule": "Силы march/retro/strafe — F1 без национального или энергетического множителя; turn — паспорт Lab",
+    "channels": {
+      "march": {
+        "channel": "march",
+        "instanceId": "fit:march",
+        "passport": "catalog--engine-diesel-S-single",
+        "ratedForceN": {
+          "value": 2950000.0,
+          "unit": "N",
+          "kind": "canonical",
+          "sourceRef": "source:U2:configs/ships/strizh.json#L25 (F1, лётная ТТХ)"
+        },
+        "labPassportForceN": 2950000.0,
+        "forceDeltaN": 0.0,
+        "alphaKgPerNs": {
+          "value": 5.65e-07,
+          "unit": "kg/(N*s)",
+          "kind": "canonical",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-single.json#ttx.alpha"
+        },
+        "engineEfficiency": {
+          "value": 0.32,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-single.json#ttx.efficiency"
+        },
+        "pathEfficiency": {
+          "value": 0.95,
+          "unit": "1",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-single.json#ttx.pathEfficiency"
+        },
+        "hostFraction": {
+          "value": 0.4,
+          "unit": "1",
+          "kind": "canonical",
+          "sourceRef": "source:THERM26:balance-parameters.json#dieselEngine.hostFraction"
+        },
+        "ratedFuelFlowKgPerS": {
+          "value": 1.66675,
+          "unit": "kg/s",
+          "kind": "derived",
+          "sourceRef": "derivation:ratedForceN, alphaKgPerNs",
+          "derivation": "F_rated·alpha"
+        },
+        "ratedUsefulW": {
+          "value": 21787756.0,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:ratedForceN, alphaKgPerNs, e_fuel, engineEfficiency, pathEfficiency",
+          "derivation": "F_rated·alpha·e_fuel·η·η_path; единая граница полезного канала Lab /4"
+        },
+        "ratedHostHeatW": {
+          "value": 19952997.6,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:ratedForceN, alphaKgPerNs, e_fuel, engineEfficiency, hostFraction",
+          "derivation": "P_fuel·(1−η·η_path)·f_host"
+        },
+        "actualWorkLaw": "useful_W(t) = ratedUsefulW · |F_actual|/F_rated (yaw: |τ_actual|/τ_max); расход = alpha·|F_actual|"
+      },
+      "retro": {
+        "channel": "retro",
+        "instanceId": "fit:retro",
+        "passport": "local--sputnik-d--reference-retro-engine-diesel-S-single",
+        "ratedForceN": {
+          "value": 1180000.0,
+          "unit": "N",
+          "kind": "canonical",
+          "sourceRef": "source:U2:configs/ships/strizh.json#L26 (F1, лётная ТТХ)"
+        },
+        "labPassportForceN": 1180000.0,
+        "forceDeltaN": 0.0,
+        "alphaKgPerNs": {
+          "value": 5.65e-07,
+          "unit": "kg/(N*s)",
+          "kind": "canonical",
+          "sourceRef": "source:LAB41:modules/local--sputnik-d--reference-retro-engine-diesel-S-single.json#ttx.alpha"
+        },
+        "engineEfficiency": {
+          "value": 0.32,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "source:LAB41:modules/local--sputnik-d--reference-retro-engine-diesel-S-single.json#ttx.efficiency"
+        },
+        "pathEfficiency": {
+          "value": 0.95,
+          "unit": "1",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/local--sputnik-d--reference-retro-engine-diesel-S-single.json#ttx.pathEfficiency"
+        },
+        "hostFraction": {
+          "value": 0.4,
+          "unit": "1",
+          "kind": "canonical",
+          "sourceRef": "source:THERM26:balance-parameters.json#dieselEngine.hostFraction"
+        },
+        "ratedFuelFlowKgPerS": {
+          "value": 0.6667,
+          "unit": "kg/s",
+          "kind": "derived",
+          "sourceRef": "derivation:ratedForceN, alphaKgPerNs",
+          "derivation": "F_rated·alpha"
+        },
+        "ratedUsefulW": {
+          "value": 8715102.4,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:ratedForceN, alphaKgPerNs, e_fuel, engineEfficiency, pathEfficiency",
+          "derivation": "F_rated·alpha·e_fuel·η·η_path; единая граница полезного канала Lab /4"
+        },
+        "ratedHostHeatW": {
+          "value": 7981199.04,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:ratedForceN, alphaKgPerNs, e_fuel, engineEfficiency, hostFraction",
+          "derivation": "P_fuel·(1−η·η_path)·f_host"
+        },
+        "actualWorkLaw": "useful_W(t) = ratedUsefulW · |F_actual|/F_rated (yaw: |τ_actual|/τ_max); расход = alpha·|F_actual|"
+      },
+      "strafe": {
+        "channel": "strafe",
+        "instanceId": "fit:strafe",
+        "passport": "catalog--engine-diesel-S-pair",
+        "ratedForceN": {
+          "value": 740000.0,
+          "unit": "N",
+          "kind": "canonical",
+          "sourceRef": "source:U2:configs/ships/strizh.json#L27 (F1, лётная ТТХ)"
+        },
+        "labPassportForceN": 737500.0,
+        "forceDeltaN": 2500.0,
+        "alphaKgPerNs": {
+          "value": 5.65e-07,
+          "unit": "kg/(N*s)",
+          "kind": "canonical",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-pair.json#ttx.alpha"
+        },
+        "engineEfficiency": {
+          "value": 0.32,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-pair.json#ttx.efficiency"
+        },
+        "pathEfficiency": {
+          "value": 0.95,
+          "unit": "1",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-pair.json#ttx.pathEfficiency"
+        },
+        "hostFraction": {
+          "value": 0.4,
+          "unit": "1",
+          "kind": "canonical",
+          "sourceRef": "source:THERM26:balance-parameters.json#dieselEngine.hostFraction"
+        },
+        "ratedFuelFlowKgPerS": {
+          "value": 0.4181,
+          "unit": "kg/s",
+          "kind": "derived",
+          "sourceRef": "derivation:ratedForceN, alphaKgPerNs",
+          "derivation": "F_rated·alpha"
+        },
+        "ratedUsefulW": {
+          "value": 5465403.2,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:ratedForceN, alphaKgPerNs, e_fuel, engineEfficiency, pathEfficiency",
+          "derivation": "F_rated·alpha·e_fuel·η·η_path; единая граница полезного канала Lab /4"
+        },
+        "ratedHostHeatW": {
+          "value": 5005158.72,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:ratedForceN, alphaKgPerNs, e_fuel, engineEfficiency, hostFraction",
+          "derivation": "P_fuel·(1−η·η_path)·f_host"
+        },
+        "actualWorkLaw": "useful_W(t) = ratedUsefulW · |F_actual|/F_rated (yaw: |τ_actual|/τ_max); расход = alpha·|F_actual|"
+      },
+      "turn": {
+        "channel": "turn",
+        "instanceId": "fit:turn",
+        "passport": "catalog--engine-diesel-S-pair",
+        "ratedForceN": {
+          "value": 737500.0,
+          "unit": "N",
+          "kind": "canonical",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-pair.json#ttx.forceN"
+        },
+        "labPassportForceN": 737500.0,
+        "forceDeltaN": 0.0,
+        "alphaKgPerNs": {
+          "value": 5.65e-07,
+          "unit": "kg/(N*s)",
+          "kind": "canonical",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-pair.json#ttx.alpha"
+        },
+        "engineEfficiency": {
+          "value": 0.32,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-pair.json#ttx.efficiency"
+        },
+        "pathEfficiency": {
+          "value": 0.95,
+          "unit": "1",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:modules/catalog--engine-diesel-S-pair.json#ttx.pathEfficiency"
+        },
+        "hostFraction": {
+          "value": 0.4,
+          "unit": "1",
+          "kind": "canonical",
+          "sourceRef": "source:THERM26:balance-parameters.json#dieselEngine.hostFraction"
+        },
+        "ratedFuelFlowKgPerS": {
+          "value": 0.4166875,
+          "unit": "kg/s",
+          "kind": "derived",
+          "sourceRef": "derivation:ratedForceN, alphaKgPerNs",
+          "derivation": "F_rated·alpha"
+        },
+        "ratedUsefulW": {
+          "value": 5446939.0,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:ratedForceN, alphaKgPerNs, e_fuel, engineEfficiency, pathEfficiency",
+          "derivation": "F_rated·alpha·e_fuel·η·η_path; единая граница полезного канала Lab /4"
+        },
+        "ratedHostHeatW": {
+          "value": 4988249.4,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:ratedForceN, alphaKgPerNs, e_fuel, engineEfficiency, hostFraction",
+          "derivation": "P_fuel·(1−η·η_path)·f_host"
+        },
+        "actualWorkLaw": "useful_W(t) = ratedUsefulW · |F_actual|/F_rated (yaw: |τ_actual|/τ_max); расход = alpha·|F_actual|"
+      }
+    }
+  },
+  "powerBinding": {
+    "generator": {
+      "ratedOutputBeforePathW": {
+        "value": 500000.0,
+        "unit": "W",
+        "kind": "canonical",
+        "sourceRef": "source:LAB41:modules/catalog--generator-diesel-XS.json#ttx.powerW"
+      },
+      "generatorEfficiency": {
+        "value": 0.35,
+        "unit": "1",
+        "kind": "canonical",
+        "sourceRef": "source:LAB41:modules/catalog--generator-diesel-XS.json#ttx.efficiency"
+      },
+      "pathEfficiency": {
+        "value": 0.9,
+        "unit": "1",
+        "kind": "derived",
+        "sourceRef": "source:LAB41:modules/catalog--generator-diesel-XS.json#ttx.pathEfficiency"
+      },
+      "exportFraction": {
+        "value": 0.45,
+        "unit": "1",
+        "kind": "canonical",
+        "sourceRef": "source:LAB41:modules/catalog--generator-diesel-XS.json#ttx.exportFraction (= U2:docs/gdd/gdd_s_power_class_specialization_balance_v0.1_draft.md#L46)"
+      }
+    },
+    "batteryStoredJ": {
+      "value": 3682499999.9999995,
+      "unit": "J",
+      "kind": "canonical",
+      "sourceRef": "source:LAB41:modules/catalog--battery-XS.json#ttx.capacityJ"
+    },
+    "tankPassport": "catalog--tank-diesel-S"
+  },
+  "adapterInputs": {
+    "note": "Не поля GovernorProfileV03: входы игрового adapter (запрос генератора, контакт ангара)",
+    "generatorDispatch": {
+      "sourceOnSoc": {
+        "value": 0.9,
+        "unit": "1",
+        "kind": "canonical",
+        "sourceRef": "source:U2:docs/data/ship_hull_governor_profile_v0.1.csv#L2 Civilian/Balanced normal_source_on_soc"
+      },
+      "sourceOffSoc": {
+        "value": 1.0,
+        "unit": "1",
+        "kind": "canonical",
+        "sourceRef": "source:U2:docs/data/ship_hull_governor_profile_v0.1.csv#L2 source_off_soc"
+      },
+      "backgroundSocFloor": {
+        "value": 0.8,
+        "unit": "1",
+        "kind": "canonical",
+        "sourceRef": "source:U2:docs/data/ship_hull_governor_profile_v0.1.csv#L2 background_soc_floor"
+      },
+      "law": "запрос src-generator = maxOutputW при SoC ≤ sourceOnSoc до SoC ≥ sourceOffSoc; ядро V03 само сначала тратит аккумулятор"
+    },
+    "hangarContact": {
+      "temperatureK": {
+        "value": 300.0,
+        "unit": "K",
+        "kind": "canonical",
+        "sourceRef": "source:PLAN:2026-10-21-f2-power-heat-service.md#L110"
+      },
+      "conductanceWPerK": {
+        "value": 10000.0,
+        "unit": "W/K",
+        "kind": "canonical",
+        "sourceRef": "source:PLAN:2026-10-21-f2-power-heat-service.md#L110"
+      }
+    }
+  },
+  "governorProfile": {
+    "version": "governor-profile/0.3",
+    "governorVersion": "ship-thermal-governor/0.3",
+    "id": "f2-profile:strizh",
+    "revision": "q1-candidate.4",
+    "ship": {
+      "id": "strizh",
+      "class": "Civilian",
+      "heatCapacityJPerK": {
+        "value": 24809809.681,
+        "unit": "J/K",
+        "kind": "derived",
+        "sourceRef": "derivation:massLedger",
+        "derivation": "= massLedger.totals.heatCapacityJPerK"
+      },
+      "temperatures": {
+        "criticalLowK": {
+          "value": 200.0,
+          "unit": "K",
+          "kind": "derived",
+          "sourceRef": "derivation:LAB41:modules/*#temperatureBandsK включённых экземпляров",
+          "derivation": "огибающая полос всех установленных экземпляров; restart без M6-зажима: max(low)"
+        },
+        "workLowK": {
+          "value": 220.0,
+          "unit": "K",
+          "kind": "derived",
+          "sourceRef": "derivation:LAB41:modules/*#temperatureBandsK включённых экземпляров",
+          "derivation": "огибающая полос всех установленных экземпляров; restart без M6-зажима: max(workLow)"
+        },
+        "workHighK": {
+          "value": 500.0,
+          "unit": "K",
+          "kind": "derived",
+          "sourceRef": "derivation:LAB41:modules/*#temperatureBandsK включённых экземпляров",
+          "derivation": "огибающая полос всех установленных экземпляров; restart без M6-зажима: min(workHigh)"
+        },
+        "criticalHighK": {
+          "value": 550.0,
+          "unit": "K",
+          "kind": "derived",
+          "sourceRef": "derivation:LAB41:modules/*#temperatureBandsK включённых экземпляров",
+          "derivation": "огибающая полос всех установленных экземпляров; restart без M6-зажима: min(high)"
+        },
+        "restartColdK": {
+          "value": 230.0,
+          "unit": "K",
+          "kind": "derived",
+          "sourceRef": "derivation:LAB41:modules/*#temperatureBandsK включённых экземпляров",
+          "derivation": "огибающая полос всех установленных экземпляров; restart без M6-зажима: max(restartCold)"
+        },
+        "restartHotK": {
+          "value": 480.0,
+          "unit": "K",
+          "kind": "derived",
+          "sourceRef": "derivation:LAB41:modules/*#temperatureBandsK включённых экземпляров",
+          "derivation": "огибающая полос всех установленных экземпляров; restart без M6-зажима: min(restartHot)"
+        }
+      }
+    },
+    "buffers": [],
+    "banks": [],
+    "electrical": {
+      "storage": {
+        "capacityJ": {
+          "value": 3314250000.0,
+          "unit": "J",
+          "kind": "derived",
+          "sourceRef": "derivation:LAB41:modules/catalog--battery-XS.json#ttx.capacityJ=3.6825e+09; U2:docs/gdd/gdd_s_power_class_specialization_balance_v0.1_draft.md#L74",
+          "derivation": "E_usable = 0.90·E_stored; storage V03 без КПД контроллера"
+        },
+        "maxChargeW": {
+          "value": 450000.0,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:electrical.sources[*].maxOutputW",
+          "derivation": "Σ установленных источников на шине (F05)"
+        },
+        "maxDischargeW": {
+          "value": 200000.0,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:modules[*].capW·electricJPerJ",
+          "derivation": "Σ номинальных электрических потребителей (F05): только hull-systems; дизельные движители powerW=0"
+        }
+      },
+      "sources": [
+        {
+          "id": "src-generator",
+          "moduleId": "generator",
+          "maxOutputW": {
+            "value": 450000.0,
+            "unit": "W",
+            "kind": "derived",
+            "sourceRef": "derivation:ratedOutputBeforePathW, pathEfficiency",
+            "derivation": "P_rated·η_path (F08: шина = номинал до тракта × η_path)"
+          },
+          "efficiency": {
+            "value": 0.315,
+            "unit": "1",
+            "kind": "derived",
+            "sourceRef": "derivation:generatorEfficiency, pathEfficiency",
+            "derivation": "η·η_path (governor: generated = fuel·e·efficiency)"
+          },
+          "hostHeatFraction": {
+            "value": 0.57299270073,
+            "unit": "1",
+            "kind": "derived",
+            "sourceRef": "derivation:ratedOutputBeforePathW, generatorEfficiency, exportFraction, pathEfficiency",
+            "derivation": "[(P/η − P)·(1−export) + P·(1−η_path)] / (P/η − P·η_path); потери тракта целиком в корпус"
+          },
+          "resourceId": "diesel",
+          "fuelJPerKg": {
+            "value": 43000000.0,
+            "unit": "J/kg",
+            "kind": "experimental",
+            "sourceRef": "source:LAB41:findings.json#F06.evidence (Diesel 43 MJ/kg) = modules/*#derived.maxFuelFlowKgS.specificChemicalEnergyJKg"
+          }
+        }
+      ],
+      "loads": [
+        {
+          "id": "load-hull-systems",
+          "moduleId": "hull-systems",
+          "standbyW": {
+            "value": 200000.0,
+            "unit": "W",
+            "kind": "experimental",
+            "sourceRef": "source:LAB41:hulls/sputnik.json#shellTtx.legacyHullSystemsLoadW"
+          },
+          "maxInputW": {
+            "value": 200000.0,
+            "unit": "W",
+            "kind": "experimental",
+            "sourceRef": "source:LAB41:hulls/sputnik.json#shellTtx.legacyHullSystemsLoadW"
+          }
+        }
+      ]
+    },
+    "resources": [
+      {
+        "id": "diesel",
+        "species": "diesel",
+        "capacityKg": {
+          "value": 6000.0,
+          "unit": "kg",
+          "kind": "canonical",
+          "sourceRef": "source:LAB41:modules/catalog--tank-diesel-S.json#ttx.fuelCapacityKg"
+        },
+        "maxFlowKgPerS": {
+          "value": 3.20146009136,
+          "unit": "kg/s",
+          "kind": "derived",
+          "sourceRef": "derivation:flightBinding.channels[*].ratedFuelFlowKgPerS, electrical.sources.src-generator",
+          "derivation": "Σ F_rated·alpha всех движителей + полный расход генератора (F05; без одновременности)"
+        }
+      }
+    ],
+    "modules": [
+      {
+        "id": "engine-march",
+        "kind": "ordinary",
+        "temperatures": {
+          "criticalLowK": {
+            "value": 200.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.criticalLowK"
+          },
+          "workLowK": {
+            "value": 220.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.workLowK"
+          },
+          "restartColdK": {
+            "value": 230.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.restartColdK"
+          },
+          "workHighK": {
+            "value": 500.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.workHighK"
+          },
+          "restartHotK": {
+            "value": 480.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.restartHotK"
+          },
+          "criticalHighK": {
+            "value": 550.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.criticalHighK"
+          }
+        },
+        "requestCapW": {
+          "value": 21787756.0,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:flightBinding.channels.march",
+          "derivation": "= ratedUsefulW"
+        },
+        "capW": {
+          "value": 21787756.0,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:flightBinding.channels.march",
+          "derivation": "= ratedUsefulW"
+        },
+        "minSourceTemperatureK": {
+          "value": 200.0,
+          "unit": "K",
+          "kind": "derived",
+          "sourceRef": "derivation:modules.engine-march.temperatures",
+          "derivation": "= criticalLowK; поле не действует для ordinary без банков"
+        },
+        "electricJPerJ": {
+          "value": 0.0,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "derivation:LAB41:modules/catalog--engine-diesel-S-single.json#ttx.powerW",
+          "derivation": "ttx.powerW=0 → дизельный движитель не потребляет шину"
+        },
+        "massKgPerJ": {
+          "value": 7.64993880049e-08,
+          "unit": "kg/J",
+          "kind": "derived",
+          "sourceRef": "derivation:engineEfficiency, e_fuel",
+          "derivation": "1/(η·η_path·e_fuel) ⇒ ∫ = alpha·F·dt"
+        },
+        "auxHeatJPerJ": {
+          "value": 0.915789473684,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "derivation:engineEfficiency, hostFraction",
+          "derivation": "(1−η·η_path)·f_host/(η·η_path)"
+        },
+        "standbyHeatW": {
+          "value": 0.0,
+          "unit": "W",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d8"
+        },
+        "auxHeatDestination": "ship",
+        "resourceId": "diesel",
+        "compatibleBankIds": []
+      },
+      {
+        "id": "engine-retro",
+        "kind": "ordinary",
+        "temperatures": {
+          "criticalLowK": {
+            "value": 200.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.criticalLowK"
+          },
+          "workLowK": {
+            "value": 220.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.workLowK"
+          },
+          "restartColdK": {
+            "value": 230.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.restartColdK"
+          },
+          "workHighK": {
+            "value": 500.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.workHighK"
+          },
+          "restartHotK": {
+            "value": 480.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.restartHotK"
+          },
+          "criticalHighK": {
+            "value": 550.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.criticalHighK"
+          }
+        },
+        "requestCapW": {
+          "value": 8715102.4,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:flightBinding.channels.retro",
+          "derivation": "= ratedUsefulW"
+        },
+        "capW": {
+          "value": 8715102.4,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:flightBinding.channels.retro",
+          "derivation": "= ratedUsefulW"
+        },
+        "minSourceTemperatureK": {
+          "value": 200.0,
+          "unit": "K",
+          "kind": "derived",
+          "sourceRef": "derivation:modules.engine-retro.temperatures",
+          "derivation": "= criticalLowK; поле не действует для ordinary без банков"
+        },
+        "electricJPerJ": {
+          "value": 0.0,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "derivation:LAB41:modules/local--sputnik-d--reference-retro-engine-diesel-S-single.json#ttx.powerW",
+          "derivation": "ttx.powerW=0 → дизельный движитель не потребляет шину"
+        },
+        "massKgPerJ": {
+          "value": 7.64993880049e-08,
+          "unit": "kg/J",
+          "kind": "derived",
+          "sourceRef": "derivation:engineEfficiency, e_fuel",
+          "derivation": "1/(η·η_path·e_fuel) ⇒ ∫ = alpha·F·dt"
+        },
+        "auxHeatJPerJ": {
+          "value": 0.915789473684,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "derivation:engineEfficiency, hostFraction",
+          "derivation": "(1−η·η_path)·f_host/(η·η_path)"
+        },
+        "standbyHeatW": {
+          "value": 0.0,
+          "unit": "W",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d8"
+        },
+        "auxHeatDestination": "ship",
+        "resourceId": "diesel",
+        "compatibleBankIds": []
+      },
+      {
+        "id": "engine-strafe",
+        "kind": "ordinary",
+        "temperatures": {
+          "criticalLowK": {
+            "value": 200.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.criticalLowK"
+          },
+          "workLowK": {
+            "value": 220.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.workLowK"
+          },
+          "restartColdK": {
+            "value": 230.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.restartColdK"
+          },
+          "workHighK": {
+            "value": 500.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.workHighK"
+          },
+          "restartHotK": {
+            "value": 480.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.restartHotK"
+          },
+          "criticalHighK": {
+            "value": 550.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.criticalHighK"
+          }
+        },
+        "requestCapW": {
+          "value": 5465403.2,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:flightBinding.channels.strafe",
+          "derivation": "= ratedUsefulW"
+        },
+        "capW": {
+          "value": 5465403.2,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:flightBinding.channels.strafe",
+          "derivation": "= ratedUsefulW"
+        },
+        "minSourceTemperatureK": {
+          "value": 200.0,
+          "unit": "K",
+          "kind": "derived",
+          "sourceRef": "derivation:modules.engine-strafe.temperatures",
+          "derivation": "= criticalLowK; поле не действует для ordinary без банков"
+        },
+        "electricJPerJ": {
+          "value": 0.0,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "derivation:LAB41:modules/catalog--engine-diesel-S-pair.json#ttx.powerW",
+          "derivation": "ttx.powerW=0 → дизельный движитель не потребляет шину"
+        },
+        "massKgPerJ": {
+          "value": 7.64993880049e-08,
+          "unit": "kg/J",
+          "kind": "derived",
+          "sourceRef": "derivation:engineEfficiency, e_fuel",
+          "derivation": "1/(η·η_path·e_fuel) ⇒ ∫ = alpha·F·dt"
+        },
+        "auxHeatJPerJ": {
+          "value": 0.915789473684,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "derivation:engineEfficiency, hostFraction",
+          "derivation": "(1−η·η_path)·f_host/(η·η_path)"
+        },
+        "standbyHeatW": {
+          "value": 0.0,
+          "unit": "W",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d8"
+        },
+        "auxHeatDestination": "ship",
+        "resourceId": "diesel",
+        "compatibleBankIds": []
+      },
+      {
+        "id": "engine-turn",
+        "kind": "ordinary",
+        "temperatures": {
+          "criticalLowK": {
+            "value": 200.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.criticalLowK"
+          },
+          "workLowK": {
+            "value": 220.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.workLowK"
+          },
+          "restartColdK": {
+            "value": 230.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.restartColdK"
+          },
+          "workHighK": {
+            "value": 500.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.workHighK"
+          },
+          "restartHotK": {
+            "value": 480.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.restartHotK"
+          },
+          "criticalHighK": {
+            "value": 550.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.criticalHighK"
+          }
+        },
+        "requestCapW": {
+          "value": 5446939.0,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:flightBinding.channels.turn",
+          "derivation": "= ratedUsefulW"
+        },
+        "capW": {
+          "value": 5446939.0,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:flightBinding.channels.turn",
+          "derivation": "= ratedUsefulW"
+        },
+        "minSourceTemperatureK": {
+          "value": 200.0,
+          "unit": "K",
+          "kind": "derived",
+          "sourceRef": "derivation:modules.engine-turn.temperatures",
+          "derivation": "= criticalLowK; поле не действует для ordinary без банков"
+        },
+        "electricJPerJ": {
+          "value": 0.0,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "derivation:LAB41:modules/catalog--engine-diesel-S-pair.json#ttx.powerW",
+          "derivation": "ttx.powerW=0 → дизельный движитель не потребляет шину"
+        },
+        "massKgPerJ": {
+          "value": 7.64993880049e-08,
+          "unit": "kg/J",
+          "kind": "derived",
+          "sourceRef": "derivation:engineEfficiency, e_fuel",
+          "derivation": "1/(η·η_path·e_fuel) ⇒ ∫ = alpha·F·dt"
+        },
+        "auxHeatJPerJ": {
+          "value": 0.915789473684,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "derivation:engineEfficiency, hostFraction",
+          "derivation": "(1−η·η_path)·f_host/(η·η_path)"
+        },
+        "standbyHeatW": {
+          "value": 0.0,
+          "unit": "W",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d8"
+        },
+        "auxHeatDestination": "ship",
+        "resourceId": "diesel",
+        "compatibleBankIds": []
+      },
+      {
+        "id": "generator",
+        "kind": "generator",
+        "temperatures": {
+          "criticalLowK": {
+            "value": 200.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.criticalLowK"
+          },
+          "workLowK": {
+            "value": 220.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.workLowK"
+          },
+          "restartColdK": {
+            "value": 230.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.restartColdK"
+          },
+          "workHighK": {
+            "value": 500.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.workHighK"
+          },
+          "restartHotK": {
+            "value": 480.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.restartHotK"
+          },
+          "criticalHighK": {
+            "value": 550.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.criticalHighK"
+          }
+        },
+        "requestCapW": {
+          "value": 450000.0,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:electrical.sources.src-generator",
+          "derivation": "= maxOutputW"
+        },
+        "capW": {
+          "value": 450000.0,
+          "unit": "W",
+          "kind": "derived",
+          "sourceRef": "derivation:electrical.sources.src-generator",
+          "derivation": "= maxOutputW"
+        },
+        "minSourceTemperatureK": {
+          "value": 200.0,
+          "unit": "K",
+          "kind": "derived",
+          "sourceRef": "derivation:modules.generator",
+          "derivation": "= criticalLowK; не действует для generator"
+        },
+        "electricJPerJ": {
+          "value": 0.0,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "derivation:electrical.sources.src-generator",
+          "derivation": "расход/тепло генератора ведёт electrical.sources"
+        },
+        "massKgPerJ": {
+          "value": 0.0,
+          "unit": "kg/J",
+          "kind": "derived",
+          "sourceRef": "derivation:electrical.sources.src-generator",
+          "derivation": "топливо списывает source, не модуль (без двойного счёта)"
+        },
+        "auxHeatJPerJ": {
+          "value": 0.0,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "derivation:electrical.sources.src-generator",
+          "derivation": "тепло генератора — hostHeatFraction source"
+        },
+        "standbyHeatW": {
+          "value": 0.0,
+          "unit": "W",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d8"
+        },
+        "auxHeatDestination": "ship",
+        "resourceId": null,
+        "compatibleBankIds": []
+      },
+      {
+        "id": "hull-systems",
+        "kind": "ordinary",
+        "temperatures": {
+          "criticalLowK": {
+            "value": 200.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.criticalLowK"
+          },
+          "workLowK": {
+            "value": 220.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.workLowK"
+          },
+          "restartColdK": {
+            "value": 230.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.restartColdK"
+          },
+          "workHighK": {
+            "value": 500.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.workHighK"
+          },
+          "restartHotK": {
+            "value": 480.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.restartHotK"
+          },
+          "criticalHighK": {
+            "value": 550.0,
+            "unit": "K",
+            "kind": "canonical",
+            "sourceRef": "source:THERM26:balance-parameters.json#ordinaryTemperaturesK.criticalHighK"
+          }
+        },
+        "requestCapW": {
+          "value": 200000.0,
+          "unit": "W",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:hulls/sputnik.json#shellTtx.legacyHullSystemsLoadW"
+        },
+        "capW": {
+          "value": 200000.0,
+          "unit": "W",
+          "kind": "experimental",
+          "sourceRef": "source:LAB41:hulls/sputnik.json#shellTtx.legacyHullSystemsLoadW"
+        },
+        "minSourceTemperatureK": {
+          "value": 200.0,
+          "unit": "K",
+          "kind": "derived",
+          "sourceRef": "derivation:modules.hull-systems",
+          "derivation": "= criticalLowK; не действует"
+        },
+        "electricJPerJ": {
+          "value": 1.0,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "derivation:LAB41:hulls/sputnik.json#shellTtx.legacyHullSystemsLoadW",
+          "derivation": "1 Дж шины на 1 Дж обслуживания корпусных систем"
+        },
+        "massKgPerJ": {
+          "value": 0.0,
+          "unit": "kg/J",
+          "kind": "derived",
+          "sourceRef": "derivation:LAB41:hulls/sputnik.json#shellTtx.legacyHullSystemsLoadW",
+          "derivation": "без расходуемой массы"
+        },
+        "auxHeatJPerJ": {
+          "value": 1.0,
+          "unit": "1",
+          "kind": "derived",
+          "sourceRef": "derivation:LAB41:hulls/sputnik.json#shellTtx.legacyHullSystemsLoadW",
+          "derivation": "вся электроэнергия систем корпуса становится теплом корпуса"
+        },
+        "standbyHeatW": {
+          "value": 0.0,
+          "unit": "W",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d8"
+        },
+        "auxHeatDestination": "ship",
+        "resourceId": null,
+        "compatibleBankIds": []
+      }
+    ],
+    "surfaces": [
+      {
+        "id": "surface-hull",
+        "moduleId": null,
+        "kind": "hull",
+        "areaM2": {
+          "value": 537.0,
+          "unit": "m2",
+          "kind": "canonical",
+          "sourceRef": "source:U2:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md#L38 A_hull≈537 (first S proxy)"
+        },
+        "emissivity": {
+          "value": 0.85,
+          "unit": "1",
+          "kind": "canonical",
+          "sourceRef": "source:U2:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md#L38 ε≈0.85"
+        },
+        "closable": false,
+        "thermoinverterId": null
+      },
+      {
+        "id": "surface-radiator-1",
+        "moduleId": null,
+        "kind": "passive",
+        "areaM2": {
+          "value": 490.0,
+          "unit": "m2",
+          "kind": "canonical",
+          "sourceRef": "source:THERM26:balance-parameters.json#passiveRadiators.S.areaM2"
+        },
+        "emissivity": {
+          "value": 0.9,
+          "unit": "1",
+          "kind": "canonical",
+          "sourceRef": "source:U2:docs/gdd/data/ship_module_ttx_master_v0.1/radiator_passive_first_slice_v0.1.csv#L2 emissivity"
+        },
+        "closable": false,
+        "thermoinverterId": null
+      },
+      {
+        "id": "surface-hull-fixed-passive",
+        "moduleId": null,
+        "kind": "passive",
+        "areaM2": {
+          "value": 40.0,
+          "unit": "m2",
+          "kind": "canonical",
+          "sourceRef": "source:THERM26:balance-parameters.json#fixedHullSurfaces.sputnik.areaM2"
+        },
+        "emissivity": {
+          "value": 0.9,
+          "unit": "1",
+          "kind": "canonical",
+          "sourceRef": "source:THERM26:balance-parameters.json#fixedHullSurfaces.sputnik.emissivity"
+        },
+        "closable": false,
+        "thermoinverterId": null
+      }
+    ],
+    "thermoinverters": [],
+    "hydrogenCoolers": [],
+    "waterTanks": [],
+    "modes": {
+      "allowed": [
+        "Normal"
+      ],
+      "normalTargetK": {
+        "value": 370.0,
+        "unit": "K",
+        "kind": "derived",
+        "sourceRef": "derivation:U2:docs/specs/thermal/spec_ship_thermal_governor_v0.3.md#L190",
+        "derivation": "clamp(profile_temperature=370 [d8], L+separation, H) (§6)"
+      },
+      "coldOnK": {
+        "value": 225.0,
+        "unit": "K",
+        "kind": "derived",
+        "sourceRef": "derivation:U2:docs/specs/thermal/spec_ship_thermal_governor_v0.3.md#L190",
+        "derivation": "T_H,off − hysteresis(5 K [d8])"
+      },
+      "coldOffK": {
+        "value": 230.0,
+        "unit": "K",
+        "kind": "derived",
+        "sourceRef": "derivation:U2:docs/specs/thermal/spec_ship_thermal_governor_v0.3.md#L190",
+        "derivation": "L = workLow + cold_margin(10 K [d8])"
+      },
+      "quietOnK": {
+        "value": 525.0,
+        "unit": "K",
+        "kind": "derived",
+        "sourceRef": "derivation:U2:docs/specs/thermal/spec_ship_thermal_governor_v0.3.md#L188",
+        "derivation": "середина workHigh..criticalHigh (§6); Quiet запрещён классом — поле инертно"
+      },
+      "quietOffK": {
+        "value": 515.0,
+        "unit": "K",
+        "kind": "derived",
+        "sourceRef": "derivation:U2:docs/specs/thermal/spec_ship_thermal_governor_v0.3.md#L188",
+        "derivation": "quietOn − separation; инертно"
+      },
+      "quietUpperK": {
+        "value": 525.0,
+        "unit": "K",
+        "kind": "derived",
+        "sourceRef": "derivation:U2:docs/specs/thermal/spec_ship_thermal_governor_v0.3.md#L188",
+        "derivation": "= quietOn; инертно"
+      },
+      "coldMarginK": {
+        "value": 10.0,
+        "unit": "K",
+        "kind": "experimental",
+        "sourceRef": "candidate:decisions.md#d8",
+        "candidateRange": [
+          0,
+          50
+        ]
+      },
+      "hotMarginK": {
+        "value": 20.0,
+        "unit": "K",
+        "kind": "experimental",
+        "sourceRef": "candidate:decisions.md#d8",
+        "candidateRange": [
+          0,
+          50
+        ]
+      },
+      "separationK": {
+        "value": 10.0,
+        "unit": "K",
+        "kind": "experimental",
+        "sourceRef": "candidate:decisions.md#d8",
+        "candidateRange": [
+          5,
+          50
+        ]
+      },
+      "vitalModuleIds": [
+        "hull-systems"
+      ],
+      "vitalMinK": {
+        "value": 200.0,
+        "unit": "K",
+        "kind": "derived",
+        "sourceRef": "derivation:ship.temperatures",
+        "derivation": "= ship.criticalLowK"
+      },
+      "vitalMaxK": {
+        "value": 550.0,
+        "unit": "K",
+        "kind": "derived",
+        "sourceRef": "derivation:ship.temperatures",
+        "derivation": "= ship.criticalHighK"
+      },
+      "quietEmergencyChargeFraction": {
+        "value": 0.1,
+        "unit": "1",
+        "kind": "experimental",
+        "sourceRef": "candidate:decisions.md#d8",
+        "candidateRange": [
+          0,
+          1
+        ]
+      }
+    },
+    "failurePolicy": {
+      "rngAlgorithm": "xorshift32/1",
+      "firstNegativePolicy": "check-on-first-negative-crossing",
+      "checkIntervalSeconds": {
+        "value": 60.0,
+        "unit": "s",
+        "kind": "experimental",
+        "sourceRef": "source:LAB41:modules/*#durability.failurePeriodSeconds (единое значение всех изделий)"
+      },
+      "probabilityPerCheck": {
+        "value": 0.0,
+        "unit": "1",
+        "kind": "experimental",
+        "sourceRef": "candidate:decisions.md#d8",
+        "candidateRange": [
+          0,
+          1
+        ]
+      },
+      "restartPolicy": "explicit-authorization-and-hysteresis"
+    },
+    "numerical": {
+      "maxTickDeltaK": {
+        "value": 1.0,
+        "unit": "K",
+        "kind": "experimental",
+        "sourceRef": "candidate:decisions.md#d8",
+        "candidateRange": [
+          0.25,
+          2.0
+        ]
+      },
+      "minEnvironmentK": {
+        "value": 3.0,
+        "unit": "K",
+        "kind": "derived",
+        "sourceRef": "derivation:LAB41:scenario-contract.json#normal (T_env 3…450 K) + historical-zones.json",
+        "derivation": "минимум сетки старых опытов"
+      },
+      "maxEnvironmentK": {
+        "value": 450.0,
+        "unit": "K",
+        "kind": "derived",
+        "sourceRef": "derivation:LAB41:scenario-contract.json#normal (T_env 3…450 K) + historical-zones.json",
+        "derivation": "максимум сетки старых опытов"
+      },
+      "maxExternalHeatingW": {
+        "value": 2970000.0,
+        "unit": "W",
+        "kind": "derived",
+        "sourceRef": "derivation:PLAN:2026-10-21-f2-power-heat-service.md#L110 (ангар 300 K, 10000 W/K)",
+        "derivation": "10000·(300 − minEnvironmentK)"
+      },
+      "maxExternalCoolingW": {
+        "value": 3000000.0,
+        "unit": "W",
+        "kind": "experimental",
+        "sourceRef": "candidate:decisions.md#d8",
+        "derivation": "10000·(600 K − 300); 600 = criticalHigh + 50 K запас"
+      }
+    }
+  },
+  "initialState": {
+    "temperatureK": {
+      "value": 300.0,
+      "unit": "K",
+      "kind": "experimental",
+      "sourceRef": "source:LAB41:assemblies/sputnik-d.json#referenceStart.temperatureK"
+    },
+    "shipEnergyJ": {
+      "value": 7442942904.31,
+      "unit": "J",
+      "kind": "derived",
+      "sourceRef": "derivation:ship.heatCapacityJPerK, temperatureK",
+      "derivation": "U_S = C_S·T_S (нулевая точка 0 K; runtime подтверждает)"
+    },
+    "electricalChargeJ": {
+      "value": 3314250000.0,
+      "unit": "J",
+      "kind": "experimental",
+      "sourceRef": "candidate:decisions.md#d6",
+      "candidateRange": [
+        0,
+        3314249999.9999995
+      ],
+      "derivation": "chargeFraction 1 (LAB41:assemblies/sputnik-d.json#initialPreset.chargeFraction) × capacityJ"
+    },
+    "fuelKg": {
+      "value": 6000.0,
+      "unit": "kg",
+      "kind": "experimental",
+      "sourceRef": "candidate:decisions.md#d6",
+      "candidateRange": [
+        0,
+        6000.0
+      ],
+      "derivation": "fuelFraction 1 (LAB41:assemblies/sputnik-d.json#initialPreset.fuelFraction.diesel) × capacityKg"
+    },
+    "cargoMassKg": {
+      "value": 0.0,
+      "unit": "kg",
+      "kind": "canonical",
+      "sourceRef": "source:U2:docs/specs/balance/spec_f1_fixed_ship_presets_v0_1.md#L157 (пусто)"
+    },
+    "currentMassKg": {
+      "value": 56000.0,
+      "unit": "kg",
+      "kind": "derived",
+      "sourceRef": "derivation:massLedger.totals, fuelKg, cargoMassKg",
+      "derivation": "flightDryMassKg + fuelKg + cargoMassKg"
+    },
+    "bufferEnergyJ": {
+      "value": 0.0,
+      "unit": "J",
+      "kind": "derived",
+      "sourceRef": "derivation:governorProfile.banks=[]",
+      "derivation": "буферов в составе нет"
+    },
+    "waterTanks": "нет в составе",
+    "effectiveMode": "Normal",
+    "modeNote": "Lab referenceStart.mode=Efficient (имя старой модели) → V03 Normal",
+    "moduleDurabilityR": {
+      "engine-march": {
+        "value": 1.0,
+        "unit": "1",
+        "kind": "experimental",
+        "sourceRef": "source:LAB41:assemblies/sputnik-d.json#referenceStart.initialDurabilityR"
+      },
+      "engine-retro": {
+        "value": 1.0,
+        "unit": "1",
+        "kind": "experimental",
+        "sourceRef": "source:LAB41:assemblies/sputnik-d.json#referenceStart.initialDurabilityR"
+      },
+      "engine-strafe": {
+        "value": 1.0,
+        "unit": "1",
+        "kind": "experimental",
+        "sourceRef": "source:LAB41:assemblies/sputnik-d.json#referenceStart.initialDurabilityR"
+      },
+      "engine-turn": {
+        "value": 1.0,
+        "unit": "1",
+        "kind": "experimental",
+        "sourceRef": "source:LAB41:assemblies/sputnik-d.json#referenceStart.initialDurabilityR"
+      },
+      "generator": {
+        "value": 1.0,
+        "unit": "1",
+        "kind": "experimental",
+        "sourceRef": "source:LAB41:assemblies/sputnik-d.json#referenceStart.initialDurabilityR"
+      },
+      "hull-systems": {
+        "value": 1.0,
+        "unit": "1",
+        "kind": "experimental",
+        "sourceRef": "source:LAB41:assemblies/sputnik-d.json#referenceStart.initialDurabilityR"
+      }
+    },
+    "rngSeed": "runtime: выдаётся экземпляру при создании; не число профиля",
+    "insuranceReplacement": null
+  },
+  "durability": {
+    "policyVersion": "u2-durability/adr0066-production/1",
+    "tauFailS": {
+      "value": 60.0,
+      "unit": "s",
+      "kind": "canonical",
+      "sourceRef": "source:U2:docs/architecture/ADR-0066-Emergency-Operation-Below-Zero-Durability.md#L83"
+    },
+    "tauRestartS": {
+      "value": 10.0,
+      "unit": "s",
+      "kind": "canonical",
+      "sourceRef": "source:U2:docs/architecture/ADR-0066-Emergency-Operation-Below-Zero-Durability.md#L84"
+    },
+    "exposureBasis": {
+      "value": "equivalent-full-load",
+      "kind": "canonical",
+      "sourceRef": "source:PO:#905/6394579881 D20 «ok» (эквивалент полной нагрузки)"
+    },
+    "modules": [
+      {
+        "moduleId": "engine-march",
+        "class": {
+          "value": "repairable-active",
+          "kind": "derived",
+          "sourceRef": "derivation:governorProfile.modules, governorProfile.modes.vitalModuleIds"
+        },
+        "emergencyDepthFraction": {
+          "value": 1.0,
+          "unit": "1",
+          "kind": "canonical",
+          "sourceRef": "source:U2:docs/architecture/ADR-0066-Emergency-Operation-Below-Zero-Durability.md#L82"
+        },
+        "wearPerEquivalentS": {
+          "value": 1.8472222222222224e-05,
+          "unit": "1/s",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d19",
+          "candidateRange": [
+            1.388888888888889e-05,
+            2.777777777777778e-05
+          ],
+          "derivation": "k_класса · w_Industrial, k = 1,33 = U2:docs/gdd/data/ship_module_ttx_master_v0.1/class_profiles.csv#L3 generic_mass_factor; порядок классов — U2:docs/specs/spec_engine_force_grid_v0.1.md#L212-L213 (выносливость средн./высш.); w_Industrial — PO:#905/6394579881 D19 «Поставь 20 часов», D20 эквивалент полной нагрузки; Lab catalog--engine-diesel-S-single: wearPerWorkSecond 1e-6 (LAB41:modules/catalog--engine-diesel-S-single.json#durability) заменён решением PO D19"
+        },
+        "overrunWearMultiplierAtCritical": {
+          "value": 2.0,
+          "unit": "1",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d19",
+          "candidateRange": [
+            2.0,
+            4.0
+          ],
+          "derivation": "k = 1 + max(hot, cold) при hot = 1: LABCODE:src/model/v3/thermal-control.ts#L31"
+        }
+      },
+      {
+        "moduleId": "engine-retro",
+        "class": {
+          "value": "repairable-active",
+          "kind": "derived",
+          "sourceRef": "derivation:governorProfile.modules, governorProfile.modes.vitalModuleIds"
+        },
+        "emergencyDepthFraction": {
+          "value": 1.0,
+          "unit": "1",
+          "kind": "canonical",
+          "sourceRef": "source:U2:docs/architecture/ADR-0066-Emergency-Operation-Below-Zero-Durability.md#L82"
+        },
+        "wearPerEquivalentS": {
+          "value": 1.8472222222222224e-05,
+          "unit": "1/s",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d19",
+          "candidateRange": [
+            1.388888888888889e-05,
+            2.777777777777778e-05
+          ],
+          "derivation": "k_класса · w_Industrial, k = 1,33 = U2:docs/gdd/data/ship_module_ttx_master_v0.1/class_profiles.csv#L3 generic_mass_factor; порядок классов — U2:docs/specs/spec_engine_force_grid_v0.1.md#L212-L213 (выносливость средн./высш.); w_Industrial — PO:#905/6394579881 D19 «Поставь 20 часов», D20 эквивалент полной нагрузки; Lab local--sputnik-d--reference-retro-engine-diesel-S-single: wearPerWorkSecond 1e-6 (LAB41:modules/local--sputnik-d--reference-retro-engine-diesel-S-single.json#durability) заменён решением PO D19"
+        },
+        "overrunWearMultiplierAtCritical": {
+          "value": 2.0,
+          "unit": "1",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d19",
+          "candidateRange": [
+            2.0,
+            4.0
+          ],
+          "derivation": "k = 1 + max(hot, cold) при hot = 1: LABCODE:src/model/v3/thermal-control.ts#L31"
+        }
+      },
+      {
+        "moduleId": "engine-strafe",
+        "class": {
+          "value": "repairable-active",
+          "kind": "derived",
+          "sourceRef": "derivation:governorProfile.modules, governorProfile.modes.vitalModuleIds"
+        },
+        "emergencyDepthFraction": {
+          "value": 1.0,
+          "unit": "1",
+          "kind": "canonical",
+          "sourceRef": "source:U2:docs/architecture/ADR-0066-Emergency-Operation-Below-Zero-Durability.md#L82"
+        },
+        "wearPerEquivalentS": {
+          "value": 1.8472222222222224e-05,
+          "unit": "1/s",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d19",
+          "candidateRange": [
+            1.388888888888889e-05,
+            2.777777777777778e-05
+          ],
+          "derivation": "k_класса · w_Industrial, k = 1,33 = U2:docs/gdd/data/ship_module_ttx_master_v0.1/class_profiles.csv#L3 generic_mass_factor; порядок классов — U2:docs/specs/spec_engine_force_grid_v0.1.md#L212-L213 (выносливость средн./высш.); w_Industrial — PO:#905/6394579881 D19 «Поставь 20 часов», D20 эквивалент полной нагрузки; Lab catalog--engine-diesel-S-pair: wearPerWorkSecond 1e-6 (LAB41:modules/catalog--engine-diesel-S-pair.json#durability) заменён решением PO D19"
+        },
+        "overrunWearMultiplierAtCritical": {
+          "value": 2.0,
+          "unit": "1",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d19",
+          "candidateRange": [
+            2.0,
+            4.0
+          ],
+          "derivation": "k = 1 + max(hot, cold) при hot = 1: LABCODE:src/model/v3/thermal-control.ts#L31"
+        }
+      },
+      {
+        "moduleId": "engine-turn",
+        "class": {
+          "value": "repairable-active",
+          "kind": "derived",
+          "sourceRef": "derivation:governorProfile.modules, governorProfile.modes.vitalModuleIds"
+        },
+        "emergencyDepthFraction": {
+          "value": 1.0,
+          "unit": "1",
+          "kind": "canonical",
+          "sourceRef": "source:U2:docs/architecture/ADR-0066-Emergency-Operation-Below-Zero-Durability.md#L82"
+        },
+        "wearPerEquivalentS": {
+          "value": 1.8472222222222224e-05,
+          "unit": "1/s",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d19",
+          "candidateRange": [
+            1.388888888888889e-05,
+            2.777777777777778e-05
+          ],
+          "derivation": "k_класса · w_Industrial, k = 1,33 = U2:docs/gdd/data/ship_module_ttx_master_v0.1/class_profiles.csv#L3 generic_mass_factor; порядок классов — U2:docs/specs/spec_engine_force_grid_v0.1.md#L212-L213 (выносливость средн./высш.); w_Industrial — PO:#905/6394579881 D19 «Поставь 20 часов», D20 эквивалент полной нагрузки; Lab catalog--engine-diesel-S-pair: wearPerWorkSecond 1e-6 (LAB41:modules/catalog--engine-diesel-S-pair.json#durability) заменён решением PO D19"
+        },
+        "overrunWearMultiplierAtCritical": {
+          "value": 2.0,
+          "unit": "1",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d19",
+          "candidateRange": [
+            2.0,
+            4.0
+          ],
+          "derivation": "k = 1 + max(hot, cold) при hot = 1: LABCODE:src/model/v3/thermal-control.ts#L31"
+        }
+      },
+      {
+        "moduleId": "generator",
+        "class": {
+          "value": "repairable-active",
+          "kind": "derived",
+          "sourceRef": "derivation:governorProfile.modules, governorProfile.modes.vitalModuleIds"
+        },
+        "emergencyDepthFraction": {
+          "value": 1.0,
+          "unit": "1",
+          "kind": "canonical",
+          "sourceRef": "source:U2:docs/architecture/ADR-0066-Emergency-Operation-Below-Zero-Durability.md#L82"
+        },
+        "wearPerEquivalentS": {
+          "value": 1.8472222222222224e-05,
+          "unit": "1/s",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d19",
+          "candidateRange": [
+            1.388888888888889e-05,
+            2.777777777777778e-05
+          ],
+          "derivation": "k_класса · w_Industrial, k = 1,33 = U2:docs/gdd/data/ship_module_ttx_master_v0.1/class_profiles.csv#L3 generic_mass_factor; порядок классов — U2:docs/specs/spec_engine_force_grid_v0.1.md#L212-L213 (выносливость средн./высш.); w_Industrial — PO:#905/6394579881 D19 «Поставь 20 часов», D20 эквивалент полной нагрузки; Lab catalog--generator-diesel-XS: wearPerWorkSecond 1e-6 (LAB41:modules/catalog--generator-diesel-XS.json#durability) заменён решением PO D19"
+        },
+        "overrunWearMultiplierAtCritical": {
+          "value": 2.0,
+          "unit": "1",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d19",
+          "candidateRange": [
+            2.0,
+            4.0
+          ],
+          "derivation": "k = 1 + max(hot, cold) при hot = 1: LABCODE:src/model/v3/thermal-control.ts#L31"
+        }
+      },
+      {
+        "moduleId": "hull-systems",
+        "class": {
+          "value": "vital",
+          "kind": "derived",
+          "sourceRef": "derivation:governorProfile.modules, governorProfile.modes.vitalModuleIds"
+        },
+        "emergencyDepthFraction": {
+          "value": 1.0,
+          "unit": "1",
+          "kind": "canonical",
+          "sourceRef": "source:U2:docs/architecture/ADR-0066-Emergency-Operation-Below-Zero-Durability.md#L82"
+        },
+        "wearPerEquivalentS": {
+          "value": 0.0,
+          "unit": "1/s",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d19",
+          "candidateRange": [
+            0.0,
+            1e-06
+          ],
+          "derivation": "vital: 0 — явное «не изнашивается» (план C, G2); паспорта Lab у hull-systems нет"
+        },
+        "overrunWearMultiplierAtCritical": {
+          "value": 2.0,
+          "unit": "1",
+          "kind": "experimental",
+          "sourceRef": "candidate:decisions.md#d19",
+          "candidateRange": [
+            2.0,
+            4.0
+          ],
+          "derivation": "k = 1 + max(hot, cold) при hot = 1: LABCODE:src/model/v3/thermal-control.ts#L31"
+        }
+      }
+    ]
+  },
+  "corrections": {
+    "F08": {
+      "ratedBeforePathW": 500000.0,
+      "oldBusW": 450000.0,
+      "uncorrectedV3BusW": 500000.0,
+      "fuelAtBusLimitKgPerS": 0.03322259136212625,
+      "uncorrectedV3FuelKgPerS": 0.0369139904023625,
+      "chemicalW": 1428571.4285714286,
+      "hostW": 560714.2857142858,
+      "exhaustW": 417857.14285714284
+    },
+    "F02": {
+      "labStoredAreaM2": 441,
+      "labEmissivity": 0.9,
+      "labK": 396.90000000000003,
+      "correctedAreaM2": 490.0,
+      "correctedK": 441.0,
+      "oldPhysicsV2K": 441
+    },
+    "F03": {
+      "builtinAreaM2": 40,
+      "builtinEmissivity": 0.9,
+      "builtinK": 36.0,
+      "included": true,
+      "hullK": 456.45,
+      "labHullK": 456.45,
+      "shipKProfile": 933.45,
+      "shipKOld025": 897.45,
+      "shipKLab032": 889.35,
+      "shipKIfBuiltinIncluded": 933.45
+    },
+    "F04": [
+      {
+        "instanceId": "fit:power-3",
+        "passport": "catalog--tank-diesel-S",
+        "massKg": 300.0,
+        "cLabSteelMixJPerK": 141000.0,
+        "cBomJPerK": 134837.5,
+        "deltaJPerK": -6162.5,
+        "note": "BOM уже применён в Lab #41"
+      },
+      {
+        "instanceId": "fit:signature-1",
+        "passport": "catalog--radiator-passive-S",
+        "massKg": 750.0,
+        "cLabSteelMixJPerK": 352500.0,
+        "cBomJPerK": 334900.0,
+        "deltaJPerK": -17600.0
+      }
+    ],
+    "F05": {
+      "dieselPortSumKgPerS": 3.2014600913621263,
+      "dieselPeakRealisticKgPerS": 2.534760091362126,
+      "storageMaxChargeW": 450000.0,
+      "storageMaxDischargeW": 200000
+    },
+    "M6": "M6 removed: accepted 230/480 K; requires corrected V03 restart-band validation"
+  },
+  "validation": {
+    "maxTickDeltaK": 0.12364034418060012,
+    "admissibleLimitK": 1.0,
+    "minThresholdGapK": 5.0
+  },
+  "provenanceCounts": {
+    "source": 116,
+    "derivation": 85,
+    "candidate": 27,
+    "governorClass": "source",
+    "scope": "все SiValue-числа файла (masses, flightBinding, powerBinding, adapterInputs, governorProfile, initialState, durability)"
+  }
+}
