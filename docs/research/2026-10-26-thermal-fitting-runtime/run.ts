@@ -16,10 +16,11 @@ const catalog=loadCandidateCatalog('ship-fitting-0.3.4');
 function install(f:ShipFitV3,slot:string,item:string|null){const id=f.assignments[slot]??'fit:'+slot;if(item){f.assignments[slot]=id;f.instances[id]={id,itemId:item,enabled:true};}else{delete f.assignments[slot];delete f.instances[id];}}
 type Case={id:string;preset:string;mode:'mission'|'idle'|'work';seconds:number;temperatureK?:number;backgroundK?:number;edit?:(f:ShipFitV3)=>void};
 const cases:Case[]=[...['sputnik-d','pony-d','ermak-d','severin-mir-d'].map(preset=>({id:preset+'-hour',preset,mode:'mission' as const,seconds:3600})),{id:'sputnik-d-fourth-trip-window',preset:'sputnik-d',mode:'mission',seconds:4500},
- {id:'cold-ermak-radiators',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:225,backgroundK:3,edit:f=>{f.instances['fit:power-2'].enabled=false;}},
- {id:'cold-ermak-heater',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:225,backgroundK:3,edit:f=>{f.instances['fit:power-2'].enabled=false;install(f,'signature-3','electric-heater-S');}},
- {id:'cold-ermak-no-removable-radiators',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:225,backgroundK:3,edit:f=>{f.instances['fit:power-2'].enabled=false;install(f,'signature-1',null);install(f,'signature-2',null);}},
- ...[450,600].flatMap(backgroundK=>[{id:'hot-mir-passive-'+backgroundK,preset:'severin-mir-d',mode:'work' as const,seconds:1800,backgroundK},{id:'hot-mir-pump-h2-'+backgroundK,preset:'severin-mir-d',mode:'work' as const,seconds:1800,backgroundK,edit:(f:ShipFitV3)=>{install(f,'power-4','tank-hydrogen-M');install(f,'signature-2','pump-radiator-M');install(f,'signature-3','h2-cooler-M');}}]),
+ {id:'cold-ermak-from300',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:300,backgroundK:3,edit:f=>{f.instances['fit:power-2'].enabled=false;}},
+ {id:'cold-ermak-radiators',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:210,backgroundK:3,edit:f=>{f.instances['fit:power-2'].enabled=false;}},
+ {id:'cold-ermak-heater',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:210,backgroundK:3,edit:f=>{f.instances['fit:power-2'].enabled=false;install(f,'signature-3','electric-heater-S');}},
+ {id:'cold-ermak-no-removable-radiators',preset:'ermak-d',mode:'idle',seconds:3600,temperatureK:210,backgroundK:3,edit:f=>{f.instances['fit:power-2'].enabled=false;install(f,'signature-1',null);install(f,'signature-2',null);}},
+ ...[450,600].flatMap(backgroundK=>[{id:'hot-mir-passive-'+backgroundK,preset:'severin-mir-d',mode:'work' as const,seconds:1800,backgroundK},{id:'hot-mir-pump-h2-'+backgroundK,preset:'severin-mir-d',mode:'work' as const,seconds:1800,backgroundK,edit:(f:ShipFitV3)=>{install(f,'power-4','tank-hydrogen-M');install(f,'signature-2','pump-radiator-S');install(f,'signature-3','h2-cooler-M');}}]),
  ...['sputnik-d','pony-d','severin-mir-d'].map(preset=>({id:preset+'-generator-hour',preset,mode:'idle' as const,seconds:3600}))];
 const receipts:unknown[]=[];mkdirSync(out,{recursive:true});
 for(const item of cases){
