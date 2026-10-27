@@ -1,5 +1,7 @@
 # U2 Lab — индекс документов
 
+- [Ермак: радиаторы, тепловой баланс и возврат](research/2026-10-27-ermak-radiators/README.md) — frozen диагностика каталога 0.3.3, JSON, replay и передача VS Code; заявка Beads PENDING, не runtime fix.
+
 | Документ | Статус | Область |
 |---|---|---|
 | [Рейсовый default и прогресс /4](superpowers/specs/2026-10-24-ship-model-duration-progress-design.md) / [план](superpowers/plans/2026-10-24-ship-model-duration-progress.md) | PLAN_READY / Developer candidate | Повторяемый рейс, реальные руда/возврат, stationary, progress; ulab-9aa.24 / PR #44 |
