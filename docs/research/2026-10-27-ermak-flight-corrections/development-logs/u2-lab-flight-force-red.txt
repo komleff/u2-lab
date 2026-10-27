@@ -23,4 +23,3 @@ AssertionError: expected 2950000 to be close to 6154.89579475052, received diffe
       Tests  1 failed | 2 skipped (3)
    Start at  19:54:06
    Duration  1.06s (transform 69%, import 24%, tests 7%)
-

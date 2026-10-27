@@ -48,4 +48,3 @@ Received: "<svg data-axis-x="180" viewBox="0 0 700 205" role="img" aria-label="Ð
       Tests  3 failed (3)
    Start at  18:56:25
    Duration  1.19s (transform 58%, tests 22%, import 20%)
-

@@ -40,4 +40,3 @@ AssertionError: expected 1 to be +0 // Object.is equality
       Tests  2 failed | 2 passed (4)
    Start at  19:34:13
    Duration  1.88s (tests 55%, transform 34%, import 11%)
-

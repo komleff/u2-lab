@@ -22,4 +22,3 @@ Received: "numerical-error"
       Tests  1 failed | 5 skipped (6)
    Start at  19:51:08
    Duration  969ms (transform 72%, import 24%, tests 4%)
-
