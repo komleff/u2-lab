@@ -43,7 +43,7 @@
     "development-logs/u2-pr53-experiments-S.txt": "86d001338c682a5f8d885f1203f42521b35508d0f68cbfe7f7e87327af18c7d9",
     "development-logs/u2-pr53-experiments-S2.txt": "9eca2c9d42ce86ca68702b0d884f4762ad99c4060fcf151917a763e0032dc1bc",
     "development-logs/u2-pr53-experiments-S3.txt": "c1bd52b3f7cf9c7feb2d747eeea47b63eeab25a3b09709163941002f81f88761",
-    "development-logs/u2-pr53-final-verify-4c8eb32.txt": "f64cb9f830d7f1437d701dafb7b772c6c2be13652925918d3ca7801641d50279",
+    "development-logs/u2-pr53-final-verify-4c8eb32.txt": "0cc7039354367e0f04c8be9eeb88e186e6c9ce4a82bbbcbf168eeec620d3d87e",
     "development-logs/u2-pr53-step-deadline-green.txt": "72f72016adc53d5436ecd2ee7e6686b8f650d82a19e4475eeba952f3f29cfe3b",
     "development-logs/u2-pr53-step-deadline-red.txt": "af0e81d305c7ed67b40f18989e0967dff769fd502facb7d0240f49a825eab66a",
     "development-logs/u2-pr53-unit-first.txt": "b8510221c8d14254f924070216586403fb5e6d7ba9ca25e277431786465b09a4",
@@ -57,7 +57,7 @@
     "ui/ship-model-mission-v2-EF04-61745-ncel-cold-checkpoint-at-390-worker-latency.json": "863ab00c2806d33f0b5017c548cceec35865e59ca02ec001eb1be9ae23b0f4ad",
     "ui/ship-model-mission-v2-EF08-b4f08-hout-committing-shadow-work-unheld-worker-latency.json": "d7f33268e0b31e20d1ca5b32b10348cd2dc62d5b8e1d162fa7b8e900efad8f62"
   },
-  "logFormatting": "Terminal text preserved; trailing blank lines normalized for Git whitespace check. Original raw logs remain in /tmp.",
+  "logFormatting": "Terminal text preserved; trailing whitespace/blank lines normalized for Git check. Original raw logs remain in /tmp.",
   "sourceS3": "d43e6a45f4044fa2a1082f401df9b5aaa3b933ea",
   "S3Changes": [
     "src/app/fitting-ui/ship-model-lab-view.ts",

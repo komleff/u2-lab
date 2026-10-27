@@ -37,7 +37,7 @@ dist/assets/fitting-6YdRfvDn.js         344.77 kB │ gzip: 104.98 kB
 dist/assets/catalog-CJ2rvipp.js       3,158.51 kB │ gzip: 154.81 kB
 
 ✓ built in 359ms
-[plugin builtin:vite-reporter] 
+[plugin builtin:vite-reporter]
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
 - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
