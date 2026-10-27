@@ -10,4 +10,3 @@ const sums=Object.fromEntries(['radiationW','hostHeatW','usefulWorkW','netHeatW'
 const row={rev,at1200,at3600:snapshot(),sums,firstConstraint:run.metrics.firstConstraint,events:run.events.items().filter(e=>['thermal-hot','mission-service','mission-stage'].includes(e.kind))};rows.push(row);
 console.log(JSON.stringify({rev,at1200:{...at1200,last:undefined},at3600:{...row.at3600,last:undefined},sums,firstConstraint:row.firstConstraint,events:row.events}));
 }
-
