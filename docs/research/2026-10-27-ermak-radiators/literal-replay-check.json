@@ -1,0 +1,157 @@
+{
+  "equal": {
+    "state": true,
+    "metrics": true,
+    "events": true,
+    "channels": true,
+    "buckets": true,
+    "draftSpec": true,
+    "fit": true
+  },
+  "hull": "industrial-S",
+  "surfaces": [
+    {
+      "id": "hull:passive-radiator",
+      "areaM2": 40,
+      "emissivity": 0.9,
+      "active": false,
+      "closable": false,
+      "builtin": true,
+      "circuitOwner": {
+        "kind": "common-ti"
+      },
+      "irProfile": {
+        "version": "radiator-ir/1",
+        "kind": "omnidirectional",
+        "aftFraction": 0
+      }
+    }
+  ],
+  "snapshots": [
+    {
+      "t": 250,
+      "values": {
+        "temperatureK": 328.9039898231304,
+        "chargeJ": 3673757036.386322,
+        "requestedW": 3600000,
+        "deliveredW": 3600000,
+        "generatorW": 500000,
+        "actualW:fit:payload-1": 3400000,
+        "radiationW": 217169.24112938458,
+        "completedTrips": 0,
+        "minedM3": 0.1898967677947746,
+        "deliveredM3": 0,
+        "positionM": 100000
+      }
+    },
+    {
+      "t": 489,
+      "values": {
+        "temperatureK": 360.0945993640242,
+        "chargeJ": 2850534814.164049,
+        "requestedW": 3600000,
+        "deliveredW": 3600000,
+        "generatorW": 500000,
+        "actualW:fit:payload-1": 3400000,
+        "radiationW": 359763.74098340876,
+        "completedTrips": 0,
+        "minedM3": 18.07024559279467,
+        "deliveredM3": 0,
+        "positionM": 100000
+      }
+    },
+    {
+      "t": 600,
+      "values": {
+        "temperatureK": 370.5722952505272,
+        "chargeJ": 2566145987.4731917,
+        "requestedW": 2707273.8783952845,
+        "deliveredW": 2093247.102448308,
+        "generatorW": 368716.74682283594,
+        "actualW:fit:payload-1": 1938608.362780856,
+        "radiationW": 417108.7105176336,
+        "completedTrips": 0,
+        "minedM3": 24.318656905491903,
+        "deliveredM3": 0,
+        "positionM": 100000
+      }
+    },
+    {
+      "t": 900,
+      "values": {
+        "temperatureK": 382.17776527575273,
+        "chargeJ": 2216931857.5638347,
+        "requestedW": 1716617.4558428382,
+        "deliveredW": 889266.6277050902,
+        "generatorW": 223031.97880041736,
+        "actualW:fit:payload-1": 785659.7787034912,
+        "radiationW": 486507.00915111083,
+        "completedTrips": 0,
+        "minedM3": 32.270392091484695,
+        "deliveredM3": 0,
+        "positionM": 100000
+      }
+    },
+    {
+      "t": 1200,
+      "values": {
+        "temperatureK": 391.06672797781835,
+        "chargeJ": 2058518756.4034638,
+        "requestedW": 200000,
+        "deliveredW": 132834.60835127006,
+        "generatorW": 113182.14631416624,
+        "actualW:fit:payload-1": 0,
+        "radiationW": 543209.3825829864,
+        "completedTrips": 0,
+        "minedM3": 36.00000000003392,
+        "deliveredM3": 0,
+        "positionM": 98160.55344931321
+      }
+    }
+  ],
+  "batteryFraction": 0.5590003411822034,
+  "mission": {
+    "version": "ship-mission-state/1",
+    "stage": "inbound",
+    "stageElapsedSeconds": 33.464066326618195,
+    "positionM": 98160.55344931321,
+    "velocityMS": -101.96553541425588,
+    "onboardM3": 36.00000000003392,
+    "minedM3": 36.00000000003392,
+    "deliveredM3": 0,
+    "completedTrips": 0,
+    "receivedFuelKg": {
+      "diesel": 0,
+      "hydrogen": 0
+    },
+    "receivedChargeJ": 0,
+    "terminalReason": null
+  },
+  "events": [
+    {
+      "timeSeconds": 237.46172024119048,
+      "kind": "mission-arrival",
+      "message": "outbound: x=100000 m, v=0 m/s"
+    },
+    {
+      "timeSeconds": 237.46172024119048,
+      "kind": "mission-stage",
+      "message": "approach"
+    },
+    {
+      "timeSeconds": 247.46172024119048,
+      "kind": "mission-stage",
+      "message": "mining"
+    },
+    {
+      "timeSeconds": 489,
+      "kind": "thermal-hot",
+      "message": "builtin:cargo: thermal-hot"
+    },
+    {
+      "timeSeconds": 1166.5359336733818,
+      "kind": "mission-stage",
+      "message": "inbound"
+    }
+  ]
+}

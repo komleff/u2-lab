@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-27",
+  "kernelCommit": "3fdd4b612de14f8efa8c109b74171c067ed1bfb1",
+  "scope": "diagnostic evidence, not runtime fix or new release QA",
+  "files": {
+    "README.md": "daa53d2f502c6932e993b847b605e2dee608d736391f7e6228d2bb95af084aef",
+    "constant-heat-equilibrium.json": "3071efc9a64d17ae4583126466d18c4d3a33fa3c71a473256a92f2c152e468ef",
+    "ermak-no-radiators.json": "ba5bee8d24f0e1c80d2ff2ce23cd12048f8a959a43fec22b9e201f24ddb3e0ab",
+    "ermak-three-passive-1K.json": "a3f49286515156f74bf54233d6c8e58e569d04634f4448bbe075dec8cf35e5bd",
+    "ermak-three-passive.json": "f0e3ad95851d8a20b430dbaaeac64ef9aa0a597e0ad7de8c02865ad1a55a3f5c",
+    "literal-replay-check.json": "ef62bef41f955fa2bfe6050282d45146aa35d9b0f966e61c24c0e213e3910622",
+    "loader.mjs": "a13cbf92f073211a820ec25059528bae442689e410bbe648cef7d195248f8460",
+    "measured-1200.json": "010c586e94aa42576ca8b2d7c7cb0183463d8c1d524e65a40a9b68bdbbb7a3e5",
+    "measured-accepted-long.json": "a6ba3cd9a81cbccc02800511468d113505cad683fa511485b535dbbac3cbd4d5",
+    "measured-hour.json": "5e822bd598041839e95438958a4d4f49dda4ace44a6c73ea699cd1b23b72d2e3",
+    "measured-radiator-matrix.json": "79adddf5146e418f91011395803adebf1dc96ce58a5c6fb86ed7fe3537a309e9",
+    "replay-accepted-long.mjs": "80927f701a32de8fbf76ce20f050192d6e7b766afa712f2a531f04f367a33121",
+    "replay-radiator-matrix.mjs": "ce5130adb1b391f67ed4ab623d6c6ba67788f4b871dbf08cf9078e76c2814089",
+    "replay.mjs": "5676756a256992e87475ff7dd0a1a189b16422ef7e15c39ab0a577254df94056"
+  },
+  "originalResultSha256": "45ced82d7193ec244ae6be43bf88939e8a7904c164a817dc6d19f0ec52d2185d"
+}

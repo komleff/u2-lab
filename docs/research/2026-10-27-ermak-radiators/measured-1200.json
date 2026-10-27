@@ -1,0 +1,30 @@
+[
+  {
+    "backgroundK": 250,
+    "T": 397.63304084214514,
+    "trips": 0,
+    "mined": 36.000000000115655,
+    "delivered": 0,
+    "chargeFraction": 0.5523177892647978,
+    "firstHot": 544,
+    "missionStage": "inbound",
+    "events": []
+  },
+  {
+    "backgroundK": 1,
+    "T": 395.81912509572334,
+    "trips": 1,
+    "mined": 36.000000000030404,
+    "delivered": 36.000000000030404,
+    "chargeFraction": 0.9998976372490874,
+    "firstHot": 637,
+    "missionStage": "outbound",
+    "events": [
+      {
+        "timeSeconds": 1180.1441460251808,
+        "kind": "mission-service",
+        "message": "Рейс 1: доставлено 36.000000000030404 SCU"
+      }
+    ]
+  }
+]
