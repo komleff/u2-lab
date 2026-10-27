@@ -6,13 +6,13 @@
   "shipModelCatalog": "0.3.4",
   "status": "working",
   "defaultModel": "ship-model",
-  "runtimeCommit": "a3822d9be294bcd0467f9eab745fb896d0b63b17",
-  "sourceCommit": "a3822d9be294bcd0467f9eab745fb896d0b63b17",
-  "sourceTree": "7d11e9844c728cddc9b8ab3ec4e9a5cbd73d5f42",
+  "runtimeCommit": "8c92c0cf2e6b4f4ed12fe3c4c395adf7aac1c8ab",
+  "sourceCommit": "8c92c0cf2e6b4f4ed12fe3c4c395adf7aac1c8ab",
+  "sourceTree": "d1f9829d00fa77ecaa7c2a5280b9c82fc218bc12",
   "sourceBranch": "release/lab-v2.7.0",
   "source": "PR #54; accepted main 5b363287 plus preserved published UI; operator merge separate",
   "legacyV1": "./legacy-v1/",
   "previousThermal": "./thermal-v0.1/",
-  "builtAt": "2026-10-27T19:56:11.195805+00:00",
+  "builtAt": "2026-10-27T20:53:59.689768+00:00",
   "missionVersion": "ship-mission/2"
 }
