@@ -1,0 +1,286 @@
+{
+  "schemaVersion": "u2-lab-plan-review/1",
+  "mode": "PLAN_REVIEW",
+  "verdict": "PLAN_READY",
+  "blockers": 0,
+  "advisories": 0,
+  "findings": [],
+  "role": "independent Reviewer",
+  "model": "gpt-6-astra",
+  "reasoningEffort": "high",
+  "modelProvenance": "existing agent actual dispatch metadata; serving internals not exposed",
+  "productLaunch": "1/5",
+  "taskIds": [
+    "ulab-9do",
+    "ulab-b3y"
+  ],
+  "pr": "https://github.com/komleff/u2-lab/pull/53",
+  "base": "3b6c4622435b7d6ea3353ef41899085e1731d7f9",
+  "head": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+  "runtimeSource": "cb67fcf096b5b2c046b7f65cc41500795803def0",
+  "source52": "575f02ddf58a227111ce9b7f6d55919d9c9fc34a",
+  "sourcePlan": "docs/plans/2026-10-27-ermak-flight-counter.md",
+  "sourceReviewContract": "docs/reviews/2026-10-27-ermak-flight-review-contract.md",
+  "taskInput": "/tmp/u2-lab-ermak-flight-plan-review/task-input.txt",
+  "taskSource": "/tmp/u2-ermak-flight-plan-review-task.txt",
+  "taskDelivery": "file supplied by reference; not literal dispatch body",
+  "taskBytes": 7374,
+  "taskSha256": "d9396c823f824bcb59a57d5ca29044f2d8d145f233cbdded8170f5ce054d16d6",
+  "dispatchPointerInput": "/tmp/u2-lab-ermak-flight-plan-review/dispatch-pointer.txt",
+  "dispatchPointerSha256": "29407efb6e24508ff37cf5fc5f100ef1d7d0fa31cb5562ee484552169a457f2e",
+  "dispatchPointerBytes": 1454,
+  "dispatchPointerRole": "separate provenance; envelope binds supplied task file bytes per explicit instructions",
+  "contractInput": "/tmp/u2-lab-ermak-flight-plan-review/contract-input.txt",
+  "contractBytes": 2466,
+  "contractSha256": "e1ec9b619d0b0ca4d842c1b0cebc302a9817d1d0b562d6c3aaaa06916af2e498",
+  "contentFingerprint": "cccde77fd5acfb76d3040313b9da0cade9f784c7bb7893f7535f6b173ea360c1",
+  "envelopeFingerprint": "6bbf5e3a4677c7eae39e3261af26b539540a85749cd2822d6a7f6261b287b1a8",
+  "reviewedPathCount": 24,
+  "reviewedPaths": [
+    {
+      "path": ".agents/PIPELINE_ADR.md",
+      "blob": "31ed5ed3ef1976f87ff7730da4bfdba5a1721e9f",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "ADR3.28 fingerprint and3.29 lifecycle excerpt",
+      "sha256": "f76c2e33535a2a737f3a66ba3962e2dafca2a503d28023be7cddd0b1c12d839f"
+    },
+    {
+      "path": ".agents/RV_ROLE.md",
+      "blob": "6e13e1023c90621172135e206e01fed8bd6b8c28",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "PLAN_REVIEW role and verdict requirements",
+      "sha256": "361403255f04c6b7ded784d1a4437c513e5dc082b6f832844fc39644a4daeba1"
+    },
+    {
+      "path": ".memory-bank/activeContext.md",
+      "blob": "00bfae2b16d74de64c6612e020dc2f01028a7a76",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "current context and mission recovery excerpt",
+      "sha256": "a0adcd8a83721a62415e5cf3dbc24b72bb0fcbab056ec970a2068e65ab8c3210"
+    },
+    {
+      "path": ".memory-bank/progress.md",
+      "blob": "f177d8bc8a411d6feb7e5158f067d172c36395cf",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "current progress excerpt",
+      "sha256": "57d7429cec22c650ccd761d2ef2a31a3b1db23bf84f3f0f4dad3d69a364aed1c"
+    },
+    {
+      "path": "docs/INDEX.md",
+      "blob": "ce60472ded1def90150b985edfe55cded223585b",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "authority/current owner entries excerpt",
+      "sha256": "badfe37ed63827865dcc1c6d644cfed0486ac90e7197ca434dad392d3cb355e0"
+    },
+    {
+      "path": "docs/plans/2026-10-27-ermak-flight-counter.md",
+      "blob": "5b3c5b645ea3a35b89156a5e9b103672fed4a8c6",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "complete HOW0.2 and EF01-EF08",
+      "sha256": "874a31d0e57a05e763e2311a6010490393875c96049b3b28de4474a0bb417c7c"
+    },
+    {
+      "path": "docs/research/2026-10-27-ermak-radiators/README.md",
+      "blob": "e37cb732f15bef782b0b4f0c40adef5a2f84017c",
+      "commit": "575f02ddf58a227111ce9b7f6d55919d9c9fc34a",
+      "reviewScope": "complete WHAT/handoff",
+      "sha256": "daa53d2f502c6932e993b847b605e2dee608d736391f7e6228d2bb95af084aef"
+    },
+    {
+      "path": "docs/research/2026-10-27-ermak-radiators/ermak-no-radiators.json",
+      "blob": "231b74426b6c2c5380b52abe24634d64e73d0f66",
+      "commit": "575f02ddf58a227111ce9b7f6d55919d9c9fc34a",
+      "reviewScope": "parsed input structure/mission/conditions and SHA256; no new replay",
+      "sha256": "ba5bee8d24f0e1c80d2ff2ce23cd12048f8a959a43fec22b9e201f24ddb3e0ab"
+    },
+    {
+      "path": "docs/research/2026-10-27-ermak-radiators/ermak-three-passive-1K.json",
+      "blob": "06ca395d2cc484c553af6882308f25a73da813dc",
+      "commit": "575f02ddf58a227111ce9b7f6d55919d9c9fc34a",
+      "reviewScope": "parsed input structure/mission/conditions and SHA256; no new replay",
+      "sha256": "a3f49286515156f74bf54233d6c8e58e569d04634f4448bbe075dec8cf35e5bd"
+    },
+    {
+      "path": "docs/research/2026-10-27-ermak-radiators/ermak-three-passive.json",
+      "blob": "795fda4eef64dfd90fbfe1f62622a066f1c676e1",
+      "commit": "575f02ddf58a227111ce9b7f6d55919d9c9fc34a",
+      "reviewScope": "parsed input structure/mission/conditions and SHA256; no new replay",
+      "sha256": "f0e3ad95851d8a20b430dbaaeac64ef9aa0a597e0ad7de8c02865ad1a55a3f5c"
+    },
+    {
+      "path": "docs/reviews/2026-10-27-ermak-flight-review-contract.md",
+      "blob": "bd0c4fae5d1fd261de557db6ac6a4f12f09207ab",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "complete Review Contract",
+      "sha256": "e5b208b54e96909a54cad1e0a22ba59a3f14cc6e5dfaf41711ba605df221bba0"
+    },
+    {
+      "path": "src/app/fitting-ui/ship-model-lab-view.ts",
+      "blob": "9add8cb00ca7b6420f386a6369df06ab59721072",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "E6 overview/live/channel ownership",
+      "sha256": "180a5c76d2b1d5469cfd527c40028fcfd4c8d9d128d20809ff33e349cc02020f"
+    },
+    {
+      "path": "src/app/fitting-ui/ship-model-results.ts",
+      "blob": "afc3a8e5be849c7115ad64b2e6327a89ec1601a7",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "mission factual summary excerpt",
+      "sha256": "5e13ab37ee4762269f63ee6225385204d4f98de8e5a09b0f2b55ee379539e095"
+    },
+    {
+      "path": "src/app/fitting-ui/trace-chart.ts",
+      "blob": "39b365cd574a2da13c0acada09a88cdc41bcc414",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "complete shared chart scale owner",
+      "sha256": "40ec62bc60033386a568a7e62e8f869cd3cca36d332f60edb1c48ea34091191f"
+    },
+    {
+      "path": "src/app/ship-model-workspace.ts",
+      "blob": "dd25b546e3d6ef693537ac25889ed9611afbe5f8",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "copy/update/import/draft/replay ownership excerpts",
+      "sha256": "0b3baa698c914e860a9a827117ac7b5228af7e4380e44de405d5832f868f901a"
+    },
+    {
+      "path": "src/io/ship-model-result.ts",
+      "blob": "2efe25127e87d56143c8391ef7a927a0a3693231",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "spec/state/checkpoint validation excerpt",
+      "sha256": "e0d6fdcd9702e6a212fd31004dbe8b1e742e2003f1792f1290ae171e464b3dca"
+    },
+    {
+      "path": "src/model/v2/flight.ts",
+      "blob": "cccf715b9d01b4de661ff9c63c85ec082aa0c722",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "complete paid momentum/flight primitives",
+      "sha256": "48d52527867ebd18edf6ffb64eef5a645befd092b8f27b0dc2ab6a3af8c92e5f"
+    },
+    {
+      "path": "src/model/v3/schema.ts",
+      "blob": "812113ed10f922e507b8eb8f423661a2f74e10cb",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "mission version/state and arrival validation excerpts",
+      "sha256": "1aa4b8e3ed299b832d9133ba05cf3d4fe3ed67ec5b4eb0d76353810cbe8d500d"
+    },
+    {
+      "path": "src/model/v3/types.ts",
+      "blob": "88caa10d2ff6d5f8921bc7c01258bbcdd297cdf8",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "mission discriminator/state type excerpt",
+      "sha256": "52c4e37128209f5a1af7e2567f69c276f5b300fe65582ae4316b15e9077876ed"
+    },
+    {
+      "path": "src/runner/protocol.ts",
+      "blob": "2fbd7ee91fe246255ce44a7170a3d5dfaed9f979",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "complete Worker Pending/Step/Pause/Cancel caller",
+      "sha256": "cd6319239d6f1f073448825571ea632948a61f1553e60c6611beb36f06219172"
+    },
+    {
+      "path": "src/runner/ship-model-dispatch.ts",
+      "blob": "c5288254768e312ba1a3b0a48df337b638ef16a9",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "complete dispatch and budget propagation",
+      "sha256": "950ba7df9cbb322f5afa2f23f592ae850da8a0b4938a0a4ac0aa77b76b3d5ce0"
+    },
+    {
+      "path": "src/runner/ship-model-mission.ts",
+      "blob": "d0a3b4c39cfd1e1bf967f0fedfb39a49f6c82218",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "complete current flight/event/service owner",
+      "sha256": "2d44f08291bebb54dee281ee31220b38c4291c13dee65da9135116f96d222064"
+    },
+    {
+      "path": "src/runner/ship-model-run.ts",
+      "blob": "a0ab0b2215524ac0fa579787081e3976c2db7a03",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "complete RunContext/chunk/commit/restore owner",
+      "sha256": "d4001ea742e727d2861e53c2a0dee6f23ab5fd0ecc82c17f5802ea8df30b399c"
+    },
+    {
+      "path": "src/scenarios/ship-model-mission.ts",
+      "blob": "dbeeb6a9d7eee2dbc1dafe25f9a31f821e4a9156",
+      "commit": "27a6dd164146c7d4cd4de8c49caca2d950757da9",
+      "reviewScope": "complete fresh/explicit mission builder",
+      "sha256": "848f9246a4a7fdd77ff469c4b92f5e4fb3c40e181186c01add7b81a2e79eaae8"
+    }
+  ],
+  "reviewedPathsInput": "/tmp/u2-lab-ermak-flight-plan-review/reviewed-paths.txt",
+  "fingerprintMethod": "SHA256(sorted path SP blob LF + contract); envelope adds base LF head LF prefix and actual supplied task bytes suffix",
+  "foreignPathBinding": "four source52 paths bind blobs at575f02; other paths bind candidate HEAD; commits explicit per entry",
+  "externalDiagnosis": {
+    "/tmp/u2-lab-navigation-diagnosis-20261027/report.md": {
+      "sha256": "95c36c73fe39ce4dcc1af26ed32715884ba7ab98df4dd814f56ba2992a7a88de",
+      "bytes": 25364,
+      "method": "read and hash-bound; no runtime rerun"
+    },
+    "/tmp/u2-lab-navigation-diagnosis-20261027/report-v0.2.md": {
+      "sha256": "ea8c4d8b2c74bb7eeb6a0db5f177db37c907345dd8fb5ef4a66fdef0c0f9dde5",
+      "bytes": 12859,
+      "method": "read and hash-bound; no runtime rerun"
+    },
+    "/tmp/u2-lab-navigation-diagnosis-20261027/manifest.json": {
+      "sha256": "3ccacb69bd2af4d435922dc01cdd3399cc4a6bef295f71bc044936a291b6fc23",
+      "bytes": 6123,
+      "method": "read and hash-bound; no runtime rerun"
+    },
+    "/tmp/u2-lab-navigation-diagnosis-20261027/prefix-domain-v02.mjs": {
+      "sha256": "2b12b27cc9846cc4eae7dc706ded009cb9f2d14337088bce6966bb152cb1f91c",
+      "bytes": 7297,
+      "method": "read and hash-bound; no runtime rerun"
+    },
+    "/tmp/u2-lab-navigation-diagnosis-20261027/prefix-domain-v02.json": {
+      "sha256": "ccfe08e78697b21fa68b84fc5c59a93c3873f61b1fcf96f3afa42fbc1597ed62",
+      "bytes": 34653,
+      "method": "read and hash-bound; no runtime rerun"
+    },
+    "/tmp/u2-lab-navigation-diagnosis-20261027/actual-prefix-v02.mjs": {
+      "sha256": "1ae2671522a8e3255c8b951699c1e4091e35fd7564f6aa657bd6b05afd84142b",
+      "bytes": 1966,
+      "method": "read and hash-bound; no runtime rerun"
+    },
+    "/tmp/u2-lab-navigation-diagnosis-20261027/actual-prefix-v02.json": {
+      "sha256": "e7c9e29a6296be87e4e602aed223479efeaa45a51bda39a503e12b67e9d0cb0b",
+      "bytes": 75101,
+      "method": "read and hash-bound; no runtime rerun"
+    },
+    "/tmp/u2-lab-navigation-diagnosis-20261027/E6-ui-evidence.json": {
+      "sha256": "775496b39fdbe7b2e066306399958880f8b924f5b975e84906b11826aa43c115",
+      "bytes": 1772,
+      "method": "read and hash-bound; no runtime rerun"
+    }
+  },
+  "ownChecks": {
+    "exactHeadAndPlanBlob": "PASS",
+    "contractHashBytes": "PASS",
+    "docsOnlyDeltaFromC2": "PASS:2 docs",
+    "runtimeSourceEqualC2": "PASS:src/scripts/tests no diff",
+    "gitDiffCheck": "PASS",
+    "worktreeClean": true,
+    "targetedSourceReview": "complete scope described per path",
+    "source52Specs": "parsed and hash-bound, no replay"
+  },
+  "inheritedEvidence": [
+    "E1/E2/E5/E7 physical package C2 QA/Review/CI",
+    "E3 affected QA",
+    "Developer36-case diagnostic forecast/slicing probes",
+    "Developer C2 prefix baseline and E6 actual browser evidence",
+    "PM55 diagnosis hashes/17 source fingerprints and canonical Beads mapping"
+  ],
+  "notRun": [
+    "mission2 runtime or whole weak leg",
+    "future Worker responsiveness",
+    "full normal guard/browser/18-experiment rerun",
+    "live Beads or PR state audit",
+    "production/server/Pages/finalize"
+  ],
+  "limitations": [
+    "PLAN_READY is plan acceptance only",
+    "actual runtime EF01-EF08 verification remains required",
+    "no impossible late/no-resource arrival guarantee",
+    "no unlimited forecast CPU or multiday qualification claim",
+    "old C2 Code Review not repeated",
+    "operator merge only"
+  ]
+}
