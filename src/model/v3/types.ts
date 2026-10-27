@@ -109,7 +109,7 @@ export type CompilationChange = { path: string; kind: "structural" | "numeric" |
 export type PromotedFitV3 = { fit: ShipFitV3; ship: ResolvedShipV3; changes: CompilationChange[]; sourceSnapshot: import("../../fitting/types").ShipFit };
 
 export type MissionSpecV3={
- version:'ship-mission/1';
+ version:'ship-mission/1'|'ship-mission/2';
  route:{distanceM:number;referenceVfaMS:number;referenceSource:string;speedPolicy:'vfa'|'custom';speedMultiplier:number;cruiseSpeedMS:number};
  process:{id:'LAB-ORE-01';energyJPerM3:number;densityKgM3:number;extractFactor:number;softFactor:number;workFactor:number;returnFraction:number};
  selectedWorkGroup:string[];approachSeconds:number;serviceSeconds:number;targetM3:number;stopPolicy:'full-hold'|'first-stop';repeat:boolean;stationReplenish?:boolean;
