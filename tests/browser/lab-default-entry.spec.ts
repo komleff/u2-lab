@@ -8,7 +8,7 @@ for(const width of [1440,390])test.describe(`current Lab entry at ${width}`,()=>
     for(const reload of [false,true]){
       if(reload)await page.reload();
       await expect(page.locator('#sm-preset')).toHaveValue('sputnik-d');
-      await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.3');
+      await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.4');
       await expect(page.locator('#sm-work-mode')).toHaveValue('mission');
       await expect(page.locator('#sm-duration')).toHaveValue('3600');
       await expect(page.locator('#sm-start')).toBeEnabled();
@@ -17,10 +17,10 @@ for(const width of [1440,390])test.describe(`current Lab entry at ${width}`,()=>
       await expect(page.locator('#sm-back')).toHaveCount(0);
       await expect(page.locator('#sm-source')).toBeHidden();
       await expect(page.locator('#sm-compilation')).not.toHaveAttribute('open','');
-      await expect(page.locator('footer[aria-label="О Лабе"]')).toContainText('версия Лабы 2.6.1');
+      await expect(page.locator('footer[aria-label="О Лабе"]')).toContainText('версия Лабы 2.7.0');
       await expect(page.locator('footer')).toContainText('интерфейс v4.8');
       await expect(page.locator('footer')).toContainText('модель корабля v0.1');
-      await expect(page.locator('footer')).toContainText('каталог 0.3.3');
+      await expect(page.locator('footer')).toContainText('каталог 0.3.4');
       expect(new URL(page.url()).search).toBe('');
       expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     }
@@ -30,7 +30,7 @@ for(const width of [1440,390])test.describe(`current Lab entry at ${width}`,()=>
 
 for(const query of ['shipModel=experimental','shipModel=unknown'])test(`${query} preserves its URL and opens the current model`,async({page})=>{
   await page.goto('/?'+query);
-  await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.3');
+  await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.4');
   await expect(page.locator('#sm-start')).toBeEnabled();
   expect(new URL(page.url()).search).toBe('?'+query);
 });

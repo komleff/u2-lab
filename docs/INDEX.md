@@ -2,6 +2,7 @@
 
 | Документ | Статус | Область |
 |---|---|---|
+| [Выпуск Лабы2.7.0](releases/2026-10-28-v2.7.0.md) | Developer integration candidate; publication pending | Принятая физика PR53/main плюс публичные clean-root/О Лабе/V_FA1–4; физические receipts прежние |
 | [Рейсовый default и прогресс /4](superpowers/specs/2026-10-24-ship-model-duration-progress-design.md) / [план](superpowers/plans/2026-10-24-ship-model-duration-progress.md) | PLAN_READY / Developer candidate | Повторяемый рейс, реальные руда/возврат, stationary, progress; ulab-9aa.24 / PR #44 |
 | [F2: предварительная квалификация питания, тепла и обслуживания](plans/2026-10-23-f2-governor-pretest-design.md) | PRODUCT design v0.2 / scope принят оператором; adversarial review APPROVED; implementation plan PLAN_READY | Переносимое ядро governor 0.3 в `/4`: 30 Hz, deterministic shared-bank/resource budgets, `W`-state термобака для T16, service и paired balance-candidate experiments; реальные ТТХ — PRODUCT GAP, водяные движители/F3/station UX/server parity вне приёмки |
 | [Адверсальная проверка F2 governor pretest design](reviews/2026-10-23-f2-governor-pretest-adversarial-review.md) | APPROVED / 0 blocker / 0 advisory after affected re-review | Независимые architecture, game-design/balance и engineering reviews; три исходных дефекта исправлены и повторно проверены. Не заменяет Plan Review будущей реализации или runtime acceptance |
