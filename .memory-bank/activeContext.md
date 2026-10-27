@@ -4,7 +4,7 @@
 Beads `ulab-9do` / `ulab-b3y`; independent Plan Review1/5 — PLAN_READY на HOW0.2.
 Новые QA2/5, scoped Review3/5 и current guard/CI публикуются отдельно, acceptance
 не объявлена. PR51 C2 остаётся frozen Draft; физический пакет наследуется в53.
-Source S2: `dae899b01fa195e9818cc7645cf676adb84768d8`; физический каталог0.3.4 прежний.
+Source S3: `d43e6a45f4044fa2a1082f401df9b5aaa3b933ea`; физический каталог0.3.4 прежний.
 Fresh current рейсы получают mission/2, любой explicit/imported mission/1, включая
 saved C2 catalog0.3.4, остаётся literal при copy/export/reopen/checkpoint.
 

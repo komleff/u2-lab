@@ -1,6 +1,6 @@
 {
   "id": "weak-full-leg",
-  "sourceCommit": "dae899b01fa195e9818cc7645cf676adb84768d8",
+  "sourceCommit": "d43e6a45f4044fa2a1082f401df9b5aaa3b933ea",
   "catalogVersion": "ship-fitting-0.3.4",
   "missionVersion": "ship-mission/2",
   "spec": {
@@ -7460,8 +7460,8 @@
   "specSha256": "71583794653901232bdc61377c8c2efcfe4e85c82348105534befa6367c47dff",
   "conditionsSha256": "26107960c4f6177a99b0bd075d7127fb08b1750e1a5c1238157f384998d7f40d",
   "seed": 424242,
-  "wallMs": 35664.101417,
-  "maxPumpMs": 80.049125000005,
+  "wallMs": 36180.175749999995,
+  "maxPumpMs": 80.08766699999978,
   "calls": 1593,
   "pending": 12,
   "finalState": {

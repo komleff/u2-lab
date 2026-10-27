@@ -1,6 +1,6 @@
 {
   "id": "new2-active2-off-1200",
-  "sourceCommit": "dae899b01fa195e9818cc7645cf676adb84768d8",
+  "sourceCommit": "d43e6a45f4044fa2a1082f401df9b5aaa3b933ea",
   "catalogVersion": "ship-fitting-0.3.4",
   "missionVersion": "ship-mission/2",
   "spec": {
@@ -7947,8 +7947,8 @@
   "specSha256": "da1388a0bb4cba72d1bf2da50f590448ed1acbd37e1d5b09a7e945252b9617fb",
   "conditionsSha256": "7c9311689334688bf7e1e85f6697f6f0e88a2debc976793bfb18c0859318d790",
   "seed": 424242,
-  "wallMs": 1555.2215410000008,
-  "maxPumpMs": 26.427166999999827,
+  "wallMs": 1538.9337080000005,
+  "maxPumpMs": 26.46241700000064,
   "calls": 1200,
   "pending": 0,
   "finalState": {

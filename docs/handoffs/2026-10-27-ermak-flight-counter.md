@@ -10,8 +10,9 @@ beads: [ulab-9do, ulab-b3y]
 [PR53](https://github.com/komleff/u2-lab/pull/53) наследует физический C2 и добавляет
 только явный `mission/2`, paid event forecast/cooperative planning и фактический
 счётчик существующего UI. PLAN_READY0B0A на HOW0.2 — independent Plan Review1/5.
-Developer source S2 `dae899b01fa195e9818cc7645cf676adb84768d8`; source3c8dd33
-содержит runtime/tests, S2 исправляет только diagnostic fixed-heat setup.
+Developer source S3 `d43e6a45f4044fa2a1082f401df9b5aaa3b933ea`; source3c8dd33
+содержит runtime/tests, S2 исправляет только diagnostic fixed-heat setup,
+S3 — разделитель E6 и момент UI screenshot без изменения физического расчёта.
 
 [22 receipts/CSV/manifest](../research/2026-10-27-ermak-flight-corrections/README.md)
 разделяют actual cycles на1200/3600/10800 s, literal mission1 и explicit2 старых

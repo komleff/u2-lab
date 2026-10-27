@@ -8,7 +8,7 @@ beads: [ulab-9do, ulab-b3y]
 
 # Источник и воспроизведение
 
-Developer: gpt-6.1-sol / high по metadata PM. Численный source **dae899b01fa195e9818cc7645cf676adb84768d8**,
+Developer: gpt-6.1-sol / high по metadata PM. Численный source **d43e6a45f4044fa2a1082f401df9b5aaa3b933ea**,
 Node24.22.0, каталог `ship-fitting-0.3.4`, seed424242. Каталог, материал/C,
 тяга/расход, thermal gates, D40%, генераторные коэффициенты и powered-off dock
 не менялись. Новая `ship-mission/2` меняет только команды и их численные границы.
@@ -17,7 +17,7 @@ Node24.22.0, каталог `ship-fitting-0.3.4`, seed424242. Каталог, м
 Из корня checkout с Node24:
 
 ```sh
-node --no-warnings --loader ./docs/research/2026-10-26-diesel-balance/loader.mjs docs/research/2026-10-27-ermak-flight-corrections/run.mjs /tmp/ermak-reproduction dae899b01fa195e9818cc7645cf676adb84768d8
+node --no-warnings --loader ./docs/research/2026-10-26-diesel-balance/loader.mjs docs/research/2026-10-27-ermak-flight-corrections/run.mjs /tmp/ermak-reproduction d43e6a45f4044fa2a1082f401df9b5aaa3b933ea
 node docs/research/2026-10-27-ermak-flight-corrections/verify.mjs /tmp/ermak-reproduction
 ```
 
@@ -109,8 +109,8 @@ Active уже квалифицирована E3 на том же неизмен�
 
 # Слабое питание и вычислительная стоимость
 
-- `weak-full-leg`: arrival 1570.985434752s, service 1580.985434752s; observed endpoint 1581s, completed1/delivered30SCU; wall35.664s, max pump80.049ms.
-- `weak-paid-braking-leg`: arrival 1058.879968209s, service 1068.879968209s; observed endpoint 1069s, completed1/delivered30SCU; wall1.388s, max pump55.075ms.
+- `weak-full-leg`: arrival 1570.985434752s, service 1580.985434752s; observed endpoint 1581s, completed1/delivered30SCU; wall36.180s, max pump80.088ms.
+- `weak-paid-braking-leg`: arrival 1058.879968209s, service 1068.879968209s; observed endpoint 1069s, completed1/delivered30SCU; wall1.410s, max pump57.142ms.
 
 Один и тот же физический SputnikE со штатным weak D-generatorXS450kW,
 charge0 и cargo30. Full leg начинается x500km/v−450m/s и включает coast/команды;
@@ -128,7 +128,7 @@ suffix reuse; отдельный standalone stopping forecast1058.88 s — фи�
 
 Реальный Worker desktop1440/mobile390 прошёл Pause/Step черезPending, live resume,
 Cancel и cold checkpoint. Held telemetryACK используется только для детерминированного
-lifecycle окна. Отдельный **unheld busy Worker**: Pause78.2 ms/Cancel83.3 ms в адресном
+lifecycle окна. Отдельный **unheld busy Worker**: Pause52.4 ms/Cancel83.1 ms в адресном
 прогоне; эти latency values не взяты из held теста. Final normal guard исполняет
 те же проверки заново; CI и независимые QA/Review публикуются отдельно.
 
@@ -161,7 +161,11 @@ byte-equal C2. Прежние18 receipts/64:03/рейс5 остаются **miss
 новый default2. 55 более ранних measured rows/CP vectors также проверены буквально,
 а original source hashes дополнительно сверены с frozen Git blobs; исторические
 pins не переписаны как current. Физический hash delta между S/S2 отсутствует,
-S2 меняет только setup producer.
+S2 меняет только setup producer. S3 исправляет разделитель E6 и момент
+UI screenshot. Все22 fullResultSHA S2/S3 побайтно совпали, включая
+state/metrics/events/retention/signatures, см. [equivalence](S2-S3-equivalence.json).
+Первый normal guard на F4c8eb32 прошёл1970unit/230browser+1skip;
+после визуального E6 closure выполняется новый normal guard на final F2.
 
 [verify.mjs](verify.mjs):592 assertions по source/Git/files/spec/state/energy/fuel/
 arrival-reference, без обращения к ожидаемым тепловым числам вместо исполнения.

@@ -1,6 +1,6 @@
 {
   "id": "weak-paid-braking-leg",
-  "sourceCommit": "dae899b01fa195e9818cc7645cf676adb84768d8",
+  "sourceCommit": "d43e6a45f4044fa2a1082f401df9b5aaa3b933ea",
   "catalogVersion": "ship-fitting-0.3.4",
   "missionVersion": "ship-mission/2",
   "spec": {
@@ -7460,8 +7460,8 @@
   "specSha256": "e294bdd70c5265e5e606e0f144ac78d6c6c06cd01db9ba8650c566e828eee53b",
   "conditionsSha256": "cb4f6ba16ac2075cdef12b47b4353e2da6cdf1418b6dc1fb4a27884ffe38565c",
   "seed": 424242,
-  "wallMs": 1388.0101659999928,
-  "maxPumpMs": 55.07545799999207,
+  "wallMs": 1410.4702499999985,
+  "maxPumpMs": 57.142250000004424,
   "calls": 1069,
   "pending": 0,
   "finalState": {
