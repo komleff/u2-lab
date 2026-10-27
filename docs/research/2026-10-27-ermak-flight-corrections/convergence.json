@@ -1,0 +1,638 @@
+[
+  {
+    "diagnosticOnly": true,
+    "dtSeconds": 1,
+    "state": {
+      "bodyOpenFraction": 1,
+      "schemaVersion": "u2-lab/4",
+      "modelVersion": "ship-fitting-ship-model-mission-0.1",
+      "stateVersion": "ship-mission-state/1",
+      "timeSeconds": 993,
+      "phaseIndex": 0,
+      "phaseElapsedSeconds": 993,
+      "mode": "Efficient",
+      "maskingEntryTemperatureK": null,
+      "temperatureK": 406.1762870555056,
+      "chargeJ": 3682499999.9999995,
+      "fuelKg": {
+        "diesel": 5998.408704983537,
+        "hydrogen": 0
+      },
+      "buffers": {},
+      "governor": {
+        "coolingStageId": null,
+        "heatingStageId": null,
+        "recoveringBuffer": false
+      },
+      "generator": {
+        "permission": false,
+        "normalOn": true
+      },
+      "modules": {
+        "builtin:cargo": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:march": {
+          "durabilityR": 0.999972383751543,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:retro": {
+          "durabilityR": 0.9999333183130068,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:strafe": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:turn": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:power-1": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:power-2": {
+          "durabilityR": 0.9648965927535781,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:power-3": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:payload-1": {
+          "durabilityR": 0.9995188013341094,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:payload-2": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:signature-1": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:signature-2": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        }
+      },
+      "surfaceOpen": {
+        "hull:passive-radiator": true,
+        "fit:signature-1:panel": false,
+        "fit:signature-2:panel": false
+      },
+      "rng": {
+        "algorithm": "xorshift32/1",
+        "seed": 424242,
+        "state": 424242
+      },
+      "mission": {
+        "version": "ship-mission-state/1",
+        "stage": "outbound",
+        "stageElapsedSeconds": 0.9463456777302781,
+        "positionM": 22.20606805273646,
+        "velocityMS": 46.927270059881636,
+        "onboardM3": 0,
+        "minedM3": 36,
+        "deliveredM3": 36,
+        "completedTrips": 1,
+        "receivedFuelKg": {
+          "diesel": 116.95434446171384,
+          "hydrogen": 0
+        },
+        "receivedChargeJ": 1627344761.280738,
+        "terminalReason": null
+      }
+    },
+    "events": [
+      {
+        "timeSeconds": 238.18579161900172,
+        "kind": "mission-arrival",
+        "message": "outbound: x=100000 m, v=0 m/s"
+      },
+      {
+        "timeSeconds": 238.18579161900172,
+        "kind": "mission-stage",
+        "message": "approach"
+      },
+      {
+        "timeSeconds": 248.18579161900172,
+        "kind": "mission-stage",
+        "message": "mining"
+      },
+      {
+        "timeSeconds": 729.3844575285912,
+        "kind": "mission-stage",
+        "message": "inbound"
+      },
+      {
+        "timeSeconds": 982.0536543222697,
+        "kind": "mission-arrival",
+        "message": "inbound: x=0 m, v=0 m/s"
+      },
+      {
+        "timeSeconds": 982.0536543222697,
+        "kind": "mission-stage",
+        "message": "service"
+      },
+      {
+        "timeSeconds": 992.0536543222697,
+        "kind": "mission-service",
+        "message": "Рейс 1: доставлено 36 SCU"
+      },
+      {
+        "timeSeconds": 992.0536543222697,
+        "kind": "mission-stage",
+        "message": "outbound"
+      }
+    ],
+    "operations": 12021,
+    "wallMs": 1123.943041999999
+  },
+  {
+    "diagnosticOnly": true,
+    "dtSeconds": 0.5,
+    "state": {
+      "bodyOpenFraction": 1,
+      "schemaVersion": "u2-lab/4",
+      "modelVersion": "ship-fitting-ship-model-mission-0.1",
+      "stateVersion": "ship-mission-state/1",
+      "timeSeconds": 992.5,
+      "phaseIndex": 0,
+      "phaseElapsedSeconds": 992.5,
+      "mode": "Efficient",
+      "maskingEntryTemperatureK": null,
+      "temperatureK": 405.7784366942386,
+      "chargeJ": 3682499999.9999995,
+      "fuelKg": {
+        "diesel": 5999.249462781217,
+        "hydrogen": 0
+      },
+      "buffers": {},
+      "governor": {
+        "coolingStageId": null,
+        "heatingStageId": null,
+        "recoveringBuffer": false
+      },
+      "generator": {
+        "permission": false,
+        "normalOn": true
+      },
+      "modules": {
+        "builtin:cargo": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:march": {
+          "durabilityR": 0.9999728837515464,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:retro": {
+          "durabilityR": 0.9999333183130145,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:strafe": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:turn": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:power-1": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:power-2": {
+          "durabilityR": 0.9649058288645819,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:power-3": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:payload-1": {
+          "durabilityR": 0.9995188013341628,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:payload-2": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:signature-1": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:signature-2": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        }
+      },
+      "surfaceOpen": {
+        "hull:passive-radiator": true,
+        "fit:signature-1:panel": false,
+        "fit:signature-2:panel": false
+      },
+      "rng": {
+        "algorithm": "xorshift32/1",
+        "seed": 424242,
+        "state": 424242
+      },
+      "mission": {
+        "version": "ship-mission-state/1",
+        "stage": "outbound",
+        "stageElapsedSeconds": 0.4463456779689068,
+        "positionM": 4.940061076164231,
+        "velocityMS": 22.13528251029387,
+        "onboardM3": 0,
+        "minedM3": 36,
+        "deliveredM3": 36,
+        "completedTrips": 1,
+        "receivedFuelKg": {
+          "diesel": 116.9543444603878,
+          "hydrogen": 0
+        },
+        "receivedChargeJ": 1627344761.2807047,
+        "terminalReason": null
+      }
+    },
+    "events": [
+      {
+        "timeSeconds": 238.18579161881837,
+        "kind": "mission-arrival",
+        "message": "outbound: x=100000 m, v=0 m/s"
+      },
+      {
+        "timeSeconds": 238.18579161881837,
+        "kind": "mission-stage",
+        "message": "approach"
+      },
+      {
+        "timeSeconds": 248.18579161881837,
+        "kind": "mission-stage",
+        "message": "mining"
+      },
+      {
+        "timeSeconds": 729.3844575285912,
+        "kind": "mission-stage",
+        "message": "inbound"
+      },
+      {
+        "timeSeconds": 982.0536543220311,
+        "kind": "mission-arrival",
+        "message": "inbound: x=0 m, v=0 m/s"
+      },
+      {
+        "timeSeconds": 982.0536543220311,
+        "kind": "mission-stage",
+        "message": "service"
+      },
+      {
+        "timeSeconds": 992.0536543220311,
+        "kind": "mission-service",
+        "message": "Рейс 1: доставлено 36 SCU"
+      },
+      {
+        "timeSeconds": 992.0536543220311,
+        "kind": "mission-stage",
+        "message": "outbound"
+      }
+    ],
+    "operations": 40805,
+    "wallMs": 3274.210791999998
+  },
+  {
+    "diagnosticOnly": true,
+    "dtSeconds": 0.25,
+    "state": {
+      "bodyOpenFraction": 1,
+      "schemaVersion": "u2-lab/4",
+      "modelVersion": "ship-fitting-ship-model-mission-0.1",
+      "stateVersion": "ship-mission-state/1",
+      "timeSeconds": 992.25,
+      "phaseIndex": 0,
+      "phaseElapsedSeconds": 992.25,
+      "mode": "Efficient",
+      "maskingEntryTemperatureK": null,
+      "temperatureK": 405.5794969877661,
+      "chargeJ": 3682499999.9999995,
+      "fuelKg": {
+        "diesel": 5999.669841680154,
+        "hydrogen": 0
+      },
+      "buffers": {},
+      "governor": {
+        "coolingStageId": null,
+        "heatingStageId": null,
+        "recoveringBuffer": false
+      },
+      "generator": {
+        "permission": false,
+        "normalOn": true
+      },
+      "modules": {
+        "builtin:cargo": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:march": {
+          "durabilityR": 0.9999731337515406,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:retro": {
+          "durabilityR": 0.999933318313,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:strafe": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:turn": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:power-1": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:power-2": {
+          "durabilityR": 0.9649104469203557,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:power-3": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:payload-1": {
+          "durabilityR": 0.999518801334056,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:payload-2": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:signature-1": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        },
+        "fit:signature-2": {
+          "durabilityR": 1,
+          "firstNegativeCrossing": false,
+          "emergencyExposureSeconds": 0,
+          "cooldownSeconds": 0,
+          "restartAuthorized": false,
+          "durabilityStopped": false,
+          "thermalStopped": false
+        }
+      },
+      "surfaceOpen": {
+        "hull:passive-radiator": true,
+        "fit:signature-1:panel": false,
+        "fit:signature-2:panel": false
+      },
+      "rng": {
+        "algorithm": "xorshift32/1",
+        "seed": 424242,
+        "state": 424242
+      },
+      "mission": {
+        "version": "ship-mission-state/1",
+        "stage": "outbound",
+        "stageElapsedSeconds": 0.19634567802984293,
+        "positionM": 0.9559508756817067,
+        "velocityMS": 9.737401581524285,
+        "onboardM3": 0,
+        "minedM3": 36,
+        "deliveredM3": 36,
+        "completedTrips": 1,
+        "receivedFuelKg": {
+          "diesel": 116.9543444603487,
+          "hydrogen": 0
+        },
+        "receivedChargeJ": 1627344761.2806878,
+        "terminalReason": null
+      }
+    },
+    "events": [
+      {
+        "timeSeconds": 238.18579161877213,
+        "kind": "mission-arrival",
+        "message": "outbound: x=100000 m, v=0 m/s"
+      },
+      {
+        "timeSeconds": 238.18579161877213,
+        "kind": "mission-stage",
+        "message": "approach"
+      },
+      {
+        "timeSeconds": 248.18579161877213,
+        "kind": "mission-stage",
+        "message": "mining"
+      },
+      {
+        "timeSeconds": 729.3844575285912,
+        "kind": "mission-stage",
+        "message": "inbound"
+      },
+      {
+        "timeSeconds": 982.0536543219702,
+        "kind": "mission-arrival",
+        "message": "inbound: x=0 m, v=0 m/s"
+      },
+      {
+        "timeSeconds": 982.0536543219702,
+        "kind": "mission-stage",
+        "message": "service"
+      },
+      {
+        "timeSeconds": 992.0536543219702,
+        "kind": "mission-service",
+        "message": "Рейс 1: доставлено 36 SCU"
+      },
+      {
+        "timeSeconds": 992.0536543219702,
+        "kind": "mission-stage",
+        "message": "outbound"
+      }
+    ],
+    "operations": 150052,
+    "wallMs": 10609.003915999987
+  }
+]

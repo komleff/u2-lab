@@ -8,6 +8,12 @@ beads: ulab-16h
 
 # Передача PM F2
 
+Эта запись сохраняет измерения **mission/1** от7082/C2. Текущая поставка
+[PR53](https://github.com/komleff/u2-lab/pull/53) наследует этот физический пакет
+и отдельно исправляет flight-control/счётчик. Fresh mission/2 измеряется
+[отдельно](../research/2026-10-27-ermak-flight-corrections/README.md); прежние
+18 receipts и64:03/рейс5 не объявлены измерениями нового default.
+
 Новая версия каталога Лабы — **ship-fitting-0.3.4**, общий пакет —
 **q1-accepted.5 / u2-f2-ship-profiles/0.5**. Данные U2:
 `f08558a9bcdf2de5e3226ea46cfed90f310f7f8b` ([PR #905](https://github.com/komleff/u2/pull/905));

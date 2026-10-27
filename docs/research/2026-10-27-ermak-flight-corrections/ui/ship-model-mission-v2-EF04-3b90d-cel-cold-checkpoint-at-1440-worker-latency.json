@@ -1,0 +1,154 @@
+{
+  "hold": false,
+  "worker": {},
+  "ack": null,
+  "chunks": [
+    {
+      "time": 0,
+      "at": 1794.4000000059605,
+      "runId": "f30d69ef20cb69f203f2d21cea123d8c"
+    }
+  ],
+  "commands": [
+    {
+      "type": "start",
+      "at": 257.5,
+      "commandId": 1
+    },
+    {
+      "type": "telemetry-ack",
+      "at": 349.59999999403954
+    },
+    {
+      "type": "pause",
+      "at": 457.59999999403954,
+      "commandId": 2
+    },
+    {
+      "type": "snapshot",
+      "at": 483.7000000178814,
+      "commandId": 3
+    },
+    {
+      "type": "step",
+      "at": 690.0999999940395,
+      "commandId": 4
+    },
+    {
+      "type": "telemetry-ack",
+      "at": 773
+    },
+    {
+      "type": "telemetry-ack",
+      "at": 805.9000000059605
+    },
+    {
+      "type": "snapshot",
+      "at": 923.8000000119209,
+      "commandId": 5
+    },
+    {
+      "type": "resume",
+      "at": 1038.5999999940395,
+      "commandId": 6
+    },
+    {
+      "type": "telemetry-ack",
+      "at": 1100.7000000178814
+    },
+    {
+      "type": "start",
+      "at": 1361.2000000178814,
+      "commandId": 7
+    },
+    {
+      "type": "telemetry-ack",
+      "at": 1454.7000000178814
+    },
+    {
+      "type": "telemetry-ack",
+      "at": 1487.7000000178814
+    },
+    {
+      "type": "start",
+      "at": 1708.0999999940395,
+      "commandId": 8
+    },
+    {
+      "type": "telemetry-ack",
+      "at": 1795.7000000178814
+    },
+    {
+      "type": "pause",
+      "at": 1872.300000011921,
+      "commandId": 9
+    },
+    {
+      "type": "snapshot",
+      "at": 1901.300000011921,
+      "commandId": 10
+    },
+    {
+      "type": "cancel",
+      "at": 2004.5999999940395,
+      "commandId": 11
+    }
+  ],
+  "acks": [
+    {
+      "control": "start",
+      "at": 306,
+      "commandId": 1
+    },
+    {
+      "control": "pause",
+      "at": 483.7000000178814,
+      "commandId": 2
+    },
+    {
+      "control": "snapshot",
+      "at": 508.59999999403954,
+      "commandId": 3
+    },
+    {
+      "control": "step",
+      "at": 715.9000000059605,
+      "commandId": 4
+    },
+    {
+      "control": "snapshot",
+      "at": 949.3000000119209,
+      "commandId": 5
+    },
+    {
+      "control": "resume",
+      "at": 1069.2000000178814,
+      "commandId": 6
+    },
+    {
+      "control": "start",
+      "at": 1387.9000000059605,
+      "commandId": 7
+    },
+    {
+      "control": "start",
+      "at": 1730.9000000059605,
+      "commandId": 8
+    },
+    {
+      "control": "pause",
+      "at": 1901.300000011921,
+      "commandId": 9
+    },
+    {
+      "control": "snapshot",
+      "at": 1928,
+      "commandId": 10
+    },
+    {
+      "control": "cancel",
+      "at": 2033,
+      "commandId": 11
+    }
+  ]
+}

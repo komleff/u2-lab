@@ -74,6 +74,21 @@ RuntimeAuthorization=false/BLOCKED_RESTART_SCHEMA остаются, U2 configs �
 не обновляются. Research manifest.sourceKernelFiles pinned к historical f0732d3;
 новая runtime qualification отдельно.
 
+## Версия численного рейсового управления — 2026-10-27
+
+PR53 (`ulab-9do`, `ulab-b3y`) расширяет существующий `/4` по
+[плану0.2](../plans/2026-10-27-ermak-flight-counter.md) с independent PLAN_READY.
+Fresh current0.3.4 получает `ship-mission/2`; explicit/imported `ship-mission/1`,
+включая C2 catalog0.3.4, исполняется буквально. Физический каталог, model/state/
+checkpoint formats и пределы U2 сохраняются. Pure cooperative planning не
+пишется в физическое состояние. Его CPU deadline и конец наблюдения не являются
+физическим ограничением. Счётчик завершений берётся из того же measured state.
+
+Новые [измерения mission/2](../research/2026-10-27-ermak-flight-corrections/README.md)
+квалифицируются отдельно; 18 receipts от7082/C2 остаются historical mission/1.
+PR53 — Developer candidate до независимых QA/Review и current checks,
+не production U2/Pages или новая балансировка принятых ТТХ.
+
 ## Formula boundary и lab variants
 
 Hot-environment owner §10 уже допускает отдельный H_env для вклада, не вошедшего в T_env,eff.

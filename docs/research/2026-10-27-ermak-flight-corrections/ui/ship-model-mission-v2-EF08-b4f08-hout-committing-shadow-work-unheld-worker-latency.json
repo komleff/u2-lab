@@ -1,0 +1,360 @@
+{
+  "latencies": [
+    {
+      "control": "pause",
+      "latencyMs": 78.19999998807907
+    },
+    {
+      "control": "cancel",
+      "latencyMs": 83.2999999821186
+    }
+  ],
+  "chunks": [
+    {
+      "time": 0,
+      "at": 349
+    },
+    {
+      "time": 1,
+      "at": 437.90000000596046
+    },
+    {
+      "time": 3,
+      "at": 523.7999999821186
+    },
+    {
+      "time": 3,
+      "at": 803.5
+    },
+    {
+      "time": 5,
+      "at": 887.5999999940395
+    },
+    {
+      "time": 6,
+      "at": 971.9000000059605
+    },
+    {
+      "time": 8,
+      "at": 1055.7999999821186
+    },
+    {
+      "time": 9,
+      "at": 1139.7999999821186
+    },
+    {
+      "time": 11,
+      "at": 1225.199999988079
+    }
+  ],
+  "paused": {
+    "bodyOpenFraction": 1,
+    "schemaVersion": "u2-lab/4",
+    "modelVersion": "ship-fitting-ship-model-mission-0.1",
+    "stateVersion": "ship-mission-state/1",
+    "timeSeconds": 3,
+    "phaseIndex": 0,
+    "phaseElapsedSeconds": 3,
+    "mode": "Efficient",
+    "maskingEntryTemperatureK": null,
+    "temperatureK": 300.0618425109767,
+    "chargeJ": 0,
+    "fuelKg": {
+      "diesel": 5999.900332225912,
+      "hydrogen": 0
+    },
+    "buffers": {},
+    "governor": {
+      "coolingStageId": null,
+      "heatingStageId": null,
+      "recoveringBuffer": false,
+      "coldActive": false
+    },
+    "generator": {
+      "permission": false,
+      "normalOn": true
+    },
+    "modules": {
+      "builtin:cargo": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:march": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:retro": {
+        "durabilityR": 0.9999999502070662,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:strafe": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:turn": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:power-1": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:power-2": {
+        "durabilityR": 0.9998753125000001,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:payload-1": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:signature-1": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:payload-2": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:power-3": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      }
+    },
+    "surfaceOpen": {
+      "hull:passive-radiator": true,
+      "fit:signature-1:panel": true
+    },
+    "rng": {
+      "algorithm": "xorshift32/1",
+      "seed": 424242,
+      "state": 424242
+    },
+    "mission": {
+      "version": "ship-mission-state/1",
+      "stage": "inbound",
+      "stageElapsedSeconds": 3,
+      "positionM": 498648.131038151,
+      "velocityMS": -451.245934967828,
+      "onboardM3": 30,
+      "minedM3": 30,
+      "deliveredM3": 0,
+      "completedTrips": 0,
+      "receivedFuelKg": {
+        "diesel": 0,
+        "hydrogen": 0
+      },
+      "receivedChargeJ": 0,
+      "terminalReason": null
+    }
+  },
+  "cancelled": {
+    "bodyOpenFraction": 1,
+    "schemaVersion": "u2-lab/4",
+    "modelVersion": "ship-fitting-ship-model-mission-0.1",
+    "stateVersion": "ship-mission-state/1",
+    "timeSeconds": 11,
+    "phaseIndex": 0,
+    "phaseElapsedSeconds": 11,
+    "mode": "Efficient",
+    "maskingEntryTemperatureK": null,
+    "temperatureK": 300.2265803622059,
+    "chargeJ": 0,
+    "fuelKg": {
+      "diesel": 5999.634551495012,
+      "hydrogen": 0
+    },
+    "buffers": {},
+    "governor": {
+      "coolingStageId": null,
+      "heatingStageId": null,
+      "recoveringBuffer": false,
+      "coldActive": false
+    },
+    "generator": {
+      "permission": false,
+      "normalOn": true
+    },
+    "modules": {
+      "builtin:cargo": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:march": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:retro": {
+        "durabilityR": 0.9999998174259095,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:strafe": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:turn": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:power-1": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:power-2": {
+        "durabilityR": 0.9995428125000002,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:payload-1": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:signature-1": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:payload-2": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      },
+      "fit:power-3": {
+        "durabilityR": 1,
+        "firstNegativeCrossing": false,
+        "emergencyExposureSeconds": 0,
+        "cooldownSeconds": 0,
+        "restartAuthorized": false,
+        "durabilityStopped": false,
+        "thermalStopped": false
+      }
+    },
+    "surfaceOpen": {
+      "hull:passive-radiator": true,
+      "fit:signature-1:panel": true
+    },
+    "rng": {
+      "algorithm": "xorshift32/1",
+      "seed": 424242,
+      "state": 424242
+    },
+    "mission": {
+      "version": "ship-mission-state/1",
+      "stage": "inbound",
+      "stageElapsedSeconds": 11,
+      "positionM": 495024.8771105379,
+      "velocityMS": -454.5672641709463,
+      "onboardM3": 30,
+      "minedM3": 30,
+      "deliveredM3": 0,
+      "completedTrips": 0,
+      "receivedFuelKg": {
+        "diesel": 0,
+        "hydrogen": 0
+      },
+      "receivedChargeJ": 0,
+      "terminalReason": null
+    }
+  }
+}
