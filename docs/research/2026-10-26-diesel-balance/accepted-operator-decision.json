@@ -1,0 +1,15 @@
+{
+  "acceptedSourceRepository": "komleff/u2",
+  "acceptedSourceCommit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+  "acceptedSourcePath": "docs/data/f2-ship-profiles/proposed-adjustments.md",
+  "acceptedSourceSha256": "8b913836815e7200cbbbfb34acc95e69b9ad728837af28f96279a3007bfb9958",
+  "operatorDate": "2026-10-26",
+  "operatorDecision": "Дополнение оператора: весь пакет proposed-adjustments.md в U2 PR #905 принят. Прежнее указание «не применять несогласованные предложения» отменено для перечисленных в этом документе правок: массы по установленному составу, оболочка Пони 31,5 т, его собственные Industrial/G0 ТТХ, стартовые комплекты, настройки автоматики, калибровка износа генераторов и условия услуг/ремонта. Включи их в план. Сначала обнови нормативные данные, статусы решений и обе копии профилей U2/Lab, затем реализуй и проверь новую ревизию. Новый коэффициент износа генераторов автоматически на двигатели не переносить. Это принятие WHAT, а не разрешение пропустить проверки, выполнить merge или production-выкат. Блокер серверной схемы перезапуска сохраняется.",
+  "labImplementationScope": {
+    "repository": "komleff/u2-lab",
+    "planPath": "docs/plans/2026-10-26-thermal-fitting-implementation.md",
+    "planVersion": "0.5",
+    "planCommit": "3d0086b1a5024a83e3835d87f81e5f7670da8442",
+    "scope": "Physical heat/energy/TTX only. No economic payload, wallet, quote, purchase, fleet/insurance UI, repair/service workflows or expanded durability clocks. Existing mining missions are loads; replenishment is explicit benchmark station input. Economic decisions remain accepted U2 WHAT handed to PM F2."
+  }
+}
