@@ -21,7 +21,8 @@ const zero=():Controls=>({active:0,ti:0,capture:0,release:0,h2:0,furnace:0,elect
 export type StepDiagnostic={instanceId?:string;reason:string;timeSeconds:number;remainingJ?:number;limiting?:boolean};
 type PhaseAction=RunSpecV3['scenario']['phases'][number]['action'];
 
-function flows(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,c:Controls,env:EnvironmentV3){
+type MissionProcessCoupling={returnFraction:number};
+function flows(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,c:Controls,env:EnvironmentV3,process?:MissionProcessCoupling){
   const ship=spec.resolvedShip,T=state.temperatureK;
   // Профиль школы уже вычислен при компиляции: подменяются только КПД, тяга и собственные нужды.
   // Без профиля — исходный объект numerics и прежняя hullPowerW.
@@ -69,19 +70,19 @@ function flows(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,c:Con
   const el=electrical(baseLoad*fraction+fixedAux+tiBus,1);
   const stages:ActualElectricalStage[]=[{id:'hull',kind:'consumer_input',actualW:hullPowerW*fraction},{id:'battery-in',kind:'battery_charge',actualW:el.batteryInputW},{id:'battery-out',kind:'battery_discharge',actualW:el.batteryOutputW}];
   let hostLossBudgetW=hullPowerW*fraction+el.converterLossW,usefulWorkW=0,exportW=0,chemicalW=0,intentionalRfW=0;
-  const fuelRate={diesel:0,hydrogen:0},actualW:Record<string,number>={},working:Record<string,number>={},outwardIr:OutwardIrPath[]=[];let engineIrExportW=0;
+  const fuelRate={diesel:0,hydrogen:0},actualW:Record<string,number>={},working:Record<string,number>={},forceN:Record<string,number>={},outwardIr:OutwardIrPath[]=[];let engineIrExportW=0;
   for(const i of generators){const n=numerics(i),bus=generatorMaximumW>0?el.generatorW*n.powerW*availability[i.id]/generatorMaximumW:0,chem=bus/n.pathEfficiency/n.efficiency,waste=chem-bus/n.pathEfficiency;
     chemicalW+=chem;fuelRate[i.item.species!]+=chem/ship.resources[i.item.species!].energyJKg;exportW+=waste*n.exportFraction;hostLossBudgetW+=bus*(1/n.pathEfficiency-1)+waste*(1-n.exportFraction);actualW[i.id]=bus;working[i.id]=bus/n.powerW;stages.push({id:i.id,kind:'generator_output',actualW:bus});
     const ir=generatorIr(i.item.species!,waste*n.exportFraction);outwardIr.push({id:i.id,kind:'generator',absoluteIrW:ir,contrastW:ir,profile:'aft-directed'});}
   for(const i of consumers){const n=numerics(i);
     if(i.item.family==='engine'&&i.item.propulsionType!=='electric'){
       const sp=i.item.propulsionType as 'diesel'|'hydrogen',mass=state.fuelKg[sp]>0?n.forceN*n.alpha*duty[i.id]:0,chem=mass*ship.resources[sp].energyJKg,useful=chem*n.efficiency*n.pathEfficiency,waste=chem-useful;
-      chemicalW+=chem;fuelRate[sp]+=mass;exportW+=useful+waste*(1-n.hostFraction);hostLossBudgetW+=waste*n.hostFraction;actualW[i.id]=chem;working[i.id]=mass>0?duty[i.id]:0;
+      forceN[i.id]=mass>0?n.forceN*duty[i.id]:0;chemicalW+=chem;fuelRate[sp]+=mass;exportW+=useful+waste*(1-n.hostFraction);hostLossBudgetW+=waste*n.hostFraction;actualW[i.id]=chem;working[i.id]=mass>0?duty[i.id]:0;
       const ir=engineIr({kind:sp,enabled:mass>0,actualSourceW:waste*(1-n.hostFraction)});outwardIr.push({id:i.id,kind:'engine',absoluteIrW:ir.absoluteIrW,contrastW:ir.absoluteIrW,profile:'aft-directed'});continue;
     }
     const power=(n.powerW??0)*duty[i.id]*fraction;actualW[i.id]=power;working[i.id]=power>0?duty[i.id]*fraction:0;stages.push({id:i.id,kind:'consumer_input',actualW:power});
     if(i.item.family==='mining'){const useful=power*n.efficiency;usefulWorkW+=useful;exportW+=useful;hostLossBudgetW+=power-useful;}
-    else if(i.item.family==='engine'){const useful=power*n.efficiency*n.pathEfficiency,waste=power-useful;
+    else if(i.item.family==='engine'){forceN[i.id]=n.powerW>0?n.forceN*power/n.powerW:0;const useful=power*n.efficiency*n.pathEfficiency,waste=power-useful;
       const ir=engineIr({kind:'electric',enabled:power>0,actualSourceW:electricMotorLosses({actualBusW:power,pathEfficiency:n.pathEfficiency,motorEfficiency:n.efficiency}).motorWasteW});
       exportW+=useful+waste*(1-n.hostFraction)+ir.hostHeatDebitW;hostLossBudgetW+=waste*n.hostFraction-ir.hostHeatDebitW;engineIrExportW+=ir.hostHeatDebitW;
       outwardIr.push({id:i.id,kind:'engine',absoluteIrW:ir.absoluteIrW,contrastW:ir.absoluteIrW,profile:'aft-directed'});}
@@ -119,15 +120,16 @@ function flows(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,c:Con
     buffers=buffers.map(b=>{if(!touching.includes(b))return b;const input={...b.input,releaseW:b.input.releaseW*ratio};return {...b,input,flow:bufferFlow(input)};});
   }
   const bufferRateW=buffers.reduce((n,b)=>n+b.flow.rateStoredJPerS,0);
-  const netHeatW=em.hostHeatW+directHeatW-body.totalW-directSurfaceW-tiCoolingW-h2CoolingW-bufferRateW;
+  const processReturnW=process?usefulWorkW*process.returnFraction:0;exportW-=processReturnW;
+  const netHeatW=em.hostHeatW+processReturnW+directHeatW-body.totalW-directSurfaceW-tiCoolingW-h2CoolingW-bufferRateW;
   const inputW=chemicalW+el.independentAcceptedW+solarHeatW+directHeatW;
   const outputW=exportW+em.escapedEmW+body.totalW+surfaceRows.totalW+h2CoolingW;
   const ownAntennaTransmission=strongestTransmission(ship.instances.filter(i=>i.item.family==='shielding'&&availability[i.id]>0&&fraction>0).map(i=>i.item.numerics.antennaTransmission)),ownSensorWorkingW=ship.instances.filter(i=>i.item.family==='sensor').reduce((sum,i)=>sum+(actualW[i.id]??0),0);
-  return {el,em,body,surfaceRows,open,actualPumps,availability,working,actualW,fuelRate,buffers,netHeatW,inputW,outputW,usefulWorkW,tiCoolingW,h2CoolingW,bufferRateW,requestedLoad,fraction,outwardIr,engineIrExportW,ownAntennaTransmission,ownSensorWorkingW};
+  return {forceN,processReturnW,el,em,body,surfaceRows,open,actualPumps,availability,working,actualW,fuelRate,buffers,netHeatW,inputW,outputW,usefulWorkW,tiCoolingW,h2CoolingW,bufferRateW,requestedLoad,fraction,outwardIr,engineIrExportW,ownAntennaTransmission,ownSensorWorkingW};
 }
 
-function chooseControls(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,env:EnvironmentV3,action:PhaseAction){
-  const corridor=temperatureCorridor(spec.resolvedShip.instances),base=flows(spec,state,requests,zero(),env),T=state.temperatureK;
+function chooseControls(spec:RunSpecV3,state:StateV3,requests:Record<string,number>,env:EnvironmentV3,action:PhaseAction,durationSeconds=1,process?:MissionProcessCoupling){
+  const corridor=temperatureCorridor(spec.resolvedShip.instances),base=flows(spec,state,requests,zero(),env,process),T=state.temperatureK;
   if(!corridor.compatible)return {controls:zero(),coolingStageId:null,heatingStageId:null,recoveringBuffer:false,incompatible:true,heatingUnavailable:false};
   const delta=CONTROLLER_CANDIDATES.narrowOffsets?Math.min(10,(corridor.warmK-corridor.coldK)/12):10;
   const debt=Object.values(state.buffers).some(b=>b.storedJ>0),captureK=state.mode==='Masking'?state.maskingEntryTemperatureK!:corridor.warmK-delta;
@@ -145,12 +147,12 @@ function chooseControls(spec:RunSpecV3,state:StateV3,requests:Record<string,numb
   // Available maxima включают реальные source/aux/EM losses; один physical evaluator
   // используется и здесь, и при исполнении frozen решения.
   const candidates:ThermalStage[]=[],prefix=zero();let previous=base.netHeatW;
-  for(const s of stages){apply(prefix,s,1);const next=flows(spec,state,requests,prefix,env).netHeatW;const maximumW=Math.max(0,(next-previous)*(direction==='heating'||s.heatSource?1:-1));candidates.push({...s,maximumW});previous=next;}
-  const allocation=allocateCascade({temperatureK:T,heatCapacityJK:spec.resolvedShip.heatCapacityJK,netHeatW:base.netHeatW,durationSeconds:1,direction,stages:candidates});
+  for(const s of stages){apply(prefix,s,1);const next=flows(spec,state,requests,prefix,env,process).netHeatW;const maximumW=Math.max(0,(next-previous)*(direction==='heating'||s.heatSource?1:-1));candidates.push({...s,maximumW});previous=next;}
+  const allocation=allocateCascade({temperatureK:T,heatCapacityJK:spec.resolvedShip.heatCapacityJK,netHeatW:base.netHeatW,durationSeconds,direction,stages:candidates});
   let c=zero();
   for(const s of stages){const requested=allocation.requests[s.id],maximum=candidates.find(x=>x.id===s.id)!.maximumW;if(requested<=0||maximum<=0)continue;if(requested>=maximum){apply(c,s,1);continue;}
-    const before=flows(spec,state,requests,c,env).netHeatW,sign=direction==='heating'||s.heatSource?1:-1;let lo=0,hi=1;
-    for(let i=0;i<32;i++){const middle=(lo+hi)/2,trial=flows(spec,state,requests,apply({...c},s,middle),env),effect=(trial.netHeatW-before)*sign;if(effect<requested)lo=middle;else hi=middle;}
+    const before=flows(spec,state,requests,c,env,process).netHeatW,sign=direction==='heating'||s.heatSource?1:-1;let lo=0,hi=1;
+    for(let i=0;i<32;i++){const middle=(lo+hi)/2,trial=flows(spec,state,requests,apply({...c},s,middle),env,process),effect=(trial.netHeatW-before)*sign;if(effect<requested)lo=middle;else hi=middle;}
     c=apply(c,s,hi);
   }
   // Долг не прогревает конструкцию к уставке. Насос включается на максимум
@@ -163,8 +165,8 @@ function chooseControls(spec:RunSpecV3,state:StateV3,requests:Record<string,numb
     // Ступень запускает насос у своей уставки, затем держит его открытым
     // до разгрузки. Иначе первый микроскопический headroom у равновесия
     // закрепил бы температуру до достижения рабочей ступени.
-    if((T>=releaseK||panelsOpen)&&flows(spec,state,requests,pumped,env).netHeatW<Math.min(0,flows(spec,state,requests,c,env).netHeatW))c=pumped;
-    else if(T<releaseK&&base.netHeatW>spec.resolvedShip.heatCapacityJK*(releaseK-T)&&flows(spec,state,requests,pumped,env).netHeatW<0)c=pumped;
+    if((T>=releaseK||panelsOpen)&&flows(spec,state,requests,pumped,env,process).netHeatW<Math.min(0,flows(spec,state,requests,c,env,process).netHeatW))c=pumped;
+    else if(T<releaseK&&base.netHeatW>spec.resolvedShip.heatCapacityJK*(releaseK-T)&&flows(spec,state,requests,pumped,env,process).netHeatW<0)c=pumped;
     c={...c,release:1,coolingRelease:true};
   }
   // Диагноз — только когда средств прогрева действительно нет: исправное средство
@@ -172,7 +174,13 @@ function chooseControls(spec:RunSpecV3,state:StateV3,requests:Record<string,numb
   return {controls:c,coolingStageId:coolingRecovery?'buffer-release':direction==='cooling'?allocation.regulatingStageId:null,heatingStageId:direction==='heating'?allocation.regulatingStageId:null,recoveringBuffer:recovery,incompatible:false,heatingUnavailable:direction==='heating'&&candidates.every(s=>s.maximumW<=0)};
 }
 
-export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,number>,action:PhaseAction='work'){
+export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,number>,action:PhaseAction='work'){return stepInterval(spec,input,requests,action,1);}
+export function stepV3Interval(spec:RunSpecV3,input:StateV3,requests:Record<string,number>,action:PhaseAction,dtSeconds:number,process?:MissionProcessCoupling){
+  if(!Number.isFinite(dtSeconds)||dtSeconds<=0||dtSeconds>1)throw Error('Mission interval must be 0 < dt <= 1');
+  if(process&&(!Number.isFinite(process.returnFraction)||process.returnFraction<0||process.returnFraction>1))throw Error('Invalid process return fraction');
+  return stepInterval(spec,input,requests,action,dtSeconds,process,true);
+}
+function stepInterval(spec:RunSpecV3,input:StateV3,requests:Record<string,number>,action:PhaseAction,durationSeconds:number,process?:MissionProcessCoupling,mission=false){
   const state=structuredClone(input),env=spec.environment,diagnostics:StepDiagnostic[]=[],telemetry:TickTelemetry={};
   const frames:{durationSeconds:number;body:ReturnType<typeof exchangeAt>;surfaces:ReturnType<typeof evaluateSurfaces>;em:ReturnType<typeof coupledEm>;outwardIr:OutwardIrPath[];ownAntennaTransmission:number;ownSensorWorkingW:number}[]=[];
   const updateGates=()=>{for(const i of spec.resolvedShip.instances){const m=state.modules[i.id],a=thermalAvailability(i.item,m,state.temperatureK,spec.resolvedShip.hull.class,state.mode);if(a.thermalStopped&&!m.thermalStopped&&m.durabilityR<0&&i.item.durability.behavior==='repairable-active')m.durabilityStopped=true;m.thermalStopped=a.thermalStopped;}};
@@ -180,7 +188,7 @@ export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,numbe
   updateGates();
   restartReady();
   for(const i of spec.resolvedShip.instances)if((requests[i.id]??0)>0&&authorizedDuty(i.item,state.mode,requests[i.id]).duty===0)diagnostics.push({instanceId:i.id,reason:'masking-forbidden',timeSeconds:state.timeSeconds,limiting:true});
-  const chosen=chooseControls(spec,state,requests,env,action);state.governor={coolingStageId:chosen.coolingStageId,heatingStageId:chosen.heatingStageId,recoveringBuffer:chosen.recoveringBuffer};
+  const chosen=chooseControls(spec,state,requests,env,action,durationSeconds,process);state.governor={coolingStageId:chosen.coolingStageId,heatingStageId:chosen.heatingStageId,recoveringBuffer:chosen.recoveringBuffer};
   if(chosen.recoveringBuffer&&!input.governor.recoveringBuffer)for(const[id,b]of Object.entries(state.buffers))if(b.storedJ>0)diagnostics.push({instanceId:id,reason:'buffer-recovery-start',timeSeconds:state.timeSeconds,remainingJ:b.storedJ});
   if(chosen.incompatible)diagnostics.push({reason:'incompatible-temperature-corridor',timeSeconds:state.timeSeconds});
   if(chosen.heatingUnavailable)diagnostics.push({reason:'heating-unavailable',timeSeconds:state.timeSeconds});
@@ -206,10 +214,10 @@ export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,numbe
       if(source)limit(source.id,'power-limited');
     }
   };
-  let left=1,segments=0;
+  let left=durationSeconds,segments=0;
   while(left>1e-12){
     if(++segments>128)throw new Error('v3 event clipping did not converge');
-    const r=flows(spec,state,requests,chosen.controls,env);let dt=left;
+    const r=flows(spec,state,requests,chosen.controls,env,process);let dt=left;
     const boundaries:{seconds:number;instanceId?:string;reason:string;temperatureK?:number}[]=[];
     let immediate=false;
     for(const i of spec.resolvedShip.instances){const m=state.modules[i.id],a=thermalAvailability(i.item,m,state.temperatureK,spec.resolvedShip.hull.class,state.mode),b=durabilityBoundary(i.item.durability,m,r.working[i.id]??0,a.wearMultiplier,left);
@@ -234,7 +242,8 @@ export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,numbe
     for(const b of r.buffers){const next=advanceBuffer(b.input,b.flow,dt,state.temperatureK);state.buffers[b.i.id]={storedJ:next.storedJ,minimumCaptureK:next.minimumCaptureK};const reason=b.flow.reason??(b.flow.rateStoredJPerS>0&&r.netHeatW>0&&chosen.controls.capture===1?'power-limit':null);if(reason)diagnostics.push({instanceId:b.i.id,reason,timeSeconds:state.timeSeconds,remainingJ:next.storedJ,limiting:true});}
     for(const i of spec.resolvedShip.instances){const m=state.modules[i.id],a=thermalAvailability(i.item,m,beforeT,spec.resolvedShip.hull.class,state.mode),reason=advanceDurability(i.item.durability,m,state.rng,r.working[i.id]??0,a.wearMultiplier,dt);if(reason)limit(i.id,reason,state.timeSeconds+dt);}
     state.surfaceOpen=r.open;
-    for(const [key,value]of Object.entries({deliveredW:r.el.deliveredW,requestedW:r.requestedLoad,converterLossW:r.el.converterLossW,generatorW:r.el.generatorW,independentAcceptedW:r.el.independentAcceptedW,rejectedIndependentW:r.el.rejectedIndependentW,usefulWorkW:r.usefulWorkW,hostHeatW:r.em.hostHeatW,rawEmW:r.em.rawEmW,escapedEmW:r.em.escapedEmW,capturedEmW:r.em.capturedEmW,intentionalRfW:r.em.intentionalRfW,netHeatW:r.netHeatW,bufferCaptureW:Math.max(0,r.bufferRateW),bufferReleaseW:Math.max(0,-r.bufferRateW),tiCoolingW:r.tiCoolingW,h2CoolingW:r.h2CoolingW,radiationW:r.body.radiationW+r.surfaceRows.radiationW,fieldW:r.body.fieldW+r.surfaceRows.fieldW,totalResidualJ:r.inputW-r.outputW-r.el.chargeRateJPerS-r.netHeatW-r.bufferRateW}))add(key,value,dt);
+    for(const [key,value]of Object.entries({deliveredW:r.el.deliveredW,requestedW:r.requestedLoad,converterLossW:r.el.converterLossW,generatorW:r.el.generatorW,independentAcceptedW:r.el.independentAcceptedW,rejectedIndependentW:r.el.rejectedIndependentW,usefulWorkW:r.usefulWorkW,hostHeatW:r.em.hostHeatW+r.processReturnW,rawEmW:r.em.rawEmW,escapedEmW:r.em.escapedEmW,capturedEmW:r.em.capturedEmW,intentionalRfW:r.em.intentionalRfW,netHeatW:r.netHeatW,bufferCaptureW:Math.max(0,r.bufferRateW),bufferReleaseW:Math.max(0,-r.bufferRateW),tiCoolingW:r.tiCoolingW,h2CoolingW:r.h2CoolingW,radiationW:r.body.radiationW+r.surfaceRows.radiationW,fieldW:r.body.fieldW+r.surfaceRows.fieldW,totalResidualJ:r.inputW-r.outputW-r.el.chargeRateJPerS-r.netHeatW-r.bufferRateW}))add(key,value,dt);
+    if(mission){add('processWorkJ',r.usefulWorkW,dt);add('processReturnJ',r.processReturnW,dt);for(const i of spec.resolvedShip.instances.filter(i=>i.item.family==='engine')){const force=r.forceN[i.id]??0;add('impulseNs:'+i.id,force,dt);if(i.role)add('impulseNs:'+i.role,force,dt);}}
     for(const [id,power]of Object.entries(r.actualW))add('actualW:'+id,power,dt);
     add('engineIrExportW',r.engineIrExportW,dt);
     for(const p of r.actualPumps){add('tiHotK:'+p.i.id,p.result.hotK,dt);add('tiBusW:'+p.i.id,p.result.busW,dt);add('tiNetBenefitW:'+p.i.id,p.result.netBenefitW,dt);}
@@ -243,9 +252,11 @@ export function stepV3(spec:RunSpecV3,input:StateV3,requests:Record<string,numbe
       if(b.reason==='terminal-durability'){const m=state.modules[b.instanceId!];m.durabilityR=-spec.resolvedShip.instances.find(i=>i.id===b.instanceId)!.item.durability.emergencyDepthR;if(!m.durabilityStopped){m.durabilityStopped=true;limit(b.instanceId!,b.reason,state.timeSeconds+dt);}continue;}
       if(b.reason==='cooldown-ready'||b.reason==='failure-period')continue;
       if(b.temperatureK!==undefined)state.temperatureK=b.temperatureK;diagnostics.push({instanceId:b.instanceId,reason:b.reason,timeSeconds:state.timeSeconds+dt,...(b.instanceId&&b.reason.startsWith('critical-')?{limiting:true}:{})});}
-    left-=dt;state.timeSeconds=input.timeSeconds+(1-left);updateGates();restartReady();
+    left-=dt;state.timeSeconds=input.timeSeconds+(durationSeconds-left);updateGates();restartReady();
   }
-  state.timeSeconds=input.timeSeconds+1;state.phaseElapsedSeconds=input.phaseElapsedSeconds+1;
+  state.timeSeconds=input.timeSeconds+durationSeconds;state.phaseElapsedSeconds=input.phaseElapsedSeconds+durationSeconds;
+  if(mission)for(const i of spec.resolvedShip.instances.filter(i=>i.item.family==='engine')){telemetry['forceN:'+i.id]=(telemetry['impulseNs:'+i.id]??0)/durationSeconds;}
+  if(mission)for(const role of ['march','retro','strafe','turn'])telemetry['forceN:'+role]=(telemetry['impulseNs:'+role]??0)/durationSeconds;
   telemetry.temperatureK=state.temperatureK;telemetry.chargeJ=state.chargeJ;
   for(const[id,b]of Object.entries(state.buffers)){telemetry['bufferJ:'+id]=b.storedJ;if(chosen.recoveringBuffer&&b.storedJ>0&&telemetry.bufferReleaseW===0&&telemetry.bufferCaptureW===0)diagnostics.push({instanceId:id,reason:chosen.controls.coolingRelease?'no-cooling-headroom':chosen.heatingStageId!==null&&state.temperatureK>b.minimumCaptureK!?'hotter-than-capture':'recovery-not-releasing',timeSeconds:state.timeSeconds,remainingJ:b.storedJ});}
   return {state,telemetry,diagnostics,frames};

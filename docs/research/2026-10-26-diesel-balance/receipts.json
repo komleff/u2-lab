@@ -1,0 +1,2258 @@
+{
+  "schemaVersion": "diesel-thermal-balance-research/1",
+  "productDecision": "40 percent of diesel propulsion non-useful energy enters ship thermal network; fitting/environment determine endurance; no universal one-hour timer",
+  "acceptedOn": "2026-10-26 Asia/Novosibirsk",
+  "kernelRef": "bb0c2c8b02e9890160e4c919de0043a911acff5c",
+  "mainRef": "3fdd4b612de14f8efa8c109b74171c067ed1bfb1",
+  "kernelPathsEquivalentToMain": true,
+  "cases": [
+    {
+      "id": "sputnik-d",
+      "host": 0.1,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "ae2bbe65256c26ae6226c5380a0cabeab0c2b87b8035c815c49965ba884cb321",
+      "stateHash": "279d6b160c55b321850e793d512d164e26bbc96be8597bf69486f402933fc74b",
+      "C": 26707409.68102594,
+      "dryMassKg": 56837.38761920413,
+      "Krad": 889.35,
+      "firstHot": null,
+      "firstPower": null,
+      "critical": null,
+      "hotSeconds": 0,
+      "minTempFactor": 1,
+      "peak": 465.3256642628006,
+      "trips": [
+        {
+          "t": 950.8536255248171,
+          "trip": 1,
+          "temperatureK": 363.86515461266123,
+          "mined": 30,
+          "delivered": 30,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 1912.6977579593658,
+          "trip": 2,
+          "temperatureK": 410.37469387772666,
+          "mined": 59.99999999999844,
+          "delivered": 60,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 2867.6648517251015,
+          "trip": 3,
+          "temperatureK": 438.494394255119,
+          "mined": 89.99999999999677,
+          "delivered": 90,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 3822.5718700289726,
+          "trip": 4,
+          "temperatureK": 454.0192270675805,
+          "mined": 119.9999999999951,
+          "delivered": 120,
+          "chargeJ": 3682499999.9999995
+        }
+      ],
+      "maxResidualJ": 1.955777406692505e-08,
+      "hour": {
+        "peak": 457.63151048457166,
+        "firstHot": null,
+        "firstPower": null,
+        "hotSeconds": 0,
+        "minTempFactor": 1,
+        "finalTemperatureK": 457.63151048457166,
+        "minedM3": 119.9999999999951,
+        "deliveredM3": 90,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "sputnik-d",
+      "host": 0.2,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "8ca52ab6bd52879e6312112bf9591e8f07c4e110b95fb47eb53462d79d97f081",
+      "stateHash": "93812e27b5884308dcf670c1238344c01109872522413a41115198c4672a0492",
+      "C": 26707409.68102594,
+      "dryMassKg": 56837.38761920413,
+      "Krad": 889.35,
+      "firstHot": null,
+      "firstPower": null,
+      "critical": null,
+      "hotSeconds": 0,
+      "minTempFactor": 1,
+      "peak": 479.00024581809436,
+      "trips": [
+        {
+          "t": 950.8536255248171,
+          "trip": 1,
+          "temperatureK": 373.672166199051,
+          "mined": 30,
+          "delivered": 30,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 1912.6977579593658,
+          "trip": 2,
+          "temperatureK": 426.9477562287189,
+          "mined": 59.99999999999844,
+          "delivered": 60,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 2867.6648517251015,
+          "trip": 3,
+          "temperatureK": 456.97441638193123,
+          "mined": 89.99999999999677,
+          "delivered": 90,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 3822.5718700289726,
+          "trip": 4,
+          "temperatureK": 472.426370605328,
+          "mined": 119.9999999999951,
+          "delivered": 120,
+          "chargeJ": 3682499999.9999995
+        }
+      ],
+      "maxResidualJ": 1.8626068604143953e-08,
+      "hour": {
+        "peak": 473.06341502679726,
+        "firstHot": null,
+        "firstPower": null,
+        "hotSeconds": 0,
+        "minTempFactor": 1,
+        "finalTemperatureK": 473.06341502679726,
+        "minedM3": 119.9999999999951,
+        "deliveredM3": 90,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "sputnik-d",
+      "host": 0.3,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "ce91a2045253cdff5dde0bb1790d7391c3e823b625371a29e0202c314cb5f73e",
+      "stateHash": "e3e8e40064979ac49e054552bb7963f8139226021199acbee84d8cf02add9b2a",
+      "C": 26707409.68102594,
+      "dryMassKg": 56837.38761920413,
+      "Krad": 889.35,
+      "firstHot": null,
+      "firstPower": null,
+      "critical": null,
+      "hotSeconds": 0,
+      "minTempFactor": 1,
+      "peak": 494.33925930744266,
+      "trips": [
+        {
+          "t": 950.8536255248171,
+          "trip": 1,
+          "temperatureK": 383.4318493266273,
+          "mined": 30,
+          "delivered": 30,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 1912.6977579593658,
+          "trip": 2,
+          "temperatureK": 443.096231531967,
+          "mined": 59.99999999999844,
+          "delivered": 60,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 2867.6648517251015,
+          "trip": 3,
+          "temperatureK": 474.44754811560233,
+          "mined": 89.99999999999677,
+          "delivered": 90,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 3822.5718700289726,
+          "trip": 4,
+          "temperatureK": 489.4773143659412,
+          "mined": 119.9999999999951,
+          "delivered": 120,
+          "chargeJ": 3682499999.9999995
+        }
+      ],
+      "maxResidualJ": 1.6763806343078613e-08,
+      "hour": {
+        "peak": 487.1697611191964,
+        "firstHot": null,
+        "firstPower": null,
+        "hotSeconds": 0,
+        "minTempFactor": 1,
+        "finalTemperatureK": 487.1697611191964,
+        "minedM3": 119.9999999999951,
+        "deliveredM3": 90,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "sputnik-d",
+      "host": 0.4,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "6e0361823f91855989cd6c228bb19209532aa605eb79e7cfb092860018cbac6d",
+      "stateHash": "002d17183d029c5eee0f56a15f3a47237acbd2afebb1285d7a83f8597d095502",
+      "C": 26707409.68102594,
+      "dryMassKg": 56837.38761920413,
+      "Krad": 889.35,
+      "firstHot": {
+        "t": 3600,
+        "trip": 4,
+        "stage": "inbound",
+        "temperatureK": 500.09442152806656
+      },
+      "firstPower": {
+        "t": 4069.4264256000506,
+        "trip": 5,
+        "stage": "mining"
+      },
+      "critical": null,
+      "hotSeconds": 720,
+      "minTempFactor": 0.7268569180114355,
+      "peak": 513.6571540994282,
+      "trips": [
+        {
+          "t": 950.8536255248171,
+          "trip": 1,
+          "temperatureK": 393.14324197753075,
+          "mined": 30,
+          "delivered": 30,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 1912.6977579593658,
+          "trip": 2,
+          "temperatureK": 458.8222030751414,
+          "mined": 59.99999999999844,
+          "delivered": 60,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 2867.6648517251015,
+          "trip": 3,
+          "temperatureK": 490.9774749101837,
+          "mined": 89.99999999999677,
+          "delivered": 90,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 3832.366862918856,
+          "trip": 4,
+          "temperatureK": 507.34661345278045,
+          "mined": 119.9999999999951,
+          "delivered": 120,
+          "chargeJ": 3682499999.9999995
+        }
+      ],
+      "maxResidualJ": 1.72555965072263e-08,
+      "hour": {
+        "peak": 500.09442152806656,
+        "firstHot": {
+          "t": 3600,
+          "trip": 4,
+          "stage": "inbound",
+          "temperatureK": 500.09442152806656
+        },
+        "firstPower": null,
+        "hotSeconds": 1,
+        "minTempFactor": 0.9981115694386687,
+        "finalTemperatureK": 500.09442152806656,
+        "minedM3": 119.9999999999951,
+        "deliveredM3": 90,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "sputnik-d",
+      "host": 0.55,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "3dee20d8472a67c00897909f0f061f186b0b68b824575f4a24a0d6b8f9d4e3ce",
+      "stateHash": "1ab5078f7593249dbf0ab1ac74be3fee15c0ab36cfa360505b0cdd10b09b0260",
+      "C": 26707409.68102594,
+      "dryMassKg": 56837.38761920413,
+      "Krad": 889.35,
+      "firstHot": {
+        "t": 2642,
+        "trip": 3,
+        "stage": "inbound",
+        "temperatureK": 500.2752217578955
+      },
+      "firstPower": {
+        "t": 3126.204493737726,
+        "trip": 4,
+        "stage": "mining"
+      },
+      "critical": null,
+      "hotSeconds": 1788,
+      "minTempFactor": 0.39919769325901144,
+      "peak": 530.0401153370494,
+      "trips": [
+        {
+          "t": 950.8536255248171,
+          "trip": 1,
+          "temperatureK": 407.6177401769627,
+          "mined": 30,
+          "delivered": 30,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 1912.6977579593658,
+          "trip": 2,
+          "temperatureK": 481.6282315792004,
+          "mined": 59.99999999999844,
+          "delivered": 60,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 2875.190787719225,
+          "trip": 3,
+          "temperatureK": 514.7905122099253,
+          "mined": 89.99999999999677,
+          "delivered": 90,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 4010.074919959025,
+          "trip": 4,
+          "temperatureK": 522.1390362873865,
+          "mined": 120.00000000001235,
+          "delivered": 120.0000000000155,
+          "chargeJ": 3682499999.9999995
+        }
+      ],
+      "maxResidualJ": 1.4901161193847656e-08,
+      "hour": {
+        "peak": 523.3689552423285,
+        "firstHot": {
+          "t": 2642,
+          "trip": 3,
+          "stage": "inbound",
+          "temperatureK": 500.2752217578955
+        },
+        "firstPower": {
+          "t": 3126.204493737726,
+          "trip": 4,
+          "stage": "mining"
+        },
+        "hotSeconds": 888,
+        "minTempFactor": 0.5326208951534295,
+        "finalTemperatureK": 503.18979176334443,
+        "minedM3": 112.13108994449918,
+        "deliveredM3": 90,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "pony-d",
+      "host": 0.1,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "4e4b364fb1bce05609d34d6c7fdf8eaafce89df994f599131a4bc5e67d7ca36f",
+      "stateHash": "37590ac43e8fdeaabd54c4c4d9f1c4659298d730dd2f3dd97a5c0d8d0b27d330",
+      "C": 25395917.775600582,
+      "dryMassKg": 54033.86760766081,
+      "Krad": 889.35,
+      "firstHot": null,
+      "firstPower": null,
+      "critical": null,
+      "hotSeconds": 0,
+      "minTempFactor": 1,
+      "peak": 489.57853119441705,
+      "trips": [
+        {
+          "t": 920.1034103631973,
+          "trip": 1,
+          "temperatureK": 375.51561341687795,
+          "mined": 36,
+          "delivered": 36,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 1840.492349743843,
+          "trip": 2,
+          "temperatureK": 427.13705749648994,
+          "mined": 71.99999999999937,
+          "delivered": 72,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 2779.953826111355,
+          "trip": 3,
+          "temperatureK": 457.57918256281425,
+          "mined": 108.00000000000097,
+          "delivered": 108,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 3697.025521874428,
+          "trip": 4,
+          "temperatureK": 472.1083440984443,
+          "mined": 144.00000000000003,
+          "delivered": 144,
+          "chargeJ": 10000000000
+        }
+      ],
+      "maxResidualJ": 1.5832483768463135e-08,
+      "hour": {
+        "peak": 481.39323005603325,
+        "firstHot": null,
+        "firstPower": null,
+        "hotSeconds": 0,
+        "minTempFactor": 1,
+        "finalTemperatureK": 473.8920033072158,
+        "minedM3": 144.00000000000003,
+        "deliveredM3": 108,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "pony-d",
+      "host": 0.2,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "42c08cec43fc46f54c7a65ed0deec7e2b8bfe66f66a78e4f91ed654f040fabf0",
+      "stateHash": "ffc5bd2194e2c564606aa228c310c7dfa8549c22d77ab5adac3a2a987070c728",
+      "C": 25395917.775600582,
+      "dryMassKg": 54033.86760766081,
+      "Krad": 889.35,
+      "firstHot": {
+        "t": 4323,
+        "trip": 5,
+        "stage": "mining",
+        "temperatureK": 500.01272936822625
+      },
+      "firstPower": {
+        "t": 4323,
+        "trip": 5,
+        "stage": "mining"
+      },
+      "critical": null,
+      "hotSeconds": 127,
+      "minTempFactor": 0.9141026344133809,
+      "peak": 504.29486827933096,
+      "trips": [
+        {
+          "t": 920.1034103631973,
+          "trip": 1,
+          "temperatureK": 385.9754836851713,
+          "mined": 36,
+          "delivered": 36,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 1840.492349743843,
+          "trip": 2,
+          "temperatureK": 443.08671146136265,
+          "mined": 71.99999999999937,
+          "delivered": 72,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 2779.953826111355,
+          "trip": 3,
+          "temperatureK": 475.787618805943,
+          "mined": 108.00000000000097,
+          "delivered": 108,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 3697.025521874428,
+          "trip": 4,
+          "temperatureK": 489.2367209898173,
+          "mined": 144.00000000000003,
+          "delivered": 144,
+          "chargeJ": 10000000000
+        }
+      ],
+      "maxResidualJ": 1.862565118804227e-08,
+      "hour": {
+        "peak": 497.6463480028547,
+        "firstHot": null,
+        "firstPower": null,
+        "hotSeconds": 0,
+        "minTempFactor": 1,
+        "finalTemperatureK": 488.45301179794575,
+        "minedM3": 144.00000000000003,
+        "deliveredM3": 108,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "pony-d",
+      "host": 0.3,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "3396f347ca0894b7702e998b40e4d892e2db8a5cedf0c33f117352ab5f45258e",
+      "stateHash": "fb77cfa52ab38eac1e06fec5e9ec370ea733ce8e7aef83b49331f218ee9f02dd",
+      "C": 25395917.775600582,
+      "dryMassKg": 54033.86760766081,
+      "Krad": 889.35,
+      "firstHot": {
+        "t": 3312,
+        "trip": 4,
+        "stage": "mining",
+        "temperatureK": 500.01944833054375
+      },
+      "firstPower": {
+        "t": 3312,
+        "trip": 4,
+        "stage": "mining"
+      },
+      "critical": null,
+      "hotSeconds": 841,
+      "minTempFactor": 0.7626533908681733,
+      "peak": 511.86733045659133,
+      "trips": [
+        {
+          "t": 920.1034103631973,
+          "trip": 1,
+          "temperatureK": 396.3804355674122,
+          "mined": 36,
+          "delivered": 36,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 1840.492349743843,
+          "trip": 2,
+          "temperatureK": 458.5770157162796,
+          "mined": 71.99999999999937,
+          "delivered": 72,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 2779.953826111355,
+          "trip": 3,
+          "temperatureK": 492.90116070652965,
+          "mined": 108.00000000000097,
+          "delivered": 108,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 3718.997098840017,
+          "trip": 4,
+          "temperatureK": 503.99070485410186,
+          "mined": 144.00000000004374,
+          "delivered": 144.0000000000426,
+          "chargeJ": 10000000000
+        }
+      ],
+      "maxResidualJ": 1.862645149230957e-08,
+      "hour": {
+        "peak": 510.37635600671666,
+        "firstHot": {
+          "t": 3312,
+          "trip": 4,
+          "stage": "mining",
+          "temperatureK": 500.01944833054375
+        },
+        "firstPower": {
+          "t": 3312,
+          "trip": 4,
+          "stage": "mining"
+        },
+        "hotSeconds": 289,
+        "minTempFactor": 0.7924728798656667,
+        "finalTemperatureK": 501.24947760887477,
+        "minedM3": 144.00000000004374,
+        "deliveredM3": 108,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "pony-d",
+      "host": 0.4,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "4be32e716e3c9dffaa99de2f541d265b0f1611021d41593abd72c322df9f48f2",
+      "stateHash": "ffae369ad64a5a778061746ef2c76bc4196ab65a26854fd06d8946d54cfbdb28",
+      "C": 25395917.775600582,
+      "dryMassKg": 54033.86760766081,
+      "Krad": 889.35,
+      "firstHot": {
+        "t": 2451,
+        "trip": 3,
+        "stage": "mining",
+        "temperatureK": 500.04460291352564
+      },
+      "firstPower": {
+        "t": 2451,
+        "trip": 3,
+        "stage": "mining"
+      },
+      "critical": null,
+      "hotSeconds": 1883,
+      "minTempFactor": 0.597732572236655,
+      "peak": 520.1133713881673,
+      "trips": [
+        {
+          "t": 920.1034103631973,
+          "trip": 1,
+          "temperatureK": 406.7293526469455,
+          "mined": 36,
+          "delivered": 36,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 1840.492349743843,
+          "trip": 2,
+          "temperatureK": 473.6136824852669,
+          "mined": 71.99999999999937,
+          "delivered": 72,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 2795.0884199142456,
+          "trip": 3,
+          "temperatureK": 509.97241263693365,
+          "mined": 108.00000000001856,
+          "delivered": 108.0000000000179,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 3864.137081861496,
+          "trip": 4,
+          "temperatureK": 514.3493151996712,
+          "mined": 144.00000000002353,
+          "delivered": 144.00000000002274,
+          "chargeJ": 10000000000
+        }
+      ],
+      "maxResidualJ": 1.4901161193847656e-08,
+      "hour": {
+        "peak": 515.9397435507292,
+        "firstHot": {
+          "t": 2451,
+          "trip": 3,
+          "stage": "mining",
+          "temperatureK": 500.04460291352564
+        },
+        "firstPower": {
+          "t": 2451,
+          "trip": 3,
+          "stage": "mining"
+        },
+        "hotSeconds": 1016,
+        "minTempFactor": 0.6812051289854162,
+        "finalTemperatureK": 511.55731905790293,
+        "minedM3": 144.00000000002353,
+        "deliveredM3": 108.0000000000179,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "pony-d",
+      "host": 0.55,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "4bd06ec3fea97399c400e5766c4b34e508331d9dd506eeb66a250d12e0dfd8b2",
+      "stateHash": "11e11441e7fb39527917d45948a053219257d58906d4fc6414b421bb9638996b",
+      "C": 25395917.775600582,
+      "dryMassKg": 54033.86760766081,
+      "Krad": 889.35,
+      "firstHot": {
+        "t": 1846,
+        "trip": 3,
+        "stage": "outbound",
+        "temperatureK": 500.2568736793929
+      },
+      "firstPower": {
+        "t": 2209,
+        "trip": 3,
+        "stage": "mining"
+      },
+      "critical": null,
+      "hotSeconds": 2345,
+      "minTempFactor": 0.36025786365026535,
+      "peak": 531.9871068174867,
+      "trips": [
+        {
+          "t": 920.1034103631973,
+          "trip": 1,
+          "temperatureK": 422.1452998686958,
+          "mined": 36,
+          "delivered": 36,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 1840.492349743843,
+          "trip": 2,
+          "temperatureK": 495.3354221739231,
+          "mined": 71.99999999999937,
+          "delivered": 72,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 2850.680264003976,
+          "trip": 3,
+          "temperatureK": 523.579242155189,
+          "mined": 108.00000000002537,
+          "delivered": 108.00000000002558,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 4095.6690887743025,
+          "trip": 4,
+          "temperatureK": 524.1520188981494,
+          "mined": 144.00000000003558,
+          "delivered": 144.00000000003598,
+          "chargeJ": 10000000000
+        }
+      ],
+      "maxResidualJ": 1.4901161193847656e-08,
+      "hour": {
+        "peak": 531.4382913363488,
+        "firstHot": {
+          "t": 1846,
+          "trip": 3,
+          "stage": "outbound",
+          "temperatureK": 500.2568736793929
+        },
+        "firstPower": {
+          "t": 2209,
+          "trip": 3,
+          "stage": "mining"
+        },
+        "hotSeconds": 1445,
+        "minTempFactor": 0.37123417327302377,
+        "finalTemperatureK": 509.03511961188474,
+        "minedM3": 131.7620040070659,
+        "deliveredM3": 108.00000000002558,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "ermak-d",
+      "host": 0.1,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "cdec65859ac55badfde318ac95aab26124eaea2458c83056cc25275e32d41dda",
+      "stateHash": "c143bb2b8425bdec7f1fded4fcb9ce35b1ff72f65c3a3be0352cf8910842a9e6",
+      "C": 24567255.275600582,
+      "dryMassKg": 52283.86760766081,
+      "Krad": 1286.25,
+      "firstHot": null,
+      "firstPower": null,
+      "critical": null,
+      "hotSeconds": 0,
+      "minTempFactor": 1,
+      "peak": 437.03813145622655,
+      "trips": [
+        {
+          "t": 1002.6816787719727,
+          "trip": 1,
+          "temperatureK": 366.23772167417206,
+          "mined": 36,
+          "delivered": 36,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 1997.182796895504,
+          "trip": 2,
+          "temperatureK": 403.48704594143743,
+          "mined": 72.00000000000142,
+          "delivered": 72,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 2998.566233217716,
+          "trip": 3,
+          "temperatureK": 421.3408000871911,
+          "mined": 108.00000000000284,
+          "delivered": 108,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 3989.9763546791028,
+          "trip": 4,
+          "temperatureK": 428.2534966857791,
+          "mined": 144.00000000000426,
+          "delivered": 144,
+          "chargeJ": 3682499999.9999995
+        }
+      ],
+      "maxResidualJ": 1.5832483768463135e-08,
+      "hour": {
+        "peak": 430.4105954402529,
+        "firstHot": null,
+        "firstPower": null,
+        "hotSeconds": 0,
+        "minTempFactor": 1,
+        "finalTemperatureK": 430.4105954402529,
+        "minedM3": 134.4516541512973,
+        "deliveredM3": 108,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "ermak-d",
+      "host": 0.2,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "c960b264ec73ee58e8239a009efc9cce070db5566943cb7ab9e6b1781ec2dc5a",
+      "stateHash": "138483e25ad1da5ea671b7f7d56ebc998784d43665719114d7c4c40acc2dcd95",
+      "C": 24567255.275600582,
+      "dryMassKg": 52283.86760766081,
+      "Krad": 1286.25,
+      "firstHot": null,
+      "firstPower": null,
+      "critical": null,
+      "hotSeconds": 0,
+      "minTempFactor": 1,
+      "peak": 449.5526476835296,
+      "trips": [
+        {
+          "t": 1002.6816787719727,
+          "trip": 1,
+          "temperatureK": 376.3905464722486,
+          "mined": 36,
+          "delivered": 36,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 1997.182796895504,
+          "trip": 2,
+          "temperatureK": 417.24327331788163,
+          "mined": 72.00000000000142,
+          "delivered": 72,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 2998.566233217716,
+          "trip": 3,
+          "temperatureK": 436.05602321038555,
+          "mined": 108.00000000000284,
+          "delivered": 108,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 3989.9763546791028,
+          "trip": 4,
+          "temperatureK": 441.7852244979305,
+          "mined": 144.00000000000426,
+          "delivered": 144,
+          "chargeJ": 3682499999.9999995
+        }
+      ],
+      "maxResidualJ": 1.862645149230957e-08,
+      "hour": {
+        "peak": 441.19203850439715,
+        "firstHot": null,
+        "firstPower": null,
+        "hotSeconds": 0,
+        "minTempFactor": 1,
+        "finalTemperatureK": 441.19203850439715,
+        "minedM3": 134.4516541512973,
+        "deliveredM3": 108,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "ermak-d",
+      "host": 0.3,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "721a12da73103182b477ea26bbbfb98408c7fa8a84fc05518ba1eb701d1ddf3d",
+      "stateHash": "9415b3ded9fdfdb2bd6604f1c7bdb6d415daecf018c80191b787cce7105c79ec",
+      "C": 24567255.275600582,
+      "dryMassKg": 52283.86760766081,
+      "Krad": 1286.25,
+      "firstHot": null,
+      "firstPower": null,
+      "critical": null,
+      "hotSeconds": 0,
+      "minTempFactor": 1,
+      "peak": 461.164905655213,
+      "trips": [
+        {
+          "t": 1002.6816787719727,
+          "trip": 1,
+          "temperatureK": 386.4789710501881,
+          "mined": 36,
+          "delivered": 36,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 1997.182796895504,
+          "trip": 2,
+          "temperatureK": 430.53691946163246,
+          "mined": 72.00000000000142,
+          "delivered": 72,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 2998.566233217716,
+          "trip": 3,
+          "temperatureK": 449.99920263729143,
+          "mined": 108.00000000000284,
+          "delivered": 108,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 3989.9763546791028,
+          "trip": 4,
+          "temperatureK": 454.4280653893417,
+          "mined": 144.00000000000426,
+          "delivered": 144,
+          "chargeJ": 3682499999.9999995
+        }
+      ],
+      "maxResidualJ": 1.862645149230957e-08,
+      "hour": {
+        "peak": 454.3647557492788,
+        "firstHot": null,
+        "firstPower": null,
+        "hotSeconds": 0,
+        "minTempFactor": 1,
+        "finalTemperatureK": 451.0246388817487,
+        "minedM3": 134.4516541512973,
+        "deliveredM3": 108,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "ermak-d",
+      "host": 0.4,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "f442cbcccec801223f96620a6da6bce792e90ed94f3a65550aebd7811d237c99",
+      "stateHash": "a6e3367fdccde8e0f895459fa5225c5d4ed634e1f66c2d3f51844f614a818384",
+      "C": 24567255.275600582,
+      "dryMassKg": 52283.86760766081,
+      "Krad": 1286.25,
+      "firstHot": null,
+      "firstPower": null,
+      "critical": null,
+      "hotSeconds": 0,
+      "minTempFactor": 1,
+      "peak": 472.56216398285915,
+      "trips": [
+        {
+          "t": 1002.6816787719727,
+          "trip": 1,
+          "temperatureK": 396.502040746049,
+          "mined": 36,
+          "delivered": 36,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 1997.182796895504,
+          "trip": 2,
+          "temperatureK": 443.3840256688867,
+          "mined": 72.00000000000142,
+          "delivered": 72,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 2998.566233217716,
+          "trip": 3,
+          "temperatureK": 463.24390205991523,
+          "mined": 108.00000000000284,
+          "delivered": 108,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 3989.9763546791028,
+          "trip": 4,
+          "temperatureK": 466.3038924698473,
+          "mined": 144.00000000000426,
+          "delivered": 144,
+          "chargeJ": 3682499999.9999995
+        }
+      ],
+      "maxResidualJ": 1.4901161193847656e-08,
+      "hour": {
+        "peak": 469.2021702888364,
+        "firstHot": null,
+        "firstPower": null,
+        "hotSeconds": 0,
+        "minTempFactor": 1,
+        "finalTemperatureK": 460.02051199118824,
+        "minedM3": 134.4516541512973,
+        "deliveredM3": 108,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "ermak-d",
+      "host": 0.55,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "bed7cd2f1ed1fdc8686c51e81de51d90e7b119b9ad4803f5887955229170d801",
+      "stateHash": "bca423619cef44165ae784dbdd70d5d15befd5e63c6b049903107c853d7be7aa",
+      "C": 24567255.275600582,
+      "dryMassKg": 52283.86760766081,
+      "Krad": 1286.25,
+      "firstHot": null,
+      "firstPower": null,
+      "critical": null,
+      "hotSeconds": 0,
+      "minTempFactor": 1,
+      "peak": 491.68349216849685,
+      "trips": [
+        {
+          "t": 1002.6816787719727,
+          "trip": 1,
+          "temperatureK": 411.4121311878171,
+          "mined": 36,
+          "delivered": 36,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 1997.182796895504,
+          "trip": 2,
+          "temperatureK": 461.85534462198945,
+          "mined": 72.00000000000142,
+          "delivered": 72,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 2998.566233217716,
+          "trip": 3,
+          "temperatureK": 481.9485866765358,
+          "mined": 108.00000000000284,
+          "delivered": 108,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 3989.9763546791028,
+          "trip": 4,
+          "temperatureK": 482.9010459075944,
+          "mined": 144.00000000000426,
+          "delivered": 144,
+          "chargeJ": 3682499999.9999995
+        }
+      ],
+      "maxResidualJ": 1.4901161193847656e-08,
+      "hour": {
+        "peak": 490.28438613230156,
+        "firstHot": null,
+        "firstPower": null,
+        "hotSeconds": 0,
+        "minTempFactor": 1,
+        "finalTemperatureK": 472.1578922535529,
+        "minedM3": 134.4516541512973,
+        "deliveredM3": 108,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "severin-mir-d",
+      "host": 0.1,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "9fa6a56834891280a6352badca0d18f3e8f3b41f14f42123d1ea021237390ce6",
+      "stateHash": "840c255534d8086a231fac0e87f13978e0a72d71d6a232f7003bd961d91c2e58",
+      "C": 121877671.46288306,
+      "dryMassKg": 259366.64141038948,
+      "Krad": 3773.4,
+      "firstHot": {
+        "t": 2365,
+        "trip": 3,
+        "stage": "mining",
+        "temperatureK": 500.1012023808136
+      },
+      "firstPower": {
+        "t": 2365,
+        "trip": 3,
+        "stage": "mining"
+      },
+      "critical": null,
+      "hotSeconds": 1962,
+      "minTempFactor": 0.6189647720228254,
+      "peak": 519.0517613988587,
+      "trips": [
+        {
+          "t": 986.6176651716232,
+          "trip": 1,
+          "temperatureK": 421.38511458736394,
+          "mined": 216,
+          "delivered": 216,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 1962.8979375291233,
+          "trip": 2,
+          "temperatureK": 496.0255433466449,
+          "mined": 431.9999999999902,
+          "delivered": 432,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 3165.264653337986,
+          "trip": 3,
+          "temperatureK": 511.75714801323494,
+          "mined": 648.0000000013507,
+          "delivered": 648.0000000013647,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 4469.588669890903,
+          "trip": 4,
+          "temperatureK": 511.976845326819,
+          "mined": 864.0000000019037,
+          "delivered": 864.0000000019186,
+          "chargeJ": 58919999999.99999
+        }
+      ],
+      "maxResidualJ": 6.705522537231445e-08,
+      "hour": {
+        "peak": 518.4319137607008,
+        "firstHot": {
+          "t": 2365,
+          "trip": 3,
+          "stage": "mining",
+          "temperatureK": 500.1012023808136
+        },
+        "firstPower": {
+          "t": 2365,
+          "trip": 3,
+          "stage": "mining"
+        },
+        "hotSeconds": 1062,
+        "minTempFactor": 0.6313617247859838,
+        "finalTemperatureK": 510.50207456370686,
+        "minedM3": 724.5021535179374,
+        "deliveredM3": 648.0000000013647,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "severin-mir-d",
+      "host": 0.2,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "c07f8e3bcfa107b45b930a38dcda14f1c002a846f867ffe34e3171646b47cb10",
+      "stateHash": "b72ab8115882bfc11a4accc32b63a3d445b73f9f9d72ee2d4bf9a2f5d138a3b7",
+      "C": 121877671.46288306,
+      "dryMassKg": 259366.64141038948,
+      "Krad": 3773.4,
+      "firstHot": {
+        "t": 1698,
+        "trip": 2,
+        "stage": "inbound",
+        "temperatureK": 500.04559460312663
+      },
+      "firstPower": {
+        "t": 2301,
+        "trip": 3,
+        "stage": "mining"
+      },
+      "critical": null,
+      "hotSeconds": 2631,
+      "minTempFactor": 0.615767157918699,
+      "peak": 519.211642104065,
+      "trips": [
+        {
+          "t": 986.6176651716232,
+          "trip": 1,
+          "temperatureK": 431.71452224250163,
+          "mined": 216,
+          "delivered": 216,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 1985.167244553566,
+          "trip": 2,
+          "temperatureK": 509.9190030649262,
+          "mined": 431.9999999999902,
+          "delivered": 432,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 3341.212798833847,
+          "trip": 3,
+          "temperatureK": 517.8762405029265,
+          "mined": 648.0000000014151,
+          "delivered": 648.0000000014262,
+          "chargeJ": 58919999999.99999
+        }
+      ],
+      "maxResidualJ": 5.4016709327697754e-08,
+      "hour": {
+        "peak": 519.1432747724888,
+        "firstHot": {
+          "t": 1698,
+          "trip": 2,
+          "stage": "inbound",
+          "temperatureK": 500.04559460312663
+        },
+        "firstPower": {
+          "t": 2301,
+          "trip": 3,
+          "stage": "mining"
+        },
+        "hotSeconds": 1731,
+        "minTempFactor": 0.6171345045502243,
+        "finalTemperatureK": 500.7233083706726,
+        "minedM3": 648.0000000014151,
+        "deliveredM3": 648.0000000014262,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "severin-mir-d",
+      "host": 0.3,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "74b56c6a887daf444efda978d766ad4240fb663161052e3fa5c8d569bd288960",
+      "stateHash": "4f628af7f3b26a46fc9f917eaa5c3073fbfe93f2848220a13890fcf07d09abf0",
+      "C": 121877671.46288306,
+      "dryMassKg": 259366.64141038948,
+      "Krad": 3773.4,
+      "firstHot": {
+        "t": 1624,
+        "trip": 2,
+        "stage": "mining",
+        "temperatureK": 500.0730727229128
+      },
+      "firstPower": {
+        "t": 1624,
+        "trip": 2,
+        "stage": "mining"
+      },
+      "critical": null,
+      "hotSeconds": 2877,
+      "minTempFactor": 0.48559757656174496,
+      "peak": 525.7201211719128,
+      "trips": [
+        {
+          "t": 986.6176651716232,
+          "trip": 1,
+          "temperatureK": 441.98034730492714,
+          "mined": 216,
+          "delivered": 216,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 2018.0063317418098,
+          "trip": 2,
+          "temperatureK": 519.6177840530333,
+          "mined": 432.0000000001448,
+          "delivered": 432.00000000015314,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 3482.634558539142,
+          "trip": 3,
+          "temperatureK": 523.63565275505,
+          "mined": 648.0000000016206,
+          "delivered": 648.0000000016298,
+          "chargeJ": 58919999999.99999
+        }
+      ],
+      "maxResidualJ": 5.960464477539063e-08,
+      "hour": {
+        "peak": 525.7201211719128,
+        "firstHot": {
+          "t": 1624,
+          "trip": 2,
+          "stage": "mining",
+          "temperatureK": 500.0730727229128
+        },
+        "firstPower": {
+          "t": 1624,
+          "trip": 2,
+          "stage": "mining"
+        },
+        "hotSeconds": 1977,
+        "minTempFactor": 0.48559757656174496,
+        "finalTemperatureK": 516.2201178879495,
+        "minedM3": 648.0000000016206,
+        "deliveredM3": 648.0000000016298,
+        "completedTrips": 3
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "severin-mir-d",
+      "host": 0.4,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "4436834d0c13dbcee882a918cf8d25bc3c3f15d2f503c0404a028108c8851007",
+      "stateHash": "a38011706f69b7a7f4c887948793e11ef66a692aaf36fb1fc3fa19ccb1472551",
+      "C": 121877671.46288306,
+      "dryMassKg": 259366.64141038948,
+      "Krad": 3773.4,
+      "firstHot": {
+        "t": 1555,
+        "trip": 2,
+        "stage": "mining",
+        "temperatureK": 500.04186877110885
+      },
+      "firstPower": {
+        "t": 1555,
+        "trip": 2,
+        "stage": "mining"
+      },
+      "critical": null,
+      "hotSeconds": 2946,
+      "minTempFactor": 0.3743281004756773,
+      "peak": 531.2835949762161,
+      "trips": [
+        {
+          "t": 986.6176651716232,
+          "trip": 1,
+          "temperatureK": 452.1815210171639,
+          "mined": 216,
+          "delivered": 216,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 2072.19261097908,
+          "trip": 2,
+          "temperatureK": 526.7484750979627,
+          "mined": 432.0000000005292,
+          "delivered": 432.0000000005354,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 3644.8603275577366,
+          "trip": 3,
+          "temperatureK": 528.4046471877184,
+          "mined": 648.0000000019655,
+          "delivered": 648.0000000019718,
+          "chargeJ": 58919999999.99999
+        }
+      ],
+      "maxResidualJ": 4.470348358154297e-08,
+      "hour": {
+        "peak": 529.9174806368678,
+        "firstHot": {
+          "t": 1555,
+          "trip": 2,
+          "stage": "mining",
+          "temperatureK": 500.04186877110885
+        },
+        "firstPower": {
+          "t": 1555,
+          "trip": 2,
+          "stage": "mining"
+        },
+        "hotSeconds": 2046,
+        "minTempFactor": 0.40165038726264357,
+        "finalTemperatureK": 529.3417553850066,
+        "minedM3": 648.0000000019655,
+        "deliveredM3": 432.0000000005354,
+        "completedTrips": 2
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "severin-mir-d",
+      "host": 0.55,
+      "bg": 250,
+      "area": 1,
+      "duration": 4500,
+      "specHash": "11773fac6d1111cae54d9a2132b22bdd857f3092315492666971e368234dcd34",
+      "stateHash": "31ac67a0a79ec6f488988df67325fd70a5167a632393da81729e4baba30bee56",
+      "C": 121877671.46288306,
+      "dryMassKg": 259366.64141038948,
+      "Krad": 3773.4,
+      "firstHot": {
+        "t": 1448,
+        "trip": 2,
+        "stage": "mining",
+        "temperatureK": 500.0719776004345
+      },
+      "firstPower": {
+        "t": 1448,
+        "trip": 2,
+        "stage": "mining"
+      },
+      "critical": null,
+      "hotSeconds": 3053,
+      "minTempFactor": 0.2517755409418419,
+      "peak": 537.4112229529079,
+      "trips": [
+        {
+          "t": 986.6176651716232,
+          "trip": 1,
+          "temperatureK": 467.35982969279445,
+          "mined": 216,
+          "delivered": 216,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 2216.8979997241986,
+          "trip": 2,
+          "temperatureK": 533.7617335838473,
+          "mined": 432.0000000008231,
+          "delivered": 432.0000000008261,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 3943.6602487993086,
+          "trip": 3,
+          "temperatureK": 534.0027880577023,
+          "mined": 648.0000000011478,
+          "delivered": 648.0000000011504,
+          "chargeJ": 58919999999.99999
+        }
+      ],
+      "maxResidualJ": 4.4701186752149624e-08,
+      "hour": {
+        "peak": 537.2970172152155,
+        "firstHot": {
+          "t": 1448,
+          "trip": 2,
+          "stage": "mining",
+          "temperatureK": 500.0719776004345
+        },
+        "firstPower": {
+          "t": 1448,
+          "trip": 2,
+          "stage": "mining"
+        },
+        "hotSeconds": 2153,
+        "minTempFactor": 0.25405965569568933,
+        "finalTemperatureK": 525.7342616059258,
+        "minedM3": 648.0000000011478,
+        "deliveredM3": 432.0000000008261,
+        "completedTrips": 2
+      },
+      "sourceSet": "grid"
+    },
+    {
+      "id": "pony-d",
+      "host": 0.4,
+      "bg": 250,
+      "area": 1,
+      "bodyScale": 1,
+      "removeSecond": false,
+      "equipment": "active",
+      "duration": 4500,
+      "specHash": "a52def54f276aea5954a623cfaa144cdfc0455d73b987f2ddd8970d408c4741f",
+      "stateHash": "1bf63972563dfdbc8a54d6946485e97f2a229e76b730cccd6622b339a27d283e",
+      "C": 25677917.775600582,
+      "dryMassKg": 54633.86760766081,
+      "Krad": 1286.25,
+      "firstHot": {
+        "t": 3458,
+        "trip": 4,
+        "stage": "inbound",
+        "temperatureK": 500.12407566061773
+      },
+      "firstPower": {
+        "t": 3458,
+        "trip": 4,
+        "stage": "inbound"
+      },
+      "critical": null,
+      "hotSeconds": 74,
+      "minTempFactor": 0.9321939735675006,
+      "peak": 503.390301321625,
+      "trips": [
+        {
+          "t": 921.205707848072,
+          "trip": 1,
+          "temperatureK": 415.08960951858546,
+          "mined": 36,
+          "delivered": 36,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 1842.79823076725,
+          "trip": 2,
+          "temperatureK": 473.9984450192129,
+          "mined": 71.99999999999937,
+          "delivered": 72,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 2763.5430923700333,
+          "trip": 3,
+          "temperatureK": 488.6360894807288,
+          "mined": 108.00000000000097,
+          "delivered": 108,
+          "chargeJ": 10000000000
+        },
+        {
+          "t": 3690.805086016655,
+          "trip": 4,
+          "temperatureK": 494.7436089378274,
+          "mined": 144.00000000000003,
+          "delivered": 144,
+          "chargeJ": 10000000000
+        }
+      ],
+      "maxResidualJ": 1.4901161193847656e-08,
+      "hour": {
+        "peak": 501.01274449237246,
+        "firstHot": {
+          "t": 3458,
+          "trip": 4,
+          "stage": "inbound",
+          "temperatureK": 500.12407566061773
+        },
+        "firstPower": {
+          "t": 3458,
+          "trip": 4,
+          "stage": "inbound"
+        },
+        "hotSeconds": 14,
+        "minTempFactor": 0.9797451101525507,
+        "finalTemperatureK": 485.5086583716525,
+        "minedM3": 144.00000000000003,
+        "deliveredM3": 108,
+        "completedTrips": 3
+      },
+      "sourceSet": "modules"
+    },
+    {
+      "id": "ermak-d",
+      "host": 0.4,
+      "bg": 250,
+      "area": 1,
+      "bodyScale": 1,
+      "removeSecond": false,
+      "equipment": "buffer",
+      "duration": 4500,
+      "specHash": "dd43349708f77ea9212399bc48bcbf778a74ef8e6f4d0f145995f30148763371",
+      "stateHash": "7a9dd7b49bee195792a843d34f7f12063431d9eddca0984900aa11dc7b29c654",
+      "C": 26564755.275600582,
+      "dryMassKg": 56533.86760766081,
+      "Krad": 889.35,
+      "firstHot": null,
+      "firstPower": null,
+      "critical": null,
+      "hotSeconds": 0,
+      "minTempFactor": 1,
+      "peak": 490.66599622046107,
+      "trips": [
+        {
+          "t": 998.0459084858929,
+          "trip": 1,
+          "temperatureK": 397.90280122623585,
+          "mined": 36,
+          "delivered": 36,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 1996.1668261858401,
+          "trip": 2,
+          "temperatureK": 460.2519960769247,
+          "mined": 72.0000000000014,
+          "delivered": 72,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 2989.857778813584,
+          "trip": 3,
+          "temperatureK": 489.4083570416999,
+          "mined": 108.00000000000281,
+          "delivered": 108,
+          "chargeJ": 3682499999.9999995
+        },
+        {
+          "t": 3987.6574137806892,
+          "trip": 4,
+          "temperatureK": 489.5558135300029,
+          "mined": 144.00000000000423,
+          "delivered": 144,
+          "chargeJ": 3682499999.9999995
+        }
+      ],
+      "maxResidualJ": 1.4901161193847656e-08,
+      "hour": {
+        "peak": 490.66599622046107,
+        "firstHot": null,
+        "firstPower": null,
+        "hotSeconds": 0,
+        "minTempFactor": 1,
+        "finalTemperatureK": 489.83094163133933,
+        "minedM3": 135.0178266123995,
+        "deliveredM3": 108,
+        "completedTrips": 3
+      },
+      "sourceSet": "modules"
+    },
+    {
+      "id": "severin-mir-d",
+      "host": 0.4,
+      "bg": 250,
+      "area": 1,
+      "bodyScale": 1,
+      "removeSecond": false,
+      "equipment": "buffer",
+      "duration": 4500,
+      "specHash": "b2e09cc35782923fbe2beb4c3b7ba10514ad60b2595c10402a549385e31ac042",
+      "stateHash": "01f2aad2ad3fccdb5cad0fed40489585fd24c24524a3ed6a25bc1687094b1ad9",
+      "C": 131277671.46288306,
+      "dryMassKg": 279366.64141038945,
+      "Krad": 3773.4,
+      "firstHot": {
+        "t": 2424,
+        "trip": 3,
+        "stage": "mining",
+        "temperatureK": 500.01887120801877
+      },
+      "firstPower": {
+        "t": 2424,
+        "trip": 3,
+        "stage": "mining"
+      },
+      "critical": null,
+      "hotSeconds": 2077,
+      "minTempFactor": 0.3801407916301969,
+      "peak": 530.9929604184902,
+      "trips": [
+        {
+          "t": 979.8701846525744,
+          "trip": 1,
+          "temperatureK": 442.80245289433236,
+          "mined": 216,
+          "delivered": 216,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 1978.0306757092476,
+          "trip": 2,
+          "temperatureK": 490.3680952327196,
+          "mined": 431.9999999999902,
+          "delivered": 432,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 3186.1630430817604,
+          "trip": 3,
+          "temperatureK": 528.1414799762638,
+          "mined": 648.0000000007593,
+          "delivered": 648.0000000007747,
+          "chargeJ": 58919999999.99999
+        }
+      ],
+      "maxResidualJ": 2.9802322387695312e-08,
+      "hour": {
+        "peak": 530.9929604184902,
+        "firstHot": {
+          "t": 2424,
+          "trip": 3,
+          "stage": "mining",
+          "temperatureK": 500.01887120801877
+        },
+        "firstPower": {
+          "t": 2424,
+          "trip": 3,
+          "stage": "mining"
+        },
+        "hotSeconds": 1177,
+        "minTempFactor": 0.3801407916301969,
+        "finalTemperatureK": 517.4118751862608,
+        "minedM3": 679.0279448824518,
+        "deliveredM3": 648.0000000007747,
+        "completedTrips": 3
+      },
+      "sourceSet": "modules"
+    },
+    {
+      "id": "severin-mir-d",
+      "host": 0.4,
+      "bg": 250,
+      "area": 1,
+      "bodyScale": 1,
+      "removeSecond": false,
+      "equipment": "active+buffer",
+      "duration": 4500,
+      "specHash": "a79808eb17f3432dd7df688b4b2ecefa39298cf8b9d92b398cc9343ec92e9de8",
+      "stateHash": "58fbcc294f363ef7beb93772ad91708ccc0fb5f00198bd4bcba09eaaa7bf05b6",
+      "C": 132405671.46288306,
+      "dryMassKg": 281766.64141038945,
+      "Krad": 5361,
+      "firstHot": {
+        "t": 2629,
+        "trip": 3,
+        "stage": "mining",
+        "temperatureK": 500.0265193918202
+      },
+      "firstPower": {
+        "t": 2629,
+        "trip": 3,
+        "stage": "mining"
+      },
+      "critical": null,
+      "hotSeconds": 1830,
+      "minTempFactor": 0.540448945290741,
+      "peak": 522.977552735463,
+      "trips": [
+        {
+          "t": 994.2907752990723,
+          "trip": 1,
+          "temperatureK": 453.816101807407,
+          "mined": 216,
+          "delivered": 216,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 1974.5886424779892,
+          "trip": 2,
+          "temperatureK": 489.87698154898163,
+          "mined": 431.9999999999902,
+          "delivered": 432,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 2994.9034040902416,
+          "trip": 3,
+          "temperatureK": 515.9169145785787,
+          "mined": 648.0000000002518,
+          "delivered": 648.0000000002725,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 4310.357836971968,
+          "trip": 4,
+          "temperatureK": 519.7025396266314,
+          "mined": 864.0000000019587,
+          "delivered": 864.000000001979,
+          "chargeJ": 58919999999.99999
+        }
+      ],
+      "maxResidualJ": 5.960464477539063e-08,
+      "hour": {
+        "peak": 519.7640861609462,
+        "firstHot": {
+          "t": 2629,
+          "trip": 3,
+          "stage": "mining",
+          "temperatureK": 500.0265193918202
+        },
+        "firstPower": {
+          "t": 2629,
+          "trip": 3,
+          "stage": "mining"
+        },
+        "hotSeconds": 930,
+        "minTempFactor": 0.604718276781075,
+        "finalTemperatureK": 513.5102693955123,
+        "minedM3": 763.7216020290315,
+        "deliveredM3": 648.0000000002725,
+        "completedTrips": 3
+      },
+      "sourceSet": "modules"
+    },
+    {
+      "id": "severin-mir-d",
+      "host": 0.4,
+      "bg": 250,
+      "area": 1,
+      "bodyScale": 1,
+      "removeSecond": false,
+      "equipment": "rad3",
+      "station": false,
+      "duration": 4500,
+      "specHash": "198b84db07e4c846eff9e297152c79615299fcee7ff8782ce17a6648553a5541",
+      "stateHash": "36d68891285869546cc31a53d8a2261d7a233528ff2e08e9a7ce1b67370c2df0",
+      "C": 124697671.46288306,
+      "dryMassKg": 265366.64141038945,
+      "Krad": 6948.6,
+      "firstHot": {
+        "t": 2692,
+        "trip": 3,
+        "stage": "inbound",
+        "temperatureK": 500.00025550097797
+      },
+      "firstPower": {
+        "t": 3594,
+        "trip": 4,
+        "stage": "mining"
+      },
+      "critical": null,
+      "hotSeconds": 465,
+      "minTempFactor": 0.8419075539258006,
+      "peak": 507.90462230370997,
+      "trips": [
+        {
+          "t": 977.3572420477867,
+          "trip": 1,
+          "temperatureK": 430.4617447481517,
+          "mined": 216,
+          "delivered": 216,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 1972.0490581989288,
+          "trip": 2,
+          "temperatureK": 487.62786380533987,
+          "mined": 431.9999999999903,
+          "delivered": 432,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 2954.303969924503,
+          "trip": 3,
+          "temperatureK": 501.89790638909346,
+          "mined": 647.9999999999783,
+          "delivered": 648,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 3942.5160216102604,
+          "trip": 4,
+          "temperatureK": 504.0384994004984,
+          "mined": 864.000000000266,
+          "delivered": 864.0000000002987,
+          "chargeJ": 58919999999.99999
+        }
+      ],
+      "maxResidualJ": 4.470348358154297e-08,
+      "hour": {
+        "peak": 505.88645173220544,
+        "firstHot": {
+          "t": 2692,
+          "trip": 3,
+          "stage": "inbound",
+          "temperatureK": 500.00025550097797
+        },
+        "firstPower": {
+          "t": 3594,
+          "trip": 4,
+          "stage": "mining"
+        },
+        "hotSeconds": 171,
+        "minTempFactor": 0.8822709653558911,
+        "finalTemperatureK": 500.27691577408905,
+        "minedM3": 841.5355258285028,
+        "deliveredM3": 648,
+        "completedTrips": 3
+      },
+      "sourceSet": "mirFits"
+    },
+    {
+      "id": "severin-mir-d",
+      "host": 0.4,
+      "bg": 250,
+      "area": 1,
+      "bodyScale": 1,
+      "removeSecond": false,
+      "equipment": "active+rad3",
+      "station": false,
+      "duration": 4500,
+      "specHash": "693f7fb0229bd48671b3f8053caf6276a43274fe4beb87635ef4fecc6d1646d3",
+      "stateHash": "98f4cfcea7a91168ebe468026c14ea6dac1e3d5054ece787466490ee544198e5",
+      "C": 125825671.46288306,
+      "dryMassKg": 267766.64141038945,
+      "Krad": 8536.2,
+      "firstHot": null,
+      "firstPower": null,
+      "critical": null,
+      "hotSeconds": 0,
+      "minTempFactor": 1,
+      "peak": 494.8135315696482,
+      "trips": [
+        {
+          "t": 1007.2261014580727,
+          "trip": 1,
+          "temperatureK": 445.99685539737715,
+          "mined": 216,
+          "delivered": 216,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 1985.0138831734657,
+          "trip": 2,
+          "temperatureK": 482.83740038840557,
+          "mined": 431.9999999999902,
+          "delivered": 432,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 2978.064921915531,
+          "trip": 3,
+          "temperatureK": 490.21541776448487,
+          "mined": 647.9999999999783,
+          "delivered": 648,
+          "chargeJ": 58919999999.99999
+        },
+        {
+          "t": 3955.84958928852,
+          "trip": 4,
+          "temperatureK": 489.15976933249783,
+          "mined": 863.9999999999662,
+          "delivered": 864,
+          "chargeJ": 58919999999.99999
+        }
+      ],
+      "maxResidualJ": 2.9802322387695312e-08,
+      "hour": {
+        "peak": 494.4030894993413,
+        "firstHot": null,
+        "firstPower": null,
+        "hotSeconds": 0,
+        "minTempFactor": 1,
+        "finalTemperatureK": 485.9224916604128,
+        "minedM3": 829.7983759132196,
+        "deliveredM3": 648,
+        "completedTrips": 3
+      },
+      "sourceSet": "mirFits"
+    },
+    {
+      "id": "pony-d",
+      "kind": "hot-no-cooler",
+      "duration": 900,
+      "environment": {
+        "radiativeBackgroundK": 600,
+        "backgroundSourceId": "probe-background",
+        "thermalField": null,
+        "solarFluxWm2": 0,
+        "solarSourceId": null,
+        "energyInputs": [],
+        "directHeat": []
+      },
+      "specHash": "b4d6abc549fd679e1af67093246c6390460502201898c8876cd1cd790d042693",
+      "stateHash": "c4d7b15b341240e3dd3b6577161eaa38b8899a6ec43c0c3af179666195732e6d",
+      "dryMassKg": 60684.75543966081,
+      "C": 28521835.056640584,
+      "firstHot": 661,
+      "firstCold": null,
+      "stop": null,
+      "power": {
+        "instanceId": "fit:power-1",
+        "reason": "power-limited",
+        "timeSeconds": 809,
+        "limiting": true
+      },
+      "peak": 543.1861408865733,
+      "minT": 300,
+      "H2zero": null,
+      "H2initial": 633.45758,
+      "H2used": 0,
+      "maxResidualJ": 1.4901161193847656e-08,
+      "sourceSet": "frontiers"
+    },
+    {
+      "id": "pony-d",
+      "kind": "hot-H2",
+      "duration": 1800,
+      "environment": {
+        "radiativeBackgroundK": 600,
+        "backgroundSourceId": "probe-background",
+        "thermalField": null,
+        "solarFluxWm2": 0,
+        "solarSourceId": null,
+        "energyInputs": [],
+        "directHeat": []
+      },
+      "specHash": "fcd683d043d90b0e03d35cd42500c4c85d4581ed22156236ee3e8d5efc2e3039",
+      "stateHash": "44207041147ac2a640197983b8eb7f7b5ac8063ba40d8737f7665042ad46df73",
+      "dryMassKg": 60784.75543966081,
+      "C": 28568835.056640584,
+      "firstHot": 906,
+      "firstCold": null,
+      "stop": null,
+      "power": {
+        "instanceId": "fit:power-1",
+        "reason": "power-limited",
+        "timeSeconds": 1176.4184149950122,
+        "limiting": true
+      },
+      "peak": 500.986882858468,
+      "minT": 300,
+      "H2zero": null,
+      "H2initial": 633.45758,
+      "H2used": 452.1205442196814,
+      "maxResidualJ": 1.4901161193847656e-08,
+      "sourceSet": "frontiers"
+    },
+    {
+      "id": "ermak-d",
+      "kind": "hot-no-cooler",
+      "duration": 900,
+      "environment": {
+        "radiativeBackgroundK": 600,
+        "backgroundSourceId": "probe-background",
+        "thermalField": null,
+        "solarFluxWm2": 0,
+        "solarSourceId": null,
+        "energyInputs": [],
+        "directHeat": []
+      },
+      "specHash": "af69108cf87252679f1d9e61373ad7c81347651b95d710792008b8321b695218",
+      "stateHash": "1bdcb94fb4572a796456a5cac338a03b42bf98c5a97b56e04791a36cc4891dc6",
+      "dryMassKg": 58934.75543966081,
+      "C": 27693172.556640584,
+      "firstHot": 550,
+      "firstCold": null,
+      "stop": {
+        "instanceId": "builtin:cargo",
+        "reason": "critical-hot",
+        "timeSeconds": 841.795807639821,
+        "limiting": true
+      },
+      "power": {
+        "instanceId": "fit:power-1",
+        "reason": "power-limited",
+        "timeSeconds": 550,
+        "limiting": true
+      },
+      "peak": 555.5532813617292,
+      "minT": 300,
+      "H2zero": null,
+      "H2initial": 633.45758,
+      "H2used": 0,
+      "maxResidualJ": 1.4901161193847656e-08,
+      "sourceSet": "frontiers"
+    },
+    {
+      "id": "ermak-d",
+      "kind": "hot-H2",
+      "duration": 1800,
+      "environment": {
+        "radiativeBackgroundK": 600,
+        "backgroundSourceId": "probe-background",
+        "thermalField": null,
+        "solarFluxWm2": 0,
+        "solarSourceId": null,
+        "energyInputs": [],
+        "directHeat": []
+      },
+      "specHash": "91f089cc0cfd467972be5aa4637cff6d0c4bf50d0992ba59da97ebdfdf6d32a3",
+      "stateHash": "16064a7b02baf687048ebbc459eed787a410bfa5164c60ef97f5d872046157b9",
+      "dryMassKg": 59034.75543966081,
+      "C": 27740172.556640584,
+      "firstHot": 696,
+      "firstCold": null,
+      "stop": null,
+      "power": {
+        "instanceId": "fit:power-1",
+        "reason": "power-limited",
+        "timeSeconds": 696,
+        "limiting": true
+      },
+      "peak": 503.04676254948146,
+      "minT": 300,
+      "H2zero": null,
+      "H2initial": 633.45758,
+      "H2used": 529.1647392691325,
+      "maxResidualJ": 2.1420419216156006e-08,
+      "sourceSet": "frontiers"
+    },
+    {
+      "id": "severin-mir-d",
+      "kind": "hot-no-cooler",
+      "duration": 900,
+      "environment": {
+        "radiativeBackgroundK": 600,
+        "backgroundSourceId": "probe-background",
+        "thermalField": null,
+        "solarFluxWm2": 0,
+        "solarSourceId": null,
+        "energyInputs": [],
+        "directHeat": []
+      },
+      "specHash": "09b2305e46bc48ee777c9518e12d138b0b5e9216fd70ab1c037058217a5fb03d",
+      "stateHash": "f5f4ca3034f5d1ec697fbc553adae82fb6849eea4e3d2200d830522a9c8ead7e",
+      "dryMassKg": 283492.2961453895,
+      "C": 133216729.18833305,
+      "firstHot": 627,
+      "firstCold": null,
+      "stop": null,
+      "power": {
+        "instanceId": "fit:power-1",
+        "reason": "power-limited",
+        "timeSeconds": 627,
+        "limiting": true
+      },
+      "peak": 548.0447570918063,
+      "minT": 300,
+      "H2zero": null,
+      "H2initial": 3647.570429,
+      "H2used": 0,
+      "maxResidualJ": 2.9802322387695312e-08,
+      "sourceSet": "frontiers"
+    },
+    {
+      "id": "severin-mir-d",
+      "kind": "hot-H2",
+      "duration": 1800,
+      "environment": {
+        "radiativeBackgroundK": 600,
+        "backgroundSourceId": "probe-background",
+        "thermalField": null,
+        "solarFluxWm2": 0,
+        "solarSourceId": null,
+        "energyInputs": [],
+        "directHeat": []
+      },
+      "specHash": "187a93425a4f8746c8053bddd64830d13c73e7e3686b663e1142a62e378779a8",
+      "stateHash": "d754abb046ec26050d0f7c1dad8a9b6e2c9c43237be88e3160407a651ba560fc",
+      "dryMassKg": 286892.2961453895,
+      "C": 134814729.18833303,
+      "firstHot": 633,
+      "firstCold": null,
+      "stop": null,
+      "power": {
+        "instanceId": "fit:power-1",
+        "reason": "power-limited",
+        "timeSeconds": 633,
+        "limiting": true
+      },
+      "peak": 501.5322208006367,
+      "minT": 300,
+      "H2zero": null,
+      "H2initial": 3647.570429,
+      "H2used": 2994.920097613597,
+      "maxResidualJ": 7.450580596923828e-08,
+      "sourceSet": "frontiers"
+    },
+    {
+      "id": "ermak-d",
+      "kind": "cold-vacuum",
+      "duration": 3600,
+      "environment": {
+        "radiativeBackgroundK": 100,
+        "backgroundSourceId": "probe-background",
+        "thermalField": null,
+        "solarFluxWm2": 0,
+        "solarSourceId": null,
+        "energyInputs": [],
+        "directHeat": []
+      },
+      "specHash": "9c5d01b21066de8b0a16d546ea75e3607368bd50adf350816a63a7fe7a4ec564",
+      "stateHash": "2fab1acac06dd645680563ee6d62830f613b8e92294f276724b3d23eae964090",
+      "dryMassKg": 52283.86760766081,
+      "C": 24567255.275600582,
+      "firstHot": null,
+      "firstCold": null,
+      "stop": null,
+      "power": null,
+      "peak": 300,
+      "minT": 266.7498294512635,
+      "H2zero": null,
+      "H2initial": 0,
+      "H2used": 0,
+      "maxResidualJ": 1.1641532182693481e-10,
+      "sourceSet": "frontiers"
+    },
+    {
+      "id": "ermak-d",
+      "kind": "cold-panels",
+      "duration": 3600,
+      "environment": {
+        "radiativeBackgroundK": 100,
+        "backgroundSourceId": "probe-background",
+        "thermalField": {
+          "temperatureK": 100,
+          "coefficientWPerM2K": 5,
+          "sourceId": "probe-cold-field"
+        },
+        "solarFluxWm2": 0,
+        "solarSourceId": null,
+        "energyInputs": [],
+        "directHeat": []
+      },
+      "specHash": "2f9e717807c81b666fe9dbf74ab476032be5dceae0b034e7a1a50885d45c97ff",
+      "stateHash": "0629fe43c68f4cb1c64a727e59651d95d0d648ac25221c423d7fab7277443b56",
+      "dryMassKg": 52283.86760766081,
+      "C": 24567255.275600582,
+      "firstHot": null,
+      "firstCold": 1698,
+      "stop": {
+        "instanceId": "builtin:cargo",
+        "reason": "critical-cold",
+        "timeSeconds": 2325.5537368993305,
+        "limiting": true
+      },
+      "power": {
+        "instanceId": "fit:power-1",
+        "reason": "power-limited",
+        "timeSeconds": 1698,
+        "limiting": true
+      },
+      "peak": 300,
+      "minT": 166.76924977104994,
+      "H2zero": null,
+      "H2initial": 0,
+      "H2used": 0,
+      "maxResidualJ": 2.3283064365386963e-10,
+      "sourceSet": "frontiers"
+    },
+    {
+      "id": "ermak-d",
+      "kind": "cold-bare",
+      "duration": 3600,
+      "environment": {
+        "radiativeBackgroundK": 100,
+        "backgroundSourceId": "probe-background",
+        "thermalField": {
+          "temperatureK": 100,
+          "coefficientWPerM2K": 5,
+          "sourceId": "probe-cold-field"
+        },
+        "solarFluxWm2": 0,
+        "solarSourceId": null,
+        "energyInputs": [],
+        "directHeat": []
+      },
+      "specHash": "51967dc1bd64c2cba9a0b31e83470645a08f8321f71aca381e67987fd081024f",
+      "stateHash": "425426ad6949ee99988ad0e1d0cea0005905733dbbbcfe00eea5871049b14d92",
+      "dryMassKg": 50783.86760766081,
+      "C": 23862255.275600582,
+      "firstHot": null,
+      "firstCold": null,
+      "stop": null,
+      "power": null,
+      "peak": 300,
+      "minT": 247.1373699017186,
+      "H2zero": null,
+      "H2initial": 0,
+      "H2used": 0,
+      "maxResidualJ": 1.1641532182693481e-10,
+      "sourceSet": "cold"
+    }
+  ],
+  "limitations": [
+    "Research simulation, not production server acceptance",
+    "Station starts at 300 K; standard Lab service does not reset ship temperature",
+    "No change to hull/module parameters persisted by the probes",
+    "Thermal fields and radiative backgrounds are separate physical paths",
+    "Heater placement refusal for Ermak is a catalog compatibility gap, not a physical inability to heat"
+  ]
+}

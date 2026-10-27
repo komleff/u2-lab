@@ -67,7 +67,7 @@ def check():
     memory = {name: read(f'.memory-bank/{name}.md') for name in MEMORY}
     require(memory['projectbrief'], ('U2 Lab', 'komleff/u2-lab', 'U2'), '.memory-bank/projectbrief.md')
     require(memory['activeContext'], ('U2',), '.memory-bank/activeContext.md')
-    require(memory['techContext'], ('633937250fa8f47b49f928c1d8781ab17fe8c8e3',), '.memory-bank/techContext.md')
+    require(memory['techContext'], ('b830d5ed7ed31e597b45f7f3c18b8fb6baad6b29',), '.memory-bank/techContext.md')
     try:
         inventory = json.loads(bodies[INVENTORY])
         if inventory.get('repository') != 'komleff/u2':

@@ -1,4 +1,11 @@
 {
+  "status": "superseded",
+  "superseded_by": {
+    "pr": "https://github.com/komleff/u2-lab/pull/40",
+    "plan": "docs/plans/2026-10-24-overgate-v4-rc2-upgrade.md",
+    "install_plan": "docs/verification/overgate-rc3-install-plan.json",
+    "note": "Override PR #30 снят: поведение обёрток (embedded/server, allowlist подкоманд, отказ флагов) стало upstream OverGate v4.0.0-rc.3 (b830d5ed7ed31e597b45f7f3c18b8fb6baad6b29); scripts/bd-wt.sh и scripts/lib/bd-env.sh — managed-байты rc.3. Запись историческая; байты override восстанавливаются из Git (4779d1e), а не из этого файла."
+  },
   "source": {
     "repository": "komleff/overgate",
     "tag": "v4.0.0-rc.1",

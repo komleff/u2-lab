@@ -8,6 +8,9 @@ import type { StoredRunSpec } from "../model/v2/types";
 import type { CandidateCatalogV3, ShipFitV3 } from "../model/v3/types";
 import { isShipModelCatalogVersion } from "../model/v3/types";
 import { validateRunSpecV3, validateShipModelFit } from "../model/v3/schema";
+import {MODEL_V02} from '../model/governor-v03/types';
+import type {RunSpecV02} from '../model/governor-v03/run-types';
+import {validateRunSpecV02} from '../runner/ship-model-v02-adapter';
 const invalid = <T>(code: string, message: string, path = "$"): ValidationResult<T> => ({
   ok: false,
   errors: [{ path, code, message }],
@@ -33,15 +36,18 @@ export function parseFitJson(text: string, catalog: CandidateCatalog | Candidate
 export function serializeFit(fit: ShipFit | ShipFitV3): string {
   return JSON.stringify(fit, null, 2);
 }
+export function parseExperimentJson(text:string,options:{allowGovernorV02:true}):ValidationResult<RunSpecV02>;
+export function parseExperimentJson(text:string,options?:{allowSnapshotReplay?:boolean}):ValidationResult<StoredRunSpec>;
 export function parseExperimentJson(
   text: string,
-  options: { allowSnapshotReplay?: boolean } = {},
-): ValidationResult<StoredRunSpec> {
+  options: { allowSnapshotReplay?: boolean;allowGovernorV02?:boolean } = {},
+): ValidationResult<StoredRunSpec|RunSpecV02> {
   try {
     const document = JSON.parse(text),
       spec = document?.spec ?? document;
     if (spec?.schemaVersion === "u2-lab/1") return validateRunSpec(spec);
-    if (spec?.schemaVersion === "u2-lab/4") return validateRunSpecV3(spec);
+    if(options.allowGovernorV02){const checked=validateRunSpecV02(spec);return checked.ok?checked:{ok:false,errors:[...checked.errors]};}
+    if (spec?.schemaVersion === "u2-lab/4") return spec.modelVersion===MODEL_V02?invalid('MODEL_OPT_IN','Модель 0.2 требует явного qualification reader'):validateRunSpecV3(spec);
     if (spec?.schemaVersion !== "u2-lab/2" && spec?.schemaVersion !== "u2-lab/3")
       return invalid("SCHEMA", "Неподдерживаемая схема опыта");
     const validated = validateRunSpecV2(spec);
@@ -97,9 +103,9 @@ export function parseExperimentJson(
     );
   }
 }
-export function serializeExperiment(spec: StoredRunSpec): string {
+export function serializeExperiment(spec: StoredRunSpec|RunSpecV02): string {
   return JSON.stringify(spec, null, 2);
 }
-export function serializeResultSnapshot(result:import('../runner/run').RunResultV2|import('../runner/run').RunResultV3):string{
+export function serializeResultSnapshot(result:import('../runner/run').RunResultV2|import('../runner/run').RunResultV3|import('../runner/ship-model-run-v02').RunResultV02):string{
   return JSON.stringify(result,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v,2);
 }

@@ -35,7 +35,7 @@ export type WorkspaceShellParts = {
 };
 // Навигация, sections и dock имеют одного владельца для обеих численных моделей.
 export function workspaceShell(p:WorkspaceShellParts){
-  return `<div id="workspace-shell" class="workspace-shell ${p.model==='ship-model'?'ship-model-preview':''}" data-model="${p.model}"><header class="ui-header"><div class="ui-brand"><span>U2</span><div><strong>GD LAB</strong><small>v2.3 · UI v4.8</small></div></div><nav aria-label="Разделы"><a href="#workspace-fitting">Оснастка</a><a href="#workspace-conditions">Условия</a><a href="#workspace-charts">Графики</a><a id="fit-nav-compare" href="#workspace-compare">Сравнение</a></nav>${p.headerActions}${p.context}</header><div id="workspace-overview">${p.overview}</div><main class="ui-main ${p.model==='ship-model'?'sm-main':''}"><section id="workspace-fitting" class="workspace-section" aria-label="Оснастка">${p.fitting}</section><section id="workspace-conditions" class="workspace-section" aria-label="Условия и измерения">${p.conditions}</section><section id="workspace-compare" class="workspace-section" aria-label="Сравнение">${p.comparison}</section>${p.more}</main><div id="workspace-controls" class="ui-controls" data-control-state="${esc(p.controlsState)}" aria-label="Управление тестом">${p.controls}</div><footer>${p.footer}</footer><dialog id="ui-dialog" aria-labelledby="${esc(p.dialogLabel)}"></dialog></div>`;
+  return `<div id="workspace-shell" class="workspace-shell ${p.model==='ship-model'?'ship-model-preview':''}" data-model="${p.model}"><header class="ui-header"><div class="ui-brand"><span>U2</span><div><strong>GD LAB</strong><small>v2.5 · UI v4.8</small></div></div><nav aria-label="Разделы"><a href="#workspace-fitting">Оснастка</a><a href="#workspace-conditions">Условия</a><a href="#workspace-charts">Графики</a><a id="fit-nav-compare" href="#workspace-compare">Сравнение</a></nav>${p.headerActions}${p.context}</header><div id="workspace-overview">${p.overview}</div><main class="ui-main ${p.model==='ship-model'?'sm-main':''}"><section id="workspace-fitting" class="workspace-section" aria-label="Оснастка">${p.fitting}</section><section id="workspace-conditions" class="workspace-section" aria-label="Условия и измерения">${p.conditions}</section><section id="workspace-compare" class="workspace-section" aria-label="Сравнение">${p.comparison}</section>${p.more}</main><div id="workspace-controls" class="ui-controls" data-control-state="${esc(p.controlsState)}" aria-label="Управление тестом">${p.controls}</div><footer>${p.footer}</footer><dialog id="ui-dialog" aria-labelledby="${esc(p.dialogLabel)}"></dialog></div>`;
 }
 export type FittingController = {
   getFit(): ShipFit;
@@ -52,10 +52,8 @@ export function mountFitting(
   catalog: CandidateCatalog,
   onRun: (s: RunSpecV2) => void,
 ): FittingController {
-  const w = new FittingWorkspace(getPresetFit("sputnik",catalog.version), catalog, {...freshMissionConditions(getPresetFit("sputnik",catalog.version),catalog),modelVersion:MODEL_SIGNATURE_MISSION,signatures:defaultSignatureSettings("S")},2),
-    worker = new Worker(new URL("../runner/worker.ts", import.meta.url), {
-      type: "module",
-    });
+  const w = new FittingWorkspace(getPresetFit("sputnik",catalog.version), catalog, {...freshMissionConditions(getPresetFit("sputnik",catalog.version),catalog),modelVersion:MODEL_SIGNATURE_MISSION,signatures:defaultSignatureSettings("S")},2);
+  let worker:Worker|undefined,mounted=true;
   let swap: SwapState | undefined,
     instance: ResolvedInstance | undefined,
     instanceReturnId: string | undefined,
@@ -98,9 +96,11 @@ export function mountFitting(
     if (x) x.onclick = fn;
   };
   function send(type: string, payload?: unknown) {
+    const transport=type==='start'?ensureWorker():worker;
+    if(!transport)return;
     const id = ++commandId;
     pending.set(id, { at: performance.now(), type });
-    worker.postMessage({ runId, commandId: id, type, payload });
+    try{transport.postMessage({ runId, commandId: id, type, payload });}catch{failWorker(transport);}
   }
   function apply(f: ShipFit) {
     const v = w.applyFit(f);
@@ -263,7 +263,7 @@ export function mountFitting(
         )
         .join(
           "",
-        )}</select></label></div><p class="control-reason"><span id="fit-dock-result-context" data-run-id="${esc(active?.runId ?? r?.runId ?? "")}">${esc(dockContext)}</span>${active ? "" : !v.readiness.canRun ? " · Запуск недоступен: " + esc(v.readiness.missing.join(", ")) : !nextRun.ok ? " · Запуск недоступен: " + esc(nextRun.errors.map(e=>e.path+": "+e.message).join(" · ")) : ""}</p>`,footer:`U2 Ship Fitting v2.3 · интерфейс v4.8 · каталог ${esc(catalog.version.replace("ship-fitting-", ""))} · модель ${(active?.spec ?? r?.spec)?.modelVersion ?? sel.conditions.modelVersion ?? "ship-fitting-ledger-0.2"} · лабораторные ТТХ · signatures-observer v0.1 · thermal diagnostics v0.1 · новые расчёты: thermal controls v0.1, H₂ OFF ≤300 K`,dialogLabel:swap?"swap-title":"dialog-title",
+        )}</select></label></div><p class="control-reason"><span id="fit-dock-result-context" data-run-id="${esc(active?.runId ?? r?.runId ?? "")}">${esc(dockContext)}</span>${active ? "" : !v.readiness.canRun ? " · Запуск недоступен: " + esc(v.readiness.missing.join(", ")) : !nextRun.ok ? " · Запуск недоступен: " + esc(nextRun.errors.map(e=>e.path+": "+e.message).join(" · ")) : ""}</p>`,footer:`U2 Ship Fitting v2.5 · интерфейс v4.8 · каталог ${esc(catalog.version.replace("ship-fitting-", ""))} · модель ${(active?.spec ?? r?.spec)?.modelVersion ?? sel.conditions.modelVersion ?? "ship-fitting-ledger-0.2"} · лабораторные ТТХ · signatures-observer v0.1 · thermal diagnostics v0.1 · новые расчёты: thermal controls v0.1, H₂ OFF ≤300 K`,dialogLabel:swap?"swap-title":"dialog-title",
     });
     for (const id of openDetails)
       el<HTMLDetailsElement>(id) && (el<HTMLDetailsElement>(id)!.open = true);
@@ -702,7 +702,7 @@ export function mountFitting(
     }
   }
   let eventFilter = "all";
-  worker.onmessage = (event) => {
+  function receive(event:MessageEvent) {
     const m = event.data;
     if (m.runId !== runId) return;
     const active = w.getActive();
@@ -722,7 +722,7 @@ export function mountFitting(
     } else if (m.type === "chunk" && active) {
       const p = m.payload;
       w.acceptResult({ ...p, runId, spec: active.spec, status: "paused" });
-      worker.postMessage({ runId, type: "telemetry-ack", chunkId: m.chunkId });
+      worker?.postMessage({ runId, type: "telemetry-ack", chunkId: m.chunkId });
       render();
     } else if (m.type === "complete" || m.type === "snapshot") {
       if (w.acceptResult(m.payload)) {
@@ -737,9 +737,25 @@ export function mountFitting(
       w.abort();
       render();
     }
-  };
+  }
+  function failWorker(failed=worker){
+    if(!mounted||failed!==worker)return;
+    failed?.terminate();worker=undefined;pending.clear();freezeRunId=undefined;confirmCancel=false;runId='';ack='';
+    w.abort();error='Расчётный Worker недоступен. Проверьте подключение к Лабе и нажмите «Запуск» повторно.';render();
+  }
+  function ensureWorker(){
+    if(worker)return worker;
+    try{
+      const transport=new Worker(new URL('../runner/worker.ts',import.meta.url),{type:'module'});worker=transport;
+      transport.onmessage=event=>{if(mounted&&worker===transport)receive(event);};
+      transport.onerror=event=>{event.preventDefault();failWorker(transport);};
+      transport.addEventListener('messageerror',()=>failWorker(transport));
+      return transport;
+    }catch{failWorker();return undefined;}
+  }
   const resize = () => render();
   window.addEventListener("resize", resize);
+  ensureWorker();
   render();
   return {
     getFit: () => w.getFit(),
@@ -749,8 +765,9 @@ export function mountFitting(
       render();
     },
     destroy() {
+      mounted=false;
       shipModel?.destroy();
-      worker.terminate();
+      worker?.terminate();worker=undefined;
       window.removeEventListener("resize", resize);
       root.classList.remove("fitting-app");
       root.replaceChildren();

@@ -2,6 +2,9 @@ import {validateShipModelResult} from './ship-model-result';
 
 export function shipModelChannelUnit(channel:string):string{
   const name=channel.startsWith('signal:')?channel.slice(7):channel.split(':')[0];
+  if(name==='positionM')return 'm';
+  if(name==='velocityMS')return 'm/s';
+  if(['onboardM3','minedM3','deliveredM3'].includes(name))return 'SCU';
   if(name.endsWith('Wm2'))return 'W/m2';
   if(name.endsWith('Kg'))return 'kg';
   if(name.endsWith('Seconds'))return 's';

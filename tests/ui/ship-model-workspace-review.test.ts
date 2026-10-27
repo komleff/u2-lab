@@ -5,11 +5,11 @@ import {createShipModelRun,runShipModelChunk,shipModelResult,restoreShipModelRun
 import {serializeExperiment,serializeResultSnapshot} from '../../src/io/fitting-json';
 import {workspaceShell} from '../../src/app/fitting';
 const catalog=loadCandidateCatalog('ship-fitting-0.2.5');
-const workspace=()=>new ShipModelWorkspace(getPresetFit('sputnik',catalog.version),catalog);
+const workspace=()=>{const w=new ShipModelWorkspace(getPresetFit('sputnik',catalog.version),catalog);w.selectWorkMode('stationary');return w;};
 const templates={'reference-retro-engine-diesel-S-single':'engine-diesel-S-single'};
 it('fresh A owns current Sputnik D at 250 K while the old source remains detached',()=>{
   const source=getPresetFit('sputnik',catalog.version),literal=JSON.stringify(source),w=new ShipModelWorkspace(source,catalog);
-  expect(w.fit).toEqual(getPresetFit('sputnik-d','ship-fitting-0.3.2'));
+  expect(w.fit).toEqual(getPresetFit('sputnik-d','ship-fitting-0.3.3'));
   expect(w.conditions.backgroundK).toBe(250);expect(w.prepare().environment.radiativeBackgroundK).toBe(250);
   expect(JSON.stringify(w.source)).toBe(literal);source.fitRevision=999;expect(w.source.fitRevision).not.toBe(999);
 });

@@ -36,6 +36,44 @@ ADR paths находятся в U2 `docs/architecture/`. Все owner верси
 Это отдельный амендмент, а не owner в frozen inventory: TTX и физические источники
 чисел сохраняются. Lab wear не рассчитывает.
 
+## Амендмент оператора 2026-10-26: монтаж, ресурсы и обслуживание
+
+Прямое решение в сессии теплового баланса заменяет прежние запреты смешанной тяги:
+двигательные роли D/H/E можно сочетать в пределах архитектуры: Пони D сохраняет
+D/E, Волна H — H/E. Каждому потребителю нужен совместимый
+источник. Аккумулятор требуется электрическим потребителям, а не по отдельному
+универсальному правилу корпуса. Исключение нагревателя из встроенного состава
+не запрещает сменный нагреватель. Временный монтаж может быть неполным;
+сохранение и запуск требуют источника каждому потребителю. RAM и оболочка
+сохраняют существующий встроенный монтаж; разрешение сменной установки не дано.
+По умолчанию нет дополнительных запретов
+семейств без принятого физического основания. Уточнены [правила монтажа](../gdd/gdd_u2_ship_fitting_v0.2.md#3-слоты-и-установленные-изделия),
+[правило станции](../product/station-hangar-thermal-exchange-v0.1.md) и
+[измеренный аудит Лабы](../research/2026-10-26-diesel-balance/fitting-audit.md).
+При обслуживании корабль обесточен, среда 300 K, теплообмен пассивный и постепенный.
+Это принятое WHAT; опубликованный runtime пока содержит описанные расхождения.
+
+## Принятые физические данные F2 — 2026-10-26
+
+Оператор принял весь `proposed-adjustments.md` U2#905 на
+`ff58b7125d3325e85f72d449d7719c55c5c2cc8b`. Дословное решение и hash
+точного исходника: [accepted-operator-decision.json](../research/2026-10-26-diesel-balance/accepted-operator-decision.json).
+Shared revision q1-accepted.5: physical mass=actual installed roster, Pony shell31500 kg/C14805000,
+Industrial/G0/UNKNOWN с уникальными сохранёнными force/flow/КПД, full startup,
+Normal370/cold225–230 и отдельная generator wear calibration. Engine coefficients
+этим новым factor не увеличиваются, generic Lab engine1e-6 сохраняется.
+Принятые материальные приближения не названы закрытыми production recipes.
+
+Экономические нормы U2 приняты и переданы PM F2; references не создают задачу
+экономики/кошелька/quotes/service screen/fleet/insurance или новых repair-механик
+Лабы. Lab delivery ограничена heat/energy/TTX/resources и пассивным ангаром.
+Прежние14 mining fits и7 hulls сохраняют actual roster; courier-профили только
+reference data, не новые обязательные меню/составы. Сверка physical mirror и
+source pins — [sync-manifest](../research/2026-10-26-diesel-balance/sync-manifest.json).
+RuntimeAuthorization=false/BLOCKED_RESTART_SCHEMA остаются, U2 configs и сервер
+не обновляются. Research manifest.sourceKernelFiles pinned к historical f0732d3;
+новая runtime qualification отдельно.
+
 ## Formula boundary и lab variants
 
 Hot-environment owner §10 уже допускает отдельный H_env для вклада, не вошедшего в T_env,eff.
@@ -54,7 +92,8 @@ INDEX при извлечении чисел в первой implementation task
 
 ## Pipeline authority
 
-Trusted OverGate `v4.0.0-rc.1` = `633937250fa8f47b49f928c1d8781ab17fe8c8e3`.
+Trusted OverGate `v4.0.0-rc.3` = `b830d5ed7ed31e597b45f7f3c18b8fb6baad6b29`
+(bootstrap — `v4.0.0-rc.1` = `633937250fa8f47b49f928c1d8781ab17fe8c8e3`).
 INSTALL/PM/RV и ADR §§3.28–3.32 — bootstrap owners. До managed apply installer policy
 берётся из frozen source; новый installed package не сертифицирует собственную установку.
 OverGate MIT notice/provenance сохраняется согласно distribution inventory; это не

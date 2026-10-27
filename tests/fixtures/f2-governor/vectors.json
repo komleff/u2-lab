@@ -3,7 +3,7 @@
   "governorVersion": "ship-thermal-governor/0.3",
   "profileVersion": "governor-profile/0.3",
   "modelVersion": "ship-fitting-ship-model-0.2",
-  "stateVersion": "ship-state/2",
+  "stateVersion": "ship-state/2.1",
   "toleranceVersion": "governor-tolerances/1",
   "sourceCommit": "df7e3cd699dafde5175b48a5853c2c04ece244b2",
   "sourceSha256": "3ef04723155e9b9f8e285d3bb01228eccfb254623bb2dd51e2d7c6bcd0fc9034",
@@ -10058,7 +10058,7 @@
       "input": {
         "profileId": "synthetic-bare",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-bare",
           "profileRevision": "1",
@@ -10082,6 +10082,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [],
           "waterEnthalpyJByTank": [],
           "electricalChargeJ": 1000,
@@ -10126,7 +10127,7 @@
       "input": {
         "profileId": "synthetic-no-buffer",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-no-buffer",
           "profileRevision": "1",
@@ -10150,6 +10151,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [],
           "waterEnthalpyJByTank": [
             {
@@ -10240,7 +10242,7 @@
       "input": {
         "profileId": "synthetic-base",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-base",
           "profileRevision": "1",
@@ -10269,6 +10271,7 @@
             }
           ],
           "shipEnergyJ": 250000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -10364,7 +10367,7 @@
       "input": {
         "profileId": "synthetic-base",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-base",
           "profileRevision": "1",
@@ -10393,6 +10396,7 @@
             }
           ],
           "shipEnergyJ": 650000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -10488,7 +10492,7 @@
       "input": {
         "profileId": "synthetic-base",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-base",
           "profileRevision": "1",
@@ -10517,6 +10521,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -10612,7 +10617,7 @@
       "input": {
         "profileId": "synthetic-port20",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-port20",
           "profileRevision": "1",
@@ -10641,6 +10646,7 @@
             }
           ],
           "shipEnergyJ": 250000000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -10769,7 +10775,7 @@
       "input": {
         "profileId": "synthetic-allocation",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-allocation",
           "profileRevision": "1",
@@ -10798,6 +10804,7 @@
             }
           ],
           "shipEnergyJ": 250000000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -10928,7 +10935,7 @@
       "input": {
         "profileId": "synthetic-base",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-base",
           "profileRevision": "1",
@@ -10957,6 +10964,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -11052,7 +11060,7 @@
       "input": {
         "profileId": "synthetic-base",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-base",
           "profileRevision": "1",
@@ -11081,6 +11089,7 @@
             }
           ],
           "shipEnergyJ": 300000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -11176,7 +11185,7 @@
       "input": {
         "profileId": "synthetic-base",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-base",
           "profileRevision": "1",
@@ -11205,6 +11214,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -11300,7 +11310,7 @@
       "input": {
         "profileId": "synthetic-radiators-no-ti",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-radiators-no-ti",
           "profileRevision": "1",
@@ -11332,6 +11342,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [],
           "waterEnthalpyJByTank": [],
           "electricalChargeJ": 1000,
@@ -11398,7 +11409,7 @@
       "input": {
         "profileId": "synthetic-ti",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-ti",
           "profileRevision": "1",
@@ -11426,6 +11437,7 @@
             }
           ],
           "shipEnergyJ": 400000000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [],
           "waterEnthalpyJByTank": [],
           "electricalChargeJ": 10000000,
@@ -11492,7 +11504,7 @@
       "input": {
         "profileId": "synthetic-ti-lossy",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-ti-lossy",
           "profileRevision": "1",
@@ -11520,6 +11532,7 @@
             }
           ],
           "shipEnergyJ": 400000000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [],
           "waterEnthalpyJByTank": [],
           "electricalChargeJ": 10000000,
@@ -11625,7 +11638,7 @@
       "input": {
         "profileId": "synthetic-heater",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-heater",
           "profileRevision": "1",
@@ -11654,6 +11667,7 @@
             }
           ],
           "shipEnergyJ": 250000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -11768,7 +11782,7 @@
       "input": {
         "profileId": "synthetic-bare",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-bare",
           "profileRevision": "1",
@@ -11792,6 +11806,7 @@
             }
           ],
           "shipEnergyJ": 250000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [],
           "waterEnthalpyJByTank": [],
           "electricalChargeJ": 1000,
@@ -11836,7 +11851,7 @@
       "input": {
         "profileId": "synthetic-base",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-base",
           "profileRevision": "1",
@@ -11865,6 +11880,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -11966,7 +11982,7 @@
       "input": {
         "profileId": "synthetic-base",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-base",
           "profileRevision": "1",
@@ -11995,6 +12011,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -12090,7 +12107,7 @@
       "input": {
         "profileId": "synthetic-base",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-base",
           "profileRevision": "1",
@@ -12119,6 +12136,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -12214,7 +12232,7 @@
       "input": {
         "profileId": "synthetic-base",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-base",
           "profileRevision": "1",
@@ -12243,6 +12261,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -12338,7 +12357,7 @@
       "input": {
         "profileId": "synthetic-quiet-capable",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-quiet-capable",
           "profileRevision": "1",
@@ -12367,6 +12386,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -12462,7 +12482,7 @@
       "input": {
         "profileId": "synthetic-quiet-capable",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-quiet-capable",
           "profileRevision": "1",
@@ -12491,6 +12511,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -12586,7 +12607,7 @@
       "input": {
         "profileId": "synthetic-cold-h2",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-cold-h2",
           "profileRevision": "1",
@@ -12615,6 +12636,7 @@
             }
           ],
           "shipEnergyJ": 550000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -12710,7 +12732,7 @@
       "input": {
         "profileId": "synthetic-cold-h2",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-cold-h2",
           "profileRevision": "1",
@@ -12739,6 +12761,7 @@
             }
           ],
           "shipEnergyJ": 700000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -12834,7 +12857,7 @@
       "input": {
         "profileId": "synthetic-generator",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-generator",
           "profileRevision": "1",
@@ -12863,6 +12886,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -12983,7 +13007,7 @@
       "input": {
         "profileId": "synthetic-base",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-base",
           "profileRevision": "1",
@@ -13012,6 +13036,7 @@
             }
           ],
           "shipEnergyJ": 450000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -13126,7 +13151,7 @@
       "input": {
         "profileId": "synthetic-military-equipped",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-military-equipped",
           "profileRevision": "1",
@@ -13155,6 +13180,7 @@
             }
           ],
           "shipEnergyJ": 690000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -13279,7 +13305,7 @@
       "input": {
         "profileId": "synthetic-base",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-base",
           "profileRevision": "1",
@@ -13308,6 +13334,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -13403,7 +13430,7 @@
       "input": {
         "profileId": "synthetic-incompatible-bands",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-incompatible-bands",
           "profileRevision": "1",
@@ -13432,6 +13459,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -13546,7 +13574,7 @@
       "input": {
         "profileId": "synthetic-base",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-base",
           "profileRevision": "1",
@@ -13575,6 +13603,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -13670,7 +13699,7 @@
       "input": {
         "profileId": "synthetic-rebound",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-rebound",
           "profileRevision": "2",
@@ -13699,6 +13728,7 @@
             }
           ],
           "shipEnergyJ": 700000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -13794,7 +13824,7 @@
       "input": {
         "profileId": "synthetic-base",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-base",
           "profileRevision": "1",
@@ -13823,6 +13853,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -13929,7 +13960,7 @@
       "input": {
         "profileId": "synthetic-ti",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-ti",
           "profileRevision": "1",
@@ -13957,6 +13988,7 @@
             }
           ],
           "shipEnergyJ": 400000000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [],
           "waterEnthalpyJByTank": [],
           "electricalChargeJ": 10000000,
@@ -14023,7 +14055,7 @@
       "input": {
         "profileId": "synthetic-base",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-base",
           "profileRevision": "1",
@@ -14052,6 +14084,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -14181,7 +14214,7 @@
       "input": {
         "profileId": "synthetic-bare",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-bare",
           "profileRevision": "1",
@@ -14205,6 +14238,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [],
           "waterEnthalpyJByTank": [],
           "electricalChargeJ": 1000,
@@ -14249,7 +14283,7 @@
       "input": {
         "profileId": "synthetic-bare",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-bare",
           "profileRevision": "1",
@@ -14273,6 +14307,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [],
           "waterEnthalpyJByTank": [],
           "electricalChargeJ": 1000,
@@ -14317,7 +14352,7 @@
       "input": {
         "profileId": "synthetic-bare",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-bare",
           "profileRevision": "1",
@@ -14341,6 +14376,7 @@
             }
           ],
           "shipEnergyJ": 400000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [],
           "waterEnthalpyJByTank": [],
           "electricalChargeJ": 1000,
@@ -14385,7 +14421,7 @@
       "input": {
         "profileId": "synthetic-ti",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-ti",
           "profileRevision": "1",
@@ -14413,6 +14449,7 @@
             }
           ],
           "shipEnergyJ": 400000000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [],
           "waterEnthalpyJByTank": [],
           "electricalChargeJ": 10000000,
@@ -14495,7 +14532,7 @@
       "input": {
         "profileId": "synthetic-shared-h2",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-shared-h2",
           "profileRevision": "1",
@@ -14524,6 +14561,7 @@
             }
           ],
           "shipEnergyJ": 400000000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",
@@ -14673,7 +14711,7 @@
       "input": {
         "profileId": "synthetic-multibank",
         "state": {
-          "version": "ship-state/2",
+          "version": "ship-state/2.1",
           "governorVersion": "ship-thermal-governor/0.3",
           "profileId": "synthetic-multibank",
           "profileRevision": "1",
@@ -14706,6 +14744,7 @@
             }
           ],
           "shipEnergyJ": 250000000000,
+          "shipEnergyRemainderJ": 0,
           "bufferEnergyJByBank": [
             {
               "id": "bank-a",

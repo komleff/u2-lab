@@ -1,4 +1,5 @@
 import {test,expect,type Page} from '@playwright/test';
+import {nativePauseWindow} from './native-pause-window';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {signatureDepletionFixture} from '../model-v3/fixture';
 import {serializeFit,serializeExperiment,serializeResultSnapshot} from '../../src/io/fitting-json';
@@ -14,8 +15,9 @@ const observeWorker=async(page:Page)=>page.addInitScript(()=>{
   const create=URL.createObjectURL;URL.createObjectURL=blob=>{(window as any).exportTypes.push(blob instanceof Blob?blob.type:'');return create(blob);};
 });
 test('I5 actual Worker exports captured active A experiment but refuses result/CSV fallback for empty selected B',async({page})=>{
-  await observeWorker(page);await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-duration').fill('120');await page.locator('#sm-duration').press('Tab');await page.locator('#sm-start').click();
-  await expect(page.locator('#sm-live')).toHaveAttribute('data-time',/^[1-9]/);await page.locator('#sm-variant').selectOption('B');await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
+  const pauseWindow=await nativePauseWindow(page);
+  await observeWorker(page);await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');await page.locator('#sm-duration').fill('3600');await page.locator('#sm-duration').press('Tab');await pauseWindow.arm();await page.locator('#sm-start').click();
+  await expect(page.locator('#sm-live')).toHaveAttribute('data-time',/^[1-9]/);await page.locator('#sm-variant').selectOption('B');await pauseWindow.pause();await expect(page.locator('#sm-status')).toHaveText('paused');
   await expect(page.locator('#sm-test-owner')).toContainText('Активный тест A');await expect(page.locator('#sm-save-run')).toBeEnabled();await expect(page.locator('#sm-save-result')).toBeDisabled();await expect(page.locator('#sm-save-csv')).toBeDisabled();
   const captured=await page.evaluate(()=>(window as any).shipStarts.at(-1)),runId=await page.locator('#sm-test-owner').getAttribute('data-run-id'),experiment=await download(page,'sm-save-run');expect(JSON.parse(experiment.text)).toEqual(captured);expect(experiment.name).toContain('A');expect(experiment.name).toContain(runId!);expect(await page.evaluate(()=>(window as any).exportTypes.at(-1))).toBe('application/json');
   await page.locator('#sm-freeze').click();await expect(page.locator('#sm-frozen-owner')).toContainText(runId!);await expect(page.locator('#sm-comparison-b')).toContainText('Выбранный B: нет измерения');await expect(page.locator('#sm-comparison [data-stat="B:receiverIrW:meanW"]')).toHaveText('—');

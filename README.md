@@ -14,8 +14,8 @@ U2 остаётся источником утверждённых правил �
 
 | Адрес | Что откроется |
 |---|---|
-| `/` | GD LAB v2.3 · UI 4.8: оснастка, условия рейса, графики, сравнение A/B, сигнатуры |
-| `/?shipModel=experimental` | Модель корабля `/4`: каталог 0.3.2 (14 конфигураций S/M), тепловой каскад, износ, IR/EM и дальности обнаружения |
+| `/` | GD LAB v2.5 · UI 4.8: оснастка, условия рейса, графики, сравнение A/B, сигнатуры |
+| `/?shipModel=experimental` | Модель корабля `/4`: каталог 0.3.3 (14 конфигураций S/M), рабочий диапазон ordinary 220–360 K, тепловой каскад, износ, IR/EM и дальности обнаружения |
 | `/?mode=legacy` | Обновлённый Legacy Power & Heat 0.1.1 |
 | `/legacy-v1/` | Самая первая Power & Heat Lab |
 
@@ -55,7 +55,7 @@ npm run preview -- --host 0.0.0.0 --port 4173
 - [Карта документов](docs/INDEX.md) — текущие владельцы, статусы, отчёты
 - [ТЗ модели корабля v0.1](docs/specs/spec_u2_lab_ship_model_v0.1.md)
 - [GDD: энергия и тепло корабля](docs/gdd/gdd_ship_energy_thermal_model_v0.1.md)
-- [Каталог 0.3.2 в модели `/4`](docs/user/ship-model-catalog-0.3.2.md) (прежний — [0.3.1](docs/user/ship-model-catalog-0.3.1.md))
+- [Каталог 0.3.3 в модели `/4`](docs/user/ship-model-catalog-0.3.3.md) (прежние — [0.3.2](docs/user/ship-model-catalog-0.3.2.md), [0.3.1](docs/user/ship-model-catalog-0.3.1.md))
 - [Руководство по интерфейсу оснастки](docs/user/ship-fitting-ui.md)
 - [Стенд сигнатур](docs/guides/signatures-observer.md)
 - [Источники и их приоритет](docs/architecture/source-authority.md)

@@ -1,3 +1,26 @@
+# Рейсовый `/4` и прогресс — recovery, 2026-10-24
+
+`ulab-9aa.24` / PR #44, ветка `fix/ship-model-duration-progress`. Источники:
+`docs/superpowers/plans/2026-10-24-ship-model-duration-progress.md` и связанный design.
+Fresh Sputnik-D: mission H3600 / D100 км / laboratory V_FA250 / cruise500 м/с /
+background250 K / repeat и station replenishment ON. Stationary и старые документы
+сохранены отдельно; mission model `ship-fitting-ship-model-mission-0.1`, state
+`ship-mission-state/1`. Frozen input/state/events/result digest:
+`tests/fixtures/ship-model-mission/sputnik-d-hour.json` (измерены 3 service, 90 SCU доставлено).
+Актуальные SHA/QA/Review/merge status — canonical Beads и PR #44; эта запись — recovery context.
+
+# Upgrade пайплайна OverGate rc.1 → rc.3, 2026-10-24
+
+Draft PR #40 `chore/overgate-v4-rc2` (план `docs/plans/2026-10-24-overgate-v4-rc2-upgrade.md`
+v0.4, Beads `ulab-c5p`; после merge закрывается `ulab-oz6`). Установлен OverGate `v4.0.0-rc.3`
+`b830d5ed`: install-план `docs/verification/overgate-rc3-install-plan.json` (SHA256 3a8b616e…,
+PLAN_READY в PR #40), apply → rollback → повторный apply. Каждый managed- и settings-файл
+manifest побайтно равен source rc.3; override PR #30 снят — обёртки `bd-wt.sh`/`bd-env.sh`
+теперь upstream, запись дрейфа — `docs/archive/2026-10-18-beads-wrapper-drift.json`
+(superseded). 4 project allow-правила обёрток убраны из `settings.json`; узкий allow против
+`Bash(*)` — `ulab-4tq`. Pending intent `baa-2026-10-18-v2-02` выполнен upstream (OverGate
+`og-rdc`): при apply очереди оператор закрывает созданную задачу со ссылкой на `og-rdc`.
+
 # Пайплайн u2 в слое проекта u2-lab, 2026-10-18
 
 Поручение оператора: перенести настройки пайплайна u2. Выбран «слой проекта»: managed-файлы OverGate
@@ -13,10 +36,9 @@ Draft PR #30 `chore/beads-agent-access` (план `docs/plans/2026-10-18-beads-l
 v0.4, закрывает `ulab-oz6`). База u2-lab — embedded Dolt; `scripts/bd-wt.sh` — единая точка
 входа агентов в основном checkout и worktree (allowlist подкоманд, `--db` по `dolt_mode`;
 отказ флагов чтения файла и заданных `BEADS_DIR`/`BEADS_DB`), applier шаг 4 работает на
-embedded, в `settings.json` — четыре узких allow-правила. Класс локального агента и порядок
-синхронизации — `.claude/rules/beads.md`. Managed-файлы `bd-wt.sh`/`bd-env.sh` расходятся с
-OverGate — `docs/verification/beads-wrapper-drift.json`. `AGENTS.md` стр. 28–31 заменены
-текстом, одобренным оператором 2026-10-23. Очередь
+embedded. Класс локального агента и порядок синхронизации — `.claude/rules/beads.md`.
+Override managed-файлов и 4 allow-правила сняты в PR #40 (поведение стало upstream rc.3).
+`AGENTS.md` стр. 28–31 заменены текстом, одобренным оператором 2026-10-23. Очередь
 `.bd-intents/beads-agent-access.jsonl` применяет оператор после merge; затем live smoke AC-9.
 
 # План поставки «Стелс и тепло», 2026-10-17

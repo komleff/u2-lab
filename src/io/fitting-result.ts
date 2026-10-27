@@ -10,9 +10,16 @@ import { restoreSignatureRuntime } from "../signatures/runtime";
 import { DiagnosticObserver } from "../runner/diagnostics";
 import {parseShipModelResultJson} from './ship-model-result';
 import type {RunResultV3} from '../runner/ship-model-run';
+import {MODEL_V02} from '../model/governor-v03/types';
+import {parseShipModelResultJsonV02} from './ship-model-result-v02';
+import type {RunResultV02} from '../runner/ship-model-run-v02';
 // Explicit version dispatch; the old reader/ReturnType remains unchanged.
-export function parseStoredResultJson(text:string):ValidationResult<RunResultV2|RunResultV3>{
-  try{if(JSON.parse(text)?.spec?.schemaVersion==='u2-lab/4')return parseShipModelResultJson(text);}catch{}
+export function parseStoredResultJson(text:string,options:{allowGovernorV02:true}):ValidationResult<RunResultV2|RunResultV3|RunResultV02>;
+export function parseStoredResultJson(text:string):ValidationResult<RunResultV2|RunResultV3>;
+export function parseStoredResultJson(text:string,options?:{allowGovernorV02:true}):ValidationResult<RunResultV2|RunResultV3|RunResultV02>{
+  try{const spec=JSON.parse(text)?.spec;if(spec?.schemaVersion==='u2-lab/4'){
+    if(spec.modelVersion===MODEL_V02){if(!options?.allowGovernorV02)return {ok:false,errors:[{path:'spec.modelVersion',code:'MODEL_OPT_IN',message:'Модель 0.2 требует явного qualification reader'}]};const checked=parseShipModelResultJsonV02(text);return checked.ok?checked:{ok:false,errors:[...checked.errors]};}return parseShipModelResultJson(text);
+  }}catch{}
   return parseResultJson(text);
 }
 const object = (v: unknown): v is Record<string, any> => !!v && typeof v === "object" && !Array.isArray(v);

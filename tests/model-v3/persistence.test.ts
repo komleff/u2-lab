@@ -60,7 +60,7 @@ it.each([
 it('Task2 unsupported fit and version/inventory mismatches never mutate opening owner',()=>{
   const w=persistenceWorkspace(),saved=literalSnapshot('ship-fitting-0.3.0');w.importDocument(serializeResultSnapshot(saved));w.freeze();const before=JSON.stringify(w.snapshotForRender());
   const fit=getPresetFit('ermak-d','ship-fitting-0.3.1');
-  for(const version of ['ship-fitting-0.3.0','ship-fitting-0.3.3']){
+  for(const version of ['ship-fitting-0.3.0','ship-fitting-0.3.9']){
     const bad={...fit,catalogVersion:version},text=JSON.stringify(bad);expect(()=>w.importDocument(text)).toThrow();expect(JSON.stringify(w.snapshotForRender())).toBe(before);
   }
   expect(parseFitJson(serializeFit(fit),loadCandidateCatalog('ship-fitting-0.3.0')).ok).toBe(false);

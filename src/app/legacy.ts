@@ -31,6 +31,7 @@ let spec = structuredClone(presets[0]),
   runId = "",
   commandId = 0,
   currentResult: RunResult | undefined,
+  previousResult: RunResult | undefined,
   a: RunResult | undefined,
   freezePending = false,
   channels: string[] = [],
@@ -41,9 +42,7 @@ let spec = structuredClone(presets[0]),
 let activeRun = false;
 let activeSpec: RunSpec | undefined;
 const pending = new Map<number, number>();
-const worker = new Worker(new URL("../runner/worker.ts", import.meta.url), {
-  type: "module",
-});
+let worker:Worker|undefined;
 const app = document.querySelector("#app")!;
 app.innerHTML = `<header><div class="title"><span class="wordmark">U2</span><div><h1>Power & Heat Lab</h1><div class="subtitle">Энергия, тепло и рабочий рейс · лаборатория v0.1</div></div></div><span class="badge">EXPERIMENTAL<br>НЕ УТВЕРЖДЁННЫЕ ТТХ</span></header>
 <div class="toolbar"><button id="start" class="primary">Запуск</button><button id="pause">Пауза</button><button id="resume">Продолжить</button><button id="step">Шаг</button><button id="reset">Сброс</button><button id="cancel">Отмена</button><span class="spacer"></span><label class="muted">Расчёт × <select id="acceleration" aria-label="Ускорение"><option value="1">1</option><option value="100">100</option><option value="2000" selected>2000</option><option value="20000">20000</option></select></label><span id="status" class="status">Готов к запуску</span></div>
@@ -212,9 +211,11 @@ function showError(text: string) {
 }
 function send(type: string, payload?: any) {
   if (!runId) return;
+  const transport=type==='start'?ensureWorker():worker;
+  if(!transport)return;
   const id = ++commandId;
   pending.set(id, performance.now());
-  worker.postMessage({ runId, commandId: id, type, payload });
+  try{transport.postMessage({ runId, commandId: id, type, payload });}catch{failWorker(transport);}
 }
 function reset() {
   if (runId) send("cancel");
@@ -222,6 +223,7 @@ function reset() {
   runId = Array.from(crypto.getRandomValues(new Uint8Array(16)),
     byte => byte.toString(16).padStart(2, "0")).join("");
   currentResult = undefined;
+  previousResult = undefined;
   activeRun = false;
   activeSpec = undefined;
   state = initialState(spec);
@@ -241,7 +243,10 @@ function start() {
     showError(v.errors.map((e) => `${e.path}: ${e.message}`).join("\n"));
     return;
   }
+  const measured=currentResult;
   reset();
+  // Резерв нужен только для отказа транспорта; обычный новый run не экспортирует старый result.
+  previousResult=measured;
   showError("");
   $("status").textContent = "Расчёт…";
   activeRun = true;
@@ -397,7 +402,7 @@ function comparison() {
       )
       .join("")}</table></details>`;
 }
-worker.onmessage = (e) => {
+function receive(e:MessageEvent) {
   const m = e.data;
   if (m.runId !== runId) return;
   if (m.type === "control-ack") {
@@ -435,10 +440,11 @@ worker.onmessage = (e) => {
     $("retention").textContent =
       `${p.retention.buckets} buckets · ${p.retention.cadenceSeconds} s mean/min/max/count · ${p.retention.totalTicks} ticks · ${(p.retention.estimatedBytes / 1048576).toFixed(2)} MiB. События: первые128 / последние19872; отброшено ${p.retention.droppedEvents}.`;
     update();
-    worker.postMessage({ runId, type: "telemetry-ack", chunkId: m.chunkId });
+    worker?.postMessage({ runId, type: "telemetry-ack", chunkId: m.chunkId });
   }
   if (m.type === "complete" || m.type === "snapshot") {
     currentResult = m.payload;
+    previousResult=undefined;
     if (m.type === "complete") {
       $("status").textContent = "Завершён";
       buckets = currentResult!.buckets.filter(
@@ -455,7 +461,23 @@ worker.onmessage = (e) => {
     }
     comparison();
   }
-};
+}
+function failWorker(failed=worker){
+  if(failed!==worker)return;
+  failed?.terminate();worker=undefined;pending.clear();freezePending=false;activeRun=false;activeSpec=undefined;runId='';
+  currentResult??=previousResult;previousResult=undefined;
+  $('ack').textContent='Worker недоступен';$('status').textContent='Ошибка';
+  showError('Расчётный Worker недоступен. Проверьте подключение к Лабе и нажмите «Запуск» повторно.');
+}
+function ensureWorker(){
+  if(worker)return worker;
+  try{
+    const transport=new Worker(new URL('../runner/worker.ts',import.meta.url),{type:'module'});worker=transport;
+    transport.onmessage=event=>{if(worker===transport)receive(event);};
+    transport.onerror=event=>{event.preventDefault();failWorker(transport);};transport.addEventListener('messageerror',()=>failWorker(transport));
+    return transport;
+  }catch{failWorker();return undefined;}
+}
 $("start").onclick = start;
 for (const type of ["pause", "resume", "step", "cancel"])
   $(type).onclick = () => {
@@ -711,6 +733,7 @@ $("apply-json").onclick = () => {
 window.addEventListener("resize", chart);
 configuration();
 update();
+ensureWorker();
 
 const importedLegacy=sessionStorage.getItem('u2-lab:legacy-import');
 if(importedLegacy&&apply(importedLegacy))sessionStorage.removeItem('u2-lab:legacy-import');
