@@ -23,7 +23,7 @@ export function shipModelEffectivePhase(spec:RunSpecV3,state:StateV3,sample:'nex
 // Registry belongs to the captured installation, never to the first observed tick.
 export function shipModelChannelNames(spec:RunSpecV3):string[]{
   const ship=spec.resolvedShip;
-  return [...new Set([...(spec.mission?['positionM','velocityMS','onboardM3','minedM3','deliveredM3','completedTrips','receivedChargeJ','stationInputJ','processWorkJ','processReturnJ']:[]),...stepChannels,...signalChannels.map(id=>'signal:'+id),'fuelKg:diesel','fuelKg:hydrogen',
+  return [...new Set([...(spec.mission?['positionM','velocityMS','onboardM3','minedM3','deliveredM3','completedTrips','receivedChargeJ','stationInputJ','processWorkJ','processReturnJ']:[]),...(spec.catalogVersion==='ship-fitting-0.3.4'?['hangarExchangeJ','dockSeconds']:[]),...stepChannels,...signalChannels.map(id=>'signal:'+id),'fuelKg:diesel','fuelKg:hydrogen',
     ...Object.keys(ship.bufferCapacityJ).map(id=>'bufferJ:'+id),
     ...ship.surfaces.map(s=>'surfaceOpen:'+s.id),
     ...ship.instances.flatMap(i=>[...moduleChannels.map(name=>name+':'+i.id),...(pump(i.item.family)?['tiHotK','tiBusW','tiNetBenefitW','tiActive','tiHotMeasured'].map(name=>name+':'+i.id):[])]),

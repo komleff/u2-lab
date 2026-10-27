@@ -24,8 +24,8 @@ function compiled(id: string, version: ShipModelCatalogVersion = next, change: (
   return result.value;
 }
 it("0.3.2 remains readable alongside the current 0.3.3 catalog", () => {
-  expect(versions.SHIP_MODEL_CATALOG_VERSIONS).toEqual(["ship-fitting-0.3.0", previous, next, "ship-fitting-0.3.3"]);
-  expect(versions.CURRENT_SHIP_MODEL_CATALOG).toBe("ship-fitting-0.3.3");
+  expect(versions.SHIP_MODEL_CATALOG_VERSIONS).toEqual(["ship-fitting-0.3.0", previous, next, "ship-fitting-0.3.3", "ship-fitting-0.3.4"]);
+  expect(versions.CURRENT_SHIP_MODEL_CATALOG).toBe("ship-fitting-0.3.4");
   for (const version of versions.SHIP_MODEL_CATALOG_VERSIONS) expect(validateCatalogV3(loadCandidateCatalog(version)).ok).toBe(true);
   for (const name of files) expect(existsSync(`src/fitting/data/${name}-0.3.2.json`), name).toBe(true);
 });

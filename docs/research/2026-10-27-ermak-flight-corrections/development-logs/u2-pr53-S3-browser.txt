@@ -1,0 +1,14 @@
+[WebServer] (node:29704) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:29710) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/browser/ship-model-mission-v2.spec.ts:6:30 › EF05/06 literal legacy and new2 actual counters, frozen/export/reopen/copy at 1440 (5.2s)
+  ✓  2 tests/browser/ship-model-mission-v2.spec.ts:6:30 › EF05/06 literal legacy and new2 actual counters, frozen/export/reopen/copy at 390 (5.1s)
+  ✓  3 tests/browser/ship-model-mission-v2.spec.ts:18:30 › EF04/08 real Worker Pending/Pause/Step/resume/cancel/cold checkpoint at 1440 (2.2s)
+  ✓  4 tests/browser/ship-model-mission-v2.spec.ts:18:30 › EF04/08 real Worker Pending/Pause/Step/resume/cancel/cold checkpoint at 390 (2.1s)
+  ✓  5 tests/browser/ship-model-mission-v2.spec.ts:29:1 › EF08 unheld busy Worker accepts Pause and Cancel without committing shadow work (1.4s)
+
+  5 passed (16.9s)

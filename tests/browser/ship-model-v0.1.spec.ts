@@ -4,7 +4,7 @@ for(const width of [1440,390,820])test(`native /4 explicit compile, Worker run a
   await page.setViewportSize({width,height:1000});await page.goto('/');
   await page.locator('#ship-model-open').waitFor();expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);expect((await page.locator('header').boundingBox())!.height).toBeLessThanOrEqual(148);
   await page.locator('#ship-model-open').click();await page.locator('#sm-work-mode').selectOption('stationary');await expect(page.locator('#sm-model')).toHaveCount(0);await page.locator('#sm-source').click();
-  await expect(page.locator('#sm-start')).toBeEnabled();await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.3');const independent=await page.locator('#sm-opened').textContent();
+  await expect(page.locator('#sm-start')).toBeEnabled();await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.4');const independent=await page.locator('#sm-opened').textContent();
   for(const select of await page.locator('[data-sm-template]').all())await select.selectOption('engine-diesel-S-single');
   await page.locator('#sm-preview').click();await expect(page.locator('#sm-diff')).toContainText('origin');await expect(page.locator('#sm-start')).toBeEnabled();expect(await page.locator('#sm-opened').textContent()).toBe(independent);
   await page.locator('#sm-apply').click();await page.locator('#sm-duration').fill('3');await page.locator('#sm-start').click();

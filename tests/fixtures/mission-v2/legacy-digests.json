@@ -1,0 +1,72 @@
+{
+  "source": "cb67fcf096b5b2c046b7f65cc41500795803def0",
+  "inputSourcePR52": "575f02ddf58a227111ce9b7f6d55919d9c9fc34a",
+  "rows": [
+    {
+      "file": "old-none.json",
+      "specSha256": "ba5bee8d24f0e1c80d2ff2ce23cd12048f8a959a43fec22b9e201f24ddb3e0ab",
+      "serializedResultSha256": "2dbd69febf0b5582621813625fe8c8146cc77dd95c5fab605dbd2d267dbad400",
+      "mission": {
+        "version": "ship-mission-state/1",
+        "stage": "inbound",
+        "stageElapsedSeconds": 33.464066326618195,
+        "positionM": 98160.55344931321,
+        "velocityMS": -101.96553541425588,
+        "onboardM3": 36.00000000003392,
+        "minedM3": 36.00000000003392,
+        "deliveredM3": 0,
+        "completedTrips": 0,
+        "receivedFuelKg": {
+          "diesel": 0,
+          "hydrogen": 0
+        },
+        "receivedChargeJ": 0,
+        "terminalReason": null
+      }
+    },
+    {
+      "file": "old-passive3.json",
+      "specSha256": "f0e3ad95851d8a20b430dbaaeac64ef9aa0a597e0ad7de8c02865ad1a55a3f5c",
+      "serializedResultSha256": "0d502ba239ad97c4f735ade4222372399f71581eb1d62cdd93a1ce6dbf8b7d9a",
+      "mission": {
+        "version": "ship-mission-state/1",
+        "stage": "inbound",
+        "stageElapsedSeconds": 367.8262205719948,
+        "positionM": -11133.20723209021,
+        "velocityMS": -27.07043796778777,
+        "onboardM3": 36.000000000115655,
+        "minedM3": 36.000000000115655,
+        "deliveredM3": 0,
+        "completedTrips": 0,
+        "receivedFuelKg": {
+          "diesel": 0,
+          "hydrogen": 0
+        },
+        "receivedChargeJ": 0,
+        "terminalReason": null
+      }
+    },
+    {
+      "file": "old-passive3-bg1.json",
+      "specSha256": "a3f49286515156f74bf54233d6c8e58e569d04634f4448bbe075dec8cf35e5bd",
+      "serializedResultSha256": "77357c95d9b98f8340ae5804fffc6a1759fb428b4dbd3a8bae60e3ca21c689e6",
+      "mission": {
+        "version": "ship-mission-state/1",
+        "stage": "outbound",
+        "stageElapsedSeconds": 19.855853974819183,
+        "positionM": 1300.1904265156597,
+        "velocityMS": 123.65827401015872,
+        "onboardM3": 0,
+        "minedM3": 36.000000000030404,
+        "deliveredM3": 36.000000000030404,
+        "completedTrips": 1,
+        "receivedFuelKg": {
+          "diesel": 135.7985205482728,
+          "hydrogen": 0
+        },
+        "receivedChargeJ": 1646560174.0075688,
+        "terminalReason": null
+      }
+    }
+  ]
+}

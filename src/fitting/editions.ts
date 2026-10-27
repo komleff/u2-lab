@@ -17,6 +17,10 @@ import hulls033 from "./data/hulls-0.3.3.json" with { type: "json" };
 import items033 from "./data/items-0.3.3.json" with { type: "json" };
 import presets033 from "./data/presets-0.3.3.json" with { type: "json" };
 import manifest033 from "./data/preset-manifest-0.3.3.json" with { type: "json" };
+import hulls034 from "./data/hulls-0.3.4.json" with { type: "json" };
+import items034 from "./data/items-0.3.4.json" with { type: "json" };
+import presets034 from "./data/presets-0.3.4.json" with { type: "json" };
+import manifest034 from "./data/preset-manifest-0.3.4.json" with { type: "json" };
 import { isShipModelCatalogVersion, type ShipModelCatalogVersion } from "../model/v3/types";
 export { isShipModelCatalogVersion } from "../model/v3/types";
 import type { CandidateCatalog, ModuleItem, ShipFit, HullProfile } from "./types";
@@ -29,6 +33,7 @@ export const SHIP_MODEL_CATALOG_FILES = {
   "ship-fitting-0.3.1": { hulls: hulls031, items: items031, presets: presets031, presetOptions: manifest031 },
   "ship-fitting-0.3.2": { hulls: hulls032, items: items032, presets: presets032, presetOptions: manifest032 },
   "ship-fitting-0.3.3": { hulls: hulls033, items: items033, presets: presets033, presetOptions: manifest033 },
+  "ship-fitting-0.3.4": { hulls: hulls034, items: items034, presets: presets034, presetOptions: manifest034 },
 } satisfies Record<ShipModelCatalogVersion, { hulls: unknown; items: object; presets: unknown; presetOptions: unknown }>;
 export function isKnownCatalogVersion(version: unknown): version is CandidateCatalog["version"] {
   return version === "ship-fitting-0.2.0" || version === "ship-fitting-0.2.1" || version === "ship-fitting-0.2.2" || version === "ship-fitting-0.2.3" || version === "ship-fitting-0.2.4" || version === "ship-fitting-0.2.5";

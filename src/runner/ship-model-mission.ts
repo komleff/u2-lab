@@ -1,3 +1,5 @@
+import {stepMissionV2} from './ship-model-flight-v2';
+import {stepStationService} from '../model/v3/station-service';
 import {stepV3Interval,type StepDiagnostic} from '../model/v3/step';
 import type {RunSpecV3,StateV3,MissionStateV3} from '../model/v3/types';
 import type {TickTelemetry,LabEvent} from '../model/types';
@@ -6,6 +8,7 @@ type Interval=ReturnType<typeof stepV3Interval>;
 export function missionMassKg(spec:RunSpecV3,state:StateV3){return spec.resolvedShip.dryMassKg+state.fuelKg.diesel+state.fuelKg.hydrogen+state.mission!.onboardM3*spec.mission!.process.densityKgM3;}
 // Временные preview начинают от одного state; только commit переносит физику и RNG.
 export function stepShipModelMission(spec:RunSpecV3,input:StateV3){
+ if(spec.mission?.version==='ship-mission/2')return stepMissionV2(spec,input);
  const cfg=spec.mission!,ship=spec.resolvedShip,end=Math.min(spec.durationSeconds,input.timeSeconds+1),telemetry:TickTelemetry={},frames:Interval['frames']=[],diagnostics:StepDiagnostic[]=[],events:LabEvent[]=[];
  let state=structuredClone(input),zeroTransitions=0;
  const event=(kind:string,message:string)=>events.push({timeSeconds:state.timeSeconds,kind,message});
@@ -36,7 +39,7 @@ export function stepShipModelMission(spec:RunSpecV3,input:StateV3){
    }
   }else if(m.stage==='approach'||m.stage==='service'){
    const duration=m.stage==='approach'?cfg.approachSeconds:cfg.serviceSeconds,left=duration-m.stageElapsedSeconds;
-   if(left>1e-10){dt=Math.min(dt,left);commit(trial(dt,{},'idle'));}
+   if(left>1e-10){dt=Math.min(dt,left);commit(m.stage==='service'&&spec.catalogVersion==='ship-fitting-0.3.4'?stepStationService(spec,state,dt):trial(dt,{},'idle'));}
    if(state.mission!.stageElapsedSeconds>=duration-1e-9){
     if(m.stage==='approach')transition('mining');
     else{
