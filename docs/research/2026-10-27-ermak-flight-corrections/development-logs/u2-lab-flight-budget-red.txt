@@ -1,0 +1,43 @@
+
+ RUN  v5.0.3 /Users/komleff/Documents/GitHub/u2-lab-ermak-flight-counter
+
+ ❯ tests/model-v3/mission-v2-budget.test.ts (4 tests | 2 failed) 994ms
+   × EF04 actual runner yields Pending before committing a heavy flight decision 207ms
+   × EF04 one Worker Step survives zero-step Pending; Pause discards planning without changing actual state 159ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/model-v3/mission-v2-budget.test.ts > EF04 actual runner yields Pending before committing a heavy flight decision
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ tests/model-v3/mission-v2-budget.test.ts:8:23
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/model-v3/mission-v2-budget.test.ts > EF04 one Worker Step survives zero-step Pending; Pause discards planning without changing actual state
+AssertionError: expected 1 to be +0 // Object.is equality
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ tests/model-v3/mission-v2-budget.test.ts:18:56
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 2 passed (4)
+   Start at  19:34:13
+   Duration  1.88s (tests 55%, transform 34%, import 11%)
+

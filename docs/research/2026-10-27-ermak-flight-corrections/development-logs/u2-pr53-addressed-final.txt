@@ -1,0 +1,9 @@
+
+ RUN  v5.0.3 /Users/komleff/Documents/GitHub/u2-lab-ermak-flight-counter
+
+
+ Test Files  3 passed (3)
+      Tests  15 passed (15)
+   Start at  20:03:00
+   Duration  8.08s (tests 83%, transform 12%, import 5%)
+

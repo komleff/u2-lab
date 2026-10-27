@@ -1,0 +1,51 @@
+
+ RUN  v5.0.3 /Users/komleff/Documents/GitHub/u2-lab-ermak-flight-counter
+
+ ❯ tests/ui/mission-counter-v2.test.ts (1 test | 1 failed) 37ms
+   × EF06 a zero trip series labels1 as scale rather than a completed trip 36ms
+ ❯ tests/model-v3/mission-v2.test.ts (2 tests | 2 failed) 374ms
+   × EF05 fresh current mission explicitly selects2; explicit1 and older catalogs stay1 36ms
+   × EF01 stable paid thrust reaches the station without missed coast boundary or finite overshoot 337ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/model-v3/mission-v2.test.ts > EF05 fresh current mission explicitly selects2; explicit1 and older catalogs stay1
+AssertionError: expected 'ship-mission/1' to be 'ship-mission/2' // Object.is equality
+
+Expected: "ship-mission/2"
+Received: "ship-mission/1"
+
+ ❯ tests/model-v3/mission-v2.test.ts:11:45
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/model-v3/mission-v2.test.ts > EF01 stable paid thrust reaches the station without missed coast boundary or finite overshoot
+AssertionError: expected -356.8117601465225 to be greater than or equal to -0.001
+ ❯ tests/model-v3/mission-v2.test.ts:17:14
+     15| it('EF01 stable paid thrust reaches the station without missed coast b…
+     16|  const run=createShipModelRun('E4',ermak());let min=0;while(run.state.…
+     17|  expect(min).toBeGreaterThanOrEqual(-1e-3);expect(run.state.mission!.c…
+       |              ^
+     18| });
+     19|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/ui/mission-counter-v2.test.ts > EF06 a zero trip series labels1 as scale rather than a completed trip
+AssertionError: expected '<svg data-axis-x="180" viewBox="0 0 7…' to contain 'Шкала:'
+
+Expected: "Шкала:"
+Received: "<svg data-axis-x="180" viewBox="0 0 700 205" role="img" aria-label="Измеренные каналы: рейсы"><path d="M180 20V170H660M180 95H660" stroke="#3a3226" fill="none"/><text x="180" y="195">0 с</text><text x="660" y="195" text-anchor="end">1 с</text><text x="660" y="35" text-anchor="end">1 рейсы</text><g stroke="#E5C23A" data-channel="completedTrips" fill="none"><path data-envelope opacity=".18" stroke="none" fill="#E5C23A" d="M180 170H660V170H180Z"/><path stroke-width="2"  d="M180,170 L660,170"/></g><path d="M660 20V170" stroke="#E8DCC6" data-time="1"/></svg>"
+
+ ❯ tests/ui/mission-counter-v2.test.ts:4:15
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  3 failed (3)
+   Start at  18:56:25
+   Duration  1.19s (transform 58%, tests 22%, import 20%)
+

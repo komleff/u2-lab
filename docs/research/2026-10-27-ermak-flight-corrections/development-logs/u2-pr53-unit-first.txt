@@ -1,0 +1,34 @@
+
+> u2-power-heat-lab@0.2.2 test
+> vitest run --exclude tests/long-kernel.test.ts
+
+
+ RUN  v5.0.3 /Users/komleff/Documents/GitHub/u2-lab-ermak-flight-counter
+
+ ❯ tests/model-v3/experiments.test.ts (6 tests | 1 failed) 17798ms
+   × versioned measured artifact is literal-reproducible, not an expected-vector echo 2910ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/model-v3/experiments.test.ts > versioned measured artifact is literal-reproducible, not an expected-vector echo
+AssertionError: expected '5f13b64f3b6a73bbdcb4b07272c98da5e6d4c…' to be 'd4001ea742e727d2861e53c2a0dee6f23ab5f…' // Object.is equality
+
+Expected: "d4001ea742e727d2861e53c2a0dee6f23ab5fd0ecc82c17f5802ea8df30b399c"
+Received: "5f13b64f3b6a73bbdcb4b07272c98da5e6d4ccf0847bb54454441ef2118a4490"
+
+ ❯ tests/model-v3/experiments.test.ts:58:124
+     56|   expect(frozen.sourceKernelCommit).toBe('f0732d326f346bf557ed582b8bbe…
+     57|   const delta=new Set(['src/model/v3/power.ts','src/model/v3/schema.ts…
+     58|   for(const [path,hash]of Object.entries(oldPins))expect(delta.has(pat…
+       |                                                                                                                            ^
+     59|
+     60| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 147 passed (148)
+      Tests  1 failed | 1968 passed (1969)
+   Start at  19:56:25
+   Duration  143.02s (tests 93%, import 5%, transform 2%)
+

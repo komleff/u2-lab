@@ -1,0 +1,25 @@
+
+ RUN  v5.0.3 /Users/komleff/Documents/GitHub/u2-lab-ermak-flight-counter
+
+ ❯ tests/model-v3/mission-v2-budget.test.ts (6 tests | 1 failed | 5 skipped) 32ms
+   × EF08 a fractional root just before an outer boundary forecasts the tiny remainder rather than dt greater than1 32ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/model-v3/mission-v2-budget.test.ts > EF08 a fractional root just before an outer boundary forecasts the tiny remainder rather than dt greater than1
+AssertionError: expected 'numerical-error' to be 'ready' // Object.is equality
+
+Expected: "ready"
+Received: "numerical-error"
+
+ ❯ tests/model-v3/mission-v2-budget.test.ts:32:73
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 skipped (6)
+   Start at  19:51:08
+   Duration  969ms (transform 72%, import 24%, tests 4%)
+

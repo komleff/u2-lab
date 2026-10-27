@@ -1,0 +1,21 @@
+
+ RUN  v5.0.3 /Users/komleff/Documents/GitHub/u2-lab-ermak-flight-counter
+
+ ❯ tests/model-v3/mission-v2-budget.test.ts (5 tests | 1 failed) 1111ms
+   × EF08 certified full-braking suffix is reused only for the exact physical successor 71ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/model-v3/mission-v2-budget.test.ts > EF08 certified full-braking suffix is reused only for the exact physical successor
+AssertionError: expected 253 to be less than 63.25
+ ❯ tests/model-v3/mission-v2-budget.test.ts:27:227
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  19:41:47
+   Duration  2.06s (tests 56%, transform 33%, import 11%)
+

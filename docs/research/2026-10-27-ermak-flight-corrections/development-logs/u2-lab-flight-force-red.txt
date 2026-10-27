@@ -1,0 +1,26 @@
+
+ RUN  v5.0.3 /Users/komleff/Documents/GitHub/u2-lab-ermak-flight-counter
+
+ ❯ tests/model-v3/mission-v2.test.ts (3 tests | 1 failed | 2 skipped) 67ms
+   × EF02 a fractional cruise event reports outer-interval mean force from its actual paid impulse 66ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/model-v3/mission-v2.test.ts > EF02 a fractional cruise event reports outer-interval mean force from its actual paid impulse
+AssertionError: expected 2950000 to be close to 6154.89579475052, received difference is 2943845.1042052493, but expected 5e-7
+ ❯ tests/model-v3/mission-v2.test.ts:20:40
+     18|  const out=stepMissionV2(s,s.initialState),dt=out.state.timeSeconds-s.…
+     19|  expect(out.telemetry['impulseNs:march']).toBeGreaterThan(0);
+     20|  expect(out.telemetry['forceN:march']).toBeCloseTo(out.telemetry['impu…
+       |                                        ^
+     21| });
+     22|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 skipped (3)
+   Start at  19:54:06
+   Duration  1.06s (transform 69%, import 24%, tests 7%)
+

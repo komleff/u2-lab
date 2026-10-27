@@ -1,0 +1,28 @@
+
+ RUN  v5.0.3 /Users/komleff/Documents/GitHub/u2-lab-ermak-flight-counter
+
+ ❯ tests/model-v3/mission-v2-budget.test.ts (7 tests | 1 failed | 6 skipped) 38ms
+   × EF04 a deadline before the first planner operation preserves Step intent until an actual tick 38ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/model-v3/mission-v2-budget.test.ts > EF04 a deadline before the first planner operation preserves Step intent until an actual tick
+AssertionError: expected +0 to be 1 // Object.is equality
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/model-v3/mission-v2-budget.test.ts:36:350
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 6 skipped (7)
+   Start at  20:04:24
+   Duration  895ms (transform 72%, import 23%, tests 5%)
+
