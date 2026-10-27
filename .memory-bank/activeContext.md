@@ -64,6 +64,15 @@ manifest побайтно равен source rc.3; override PR #30 снят — �
 `Bash(*)` — `ulab-4tq`. Pending intent `baa-2026-10-18-v2-02` выполнен upstream (OverGate
 `og-rdc`): при apply очереди оператор закрывает созданную задачу со ссылкой на `og-rdc`.
 
+# Пайплайн u2 в слое проекта u2-lab, 2026-10-18
+
+Поручение оператора: перенести настройки пайплайна u2. Выбран «слой проекта»: managed-файлы OverGate
+не трогаются. Добавлены `.agents/PM_ERR.md`, `DOC_PR.md`, `REVIEW_CYCLE.md` — дословные копии
+u2@`1c9da96` с баннером «история U2»; роль ГД — `.agents/project/GD_ROLE.md` (опциональна);
+в `AGENTS.md` — прерывание оператора, CI/destructive, самосверка PM с PM_ERR каждые три итерации
+(project-исключение к PM_ROLE §9), подписи AI-комментариев, GitHub-коннектор, временные файлы.
+План `docs/plans/2026-10-18-pipeline-from-u2.md`, PR #31, CRITICAL, Beads `ulab-bmz`.
+
 # Beads: доступ локальных агентов, 2026-10-18
 
 Draft PR #30 `chore/beads-agent-access` (план `docs/plans/2026-10-18-beads-local-agent-access.md`
