@@ -1,5 +1,7 @@
 # U2 Lab — индекс документов
 
+- [Ермак: frozen диагностика 0.3.3](research/2026-10-27-ermak-radiators/README.md) / [итог E1–E7](research/2026-10-27-ermak-radiators/CURRENT-STATUS.md) — исходный пакет сохранён; canonical Beads сопоставлен без дублей, исправления вошли в слитые PR53/54 и релиз2.7.0.
+
 | Документ | Статус | Область |
 |---|---|---|
 | [Выпуск Лабы2.7.0](releases/2026-10-28-v2.7.0.md) | Developer integration candidate; publication pending | Принятая физика PR53/main плюс публичные clean-root/О Лабе/V_FA1–4; физические receipts прежние |

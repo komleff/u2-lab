@@ -1,0 +1,78 @@
+[
+  {
+    "rev": 8,
+    "change": "accepted",
+    "bg": 250,
+    "at1200": {
+      "t": 1200,
+      "T": 383.2105944216219,
+      "trips": 1,
+      "mined": 36,
+      "delivered": 36,
+      "stage": "outbound",
+      "chargeFraction": 1
+    },
+    "firstConstraint": null,
+    "events": [
+      {
+        "timeSeconds": 1002.9092474071588,
+        "kind": "mission-service",
+        "message": "Рейс 1: доставлено 36 SCU"
+      },
+      {
+        "timeSeconds": 2013.7160593867302,
+        "kind": "mission-service",
+        "message": "Рейс 2: доставлено 36 SCU"
+      },
+      {
+        "timeSeconds": 3016.8147742152214,
+        "kind": "mission-service",
+        "message": "Рейс 3: доставлено 36 SCU"
+      },
+      {
+        "timeSeconds": 4024.0996930599213,
+        "kind": "mission-service",
+        "message": "Рейс 4: доставлено 36 SCU"
+      },
+      {
+        "timeSeconds": 5015.912303892898,
+        "kind": "mission-service",
+        "message": "Рейс 5: доставлено 36 SCU"
+      },
+      {
+        "timeSeconds": 6026.795997083187,
+        "kind": "mission-service",
+        "message": "Рейс 6: доставлено 36 SCU"
+      },
+      {
+        "timeSeconds": 7041.24212282896,
+        "kind": "mission-service",
+        "message": "Рейс 7: доставлено 36 SCU"
+      },
+      {
+        "timeSeconds": 8036.034750759602,
+        "kind": "mission-service",
+        "message": "Рейс 8: доставлено 36 SCU"
+      },
+      {
+        "timeSeconds": 9042.128418266773,
+        "kind": "mission-service",
+        "message": "Рейс 9: доставлено 36 SCU"
+      },
+      {
+        "timeSeconds": 10033.94102854084,
+        "kind": "mission-service",
+        "message": "Рейс 10: доставлено 36 SCU"
+      }
+    ],
+    "at10800": {
+      "t": 10800,
+      "T": 445.14346347370025,
+      "trips": 10,
+      "mined": 395.9999999999611,
+      "delivered": 360,
+      "stage": "inbound",
+      "chargeFraction": 0.5517305391297717
+    }
+  }
+]
