@@ -371,6 +371,12 @@ function sha256(path) { return createHash('sha256').update(readFileSync(join(roo
 // Установленный OverGate rc.3: install-state и опубликованный install-план (PR #40).
 const RC3_SHA = 'b830d5ed7ed31e597b45f7f3c18b8fb6baad6b29';
 const RC3_PLAN = 'docs/verification/overgate-rc3-install-plan.json';
+// Независимые SHA256 пересчитаны из Git blobs komleff/overgate@b830d5ed, не из install-плана.
+const RC3_FILE_SHA256 = {
+  '.claude/settings.json': '1f518c77696c98922e7044e1857acf50a100d158fce61d2c68ac22f5aaa1f5fb',
+  'scripts/bd-wt.sh': '54f4a9a1b70517b532774f0acde6e72d006399c0b0995ddba590b0d26d141547',
+  'scripts/lib/bd-env.sh': '5e4ffb08ed0791150e4b51c3df73828bf47170f474b18b1c5c0c8b8af268fd27',
+};
 function installed() {
   const state = JSON.parse(readFileSync(join(root, '.overgate/install-state.json'), 'utf8'));
   const plan = JSON.parse(readFileSync(join(root, RC3_PLAN), 'utf8'));
@@ -378,6 +384,11 @@ function installed() {
   assert.equal(plan.source_sha, RC3_SHA);
   // install-state привязан именно к опубликованному плану: его sha256 и есть plan_sha256.
   assert.equal(state.plan_sha256, sha256(RC3_PLAN));
+  assert.equal(state.approval?.verdict, 'PLAN_READY', 'approval.verdict: expected PLAN_READY');
+  assert.equal(state.approval.plan_sha256, state.plan_sha256, 'approval.plan_sha256: другой install-план');
+  assert.ok(typeof state.approval.evidence === 'string'
+    && /^https:\/\/github\.com\/komleff\/u2-lab\/pull\/\d+#issuecomment-\d+$/.test(state.approval.evidence),
+  'approval.evidence: expected u2-lab PR comment URL');
   return { state, plan };
 }
 // Файл побайтно равен source rc.3: after в плане (= blob source) и installed в install-state.
@@ -386,6 +397,7 @@ function assertManagedBytes({ state, plan }, path) {
   assert.ok(planned, `${path}: нет в install-плане rc.3`);
   assert.equal(sha256(path), planned.after.sha256, `${path}: не равен source rc.3`);
   assert.equal(state.installed[path]?.sha256, planned.after.sha256, `${path}: install-state`);
+  assert.equal(sha256(path), RC3_FILE_SHA256[path], `${path}: external rc.3 pin ${RC3_SHA}`);
 }
 
 // AC-7 плана PR #30 заменён решением оператора 2 (план 2026-10-24, полное соответствие OverGate).
@@ -403,6 +415,11 @@ test('AC-10: wrappers are managed rc.3 bytes, no active drift record, applier pr
   for (const path of ['scripts/bd-wt.sh', 'scripts/lib/bd-env.sh']) assertManagedBytes(rc3, path);
   // Override PR #30 снят: активной записи дрейфа нет, она перенесена в docs/archive/.
   assert.equal(existsSync(join(root, 'docs/verification/beads-wrapper-drift.json')), false);
+  const archivePath = 'docs/archive/2026-10-18-beads-wrapper-drift.json';
+  assert.ok(existsSync(join(root, archivePath)), `${archivePath}: archive exists`);
+  const archive = JSON.parse(readFileSync(join(root, archivePath), 'utf8'));
+  assert.equal(archive.status, 'superseded', `${archivePath}: archive.status`);
+  assert.equal(archive.superseded_by?.install_plan, RC3_PLAN, `${archivePath}: archive.superseded_by.install_plan`);
   const provenance = JSON.parse(readFileSync(join(root, 'docs/verification/cloud-tooling-provenance.json'), 'utf8'));
   const apply = provenance.files.find(entry => entry.path === 'scripts/bd-apply-intents.sh');
   assert.equal(apply.target_git_blob_sha1, blob('scripts/bd-apply-intents.sh'));
