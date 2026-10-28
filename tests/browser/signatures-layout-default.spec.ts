@@ -10,7 +10,7 @@ for (const width of [390, 820, 1440]) test(`GL01–04 default model, immutable i
     postMessage(m: any, ...args: any[]) { if (m.type === "start") (window as any).starts.push(structuredClone(m)); return (super.postMessage as any)(m, ...args); }
   }; });
   try {
-    await page.goto("/"); await expect(page.locator("#sig-mode")).toBeChecked();
+    await page.goto("/?shipModel=legacy"); await expect(page.locator("#sig-mode")).toBeChecked();
     await expect(page.locator("#fit-nav-signatures")).toHaveCount(0);
     await page.locator('.ui-header nav a[href="#workspace-conditions"]').click(); await expect(page).toHaveURL(/#workspace-conditions$/);
     await page.locator("#sig-mode").uncheck(); await page.locator("#fit-preset").selectOption("pony:1");

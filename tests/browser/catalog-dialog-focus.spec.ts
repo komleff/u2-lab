@@ -22,7 +22,7 @@ test('MC03 catalog opens without editable focus and intentional search preserves
         await act('#fit-save-confirm');
         return readFile((await (await download).path())!);
       };
-      await p.goto('/');
+      await p.goto('/?shipModel=legacy');
       await p.locator('#fit-import').setInputFiles({name:'manual-pony-two.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(getPresetFit('pony:2','ship-fitting-0.2.3')))});
       const before = await save(), revision = await p.locator('#fit-next-revision').textContent();
       await p.evaluate(() => {
@@ -89,7 +89,7 @@ test('MC03 tablet catalog families follow the slot, retain real refusals and rep
     p.on('pageerror', e => errors.push(e.message));
     const act = async (selector: string) => { const x = p.locator(selector); await x.scrollIntoViewIfNeeded(); await x.tap(); };
     const save = async () => { await act('#fit-save'); const download = p.waitForEvent('download'); await act('#fit-save-confirm'); return readFile((await (await download).path())!); };
-    await p.goto('/');
+    await p.goto('/?shipModel=legacy');
     await p.locator('#fit-import').setInputFiles({name:'manual-pony-two.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(getPresetFit('pony:2','ship-fitting-0.2.3')))});
     const before = await save(), original = JSON.parse(before.toString()), revision = await p.locator('#fit-next-revision').textContent();
     const items = { ...loadCandidateCatalog().items, ...original.localVariants };

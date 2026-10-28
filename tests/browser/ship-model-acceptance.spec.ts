@@ -19,9 +19,9 @@ for(const width of [1440,820,390])test(`UI4I-11 whole native /4 research chain a
     const targets=[];for(const selector of selectors){const box=await page.locator(selector).boundingBox();expect(box,stage+' '+selector).not.toBeNull();expect(box!.width,selector+' width').toBeGreaterThanOrEqual(44);expect(box!.height,selector+' height').toBeGreaterThanOrEqual(44);targets.push({selector,width:box!.width,height:box!.height});}
     expect(errors,stage+' console/page errors').toEqual([]);geometry.push({stage,overflow,targets});
   };
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-work-mode').selectOption('stationary');await page.locator('#sm-preset').selectOption('sputnik-d');
+  await page.goto('/');await page.locator('#sm-work-mode').selectOption('stationary');await page.locator('#sm-preset').selectOption('sputnik-d');
   await expect(page.locator('#workspace-shell')).toHaveAttribute('data-model','ship-model');await expect(page.locator('#workspace-shell header')).toHaveCount(1);await expect(page.locator('.ui-controls')).toHaveCount(1);
-  await check('open',['#sm-preset','#sm-source','#sm-start','#sm-variant','#sm-back']);
+  await check('open',['#sm-preset','#sm-compilation > summary','#sm-start','#sm-variant','#sm-save-fit']);
   await page.locator('#sm-fit > summary').click();await page.locator('#sm-slot-signature-2').click();await page.locator('[data-sm-candidate="buffer-S"]').click();
   await expect(page.locator('#sm-swap-preview')).toContainText('Масса');await check('swap-preview',['#sm-swap-apply','#sm-swap-close','#sm-swap-search']);
   await page.locator('#sm-swap-apply').click();await expect(page.locator('#sm-slot-signature-2')).toContainText('Тепловой буфер S');
@@ -48,7 +48,7 @@ for(const width of [1440,820,390])test(`UI4I-11 whole native /4 research chain a
   const fitFile=await save(page,'sm-save-fit'),runFile=await save(page,'sm-save-run'),resultFile=await save(page,'sm-save-result'),csv=await save(page,'sm-save-csv'),b=JSON.parse(resultFile.text);
   expect(resultFile.name).toContain(b.runId);expect(csv.name).toContain(b.runId);expect(csv.text).toBe(exportShipModelTelemetryCsv(b));expect(resultFile.text).toBe(serializeResultSnapshot(b));expect(b.spec.scenario).toEqual(captured.scenario);
   for(const [file,owner]of [[fitFile,'Сборка'],[runFile,'Опыт'],[resultFile,'Результат']] as const){await page.locator('#sm-import').setInputFiles({name:file.name,mimeType:'application/json',buffer:Buffer.from(file.text)});await expect(page.locator('#sm-error')).toBeEmpty();await expect(page.locator('#sm-opened')).toContainText(owner);}
-  expect((await save(page,'sm-save-result')).text).toBe(resultFile.text);await check('exports-reopen',['#sm-save-result','#sm-save-csv','#sm-back']);
+  expect((await save(page,'sm-save-result')).text).toBe(resultFile.text);await check('exports-reopen',['#sm-save-result','#sm-save-csv','#sm-save-fit']);
   await page.getByRole('link',{name:'Сравнение',exact:true}).click();await page.screenshot({path:info.outputPath('comparison-'+width+'.png')});
   const evidence={width,geometry,errors,runIds:{frozen:measured.runId,selected:b.runId},csvRows:csv.text.split('\n').length};
   const evidencePath=info.outputPath('geometry-'+width+'.json');writeFileSync(evidencePath,JSON.stringify(evidence,null,2)+'\n');

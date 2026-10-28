@@ -6,5 +6,5 @@ if(new URLSearchParams(location.search).get('mode')==='legacy'){
 }else{
  const [{loadCandidateCatalog},{mountFitting}]=await Promise.all([import('../fitting/catalog'),import('./fitting')]);
  mountFitting(document.querySelector('#app')!,loadCandidateCatalog("ship-fitting-0.2.5"),()=>{});
- if(new URLSearchParams(location.search).get('shipModel')==='experimental')document.querySelector<HTMLButtonElement>('#ship-model-open')?.click();
+ if(new URLSearchParams(location.search).get('shipModel')!=='legacy')document.querySelector<HTMLButtonElement>('#ship-model-open')?.click();
 }

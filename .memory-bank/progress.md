@@ -1,3 +1,14 @@
+# Подготовка Лабы2.7.0 — 2026-10-28
+
+Текущая release-интеграция: [PR54](https://github.com/komleff/u2-lab/pull/54),
+Beads `ulab-sqb`. Accepted main5b363287 после PR53/31 объединяется с уже публичными
+clean-root/О Лабе/V_FA1–4 из2.6.2. Физика/catalog0.3.4/mission2 и старые literal
+маршруты/форматы сохраняются;22 receipts не пересоздаются. Source-readiness и
+Save Fit guards main сохранены. UI2.7.0, интерфейс4.8 и модель0.1 — разные версии.
+[Release scope/proof](../docs/releases/2026-10-28-v2.7.0.md). QA/Review/CI и публикация
+идут отдельно; Pages/GHRelease выполняет PM после qualification, main merge — оператор.
+Canonical task status — Beads. Это preparation context, не объявление публикации.
+
 # PR53: рейсовое управление2 и фактический счётчик — 2026-10-27
 
 Текущий Developer candidate — [PR53](https://github.com/komleff/u2-lab/pull/53),
