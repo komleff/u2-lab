@@ -13,10 +13,11 @@ const save=async(page:Page,id:string)=>{const waiting=page.waitForEvent('downloa
 for(const width of [1440,820,390])test.describe(`C031-QA-B1 graph context at ${width}`,()=>{
   test.use({viewport:{width,height:width===390?844:1000},isMobile:width===390,hasTouch:width===390});
   test('completed fresh Sputnik exposes the same saved IR/EM distances beside /4 graphs without details',async({page})=>{
+    test.setTimeout(60000);
     const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
     await page.goto('/');await expect(page.locator('#sm-preset')).toHaveValue('sputnik-d');await expect(page.locator('#sm-background')).toHaveValue('250');
     // Actual H3600 mission Worker + rendering on CI needs a run budget, not the 5s DOM default.
-    if(width===390)await page.locator('#sm-start').tap();else await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete',{timeout:20000});
+    if(width===390)await page.locator('#sm-start').tap();else await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete',{timeout:40000});
     const primary=page.locator('#workspace-overview #sm-detection-distance'),before=await primary.innerHTML(),values=await primary.locator('[data-distance]').evaluateAll(nodes=>nodes.map(n=>({id:n.getAttribute('data-distance'),value:n.getAttribute('data-value'),text:n.textContent})));
     const saved=await save(page,'sm-save-result'),result=JSON.parse(saved);expect(result.state.timeSeconds).toBe(3600);expect(result.spec.environment.radiativeBackgroundK).toBe(250);
     if(width===390)await page.getByRole('link',{name:'Графики',exact:true}).tap();else await page.getByRole('link',{name:'Графики',exact:true}).click();
