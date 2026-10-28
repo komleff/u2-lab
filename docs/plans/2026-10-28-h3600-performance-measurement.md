@@ -1,91 +1,81 @@
-# H3600: проверять fresh-производительность отдельно от Pause/export
+# H3600: строгая fresh-производительность и завершение функциональных опытов
 
-Beads: `ulab-f6d.1`, часть `ulab-f6d`. Режим PRODUCT, только тесты.
-Владелец WHAT — [принятый дизайн, пункт приёмки 7](../superpowers/specs/2026-10-24-ship-model-duration-progress-design.md).
-Fresh Sputnik-D H3600 должен завершаться в штатном CI быстрее 20 секунд.
-Этот предел не повышается. Пауза/экспорт проверяются пунктом 6 отдельно.
+Beads: `ulab-f6d.1`, parent `ulab-f6d`. PRODUCT, план v0.3.
+WHAT — [принятый дизайн, AC6/7](../superpowers/specs/2026-10-24-ship-model-duration-progress-design.md).
+Свежий Sputnik-D H3600 в штатном CI обязан завершаться быстрее 20 секунд.
+Этот предел, физические параметры, температурные границы и полный расчёт сохраняются.
 
-## Причина
+## Подтверждённый блокер
 
-В `tests/browser/ship-model-mission-progress.spec.ts` таймер начинается до Start,
-но заканчивается после Pause, получения checkpoint, экспорта и Resume.
-Pause также намеренно сбрасывает `missionJob/flightMemo`, поэтому простое
-вычитание времени скачивания не восстанавливает стоимость непрерывного прогона.
+Первый таймер включал Pause/export/Resume. Их отделение уже реализовано:
+строгий cold-fresh beforeStart→observedComplete и отдельный полный lifecycle.
+В CI c31c07c fresh19190мс и lifecycle20319мс прошли, но три функциональных
+complete20 ожидания не дождались результата. В зависимом CI7043fc0 с тем же
+runtime сам fresh20 не завершился; также упали три C031 graph-context и primary
+IR/EM ожидания. Два long и1978unit прошли в обоих CI. FAIL сохранены в задаче;
+удачный повтор не считается исправлением AC7.
 
-Два CI на неизменном коде дали complete, но 20,559/20,454 с вместо <20 с;
-другая ветка дала 20,261 с, затем прошла на том же коммите за 8,470 с.
-FAIL сохранены в `ulab-f6d`, пороги и код при повторах не менялись.
+Bounded Developer CPU-profile production H3600:6143мс/77chunks;
+`createMissionV2Job` self1511мс,24.5% CPU — повторный полный `JSON.stringify(spec)`
+на каждом фактическом tick. Полные spec/state/metrics/events/signatures совпали
+с прежним uninterrupted эталоном,3рейса/90SCUдоставлено/30наборту.
+Это фактический кандидат для устранения лишней работы, ещё не CI PASS.
 
-Одна локальная холодная пара Chromium на одинаковом spec:
-непрерывно 3,675 с, с Pause/export/resume 4,117 с. `spec/state/metrics/events`
-совпали: H3600, 3 рейса, 90 SCU доставлено, 30 на борту, errors0.
-Это подтверждает различие измеряемых путей, но не доказывает fresh <20 с на CI.
-Диагностика Developer: `/tmp/u2-lab-h3600-clock-diagnostic.md/.json`.
+## Минимальное исправление
 
-## Минимальная правка (v0.2, после CI c31c07c)
+Один основной Developer, та же ветка/PR56. До runtime-кода — независимый Review
+этого уточнения HOW. Никакой новой подсистемы или ветки.
 
-В `tests/browser/ship-model-mission-progress.spec.ts` сохраняется первая правка:
+1. В `src/runner/ship-model-run.ts` вычислять прежний полный JSON fingerprint
+   лениво один раз за синхронный вызов `runShipModelChunk`, только когда реально
+   нужен новый mission/2 job. Не добавлять работу на done/maxSteps0/stationary.
+2. В `src/runner/ship-model-flight-v2.ts` использовать этот уже вычисленный ключ
+   при создании jobs данного chunk. Ключ, сравнение и очистка memo остаются
+   прежними; самостоятельный `createMissionV2Job` продолжает проверять spec сам.
+   Между chunks изменение того же объекта spec обязано обнаруживаться.
+   Не менять forecast keys, клонирование состояния, арифметику, порядок операций,
+   root-finding, шаг, точность, ресурсы, RNG, telemetry или retention.
+3. В существующем `tests/model-v3/mission-v2-budget.test.ts` добавить адресные
+   semantic regression checks: изменение spec между chunks и в standalone job
+   не использует старый forecast; hot и cold результаты совпадают. Не проверять
+   число вызовов stringify как замену корректности. Прежние tests сохранить.
+4. `ship-model-mission-progress.spec.ts` сохраняет отдельные cold-fresh и lifecycle.
+   Fresh — новый page/context/Worker, без prior run, импорта, checkpoint, прогрева
+   и вычитания паузы; часы доStart→complete, строгий wall<20000/complete20.
+   Lifecycle сохраняет Pause/checkpoint/Resume и все32 прежних assertions,
+   complete20/global30. H3600, progress, graphs, ore/cargo и errors сохраняются.
+5. В двух функциональных test files ожидание complete40000 и local timeout60000
+   применяется только к наблюдаемому классу: C031 graph-context widths1440/820/390
+   и primary completed-fresh IR/EM в `ship-model-catalog-0.3.1.spec.ts`, TB1–3
+   widths1440/820/390 в `ship-model-thermal-frontiers.spec.ts`. Итого7 cases.
+   Сохраняются все старые assertions/input,495K,200/220/500/550K и crossing500,
+   геометрия/видимость/IR/EM. Эти ожидания не являются benchmark AC7.
 
-1. Отдельный тест начинает с нового page/context и свежего Sputnik-D, mission/2,
-   текущего каталога, H3600 и прежних условий. До Start нет другого опыта,
-   checkpoint, прогрева Worker или импорта результата.
-2. Часы запускаются до нажатия Start и останавливаются после наблюдаемого complete.
-   Оставить строгие `wallMs < 20000` и ожидание complete 20000 ms. До остановки
-   часов нет Pause/export/Resume. Все 3600 секунд действительно рассчитываются.
-3. Проверить настоящий промежуточный progress, разные времена живых графиков,
-   100%, пустую ошибку и итоговый результат с физическими ore/cargo assertions.
-   Экспорт результата для проверки выполняется после остановки часов.
-4. В отдельном прежнем lifecycle-тесте оставить Pause, checkpoint export,
-   `0 < paused.time < 3600`, Resume и все прежние физические, графические,
-   progress, error и ore/cargo assertions. Ожидание complete после Resume 20 с
-   и общий timeout 30 с сохраняются. Его суммарный wall остаётся evidence,
-   но не выдаётся за fresh benchmark; строгий критерий перенесён в пункт 2.
+OUT: все остальные runtime/tests/config/managed/data paths, global timeout,
+workers/retries/skips, новые API продукта, экономические механики, изменение
+физических правил и server restart. Согласованные ТТХ/правила U2 не меняются.
 
-CI c31c07c подтвердил fresh 19190 мс <20000 и lifecycle 20319 мс, оба
-с корректным завершением и errors0. Общий CI всё же FAIL: один функциональный
-тест вывода сохранённых IR/EM и температурные графики при 1440/820 px не
-дождались complete за 20000 мс. Это отдельные проверки результата и графиков,
-не производительности; температурный сценарий начинается с 495 K и имеет
-собственную нагрузку. Их произвольное ожидание нельзя выдавать за норму AC7.
+## Проверка и доказательства
 
-Дополнение HOW ограничено двумя существующими файлами:
-- `ship-model-catalog-0.3.1.spec.ts`: только тест «completed fresh Sputnik exposes
-  primary saved IR/EM distances without details or Charts»;
-- `ship-model-thermal-frontiers.spec.ts`: только общий TB1–3 сценарий 1440/820/390.
-
-В этих четырёх функциональных cases ожидание complete становится 40000 мс,
-а локальный timeout данного теста — 60000 мс, чтобы успели выполниться все
-прежние проверки после расчёта. Значения ограничивают тестовый harness,
-не физическую модель. Developer один раз подтверждает реальное завершение
-и все прежние утверждения; QA проверяет ровно эти четыре cases плюс два
-неизменных fresh/lifecycle. Постоянного нового helper/framework не требуется.
-
-Не менять H, начальные 495 K и прочие условия, точность/шаг, состав, данные,
-runtime, Worker, телеметрию, global timeout/workers/retries/skips. Все assertions
-порогов 200/220/500/550 K, пересечения 500 K, геометрии/видимости и IR/EM
-сохранить буквально. Строгий отдельный fresh benchmark <20000, его complete20
-и lifecycle complete20/global30 не меняются. Остальные cases этих файлов и
-все остальные тесты не трогать. Если functional run не завершится за 40с,
-это FAIL, а не основание снова поднимать ожидания.
-
-## Проверка
-
-| AC | Проверка |
+| AC | Обязательное evidence |
 |---|---|
-| FC-01 | Независимый cold fresh H3600 доходит до complete <20000 ms, без предварительного Worker run |
-| FC-02 | Все прежние lifecycle и физические assertions сохранены; его wall не включает свежую performance-гарантию |
-| FC-03 | В обоих опытах прежние spec/3600/progress/graphs/ore/errors, без урезания работы и фальшивого результата |
-| FC-04 | Runtime/данные/config/физические пороги и все прежние assertions неизменны; ровно четыре named functional cases получают complete40/local60; old FAIL сохранён |
-| FC-05 | Шесть named browser cases, affected QA и scoped Review изменённой surface, обычный guard и CI на final HEAD |
+| FC-01 | Cold fresh H3600 <20000мс в штатном CI, не локальная замена |
+| FC-02 | Все прежние lifecycle assertions, Pause/export/Resume, complete20/global30 сохранены |
+| FC-03 | Один production H3600 before/after: полный serialized result включая spec/state/metrics/events/signatures/retention побайтно совпадает; одинаковые inputs/runId; время отдельно |
+| FC-04 | Semantic invalidation между chunks/standalone; прежние Pending/Step/checkpoint/eviction tests; никакого изменения физической арифметики или cache keys |
+| FC-05 | Адресные9 browser cases (7functional+fresh+lifecycle), affectedQA и scopedReview изменённой surface; final normalguard/currentCI PASS |
 
-QA может отдельно подтвердить, что намеренная пользовательская пауза не является
-fresh-производительностью; это одноразовый fixture, без нового shipping harness.
-Это адресный fix-turn после CI FAIL, без новой ветки или подсистемы. Уточнение
-плана получает независимый Plan Review до кода; ранее пройденная surface
-сохраняется, затем только affected QA/scoped Review. Локальное время не заменяет CI. Если новый непрерывный CI-прогон >20 с,
-это настоящий performance FAIL: нужна отдельная фактическая оптимизация,
-а не увеличение порога, сокращение модели, skip или ещё один слепой повтор.
+Один cold before/after timing pair достаточно; profiler уже дал конкретный hotpath.
+Не строить новую benchmark-матрицу. Developer сохраняет старые raw FAIL, partial
+superseded guard и actual reports. QA выполняет только адресные tests/проверку
+эквивалентности; Reviewer проверяет изменённые6 source/test paths и план,
+не повторяет полную кампанию. Ранее проверенные участки используются по binding.
 
-Rollback — revert тестовой правки. Документальный PR41 получает этот фикс
-как явную base-зависимость; его frozen payload и doc-review binding сохраняются.
-Merge выполняет оператор. Экономика и изменение физических правил OUT.
+Реальный freshCI>20 или functional>40 — FAIL, без повышения порога, skip или
+слепого retry. Полный guard после финального кода один; повтор только по факту
+нового исправления. Между этапами не менять замороженный source.
+
+Rollback — revert этой ограниченной оптимизации и test changes.
+DocPR41 получает исправление явной base-зависимостью; все63frozenfiles/67ownedpaths
+и doc-review fingerprint сохраняются. Его qualification NOT_RUN остаётся честным.
+Финализация по current checks и content binding; merge выполняет оператор.
