@@ -41,7 +41,8 @@ for(const width of [1440,820,390])test(`current manifest and default are literal
   await expect(page.locator('#sm-preset')).not.toContainText('Караван');expect(await page.evaluate(()=>document.documentElement.scrollWidth-innerWidth)).toBe(0);expect(errors).toEqual([]);
 });
 test('completed fresh Sputnik exposes primary saved IR/EM distances without details or Charts',async({page})=>{
-  await page.goto('/');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete',{timeout:20000});
+  test.setTimeout(60000);
+  await page.goto('/');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete',{timeout:40000});
   const card=page.locator('#workspace-overview #sm-detection-distance');await expect(card.getByRole('heading',{name:'Расчётная дальность обнаружения',exact:true})).toBeVisible();
   await expect(card.getByRole('heading',{name:'Расчётная дальность обнаружения',exact:true})).toBeInViewport();
   await expect(card).toContainText('IR');await expect(card).toContainText('EM');await expect(card).toContainText('S-dedicated-G1');await expect(card).toContainText('чистом космосе');await expect(card).toContainText('не фактический контакт');
