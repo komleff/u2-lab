@@ -1,0 +1,309 @@
+{
+  "passportId": "catalog--tank-diesel-S",
+  "sourceItemId": "tank-diesel-S",
+  "sourceRevision": "sha256:9df78c0d7ac3e1773eee75caad6cf49c8d1055be3614e15000b97fa6a9bdc8c4",
+  "canonicalRevision": null,
+  "catalogVersion": "ship-fitting-0.3.2",
+  "classification": "candidate",
+  "sourceLocation": "src/fitting/data/items-0.3.2.json#tank-diesel-S",
+  "ttx": {
+    "fuelCapacityKg": {
+      "value": 6000,
+      "unit": "kg",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/data/ship_storage_tank_construction_first_slice_v0.1.csv:tank_diesel",
+        "unit": "kg",
+        "note": "Явный authored reference; нет automatic Class/G multipliers"
+      }
+    }
+  },
+  "derived": {
+    "dryMassKg": {
+      "value": 300.0,
+      "unit": "kg",
+      "classification": "candidate",
+      "formula": "Σ dry material mass"
+    },
+    "intrinsicHeatCapacityJK": {
+      "value": 134837.5,
+      "unit": "J/K",
+      "classification": "candidate",
+      "formula": "Σ m_j·c_p,j; рабочий запас буфера учитывается отдельно"
+    }
+  },
+  "temperatureBandsK": {
+    "low": 150,
+    "workLow": 200,
+    "restartLow": 180,
+    "workHigh": 500,
+    "restartHigh": 550,
+    "high": 570
+  },
+  "durability": {
+    "behavior": "passive",
+    "emergencyDepthR": 1,
+    "wearPerWorkSecond": 1e-06,
+    "failurePeriodSeconds": 60,
+    "cooldownSeconds": 10
+  },
+  "initialDurabilityFromExistingFreshRun": {
+    "value": 1,
+    "source": "src/scenarios/fitting.ts: makeShipModelMiningRun",
+    "classification": "candidate",
+    "note": "Нормированное состояние R; не дополнительная шкала HP"
+  },
+  "materialBill": [
+    {
+      "id": "Iron",
+      "massKg": 297.5,
+      "cpJKgK": 450,
+      "contents": "dry",
+      "origin": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/data/ship_storage_tank_construction_first_slice_v0.1.csv:tank_diesel",
+        "unit": "kg; J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      }
+    },
+    {
+      "id": "Copper",
+      "massKg": 2.5,
+      "cpJKgK": 385,
+      "contents": "dry",
+      "origin": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/data/ship_storage_tank_construction_first_slice_v0.1.csv:tank_diesel",
+        "unit": "kg; J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+      }
+    }
+  ],
+  "surfaces": [],
+  "sourceSnapshot": {
+    "id": "tank-diesel-S",
+    "label": "Бак соларки S",
+    "family": "tank",
+    "category": "power",
+    "size": "S",
+    "formFactor": "single",
+    "generation": 1,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "Iron",
+        "massKg": 297.5,
+        "cpJKgK": 450,
+        "contents": "dry",
+        "origin": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/data/ship_storage_tank_construction_first_slice_v0.1.csv:tank_diesel",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+        }
+      },
+      {
+        "id": "Copper",
+        "massKg": 2.5,
+        "cpJKgK": 385,
+        "contents": "dry",
+        "origin": {
+          "kind": "canonical",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/data/ship_storage_tank_construction_first_slice_v0.1.csv:tank_diesel",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof"
+        }
+      }
+    ],
+    "numerics": {
+      "fuelCapacityKg": 6000
+    },
+    "gate": {
+      "low": 150,
+      "workLow": 200,
+      "restartLow": 180,
+      "workHigh": 500,
+      "restartHigh": 550,
+      "high": 570
+    },
+    "origins": {
+      "numerics.fuelCapacityKg": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/data/ship_storage_tank_construction_first_slice_v0.1.csv:tank_diesel",
+        "unit": "kg",
+        "note": "Явный authored reference; нет automatic Class/G multipliers"
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/data/ship_storage_tank_construction_first_slice_v0.1.csv:tank_diesel",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          225,
+          375
+        ]
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      },
+      "generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "materials.1.massKg": {
+        "kind": "experimental",
+        "unit": "kg",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          1.25,
+          5
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "materials.1.cpJKgK": {
+        "kind": "experimental",
+        "unit": "J/(kg K)",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          192.5,
+          770
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.emergencyDepthR": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.wearPerWorkSecond": {
+        "kind": "experimental",
+        "unit": "1/s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5e-07,
+          2e-06
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.failurePeriodSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          30,
+          120
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.cooldownSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5,
+          20
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "class": "Civilian",
+    "species": "diesel",
+    "thermalRole": "ordinary",
+    "durability": {
+      "behavior": "passive",
+      "emergencyDepthR": 1,
+      "wearPerWorkSecond": 1e-06,
+      "failurePeriodSeconds": 60,
+      "cooldownSeconds": 10
+    },
+    "surfaces": []
+  },
+  "missingOrMapping": [
+    {
+      "kind": "PRODUCT GAP",
+      "field": "maximum outlet flow kg/s",
+      "note": "Вместимость известна; предел общего выпускного порта отдельно не задан в этой записи."
+    }
+  ],
+  "qualificationStatus": "NOT_RUN",
+  "runtimeAuthorization": false
+}

@@ -1,0 +1,243 @@
+{
+  "passportId": "assembly--pony-d",
+  "sourcePresetId": "pony-d",
+  "fitRevision": 1,
+  "catalogVersion": "ship-fitting-0.3.2",
+  "sourceRevision": "sha256:7635b47a16e2fc642fce70e2236d7dee9ede166901a721c36e25e8678457e80a",
+  "hullPassportId": "hull--pony",
+  "equipment": [
+    {
+      "instanceId": "builtin:cargo",
+      "modulePassportId": "builtin--pony--builtin-cargo-pony",
+      "massAccounting": "separate_from_shell",
+      "role": null
+    },
+    {
+      "instanceId": "builtin:tank",
+      "modulePassportId": "builtin--pony--pony-tank",
+      "massAccounting": "separate_from_shell",
+      "role": null
+    },
+    {
+      "instanceId": "builtin:laser",
+      "modulePassportId": "builtin--pony--pony-laser",
+      "massAccounting": "separate_from_shell",
+      "role": null
+    },
+    {
+      "instanceId": "fit:march",
+      "slotId": "march",
+      "modulePassportId": "local--pony-d--pony-engine-march",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:retro",
+      "slotId": "retro",
+      "modulePassportId": "local--pony-d--pony-engine-retro",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:strafe",
+      "slotId": "strafe",
+      "modulePassportId": "local--pony-d--pony-engine-strafe",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:turn",
+      "slotId": "turn",
+      "modulePassportId": "local--pony-d--pony-engine-turn",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:power-1",
+      "slotId": "power-1",
+      "modulePassportId": "local--pony-d--pony-battery",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:power-2",
+      "slotId": "power-2",
+      "modulePassportId": "local--pony-d--pony-generator",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:signature-1",
+      "slotId": "signature-1",
+      "modulePassportId": "catalog--radiator-passive-S",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:payload-1",
+      "slotId": "payload-1",
+      "modulePassportId": "catalog--mining-industrial-S",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:payload-2",
+      "slotId": "payload-2",
+      "modulePassportId": "catalog--cargo-bulk-S",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    }
+  ],
+  "initialPreset": {
+    "chargeFraction": 1,
+    "fuelFraction": {
+      "diesel": 1,
+      "hydrogen": 1
+    }
+  },
+  "referenceStart": {
+    "temperatureK": 300,
+    "mode": "Efficient",
+    "initialDurabilityR": 1,
+    "source": "src/scenarios/fitting.ts: existing fresh-run builder; not G2 state conversion"
+  },
+  "totals": {
+    "shellDryMassKg": 35000,
+    "equipmentDryMassKg": 19033.86760766081,
+    "assembledDryMassKg": 54033.86760766081,
+    "shellHeatCapacityJK": 16450000,
+    "assembledHeatCapacityJK": 25395917.775600582,
+    "electricalStoredCapacityJ": 10000000000,
+    "fuelCapacityKg": {
+      "diesel": 12000
+    },
+    "cargoCapacitySCU": {
+      "universal": 12,
+      "bulk": 24
+    },
+    "wetMassBeforeCargoKg": 66033.86760766081,
+    "hullSystemsLoadW": 200000
+  },
+  "historicalReference": {
+    "id": "pony:1",
+    "label": "Дизельный Пони · базовая сборка",
+    "fit": "builtin-cargo-pony,cargo-bulk-S,mining-industrial-S,pony-battery,pony-engine-march,pony-engine-retro,pony-engine-strafe,pony-engine-turn,pony-generator,pony-laser,pony-tank,radiator-passive-S",
+    "tCold": 250,
+    "tWeak": 500,
+    "C_MJK": 25.395917775600584,
+    "hullK": 456.45,
+    "hullPowerKW": 200,
+    "solar": 0,
+    "idle": {
+      "3": {
+        "T60": 308.4653371035444,
+        "soc": 1
+      },
+      "50": {
+        "T60": 308.49597004679146,
+        "soc": 1
+      },
+      "100": {
+        "T60": 308.9551697675045,
+        "soc": 1
+      },
+      "150": {
+        "T60": 310.9385263243396,
+        "soc": 1
+      },
+      "200": {
+        "T60": 316.2257559679767,
+        "soc": 1
+      },
+      "230": {
+        "T60": 321.9309238985474,
+        "soc": 1
+      },
+      "250": {
+        "T60": 327.1232054089228,
+        "soc": 1
+      },
+      "270": {
+        "T60": 333.6100617050173,
+        "soc": 1
+      },
+      "290": {
+        "T60": 341.53367796298164,
+        "soc": 1
+      },
+      "300": {
+        "T60": 346.07215501935775,
+        "soc": 1
+      }
+    },
+    "mining": {
+      "3": {
+        "T15": 418.6684713019482,
+        "maxT": 418.6684713019482,
+        "minedM3": 80.45685749999949,
+        "h2Kg": 0,
+        "dieselKg": 29.900332226316095,
+        "soc": 0.5805000000000381
+      },
+      "100": {
+        "T15": 418.8161509583608,
+        "maxT": 418.8161509583608,
+        "minedM3": 80.45685749999949,
+        "h2Kg": 0,
+        "dieselKg": 29.900332226316095,
+        "soc": 0.5805000000000381
+      },
+      "200": {
+        "T15": 421.02837944179123,
+        "maxT": 421.02837944179123,
+        "minedM3": 80.45685749999949,
+        "h2Kg": 0,
+        "dieselKg": 29.900332226316095,
+        "soc": 0.5805000000000381
+      },
+      "250": {
+        "T15": 424.41878315796106,
+        "maxT": 424.41878315796106,
+        "minedM3": 80.45685749999949,
+        "h2Kg": 0,
+        "dieselKg": 29.900332226316095,
+        "soc": 0.5805000000000381
+      },
+      "300": {
+        "T15": 430.5498905111686,
+        "maxT": 430.5498905111686,
+        "minedM3": 80.45685749999949,
+        "h2Kg": 0,
+        "dieselKg": 29.900332226316095,
+        "soc": 0.5805000000000381
+      },
+      "350": {
+        "T15": 440.5495159441304,
+        "maxT": 440.5495159441304,
+        "minedM3": 80.45685749999949,
+        "h2Kg": 0,
+        "dieselKg": 29.900332226316095,
+        "soc": 0.5805000000000381
+      },
+      "400": {
+        "T15": 455.64934412953465,
+        "maxT": 455.64934412953465,
+        "minedM3": 80.45685749999949,
+        "h2Kg": 0,
+        "dieselKg": 29.900332226316095,
+        "soc": 0.5805000000000381
+      },
+      "450": {
+        "T15": 477.08007786620306,
+        "maxT": 477.08007786620306,
+        "minedM3": 80.45685749999949,
+        "h2Kg": 0,
+        "dieselKg": 29.900332226316095,
+        "soc": 0.5805000000000381
+      }
+    }
+  },
+  "historicalModel": "catalog 0.2.5 + physicsV2; not a measurement of catalog 0.3.2 or G2",
+  "qualificationStatus": "NOT_RUN",
+  "runtimeAuthorization": false
+}

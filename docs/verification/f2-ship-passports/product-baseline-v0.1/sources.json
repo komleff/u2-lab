@@ -1,0 +1,266 @@
+[
+  {
+    "cacheKey": "lab-index",
+    "url": "https://github.com/komleff/u2-lab/blob/main/docs/INDEX.md",
+    "gitBlobSha": "bd9f01d6eeb2133cbd99fc6308613b2c9b963fd6",
+    "characters": 51638
+  },
+  {
+    "cacheKey": "u2-index",
+    "url": "https://github.com/komleff/u2/blob/main/docs/INDEX.md",
+    "gitBlobSha": "5b73ce38b04403b233f7f0b667e1c38309a1be7b",
+    "characters": 201010
+  },
+  {
+    "cacheKey": "u2-role",
+    "url": "https://github.com/komleff/u2/blob/main/.agents/GD_ROLE.md",
+    "gitBlobSha": "2837a56a1ffb9d2ca3a2f1c7b26e4da8e5a21086",
+    "characters": 11706
+  },
+  {
+    "cacheKey": "u2-ttx",
+    "url": "https://github.com/komleff/u2/blob/main/docs/specs/balance/spec_ship_module_ttx_master_v0.1_draft.md",
+    "gitBlobSha": "7f36ee3c75969b249c7f71a9d586087176aae413",
+    "characters": 21038
+  },
+  {
+    "cacheKey": "u2-survival",
+    "url": "https://github.com/komleff/u2/blob/main/docs/gdd/gdd_survival_pony_propulsion_thermal_balance_v0.1_draft.md",
+    "gitBlobSha": "6c23fcb385a9f7d10f0722b21ec2a4eac71d975c",
+    "characters": 10130
+  },
+  {
+    "cacheKey": "lab-medium",
+    "url": "https://github.com/komleff/u2-lab/blob/main/docs/product/ship-fitting-medium-modules.md",
+    "gitBlobSha": "a87cdd4ffb184be81d8001ff5449bee612b40e0c",
+    "characters": 9697
+  },
+  {
+    "cacheKey": "lab-research",
+    "url": "https://github.com/komleff/u2-lab/blob/main/docs/research/2026-10-09-gd-energy-em/README.md",
+    "gitBlobSha": "c83d4967b89b46404e653a71ca2205b84c378383",
+    "characters": 5465
+  },
+  {
+    "cacheKey": "u2:docs/architecture/ADR-INDEX.md",
+    "url": "https://github.com/komleff/u2/blob/main/docs/architecture/ADR-INDEX.md",
+    "gitBlobSha": "5bb564cc3dc3e8fb41d19aa661c54a4ecb17b9ca",
+    "characters": 27489
+  },
+  {
+    "cacheKey": "u2:docs/gdd/data/ship_module_ttx_master_v0.1/README.md",
+    "url": "https://github.com/komleff/u2/blob/main/docs/gdd/data/ship_module_ttx_master_v0.1/README.md",
+    "gitBlobSha": "a1ac502186b4991e66cf4fc83dded09d8b806ccf",
+    "characters": 16987
+  },
+  {
+    "cacheKey": "u2:docs/gdd/gdd_ship_thermal_inertia_hysteresis_balance_v0.1_draft.md",
+    "url": "https://github.com/komleff/u2/blob/main/docs/gdd/gdd_ship_thermal_inertia_hysteresis_balance_v0.1_draft.md",
+    "gitBlobSha": "4c464f3857139f75e72f0427c7cf5224a5225dd8",
+    "characters": 7062
+  },
+  {
+    "cacheKey": "u2:docs/specs/spec_power_components_v0.1.md",
+    "url": "https://github.com/komleff/u2/blob/main/docs/specs/spec_power_components_v0.1.md",
+    "gitBlobSha": "1735031a967b6307adb394015a91929dd8cd3b6d",
+    "characters": 59175
+  },
+  {
+    "cacheKey": "u2:docs/specs/spec_engine_force_grid_v0.1.md",
+    "url": "https://github.com/komleff/u2/blob/main/docs/specs/spec_engine_force_grid_v0.1.md",
+    "gitBlobSha": "fb8622925bdb0bb676ab2ee43e94ac52a96eda23",
+    "characters": 83675
+  },
+  {
+    "cacheKey": "u2:docs/gdd/gdd_generator_thermal_topology_v0.1_draft.md",
+    "url": "https://github.com/komleff/u2/blob/main/docs/gdd/gdd_generator_thermal_topology_v0.1_draft.md",
+    "gitBlobSha": "74018a9e2519862babed3fe44e5a399bdf0716be",
+    "characters": 7481
+  },
+  {
+    "cacheKey": "u2:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md",
+    "url": "https://github.com/komleff/u2/blob/main/docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md",
+    "gitBlobSha": "5f69ea84f325e4e4840e69f59adf4eb3fa16bde5",
+    "characters": 12778
+  },
+  {
+    "cacheKey": "u2:docs/gdd/data/ship_module_ttx_master_v0.1/family_owner_overrides_v0.1.csv",
+    "url": "https://github.com/komleff/u2/blob/main/docs/gdd/data/ship_module_ttx_master_v0.1/family_owner_overrides_v0.1.csv",
+    "gitBlobSha": "8940f9d1296e1e0d0f14bb1bfbce6bca8fc30030",
+    "characters": 11249
+  },
+  {
+    "cacheKey": "u2:docs/gdd/data/ship_module_ttx_master_v0.1/first_loop_production_closure_v0.1.csv",
+    "url": "https://github.com/komleff/u2/blob/main/docs/gdd/data/ship_module_ttx_master_v0.1/first_loop_production_closure_v0.1.csv",
+    "gitBlobSha": "63f4c04c2868b71ac17f2bf70aa77aed527e4504",
+    "characters": 3080
+  },
+  {
+    "cacheKey": "u2:docs/gdd/data/ship_module_ttx_master_v0.1/thermal_profiles.csv",
+    "url": "https://github.com/komleff/u2/blob/main/docs/gdd/data/ship_module_ttx_master_v0.1/thermal_profiles.csv",
+    "gitBlobSha": "902f34612d2a3997b6e890e73d2092a5a903a41d",
+    "characters": 1417
+  },
+  {
+    "cacheKey": "u2:docs/specs/balance/spec_f1_fixed_ship_presets_v0_1.md",
+    "url": "https://github.com/komleff/u2/blob/main/docs/specs/balance/spec_f1_fixed_ship_presets_v0_1.md",
+    "gitBlobSha": "bc281d885215c9619972ea531e61f02b13520a46",
+    "characters": 17862
+  },
+  {
+    "cacheKey": "u2:docs/gdd/gdd_ship_material_profiles_v0.1_draft.md",
+    "url": "https://github.com/komleff/u2/blob/main/docs/gdd/gdd_ship_material_profiles_v0.1_draft.md",
+    "gitBlobSha": "fdb91e6fc992322907147c3917d1d1f0440e046f",
+    "characters": 5830
+  },
+  {
+    "cacheKey": "u2:docs/data/README_ship_module_ttx.md",
+    "url": "https://github.com/komleff/u2/blob/main/docs/data/README_ship_module_ttx.md",
+    "gitBlobSha": "1bfe3adfe08b9ea26f0a8e35f82696c21df64108",
+    "characters": 3789
+  },
+  {
+    "cacheKey": "u2:docs/gdd/gdd_s_power_class_specialization_balance_v0.1_draft.md",
+    "url": "https://github.com/komleff/u2/blob/main/docs/gdd/gdd_s_power_class_specialization_balance_v0.1_draft.md",
+    "gitBlobSha": "fa3a033cd7e7e4db305c3d1ec883f85137e2b16d",
+    "characters": 6147
+  },
+  {
+    "cacheKey": "u2:docs/gdd/data/ship_module_ttx_master_v0.1/radiator_passive_first_slice_v0.1.csv",
+    "url": "https://github.com/komleff/u2/blob/main/docs/gdd/data/ship_module_ttx_master_v0.1/radiator_passive_first_slice_v0.1.csv",
+    "gitBlobSha": "0bb3ff06f4462dea0aad77acfedc13ed847a7f06",
+    "characters": 1147
+  },
+  {
+    "cacheKey": "u2:docs/data/ship_module_operation_policy_v0.1.csv",
+    "url": "https://github.com/komleff/u2/blob/main/docs/data/ship_module_operation_policy_v0.1.csv",
+    "gitBlobSha": "f9a0dec31c1191bde227c9ec83ff71ba3394a299",
+    "characters": 4585
+  },
+  {
+    "cacheKey": "lab:src/fitting/data/hulls-0.3.2.json",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/fitting/data/hulls-0.3.2.json",
+    "gitBlobSha": "a91db921efc32a8654143e2030327f5b5413ff24",
+    "characters": 225547
+  },
+  {
+    "cacheKey": "lab:src/fitting/data/items-0.3.2.json",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/fitting/data/items-0.3.2.json",
+    "gitBlobSha": "97310d626c73f2d696ca10d50ae10d6c6e22bca8",
+    "characters": 382988
+  },
+  {
+    "cacheKey": "lab:src/fitting/data/presets-0.3.2.json",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/fitting/data/presets-0.3.2.json",
+    "gitBlobSha": "da1f4889de582b210ece9abb6fbfb4f973241104",
+    "characters": 195169
+  },
+  {
+    "cacheKey": "lab:src/fitting/data/preset-manifest-0.3.2.json",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/fitting/data/preset-manifest-0.3.2.json",
+    "gitBlobSha": "f9855721c7d05cef0cc144e615bd01f2b8810fc3",
+    "characters": 1045
+  },
+  {
+    "cacheKey": "lab:src/fitting/data/modules.json",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/fitting/data/modules.json",
+    "gitBlobSha": "8eeab46d4aea4b8bd665f5b1a9538cf3ff00547d",
+    "characters": 181432
+  },
+  {
+    "cacheKey": "lab:src/fitting/data/hulls.json",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/fitting/data/hulls.json",
+    "gitBlobSha": "e3e58cae57d5868f3459c444f6543590899f1939",
+    "characters": 68822
+  },
+  {
+    "cacheKey": "lab:src/fitting/data/default-sputnik-0.2.4.json",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/fitting/data/default-sputnik-0.2.4.json",
+    "gitBlobSha": "95222e72617b12930cd507d8a70f6f67af6eb729",
+    "characters": 8980
+  },
+  {
+    "cacheKey": "lab:src/fitting/data/default-diesel-pony-0.2.4.json",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/fitting/data/default-diesel-pony-0.2.4.json",
+    "gitBlobSha": "51fe58a2e046628d14dc2453ea14cbe5f8e3896f",
+    "characters": 35171
+  },
+  {
+    "cacheKey": "lab:src/fitting/data/modules-0.2.3.json",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/fitting/data/modules-0.2.3.json",
+    "gitBlobSha": "ace19995aafc18b9df177f2976f0207a11b40e02",
+    "characters": 26205
+  },
+  {
+    "cacheKey": "lab:docs/research/2026-10-09-gd-energy-em/zones.json",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/docs/research/2026-10-09-gd-energy-em/zones.json",
+    "gitBlobSha": "49379d3ed84fc06b51bf20fe3b25e412b4505055",
+    "characters": 36800
+  },
+  {
+    "cacheKey": "lab:docs/research/2026-10-09-gd-energy-em/probes/gd-zones.probe.ts",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/docs/research/2026-10-09-gd-energy-em/probes/gd-zones.probe.ts",
+    "gitBlobSha": "6dde3d4c803dd240c111fba897157a8d45e452e8",
+    "characters": 4196
+  },
+  {
+    "cacheKey": "lab:src/fitting/catalog.ts",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/fitting/catalog.ts",
+    "gitBlobSha": "4969ca73e0b1bd1c26558adf9afa7f2fbda5bad3",
+    "characters": 14087
+  },
+  {
+    "cacheKey": "lab:src/fitting/editions.ts",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/fitting/editions.ts",
+    "gitBlobSha": "98afe0a20763df0b4435f926d161f31913294a32",
+    "characters": 7260
+  },
+  {
+    "cacheKey": "lab:src/fitting/compile.ts",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/fitting/compile.ts",
+    "gitBlobSha": "5810abf8e44eb979cb0882cb044b81b2fc2a4351",
+    "characters": 6452
+  },
+  {
+    "cacheKey": "lab:src/model/v2/physics.ts",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/model/v2/physics.ts",
+    "gitBlobSha": "685b037616e1f1c8fd7f9eb6a2a1b19dc2f497c3",
+    "characters": 40876
+  },
+  {
+    "cacheKey": "lab:src/model/v3/step.ts",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/model/v3/step.ts",
+    "gitBlobSha": "0c2fdabfac3266124676e214dd0de281eb32be61",
+    "characters": 31708
+  },
+  {
+    "cacheKey": "lab:src/model/v3/thermal-surfaces.ts",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/model/v3/thermal-surfaces.ts",
+    "gitBlobSha": "7343cc852024a8fe71afc8b14888cbfbeb37776d",
+    "characters": 1769
+  },
+  {
+    "cacheKey": "lab:src/model/v3/schema.ts",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/model/v3/schema.ts",
+    "gitBlobSha": "e7e69652bd2018232549bc3abfe08abdb1a17861",
+    "characters": 37955
+  },
+  {
+    "cacheKey": "lab:src/scenarios/fitting.ts",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/scenarios/fitting.ts",
+    "gitBlobSha": "cbf5d97d07e878f5b4ef40d4e502f705cbb2afab",
+    "characters": 8781
+  },
+  {
+    "cacheKey": "lab:src/scenarios/mission.ts",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/scenarios/mission.ts",
+    "gitBlobSha": "6f1197eb8f983b04c75e86ef395f5c5f3efe4bc3",
+    "characters": 5943
+  },
+  {
+    "cacheKey": "lab:src/model/v3/power.ts",
+    "url": "https://github.com/komleff/u2-lab/blob/4779d1ef883e3064b4c9a331cf715a8b51e3b228/src/model/v3/power.ts",
+    "gitBlobSha": "9987fbdd0f9a78609727d4121215fd826efd42a9",
+    "characters": 2124
+  }
+]

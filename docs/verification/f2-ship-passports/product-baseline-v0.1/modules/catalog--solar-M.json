@@ -1,0 +1,309 @@
+{
+  "passportId": "catalog--solar-M",
+  "sourceItemId": "solar-M",
+  "sourceRevision": "sha256:623d7f40fe825c9adc5e1727380ae14b12d6cbf849d45c9afbe74d9365400e44",
+  "canonicalRevision": null,
+  "catalogVersion": "ship-fitting-0.3.2",
+  "classification": "candidate",
+  "sourceLocation": "src/fitting/data/items-0.3.2.json#solar-M",
+  "ttx": {
+    "areaM2": {
+      "value": 400,
+      "unit": "m²",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; solar-S; base lab:engineering-candidate-01",
+        "unit": "m²",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          300,
+          500
+        ],
+        "derivation": "solar-S.areaM2: 100 × 4"
+      }
+    },
+    "efficiency": {
+      "value": 0.25,
+      "unit": "1",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; solar-S; base lab:engineering-candidate-01",
+        "unit": "1",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          0.1875,
+          0.3125
+        ],
+        "derivation": "solar-S.efficiency: intensive value 0.25 unchanged"
+      }
+    }
+  },
+  "derived": {
+    "dryMassKg": {
+      "value": 4000,
+      "unit": "kg",
+      "classification": "candidate",
+      "formula": "Σ dry material mass"
+    },
+    "intrinsicHeatCapacityJK": {
+      "value": 1880000,
+      "unit": "J/K",
+      "classification": "candidate",
+      "formula": "Σ m_j·c_p,j; рабочий запас буфера учитывается отдельно"
+    }
+  },
+  "temperatureBandsK": {
+    "low": 200,
+    "workLow": 250,
+    "restartLow": 260,
+    "workHigh": 500,
+    "restartHigh": 480,
+    "high": 550
+  },
+  "durability": {
+    "behavior": "repairable-active",
+    "emergencyDepthR": 1,
+    "wearPerWorkSecond": 1e-06,
+    "failurePeriodSeconds": 60,
+    "cooldownSeconds": 10
+  },
+  "initialDurabilityFromExistingFreshRun": {
+    "value": 1,
+    "source": "src/scenarios/fitting.ts: makeShipModelMiningRun",
+    "classification": "candidate",
+    "note": "Нормированное состояние R; не дополнительная шкала HP"
+  },
+  "materialBill": [
+    {
+      "id": "LAB-STEEL-MIX",
+      "massKg": 4000,
+      "cpJKgK": 470,
+      "contents": "dry",
+      "origin": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "kg; J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      }
+    }
+  ],
+  "surfaces": [],
+  "sourceSnapshot": {
+    "id": "solar-M",
+    "label": "Солнечная панель M",
+    "family": "solar",
+    "category": "power",
+    "size": "M",
+    "formFactor": "single",
+    "generation": 1,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 4000,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "areaM2": 400,
+      "efficiency": 0.25
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.areaM2": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; solar-S; base lab:engineering-candidate-01",
+        "unit": "m²",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          300,
+          500
+        ],
+        "derivation": "solar-S.areaM2: 100 × 4"
+      },
+      "numerics.efficiency": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; solar-S; base lab:engineering-candidate-01",
+        "unit": "1",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          0.1875,
+          0.3125
+        ],
+        "derivation": "solar-S.efficiency: intensive value 0.25 unchanged"
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; solar-S",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX candidate, не закрытый производственный BOM",
+        "range": [
+          3000,
+          5000
+        ],
+        "derivation": "1000 kg × 4; cp 470 intensive unchanged"
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      },
+      "class": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; solar-S",
+        "unit": "class",
+        "derivation": "solar-S: inherit Civilian, no extra multiplier",
+        "note": "Laboratory family variant"
+      },
+      "generation": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; solar-S",
+        "unit": "G",
+        "derivation": "solar-S: inherit 1, no extra multiplier",
+        "note": "Laboratory family variant"
+      },
+      "durability.emergencyDepthR": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.wearPerWorkSecond": {
+        "kind": "experimental",
+        "unit": "1/s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5e-07,
+          2e-06
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.failurePeriodSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          30,
+          120
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.cooldownSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5,
+          20
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "class": "Civilian",
+    "thermalRole": "ordinary",
+    "durability": {
+      "behavior": "repairable-active",
+      "emergencyDepthR": 1,
+      "wearPerWorkSecond": 1e-06,
+      "failurePeriodSeconds": 60,
+      "cooldownSeconds": 10
+    },
+    "surfaces": []
+  },
+  "missingOrMapping": [],
+  "qualificationStatus": "NOT_RUN",
+  "runtimeAuthorization": false
+}

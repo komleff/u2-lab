@@ -1,0 +1,404 @@
+{
+  "passportId": "local--pony-d--pony-engine-retro",
+  "sourceItemId": "pony-engine-retro",
+  "sourceRevision": "sha256:e4b3da7000806e1e6e4157c48912a79c3973d966e7005c0559f0a9041a0309ac",
+  "canonicalRevision": null,
+  "catalogVersion": "ship-fitting-0.3.2",
+  "classification": "candidate",
+  "sourceLocation": "src/fitting/data/presets-0.3.2.json#pony-d/localVariants/pony-engine-retro",
+  "ttx": {
+    "forceN": {
+      "value": 1180000,
+      "unit": "N",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2; база: U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+        "unit": "N",
+        "derivation": "pony-engine-retro: 2950000 × 0.4; гражданский reference назад/вперёд = 0.38/0.95",
+        "note": "Явный локальный вариант лабораторного preset; пропорциональный bill и power сохранены как допущение. Это не коэффициент роли для любого SKU."
+      }
+    },
+    "alpha": {
+      "value": 5.65e-07,
+      "unit": "kg/(N·s)",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+        "unit": "kg/(N·s)",
+        "note": "Явный authored reference; нет automatic Class/G multipliers"
+      }
+    },
+    "efficiency": {
+      "value": 0.32,
+      "unit": "1",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+        "unit": "1",
+        "note": "Явный authored reference; нет automatic Class/G multipliers",
+        "range": [
+          0.24,
+          0.4
+        ],
+        "derivation": "Буквальное поле legacy snapshot; исходная derivation сохранена в sourceRef/note"
+      }
+    },
+    "pathEfficiency": {
+      "value": 0.95,
+      "unit": "1",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+        "unit": "1",
+        "note": "Явный authored reference; нет automatic Class/G multipliers",
+        "range": [
+          0.7124999999999999,
+          1.1875
+        ],
+        "derivation": "Буквальное поле legacy snapshot; исходная derivation сохранена в sourceRef/note"
+      }
+    },
+    "hostFraction": {
+      "value": 0.7,
+      "unit": "1",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+        "unit": "1",
+        "note": "Явный authored reference; нет automatic Class/G multipliers",
+        "range": [
+          0.5249999999999999,
+          0.875
+        ],
+        "derivation": "Буквальное поле legacy snapshot; исходная derivation сохранена в sourceRef/note"
+      }
+    },
+    "powerW": {
+      "value": 0,
+      "unit": "W",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2; база: U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+        "unit": "W",
+        "derivation": "pony-engine-retro: 0 × 0.4; гражданский reference назад/вперёд = 0.38/0.95",
+        "note": "Явный локальный вариант лабораторного preset; пропорциональный bill и power сохранены как допущение. Это не коэффициент роли для любого SKU."
+      }
+    }
+  },
+  "derived": {
+    "dryMassKg": {
+      "value": 1060,
+      "unit": "kg",
+      "classification": "candidate",
+      "formula": "Σ dry material mass"
+    },
+    "intrinsicHeatCapacityJK": {
+      "value": 498200,
+      "unit": "J/K",
+      "classification": "candidate",
+      "formula": "Σ m_j·c_p,j; рабочий запас буфера учитывается отдельно"
+    },
+    "maxFuelFlowKgS": {
+      "value": 0.6667,
+      "unit": "kg/s",
+      "classification": "candidate",
+      "formula": "F_rated·alpha; отдельный экземпляр, duty=1"
+    },
+    "ratedChemicalInputW": {
+      "value": 28668100.0,
+      "unit": "W",
+      "classification": "candidate",
+      "formula": "Старый physicsV2: P_fuel=F·alpha·e_fuel; H_host=P_fuel·(1−η)·f_host. V3 дополнительно применяет pathEfficiency к полезной мощности; не смешивать версии."
+    },
+    "ratedOwnHostHeatW": {
+      "value": 13646015.6,
+      "unit": "W",
+      "classification": "candidate",
+      "formula": "Старый physicsV2: P_fuel=F·alpha·e_fuel; H_host=P_fuel·(1−η)·f_host. V3 дополнительно применяет pathEfficiency к полезной мощности; не смешивать версии."
+    },
+    "ratedOwnExhaustW": {
+      "value": 5848292.400000001,
+      "unit": "W",
+      "classification": "candidate",
+      "formula": "Старый physicsV2: P_fuel=F·alpha·e_fuel; H_host=P_fuel·(1−η)·f_host. V3 дополнительно применяет pathEfficiency к полезной мощности; не смешивать версии."
+    }
+  },
+  "temperatureBandsK": {
+    "low": 200,
+    "workLow": 250,
+    "restartLow": 260,
+    "workHigh": 500,
+    "restartHigh": 480,
+    "high": 550
+  },
+  "durability": {
+    "behavior": "repairable-active",
+    "emergencyDepthR": 1,
+    "wearPerWorkSecond": 1e-06,
+    "failurePeriodSeconds": 60,
+    "cooldownSeconds": 10
+  },
+  "initialDurabilityFromExistingFreshRun": {
+    "value": 1,
+    "source": "src/scenarios/fitting.ts: makeShipModelMiningRun",
+    "classification": "candidate",
+    "note": "Нормированное состояние R; не дополнительная шкала HP"
+  },
+  "materialBill": [
+    {
+      "id": "LAB-STEEL-MIX",
+      "massKg": 1060,
+      "cpJKgK": 470,
+      "contents": "dry",
+      "origin": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2; база: U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+        "unit": "kg",
+        "derivation": "pony-engine-retro: 2650 × 0.4; гражданский reference назад/вперёд = 0.38/0.95",
+        "note": "Явный локальный вариант лабораторного preset; пропорциональный bill и power сохранены как допущение. Это не коэффициент роли для любого SKU. Cp остаётся отдельной экспериментальной гипотезой исходного bill.",
+        "range": [
+          795,
+          1325
+        ]
+      }
+    }
+  ],
+  "surfaces": [],
+  "sourceSnapshot": {
+    "id": "pony-engine-retro",
+    "label": "Референсный ретро · diesel S · одиночный",
+    "family": "engine",
+    "category": "propulsion",
+    "size": "S",
+    "formFactor": "single",
+    "generation": 0,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 1060,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "derived",
+          "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2; база: U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+          "unit": "kg",
+          "derivation": "pony-engine-retro: 2650 × 0.4; гражданский reference назад/вперёд = 0.38/0.95",
+          "note": "Явный локальный вариант лабораторного preset; пропорциональный bill и power сохранены как допущение. Это не коэффициент роли для любого SKU. Cp остаётся отдельной экспериментальной гипотезой исходного bill.",
+          "range": [
+            795,
+            1325
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "forceN": 1180000,
+      "alpha": 5.65e-07,
+      "efficiency": 0.32,
+      "pathEfficiency": 0.95,
+      "hostFraction": 0.7,
+      "powerW": 0
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.forceN": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2; база: U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+        "unit": "N",
+        "derivation": "pony-engine-retro: 2950000 × 0.4; гражданский reference назад/вперёд = 0.38/0.95",
+        "note": "Явный локальный вариант лабораторного preset; пропорциональный bill и power сохранены как допущение. Это не коэффициент роли для любого SKU."
+      },
+      "numerics.alpha": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+        "unit": "kg/(N·s)",
+        "note": "Явный authored reference; нет automatic Class/G multipliers"
+      },
+      "numerics.efficiency": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+        "unit": "1",
+        "note": "Явный authored reference; нет automatic Class/G multipliers",
+        "range": [
+          0.24,
+          0.4
+        ],
+        "derivation": "Буквальное поле legacy snapshot; исходная derivation сохранена в sourceRef/note"
+      },
+      "numerics.pathEfficiency": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+        "unit": "1",
+        "note": "Явный authored reference; нет automatic Class/G multipliers",
+        "range": [
+          0.7124999999999999,
+          1.1875
+        ],
+        "derivation": "Буквальное поле legacy snapshot; исходная derivation сохранена в sourceRef/note"
+      },
+      "numerics.hostFraction": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+        "unit": "1",
+        "note": "Явный authored reference; нет automatic Class/G multipliers",
+        "range": [
+          0.5249999999999999,
+          0.875
+        ],
+        "derivation": "Буквальное поле legacy snapshot; исходная derivation сохранена в sourceRef/note"
+      },
+      "numerics.powerW": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2; база: U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+        "unit": "W",
+        "derivation": "pony-engine-retro: 0 × 0.4; гражданский reference назад/вперёд = 0.38/0.95",
+        "note": "Явный локальный вариант лабораторного preset; пропорциональный bill и power сохранены как допущение. Это не коэффициент роли для любого SKU."
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "derived",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2; база: U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/specs/spec_engine_force_grid_v0.1.md§8.2/8.8; spec_power_components§2.3/6.6",
+        "unit": "kg",
+        "derivation": "pony-engine-retro: 2650 × 0.4; гражданский reference назад/вперёд = 0.38/0.95",
+        "note": "Явный локальный вариант лабораторного preset; пропорциональный bill и power сохранены как допущение. Это не коэффициент роли для любого SKU.",
+        "range": [
+          795,
+          1325
+        ]
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      },
+      "generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+        "derivation": "Буквальное candidate-поле src/fitting/data/items-0.3.0.json#engine-diesel-S-single.generation; без Class/G/size multiplier",
+        "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+      },
+      "durability.emergencyDepthR": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+        "derivation": "Буквальное candidate-поле src/fitting/data/items-0.3.0.json#engine-diesel-S-single.durability.emergencyDepthR; без Class/G/size multiplier",
+        "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+      },
+      "durability.wearPerWorkSecond": {
+        "kind": "experimental",
+        "unit": "1/s",
+        "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+        "derivation": "Буквальное candidate-поле src/fitting/data/items-0.3.0.json#engine-diesel-S-single.durability.wearPerWorkSecond; без Class/G/size multiplier",
+        "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+      },
+      "durability.failurePeriodSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+        "derivation": "Буквальное candidate-поле src/fitting/data/items-0.3.0.json#engine-diesel-S-single.durability.failurePeriodSeconds; без Class/G/size multiplier",
+        "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+      },
+      "durability.cooldownSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "src/fitting/catalog.ts:getPresetFit(\"pony\", \"ship-fitting-0.2.4\") / docs/superpowers/specs/2026-10-12-ship-model-catalog-v0.3.1-design.md§3/§5",
+        "derivation": "Буквальное candidate-поле src/fitting/data/items-0.3.0.json#engine-diesel-S-single.durability.cooldownSeconds; без Class/G/size multiplier",
+        "note": "Модель v0.1: явно перенесённый экспериментальный кандидат 0.3.0, не канонические ТТХ U2."
+      }
+    },
+    "class": "UNKNOWN",
+    "species": "diesel",
+    "propulsionType": "diesel",
+    "thermalRole": "ordinary",
+    "durability": {
+      "behavior": "repairable-active",
+      "emergencyDepthR": 1,
+      "wearPerWorkSecond": 1e-06,
+      "failurePeriodSeconds": 60,
+      "cooldownSeconds": 10
+    },
+    "surfaces": []
+  },
+  "missingOrMapping": [],
+  "qualificationStatus": "NOT_RUN",
+  "runtimeAuthorization": false
+}

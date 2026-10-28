@@ -1,0 +1,360 @@
+{
+  "passportId": "catalog--buffer-M",
+  "sourceItemId": "buffer-M",
+  "sourceRevision": "sha256:d6caccbe3b832a5b6ae5cb98da1e706f1dfea669579ca669e2592dcac2b99f9e",
+  "canonicalRevision": null,
+  "catalogVersion": "ship-fitting-0.3.2",
+  "classification": "candidate",
+  "sourceLocation": "src/fitting/data/items-0.3.2.json#buffer-M",
+  "ttx": {
+    "capacityJ": {
+      "value": 8000000000,
+      "unit": "J",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; buffer-S; base U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5",
+        "unit": "J",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "derivation": "buffer-S.capacityJ: 2000000000.0 × 4"
+      }
+    },
+    "chargePowerW": {
+      "value": 80000000,
+      "unit": "W",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          40000000,
+          160000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "dischargePowerW": {
+      "value": 80000000,
+      "unit": "W",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          40000000,
+          160000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    }
+  },
+  "derived": {
+    "dryMassKg": {
+      "value": 20000,
+      "unit": "kg",
+      "classification": "candidate",
+      "formula": "Σ dry material mass"
+    },
+    "intrinsicHeatCapacityJK": {
+      "value": 9400000,
+      "unit": "J/K",
+      "classification": "candidate",
+      "formula": "Σ m_j·c_p,j; рабочий запас буфера учитывается отдельно"
+    }
+  },
+  "temperatureBandsK": {
+    "low": 200,
+    "workLow": 250,
+    "restartLow": 260,
+    "workHigh": 500,
+    "restartHigh": 480,
+    "high": 550
+  },
+  "durability": {
+    "behavior": "repairable-active",
+    "emergencyDepthR": 1,
+    "wearPerWorkSecond": 1e-06,
+    "failurePeriodSeconds": 60,
+    "cooldownSeconds": 10
+  },
+  "initialDurabilityFromExistingFreshRun": {
+    "value": 1,
+    "source": "src/scenarios/fitting.ts: makeShipModelMiningRun",
+    "classification": "candidate",
+    "note": "Нормированное состояние R; не дополнительная шкала HP"
+  },
+  "materialBill": [
+    {
+      "id": "LAB-STEEL-MIX",
+      "massKg": 20000,
+      "cpJKgK": 470,
+      "contents": "dry",
+      "origin": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "kg; J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      }
+    }
+  ],
+  "surfaces": [],
+  "sourceSnapshot": {
+    "id": "buffer-M",
+    "label": "Тепловой буфер M",
+    "family": "buffer",
+    "category": "sensors-thermal",
+    "size": "M",
+    "formFactor": "single",
+    "generation": 1,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 20000,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "capacityJ": 8000000000,
+      "chargePowerW": 80000000,
+      "dischargePowerW": 80000000
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.capacityJ": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; buffer-S; base U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5",
+        "unit": "J",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "derivation": "buffer-S.capacityJ: 2000000000.0 × 4"
+      },
+      "numerics.coolingW": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; buffer-S; base U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5",
+        "unit": "W",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "derivation": "buffer-S.coolingW: 20000000.0 × 4"
+      },
+      "numerics.absorbAboveK": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; buffer-S; base U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5",
+        "unit": "K",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          217.5,
+          362.5
+        ],
+        "derivation": "buffer-S.absorbAboveK: intensive value 290 unchanged"
+      },
+      "numerics.releaseBelowK": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; buffer-S; base U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_thermal_control_palette_balance_v0.1_draft.md§5",
+        "unit": "K",
+        "note": "Лабораторный M candidate; effective radiator area уже включает emissivity; не canonical production SKU",
+        "range": [
+          210,
+          350
+        ],
+        "derivation": "buffer-S.releaseBelowK: intensive value 280 unchanged"
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; buffer-S",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX candidate, не закрытый производственный BOM",
+        "range": [
+          15000,
+          25000
+        ],
+        "derivation": "5000 kg × 4; cp 470 intensive unchanged"
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      },
+      "class": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; buffer-S",
+        "unit": "class",
+        "derivation": "buffer-S: inherit Civilian, no extra multiplier",
+        "note": "Laboratory family variant"
+      },
+      "generation": {
+        "kind": "derived",
+        "sourceRef": "lab:ship-fitting-medium-modules-v1.0:MF-01; buffer-S",
+        "unit": "G",
+        "derivation": "buffer-S: inherit 1, no extra multiplier",
+        "note": "Laboratory family variant"
+      },
+      "numerics.chargePowerW": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          40000000,
+          160000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "numerics.dischargePowerW": {
+        "kind": "experimental",
+        "unit": "W",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          40000000,
+          160000000
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.emergencyDepthR": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.wearPerWorkSecond": {
+        "kind": "experimental",
+        "unit": "1/s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5e-07,
+          2e-06
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.failurePeriodSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          30,
+          120
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.cooldownSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5,
+          20
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "class": "Civilian",
+    "thermalRole": "regulator",
+    "durability": {
+      "behavior": "repairable-active",
+      "emergencyDepthR": 1,
+      "wearPerWorkSecond": 1e-06,
+      "failurePeriodSeconds": 60,
+      "cooldownSeconds": 10
+    },
+    "surfaces": []
+  },
+  "missingOrMapping": [
+    {
+      "kind": "PRODUCT GAP",
+      "field": "T_B(Q), contact conductance",
+      "note": "Ёмкость и мощности 20/80 MW уже заданы; для F2 требуется физическая карта температуры и проводимость, а не новый таймер буфера."
+    }
+  ],
+  "qualificationStatus": "NOT_RUN",
+  "runtimeAuthorization": false
+}

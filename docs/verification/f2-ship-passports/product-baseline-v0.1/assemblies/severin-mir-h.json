@@ -1,0 +1,127 @@
+{
+  "passportId": "assembly--severin-mir-h",
+  "sourcePresetId": "severin-mir-h",
+  "fitRevision": 1,
+  "catalogVersion": "ship-fitting-0.3.2",
+  "sourceRevision": "sha256:338b524778385e437bcd0b7dc66ddd1fcdc984ea0520756c9b0ca1650d8c6948",
+  "hullPassportId": "hull--severin-mir",
+  "equipment": [
+    {
+      "instanceId": "builtin:cargo",
+      "modulePassportId": "builtin--severin-mir--builtin-cargo-civilian-M",
+      "massAccounting": "separate_from_shell",
+      "role": null
+    },
+    {
+      "instanceId": "fit:march",
+      "slotId": "march",
+      "modulePassportId": "catalog--engine-hydrogen-M-single",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:retro",
+      "slotId": "retro",
+      "modulePassportId": "local--severin-mir-h--reference-retro-engine-hydrogen-M-single",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:strafe",
+      "slotId": "strafe",
+      "modulePassportId": "catalog--engine-hydrogen-M-pair",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:turn",
+      "slotId": "turn",
+      "modulePassportId": "catalog--engine-hydrogen-M-pair",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:signature-1",
+      "slotId": "signature-1",
+      "modulePassportId": "catalog--radiator-passive-M",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:payload-1",
+      "slotId": "payload-1",
+      "modulePassportId": "catalog--mining-civil-M",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:payload-2",
+      "slotId": "payload-2",
+      "modulePassportId": "catalog--mining-civil-M",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:power-1",
+      "slotId": "power-1",
+      "modulePassportId": "catalog--battery-M",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:power-2",
+      "slotId": "power-2",
+      "modulePassportId": "catalog--generator-hydrogen-M",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:power-3",
+      "slotId": "power-3",
+      "modulePassportId": "catalog--tank-hydrogen-M",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    },
+    {
+      "instanceId": "fit:payload-3",
+      "slotId": "payload-3",
+      "modulePassportId": "catalog--cargo-bulk-M",
+      "enabled": true,
+      "massAccounting": "separate_from_shell"
+    }
+  ],
+  "initialPreset": {
+    "chargeFraction": 1,
+    "fuelFraction": {
+      "diesel": 1,
+      "hydrogen": 1
+    }
+  },
+  "referenceStart": {
+    "temperatureK": 300,
+    "mode": "Efficient",
+    "initialDurabilityR": 1,
+    "source": "src/scenarios/fitting.ts: existing fresh-run builder; not G2 state conversion"
+  },
+  "totals": {
+    "shellDryMassKg": 170000,
+    "equipmentDryMassKg": 112292.2961453895,
+    "assembledDryMassKg": 282292.2961453895,
+    "shellHeatCapacityJK": 79900000,
+    "assembledHeatCapacityJK": 132677379.18833306,
+    "electricalStoredCapacityJ": 58919999999.99999,
+    "fuelCapacityKg": {
+      "hydrogen": 3647.570429
+    },
+    "cargoCapacitySCU": {
+      "universal": 24,
+      "bulk": 192
+    },
+    "wetMassBeforeCargoKg": 285939.8665743895,
+    "hullSystemsLoadW": 800000
+  },
+  "historicalReference": null,
+  "historicalModel": "catalog 0.2.5 + physicsV2; not a measurement of catalog 0.3.2 or G2",
+  "qualificationStatus": "NOT_RUN",
+  "runtimeAuthorization": false
+}

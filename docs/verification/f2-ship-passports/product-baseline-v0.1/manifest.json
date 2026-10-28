@@ -1,0 +1,31 @@
+{
+  "packageVersion": "u2-f2-product-passports/0.1",
+  "date": "2026-10-24",
+  "basis": "Existing U2 owners and operator-accepted Lab experiments; no runtime changes",
+  "labSourceCommit": "4779d1ef883e3064b4c9a331cf715a8b51e3b228",
+  "catalogVersion": "ship-fitting-0.3.2",
+  "hullPassports": [
+    "sputnik",
+    "severin-mir",
+    "pony"
+  ],
+  "assemblyPassports": [
+    "sputnik-d",
+    "severin-mir-d",
+    "severin-mir-h",
+    "severin-mir-e",
+    "pony-d"
+  ],
+  "modulePassportCount": 48,
+  "identityRule": "source IDs preserved; sourceRevision is a content hash, not an invented canonical product revision",
+  "classificationRule": "candidate is default; sourceClaim keeps old canonical/derived/experimental metadata without silently promoting it",
+  "qualificationStatus": "NOT_RUN",
+  "runtimeAuthorization": false,
+  "g2LiveSnapshot": {
+    "pr": 39,
+    "open": true,
+    "draft": true,
+    "merged": false,
+    "checkedHead": "743c881a3ac34595b65f35d6814b5e5de8bb8b5c"
+  }
+}

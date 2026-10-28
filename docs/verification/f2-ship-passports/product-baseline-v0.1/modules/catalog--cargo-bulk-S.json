@@ -1,0 +1,267 @@
+{
+  "passportId": "catalog--cargo-bulk-S",
+  "sourceItemId": "cargo-bulk-S",
+  "sourceRevision": "sha256:52c813f73fc2cd3b5351807ac3a03bc4d6e5207889f973816dc5f0de043dc771",
+  "canonicalRevision": null,
+  "catalogVersion": "ship-fitting-0.3.2",
+  "classification": "candidate",
+  "sourceLocation": "src/fitting/data/items-0.3.2.json#cargo-bulk-S",
+  "ttx": {
+    "cargoM3": {
+      "value": 24,
+      "unit": "m³ = SCU",
+      "classification": "candidate",
+      "sourceClaim": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_ship_cargo_payload_and_dimensions.md§cargo1.7",
+        "unit": "m³ = SCU",
+        "note": "Явный authored reference; нет automatic Class/G multipliers"
+      }
+    }
+  },
+  "derived": {
+    "dryMassKg": {
+      "value": 1800,
+      "unit": "kg",
+      "classification": "candidate",
+      "formula": "Σ dry material mass"
+    },
+    "intrinsicHeatCapacityJK": {
+      "value": 846000,
+      "unit": "J/K",
+      "classification": "candidate",
+      "formula": "Σ m_j·c_p,j; рабочий запас буфера учитывается отдельно"
+    }
+  },
+  "temperatureBandsK": {
+    "low": 200,
+    "workLow": 250,
+    "restartLow": 260,
+    "workHigh": 500,
+    "restartHigh": 480,
+    "high": 550
+  },
+  "durability": {
+    "behavior": "passive",
+    "emergencyDepthR": 1,
+    "wearPerWorkSecond": 1e-06,
+    "failurePeriodSeconds": 60,
+    "cooldownSeconds": 10
+  },
+  "initialDurabilityFromExistingFreshRun": {
+    "value": 1,
+    "source": "src/scenarios/fitting.ts: makeShipModelMiningRun",
+    "classification": "candidate",
+    "note": "Нормированное состояние R; не дополнительная шкала HP"
+  },
+  "materialBill": [
+    {
+      "id": "LAB-STEEL-MIX",
+      "massKg": 1800,
+      "cpJKgK": 470,
+      "contents": "dry",
+      "origin": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "kg; J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      }
+    }
+  ],
+  "surfaces": [],
+  "sourceSnapshot": {
+    "id": "cargo-bulk-S",
+    "label": "Грузовой навалочный S",
+    "family": "cargo",
+    "category": "payload",
+    "size": "S",
+    "formFactor": "single",
+    "generation": 1,
+    "generationState": "authored",
+    "materials": [
+      {
+        "id": "LAB-STEEL-MIX",
+        "massKg": 1800,
+        "cpJKgK": 470,
+        "contents": "dry",
+        "origin": {
+          "kind": "experimental",
+          "sourceRef": "lab:LAB-STEEL-MIX-01",
+          "unit": "kg; J/(kg·K)",
+          "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+          "range": [
+            350,
+            900
+          ]
+        }
+      }
+    ],
+    "numerics": {
+      "cargoM3": 24
+    },
+    "gate": {
+      "low": 200,
+      "workLow": 250,
+      "restartLow": 260,
+      "workHigh": 500,
+      "restartHigh": 480,
+      "high": 550
+    },
+    "origins": {
+      "numerics.cargoM3": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_ship_cargo_payload_and_dimensions.md§cargo1.7",
+        "unit": "m³ = SCU",
+        "note": "Явный authored reference; нет automatic Class/G multipliers"
+      },
+      "gate.low": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartLow": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.workHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.restartHigh": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "gate.high": {
+        "kind": "experimental",
+        "sourceRef": "lab:gate-candidate-01",
+        "unit": "K",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          200,
+          570
+        ]
+      },
+      "materials.0.massKg": {
+        "kind": "canonical",
+        "sourceRef": "U2@cdc490e3517c8455f662f82579c45813cdbb9a76:docs/gdd/gdd_ship_cargo_payload_and_dimensions.md§cargo1.7",
+        "unit": "kg",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          1350,
+          2250
+        ]
+      },
+      "materials.0.cpJKgK": {
+        "kind": "experimental",
+        "sourceRef": "lab:LAB-STEEL-MIX-01",
+        "unit": "J/(kg·K)",
+        "note": "LAB-STEEL-MIX / engineering candidate; не production proof",
+        "range": [
+          350,
+          900
+        ]
+      },
+      "generation": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.emergencyDepthR": {
+        "kind": "experimental",
+        "unit": "1",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          0.5,
+          2
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.wearPerWorkSecond": {
+        "kind": "experimental",
+        "unit": "1/s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5e-07,
+          2e-06
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.failurePeriodSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          30,
+          120
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      },
+      "durability.cooldownSeconds": {
+        "kind": "experimental",
+        "unit": "s",
+        "sourceRef": "docs/plans/2026-10-10-ship-model-v0.1-update.md§5/§6/T1",
+        "range": [
+          5,
+          20
+        ],
+        "note": "Кандидат для проверки; не канонические ТТХ."
+      }
+    },
+    "class": "Civilian",
+    "cargoType": "bulk",
+    "thermalRole": "ordinary",
+    "durability": {
+      "behavior": "passive",
+      "emergencyDepthR": 1,
+      "wearPerWorkSecond": 1e-06,
+      "failurePeriodSeconds": 60,
+      "cooldownSeconds": 10
+    },
+    "surfaces": []
+  },
+  "missingOrMapping": [],
+  "qualificationStatus": "NOT_RUN",
+  "runtimeAuthorization": false
+}
