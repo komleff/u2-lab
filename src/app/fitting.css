@@ -1452,3 +1452,9 @@ html:has(.fitting-app) { scroll-padding-top: 112px; scroll-padding-bottom: 132px
   .fitting-app .ship-model-preview #sm-source { width: 100%; }
   .fitting-app .ship-model-preview .ui-controls .control-status { flex-basis: 100%; }
 }
+
+.sm-progress { display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; min-width:12rem; max-width:100%; }
+.sm-progress progress { width:10rem; max-width:100%; height:1rem; accent-color:var(--accent, #66ddd2); }
+.sm-progress span { font-size:.8rem; white-space:nowrap; }
+.sm-mission-results { border-left:3px solid #66ddd2; padding-left:.7rem; margin-block:.6rem; }
+@media(max-width:600px){.sm-progress{width:100%;justify-content:space-between}.sm-progress progress{width:38%}}

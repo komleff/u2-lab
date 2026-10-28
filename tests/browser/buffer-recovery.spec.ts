@@ -6,7 +6,7 @@ import {serializeExperiment,serializeResultSnapshot} from '../../src/io/fitting-
 for(const blocked of [false,true])test(`ST1-06 actual Worker/UI shows ${blocked?'remaining debt and actual blocked cause':'measured recovery time and literal saved result'}`,async({page})=>{
   const s=civilianRecoveryFixture();s.initialState.temperatureK=400;s.initialState.buffers['fit:signature-1']={storedJ:1e5,minimumCaptureK:300};s.origins['initialState.buffers.fit:signature-1.minimumCaptureK']={kind:'experimental',unit:'K',sourceRef:'WI1 browser explicit remaining debt'};
   s.durationSeconds=3;s.scenario.phases[0].requests={};if(blocked)s.environment.radiativeBackgroundK=650;
-  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/?shipModel=experimental');
+  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');
   const workerFile=readdirSync('dist/assets').find(n=>n.startsWith('worker-')&&n.endsWith('.js'))!,workerSha256=createHash('sha256').update(readFileSync('dist/assets/'+workerFile)).digest('hex');
   const servedWorker=await page.request.get('/assets/'+workerFile);expect(servedWorker.ok()).toBe(true);expect(createHash('sha256').update(await servedWorker.body()).digest('hex')).toBe(workerSha256);
   await page.locator('#sm-import').setInputFiles({name:'wi1-experiment.json',mimeType:'application/json',buffer:Buffer.from(serializeExperiment(s))});await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
@@ -20,7 +20,7 @@ for(const blocked of [false,true])test(`ST1-06 actual Worker/UI shows ${blocked?
 });
 test('CR-WI1-B1 actual Worker result preserves repeated multi-buffer stocks without a false recovery duration',async({page})=>{
   const spec=repeatedBufferRecoveryFixture(true,3020),a='fit:signature-1',b='fit:signature-2';
-  await page.goto('/?shipModel=experimental');const workerFile=readdirSync('dist/assets').find(n=>n.startsWith('worker-')&&n.endsWith('.js'))!;
+  await page.goto('/');const workerFile=readdirSync('dist/assets').find(n=>n.startsWith('worker-')&&n.endsWith('.js'))!;
   const result=await page.evaluate(async({spec,workerFile})=>new Promise<any>((resolve,reject)=>{
     const worker=new Worker('/assets/'+workerFile,{type:'module'}),timer=setTimeout(()=>{worker.terminate();reject(Error('B1 Worker timeout'));},15000);
     worker.onmessage=({data})=>{if(data.type==='error'){clearTimeout(timer);worker.terminate();reject(Error(data.payload));}

@@ -1,0 +1,12 @@
+import assert from'node:assert/strict';import{readFileSync}from'node:fs';import{createHash}from'node:crypto';import{execFileSync}from'node:child_process';import{resolve}from'node:path';import{fileURLToPath}from'node:url';
+const root=fileURLToPath(new URL('../../../',import.meta.url)),out=resolve(process.argv[2]??fileURLToPath(new URL('.',import.meta.url))),read=p=>readFileSync(resolve(out,p)),sha=b=>createHash('sha256').update(b).digest('hex'),hash=x=>sha(JSON.stringify(x)),m=JSON.parse(read('manifest.json'));let checks=0;
+for(const[f,h]of Object.entries(m.files)){assert.equal(sha(read(f)),h,f);checks++;}
+for(const[key,commit]of[['sourceFingerprints',m.sourceCommit],['historicalFingerprints',m.historicalSource]])for(const[f,h]of Object.entries(m[key])){assert.equal(sha(readFileSync(resolve(root,f))),h,f);assert.equal(sha(execFileSync('git',['show',commit+':'+f],{cwd:root})),h,f);checks+=2;}
+const receipts=JSON.parse(read('receipts.json')).receipts;assert.equal(receipts.length,22);checks++;
+for(const summary of receipts){const r=JSON.parse(read(summary.receiptFile));assert.equal(hash(r.spec),r.specSha256);assert.equal(hash(r.finalState),r.finalStateSha256);assert.equal(r.sourceCommit,m.sourceCommit);checks+=3;
+ const net=Object.values(r.phases).reduce((s,p)=>s+p.energyJ.netHeatW,0),delta=r.spec.resolvedShip.heatCapacityJK*(r.finalState.temperatureK-r.spec.initialState.temperatureK);assert.ok(Math.abs(delta-net)<1e-3,r.id+' thermal integral');checks++;
+ for(const sp of['diesel','hydrogen']){const sum=Object.values(r.phases).reduce((s,p)=>s+p.fuelConsumedKg[sp],0);assert.ok(Math.abs(sum-r.fuelConsumedKg[sp])<1e-7,r.id+' fuel '+sp);checks++;}
+ if(r.id.startsWith('new2-')){assert.ok(r.minInboundPositionM>=-1e-3,r.id+' missed station');assert.equal(r.finalState.mission.deliveredM3/r.finalState.mission.completedTrips>35.99999,true);checks+=2;}
+}
+const ref=JSON.parse(read('convergence.json'));assert.equal(ref.length,3);const arrivals=ref.map(r=>r.events.find(e=>e.kind==='mission-arrival'&&e.message.startsWith('inbound')).timeSeconds);assert.ok(Math.max(...arrivals)-Math.min(...arrivals)<1e-6);checks+=2;
+console.log(JSON.stringify({status:'PASS',checks,sourceCommit:m.sourceCommit,runtimePaths:Object.keys(m.sourceFingerprints).length,historicalPaths:Object.keys(m.historicalFingerprints).length,receipts:receipts.length,thermalToleranceJ:1e-3,fuelToleranceKg:1e-7,referenceArrivalSpreadSeconds:Math.max(...arrivals)-Math.min(...arrivals)}));

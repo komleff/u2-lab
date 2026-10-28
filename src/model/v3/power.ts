@@ -3,13 +3,14 @@ export type ElectricalInput = {
   chargeJ: number; capacityJ: number; loadW: number; independentSupplyW: number; generatorMaximumW: number;
   chargeEfficiency: number; dischargeEfficiency: number; batteryChargeFactor:number;batteryDischargeFactor:number; mode: ShipMode;
   generator: { permission: boolean; normalOn: boolean };
+  automation?:{sourceOnSoc:number;sourceOffSoc:number};
 };
 export function resolveElectrical(x: ElectricalInput) {
-  const soc=x.chargeJ/x.capacityJ,deficit=Math.max(0,x.loadW-x.independentSupplyW);
+  const soc=x.capacityJ>0?x.chargeJ/x.capacityJ:0,deficit=Math.max(0,x.loadW-x.independentSupplyW);
   const masking=x.mode==='Masking';
   // Сравнение запасов сохраняет точную authored границу fraction*capacity.
   const permission=masking&&x.chargeJ<x.capacityJ*0.02&&(x.generator.permission||(x.chargeJ<x.capacityJ*0.01&&deficit>0));
-  const normalOn=masking?x.generator.normalOn||permission:x.generator.normalOn||soc<0.9||deficit>0;
+  const normalOn=masking?x.generator.normalOn||permission:x.automation?(x.capacityJ===0?deficit>0:soc>=x.automation.sourceOffSoc?false:x.generator.normalOn||soc<=x.automation.sourceOnSoc):x.generator.normalOn||soc<0.9||deficit>0;
   // На полном аккумуляторе нет причины оплачивать фиктивный заряд или excess heat.
   const chargingRoomW=Math.max(0,(x.capacityJ-x.chargeJ)/x.chargeEfficiency)*x.batteryChargeFactor;
   const wanted=masking?(permission?deficit:0):normalOn?deficit+Math.max(0,chargingRoomW-Math.max(0,x.independentSupplyW-x.loadW)):0;

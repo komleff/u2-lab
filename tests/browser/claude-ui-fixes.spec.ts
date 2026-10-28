@@ -5,7 +5,7 @@ import { readFile } from "node:fs/promises";
 test("D01/D02/D04/D10 source-derived preview, bidirectional catalogue and whole-card accessible identity", async ({
   page,
 }) => {
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await page.locator("#fit-preset").selectOption("industrial-L:1");
   await expect(page.locator(".ship-hero")).toHaveAttribute(
     "data-layout",
@@ -60,7 +60,7 @@ test("D03/D05/D06 mobile Compare cards and honest filters expose accepted contro
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await page.getByRole("link", { name: "Сравнение", exact: true }).click();
   for (const s of [
     "rate-asc",
@@ -101,7 +101,7 @@ for (const width of [390, 900])
       hasTouch: true,
     });
     const p = await ctx.newPage();
-    await p.goto("/");
+    await p.goto("/?shipModel=legacy");
     const plus = await p.locator("#fit-add-variant").boundingBox();
     expect(plus!.width).toBeGreaterThanOrEqual(44);
     expect(plus!.height).toBeGreaterThanOrEqual(44);
@@ -141,7 +141,7 @@ for (const width of [390, 900])
 test("D07 scheduling speeds leave the numerical snapshot and measured result unchanged", async ({
   page,
 }) => {
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("0.05");
   await page.locator("#fit-f3").click();
@@ -167,7 +167,7 @@ test("D07 scheduling speeds leave the numerical snapshot and measured result unc
 test("D09 historical laser channel is not relabelled as replacement cargo", async ({
   page,
 }) => {
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("20");
   await page.locator("#fit-start").click();
@@ -182,7 +182,7 @@ test("D09 historical laser channel is not relabelled as replacement cargo", asyn
   await expect(card).toContainText("изменено после теста");
 });
 test("v4 full-width analysis supersedes the D11 screen canvas at all original boundary widths", async ({ page }) => {
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await page.getByRole("link", { name: "Условия", exact: true }).click();
   for (const width of [767, 768, 1279, 1280, 1440]) {
     await page.setViewportSize({ width, height: 1100 });
@@ -254,7 +254,7 @@ test("D12 true mobile long rejected import preserves viewport, literal errors an
         scale: visualViewport!.scale,
         touch: navigator.maxTouchPoints > 0,
       }));
-    await p.goto("/");
+    await p.goto("/?shipModel=legacy");
     await openTimedDraft(p,getPresetFit("pony:3"));
     await p.getByRole("link", { name: "Условия", exact: true }).tap();
     await p.locator("#fit-duration").fill("3600");

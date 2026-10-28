@@ -1,9 +1,13 @@
+import {showArchiveCompilation} from './archive-compilation';
 import {test,expect} from '@playwright/test';
+import {nativePauseWindow} from './native-pause-window';
+import {getPresetFit} from '../../src/fitting/catalog';
+import {serializeFit} from '../../src/io/fitting-json';
 for(const width of [1440,390,820])test(`native /4 explicit compile, Worker run and save/reopen at ${width}px`,async({page})=>{
-  await page.setViewportSize({width,height:1000});await page.goto('/');
+  await page.setViewportSize({width,height:1000});await page.goto('/?shipModel=legacy');
   await page.locator('#ship-model-open').waitFor();expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);expect((await page.locator('header').boundingBox())!.height).toBeLessThanOrEqual(148);
-  await page.locator('#ship-model-open').click();await expect(page.locator('#sm-model')).toHaveCount(0);await page.locator('#sm-source').click();
-  await expect(page.locator('#sm-start')).toBeEnabled();await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.2');const independent=await page.locator('#sm-opened').textContent();
+  await page.locator('#ship-model-open').click();await page.locator('#sm-work-mode').selectOption('stationary');await expect(page.locator('#sm-model')).toHaveCount(0);await showArchiveCompilation(page);await page.locator('#sm-source').click();
+  await expect(page.locator('#sm-start')).toBeEnabled();await expect(page.locator('#sm-opened')).toContainText('ship-fitting-0.3.4');const independent=await page.locator('#sm-opened').textContent();
   for(const select of await page.locator('[data-sm-template]').all())await select.selectOption('engine-diesel-S-single');
   await page.locator('#sm-preview').click();await expect(page.locator('#sm-diff')).toContainText('origin');await expect(page.locator('#sm-start')).toBeEnabled();expect(await page.locator('#sm-opened').textContent()).toBe(independent);
   await page.locator('#sm-apply').click();await page.locator('#sm-duration').fill('3');await page.locator('#sm-start').click();
@@ -11,11 +15,12 @@ for(const width of [1440,390,820])test(`native /4 explicit compile, Worker run a
   await expect(page.locator('#sm-transport')).toContainText('Снимок');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
   const download=page.waitForEvent('download');await page.locator('#sm-save-result').click();const file=await download;expect(file.suggestedFilename()).toMatch(/^u2-ship-model-result-A-[0-9a-f]{32}\.json$/);
   await page.locator('#sm-import').setInputFiles((await file.path())!);await expect(page.locator('#sm-status')).toHaveText('complete');await expect(page.locator('#sm-error')).toBeEmpty();
-  await page.locator('#sm-back').click();await page.locator('#sm-leave-confirm').click();await expect(page.locator('#fit-status')).toBeVisible();
+  await page.locator('#sm-import').setInputFiles({name:'old-fit.json',mimeType:'application/json',buffer:Buffer.from(serializeFit(getPresetFit('sputnik','ship-fitting-0.2.5')))});await page.locator('#sm-leave-confirm').click();await expect(page.locator('#fit-status')).toBeVisible();
 });
 test('native /4 pause/save/reopen/resume owns controls and malformed future import preserves measurement',async({page})=>{
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('stealth-reference');await page.locator('#sm-duration').fill('30');await page.locator('#sm-mode').selectOption('Masking');
-  await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await page.locator('#sm-pause').click();await expect(page.locator('#sm-status')).toHaveText('paused');
+  const pauseWindow=await nativePauseWindow(page);
+  await page.goto('/');await page.locator('#sm-work-mode').selectOption('stationary');await page.locator('#sm-preset').selectOption('stealth-reference');await page.locator('#sm-duration').fill('3600');await page.locator('#sm-mode').selectOption('Masking');
+  await pauseWindow.arm();await page.locator('#sm-start').click();await expect(page.locator('#sm-results')).toBeVisible();await pauseWindow.pause();await expect(page.locator('#sm-status')).toHaveText('paused');
   await expect(page.locator('#sm-preset')).toBeDisabled();await expect(page.locator('#sm-copy')).toBeDisabled();await expect(page.locator('#sm-results')).toContainText('masking-forbidden');
   const downloading=page.waitForEvent('download');await page.locator('#sm-save-result').click();const file=await downloading;await page.locator('#sm-cancel').click();await expect(page.locator('#sm-status')).toHaveText('cancelled');
   await page.locator('#sm-import').setInputFiles((await file.path())!);await expect(page.locator('#sm-status')).toHaveText('paused');await expect(page.locator('#sm-checkpoint')).toBeEnabled();

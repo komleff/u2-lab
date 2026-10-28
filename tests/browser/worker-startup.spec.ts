@@ -6,8 +6,8 @@ import {makeGovernorExperiment} from '../../src/experiments/ship-model-v0.2';
 async function downloaded(page:Page,selector:string){const downloading=page.waitForEvent('download');await page.locator(selector).click();return readFileSync((await (await downloading).path())!,'utf8');}
 
 const entries=[
-  {name:'fitting',url:'/',start:'#fit-start',error:'#fit-error',ack:'#fit-ack',time:'#fit-time',status:'#fit-active-owner'},
-  {name:'ship-model',url:'/?shipModel=experimental',start:'#sm-start',error:'#sm-error',ack:'#sm-ack',time:'#sm-live',status:'#sm-test-owner'},
+  {name:'fitting',url:'/?shipModel=legacy',start:'#fit-start',error:'#fit-error',ack:'#fit-ack',time:'#fit-time',status:'#fit-active-owner'},
+  {name:'ship-model',url:'/',start:'#sm-start',error:'#sm-error',ack:'#sm-ack',time:'#sm-live',status:'#sm-test-owner'},
   {name:'legacy',url:'/?mode=legacy',start:'#start',error:'#error',ack:'#ack',time:'#time',status:'#status'},
 ] as const;
 
@@ -42,7 +42,7 @@ for(const name of ['fitting','ship-model','governor','legacy'])test(`WH-01/02 ${
   const workers:BrowserWorker[]=[];page.on('worker',worker=>workers.push(worker));
   const ship=name==='ship-model'||name==='governor',legacy=name==='legacy';
   const start=legacy?'#start':ship?'#sm-start':'#fit-start',error=legacy?'#error':ship?'#sm-error':'#fit-error',exportResult=legacy?'#export-result':ship?'#sm-save-result':'#fit-export-result';
-  await page.goto(legacy?'/?mode=legacy':ship?'/?shipModel=experimental':'/');
+  await page.goto(legacy?'/?mode=legacy':ship?'/':'/?shipModel=legacy');
   if(name==='governor')await page.locator('#sm-import').setInputFiles({name:'synthetic.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(makeGovernorExperiment({...fixture('T29').input,durationTicks:3,name:'Worker preservation'})))});
   else await page.locator(legacy?'#duration':ship?'#sm-duration':'#fit-duration').fill('3');
   const complete=async()=>{await page.locator(start).click();if(legacy)await expect(page.locator('#status')).toHaveText('Завершён');else if(ship)await expect(page.locator('#sm-status')).toHaveText('complete');else await expect(page.locator('#fit-status')).toContainText('Завершён');};
@@ -73,8 +73,8 @@ for(const entry of entries)test(`WH-02 ${entry.name} messageerror releases activ
 });
 
 test('WH-05 visible Lab release and technical patch keep the UI version independent',async({page})=>{
-  await page.goto('/');await expect(page.locator('.ui-brand small')).toHaveText('v2.4 · UI v4.8');await expect(page.locator('footer')).toContainText('U2 Ship Fitting v2.4 · интерфейс v4.8');
-  expect(JSON.parse(readFileSync('package.json','utf8')).version).toBe('0.2.1');const lock=JSON.parse(readFileSync('package-lock.json','utf8'));expect(lock.version).toBe('0.2.1');expect(lock.packages[''].version).toBe('0.2.1');expect(readFileSync('README.md','utf8')).toContain('GD LAB v2.4 · UI 4.8');
+  await page.goto('/');await expect(page.locator('.ui-brand strong')).toHaveText('GD LAB');await expect(page.locator('.ui-brand small')).toHaveCount(0);await expect(page.locator('footer')).toContainText('О Лабе · версия Лабы 2.7.0 · интерфейс v4.8');
+  expect(JSON.parse(readFileSync('package.json','utf8')).version).toBe('0.2.2');const lock=JSON.parse(readFileSync('package-lock.json','utf8'));expect(lock.version).toBe('0.2.2');expect(lock.packages[''].version).toBe('0.2.2');expect(readFileSync('README.md','utf8')).toContain('GD LAB v2.7.0 · UI 4.8');
 });
 
 test('WH-04 Legacy successful restart keeps its existing no-result export semantics until a new snapshot',async({page})=>{

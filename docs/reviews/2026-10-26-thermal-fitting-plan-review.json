@@ -1,0 +1,570 @@
+{
+  "mode": "PLAN_REVIEW",
+  "role": "Reviewer",
+  "model": "gpt-6.1-sol",
+  "reasoningEffort": "high",
+  "modelEvidence": "actual dispatched model per PM spawn metadata; serving internals not exposed",
+  "launch": "PRODUCT 1/5; same verifier session affected delta, no second launch",
+  "pr": "https://github.com/komleff/u2-lab/pull/50",
+  "base": "f0732d326f346bf557ed582b8bbe7cdba60caa29",
+  "head": "d4d872173b1e3edb7378eafe3124a6ff011988d4",
+  "initialReviewedHead": "d9d9e62ac338c4bae16ef62b7558832b2f06a652",
+  "u2SourceCommit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+  "verdict": "PLAN_READY",
+  "finalScopeVersion": "0.5 physical heat/energy bench only",
+  "blockers": [],
+  "advisories": [],
+  "resolvedAdvisories": [
+    {
+      "id": "PR-TF-A1",
+      "title": "TF09 references nonexistent schema /5",
+      "resolution": "dac0f575 replaces /1–/5 with /1–/4 + synthetic model0.2/schema4; affected delta reviewed in same session"
+    }
+  ],
+  "acceptedOperatorAmendment": {
+    "acceptedSourceRepository": "komleff/u2",
+    "acceptedSourceCommit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+    "acceptedSourcePath": "docs/data/f2-ship-profiles/proposed-adjustments.md",
+    "acceptedSourceSha256": "8b913836815e7200cbbbfb34acc95e69b9ad728837af28f96279a3007bfb9958",
+    "operatorDate": "2026-10-26",
+    "operatorDecision": "Дополнение оператора: весь пакет proposed-adjustments.md в U2 PR #905 принят. Прежнее указание «не применять несогласованные предложения» отменено для перечисленных в этом документе правок: массы по установленному составу, оболочка Пони 31,5 т, его собственные Industrial/G0 ТТХ, стартовые комплекты, настройки автоматики, калибровка износа генераторов и условия услуг/ремонта. Включи их в план. Сначала обнови нормативные данные, статусы решений и обе копии профилей U2/Lab, затем реализуй и проверь новую ревизию. Новый коэффициент износа генераторов автоматически на двигатели не переносить. Это принятие WHAT, а не разрешение пропустить проверки, выполнить merge или production-выкат. Блокер серверной схемы перезапуска сохраняется."
+  },
+  "reviewedPaths": [
+    {
+      "path": "u2-lab/.agents/AGENT_ROLES.md",
+      "repository": "u2-lab",
+      "repositoryPath": ".agents/AGENT_ROLES.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "f298f000c54826c67dfa6a35b088123dde58da2f",
+      "sha256": "e606a4633a5e2c5ce34b20d9d09008b195f31097050918bf6ec60445ad238352",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/.agents/PIPELINE.md",
+      "repository": "u2-lab",
+      "repositoryPath": ".agents/PIPELINE.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "9f90c7a61c5c3da80d624ffff13eb4380e83f7ac",
+      "sha256": "1d723daa20a5798a1569e179c160fde667f788f5d2b0f47a3cff6e942453742b",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/.agents/PIPELINE_ADR.md",
+      "repository": "u2-lab",
+      "repositoryPath": ".agents/PIPELINE_ADR.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "31ed5ed3ef1976f87ff7730da4bfdba5a1721e9f",
+      "sha256": "f76c2e33535a2a737f3a66ba3962e2dafca2a503d28023be7cddd0b1c12d839f",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/.agents/PM_ROLE.md",
+      "repository": "u2-lab",
+      "repositoryPath": ".agents/PM_ROLE.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "9861c3e2254b4f16bda32a832e5950d01cee7ea3",
+      "sha256": "36d37434c9544f053de5819ed0536089837407e3e7f730ac3a46c4e5bfe7410c",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/.agents/RV_ROLE.md",
+      "repository": "u2-lab",
+      "repositoryPath": ".agents/RV_ROLE.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "6e13e1023c90621172135e206e01fed8bd6b8c28",
+      "sha256": "361403255f04c6b7ded784d1a4437c513e5dc082b6f832844fc39644a4daeba1",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/.agents/SKILLS.md",
+      "repository": "u2-lab",
+      "repositoryPath": ".agents/SKILLS.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "d1b2999157701348a93426a945da99d134ee7636",
+      "sha256": "7a50aa4ca04146c78517ba94a2aa16a6d7b03e349ee99344b343e3bd5a895b8e",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/.memory-bank/activeContext.md",
+      "repository": "u2-lab",
+      "repositoryPath": ".memory-bank/activeContext.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "e6c175f4ded61470c77f9a78d1146ab3a8e3f6db",
+      "sha256": "6ff844ce1faea1b9905f030714d5b4de238f3866063901f91848273e4f022ece",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/.memory-bank/progress.md",
+      "repository": "u2-lab",
+      "repositoryPath": ".memory-bank/progress.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "da857c7a0e7fc1224cf77658c9e81ff0e5446675",
+      "sha256": "3d06caabb4371c8d5005676d5245f0d4309915ec391b8645eddbdc06759e0dcd",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/AGENTS.md",
+      "repository": "u2-lab",
+      "repositoryPath": "AGENTS.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "a4337702dbc6d65e4ab6b1fcd853fe648487d8bc",
+      "sha256": "8517bfcb5ff40146c63b80466b4f65992aa16710c4e20210c5169957c19e7ad5",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/docs/INDEX.md",
+      "repository": "u2-lab",
+      "repositoryPath": "docs/INDEX.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "1d360fa8fa6253ee75f3bb2b005440e5819d8124",
+      "sha256": "6a5af3ffff315f6e1ba46f2253d6aae135413a9147815b811bf8fe51900dace8",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/docs/architecture/source-authority.md",
+      "repository": "u2-lab",
+      "repositoryPath": "docs/architecture/source-authority.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "e1b0cdf8a6c8cccde690dbcb2406bd49401c1060",
+      "sha256": "3767c6a1a2a8b3c3d0ac94fc471d62c0799e25fa528cc056b191657f1dbddaaf",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/docs/gdd/gdd_u2_ship_fitting_v0.2.md",
+      "repository": "u2-lab",
+      "repositoryPath": "docs/gdd/gdd_u2_ship_fitting_v0.2.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "3a372d29d026c5b89800a798247958ae300c3fc2",
+      "sha256": "a73bdb3953113fae90f6897a2320a5679091af80e54fe75d587dbc15f5b47a02",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/docs/plans/2026-10-26-thermal-fitting-implementation.md",
+      "repository": "u2-lab",
+      "repositoryPath": "docs/plans/2026-10-26-thermal-fitting-implementation.md",
+      "commit": "d4d872173b1e3edb7378eafe3124a6ff011988d4",
+      "blob": "0e732e46acf8f06f3706118f704cd6bd77beff87",
+      "sha256": "a15c045e181f7dd29ba85221a284296698e9cbead4d7a1e76bb54e19038f2535",
+      "review": "same-session affected delta0.4..0.5 only; no broad re-review"
+    },
+    {
+      "path": "u2-lab/docs/product/station-hangar-thermal-exchange-v0.1.md",
+      "repository": "u2-lab",
+      "repositoryPath": "docs/product/station-hangar-thermal-exchange-v0.1.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "625587033f3599906ec05bdd4a032b8108805bff",
+      "sha256": "005854de0fcc58a4d24ad523c17766ce73875fb74d187e4c8a7b344863843e35",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/docs/research/2026-10-26-diesel-balance/README.md",
+      "repository": "u2-lab",
+      "repositoryPath": "docs/research/2026-10-26-diesel-balance/README.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "a1593f4b9a10a390f7a639fe75aa6b4471028de1",
+      "sha256": "a0b87fe215f78c746a6fdda490c3a9f480325771137ba1469d592b3361d62392",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/docs/research/2026-10-26-diesel-balance/balance-parameters.json",
+      "repository": "u2-lab",
+      "repositoryPath": "docs/research/2026-10-26-diesel-balance/balance-parameters.json",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "1c1f3fe2a124aa8e0d0af4dbcef8444ce1f8222f",
+      "sha256": "f8f5e5a6edc8812a3cb6a3e7d1138cf5f5b85ce718bcb85a98e3718b76bf8ba0",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/docs/research/2026-10-26-diesel-balance/fitting-audit.md",
+      "repository": "u2-lab",
+      "repositoryPath": "docs/research/2026-10-26-diesel-balance/fitting-audit.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "1fde27b06a4f3d87c6f2b90209e9c280b71a733b",
+      "sha256": "14ac9a8e0582995aee319930bc826d597fef6da5946c99e1d1e93bd24edcbaca",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/docs/research/2026-10-26-diesel-balance/u2-pr905-review.md",
+      "repository": "u2-lab",
+      "repositoryPath": "docs/research/2026-10-26-diesel-balance/u2-pr905-review.md",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "073bb28a627e280acb61efea32b0dc01560461ad",
+      "sha256": "7fb8d1718e206cf8c9b533879f0649479bc6e0b2e5ec61f311cff98af44cfd75",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/src/app/ship-model-workspace.ts",
+      "repository": "u2-lab",
+      "repositoryPath": "src/app/ship-model-workspace.ts",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "d169a85e2cb44e5c55c5be2c7ca61dba40b59a39",
+      "sha256": "f7a5657ea1b3c73775be405efb4611b09325f1761d86252ab8999150df680ce7",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/src/fitting/data/hulls-0.3.3.json",
+      "repository": "u2-lab",
+      "repositoryPath": "src/fitting/data/hulls-0.3.3.json",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "62f8cc836a9ed479c7d9aea33703deeb2a07f85f",
+      "sha256": "ca7f84b309a1a3e165ac4e266181197ad5e17150e805854d949751242c68f79a",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/src/fitting/data/presets-0.3.3.json",
+      "repository": "u2-lab",
+      "repositoryPath": "src/fitting/data/presets-0.3.3.json",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "8b8b1ae925a4fb4bbfd7e8c9830072de64632e43",
+      "sha256": "8d9f4f5b10457c5693ffed37cabc0a69637d6d5114045557658afc0762da17a5",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/src/fitting/editions.ts",
+      "repository": "u2-lab",
+      "repositoryPath": "src/fitting/editions.ts",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "39aa66e1946052137e5119b0e7f23f4ce4cc2c11",
+      "sha256": "694a48c67d5ecb75eb6a7e57bc6e9bbc37dec1da39009c85b475d61146664ad1",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/src/io/ship-model-result.ts",
+      "repository": "u2-lab",
+      "repositoryPath": "src/io/ship-model-result.ts",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "2efe25127e87d56143c8391ef7a927a0a3693231",
+      "sha256": "e0d6fdcd9702e6a212fd31004dbe8b1e742e2003f1792f1290ae171e464b3dca",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/src/model/v3/durability.ts",
+      "repository": "u2-lab",
+      "repositoryPath": "src/model/v3/durability.ts",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "1a94ecddcf6630c1b47b2edde03773190b0cf0b5",
+      "sha256": "e64b6213c3b549d9e66f2e9ab35c481ffc4c80ccddb33ea4f05b793cbcb79c1c",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/src/model/v3/power.ts",
+      "repository": "u2-lab",
+      "repositoryPath": "src/model/v3/power.ts",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "9987fbdd0f9a78609727d4121215fd826efd42a9",
+      "sha256": "d72336dc0848ea653d8b50b94776f9f836597801b32f95512d9e16e52e6a2e53",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/src/model/v3/schema.ts",
+      "repository": "u2-lab",
+      "repositoryPath": "src/model/v3/schema.ts",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "7459f9183cfd475bf28114943419368b5affa463",
+      "sha256": "af8fbf97e118a718bd94cdf47dfb6e5c72ad5cf25eb6994e76b2b32dee2b6917",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/src/model/v3/step.ts",
+      "repository": "u2-lab",
+      "repositoryPath": "src/model/v3/step.ts",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "8a93923eeddad8dc5b48e8c80d01897019c668bb",
+      "sha256": "50d0e3662ae07560e8989e11ad71307a9120fe26417aed4d6f294416cfcf8f2c",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/src/model/v3/thermal-control.ts",
+      "repository": "u2-lab",
+      "repositoryPath": "src/model/v3/thermal-control.ts",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "031af8b177c039e3c3f80604bccd9ae804dd4e36",
+      "sha256": "acdee22c9dcd5663684164eb0603c38318900e138e6be5632a1968dd578b3e56",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/src/model/v3/thermal-surfaces.ts",
+      "repository": "u2-lab",
+      "repositoryPath": "src/model/v3/thermal-surfaces.ts",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "7343cc852024a8fe71afc8b14888cbfbeb37776d",
+      "sha256": "5a0fa42878bffa2de2be4aee76f35f9886eda4ab283c7baefe3c8330cd8f7157",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/src/model/v3/types.ts",
+      "repository": "u2-lab",
+      "repositoryPath": "src/model/v3/types.ts",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "9f74325c6451b4219ec6c225fc7fdf2c5de2c03a",
+      "sha256": "2929cc2b1074aa55abcbde8412c5c8d76be2dffe3691b12eb4c22aff7b3d22ce",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/src/runner/ship-model-mission.ts",
+      "repository": "u2-lab",
+      "repositoryPath": "src/runner/ship-model-mission.ts",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "6e846f8a870878556a872a7a2e23eb006911db25",
+      "sha256": "3ac40dc8962d07cc4f3ce17c88a0b72aede32960fbbd9a92c3a06e81b3191fc3",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2-lab/src/scenarios/ship-model-mission.ts",
+      "repository": "u2-lab",
+      "repositoryPath": "src/scenarios/ship-model-mission.ts",
+      "commit": "97553fb156463d18701b4a884f10d0920214271b",
+      "blob": "9ee4c9167cf9a2ae716cac606c8ddd56c35904f3",
+      "sha256": "d506d7348c58a5e686525ef57961dc5f479a767c690bb4b714c2fb25dcd6bed9",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/.memory-bank/activeContext.md",
+      "repository": "u2",
+      "repositoryPath": ".memory-bank/activeContext.md",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "e6ffc17c4aa7521686fd9a3012ea73c32ab17708",
+      "sha256": "4d3f5e586a1465fed0ed0a60cb710e24e341ac73cecbd6f188480bcf67e81056",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/.memory-bank/progress.md",
+      "repository": "u2",
+      "repositoryPath": ".memory-bank/progress.md",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "7c077b21fd3da5bf5ca098e8135b829c1e708688",
+      "sha256": "acd8c0157a0175385fd99f85ef95a2668c46582e90d8b1c66b50ea144b737374",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/INDEX.md",
+      "repository": "u2",
+      "repositoryPath": "docs/INDEX.md",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "6f1491bf225bbd9612c1edd6c10f56a684272815",
+      "sha256": "b72529999fdcfc75021d7e845f774786b9c0168eae1391293606c2d531b4383b",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/architecture/ADR-INDEX.md",
+      "repository": "u2",
+      "repositoryPath": "docs/architecture/ADR-INDEX.md",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "5bb564cc3dc3e8fb41d19aa661c54a4ecb17b9ca",
+      "sha256": "194db724b69a47cad707f731bd5833004d72bfbcaf10f1203521bad929d99632",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/data/f2-services/decisions.md",
+      "repository": "u2",
+      "repositoryPath": "docs/data/f2-services/decisions.md",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "aba0bbf73ec579f9c5dc50aae9645683c5018c9d",
+      "sha256": "c86f0ba50caaed27d956a9b77477fbb9b8c7912f5b3502d92bf075fd149a0313",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/data/f2-services/lifecycle-matrix.md",
+      "repository": "u2",
+      "repositoryPath": "docs/data/f2-services/lifecycle-matrix.md",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "fc4dc1fe4c200dec0242f775ccfb533c6b58ee9a",
+      "sha256": "6479f37df30f5bab0697840996b3f39cd26b7b283b4b321f21017bedec052ba1",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/data/f2-ship-profiles/f2_ship_profile_diesel_pony_v0.1.json",
+      "repository": "u2",
+      "repositoryPath": "docs/data/f2-ship-profiles/f2_ship_profile_diesel_pony_v0.1.json",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "9dd8f95d0c8908ad818c5597038f246d90d3759f",
+      "sha256": "24cf3209a74f723eb8d77cba3f524c8831a66034524a8e61bf4d159eef830f5f",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/data/f2-ship-profiles/f2_ship_profile_severin_mir_v0.1.json",
+      "repository": "u2",
+      "repositoryPath": "docs/data/f2-ship-profiles/f2_ship_profile_severin_mir_v0.1.json",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "f8c255cc016e9d815c69c416020a02446e5fa2a1",
+      "sha256": "9a83dad9bc02ce8f0320a27aef4efb6e4e8fcf313d5a2c098c321ae8f60f729a",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/data/f2-ship-profiles/f2_ship_profile_strizh_v0.1.json",
+      "repository": "u2",
+      "repositoryPath": "docs/data/f2-ship-profiles/f2_ship_profile_strizh_v0.1.json",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "7ed6e1d9a38ebbb7bd88de2ef618bf6ea5b8f4d0",
+      "sha256": "a6e1a2d530d6a6b2473e11530bd25f1cc01e2cb81e1cc8f5df9aaae8e0d02478",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/data/f2-ship-profiles/generator/build_durability.py",
+      "repository": "u2",
+      "repositoryPath": "docs/data/f2-ship-profiles/generator/build_durability.py",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "927966a575cb62be030c9fc75bc898b791ecce2d",
+      "sha256": "0eeb223cedb9e009eb8cc3070cffc94c3512a9438dd82fccf39fe6c042714f3e",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/data/f2-ship-profiles/generator/build_extra.py",
+      "repository": "u2",
+      "repositoryPath": "docs/data/f2-ship-profiles/generator/build_extra.py",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "b4d91dc97a039105dfec9e18e89dadef99334470",
+      "sha256": "a05287684deff37b3215771a8da85a8719c23022063b71261a02d09c7d55e3f1",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/data/f2-ship-profiles/generator/build_mass.py",
+      "repository": "u2",
+      "repositoryPath": "docs/data/f2-ship-profiles/generator/build_mass.py",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "d226843e3203dc4c2427008802a4da4f57f8a4a0",
+      "sha256": "b963826a38800f422377c9311e0c418764d04899b4e03d030c3ac094657667b1",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/data/f2-ship-profiles/generator/build_power.py",
+      "repository": "u2",
+      "repositoryPath": "docs/data/f2-ship-profiles/generator/build_power.py",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "42590140b5e09f9ee975749dc16e57613cb40dbb",
+      "sha256": "2921b02c60a7618ad42a260ebb7a6e3e2c6c2afb7f00ddc80ecea184e05ac5a0",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/data/f2-ship-profiles/generator/common.py",
+      "repository": "u2",
+      "repositoryPath": "docs/data/f2-ship-profiles/generator/common.py",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "8a3bcb57b2530211bd283634b0149ddf63d63c53",
+      "sha256": "ed60f0f90d3d6ba512a73dd8fc4d96989f2b81fd7f292a42513e38e7c2f83dd2",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/data/f2-ship-profiles/generator/main.py",
+      "repository": "u2",
+      "repositoryPath": "docs/data/f2-ship-profiles/generator/main.py",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "e32b4ce7fa2647e02865ce94377a8a7667c09d31",
+      "sha256": "75467deaf704f1d9c520cb0ead9c4fc5e91e9be7889f2e0e242eef5ee23f8b79",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/data/f2-ship-profiles/generator/ships.py",
+      "repository": "u2",
+      "repositoryPath": "docs/data/f2-ship-profiles/generator/ships.py",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "ceb415a72993920ae2d411bbc880029766ab1180",
+      "sha256": "52d7050d55ac8cadf526a4f397cdce5d51e00433a9271f3330144724ebced9bc",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/data/f2-ship-profiles/generator/verify_alignment.py",
+      "repository": "u2",
+      "repositoryPath": "docs/data/f2-ship-profiles/generator/verify_alignment.py",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "d73f1e1802316bb641c279a9b37e53a5d822c3a6",
+      "sha256": "485558ebb19ed718df04b9718973b7127e66f8a098b6f99bc10bccb9f6341751",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/data/f2-ship-profiles/proposed-adjustments.md",
+      "repository": "u2",
+      "repositoryPath": "docs/data/f2-ship-profiles/proposed-adjustments.md",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "1c327f73216b2a1d3761ac385fe1de86ea97e80d",
+      "sha256": "8b913836815e7200cbbbfb34acc95e69b9ad728837af28f96279a3007bfb9958",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/gdd/gdd_ship_material_class_generation_model_v0.1_draft.md",
+      "repository": "u2",
+      "repositoryPath": "docs/gdd/gdd_ship_material_class_generation_model_v0.1_draft.md",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "83e727f189b8cbcfe3ecab3951cc376ae93c4a1c",
+      "sha256": "ee45ec6daa3d309c6509ce0f4061bc6da03dcdbb3843740caf86987e1aea688b",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/gdd/gdd_sto_service_balance_v0.1_draft.md",
+      "repository": "u2",
+      "repositoryPath": "docs/gdd/gdd_sto_service_balance_v0.1_draft.md",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "53bd1bc4509264660c0c18784addd6e9c67aa08e",
+      "sha256": "f3b77472ecdbd6ccbe3fd60d01bccc91440daf61c99a01de65fd3846376c882d",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/gdd/gdd_survival_pony_propulsion_thermal_balance_v0.1_draft.md",
+      "repository": "u2",
+      "repositoryPath": "docs/gdd/gdd_survival_pony_propulsion_thermal_balance_v0.1_draft.md",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "6c23fcb385a9f7d10f0722b21ec2a4eac71d975c",
+      "sha256": "9c4afe71566a4a911f8932889b1522c469cb3ac2c92e03688ee194eeadbc295d",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/gdd/gdd_survival_starting_ship_v0.1_draft.md",
+      "repository": "u2",
+      "repositoryPath": "docs/gdd/gdd_survival_starting_ship_v0.1_draft.md",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "1937ef2188c8a55608046a966c1fa3e73d02b527",
+      "sha256": "1cb6f9f2e71489e73ee9f5aa52509eec5389973dfbfb8248130249c0c28b09c9",
+      "review": "static targeted owner/contract review; no runtime execution"
+    },
+    {
+      "path": "u2/docs/specs/balance/spec_f1_fixed_ship_presets_v0_1.md",
+      "repository": "u2",
+      "repositoryPath": "docs/specs/balance/spec_f1_fixed_ship_presets_v0_1.md",
+      "commit": "ff58b7125d3325e85f72d449d7719c55c5c2cc8b",
+      "blob": "bc281d885215c9619972ea531e61f02b13520a46",
+      "sha256": "3297631774785a62f802509189553aa0403fe2c0491e922193a2a5588fde09f7",
+      "review": "static targeted owner/contract review; no runtime execution"
+    }
+  ],
+  "fingerprintDefinition": "ADR3.28 З scoped package, repository-qualified path SP blob LF, LC_ALL=C byte sort, then actual PR body CONTRACT block bytes excluding marker lines; CRLF normalized to LF",
+  "contractText": "Реализовать TF01–TF12 из docs/plans/2026-10-26-thermal-fitting-implementation.md: новый каталог 0.3.4, 40% собственных потерь D engine после engine/path efficiencies, ordinary 200/220/230/500/480/550 K и особые баки; физические/эффективные площади и radiator mass/C по accepted shared subset; смешанный монтаж в архитектуре с конкретной source validation и incomplete editing; обесточенный ангар 300 K / 10000 W/K по реальному dt без onboard burn/temperature reset/panel reopening. Сохранить старые каталоги и literal results, существующий UI/Worker/export/checkpoint. Сохранить воспроизводимые hour/cold/hot600 measurements; измеренный gap передать GD/PO без скрытого rebalance. Применить принятое оператором proposed-adjustments.md U2#905: physical installed mass, Pony shell31500kg и собственные Industrial/G0/UNKNOWN TTX, courier reference data, automation и generator-only calibration. Экономические решения #905 передаются PM F2 как принятое WHAT U2. Сначала q1-accepted.5 нормативные данные/статусы и exact U2/Lab copies, затем actual Lab runtime. Server restart-schema blocker сохраняется; production U2/configs/protocol/deploy, detection acceptance и сменный RAM/shell OUT. Runtime Лабы ограничен физическими параметрами/ТТХ, теплом, энергией, ресурсами, монтажом и пассивной стоянкой. Экономика, кошелёк, тарифы, покупка ресурсов, стоимость ремонта, торговля, страховая выдача и экономическая прогрессия, новые service screens и новые обязательные courier presets в UI OUT. Существующую прочность не расширять в ремонтную систему; допустимы согласованные численные коэффициенты без новых механик. Пополнение стенда физическое и бесплатное. Экономические решения #905 приняты для U2 и передаются PM F2 ссылкой; новый экономический payload в Lab не создаётся. Operator merge only.\n",
+  "contractSha256": "fbd274d8684418920d6d6155e5ded59835765f43a1b50fc89996587d4741ed7c",
+  "packageText": "u2-lab/.agents/AGENT_ROLES.md f298f000c54826c67dfa6a35b088123dde58da2f\nu2-lab/.agents/PIPELINE.md 9f90c7a61c5c3da80d624ffff13eb4380e83f7ac\nu2-lab/.agents/PIPELINE_ADR.md 31ed5ed3ef1976f87ff7730da4bfdba5a1721e9f\nu2-lab/.agents/PM_ROLE.md 9861c3e2254b4f16bda32a832e5950d01cee7ea3\nu2-lab/.agents/RV_ROLE.md 6e13e1023c90621172135e206e01fed8bd6b8c28\nu2-lab/.agents/SKILLS.md d1b2999157701348a93426a945da99d134ee7636\nu2-lab/.memory-bank/activeContext.md e6c175f4ded61470c77f9a78d1146ab3a8e3f6db\nu2-lab/.memory-bank/progress.md da857c7a0e7fc1224cf77658c9e81ff0e5446675\nu2-lab/AGENTS.md a4337702dbc6d65e4ab6b1fcd853fe648487d8bc\nu2-lab/docs/INDEX.md 1d360fa8fa6253ee75f3bb2b005440e5819d8124\nu2-lab/docs/architecture/source-authority.md e1b0cdf8a6c8cccde690dbcb2406bd49401c1060\nu2-lab/docs/gdd/gdd_u2_ship_fitting_v0.2.md 3a372d29d026c5b89800a798247958ae300c3fc2\nu2-lab/docs/plans/2026-10-26-thermal-fitting-implementation.md 0e732e46acf8f06f3706118f704cd6bd77beff87\nu2-lab/docs/product/station-hangar-thermal-exchange-v0.1.md 625587033f3599906ec05bdd4a032b8108805bff\nu2-lab/docs/research/2026-10-26-diesel-balance/README.md a1593f4b9a10a390f7a639fe75aa6b4471028de1\nu2-lab/docs/research/2026-10-26-diesel-balance/balance-parameters.json 1c1f3fe2a124aa8e0d0af4dbcef8444ce1f8222f\nu2-lab/docs/research/2026-10-26-diesel-balance/fitting-audit.md 1fde27b06a4f3d87c6f2b90209e9c280b71a733b\nu2-lab/docs/research/2026-10-26-diesel-balance/u2-pr905-review.md 073bb28a627e280acb61efea32b0dc01560461ad\nu2-lab/src/app/ship-model-workspace.ts d169a85e2cb44e5c55c5be2c7ca61dba40b59a39\nu2-lab/src/fitting/data/hulls-0.3.3.json 62f8cc836a9ed479c7d9aea33703deeb2a07f85f\nu2-lab/src/fitting/data/presets-0.3.3.json 8b8b1ae925a4fb4bbfd7e8c9830072de64632e43\nu2-lab/src/fitting/editions.ts 39aa66e1946052137e5119b0e7f23f4ce4cc2c11\nu2-lab/src/io/ship-model-result.ts 2efe25127e87d56143c8391ef7a927a0a3693231\nu2-lab/src/model/v3/durability.ts 1a94ecddcf6630c1b47b2edde03773190b0cf0b5\nu2-lab/src/model/v3/power.ts 9987fbdd0f9a78609727d4121215fd826efd42a9\nu2-lab/src/model/v3/schema.ts 7459f9183cfd475bf28114943419368b5affa463\nu2-lab/src/model/v3/step.ts 8a93923eeddad8dc5b48e8c80d01897019c668bb\nu2-lab/src/model/v3/thermal-control.ts 031af8b177c039e3c3f80604bccd9ae804dd4e36\nu2-lab/src/model/v3/thermal-surfaces.ts 7343cc852024a8fe71afc8b14888cbfbeb37776d\nu2-lab/src/model/v3/types.ts 9f74325c6451b4219ec6c225fc7fdf2c5de2c03a\nu2-lab/src/runner/ship-model-mission.ts 6e846f8a870878556a872a7a2e23eb006911db25\nu2-lab/src/scenarios/ship-model-mission.ts 9ee4c9167cf9a2ae716cac606c8ddd56c35904f3\nu2/.memory-bank/activeContext.md e6ffc17c4aa7521686fd9a3012ea73c32ab17708\nu2/.memory-bank/progress.md 7c077b21fd3da5bf5ca098e8135b829c1e708688\nu2/docs/INDEX.md 6f1491bf225bbd9612c1edd6c10f56a684272815\nu2/docs/architecture/ADR-INDEX.md 5bb564cc3dc3e8fb41d19aa661c54a4ecb17b9ca\nu2/docs/data/f2-services/decisions.md aba0bbf73ec579f9c5dc50aae9645683c5018c9d\nu2/docs/data/f2-services/lifecycle-matrix.md fc4dc1fe4c200dec0242f775ccfb533c6b58ee9a\nu2/docs/data/f2-ship-profiles/f2_ship_profile_diesel_pony_v0.1.json 9dd8f95d0c8908ad818c5597038f246d90d3759f\nu2/docs/data/f2-ship-profiles/f2_ship_profile_severin_mir_v0.1.json f8c255cc016e9d815c69c416020a02446e5fa2a1\nu2/docs/data/f2-ship-profiles/f2_ship_profile_strizh_v0.1.json 7ed6e1d9a38ebbb7bd88de2ef618bf6ea5b8f4d0\nu2/docs/data/f2-ship-profiles/generator/build_durability.py 927966a575cb62be030c9fc75bc898b791ecce2d\nu2/docs/data/f2-ship-profiles/generator/build_extra.py b4d91dc97a039105dfec9e18e89dadef99334470\nu2/docs/data/f2-ship-profiles/generator/build_mass.py d226843e3203dc4c2427008802a4da4f57f8a4a0\nu2/docs/data/f2-ship-profiles/generator/build_power.py 42590140b5e09f9ee975749dc16e57613cb40dbb\nu2/docs/data/f2-ship-profiles/generator/common.py 8a3bcb57b2530211bd283634b0149ddf63d63c53\nu2/docs/data/f2-ship-profiles/generator/main.py e32b4ce7fa2647e02865ce94377a8a7667c09d31\nu2/docs/data/f2-ship-profiles/generator/ships.py ceb415a72993920ae2d411bbc880029766ab1180\nu2/docs/data/f2-ship-profiles/generator/verify_alignment.py d73f1e1802316bb641c279a9b37e53a5d822c3a6\nu2/docs/data/f2-ship-profiles/proposed-adjustments.md 1c327f73216b2a1d3761ac385fe1de86ea97e80d\nu2/docs/gdd/gdd_ship_material_class_generation_model_v0.1_draft.md 83e727f189b8cbcfe3ecab3951cc376ae93c4a1c\nu2/docs/gdd/gdd_sto_service_balance_v0.1_draft.md 53bd1bc4509264660c0c18784addd6e9c67aa08e\nu2/docs/gdd/gdd_survival_pony_propulsion_thermal_balance_v0.1_draft.md 6c23fcb385a9f7d10f0722b21ec2a4eac71d975c\nu2/docs/gdd/gdd_survival_starting_ship_v0.1_draft.md 1937ef2188c8a55608046a966c1fa3e73d02b527\nu2/docs/specs/balance/spec_f1_fixed_ship_presets_v0_1.md bc281d885215c9619972ea531e61f02b13520a46\n",
+  "packageSha256": "b2802db87eda56246c08d2e9e2387b7e5e96b041da0eda91e347fd9e01b56659",
+  "contentFingerprint": "d79b8631a85a997c813414defc81c0ed77a23c692e913a0abb9fdffd2034daff",
+  "envelopeFingerprint": "5d82e7beafb509b49598c33d182140483acc318e6f25a2ee085eeeddda75f949",
+  "taskInputText": "Same-session affected PlanReview binding ONLY scope reduction0.5 HEADd4d8721. Final user correction highpriority: physical heat/energy bench only; no economics/repair-service expansion; physical replenishment no payment; existing durability system unchanged except agreed numericcoefficients; economics905 U2accepted refs + PMF2handoff not Lab task. Current diff f073...HEAD ONLY plan, all U2/docs49 dirs clean at correction, so no foreignwork deleted. Plan0.5 removes new economic payload, newservices normativework in Lab, additional failure/exposure mechanics from /4; preserves data q1.5 physicalprofiles/masses/C/generator-onlycoeff. Need update report/JSON binding narrowly to0.5; no new broad review/tests. Developer already released data on PLAN_READY0.4 and notified stricter0.5. Return 0B if delta removes tasks consistently; no extra verifier launch (existing session). PM preparing PRbody narrow contract now; use /tmp/u2-lab-thermal-fitting-pr-body.md exact contract after updated.",
+  "taskInputSha256": "9465d849f460652bfbb5f5b4a9e99eb8ec1a04213b5b4d603ef55b3f550edaab",
+  "envelopeDefinition": "SHA256(base LF head LF + package bytes + contract bytes + exact current affected dispatch task bytes)",
+  "taskSupplement": "Final0.5 scope reduction checked only against previous reviewed0.4. Economics905 accepted for U2 remains reference/handoff, no new service/tariff payload or economic normative-work task in Lab. Existing durability/failure/exposure clocks remain; only agreed wear numeric coefficients and physical automation policy are in runtime scope. Physical station replenishment is free benchmark input. Supporting owner review carried forward from same session; no new broad review, no tests.",
+  "externalInputs": [
+    {
+      "path": "/Users/komleff/.codex/attachments/48581075-2a3f-4e50-b334-74b5ece34cad/Pasted text.txt",
+      "sha256": "4e6d4461ce4e17bd49d8f05787cf369725b3619b4f0cff626f912a9f4127b8f4"
+    },
+    {
+      "path": "/tmp/u2-lab-proposed-adjustments-accepted.json",
+      "sha256": "a1d364320f6a63914d7f1005fdd80304669028bfe12c6d4428c80a1b4550ad4a"
+    }
+  ],
+  "notRun": [
+    "tests",
+    "build",
+    "project verify",
+    "runtime experiments",
+    "browser/Worker execution",
+    "U2 production qualification"
+  ],
+  "notReviewed": [
+    "future implementation diff",
+    "complete U2 server/schema correctness",
+    "detection acceptance",
+    "production configs/protocol/deployment",
+    "Pages/release"
+  ],
+  "memoryUse": "No new memory read for affected0.5; earlier same-session source-routing memory use remains disclosed.",
+  "previousReviewedHead": "97553fb156463d18701b4a884f10d0920214271b",
+  "contractSource": "/tmp/u2-lab-thermal-fitting-pr-body.md",
+  "contractSourceSha256": "4879a527ede47d7066c95a21151bdc3d7f078f3a317336e0f7e0f3f5edff1e49",
+  "remoteBinding": "PM provided final head metadata. Contract bound to exact provided local publication body file as explicitly requested; no extra remote polling."
+}

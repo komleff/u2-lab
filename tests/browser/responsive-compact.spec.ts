@@ -10,7 +10,7 @@ const geometry = (p:Page) => p.evaluate(()=>{
 for(const [width,height] of profiles)test(`RC01–04 native reachable layout ${width}×${height}`,async({browser},info)=>{
  const c=await browser.newContext({viewport:{width,height},isMobile:true,hasTouch:true}),p=await c.newPage(),errors:string[]=[];p.on('pageerror',e=>errors.push(e.message));
  try{
- await p.goto('/');await expect(p.locator('#fit-edition')).toContainText('0.2.5');await p.evaluate(()=>document.fonts.ready);
+ await p.goto('/?shipModel=legacy');await expect(p.locator('#fit-edition')).toContainText('0.2.5');await p.evaluate(()=>document.fonts.ready);
  const g=await geometry(p);expect.soft(g.overflow).toBeLessThanOrEqual(1);
  const dockStates:unknown[]=[];
  const dockCheck=async(state:string)=>{const controls=await p.locator('.ui-controls button:visible').evaluateAll(ns=>ns.map(n=>{const b=n.getBoundingClientRect(),hit=document.elementFromPoint(b.x+b.width/2,b.y+b.height/2);return{id:n.id,font:parseFloat(getComputedStyle(n).fontSize),width:b.width,height:b.height,reachable:n===hit||n.contains(hit)};}));expect(controls.map(x=>x.id)).toEqual(state==='idle'?['fit-start','fit-reset']:state==='running'?['fit-pause','fit-cancel']:['fit-resume','fit-step','fit-cancel']);for(const x of controls){expect.soft(x.font,state+':'+x.id).toBeGreaterThanOrEqual(12);expect.soft(x.width,x.id).toBeGreaterThanOrEqual(44);expect.soft(x.height,x.id).toBeGreaterThanOrEqual(44);expect.soft(x.reachable,x.id).toBe(true);}const d=await geometry(p);expect(d.overflow).toBeLessThanOrEqual(1);if(height>width)expect(d.dock.height).toBeLessThanOrEqual(width<=700?132:104);if(height<=400)expect((d.sticky?d.header.height:0)+d.dock.height).toBeLessThanOrEqual(height*.45);dockStates.push({state,controls,dock:d.dock});};
@@ -34,7 +34,7 @@ for(const [width,height] of [[360,780],[820,1230]] as const)test(`RC05–06 real
  const action=(s:string)=>tap(p,s);
  const download=async(s:string)=>{const d=p.waitForEvent('download');await action(s);if(s==='#fit-save')await action('#fit-save-confirm');return readFile((await(await d).path())!,'utf8');};
  try{
- await p.goto('/');await action('#slot-payload-1');await action('#swap-search');await p.keyboard.type('Лазер');await p.keyboard.press('ArrowLeft');const caret=await p.locator('#swap-search').evaluate(n=>(n as HTMLInputElement).selectionStart);
+ await p.goto('/?shipModel=legacy');await action('#slot-payload-1');await action('#swap-search');await p.keyboard.type('Лазер');await p.keyboard.press('ArrowLeft');const caret=await p.locator('#swap-search').evaluate(n=>(n as HTMLInputElement).selectionStart);
  await p.setViewportSize({width:height,height:width});await expect(p.locator('#swap-search')).toHaveValue('Лазер');expect(await p.locator('#swap-search').evaluate(n=>(n as HTMLInputElement).selectionStart)).toBe(caret);await expect(p.locator('#swap-search')).toBeFocused();await action('#swap-close');
  await p.setViewportSize({width,height});await action('#slot-payload-1');await action('[data-candidate="mining-industrial-S"]');await action('#fit-apply');
  await action('#fit-save');await p.locator('#fit-save-name').fill('Длинное имя сборки для исследования');await p.setViewportSize({width:360,height:480});await expect(p.locator('#fit-save-name')).toHaveValue('Длинное имя сборки для исследования');await expect(p.locator('#fit-save-name')).toBeFocused();await action('#fit-save-cancel');await p.setViewportSize({width,height});

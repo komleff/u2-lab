@@ -69,12 +69,13 @@ export class WorkerController {
         const id=c.payload?.instanceId;if(!this.activeContext.state.governor.moduleStateById.some(m=>m.id===id))throw Error('Неизвестный module ID');
         this.activeContext.state={...this.activeContext.state,governor:{...this.activeContext.state.governor,moduleStateById:this.activeContext.state.governor.moduleStateById.map(m=>m.id===id?{...m,restartAuthorized:true}:m)}};
         if(!this.activeContext.checkpoint.restartAuthorizationsSinceTick.includes(id!))this.activeContext.checkpoint.restartAuthorizationsSinceTick.push(id!);
-      }else{const run=this.activeContext as RunContextV3;run.state=controlModule(run.spec.resolvedShip,run.state,c.payload?.instanceId??'',c.type,c.payload?.durabilityR);}}
+      }else{const run=this.activeContext as RunContextV3;run.state=controlModule(run.spec.resolvedShip,run.state,c.payload?.instanceId??'',c.type,c.payload?.durabilityR);run.missionJob=undefined;run.flightMemo=undefined;}}
       catch(error){this.send({runId:c.runId,type:'error',payload:String(error)});return;}
     }
     if (c.payload?.maxSteps)
       this.maxSteps = Math.min(20000, Math.max(1, c.payload.maxSteps));
     if (c.type === "pause" || c.type === "cancel") {
+      if(this.activeContext.spec.schemaVersion==='u2-lab/4'&&!isGovernorContext(this.activeContext)){const run=this.activeContext as RunContextV3;run.missionJob=undefined;run.flightMemo=undefined;}
       this.running = false;
       this.stepping = false;
     }
@@ -118,7 +119,7 @@ export class WorkerController {
       this.send({ runId: run.runId, type: "error", payload: String(error) });
       return;
     }
-    this.stepping = false;
+    if(!('planningPending' in chunk&&chunk.planningPending))this.stepping = false;
     const id = ++this.chunkId;
     this.pending = { runId: run.runId, chunkId: id };
     this.send({

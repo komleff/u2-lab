@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "oldEvidenceCommit": "4c8eb322729a53ef9e40968eb930f28b216b20da",
+  "sourceS2": "dae899b01fa195e9818cc7645cf676adb84768d8",
+  "sourceS3": "d43e6a45f4044fa2a1082f401df9b5aaa3b933ea",
+  "compared": "all22 fullResultSHA256, not only final T/state",
+  "S2_S3_changedPaths": [
+    "src/app/fitting-ui/ship-model-lab-view.ts",
+    "tests/browser/ship-model-mission-v2.spec.ts",
+    "tests/ui/mission-counter-v2.test.ts"
+  ],
+  "resultDigestsIdentical": {
+    "new2-none-1200": "e5f205ac9645925fb74f0fa8970ee97fad4d860bfb7572efeda971fd27b5930f",
+    "new2-passive3-1200": "a36fece235ba5d6538ff5157f1776f987c99d38b67691a7de8317d1e9750c3fa",
+    "new2-active2-on-1200": "cb6df41fe715d936d42805a6d22fd3ccb6eb684a274d4b6e990c174913cbfc62",
+    "new2-active2-off-1200": "f17209fddd53fd3cd7ba4957d09b9d0a085fa23686120a828d6b4f6bdc408a8c",
+    "new2-none-3600": "330fce8365b7ca25d3acedae54163070724b58dbffeb560b822f158432efb53f",
+    "new2-passive3-3600": "95f38f3239810328f32de19e4246d55c9779c2d7b7c67a229a065bd3f0959f3b",
+    "new2-active2-on-3600": "580264aaf4b11c12a83c26724baa1ae551edb5574f92c96e34181f667aba1ae7",
+    "new2-active2-off-3600": "a21bc22eed89de9e903020e30cd9ad3800eb97df406c3595b906d81ffb0ae5f0",
+    "new2-none-10800": "83d66d1f8e9274ad38fd2aaf45b707c616b397d620baa8723adba965e0162745",
+    "new2-passive3-10800": "dc2f2ca0d9f86e3184a9d1a7b35d88829e80da2fd6375724c60a9a05b67f160c",
+    "new2-active2-on-10800": "f4b1dc37784599156d9bb2e2de18c121c6dd345f48f959c68e60f842df4824ab",
+    "new2-active2-off-10800": "b5604a1ceaf0044aafda559a2fee073bd089bac7dac2ebb331a09bb3cf08ac5f",
+    "old-none-literal1": "d537e1fec19a30043b4f6a910ba77c461640a1973390847e3b79deda5d358005",
+    "old-none-explicit2-same-physical": "560205332ce431189b4d98233fa17cb27321894e03bf3a23eaddf8955c2ae65f",
+    "old-passive3-literal1": "cc7b67d03bfe0c5cb269297543e93519b63dc4a75e8434defc36ac0a4024b96d",
+    "old-passive3-explicit2-same-physical": "fc5378016a47644ba1f24795aeb0a56bfaaad8fff84bde6f2782aa95fd37d148",
+    "old-passive3-bg1-literal1": "29ba196ee992c98ea6c5539aae5e2ca3577737f035032a952813925206c0eeed",
+    "old-passive3-bg1-explicit2-same-physical": "3779a88d711cde21df545968ef9b588a06c9dfdc770c42d041d68ca7a4d43364",
+    "weak-full-leg": "d780634ee23c2fca7a34829b4b15c7c80e198b2ac21aa73b2054a4b3f110090e",
+    "weak-paid-braking-leg": "cc02f3cae1f816241d02d5af326910fa8927cc7f302497b873b8bfdd0e3f36f4",
+    "fixed3MW-plus-idle-none": "d285c161fe6be4858848466505c8d669d76f1346670c4e330159e2392d516327",
+    "fixed3MW-plus-idle-passive3": "71b2dfe588e97c0a0cc307de86c56fd515736a70cd232c642a75706d2960fee7"
+  }
+}
