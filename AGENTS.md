@@ -7,9 +7,9 @@ Product authority: Dmitriy Komlev / komleff, оператор проекта.
 затем ровно нужный current owner. Источники U2 выбираются по его `docs/INDEX.md` и
 `docs/architecture/ADR-INDEX.md`; поиск по ключевым словам не устанавливает authority.
 
-Bootstrap pipeline source: `komleff/overgate`, `v4.0.0-rc.1`,
-`633937250fa8f47b49f928c1d8781ab17fe8c8e3`. До установки роли читаются в этом frozen
-trusted Git checkout. После установки: `.agents/PM_ROLE.md`, `.agents/AGENT_ROLES.md`,
+Pipeline: `komleff/overgate` `v4.0.0-rc.3` `b830d5ed7ed31e597b45f7f3c18b8fb6baad6b29`
+(bootstrap — `v4.0.0-rc.1` `633937250fa8f47b49f928c1d8781ab17fe8c8e3`). До установки роли
+читаются в frozen trusted Git checkout источника. После установки: `.agents/PM_ROLE.md`, `.agents/AGENT_ROLES.md`,
 `.agents/PIPELINE.md`, `.agents/PIPELINE_ADR.md §§3.28–3.32`, `.agents/SKILLS.md`.
 Не копировать managed payload до реального Draft PR и независимого install PLAN_READY.
 
@@ -23,16 +23,27 @@ trusted Git checkout. После установки: `.agents/PM_ROLE.md`, `.age
 - Не включать обнаружение в текущую приёмку; не менять принятые правила U2 молча.
 - Project verification: `.agents/project/verify.sh` после этапа установки; до этого —
   `git diff --check` и сверка документов/источников. Runtime tests пока NOT RUN.
+- Прерывание оператора имеет приоритет над текущим маршрутом.
+- Не создавать self-modifying/self-deleting CI с write-доступом; destructive git/data actions —
+  только с отдельным явным основанием.
+- PM проходит самосверку с `.agents/PM_ERR.md` после каждых трёх итераций QA или ревью в одном PR —
+  project-исключение к `.agents/PM_ROLE.md` §9 (решения оператора u2 2026-10-03, u2-lab 2026-10-18).
+- Роль гейм-дизайнера (опциональная, не стадия и не verifier) — `.agents/project/GD_ROLE.md`.
+
+GitHub: все AI-комментарии подписываются фактической моделью/ролью. Коннектор — дорогой remote
+interface: batch reads, frozen SHA, после write фиксировать commit SHA; CI не poll'ить; stalled call
+не повторять без нового основания. Защита `main` — `.agents/PIPELINE_ADR.md §3.29`.
+Временные файлы и personal IDE/runtime state не коммитятся.
 
 Beads — единственный task tracker, Memory Bank — контекст, Git/PR — документы и evidence.
-Доступ по классу окружения (ADR-0042, адаптация Lab для embedded, `.claude/rules/beads.md`):
+Доступ по классу окружения (ADR-0042, embedded и server поддержаны OverGate, `.claude/rules/beads.md`):
 локальный агент в основном checkout или git-worktree читает и пишет только через
-`scripts/bd-wt.sh <cmd>` (allowlist подкоманд); sync/apply-скрипты не запускает.
-Cloud — read-snapshot/write-intents: `scripts/bd-read.sh` и append-only `.bd-intents/*.jsonl`.
+`bash scripts/bd-wt.sh <cmd>` (allowlist подкоманд); sync/apply-скрипты не запускает.
+Cloud — read-snapshot/write-intents: `bash scripts/bd-read.sh` и append-only `.bd-intents/*.jsonl`.
 В hosted Work не запускать bd/Dolt, applier wrapper, export и не пушить beads-backup.
 Single-writer: физическая база одна — в основном checkout; второй clone/машина не пишет
-параллельно. Синхронизация — только оператор: `scripts/bd-sync-restore.sh` /
-`scripts/bd-sync-export.sh` и `origin/beads-backup`, в тишине и export-first.
+параллельно. Синхронизация — только оператор: `bash scripts/bd-sync-restore.sh` /
+`bash scripts/bd-sync-export.sh` и `origin/beads-backup`, в тишине и export-first.
 Не писать Dolt или JSONL руками и не считать локальный JSONL авторитетным.
 План описывает последовательность и AC, не подменяет Beads статусом markdown checkbox.
 Generated checkpoint — только recovery input; исходные девять IDs сохраняются без правки.

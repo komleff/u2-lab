@@ -16,7 +16,7 @@ for (const [width, height] of [[360, 780], [820, 1230], [1440, 1000]] as const) 
     return readFile((await (await waiting).path())!, "utf8");
   };
   try {
-    await page.goto("/"); await page.locator("#fit-duration").fill("20"); await page.locator("#fit-duration").press("Tab");
+    await page.goto("/?shipModel=legacy"); await page.locator("#fit-duration").fill("20"); await page.locator("#fit-duration").press("Tab");
     await page.locator("#fit-speed").selectOption("1"); await action("#fit-start");
     await expect.poll(async () => parseFloat((await page.locator("#fit-time").textContent())!.replace(",", "."))).toBeGreaterThanOrEqual(2);
     await expect(page.locator("[data-signature-live]")).toHaveCount(1); await expect(page.locator(".overview-charts svg")).toHaveCount(0);
@@ -73,7 +73,7 @@ test("UI48 compact Compare remains reachable in the ten approved geometry envelo
   const context = await browser.newContext({ viewport: { width: 360, height: 780 }, hasTouch: true, isMobile: true });
   const page = await context.newPage(), rows: unknown[] = [];
   try {
-    await page.goto("/"); await page.locator("#fit-import").setInputFiles("tests/signatures/fixtures/received-result.json");
+    await page.goto("/?shipModel=legacy"); await page.locator("#fit-import").setInputFiles("tests/signatures/fixtures/received-result.json");
     await page.locator("#fit-freeze").click(); await page.locator("#fit-add-variant").click(); await page.locator("#signature-comparison > summary").click();
     for (const [width, height] of [[360,780], [780,360], [400,640], [640,400], [768,1024], [1024,768], [720,900], [900,720], [820,1230], [1230,820]]) {
       await page.setViewportSize({ width, height }); await page.locator("#signature-comparison > summary").evaluate(n => n.scrollIntoView({ block: "center" }));

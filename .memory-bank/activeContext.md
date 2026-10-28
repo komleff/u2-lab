@@ -1,13 +1,98 @@
+# Подготовка Лабы2.7.0 — 2026-10-28
+
+Текущая release-интеграция: [PR54](https://github.com/komleff/u2-lab/pull/54),
+Beads `ulab-sqb`. Accepted main5b363287 после PR53/31 объединяется с уже публичными
+clean-root/О Лабе/V_FA1–4 из2.6.2. Физика/catalog0.3.4/mission2 и старые literal
+маршруты/форматы сохраняются;22 receipts не пересоздаются. Source-readiness и
+Save Fit guards main сохранены. UI2.7.0, интерфейс4.8 и модель0.1 — разные версии.
+[Release scope/proof](../docs/releases/2026-10-28-v2.7.0.md). QA/Review/CI и публикация
+идут отдельно; Pages/GHRelease выполняет PM после qualification, main merge — оператор.
+Canonical task status — Beads. Это preparation context, не объявление публикации.
+
+# PR53: рейсовое управление2 и фактический счётчик — 2026-10-27
+
+Текущий Developer candidate — [PR53](https://github.com/komleff/u2-lab/pull/53),
+Beads `ulab-9do` / `ulab-b3y`; independent Plan Review1/5 — PLAN_READY на HOW0.2.
+Новые QA2/5, scoped Review3/5 и current guard/CI публикуются отдельно, acceptance
+не объявлена. PR51 C2 остаётся frozen Draft; физический пакет наследуется в53.
+Source S3: `d43e6a45f4044fa2a1082f401df9b5aaa3b933ea`; физический каталог0.3.4 прежний.
+Fresh current рейсы получают mission/2, любой explicit/imported mission/1, включая
+saved C2 catalog0.3.4, остаётся literal при copy/export/reopen/checkpoint.
+
+[22 измерения](../docs/research/2026-10-27-ermak-flight-corrections/README.md):
+Ermak10800 s none/ActiveOFF —7 рейсов, passive3/ActiveON —10; soft derate2325/2385 s
+у первых двух, у passive/ActiveON не наблюдался. Это measured outcomes без rebalance,
+не универсальная стабильность. Weak full leg: arrival1570.985 s, отдельный paid-brake
+control —1058.880 s; stocks/energy/CPU Pending и actual Worker измерены отдельно.
+18 прежних receipts/64:03/рейс5 остаются historical mission/1 и не квалифицируют
+новый default2. ТТХ/gates/heat/mass/C/dock и старые каталоги не переписаны.
+Экономика/repair/exposure/U2 production/Pages OUT. Canonical task status — Beads.
+
+# Теплоэнергетический стенд 0.3.4 — контекст 2026-10-26
+
+Beads `ulab-16h` — canonical task state; current implementation/evidence —
+[PR #51](https://github.com/komleff/u2-lab/pull/51), source — #49 b1cbc3 и U2 #905 f08558a9.
+Принятый общий пакет q1-accepted.5, план0.5 PLAN_READY. Окончательная коррекция
+оператора: только heat/energy/physical TTX, actual resources, монтаж/source readiness,
+пассивный обесточенный ангар и воспроизводимые опыты. Экономика/новая ремонтная
+система/failure-exposure expansion в Lab OUT; решения U2 переданы PM F2.
+
+Новый numerical source7082ec74/catalog0.3.4: temps/D40%/surface physical A·ε,
+Pony shell31.5t/IndustrialG0/UNKNOWN, генераторные coefficients отдельно от engines,
+автоматика и dock300K/G10000 без расхода/temperature reset. Старые каталоги/35 research
+опытов не мигрируют. 18 actual receipts: Спутник first work limit64:03/рейс5,
+Пони42:16, Ермак холоднее; cold heater полезен, но не обещает nominal во всяком fit;
+при600K специализированное охлаждение тоже ограничено. Измеренный разрыв к рейсу4
+передан GD/PO без подгонки принятого WHAT.
+
+[Передача PM F2](../docs/handoffs/2026-10-26-f2-thermal-energy.md) содержит source SHA,
+данные/измерения и границы. Фактические QA/scoped Review/CI/finalize — в PR51,
+не в этом checkpoint. Серверный restart-schema230/480 blocker сохраняется;
+U2 production/merge/deploy не выполнялись. Plan-only PR50 GitHub автоматически
+пометил merged после ошибочного порядка PM base integration; runtime в нём не было,
+main не менялся. Новая реализация отдельно в PR51.
+
+# Рейсовый `/4` и прогресс — recovery, 2026-10-24
+
+`ulab-9aa.24` / PR #44, ветка `fix/ship-model-duration-progress`. Источники:
+`docs/superpowers/plans/2026-10-24-ship-model-duration-progress.md` и связанный design.
+Fresh Sputnik-D: mission H3600 / D100 км / laboratory V_FA250 / cruise500 м/с /
+background250 K / repeat и station replenishment ON. Stationary и старые документы
+сохранены отдельно; mission model `ship-fitting-ship-model-mission-0.1`, state
+`ship-mission-state/1`. Frozen input/state/events/result digest:
+`tests/fixtures/ship-model-mission/sputnik-d-hour.json` (измерены 3 service, 90 SCU доставлено).
+Актуальные SHA/QA/Review/merge status — canonical Beads и PR #44; эта запись — recovery context.
+
+# Upgrade пайплайна OverGate rc.1 → rc.3, 2026-10-24
+
+Draft PR #40 `chore/overgate-v4-rc2` (план `docs/plans/2026-10-24-overgate-v4-rc2-upgrade.md`
+v0.4, Beads `ulab-c5p`; после merge закрывается `ulab-oz6`). Установлен OverGate `v4.0.0-rc.3`
+`b830d5ed`: install-план `docs/verification/overgate-rc3-install-plan.json` (SHA256 3a8b616e…,
+PLAN_READY в PR #40), apply → rollback → повторный apply. Каждый managed- и settings-файл
+manifest побайтно равен source rc.3; override PR #30 снят — обёртки `bd-wt.sh`/`bd-env.sh`
+теперь upstream, запись дрейфа — `docs/archive/2026-10-18-beads-wrapper-drift.json`
+(superseded). 4 project allow-правила обёрток убраны из `settings.json`; узкий allow против
+`Bash(*)` — `ulab-4tq`. Pending intent `baa-2026-10-18-v2-02` выполнен upstream (OverGate
+`og-rdc`): при apply очереди оператор закрывает созданную задачу со ссылкой на `og-rdc`.
+
+# Пайплайн u2 в слое проекта u2-lab, 2026-10-18
+
+Поручение оператора: перенести настройки пайплайна u2. Выбран «слой проекта»: managed-файлы OverGate
+не трогаются. Добавлены `.agents/PM_ERR.md`, `DOC_PR.md`, `REVIEW_CYCLE.md` — дословные копии
+u2@`1c9da96` с баннером «история U2»; роль ГД — `.agents/project/GD_ROLE.md` (опциональна);
+в `AGENTS.md` — прерывание оператора, CI/destructive, самосверка PM с PM_ERR каждые три итерации
+(project-исключение к PM_ROLE §9), подписи AI-комментариев, GitHub-коннектор, временные файлы.
+План `docs/plans/2026-10-18-pipeline-from-u2.md`, PR #31, CRITICAL, Beads `ulab-bmz`.
+
 # Beads: доступ локальных агентов, 2026-10-18
 
 Draft PR #30 `chore/beads-agent-access` (план `docs/plans/2026-10-18-beads-local-agent-access.md`
 v0.4, закрывает `ulab-oz6`). База u2-lab — embedded Dolt; `scripts/bd-wt.sh` — единая точка
 входа агентов в основном checkout и worktree (allowlist подкоманд, `--db` по `dolt_mode`;
 отказ флагов чтения файла и заданных `BEADS_DIR`/`BEADS_DB`), applier шаг 4 работает на
-embedded, в `settings.json` — четыре узких allow-правила. Класс локального агента и порядок
-синхронизации — `.claude/rules/beads.md`. Managed-файлы `bd-wt.sh`/`bd-env.sh` расходятся с
-OverGate — `docs/verification/beads-wrapper-drift.json`. `AGENTS.md` стр. 28–31 заменены
-текстом, одобренным оператором 2026-10-23. Очередь
+embedded. Класс локального агента и порядок синхронизации — `.claude/rules/beads.md`.
+Override managed-файлов и 4 allow-правила сняты в PR #40 (поведение стало upstream rc.3).
+`AGENTS.md` стр. 28–31 заменены текстом, одобренным оператором 2026-10-23. Очередь
 `.bd-intents/beads-agent-access.jsonl` применяет оператор после merge; затем live smoke AC-9.
 
 # План поставки «Стелс и тепло», 2026-10-17

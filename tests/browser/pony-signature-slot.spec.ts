@@ -31,7 +31,7 @@ for (const width of [1440, 390]) test(`P05 native Pony new/old edition mounting,
     expect(result.spec).toEqual(spec); expect(spec.resolvedShip.fit).toEqual(fit); expect(result.state.timeSeconds).toBe(5.25); expect(result.metrics.usefulWork).toBeGreaterThan(0);
     return { fit, spec, result };
   };
-  await page.goto("/"); await expect(page.locator("#fit-preset")).toBeVisible(); await page.locator("#fit-preset").selectOption("pony:1"); await expand();
+  await page.goto("/?shipModel=legacy"); await expect(page.locator("#fit-preset")).toBeVisible(); await page.locator("#fit-preset").selectOption("pony:1"); await expand();
   await expect(page.locator("#slot-signature-2")).toHaveCount(0); await expect(page.locator("#fit-edition")).toContainText("0.2.5"); await openTimedDraft(page,getPresetFit("pony:2"));
   await replace("signature-1", "radiator-active-S"); const current = await shortRun(); expect(current.fit.catalogVersion).toBe("ship-fitting-0.2.3");
   for (const doc of [current.fit, current.spec, current.result]) { await page.reload(); await open(doc); await expand(); await expect(page.locator("#slot-signature-2")).toHaveCount(0); await expect(page.locator("#fit-edition")).toContainText("0.2.3"); }

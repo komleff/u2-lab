@@ -1,0 +1,694 @@
+{
+  "version": "f2-governor-reference-results/1",
+  "kernelCommit": "220a8879a2a0793f9b109d3447719ef6a7cdbcf4",
+  "clockHz": {
+    "production": 30,
+    "reference": 120
+  },
+  "tolerances": {
+    "exact": {
+      "version": "governor-tolerances/1",
+      "unit": "1",
+      "absolute": 0,
+      "relative": 0,
+      "scale": "exact",
+      "scaleFloor": 0,
+      "sourceRef": "lab:2026-10-23-f2-governor-pretest-implementation/v0.2§3.6"
+    },
+    "energy": {
+      "version": "governor-tolerances/1",
+      "unit": "J",
+      "absolute": 0.000001,
+      "relative": 1e-10,
+      "scale": "ledger-throughput",
+      "scaleFloor": 0,
+      "sourceRef": "lab:2026-10-23-f2-governor-pretest-implementation/v0.2§3.6"
+    },
+    "mass": {
+      "version": "governor-tolerances/1",
+      "unit": "kg",
+      "absolute": 1e-12,
+      "relative": 1e-10,
+      "scale": "ledger-throughput",
+      "scaleFloor": 0,
+      "sourceRef": "lab:2026-10-23-f2-governor-pretest-implementation/v0.2§3.6"
+    },
+    "temperatureConvergence": {
+      "version": "governor-tolerances/1",
+      "unit": "K",
+      "absolute": 0.02,
+      "relative": 0.005,
+      "scale": "temperature-change-floor-1K",
+      "scaleFloor": 1,
+      "sourceRef": "lab:2026-10-23-f2-governor-pretest-implementation/v0.2§3.6"
+    },
+    "energyConvergence": {
+      "version": "governor-tolerances/1",
+      "unit": "J",
+      "absolute": 0.001,
+      "relative": 0.005,
+      "scale": "max-delta-or-reference-transfers",
+      "scaleFloor": 0,
+      "sourceRef": "lab:2026-10-23-f2-governor-pretest-implementation/v0.2§3.6"
+    },
+    "massConvergence": {
+      "version": "governor-tolerances/1",
+      "unit": "kg",
+      "absolute": 1e-9,
+      "relative": 0.005,
+      "scale": "consumed-mass-floor-1e-6kg",
+      "scaleFloor": 0.000001,
+      "sourceRef": "lab:2026-10-23-f2-governor-pretest-implementation/v0.2§3.6"
+    },
+    "transitionTime": {
+      "version": "governor-tolerances/1",
+      "unit": "s",
+      "absolute": 0.03333333333333333,
+      "relative": 0,
+      "scale": "physical-time",
+      "scaleFloor": 0,
+      "sourceRef": "lab:2026-10-23-f2-governor-pretest-implementation/v0.2§3.6"
+    }
+  },
+  "trajectories": [
+    {
+      "id": "steady-exchange",
+      "vectorId": "vector-T05",
+      "durationSeconds": 60,
+      "temperatureK": {
+        "hz30": 399.96190495920484,
+        "hz120": 399.96190496265734,
+        "difference": 3.4524987313488964e-9,
+        "tolerance": 0.025
+      },
+      "shipEnergyDeltaJ": {
+        "hz30": -38095.04079512212,
+        "hz120": -38095.03734267223,
+        "difference": 0.003452449891483411,
+        "tolerance": 190.47620397561062
+      },
+      "usefulOutputJ": {
+        "hz30": 599.9999999999983,
+        "hz120": 599.9999999999934,
+        "coarseAdvantage": 4.888534022029489e-12
+      },
+      "outwardJ": {
+        "hz30": 719.9999999999762,
+        "hz120": 720.0000000000952
+      },
+      "resourceDifferencesKg": {
+        "h2": 1.2697065621125603e-11,
+        "water": 0
+      },
+      "transitions30": [
+        {
+          "timeSeconds": 0,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "idle",
+            "tank-cold-protection"
+          ],
+          "stopped": []
+        }
+      ],
+      "transitions120": [
+        {
+          "timeSeconds": 0,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "idle",
+            "tank-cold-protection"
+          ],
+          "stopped": []
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "threshold-crossing",
+      "vectorId": "vector-T30",
+      "durationSeconds": 30,
+      "temperatureK": {
+        "hz30": 684.8074058497093,
+        "hz120": 684.8074128802243,
+        "difference": 0.000007030515007500071,
+        "tolerance": 0.0959629355988784
+      },
+      "shipEnergyDeltaJ": {
+        "hz30": -15192594.15029072,
+        "hz120": -15192587.119775623,
+        "difference": 7.030515097081661,
+        "tolerance": 75962.9717514536
+      },
+      "usefulOutputJ": {
+        "hz30": 64.43968690788029,
+        "hz120": 64.5554164339968,
+        "coarseAdvantage": -0.11572952611651033
+      },
+      "outwardJ": {
+        "hz30": 77.32762428945638,
+        "hz120": 77.46649972079628
+      },
+      "resourceDifferencesKg": {
+        "h2": 4.741869985558367e-8,
+        "water": 0
+      },
+      "transitions30": [
+        {
+          "timeSeconds": 0,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "critical-hot-stop",
+            "critical-hot-stop",
+            "tank-cold-protection"
+          ],
+          "stopped": [
+            "cooler"
+          ]
+        },
+        {
+          "timeSeconds": 0.03333333333333333,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "critical-hot-stop",
+            "restart-hysteresis",
+            "tank-cold-protection"
+          ],
+          "stopped": [
+            "cooler"
+          ]
+        },
+        {
+          "timeSeconds": 19.766666666666666,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "hot-derating",
+            "tank-cold-protection"
+          ],
+          "stopped": []
+        }
+      ],
+      "transitions120": [
+        {
+          "timeSeconds": 0,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "critical-hot-stop",
+            "critical-hot-stop",
+            "tank-cold-protection"
+          ],
+          "stopped": [
+            "cooler"
+          ]
+        },
+        {
+          "timeSeconds": 0.008333333333333333,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "critical-hot-stop",
+            "restart-hysteresis",
+            "tank-cold-protection"
+          ],
+          "stopped": [
+            "cooler"
+          ]
+        },
+        {
+          "timeSeconds": 19.75,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "hot-derating",
+            "tank-cold-protection"
+          ],
+          "stopped": []
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "resource-exhaustion",
+      "vectorId": "vector-T08",
+      "durationSeconds": 120,
+      "temperatureK": {
+        "hz30": 399.9237770440008,
+        "hz120": 399.9237770509476,
+        "difference": 6.946777375560487e-9,
+        "tolerance": 0.025
+      },
+      "shipEnergyDeltaJ": {
+        "hz30": -76222.95599921884,
+        "hz120": -76222.94905239779,
+        "difference": 0.0069468210567720234,
+        "tolerance": 381.1157799960942
+      },
+      "usefulOutputJ": {
+        "hz30": 1249.98116942293,
+        "hz120": 1249.9811316641626,
+        "coarseAdvantage": 0.000037758767348350375
+      },
+      "outwardJ": {
+        "hz30": 1499.9774033075164,
+        "hz120": 1499.9773579969974
+      },
+      "resourceDifferencesKg": {
+        "h2": 0,
+        "water": 0
+      },
+      "transitions30": [
+        {
+          "timeSeconds": 0,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "idle",
+            "tank-cold-protection"
+          ],
+          "stopped": []
+        },
+        {
+          "timeSeconds": 12.466666666666667,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "resource-reserved",
+            "tank-cold-protection"
+          ],
+          "stopped": []
+        }
+      ],
+      "transitions120": [
+        {
+          "timeSeconds": 0,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "idle",
+            "tank-cold-protection"
+          ],
+          "stopped": []
+        },
+        {
+          "timeSeconds": 12.491666666666667,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "resource-reserved",
+            "tank-cold-protection"
+          ],
+          "stopped": []
+        }
+      ],
+      "status": "PASS"
+    },
+    {
+      "id": "work-recovery-repeat",
+      "vectorId": "vector-T25",
+      "durationSeconds": 180,
+      "temperatureK": {
+        "hz30": 449.8078448643451,
+        "hz120": 449.8078448891284,
+        "difference": 2.4783275875961408e-8,
+        "tolerance": 0.025
+      },
+      "shipEnergyDeltaJ": {
+        "hz30": -192155.13565494775,
+        "hz120": -192155.11087163043,
+        "difference": 0.02478331731981598,
+        "tolerance": 960.7766782747387
+      },
+      "usefulOutputJ": {
+        "hz30": 1200.0000000000064,
+        "hz120": 1200.0000000000261,
+        "coarseAdvantage": -1.978150976356119e-11
+      },
+      "outwardJ": {
+        "hz30": 1440.0000000000534,
+        "hz120": 1439.9999999997858
+      },
+      "resourceDifferencesKg": {
+        "h2": 3.145861349196366e-11,
+        "water": 0
+      },
+      "transitions30": [
+        {
+          "timeSeconds": 0,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "idle",
+            "tank-cold-protection"
+          ],
+          "stopped": []
+        },
+        {
+          "timeSeconds": 60,
+          "mode": "Quiet",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "quiet-hot-path-forbidden",
+            "tank-cold-protection"
+          ],
+          "stopped": []
+        },
+        {
+          "timeSeconds": 120,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "idle",
+            "tank-cold-protection"
+          ],
+          "stopped": []
+        }
+      ],
+      "transitions120": [
+        {
+          "timeSeconds": 0,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "idle",
+            "tank-cold-protection"
+          ],
+          "stopped": []
+        },
+        {
+          "timeSeconds": 60,
+          "mode": "Quiet",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "quiet-hot-path-forbidden",
+            "tank-cold-protection"
+          ],
+          "stopped": []
+        },
+        {
+          "timeSeconds": 120,
+          "mode": "Normal",
+          "shipCold": false,
+          "quietCold": false,
+          "reasons": [
+            "idle",
+            "tank-cold-protection"
+          ],
+          "stopped": []
+        }
+      ],
+      "status": "PASS"
+    }
+  ],
+  "tIds": [
+    {
+      "id": "T01",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T02",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T03",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T04",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T05",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T06",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T07",
+      "status": "PASS",
+      "reason": "G2 exact shared-port receipt caps aggregate ordinary work to actual canonical bank allocations (200/400/400 kJ)."
+    },
+    {
+      "id": "T08",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T09",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T10",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T11",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T12",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T13",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T14",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T15",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T16",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T17",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T18",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T19",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T20",
+      "status": "PASS",
+      "reason": "G2 focused behavioral/convergence evidence."
+    },
+    {
+      "id": "T21",
+      "status": "PASS",
+      "reason": "G2 focused behavioral/convergence evidence."
+    },
+    {
+      "id": "T22",
+      "status": "PASS",
+      "reason": "G2 q(T) interpolation binds both map coordinates to one H2 mass/outward package; metamorphic regression."
+    },
+    {
+      "id": "T23",
+      "status": "PASS",
+      "reason": "G2 focused behavioral/convergence evidence."
+    },
+    {
+      "id": "T24",
+      "status": "PASS",
+      "reason": "G2 valid Quiet deficit, stopped-source protection, source-loss ownership and late capture regressions."
+    },
+    {
+      "id": "T25",
+      "status": "PASS",
+      "reason": "G2 focused behavioral/convergence evidence."
+    },
+    {
+      "id": "T26",
+      "status": "PASS",
+      "reason": "G2 focused behavioral/convergence evidence."
+    },
+    {
+      "id": "T27",
+      "status": "PASS",
+      "reason": "G2 focused behavioral/convergence evidence."
+    },
+    {
+      "id": "T28",
+      "status": "PASS",
+      "reason": "G2 focused behavioral/convergence evidence."
+    },
+    {
+      "id": "T29",
+      "status": "PASS",
+      "reason": "G2 failure/restart protection plus stopped electrical-source dispatch sweep."
+    },
+    {
+      "id": "T30",
+      "status": "PASS",
+      "reason": "G2 hot and cold critical/restart event ticks plus their following ticks are deep-equal after JSON reopen."
+    },
+    {
+      "id": "T31",
+      "status": "NOT_RUN",
+      "reason": "F2-G4 service/rebind owner; outside G2 exit."
+    },
+    {
+      "id": "T32",
+      "status": "PASS",
+      "reason": "G2 focused behavioral/convergence evidence."
+    },
+    {
+      "id": "T33",
+      "status": "PASS",
+      "reason": "G2 focused behavioral/convergence evidence."
+    },
+    {
+      "id": "T34",
+      "status": "PASS",
+      "reason": "G2 no-water boundary plus versioned compensated sub-ULP ship-energy JSON continuation."
+    },
+    {
+      "id": "T35",
+      "status": "NOT_RUN",
+      "reason": "Scope OUT: water propulsion/local steam."
+    },
+    {
+      "id": "T36",
+      "status": "NOT_RUN",
+      "reason": "Scope OUT: water propulsion/local steam."
+    },
+    {
+      "id": "T37",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    },
+    {
+      "id": "T38",
+      "status": "PASS",
+      "reason": "G2 exact 0.1 kg/tick high-demand boundary returns conserved: ordinary, source and cooler reservations decrement one resource flow budget in fixed order without same-tick reuse."
+    },
+    {
+      "id": "T39",
+      "status": "PASS",
+      "reason": "Accepted G1 focused/full regression evidence retained in the same tree."
+    }
+  ],
+  "reviewRegressions": [
+    {
+      "id": "CR-G2-B1",
+      "status": "PASS",
+      "generatedJ": 0,
+      "fuelUsedKg": 0,
+      "coolerUsefulJ": 0,
+      "reason": "restart-unauthorized"
+    },
+    {
+      "id": "CR-G2-B2",
+      "status": "PASS",
+      "sourceHostJ": 0.16666666666666666,
+      "signedCases": [
+        {
+          "sign": "positive",
+          "externalCoolingJ": 0,
+          "signedLateHeatJ": 0.16666666666666666,
+          "lateCaptureJ": 0.16666666666666666,
+          "bankDeltaJ": 0.16666666666666666,
+          "shipDeltaJ": 0,
+          "stage8Selected": true
+        },
+        {
+          "sign": "zero",
+          "externalCoolingJ": 0.16666666666666666,
+          "signedLateHeatJ": 0,
+          "lateCaptureJ": 0,
+          "bankDeltaJ": 0,
+          "shipDeltaJ": 0,
+          "stage8Selected": false
+        },
+        {
+          "sign": "negative",
+          "externalCoolingJ": 0.3333333333333333,
+          "signedLateHeatJ": -0.16666666666666666,
+          "lateCaptureJ": 0,
+          "bankDeltaJ": 0,
+          "shipDeltaJ": -0.16666666666666666,
+          "stage8Selected": false
+        }
+      ],
+      "energyResidualJ": 0,
+      "executionOrder": [
+        "stage-0-snapshot",
+        "preliminary-stages-1-7",
+        "electrical-dispatch",
+        "final-stages-1-7",
+        "actual-work-packages",
+        "actual-source-losses",
+        "environment-outward",
+        "stage-8-late-capture",
+        "stage-9-commit"
+      ]
+    },
+    {
+      "id": "CR-G2-B3",
+      "status": "PASS",
+      "ticks": 10,
+      "expectedDeltaJ": 0.0001,
+      "authoritativeDeltaJ": 0.00009999999988463593,
+      "jsonCheckpoint": "deep-equal"
+    },
+    {
+      "id": "CR-G2-B4",
+      "status": "PASS",
+      "requestedJ": 1666666.6666666667,
+      "sharedPortJ": 1000000,
+      "usefulOutputJ": 1000000,
+      "allocatedJ": 1000000
+    }
+  ]
+}

@@ -17,7 +17,8 @@ export function createShipSignatureStatistics(initialTimeSeconds:number):ShipSig
 // Только frozen production intervals: clipping выполняется до интегрирования,
 // extrema никогда не выводятся из секундного last или retained buckets.
 export function accumulateShipModelFrames(spec:RunSpecV3,previous:ShipSignatureStatistics,step:ReturnType<typeof stepV3>):ShipSignatureStatistics{
-  if(previous.completedThroughSeconds!==step.state.timeSeconds-spec.stepSeconds)throw Error('Несмежная completed production граница');
+  const interval=spec.mission?step.frames.reduce((n,f)=>n+f.durationSeconds,0):spec.stepSeconds;
+  if(Math.abs(previous.completedThroughSeconds-(step.state.timeSeconds-interval))>1e-8)throw Error('Несмежная completed production граница');
   const next=structuredClone(previous),gain=(profile:IrProfile)=>(1-profile.aftFraction)+profile.aftFraction*lambertGain(spec.observer.aspectDeg-180);
   let intervalSeconds=0;
   for(const frame of step.frames){
@@ -30,7 +31,7 @@ export function accumulateShipModelFrames(spec:RunSpecV3,previous:ShipSignatureS
       channel.integralJ+=value*dt;channel.minW=channel.minW===null?value:Math.min(channel.minW,value);channel.maxW=channel.maxW===null?value:Math.max(channel.maxW,value);channel.meanW=channel.integralJ/next.durationSeconds;
     }
   }
-  if(Math.abs(intervalSeconds-spec.stepSeconds)>1e-9)throw Error('Неполный production interval');
+  if(Math.abs(intervalSeconds-interval)>1e-9)throw Error('Неполный production interval');
   next.completedThroughSeconds=step.state.timeSeconds;return next;
 }
 // Projection only: all source/escaped/retained watts already belong to the kernel.
@@ -46,6 +47,8 @@ export function observeShipModelStep(spec:RunSpecV3,step:ReturnType<typeof stepV
     for(const row of f.outwardIr)add(row.id,row.kind,row.absoluteIrW,row.contrastW,null,row.profile==='aft-directed'?aft:omni,dt);
     rawEmW+=f.em.rawEmW*dt;escapedEmW+=f.em.escapedEmW*dt;capturedEmW+=f.em.capturedEmW*dt;observedEmW+=(f.em.escapedEmW+f.em.intentionalRfW)*dt;ownAntennaTransmission+=f.ownAntennaTransmission*dt;ownSensorWorkingW+=f.ownSensorWorkingW*dt;
   }
+  const duration=spec.mission?step.frames.reduce((n,f)=>n+f.durationSeconds,0):1;
+  if(duration!==1){for(const row of paths.values()){row.absoluteIrW/=duration;row.contrastW/=duration;row.projectedContrastW/=duration;}rawEmW/=duration;escapedEmW/=duration;capturedEmW/=duration;observedEmW/=duration;ownAntennaTransmission/=duration;ownSensorWorkingW/=duration;}
   const rows=[...paths.values()],intrinsicIrW=rows.reduce((sum,p)=>sum+p.absoluteIrW,0),contrastIrW=rows.reduce((sum,p)=>sum+p.projectedContrastW,0),receiverIrW=spec.receiverProfile==='absolute-contrast'?Math.abs(contrastIrW):Math.max(0,contrastIrW);
   return {timeSeconds:step.state.timeSeconds,intrinsicIrW,contrastIrW,receiverIrW,rawEmW,escapedEmW,capturedEmW,observedEmW,irFluxWm2:receivedFlux(receiverIrW,spec.observer.rangeM),emFluxWm2:receivedFlux(observedEmW,spec.observer.rangeM),ownAntennaTransmission,ownSensorWorkingW,paths:rows};
 }

@@ -11,7 +11,7 @@
       "target_sha256": "d612d1af64feb81c38a823e227334ed6752bbb154e0a87735735c1d2ea708353",
       "transformations": [
         "Literal u2-bd- -> ulab-bd- for receipt/lock/temp namespaces only. All guards and bd-env API preserved.",
-        "PR #30 (docs/plans/2026-10-18-beads-local-agent-access.md): step 4 checks the main database by dolt_mode via bd_env_resolve_main_db — server keeps the live-server check and exit 3, embedded requires .beads/embeddeddolt. Other steps, guards and engine unchanged."
+        "PR #30 (docs/plans/2026-10-18-beads-local-agent-access.md): step 4 checks the main database by dolt_mode via bd_env_resolve_main_db — server keeps the live-server check and exit 3, embedded requires .beads/embeddeddolt. Other steps, guards and engine unchanged. Since PR #40 bd_env_resolve_main_db is provided by managed OverGate v4.0.0-rc.3 scripts/lib/bd-env.sh (byte-identical), so managed_policy holds without exception."
       ]
     },
     {

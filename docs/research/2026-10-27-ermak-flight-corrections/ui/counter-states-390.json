@@ -1,0 +1,37 @@
+{
+  "legacy": {
+    "version": "ship-mission-state/1",
+    "stage": "inbound",
+    "stageElapsedSeconds": 33.464066326618195,
+    "positionM": 98160.55344931321,
+    "velocityMS": -101.96553541425588,
+    "onboardM3": 36.00000000003392,
+    "minedM3": 36.00000000003392,
+    "deliveredM3": 0,
+    "completedTrips": 0,
+    "receivedFuelKg": {
+      "diesel": 0,
+      "hydrogen": 0
+    },
+    "receivedChargeJ": 0,
+    "terminalReason": null
+  },
+  "new2": {
+    "version": "ship-mission-state/1",
+    "stage": "outbound",
+    "stageElapsedSeconds": 207.9463456777303,
+    "positionM": 91522.81111857721,
+    "velocityMS": 449.99999999999994,
+    "onboardM3": 0,
+    "minedM3": 36,
+    "deliveredM3": 36,
+    "completedTrips": 1,
+    "receivedFuelKg": {
+      "diesel": 116.95434446171384,
+      "hydrogen": 0
+    },
+    "receivedChargeJ": 1627344761.280738,
+    "terminalReason": null
+  },
+  "errors": []
+}
