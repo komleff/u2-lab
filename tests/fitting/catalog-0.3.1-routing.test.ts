@@ -11,9 +11,9 @@ import { makeShipModelMiningRun } from "../../src/scenarios/fitting";
 import { createShipModelRun, runShipModelChunk, shipModelResult } from "../../src/runner/ship-model-run";
 import { parseStoredResultJson } from "../../src/io/fitting-result";
 
-const next = "ship-fitting-0.3.1", current = "ship-fitting-0.3.3";
+const next = "ship-fitting-0.3.1", current = "ship-fitting-0.3.4";
 it("supported V3 versions are explicit, current is 0.3.3, and old default stays literal", () => {
-  expect((versions as any).SHIP_MODEL_CATALOG_VERSIONS).toEqual(["ship-fitting-0.3.0", "ship-fitting-0.3.1", "ship-fitting-0.3.2", current]);
+  expect((versions as any).SHIP_MODEL_CATALOG_VERSIONS).toEqual(["ship-fitting-0.3.0", "ship-fitting-0.3.1", "ship-fitting-0.3.2", "ship-fitting-0.3.3", current]);
   expect((versions as any).CURRENT_SHIP_MODEL_CATALOG).toBe(current);
   expect(isShipModelCatalogVersion("ship-fitting-0.3.0")).toBe(true);
   expect(isShipModelCatalogVersion("ship-fitting-0.3.1")).toBe(true);

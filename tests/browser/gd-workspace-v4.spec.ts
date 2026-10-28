@@ -2,7 +2,7 @@ import { openTimedDraft } from "./timed-draft";
 import { test, expect } from "@playwright/test";
 import { getPresetFit } from "../../src/fitting/catalog";
 test("v4 continuous research page keeps sections and navigation reachable during an advancing test", async ({ page }) => {
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await expect(page.locator("#fit-preset")).toBeVisible();
   await expect(page.locator("#fit-duration")).toBeVisible();
   await expect(page.locator("#compare-variants-details > summary")).toHaveText("Сравнение вариантов");
@@ -53,7 +53,7 @@ for (const width of [1440, 820, 390]) test(`v4 whole native research chain at ${
     return readFile((await file.path())!, "utf8");
   };
   const importText = async (text: string) => page.locator("#fit-import").setInputFiles({ name: "research.json", mimeType: "application/json", buffer: Buffer.from(text) });
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await expect(page.locator("#fit-preset")).toBeVisible();
   expect(await page.evaluate(() => ({ html: getComputedStyle(document.documentElement).overscrollBehaviorY, body: getComputedStyle(document.body).overscrollBehaviorY }))).toEqual({ html: "none", body: "none" });
   await page.mouse.wheel(0, 600);
@@ -136,7 +136,7 @@ for (const width of [1440, 820, 390]) test(`v4 whole native research chain at ${
   expect(errors).toEqual([]); await context.close();
 });
 test("operator slot groups each occupy a separately findable full-width row at desktop/tablet/phone", async ({ page }) => {
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await expect(page.locator("#fit-slots")).toBeVisible();
   for (const width of [1440, 820, 390]) {
     await page.setViewportSize({ width, height: 1000 });
@@ -153,7 +153,7 @@ test("operator slot groups each occupy a separately findable full-width row at d
 });
 
 test("WF04/06 genuine 90ms desktop payload click survives advancing Worker renders", async ({ page }, testInfo) => {
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await expect(page.locator("#fit-preset")).toBeVisible();
   await page.locator("#fit-preset").selectOption("pony:1");
   await page.locator("#fit-duration").fill("180");
@@ -193,7 +193,7 @@ test("WF04/06 all slot groups, optional ring and builtin controls retain nodes a
   // CI trace: первые четыре группы заняли 22.6 с; здесь семь полных held-click
   // циклов. Это общий бюджет последовательности, 90 ms и node assertions прежние.
   test.setTimeout(60000);
-  await page.goto("/"); await openTimedDraft(page); await expect(page.locator("#fit-preset")).toBeVisible();
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page); await expect(page.locator("#fit-preset")).toBeVisible();
   await page.locator("#fit-preset").selectOption("pony:1"); await page.locator("#fit-duration").fill("180");
   await page.locator("#fit-speed").selectOption("1"); await page.locator("#fit-start").click();
   await expect(page.locator("#fit-time")).not.toHaveText("0 с / 180 с");
@@ -244,7 +244,7 @@ for (const edition of ["ship-fitting-0.2.0", "ship-fitting-0.2.1"] as const)
       const wait = page.waitForEvent("download"); await action("#fit-save"); await action("#fit-save-confirm");
       return JSON.parse(await readFile((await (await wait).path())!, "utf8"));
     };
-    await page.goto("/"); await openTimedDraft(page); await expect(page.locator("#fit-preset")).toBeVisible();
+    await page.goto("/?shipModel=legacy"); await openTimedDraft(page); await expect(page.locator("#fit-preset")).toBeVisible();
     const fit = getPresetFit(hull + ":2", edition);
     await page.locator("#fit-import").setInputFiles({ name: "old-or-new-fit.json", mimeType: "application/json", buffer: Buffer.from(JSON.stringify(fit)) });
     const power = page.locator('[data-group="power"]'); if (await power.getAttribute("aria-expanded") === "false") await action('[data-group="power"]');

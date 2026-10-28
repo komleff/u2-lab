@@ -18,7 +18,7 @@ import {validateShipModelResultV02} from '../io/ship-model-result-v02';
 type Variant={fit?:ShipFitV3;conditions:ShipModelConditions;result?:RunResultV3;replay?:RunSpecV3;scenarioName?:string;stale?:boolean;opened?:'fit'|'run'|'result'};
 type ActiveTest={runId:string;variantId:'A'|'B';fitRevision:number;spec:RunSpecV3;status:'running'|'paused'};
 export type ScenarioEdit=RunSpecV3['scenario']&{durationSeconds:number};
-export type ReplacementPreview={ok:boolean;fit?:ShipFitV3;ship?:ResolvedShipV3;errors:{path:string;code:string;message:string}[]};
+export type ReplacementPreview={ok:boolean;fit?:ShipFitV3;ship?:ResolvedShipV3;errors:{path:string;code:string;message:string}[];readinessErrors?:{path:string;code:string;message:string}[]};
 const unwrap=<T>(r:{ok:true;value:T}|{ok:false;errors:readonly {path:string;message:string}[]}):T=>{if(!r.ok)throw Error(r.errors.map(e=>e.path+': '+e.message).join('\n'));return r.value;};
 // Явная правка монтажа создаёт следующий рейсовый draft с фактическим roster.
 // Импортированный run и сохранённые измерения не проходят эту перекомпиляцию.
@@ -32,13 +32,14 @@ export function previewShipModelReplacement(fit:ShipFitV3,catalog:CandidateCatal
   if(itemId===null){delete next.instances[id];delete next.assignments[slotId];}
   else {next.assignments[slotId]=id;next.instances[id]={id,itemId,enabled:next.instances[id]?.enabled??true};}
   next.fitRevision++;
-  const checked=validateShipModelFit(next,catalog),compiled=checked.ok?compileShipModelFit(next,catalog):checked;
+  const checked=validateShipModelFit(next,catalog),compiled=checked.ok?compileShipModelFit(next,catalog,{requireRunnable:catalog.version!=='ship-fitting-0.3.4'}):checked;
   const errors=compiled.ok?[]:[...compiled.errors];
   const mission=conditions.workMode==='mission';
   const original=makeShipModelMiningRun(fit,catalog,conditions),phases=mission?[]:conditions.phases??(original.ok?original.value.scenario.phases:[]);
   phases.forEach((phase,index)=>{for(const owner of Object.keys(phase.requests))if(!next.instances[owner]&&!hull?.builtins.some(i=>i.id===owner))errors.push({path:`scenario.phases.${index}.requests.${owner}`,code:'REQUEST_OWNER',message:'Снятие удаляет владельца запроса '+owner+'. Сначала явно измените сценарий.'});});
-  if(compiled.ok){const run=mission?makeShipModelMissionRun(next,catalog,missionConditionsForFit(conditions,compiled.value)):makeShipModelMiningRun(next,catalog,conditions);if(!run.ok)errors.push(...run.errors);}
-  return {ok:errors.length===0,fit:next,...(compiled.ok?{ship:compiled.value}:{}),errors};
+  if(compiled.ok){const run=mission?makeShipModelMissionRun(next,catalog,missionConditionsForFit(conditions,compiled.value)):makeShipModelMiningRun(next,catalog,conditions);if(!run.ok&&(catalog.version!=='ship-fitting-0.3.4'||validateShipModelFit(next,catalog,true).ok))errors.push(...run.errors);}
+  const ready=validateShipModelFit(next,catalog,true);
+  return {ok:errors.length===0,fit:next,...(compiled.ok?{ship:compiled.value}:{}),errors,...(ready.ok?{}:{readinessErrors:[...ready.errors]})};
 }
 // Черновики /4 и legacy сохраняют свои численные данные внутри общей Lab shell.
 export class ShipModelWorkspace{
@@ -117,7 +118,7 @@ export class ShipModelWorkspace{
   private replaceFit(fit:ShipFitV3){
     const v=this.variants[this.selected],catalog=this.catalogFor(fit.catalogVersion);
     if(v.conditions.workMode==='mission'){const compiled=compileShipModelFit(fit,catalog);if(compiled.ok)v.conditions=missionConditionsForFit(v.conditions,compiled.value);else v.conditions.phases=undefined;}
-    else if(v.conditions.phases)unwrap(makeShipModelMiningRun(fit,catalog,v.conditions));
+    else if(v.conditions.phases&&(catalog.version!=='ship-fitting-0.3.4'||validateShipModelFit(fit,catalog,true).ok))unwrap(makeShipModelMiningRun(fit,catalog,v.conditions));
     v.fit=fit;v.replay=undefined;v.opened='fit';this.edited();
   }
   private idle(){if(this.activeTest||this.governorTest)throw Error('Сначала завершите/отмените активный тест; его controls принадлежат исходному варианту.');}
@@ -170,6 +171,7 @@ export class ShipModelWorkspace{
     const checked=v.replay?{ok:true as const,value:structuredClone(v.replay)}:builder(v.fit!,this.catalogFor(v.fit?.catalogVersion),v.conditions);
     if(checked.ok&&v.scenarioName)checked.value.scenario.name=v.scenarioName;return checked;
   }
+  saveFit(){this.selectModel();unwrap(validateShipModelFit(this.fit!,this.catalog,true));return structuredClone(this.fit!);}
   prepare(){this.selectModel();return structuredClone(unwrap(this.draftSpec(this.variants[this.selected])));}
   start(runId:string){this.idle();const spec=this.prepare();this.activeTest={runId,variantId:this.selected,fitRevision:spec.resolvedShip.fit.fitRevision,spec:structuredClone(spec),status:'running'};return spec;}
   startCheckpoint(runId:string){this.idle();const r=this.result;if(!r||r.status!=='paused'||r.state.timeSeconds>=r.spec.durationSeconds)throw Error('Нужен незавершённый paused /4 checkpoint');const saved=unwrap(parseStoredResultJson(JSON.stringify(r,(_,v)=>ArrayBuffer.isView(v)?Array.from(v as Float64Array):v)));if(saved.spec.schemaVersion!=='u2-lab/4')throw Error('Checkpoint требует /4');const checkpoint=structuredClone(saved as RunResultV3);checkpoint.runId=runId;this.activeTest={runId,variantId:this.selected,fitRevision:checkpoint.spec.resolvedShip.fit.fitRevision,spec:structuredClone(checkpoint.spec),status:'running'};return checkpoint;}

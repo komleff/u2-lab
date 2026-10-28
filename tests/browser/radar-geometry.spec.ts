@@ -1,6 +1,8 @@
 import {test,expect,type Page} from '@playwright/test';
 import {readFileSync} from 'node:fs';
 import {serializeResultSnapshot} from '../../src/io/fitting-json';
+import {getPresetFit} from '../../src/fitting/catalog';
+import {serializeFit} from '../../src/io/fitting-json';
 
 const save=async(page:Page)=>{const waiting=page.waitForEvent('download');await page.locator('#sm-save-result').click();return readFileSync((await (await waiting).path())!,'utf8');};
 test('ST4 actual Worker passport/result, frozen A vs next B, new/old literal reopen and unknown Pony geometry',async({page},testInfo)=>{
@@ -12,12 +14,12 @@ test('ST4 actual Worker passport/result, frozen A vs next B, new/old literal reo
       postMessage(message:any,transfer:any=[]){if(message.type==='start')(window as any).wi4Starts.push(structuredClone(message.payload));super.postMessage(message,transfer);}
     };
   });
-  await page.goto('/?shipModel=experimental');await page.locator('#sm-preset').selectOption('sputnik-d');
+  await page.goto('/');await page.locator('#sm-preset').selectOption('sputnik-d');
   await page.locator('#sm-fit > summary').click();await expect(page.locator('#sm-radar-passport')).toBeVisible();
   await expect(page.locator('[data-radar-area="nose"]')).toHaveAttribute('data-value','54');await expect(page.locator('[data-radar-area="side"]')).toHaveAttribute('data-value','121.5');await expect(page.locator('#sm-radar-passport')).toContainText('H — ориентир, не утверждена');
   await page.locator('#sm-duration').fill('2');await page.locator('#sm-duration').press('Tab');await page.locator('#sm-start').click();await expect(page.locator('#sm-status')).toHaveText('complete');
   const aText=await save(page),a=JSON.parse(aText),ref=a.referenceMeasurements;
-  expect(a.spec.resolvedShip.hull.id).toBe('sputnik');expect(a.spec.catalogVersion).toBe('ship-fitting-0.3.3');expect(ref.radar.noseCrossSectionM2).toBe(54);
+  expect(a.spec.resolvedShip.hull.id).toBe('sputnik');expect(a.spec.catalogVersion).toBe('ship-fitting-0.3.4');expect(ref.radar.noseCrossSectionM2).toBe(54);
   for(const key of ['current','mean','max']){
     const pair=ref.passive[key];expect(pair.rangeM).toBe(Math.max(pair.irM,pair.emM));
     await expect(page.locator('#sm-detection-distance [data-reference-distance="TOTAL:'+key+'"]')).toHaveAttribute('data-value',String(pair.rangeM));
@@ -41,6 +43,7 @@ test('ST4 actual Worker passport/result, frozen A vs next B, new/old literal reo
   await page.locator('#sm-import').setInputFiles({name:'wi4-old.json',mimeType:'application/json',buffer:Buffer.from(oldText)});await expect(page.locator('#sm-detection-distance')).toContainText('Старый результат: радар и max(IR, EM) не измерены');
   await expect(page.locator('#sm-detection-distance [data-reference-distance="TOTAL:current"]')).toHaveCount(0);expect(await save(page)).toBe(oldText);
   await page.screenshot({path:testInfo.outputPath('wi4-old-literal.png'),fullPage:true});
-  await page.locator('#sm-preset').selectOption('pony-d');await page.locator('#sm-fit').evaluate(n=>(n as HTMLDetailsElement).open=true);await expect(page.locator('#sm-radar-passport')).toContainText('Нет габарита');
+  await page.locator('#sm-preset').selectOption('pony-d');await page.locator('#sm-fit').evaluate(n=>(n as HTMLDetailsElement).open=true);await expect(page.locator('#sm-radar-passport')).toContainText('Классовая опора, не измерение именной модели.');
+  await page.locator('#sm-import').setInputFiles({name:'pony-033.json',mimeType:'application/json',buffer:Buffer.from(serializeFit(getPresetFit('pony-d','ship-fitting-0.3.3')))});await expect(page.locator('#sm-radar-passport')).toContainText('Нет габарита');
   expect(errors).toEqual([]);console.log('WI4_WORKER',JSON.stringify({runs:[a,b].map(r=>({runId:r.runId,hull:r.spec.resolvedShip.hull.id,catalog:r.spec.catalogVersion,fitRevision:r.spec.resolvedShip.fit.fitRevision,observer:r.spec.observer,interval:r.referenceMeasurements.intervalSeconds,noseM2:r.referenceMeasurements.radar.noseCrossSectionM2,total:r.referenceMeasurements.passive.current,radarM:r.referenceMeasurements.radar.rangeM})),oldLiteralBytes:oldText.length,errors}));
 });

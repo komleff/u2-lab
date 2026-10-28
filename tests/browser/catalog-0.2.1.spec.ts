@@ -12,7 +12,7 @@ for(const width of [1440,390])test(`catalog0.2.1 native ${width} user assembly, 
  const exported=async(s:string)=>{const wait=page.waitForEvent("download");await action(s);if(s==="#fit-save")await action("#fit-save-confirm");const d=await wait;return JSON.parse(await readFile((await d.path())!,"utf8"));};
  const open=async(value:unknown)=>page.locator("#fit-import").setInputFiles({name:"fit.json",mimeType:"application/json",buffer:Buffer.from(JSON.stringify(value))});
  const select=async(slot:string,item:string)=>{await action("#slot-"+slot);await action(`[data-candidate="${item}"]`);await expect(page.locator("#fit-apply")).toBeEnabled();await action("#fit-apply");};
- await page.goto("/");await expect(page.locator("#fit-preset")).toBeVisible();
+ await page.goto("/?shipModel=legacy");await expect(page.locator("#fit-preset")).toBeVisible();
  const old=getPresetFit("industrial-M:2","ship-fitting-0.2.0");await open(old);
  const propulsion=page.locator('[data-group="propulsion"]');if(await propulsion.getAttribute("aria-expanded")==="false")await propulsion.click();
  expect((await exported("#fit-save")).catalogVersion).toBe("ship-fitting-0.2.0");

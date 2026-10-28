@@ -10,7 +10,7 @@ for (const width of [1440,390]) test(`MC01–04 module information preserves sel
   const p=await context.newPage(),errors:string[]=[],act=async(selector:string)=>{const x=p.locator(selector);await x.scrollIntoViewIfNeeded();width===390?await x.tap():await x.click();};
   p.on('pageerror',e=>errors.push(e.message));
   const save=async()=>{const wait=p.waitForEvent('download');await act('#fit-save');await act('#fit-save-confirm');return readFile((await (await wait).path())!);};
-  await p.goto('/');await openTimedDraft(p,getPresetFit('pony:1'));
+  await p.goto('/?shipModel=legacy');await openTimedDraft(p,getPresetFit('pony:1'));
   const incomplete=getPresetFit('pony:1'),missing=incomplete.assignments.march;delete incomplete.assignments.march;delete incomplete.instances[missing];
   await p.locator('#fit-import').setInputFiles({name:'incomplete-pony.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(incomplete))});
   const before=await save(),revision=await p.locator('#fit-next-revision').textContent(),refusal=await p.locator('.control-reason').textContent();
@@ -62,7 +62,7 @@ test('CR-MC-B1 idless ring and measured invokers close safely without changing f
    const act=async(selector:string)=>{const x=p.locator(selector);await x.evaluate(n=>n.scrollIntoView({block:'center'}));width===390?await x.tap():await x.click();};
    const fitBytes=async()=>{const wait=p.waitForEvent('download');await act('#fit-save');await act('#fit-save-confirm');return readFile((await(await wait).path())!);};
    const resultBytes=async()=>{if(!await p.locator('#fit-more').evaluate(n=>(n as HTMLDetailsElement).open))await act('#fit-f3');const wait=p.waitForEvent('download');await act('#fit-export-result');return readFile((await(await wait).path())!);};
-   await p.goto('/');await p.locator('#fit-import').setInputFiles({name:'idless.json',mimeType:'application/json',buffer:measured??Buffer.from(JSON.stringify(prepared.value))});
+   await p.goto('/?shipModel=legacy');await p.locator('#fit-import').setInputFiles({name:'idless.json',mimeType:'application/json',buffer:measured??Buffer.from(JSON.stringify(prepared.value))});
    if(!measured){await act('#fit-start');await expect(p.locator('#fit-status')).toContainText('Завершён');measured=await resultBytes();const r=JSON.parse(measured.toString());expect(r.state.timeSeconds).toBe(5);expect(r.state.usefulWork).toBeGreaterThan(0);}
    const beforeFit=await fitBytes(),beforeResult=await resultBytes(),revision=await p.locator('#fit-next-revision').textContent();
    await act('#fit-modules-details > summary');

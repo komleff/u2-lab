@@ -31,7 +31,7 @@ test("CR-UI-B2 real repeated Start/Pause before new telemetry retains previous r
       }
     };
   });
-  await page.goto("/"); await openTimedDraft(page);
+  await page.goto("/?shipModel=legacy"); await openTimedDraft(page);
   await page.getByRole("link", { name: "Условия", exact: true }).click();
   await page.locator("#fit-duration").fill("20");
   await page.locator("#fit-start").click();
@@ -158,7 +158,7 @@ for (const width of [1440, 1024, 390]) test(`result dock real mission zero/live/
     expect(g.controls.every(c => c.inside && c.reachable)).toBe(true); expect(g.color).toBe(g.heroColor);
     return g;
   };
-  await page.goto("/");
+  await page.goto("/?shipModel=legacy");
   await expect(page.locator("#fit-dock-rate")).toHaveText("—");
   await page.locator("#fit-duration").fill("60");
   await page.locator("#fit-distance").fill("0"); await page.locator("#fit-approach").fill("0");

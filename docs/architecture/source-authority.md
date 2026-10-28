@@ -74,6 +74,21 @@ RuntimeAuthorization=false/BLOCKED_RESTART_SCHEMA остаются, U2 configs �
 не обновляются. Research manifest.sourceKernelFiles pinned к historical f0732d3;
 новая runtime qualification отдельно.
 
+## Версия численного рейсового управления — 2026-10-27
+
+PR53 (`ulab-9do`, `ulab-b3y`) расширяет существующий `/4` по
+[плану0.2](../plans/2026-10-27-ermak-flight-counter.md) с independent PLAN_READY.
+Fresh current0.3.4 получает `ship-mission/2`; explicit/imported `ship-mission/1`,
+включая C2 catalog0.3.4, исполняется буквально. Физический каталог, model/state/
+checkpoint formats и пределы U2 сохраняются. Pure cooperative planning не
+пишется в физическое состояние. Его CPU deadline и конец наблюдения не являются
+физическим ограничением. Счётчик завершений берётся из того же measured state.
+
+Новые [измерения mission/2](../research/2026-10-27-ermak-flight-corrections/README.md)
+квалифицируются отдельно; 18 receipts от7082/C2 остаются historical mission/1.
+PR53 — Developer candidate до независимых QA/Review и current checks,
+не production U2/Pages или новая балансировка принятых ТТХ.
+
 ## Formula boundary и lab variants
 
 Hot-environment owner §10 уже допускает отдельный H_env для вклада, не вошедшего в T_env,eff.
@@ -126,3 +141,16 @@ Active при T_env≥T_ship закрывает площадь и насос, с
 причины OFF/закрытия отличимы от настоящей нехватки ресурсов/защиты. Численные
 ТТХ/enthalpy и stored-result schema не меняются; прошлые результаты не
 пересчитываются при открытии. HOW/CC01–05 — [план](../plans/2026-10-07-cooling-control.md).
+
+
+## Runtime-кандидат Лабы — каталог 0.3.4
+
+Принятые физические данные подключены к существующему /4 отдельной редакцией:
+[руководство](../user/ship-model-catalog-0.3.4.md),
+[18 фактических опытов](../research/2026-10-26-thermal-fitting-runtime/README.md).
+Источник runtime-кандидата 7082ec74fca56eea67fcacacbf5268cfe2104ecd; финальный
+evidence commit может отличаться при exact runtime blobs. Developer measurement
+не заменяет независимые QA/review. Старые каталоги и сохранённые численные
+объекты не мигрируют; исходные 35 опытов остаются историей.
+U2 authorization/schema blocker относится к принимающему U2 runtime,
+не объявляет поставленным server adapter и не включает synthetic governor 0.2.

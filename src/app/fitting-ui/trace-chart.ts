@@ -41,7 +41,7 @@ export function traceChart(r: Pick<RetainedTrace,'channels'|'buckets'>&{spec?:{d
   // Обратный проход удерживает все четыре подписи внутри графика, выше оси времени.
   let lastY=158;for(const l of [...labels].reverse()){const yy=Math.min(lastY,labelPositions.get(l)!);labelPositions.set(l,yy);lastY=yy-40;}
   // Верхняя отметка имеет тот же безопасный отступ и без порогов, включая пустой replay.
-  const highLabel=unit==="K" ? (labels.length ? "" : `<text data-k-axis-label="scale" x="154" y="35" text-anchor="end">${num(high,unit)}</text>`) : `<text x="660" y="35" text-anchor="end">${num(high,unit)}</text>`;
+  const highLabel=unit==="K" ? (labels.length ? "" : `<text data-k-axis-label="scale" x="154" y="35" text-anchor="end">${num(high,unit)}</text>`) : `<text x="660" y="35" text-anchor="end">${present.length===1&&present[0]==='completedTrips'?'Шкала: 0–'+num(high):num(high,unit)}</text>`;
   return `<svg data-axis-x="${axisX}" viewBox="0 0 700 205" role="img" aria-label="Измеренные каналы: ${esc(unit)}">${bands.filter(b=>b.to>=b.from).map(b=>`<rect data-thermal-band="${b.side}" x="${axisX}" y="${y(b.to)}" width="${plotWidth}" height="${y(b.from)-y(b.to)}" fill="${b.color}" opacity=".14"/>`).join('')}<path d="M${axisX} 20V170H660M${axisX} 95H660" stroke="#3a3226" fill="none"/><text x="${axisX}" y="195">${num(start, "с")}</text><text x="660" y="195" text-anchor="end">${num(end, "с")}</text>${highLabel}${present.map(id => {
     const i = r.channels.indexOf(id), style = channelStyle(id);
     // Split unavailable spans before pixel reduction; never join a measured

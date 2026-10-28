@@ -59,7 +59,8 @@ function materialChecks(c: Check, materials: unknown, path: string) {
   materials.forEach((m,i) => { const p=path+"."+i; if (!c.exact(m,p,["id","massKg","cpJKgK","contents","origin"])) return; c.text(m.id,p+".id"); if(ids.has(m.id)) c.bad(p+".id","Повтор материала"); ids.add(m.id); c.positive(m.massKg,p+".massKg"); c.positive(m.cpJKgK,p+".cpJKgK"); c.choice(m.contents,p+".contents",["dry"]); c.origin(m.origin,p+".origin"); });
 }
 function itemChecks(c: Check, input: unknown, path: string) {
-  if (!c.exact(input,path,["id","label","category","size","family","formFactor","class","generation","generationState","materials","numerics","gate","thermalRole","durability","surfaces","origins"],["species","propulsionType","cargoType","operationPolicy"])) return;
+  if (!c.exact(input,path,["id","label","category","size","family","formFactor","class","generation","generationState","materials","numerics","gate","thermalRole","durability","surfaces","origins"],["species","propulsionType","cargoType","operationPolicy","manufacturer","national"])) return;
+  for(const key of ['manufacturer','national'])if(input[key]!==undefined)c.text(input[key],path+'.'+key);
   if(input.operationPolicy!==undefined)c.choice(input.operationPolicy,path+'.operationPolicy',['critical','deferrable-background','optional-pulse-charge']);
   const m=input as ModuleItemV3; c.text(m.id,path+".id"); c.text(m.label,path+".label"); c.choice(m.category,path+".category",categories); c.choice(m.size,path+".size",sizes.slice(0,-1)); c.choice(m.family,path+".family",families); c.choice(m.class,path+".class",classes); c.number(m.generation,path+".generation",0,Infinity,true); c.choice(m.generationState,path+".generationState",["authored"]); c.choice(m.formFactor,path+".formFactor",["single","pair"]); c.choice(m.thermalRole,path+".thermalRole",["ordinary","regulator"]);
   materialChecks(c,m.materials,path+".materials");
@@ -84,7 +85,7 @@ function itemChecks(c: Check, input: unknown, path: string) {
 // Без множителя КПД не пересчитывается: нейтральный профиль не сдвигает η даже на ulp.
 const schoolEfficiency=(eta:number,k:number)=>k===1?eta:1-(1-eta)*k;
 function hullChecks(c:Check,input:unknown,path:string){
-  if(!c.exact(input,path,["id","label","size","class","generation","architecture","slots","builtins","materials","hullPowerW","bodyExchangeAreaM2","bodyEmissivity","hullPassiveRadiator","modes","origins"],["schoolProfile","geometry"]))return;
+  if(!c.exact(input,path,["id","label","size","class","generation","architecture","slots","builtins","materials","hullPowerW","bodyExchangeAreaM2","bodyEmissivity","hullPassiveRadiator","modes","origins"],["schoolProfile","geometry","automation","manufacturer","national"]))return;
   const h=input as HullV3;c.text(h.id,path+".id");c.text(h.label,path+".label");c.choice(h.size,path+".size",["S","M","L"]);c.choice(h.class,path+".class",classes);c.choice(h.architecture,path+".architecture",["U","D","H","E","A"]);c.number(h.generation,path+".generation",0,Infinity,true);c.number(h.hullPowerW,path+".hullPowerW");c.positive(h.bodyExchangeAreaM2,path+".bodyExchangeAreaM2");c.number(h.bodyEmissivity,path+".bodyEmissivity",Number.MIN_VALUE,1);materialChecks(c,h.materials,path+".materials");
   if(h.hullPassiveRadiator!==null){surfaceChecks(c,h.hullPassiveRadiator,path+".hullPassiveRadiator");if(h.hullPassiveRadiator?.active||h.hullPassiveRadiator?.closable||!h.hullPassiveRadiator?.builtin||h.hullPassiveRadiator?.circuitOwner.kind!=="common-ti")c.bad(path+".hullPassiveRadiator","Собственный passive radiator несъёмен, открыт и допускается к общему TI");}
   if(c.list(h.modes,path+".modes")){h.modes.forEach((m,i)=>c.choice(m,path+".modes."+i,modes));if(!h.modes.includes("Efficient")||new Set(h.modes).size!==h.modes.length)c.bad(path+".modes","Нужен Efficient без повторов");}
@@ -93,6 +94,11 @@ function hullChecks(c:Check,input:unknown,path:string){
   // Профиль школы: потери и тяга — множители > 0, утечка EM корпуса — доля в (0, 1].
   if(h.schoolProfile!==undefined&&c.exact(h.schoolProfile,path+".schoolProfile",["lossFactor","thrustFactors","emLeakageFactor"])){const p=h.schoolProfile,sp=path+".schoolProfile";c.positive(p.lossFactor,sp+".lossFactor");c.number(p.emLeakageFactor,sp+".emLeakageFactor",Number.MIN_VALUE,1);if(c.exact(p.thrustFactors,sp+".thrustFactors",["march","retro","strafe"]))for(const role of ["march","retro","strafe"]as const)c.positive(p.thrustFactors[role],sp+".thrustFactors."+role);}
   if(h.geometry!==undefined&&c.exact(h.geometry,path+'.geometry',['lengthM','widthM','heightM','noseFactor','sideFactor']))for(const [key,value]of Object.entries(h.geometry))c.positive(value,path+'.geometry.'+key);
+  for(const key of ['manufacturer','national']as const)if(h[key]!==undefined)c.text(h[key],path+'.'+key);
+  if(h.automation!==undefined&&c.exact(h.automation,path+'.automation',['version','normalTargetK','coldOnK','coldOffK','sourceOnSoc','sourceOffSoc','backgroundSocFloor'])){
+    const a=h.automation;c.choice(a.version,path+'.automation.version',['ship-automation/1']);for(const k of ['normalTargetK','coldOnK','coldOffK']as const)c.positive(a[k],path+'.automation.'+k);for(const k of ['sourceOnSoc','sourceOffSoc','backgroundSocFloor']as const)c.number(a[k],path+'.automation.'+k,0,1);
+    if(!(a.coldOnK<a.coldOffK&&a.coldOffK<a.normalTargetK&&a.sourceOnSoc<a.sourceOffSoc))c.bad(path+'.automation','Неверный порядок уставок автоматики');
+  }
   c.numericOrigins(h,h.origins,path);
 }
 export function validateCatalogV3(input:unknown):ValidationResult<CandidateCatalogV3>{const c=new Check();if(c.exact(input,"catalog",["version","hulls","items","presets"],["presetOptions"])){
@@ -132,17 +138,32 @@ function validateFitInCatalog(input:unknown,catalog:CandidateCatalogV3,requireRu
   for(const id of Object.keys(f.instances))if(!Object.values(f.assignments).includes(id)||h.builtins.some(b=>b.id===id))c.bad("instances."+id,"Неназначенный или встроенный экземпляр");
   for(const[id,mode]of Object.entries(f.builtinModes)){if(!c.exact(mode,"builtinModes."+id,["enabled"],["mode"]))continue;c.flag(mode.enabled,"builtinModes."+id+".enabled");if(!h.builtins.some(b=>b.id===id&&!['battery','tank','cargo'].includes(b.item.family)))c.bad("builtinModes."+id,"Встроенный stock нельзя снять или выключить");}
   if(c.exact(f.initial,"initial",["chargeFraction","fuelFraction"])){c.number(f.initial.chargeFraction,"initial.chargeFraction",0,1);if(c.exact(f.initial.fuelFraction,"initial.fuelFraction",["diesel","hydrogen"]))for(const sp of ['diesel','hydrogen']as const)c.number(f.initial.fuelFraction[sp],"initial.fuelFraction."+sp,0,1);}
-  const installed=[...h.builtins.map(b=>b.item),...roster],engines=installed.filter(m=>m.family==='engine');if(new Set(engines.map(m=>m.propulsionType)).size>1)c.bad("instances","Все двигательные роли должны иметь один propulsion type");
+  const installed=[...h.builtins.map(b=>b.item),...roster],engines=installed.filter(m=>m.family==='engine');if(catalog.version!=='ship-fitting-0.3.4'&&new Set(engines.map(m=>m.propulsionType)).size>1)c.bad("instances","Все двигательные роли должны иметь один propulsion type");
   for(const m of engines)if((['E','A'].includes(h.architecture)&&m.propulsionType!=='electric')||(['D','H'].includes(h.architecture)&&!['electric',h.architecture==='D'?'diesel':'hydrogen'].includes(m.propulsionType!)))c.bad('instances','Несовместимый с architecture propulsion type');
   if(h.schoolProfile)for(const m of installed)if(['engine','generator'].includes(m.family)&&!(schoolEfficiency(m.numerics.efficiency,h.schoolProfile.lossFactor)>0))c.bad('hull.schoolProfile.lossFactor','Множитель потерь школы даёт КПД ≤ 0: '+m.id);
   const enabled=[...h.builtins.filter(b=>f.builtinModes[b.id]?.enabled!==false).map(b=>b.item),...Object.values(f.instances).filter(i=>i?.enabled).map(i=>f.localVariants[i.itemId]??catalog.items[i.itemId]).filter(Boolean)];
-  if(requireRunnable){for(const s of h.slots.filter(s=>s.mandatory))if(!f.assignments[s.id])c.bad("assignments."+s.id,"Не установлен обязательный модуль");if(!enabled.some(m=>m.family==='battery'))c.bad("instances","Нужен включённый аккумулятор");for(const m of enabled)if(m.species&&m.family!=='tank'&&!enabled.some(t=>t.family==='tank'&&t.species===m.species))c.bad("instances","Потребителю нужен включённый operating tank");}
+  if(requireRunnable){
+    for(const s of h.slots.filter(s=>s.mandatory))if(!f.assignments[s.id])c.bad("assignments."+s.id,"Не установлен обязательный модуль");
+    if(catalog.version==='ship-fitting-0.3.4'){
+      const rows=[...h.builtins.filter(b=>f.builtinModes[b.id]?.enabled!==false).map(b=>({id:b.id,item:b.item,slot:'built-in'})),...Object.entries(f.assignments).flatMap(([slot,id])=>{const i=f.instances[id],item=i&&(f.localVariants[i.itemId]??catalog.items[i.itemId]);return i?.enabled&&item?[{id,item,slot}]:[];})];
+      const electrical=enabled.some(m=>['battery','generator','solar'].includes(m.family));
+      const missing=(id:string,label:string,slot:string,source:string)=>c.bad('instances.'+id,`${label} (${id}, ${slot}): нужен совместимый источник ${source}`,'MISSING_SOURCE');
+      if(h.hullPowerW>0&&!electrical)missing('hull',h.label,'hull','electric');
+      for(const {id,item:m,slot}of rows){
+        if(m.species&&m.family!=='tank'&&!enabled.some(t=>t.family==='tank'&&t.species===m.species))missing(id,m.label,slot,m.species+' tank');
+        if(!electrical&&((m.numerics.powerW??0)>0&&m.family!=='generator'||(m.numerics.auxW??0)>0||['thermoinverter','pump-radiator'].includes(m.family)))missing(id,m.label,slot,'electric');
+      }
+    }else{
+      if(!enabled.some(m=>m.family==='battery'))c.bad("instances","Нужен включённый аккумулятор");
+      for(const m of enabled)if(m.species&&m.family!=='tank'&&!enabled.some(t=>t.family==='tank'&&t.species===m.species))c.bad("instances","Потребителю нужен включённый operating tank");
+    }
+  }
   return c.result(f);
 }
 
-export function compileShipModelFit(input: unknown, catalog: CandidateCatalogV3): ValidationResult<ResolvedShipV3> {
+export function compileShipModelFit(input: unknown, catalog: CandidateCatalogV3, options:{requireRunnable?:boolean}={}): ValidationResult<ResolvedShipV3> {
   const fit = input as ShipFitV3;
-  const validated = validateShipModelFit(input,catalog,true);
+  const validated = validateShipModelFit(input,catalog,options.requireRunnable!==false);
   if (!validated.ok) return validated;
   const hull = structuredClone(catalog.hulls.find(h => h.id === fit.hullId));
   if (!hull) return { ok: false, errors: [{ path: "hullId", code: "HULL", message: "Неизвестный корпус" }] };
@@ -219,15 +240,16 @@ function environmentChecks(c:Check,input:unknown,path:string){
   for(const key of ['energyInputs','directHeat']as const)if(c.list(e[key],path+"."+key))e[key].forEach((row,i)=>{const p=path+"."+key+"."+i;if(!c.exact(row,p,["sourceId","powerW",...(key==='energyInputs'?['representation']:[])]))return;c.number(row.powerW,p+".powerW");source(row.sourceId,p+".sourceId");if(key==='energyInputs')c.choice((row as any).representation,p+".representation",['electric','heat']);});
 }
 function stateChecks(c:Check,input:unknown,ship:ResolvedShipV3,path:string){
-  if(!c.exact(input,path,["schemaVersion","modelVersion","stateVersion","timeSeconds","phaseIndex","phaseElapsedSeconds","mode","maskingEntryTemperatureK","temperatureK","chargeJ","fuelKg","buffers","governor","generator","modules","surfaceOpen","rng"],(input as StateV3)?.modelVersion===MODEL_MISSION_V3?["mission"]:[]))return;
+  if(!c.exact(input,path,["schemaVersion","modelVersion","stateVersion","timeSeconds","phaseIndex","phaseElapsedSeconds","mode","maskingEntryTemperatureK","temperatureK","chargeJ","fuelKg","buffers","governor","generator","modules","surfaceOpen","rng"],(input as StateV3)?.modelVersion===MODEL_MISSION_V3?["mission","bodyOpenFraction"]:["bodyOpenFraction"]))return;
   const s=input as StateV3;c.choice(s.schemaVersion,path+".schemaVersion",[SCHEMA_V3]);c.choice(s.modelVersion,path+".modelVersion",[MODEL_V3,MODEL_MISSION_V3]);c.choice(s.stateVersion,path+".stateVersion",[s.modelVersion===MODEL_MISSION_V3?'ship-mission-state/1':'ship-state/1']);
   for(const key of ['timeSeconds','phaseIndex','phaseElapsedSeconds']as const)c.number(s[key],path+"."+key,0,Infinity,key==='phaseIndex'||s.modelVersion!==MODEL_MISSION_V3);
   if(s.modelVersion===MODEL_MISSION_V3)missionStateChecks(c,s.mission,path+'.mission');
+  if(s.bodyOpenFraction!==undefined)c.number(s.bodyOpenFraction,path+".bodyOpenFraction",0,1);
   c.choice(s.mode,path+".mode",ship.hull.modes);c.positive(s.temperatureK,path+".temperatureK");c.number(s.chargeJ,path+".chargeJ",0,ship.batteryCapacityJ);
   if(s.maskingEntryTemperatureK!==null)c.positive(s.maskingEntryTemperatureK,path+".maskingEntryTemperatureK");else if(s.mode==='Masking')c.bad(path+".maskingEntryTemperatureK","В Masking нужна сохранённая температура входа");
   if(c.exact(s.fuelKg,path+".fuelKg",['diesel','hydrogen']))for(const sp of ['diesel','hydrogen']as const)c.number(s.fuelKg[sp],path+".fuelKg."+sp,0,ship.resources[sp].capacityKg);
   if(c.exact(s.buffers,path+".buffers",Object.keys(ship.bufferCapacityJ)))for(const[id,cap]of Object.entries(ship.bufferCapacityJ)){const row=s.buffers[id],p=path+".buffers."+id;if(!c.exact(row,p,['storedJ','minimumCaptureK']))continue;c.number(row.storedJ,p+".storedJ",0,cap);if(row.storedJ===0){if(row.minimumCaptureK!==null)c.bad(p+".minimumCaptureK","Пустой буфер сбрасывает метку");}else c.positive(row.minimumCaptureK,p+".minimumCaptureK");}
-  if(c.exact(s.governor,path+".governor",['coolingStageId','heatingStageId','recoveringBuffer'])){c.flag(s.governor.recoveringBuffer,path+".governor.recoveringBuffer");for(const k of ['coolingStageId','heatingStageId']as const)if(s.governor[k]!==null)c.choice(s.governor[k],path+".governor."+k,['radiation','active-radiator','common-ti','pump-radiator','buffer-absorb','buffer-release','h2','furnace','electric-heater','combat-group','masking-buffer']);}
+  if(c.exact(s.governor,path+".governor",['coolingStageId','heatingStageId','recoveringBuffer'],['coldActive'])){if(s.governor.coldActive!==undefined)c.flag(s.governor.coldActive,path+'.governor.coldActive');c.flag(s.governor.recoveringBuffer,path+".governor.recoveringBuffer");for(const k of ['coolingStageId','heatingStageId']as const)if(s.governor[k]!==null)c.choice(s.governor[k],path+".governor."+k,['radiation','active-radiator','common-ti','pump-radiator','buffer-absorb','buffer-release','h2','furnace','electric-heater','combat-group','masking-buffer']);}
   if(c.exact(s.generator,path+".generator",['permission','normalOn']))for(const k of ['permission','normalOn']as const)c.flag(s.generator[k],path+".generator."+k);
   if(c.exact(s.modules,path+".modules",ship.instances.map(i=>i.id)))for(const i of ship.instances){const p=path+".modules."+i.id,row=s.modules[i.id];if(!c.exact(row,p,['durabilityR','firstNegativeCrossing','emergencyExposureSeconds','cooldownSeconds','restartAuthorized','durabilityStopped','thermalStopped']))continue;c.number(row.durabilityR,p+".durabilityR",-Infinity);for(const k of ['firstNegativeCrossing','restartAuthorized','durabilityStopped','thermalStopped']as const)c.flag(row[k],p+"."+k);for(const k of ['emergencyExposureSeconds','cooldownSeconds']as const)c.number(row[k],p+"."+k);if(row.emergencyExposureSeconds>=i.item.durability.failurePeriodSeconds)c.bad(p+'.emergencyExposureSeconds','Exposure обязан быть остатком меньше полного failure period');}
   if(c.exact(s.surfaceOpen,path+".surfaceOpen",ship.surfaces.map(s=>s.id)))for(const surface of ship.surfaces){c.flag(s.surfaceOpen[surface.id],path+".surfaceOpen."+surface.id);if(!surface.closable&&!s.surfaceOpen[surface.id])c.bad(path+".surfaceOpen."+surface.id,"Пассивная поверхность постоянно открыта");}
@@ -268,7 +290,7 @@ function missionStateChecks(c:Check,m:unknown,path:string){
 }
 function missionSpecChecks(c:Check,s:RunSpecV3){
  const m=s.mission,p='mission';if(!c.exact(m,p,['version','route','process','selectedWorkGroup','approachSeconds','serviceSeconds','targetM3','stopPolicy','repeat'],['stationReplenish']))return;
- c.choice(m.version,p+'.version',['ship-mission/1']);c.flag(m.repeat,p+'.repeat');if(m.stationReplenish!==undefined)c.flag(m.stationReplenish,p+'.stationReplenish');
+ c.choice(m.version,p+'.version',['ship-mission/1','ship-mission/2']);c.flag(m.repeat,p+'.repeat');if(m.stationReplenish!==undefined)c.flag(m.stationReplenish,p+'.stationReplenish');
  c.choice(m.stopPolicy,p+'.stopPolicy',['full-hold','first-stop']);for(const k of ['approachSeconds','serviceSeconds']as const)c.number(m[k],p+'.'+k);c.positive(m.targetM3,p+'.targetM3');
  if(c.exact(m.route,p+'.route',['distanceM','referenceVfaMS','referenceSource','speedPolicy','speedMultiplier','cruiseSpeedMS'])){c.number(m.route.distanceM,p+'.route.distanceM');c.number(m.route.referenceVfaMS,p+'.route.referenceVfaMS',Number.MIN_VALUE,2999);c.text(m.route.referenceSource,p+'.route.referenceSource');c.choice(m.route.speedPolicy,p+'.route.speedPolicy',['vfa','custom']);c.positive(m.route.speedMultiplier,p+'.route.speedMultiplier');c.number(m.route.cruiseSpeedMS,p+'.route.cruiseSpeedMS',Number.MIN_VALUE,2999);if(m.route.speedPolicy==='vfa'&&m.route.cruiseSpeedMS!==m.route.referenceVfaMS*m.route.speedMultiplier)c.bad(p+'.route','Скорость не соответствует явному V_FA');}
  if(c.exact(m.process,p+'.process',['id','energyJPerM3','densityKgM3','extractFactor','softFactor','workFactor','returnFraction'])){c.choice(m.process.id,p+'.process.id',['LAB-ORE-01']);for(const k of ['energyJPerM3','densityKgM3','extractFactor','softFactor','workFactor']as const)c.positive(m.process[k],p+'.process.'+k);c.number(m.process.returnFraction,p+'.process.returnFraction',0,1);}
