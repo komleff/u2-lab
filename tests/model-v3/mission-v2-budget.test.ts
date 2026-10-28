@@ -35,3 +35,17 @@ it('EF04 a deadline before the first planner operation preserves Step intent unt
  const messages:any[]=[],ctl=new WorkerController(x=>messages.push(x));ctl.handle({runId:'clock',commandId:1,type:'start',payload:{spec:ermak('active2',2)}});ctl.handle({runId:'clock',commandId:2,type:'pause'});ctl.handle({runId:'clock',commandId:3,type:'step'});
  let clock=0;const spy=vi.spyOn(performance,'now').mockImplementation(()=>clock+=100);try{ctl.pump();}finally{spy.mockRestore();}expect(ctl.context!.state.timeSeconds).toBe(0);const msg=messages.filter(x=>x.type==='chunk').at(-1);ctl.handle({runId:'clock',type:'telemetry-ack',chunkId:msg.chunkId});ctl.pump();expect(ctl.context!.state.timeSeconds).toBe(1);
 });
+it('FC04 standalone same-object spec change invalidates an existing braking forecast',()=>{
+ const s=ermak('none',3);Object.assign(s.initialState.mission!,{stage:'inbound',positionM:500,velocityMS:-50,onboardM3:36,minedM3:36});
+ const memo=createFlightMemo(s),previous=advanceMissionV2Job(createMissionV2Job(s,s.initialState,memo),Infinity);expect(previous.kind).toBe('ready');
+ s.resolvedShip.instances.find(i=>i.item.family==='engine'&&i.role==='march')!.item.numerics.forceN*=.01;
+ const hot=advanceMissionV2Job(createMissionV2Job(s,s.initialState,memo),Infinity),cold=advanceMissionV2Job(createMissionV2Job(s,s.initialState),Infinity);
+ expect(hot.kind).toBe('ready');expect(hot).toEqual(cold);expect(hot).not.toEqual(previous);
+});
+it('FC04 same-object spec change between chunks preserves cold-run braking and complete output',()=>{
+ const s=ermak('none',3);Object.assign(s.initialState.mission!,{stage:'inbound',positionM:500,velocityMS:-50,onboardM3:36,minedM3:36});
+ const hot=createShipModelRun('changed',s);runShipModelChunk(hot,1);const cold=restoreShipModelRun(shipModelResult(hot)),velocity=hot.state.mission!.velocityMS;
+ for(const run of[hot,cold])run.spec.resolvedShip.instances.find(i=>i.item.family==='engine'&&i.role==='march')!.item.numerics.forceN*=.01;
+ runShipModelChunk(hot,2);runShipModelChunk(cold,2);
+ expect(hot.state.timeSeconds).toBe(3);expect(hot.state.mission!.velocityMS).toBeGreaterThan(velocity);expect(shipModelResult(hot)).toEqual(shipModelResult(cold));
+});

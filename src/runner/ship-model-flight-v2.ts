@@ -134,8 +134,8 @@ function* mission(spec:RunSpecV3,input:StateV3,memo:FlightMemo):Work<MissionInte
  telemetry.temperatureK=state.temperatureK;telemetry.chargeJ=state.chargeJ;for(const[id,b]of Object.entries(state.buffers))telemetry['bufferJ:'+id]=b.storedJ;
  return{state,telemetry,frames,diagnostics,events};
 }
-export function createMissionV2Job(spec:RunSpecV3,input:StateV3,memo=createFlightMemo(spec)):MissionV2Job{
- if(memo.specKey!==JSON.stringify(spec)){memo.entries.clear();memo.specKey=JSON.stringify(spec);}
+export function createMissionV2Job(spec:RunSpecV3,input:StateV3,memo=createFlightMemo(spec),specKey=JSON.stringify(spec)):MissionV2Job{
+ if(memo.specKey!==specKey){memo.entries.clear();memo.specKey=specKey;}
  return{iterator:mission(spec,input,memo),operations:0};
 }
 export function advanceMissionV2Job(job:MissionV2Job,deadlineMs:number,operationLimit=Infinity):{kind:'pending'}|{kind:'ready';interval:MissionInterval}|{kind:'numerical-error';message:string}{

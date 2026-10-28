@@ -19,7 +19,7 @@ export function createShipModelRun(runId:string,input:RunSpecV3):RunContextV3{
   return {runId,spec,state:structuredClone(spec.initialState),metrics:{usefulWorkJ:0,totalResidualJ:0,maximumTemperatureK:spec.initialState.temperatureK,firstConstraint:null},signatures:{version:SHIP_SIGNATURE_VERSION,last:null,statistics:createShipSignatureStatistics(spec.initialState.timeSeconds)},retention:new Retention(shipModelChannelNames(spec)),events:new EventRetention(),done:spec.initialState.timeSeconds>=spec.durationSeconds||spec.initialState.mission?.stage==='complete',last:{},referenceMeasurementsEnabled:true};
 }
 export function runShipModelChunk(run:RunContextV3,maxSteps:number,wallBudgetMs=Infinity){
-  const started=performance.now();let steps=0,planningPending=false;
+  const started=performance.now();let steps=0,planningPending=false;let missionSpecKey:string|undefined;
   while(!run.done&&steps<maxSteps){
     if(performance.now()-started>=wallBudgetMs){planningPending=run.spec.mission?.version==='ship-mission/2';break;}
     const mission=!!run.spec.mission;
@@ -30,7 +30,9 @@ export function runShipModelChunk(run:RunContextV3,maxSteps:number,wallBudgetMs=
         // Подготовка фазы тоже private: Pending не меняет даже mode/events actual state.
         const prepared=structuredClone(run.state);prepared.phaseIndex=effective.index;prepared.phaseElapsedSeconds=effective.elapsed;
         if(effective.entering&&phase.mode!==undefined&&phase.mode!==prepared.mode){modeEvents.push({timeSeconds:prepared.timeSeconds,kind:'mode',message:prepared.mode+' → '+phase.mode});prepared.mode=phase.mode;prepared.maskingEntryTemperatureK=phase.mode==='Masking'?prepared.temperatureK:null;if(phase.mode!=='Masking')prepared.generator.permission=false;}
-        run.flightMemo??=createFlightMemo(run.spec);run.missionJob={job:createMissionV2Job(run.spec,prepared,run.flightMemo),modeEvents};
+        run.flightMemo??=createFlightMemo(run.spec);
+        // Spec неизменен внутри синхронного chunk; следующий chunk заново проверит полный ключ.
+        missionSpecKey??=JSON.stringify(run.spec);run.missionJob={job:createMissionV2Job(run.spec,prepared,run.flightMemo,missionSpecKey),modeEvents};
       }
       const out=advanceMissionV2Job(run.missionJob.job,started+wallBudgetMs);
       if(out.kind==='pending'){planningPending=true;break;}
